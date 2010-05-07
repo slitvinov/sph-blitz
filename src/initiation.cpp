@@ -102,7 +102,12 @@ Initiation::Initiation(const char *project_name) {
     fin.close();
 
     //create outdata directory
-    system("mkdir -p outdata");
+    const int ok = system("mkdir -p outdata");
+    if (ok != 0) {
+      std::cerr << "Cannot create outdata directory" << std::endl;
+      std::cerr << __FILE__ << ':' << __LINE__ << std::endl;
+      exit(EXIT_FAILURE);
+    }
         
     //process the data
     box_size[0] = x_cells*cell_size; box_size[1] = y_cells*cell_size;
