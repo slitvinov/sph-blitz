@@ -1,21 +1,23 @@
 /// \file boundary.h
-/// \brief Bondary conditions
+/// \brief Bonudary conditions
+
+/// Boundary conditions
 class Boundary
 {
-	//if read wall particle from file .wll
+	///if read wall particle from file .wll
 	int wall_file;
-	//computational domain size
+	///computational domain size
 	Vec2d box_size;
-	//cell matrix size
+	///cell matrix size
 	int x_clls, y_clls;
 	int number_of_materials;
 
-	//non-dimensionalize
+	///non-dimensionalize
 	void non_dimensionalize(Initiation &ini);
-	//show information on screen
+	///show information on screen
 	void show_information(Initiation &ini);
 
-	//implement a side boubadry by modeify particle states
+	///implement a side boubadry by modeify particle states
 	void Boundary_W(Particle *prtl);
 	void Boundary_E(Particle *prtl);
 	void Boundary_S(Particle *prtl);
@@ -26,25 +28,25 @@ class Boundary
 	void Boundary_NE(Particle *prtl);
 
 public:
-	//boundary condition indicator
-	//left, right, upper and botton
-	//0: wall boundary condition
-	//1: perodic boundary condition
-	//2: free slip wall boundary condition
-	//3: symmetry boundary condition 
+	///boundary condition indicator
+	///left, right, upper and botton
+	///0: wall boundary condition
+	///1: perodic boundary condition
+	///2: free slip wall boundary condition
+	///3: symmetry boundary condition 
 	int  xBl, xBr, yBd, yBu;
-	Vec2d UxBl, UxBr, UyBd, UyBu; //boundary velocity
+	Vec2d UxBl, UxBr, UyBd, UyBu; ///boundary velocity
 
-	//boundary particle lists
-	Llist<Particle> boundary_particle_list; //boundary particle list for all boundray particles
+	///boundary particle lists
+	Llist<Particle> boundary_particle_list; ///boundary particle list for all boundray particles
 
-	//constructor
+	///constructor
 	Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &particles);
 
-	//build boundary particles
+	///build boundary particles
 	void BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics &hydro);
-	//boundary conditions
+	///boundary conditions
 	void BoundaryCondition(ParticleManager &particles);
-	//check particle if particle run out of the computational domain
+	///check particle if particle run out of the computational domain
 	void RunAwayCheck(Hydrodynamics &hydro);
 };

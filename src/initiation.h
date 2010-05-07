@@ -1,70 +1,72 @@
 /// \file initiation.h 
 /// \brief Initiation
-//-----------------------------------------------------------------------
+
+
+/// Initiation
 class Initiation {
 	
 	friend class Material;
 	friend class Hydrodynamics;
-	//reference length, speed, and density for dimensionless
+	///reference length, speed, and density for dimensionless
 	double _length, _v, _rho, _T; 
 
 public:
 	
-	//the project name
+	///the project name
 	char Project_name[25];
 
-	//number of materials
-	//the no. zero material is always the wall
-	//therefore at least 2 materials should be included
+	///number of materials
+	///the no. zero material is always the wall
+	///therefore at least 2 materials should be included
 	int number_of_materials;
-	//the global inputfile name: a *.cfg file
+	///the global inputfile name: a *.cfg file
 	char inputfile[25];
-	//initial condition marker: 0 initialize from the .cfg file; 
-	//1 read from the .rst file particle by particle with non-dimensional data
+	///initial condition marker: 0 initialize from the .cfg file; 
+	///1 read from the .rst file particle by particle with non-dimensional data
 	int initial_condition;
-	//diagnose information maker: 1 output diagnose information
+	///diagnose information maker: 1 output diagnose information
 	int diagnose;
-	//artificial viscosity
+	///artificial viscosity
 	double art_vis;
 
-	//smoothinglength
+	///smoothinglength
 	double smoothinglength;
-	//the compuational domain size
+	///the compuational domain size
 	Vec2d box_size;
-	//cell size
+	///cell size
 	double cell_size;
-	//the inital particle distance
+	///the inital particle distance
 	double delta;
-	//the ration between smoothing length and inital particle distance
+	///the ration between smoothing length and inital particle distance
 	int hdelta;
-	//cells matrix for real particles
+	///cells matrix for real particles
 	int x_cells, y_cells;
-	//g force on particles
+	///g force on particles
 	Vec2d g_force;
 
-	//timing control, D_time is output time interval
+	///timing control, D_time is output time interval
 	double Start_time, End_time, D_time;
 
-	//if initial condition is defined here
-	//inital flow speed
+	///if initial condition is defined here
+	///inital flow speed
 	Vec2d U0;
-	//initial particle density, pressure and temperature
+	///initial particle density, pressure and temperature
 	double rho0, p0, T0;
 
-	//MLS
+	///MLS
 	int MLS_MAX;
 
-	//constructors
+	///constructors
 	explicit Initiation(const char *project_name);
-	//non-dimensionalize
+	///non-dimensionalize
 	void non_dimensionalize();
-	//show information on screen
+	///show information on screen
 	void show_information();
 
-	//predict the particle volume and mass
+	///predict the particle volume and mass
 	void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline &weight_function);
 
-	//non-dimesionlize
+	///non-dimesionlize
 	double non_dms_p(double p);
 	double non_dms_T(double T);
 	double non_dms_rho(double rho);
@@ -83,7 +85,7 @@ public:
 	double non_dms_Boltzmann(double k_bltz);
 	double non_dms_surface(double sigma);
 
-	//dimesionlize
+	///dimesionlize
 	double dms_p(double p_non);
 	double dms_T(double T_non);
 	double dms_rho(double rho_non);

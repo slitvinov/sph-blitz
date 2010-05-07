@@ -1,12 +1,13 @@
-// boundary.cpp
-// author: Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-// changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
+/// \file boundary.cpp
+/// author: Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
+/// changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
 
-//-------------------------------------------------------------------
-//			Define boundary and boundary conditions
-//			boundary.cpp
-//----------------------------------------------------------------
-// ***** system includes *****
+///-------------------------------------------------------------------
+///			Define boundary and boundary conditions
+///			boundary.cpp
+///----------------------------------------------------------------
+/// ***** system includes *****
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -21,9 +22,6 @@
 
 using namespace std;
 
-//----------------------------------------------------------------------------------------
-//							constructor
-//----------------------------------------------------------------------------------------
 Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &particles)
 {
   char Key_word[25];
