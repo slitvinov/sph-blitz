@@ -39,8 +39,8 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
     int l, n;
 
     //make materials
-    char Key_word[25];
-    char inputfile[25];
+    char Key_word[125];
+    char inputfile[125];
 
     //copy properties from initiation class
     number_of_materials = ini.number_of_materials;
@@ -926,4 +926,9 @@ double Hydrodynamics::ConservationTest()
     }
 
     return v_abs(U);
+}
+
+Hydrodynamics::~Hydrodynamics() {
+  delete [] materials;
+  delete [] forces;
 }

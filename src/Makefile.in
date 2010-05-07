@@ -44,7 +44,7 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
 am_sph_OBJECTS = boundary.$(OBJEXT) betaspline.$(OBJEXT) \
-	diagose.$(OBJEXT) force.$(OBJEXT) glbfunc.$(OBJEXT) \
+	diagnose.$(OBJEXT) force.$(OBJEXT) glbfunc.$(OBJEXT) \
 	hydrodynamics.$(OBJEXT) initiation.$(OBJEXT) \
 	interaction.$(OBJEXT) kernel.$(OBJEXT) material.$(OBJEXT) \
 	mls.$(OBJEXT) output.$(OBJEXT) particle.$(OBJEXT) \
@@ -162,8 +162,9 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-sph_SOURCES = betaspline.h boundary.cpp boundary.h \
-	betaspline.cpp diagnose.h diagose.cpp \
+sph_SOURCES = \
+	betaspline.h boundary.cpp boundary.h \
+	betaspline.cpp diagnose.h diagnose.cpp \
 	dllist.h force.cpp force.h \
 	glbcls.h glbfunc.cpp glbfunc.h \
 	hydrodynamics.cpp hydrodynamics.h initiation.cpp \
@@ -176,6 +177,7 @@ sph_SOURCES = betaspline.h boundary.cpp boundary.h \
 	timesolver.cpp timesolver.h vec2d.cpp \
 	vec2d.h wiener.cpp wiener.h 
 
+EXTRA_DIST = Doxyfile
 all: all-am
 
 .SUFFIXES:
@@ -244,7 +246,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/betaspline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boundary.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/diagose.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/diagnose.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/force.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/glbfunc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hydrodynamics.Po@am__quote@

@@ -29,6 +29,10 @@ public:
 
     ///constructor
     MLS(Initiation &ini);
+    
+    /// destructor
+    ~MLS();
+
     ///MLS Mapping to grid points
     void MLSMapping(Vec2d &point, Llist<Particle> &NNP_list, QuinticSpline &weight_function, int order);
 

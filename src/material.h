@@ -16,7 +16,7 @@ class Material {
 public:
         
     ///material name string
-    char material_name[25];
+    char material_name[125];
     int number; ///the material NO.
 
     ///material type

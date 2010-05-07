@@ -136,3 +136,14 @@ void MLS::MLSMapping(Vec2d &point, Llist<Particle> &NNP_list, QuinticSpline &wei
     MLS_Solver(order);
 }
 
+MLS::~MLS() {
+  for(int k = 0; k < 3; k++) delete [] pi[k];
+  for(int k = 0; k < 3; k++) delete [] B[k];
+
+  delete [] B;
+  delete [] pi;
+
+  delete [] Wi;
+  delete [] phi;
+  delete [] dphi;
+}

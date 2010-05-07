@@ -504,3 +504,7 @@ void ParticleManager::BiuldWallParticles(Hydrodynamics &hydro, Initiation &ini, 
     }
 }
 
+ParticleManager::~ParticleManager() {
+  for(int i = 0; i < x_clls; i++) delete [] cell_lists[i];
+  delete [] cell_lists;
+}

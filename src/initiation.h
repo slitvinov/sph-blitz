@@ -20,14 +20,14 @@ class Initiation {
 public:
         
     ///the project name
-    char Project_name[25];
+    char Project_name[125];
 
     ///number of materials
     ///the no. zero material is always the wall
     ///therefore at least 2 materials should be included
     int number_of_materials;
     ///the global inputfile name: a *.cfg file
-    char inputfile[25];
+    char inputfile[125];
     ///initial condition marker: 0 initialize from the .cfg file; 
     ///1 read from the .rst file particle by particle with non-dimensional data
     int initial_condition;

@@ -33,6 +33,9 @@
  * \verbatim
  cd src
  ./sph ../cases/couette \endverbatim 
+ * \section test Testing 
+ * To profile memory leaks
+ * \verbatim valgrind --leak-check=yes ./sph ../cases/poiseuille  | tee valgrid.log \endverbatim 
  * \section post Postprocessing
  * To combine all time snapshots in one file
  \verbatim 
@@ -46,7 +49,6 @@
  * \image html pognuplot.png "Poiseuille flow: velocites of the particles visualization with gnuplot"
  *
  * \subsection vis_punto punto 
-
  * \verbatim
  punto -D 2 -c 4 -B 0:0:0.04:0.04 -G -0.6:0.6 -s 8 -lc black -bg white  punto.dat \endverbatim
  * \image html couette.png "Couette flow: particle visualization with punto"

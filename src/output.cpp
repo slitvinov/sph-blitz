@@ -49,7 +49,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
 {
     int i, j;
     double Itime;
-    char file_name[50], file_list[20];
+    char file_name[150], file_list[120];
 
     //produce output file name
     Itime = ini.dms_time(Time)*1.0e6;
@@ -108,7 +108,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
     Vec2d pstn;
     double rho, phi, pressure, Temperature, x_velocity, y_velocity;
     double Itime;
-    char file_name[50], file_list[10];
+    char file_name[150], file_list[110];
 
         
     //grid box size
@@ -176,7 +176,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
 void Output::OutRestart(Hydrodynamics &hydro, double Time, Initiation &ini)
 {
     int n;
-    char outputfile[25];
+    char outputfile[150];
 
     //non-dimensional data
     strcpy(outputfile, Project_name);
@@ -214,7 +214,7 @@ void Output::OutRestart(Hydrodynamics &hydro, double Time, Initiation &ini)
 //--------------------------------------------------------------------------------------------
 void Output::CreatParticleMovie()
 {
-    char file_name[50];
+    char file_name[150];
     //produce output file name
     strcpy(file_name,"./outdata/prtl_movie.dat");
 
@@ -232,7 +232,7 @@ void Output::CreatParticleMovie()
 void Output::WriteParticleMovie(Hydrodynamics &hydro, double Time, Initiation &ini)
 {
     int k, m;
-    char file_name[50];
+    char file_name[150];
 
     //produce output file name
     strcpy(file_name,"./outdata/prtl_movie.dat");
@@ -268,7 +268,7 @@ void Output::OutAverage(ParticleManager &particles, MLS &mls, QuinticSpline &wei
     Vec2d pstn;
     double rho, pressure, Temperature, x_velocity, y_velocity;
     double Itime;
-    char file_name[50], file_list[10];
+    char file_name[150], file_list[110];
 
         
     //grid box size

@@ -129,7 +129,7 @@ void Diagnose::OutputProfile(double Time, Initiation &ini)
 {
     int k, m;
     double Itime;
-    char file_name[50], file_list[10];
+    char file_name[150], file_list[110];
 
     //produce output file name
     Itime = ini.dms_time(Time)*1.0e8;
@@ -253,7 +253,7 @@ void Diagnose::OutputAverage(double Time, Initiation &ini)
     int i, j;
     Vec2d pstn;
     double Itime;
-    char file_name[50], file_list[10];
+    char file_name[150], file_list[110];
         
     //produce output file name
     Itime = ini.dms_time(Time)*1.0e8;
@@ -287,7 +287,7 @@ void Diagnose::OutputAverage(double Time, Initiation &ini)
 void Diagnose::KineticInformation(double Time, Initiation &ini, Hydrodynamics &hydro)
 {
     int k;
-    char file_name[50];
+    char file_name[150];
 
     //produce output file name
     strcpy(file_name,"./outdata/kinetic_info.dat");

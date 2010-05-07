@@ -16,7 +16,7 @@ class Initiation;
 class Output {
         
     ///the project name
-    char Project_name[25];
+    char Project_name[125];
 
     int number_of_materials;
     ///the inital particle distance

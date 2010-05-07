@@ -16,7 +16,7 @@ class Particle;
 class ParticleManager
 {
     ///parameters copied from initiation
-    char Project_name[25]; ///the project name
+    char Project_name[125]; ///the project name
     int number_of_materials;
     double smoothinglength; ///smoothinglenth
     double smoothinglengthsquare; ///smoothinglenth
@@ -45,6 +45,9 @@ public:
     ParticleManager();
     ParticleManager(Initiation &ini);
     ParticleManager(double cell_size, int x_cells, int y_cells);
+
+    /// destructor
+    ~ParticleManager();
 
     ///buid the initial particles and the linked lists
     void BiuldRealParticles(Hydrodynamics &hydro, Initiation &ini);

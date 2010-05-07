@@ -192,3 +192,12 @@ void  Wiener::Gaussian(double &y1, double &y2)
     y1 = x1 * w;
     y2 = x2 * w;
 }
+
+Wiener::~Wiener() {
+  for(int k = 0; k < dimension; k++) delete [] randoms[k] ;
+  for(int k = 0; k < dimension; k++) delete [] sym_trclss[k];
+
+  delete [] randoms;
+  delete [] sym_trclss;
+  delete [] iv;
+}

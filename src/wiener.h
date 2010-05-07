@@ -34,6 +34,10 @@ public:
     ///costructure
     Wiener();
     Wiener(const int dimension);
+    
+    ///destructor
+    ~Wiener();
+
     ///produce wiener vlaue matrix with symmetric tracless part, and the trace
     void get_wiener_Espanol(const double sqrtdt);
     ///wiener process with Flekkoy's form

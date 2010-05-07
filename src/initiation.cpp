@@ -30,7 +30,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 Initiation::Initiation(const char *project_name) {
         
-    char Key_word[25];
+    char Key_word[125];
 
     //the project name
     strcpy(Project_name, project_name);
