@@ -19,6 +19,11 @@
    git clone git://github.com/slitvinov/sph-blitz
    cd sph-blitz
    ./local-install.sh  \endverbatim
+ * To generate documentation in html format
+ * \verbatim
+   cd src
+   doxygen
+ * \endverbatim 
  *
  * \section restart_file Restart file format 
  * 
