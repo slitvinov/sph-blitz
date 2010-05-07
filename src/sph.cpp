@@ -69,6 +69,17 @@
 // ***** local includes *****
 #include "glbfunc.h"
 #include "glbcls.h"
+#include "initiation.h"
+#include "particle.h"
+#include "interaction.h"
+#include "quinticspline.h"
+#include "mls.h"
+#include "particlemanager.h"
+#include "hydrodynamics.h"
+#include "boundary.h"
+#include "diagnose.h"
+#include "timesolver.h"
+#include "output.h"
 
 using namespace std;
 

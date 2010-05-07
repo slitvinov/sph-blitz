@@ -1,6 +1,12 @@
 /// \file boundary.h
 /// \brief Bonudary conditions
 
+
+class Initiation;
+class Particle;
+class ParticleManager;
+class Hydrodynamics;
+
 /// Boundary conditions
 class Boundary
 {

@@ -1,6 +1,18 @@
 /// \file hydrodynamics.h
 /// \brief Definition of hydrodynamics
 
+#ifndef HYDRODYNAMICS_H
+#define HYDRODYNAMICS_H
+
+class Material;
+class Force;
+class Interaction;
+class ParticleManager;
+class QuinticSpline;
+class Boundary;
+class Initiation;
+class Particle;
+
 /// Definition of hydrodynamics
 class Hydrodynamics
 {	
@@ -97,3 +109,4 @@ public:
 	void Zero_Velocity();
 
 };
+#endif

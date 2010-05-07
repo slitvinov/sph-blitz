@@ -1,6 +1,17 @@
 /// \file output.h 
 /// \brief Output the computational results
 
+#ifndef OUTPUT_H
+#define OUTPUT_H
+
+class Output;
+class Hydrodynamics;
+class Boundary;
+class ParticleManager;
+class  MLS;
+class QuinticSpline;
+class Initiation;
+
 /// Output class 
 class Output {
 	
@@ -35,3 +46,5 @@ public:
 	void OutAverage(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, 
 					double Time, Initiation &ini);
 };
+
+#endif

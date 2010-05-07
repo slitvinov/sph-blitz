@@ -5,6 +5,13 @@
 ///			based on (Liu GR, Mesh Free Methods->Moving beyond the finite element method, 
 ///			CRC press, London, 2003, p79-87)
 
+#ifndef MLS_H
+#define MLS_H
+
+class Initiation;
+class Particle;
+class QuinticSpline;
+
 /// Moving Least Squares Approximation (MLS)
 class MLS {
 	
@@ -26,3 +33,5 @@ public:
 	void MLSMapping(Vec2d &point, Llist<Particle> &NNP_list, QuinticSpline &weight_function, int order);
 
 };
+
+#endif

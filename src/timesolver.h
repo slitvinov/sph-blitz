@@ -1,6 +1,16 @@
 /// \file timesolver.h 
 /// \brief					Time solver class
-///-----------------------------------------------------------------------
+
+#ifndef TIMESOLVER_H
+#define TIMESOLVER_H
+
+class Hydrodynamics;
+class ParticleManager;
+class Boundary;
+class MLS;
+class Diagnose;
+class Initiation;
+class QuinticSpline;
 
 /// Time solver class 
 class TimeSolver{
@@ -28,3 +38,5 @@ public:
 				   Initiation &ini, QuinticSpline &weight_function, MLS &mls);
 
 };
+
+#endif

@@ -10,6 +10,9 @@
 // ***** local includes *****
 #include "glbcls.h"
 #include "glbfunc.h"
+#include "particle.h"
+#include "initiation.h"
+#include "material.h"
 
 long Particle::ID_max = 0;
 int Particle::number_of_materials = 0;

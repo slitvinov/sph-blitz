@@ -1,6 +1,13 @@
 /// \file initiation.h 
 /// \brief Initiation
 
+#ifndef INITIATION_H
+#define INITIATION_H
+
+class QuinticSpline;
+class Material; 
+class Hydrodynamics;
+class ParticleManager;
 
 /// Initiation
 class Initiation {
@@ -102,3 +109,5 @@ public:
 	double dms_surface(double sigma_non);
 
 };
+
+#endif

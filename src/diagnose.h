@@ -1,9 +1,17 @@
 /// \file diagnose.h
 /// \brief Output the diagnosal results
 
+#ifndef DIAGNOSE_H
+#define DIAGNOSE_H
+
+class Hydrodynamics;
+class Initiation;
+class ParticleManager; 
+class QuinticSpline;
+class MLS;
+
 /// Output diagnosal 
 class Diagnose {
-	
 	///the inital particle distance
 	double delta;
 	///cells matrix for real particles
@@ -50,3 +58,5 @@ public:
 	///track the globle average kinetic energy, weight center position and velocity
 	void KineticInformation(double Time, Initiation &ini, Hydrodynamics &hydro);
 };
+
+#endif

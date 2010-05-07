@@ -17,6 +17,12 @@
 // ***** localincludes *****
 #include "glbcls.h"
 #include "glbfunc.h"
+#include "interaction.h"
+#include "particle.h"
+#include "quinticspline.h"
+#include "force.h"
+#include "initiation.h"
+#include "material.h"
 
 using namespace std;
 

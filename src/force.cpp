@@ -18,6 +18,8 @@
 // ***** localincludes *****
 #include "glbcls.h"
 #include "glbfunc.h"
+#include "force.h"
+#include "initiation.h"
 
 using namespace std;
 

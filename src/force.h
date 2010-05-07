@@ -1,6 +1,11 @@
 /// \file force.h
 /// \brief The class defining force on or between particles
 
+#ifndef FORCE_H
+#define FORCE_H
+
+class Initiation;
+
 /// The class defining force on or between particles
 class Force {
 
@@ -28,3 +33,4 @@ public:
 	void non_dimensionalize(Initiation &ini);
 	
 };
+#endif

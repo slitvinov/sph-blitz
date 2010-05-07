@@ -18,6 +18,10 @@
 // ***** localincludes *****
 #include "glbcls.h"
 #include "glbfunc.h"
+#include "mls.h"
+#include "initiation.h"
+#include "quinticspline.h"
+#include "particle.h"
 
 using namespace std;
 

@@ -18,6 +18,14 @@
 // ***** local includes *****
 #include "glbcls.h"
 #include "glbfunc.h"
+#include "particlemanager.h"
+#include "hydrodynamics.h"
+#include "initiation.h"
+#include "quinticspline.h"
+#include "boundary.h"
+#include "interaction.h"
+#include "particle.h"
+#include "material.h"
 
 using namespace std;
 

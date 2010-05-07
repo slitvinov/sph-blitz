@@ -1,6 +1,14 @@
 /// \file interaction.h 
 /// \brief Defines interaction between particles
 
+#ifndef INTERACTION_H
+#define INTERACTION_H
+
+class Particle;
+class QuinticSpline;
+class Force;
+class Initiation;
+
 /// Defines interaction between particles
 class Interaction {
 
@@ -32,7 +40,6 @@ class Interaction {
 #endif
 		
 public:
-	
 	///constructor
 	Interaction(Initiation &ini);
 	Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
@@ -68,3 +75,4 @@ public:
 	void RandomForces_Espanol(Wiener &wiener, double sqrtdt);
 	
 };
+#endif

@@ -1,6 +1,11 @@
 /// \file material.h 
 /// \brief Material 
 
+#ifndef MATERIAL_H
+#define MATERIAL_H
+
+class Initiation;
+
 /// Material 
 class Material {
 
@@ -43,3 +48,5 @@ public:
 	double get_Cs(double p, double rho);
 
 };
+
+#endif

@@ -1,6 +1,17 @@
 /// \file particlemanager.h 
 /// \brief 				particle manager
 
+#ifndef PARTICLEMANAGER_H
+#define PARTICLEMANAGER_H
+
+class Force;
+class Interaction;
+class Hydrodynamics;
+class Initiation;
+class QuinticSpline;
+class Boundary;
+class Particle;
+
 /// Particle manager class 
 class ParticleManager
 {
@@ -50,3 +61,5 @@ public:
 						Force **forces, QuinticSpline &weight_function);
 	
 };
+
+#endif

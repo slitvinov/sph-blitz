@@ -18,6 +18,14 @@
 // ***** localincludes *****
 #include "glbcls.h"
 #include "glbfunc.h"
+#include "timesolver.h"
+#include "hydrodynamics.h"
+#include "boundary.h"
+#include "particlemanager.h"
+#include "mls.h"
+#include "diagnose.h"
+#include "initiation.h"
+#include "quinticspline.h"
 
 using namespace std;
 
