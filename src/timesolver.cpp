@@ -123,7 +123,8 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
                 
         //screen information for the iteration
         if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
-                              <<ini.dms_time(Time)<<"   dt: "<<ini.dms_time(dt)<<"\n";
+                              <<ini.dms_time(Time)<<"   dt: "<<ini.dms_time(dt) 
+			      << "   max_time: " << ini.dms_time(ini.End_time) << std::endl;
 
         //calculating diagonse information
         if(ini.diagnose == 1) {
