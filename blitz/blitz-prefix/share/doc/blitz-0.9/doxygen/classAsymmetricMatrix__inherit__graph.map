@@ -1,5 +1,0 @@
-<area shape="rect" href="$classGeneralMatrix.html" title="{GeneralMatrix\n||+ GeneralMatrix()\l+ GeneralMatrix()\l+ firstInRow()\l+ lastInRow()\l+ firstInCol()\l+ lastInCol()\l+ numElements()\l}" alt="" coords="152,373,275,549">
-<area shape="rect" href="$classMatrixStructure.html" title="{MatrixStructure\n||}" alt="" coords="159,5,268,85">
-<area shape="rect" href="$classColumnMajor.html" title="{ColumnMajor\n||+ ColumnMajor()\l+ ColumnMajor()\l+ coordToOffset()\l+ get()\l+ get()\l}" alt="" coords="5,677,128,821">
-<area shape="rect" href="$classRowMajor.html" title="{RowMajor\n||+ RowMajor()\l+ RowMajor()\l+ coordToOffset()\l+ get()\l+ get()\l}" alt="" coords="152,677,275,821">
-<area shape="rect" href="$classToeplitz.html" title="{Toeplitz\n|&#45; rows_\l&#45; cols_\l|+ Toeplitz()\l+ Toeplitz()\l+ columns()\l+ coordToOffset()\l+ firstInRow()\l+ get()\l+ get()\l+ lastInRow()\l+ firstInCol()\l+ lastInCol()\l+ inRange()\l+ numElements()\l+ rows()\l+ resize()\l}" alt="" coords="299,597,421,901">

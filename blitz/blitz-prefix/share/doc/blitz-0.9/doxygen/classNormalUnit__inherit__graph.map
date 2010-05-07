@@ -1,4 +1,0 @@
-<area shape="rect" href="$classNormalUnit.html" title="{NormalUnit\&lt; T, IRNG, sharedState \&gt;\n||+ NormalUnit()\l+ NormalUnit()\l+ random()\l}" alt="" coords="21,635,256,747">
-<area shape="rect" href="$classUniformOpen.html" title="{UniformOpen\&lt; T, IRNG, stateTag \&gt;\n||+ UniformOpen()\l+ UniformOpen()\l+ random()\l+ getUniform()\l}" alt="" coords="25,280,252,408">
-<area shape="rect" href="$classUniformClosedOpen.html" title="{UniformClosedOpen\&lt; T,IRNG,stateTag \&gt;\n||}" alt="" coords="9,149,268,229">
-<area shape="rect" href="$classUniformClosedOpen.html" title="{UniformClosedOpen\&lt; T, IRNG, stateTag \&gt;\n||}" alt="" coords="5,5,272,85">
