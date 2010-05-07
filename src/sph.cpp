@@ -7,6 +7,31 @@
 /// Starts the initialization methods and contains the main computation loop
 
 
+/*! \mainpage Smoothed-particle hydrodynamics (SPH) code 
+ *
+ * \section intro_sec Introduction
+ *
+ * This is the introduction.
+ *
+ * \section install_sec Installation
+ *
+ * \section restart_file Restart file format 
+ * 
+ * \section input_file Input file format 
+ * 
+ * \section sim Runnig simulations
+ * 
+ * \section vis Visuzalization 
+ * 
+ * \subsection vis_gnuplot GNUPLOT 
+ *
+ * \subsection vis_punto punto 
+ *
+ *  
+ */
+
+
+
 #include <iostream>
 #include <fstream>
 #include <string>
