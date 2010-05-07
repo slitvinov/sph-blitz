@@ -1,9 +1,14 @@
 bin_PROGRAMS=sph
-sph_SOURCES=boundary.cpp bskernel.cpp diagose.cpp \
-	dllist.h force.cpp glbcls.h \
-	glbfunc.cpp glbfunc.h hydrodynamics.cpp \
-	initiation.cpp interaction.cpp kernel.cpp \
-	material.cpp mls.cpp output.cpp \
-	particle.cpp particlemanager.cpp quinticspline.cpp \
-	sph.cpp timesolver.cpp vec2d.cpp \
-	vec2d.h wiener.cpp wiener.h
+sph_SOURCES=betaspline.h boundary.cpp boundary.h \
+	bskernel.cpp diagnose.h diagose.cpp \
+	dllist.h force.cpp force.h \
+	glbcls.h glbfunc.cpp glbfunc.h \
+	hydrodynamics.cpp hydrodynamics.h initiation.cpp \
+	initiation.h interaction.cpp interaction.h \
+	kernel.cpp kernel.h material.cpp \
+	material.h mls.cpp mls.h \
+	output.cpp output.h particle.cpp \
+	particle.h particlemanager.cpp particlemanager.h \
+	quinticspline.cpp quinticspline.h sph.cpp \
+	timesolver.cpp timesolver.h vec2d.cpp \
+	vec2d.h wiener.cpp wiener.h 
