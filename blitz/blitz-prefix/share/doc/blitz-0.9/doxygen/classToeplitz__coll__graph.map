@@ -1,0 +1,3 @@
+<area shape="rect" href="$classGeneralMatrix.html" title="{GeneralMatrix\n||+ GeneralMatrix()\l+ GeneralMatrix()\l+ firstInRow()\l+ lastInRow()\l+ firstInCol()\l+ lastInCol()\l+ numElements()\l}" alt="" coords="17,373,140,549">
+<area shape="rect" href="$classAsymmetricMatrix.html" title="{AsymmetricMatrix\n|# rows_\l# cols_\l|+ AsymmetricMatrix()\l+ AsymmetricMatrix()\l+ columns()\l+ cols()\l+ inRange()\l+ resize()\l+ rows()\l}" alt="" coords="5,133,152,325">
+<area shape="rect" href="$classMatrixStructure.html" title="{MatrixStructure\n||}" alt="" coords="24,5,133,85">
