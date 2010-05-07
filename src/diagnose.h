@@ -1,6 +1,5 @@
-//-----------------------------------------------------------------------
-//					Output the diagnosal results
-//-----------------------------------------------------------------------
+/// \file diagnose.h
+/// \brief Output the diagnosal results
 class Diagnose {
 	
 	//the inital particle distance

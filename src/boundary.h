@@ -1,7 +1,5 @@
-//-----------------------------------------------------------------------
-//				boundary condition
-//				wall particle used for wall boundary condition
-//-----------------------------------------------------------------------
+/// \file boundary.h
+/// \brief Bondary conditions
 class Boundary
 {
 	//if read wall particle from file .wll

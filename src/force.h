@@ -1,6 +1,5 @@
-//-----------------------------------------------------------------------
-//		The class defining force on or between particles
-//-----------------------------------------------------------------------
+/// \file force.h
+/// \brief The class defining force on or between particles
 class Force {
 
 	friend class Hydrodynamics;

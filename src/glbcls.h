@@ -16,12 +16,6 @@
 #include "wiener.h"
 #include "dllist.h"
 
-//-----------------------------------------------------------------------
-//					Global constant
-//-----------------------------------------------------------------------
-//-----------------------------------------------------------------------
-//					Pre-claimer
-//-----------------------------------------------------------------------
 class Initiation; class Kernel; class MLS; class Interaction; class ParticleManager;
 class Particle; class Initiation; class Boundary; class Force; class Output; class Diagnose;
 class Hydrodynamics; class ListNode; class Material; class BetaSpline; class QuinticSpline;

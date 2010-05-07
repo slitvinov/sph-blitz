@@ -1,6 +1,5 @@
-//-----------------------------------------------------------------------
-//					Hydrodynamical interactions
-//-----------------------------------------------------------------------
+/// \file hydrodynamics.h
+/// \brief Definition of hydrodynamics
 class Hydrodynamics
 {	
 	int number_of_materials;

@@ -1,6 +1,6 @@
-//-----------------------------------------------------------------------
-//					cubic beta-spline as kernel.
-//-----------------------------------------------------------------------
+/// \file betaspline.h
+/// \brief Beta spline kernel function
+
 class BetaSpline : public Kernel
 {
 

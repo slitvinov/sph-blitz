@@ -1,6 +1,5 @@
-//-----------------------------------------------------------------------
-//			defines interaction between particles
-//-----------------------------------------------------------------------
+/// \file interaction.h 
+/// \brief Defines interaction between particles
 class Interaction {
 
 	//total number of materials
