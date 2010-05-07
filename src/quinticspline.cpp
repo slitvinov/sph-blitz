@@ -4,9 +4,9 @@
 
 //----------------------------------------------------------------------------------------
 //      A concrete kernel class
-//		see Monaghan & Lattanzio (1985).
-//		Most often used kernel.
-//		bskernel.cpp
+//              see Monaghan & Lattanzio (1985).
+//              Most often used kernel.
+//              bskernel.cpp
 //----------------------------------------------------------------------------------------
 
 // ***** system includes *****
@@ -26,11 +26,11 @@
 using namespace std;
 
 //----------------------------------------------------------------------------------------
-//										constructor
+//                                                                              constructor
 //----------------------------------------------------------------------------------------
 QuinticSpline::QuinticSpline(const double smoothingLength)
-  : Kernel(smoothingLength), 
-    norm(63.0 / 478.0 / pi)
+    : Kernel(smoothingLength), 
+      norm(63.0 / 478.0 / pi)
 {
     // initialize the auxiliary factors
     reciprocH = 1.0 / smoothingLength;
@@ -51,30 +51,30 @@ double QuinticSpline::w(const double distance) const
 {
     // dist/smoothingLength is often needed
     double normedDist = 3.0*distance * reciprocH;
-	double ss3, ss2, ss1;
+    double ss3, ss2, ss1;
 
-	ss3 = (3.0 - normedDist);
-	ss2 = (2.0 - normedDist);
-	ss1 = (1.0 - normedDist);
+    ss3 = (3.0 - normedDist);
+    ss2 = (2.0 - normedDist);
+    ss1 = (1.0 - normedDist);
 
     // the quintic-spline is composed of four functions, so we must determine, were we are
     if (normedDist < 1.0) 
-    // we are in the inner region of the kernel
+        // we are in the inner region of the kernel
     {
         return factorW * (ss3*ss3*ss3*ss3*ss3 - 6.0*ss2*ss2*ss2*ss2*ss2 + 15.0*ss1*ss1*ss1*ss1*ss1);
     }
     else if (normedDist < 2.0)
-    // we are in the middle region of the kernel (not outside!)
+        // we are in the middle region of the kernel (not outside!)
     {
         return factorW * (ss3*ss3*ss3*ss3*ss3 - 6.0*ss2*ss2*ss2*ss2*ss2);
     }
     else if (normedDist < 3.0)
-    // we are in the outer region of the kernel (not outside!)
+        // we are in the outer region of the kernel (not outside!)
     {
         return factorW * ss3*ss3*ss3*ss3*ss3;
     }
     else
-    // distance is bigger than the kernel.
+        // distance is bigger than the kernel.
     {
         return 0.0;
     }
@@ -88,36 +88,36 @@ Vec2d QuinticSpline::gradW(const double distance, const Vec2d& distanceVector) c
 {
     // dist/smoothingLength is often needed
     double normedDist = 3.0*distance * reciprocH;
-	double ss3, ss2, ss1;
+    double ss3, ss2, ss1;
 
-	ss3 = (3.0 - normedDist);
-	ss2 = (2.0 - normedDist);
-	ss1 = (1.0 - normedDist);
+    ss3 = (3.0 - normedDist);
+    ss2 = (2.0 - normedDist);
+    ss1 = (1.0 - normedDist);
 
     // the quintic-spline is composed of four functions, so we must determine, were we are
     if (normedDist < 1.0) 
-    // we are in the inner region of the kernel
+        // we are in the inner region of the kernel
     {
         return distanceVector * factorGradW * (ss3*ss3*ss3*ss3 - 6.0*ss2*ss2*ss2*ss2 + 15.0*ss1*ss1*ss1*ss1);
     }
     else if (normedDist < 2.0)
-    // we are in the middle region of the kernel (not outside!)
+        // we are in the middle region of the kernel (not outside!)
     {
         return distanceVector * factorGradW * (ss3*ss3*ss3*ss3 - 6.0*ss2*ss2*ss2*ss2);
     }
     else if (normedDist < 3.0)
-    // we are in the outer region of the kernel (not outside!)
+        // we are in the outer region of the kernel (not outside!)
     {
         return distanceVector * factorGradW * ss3*ss3*ss3*ss3;
     }
     else
-    // dist is bigger then the kernel.
+        // dist is bigger then the kernel.
     {
         return Vec2d();
     }
 }
 //----------------------------------------------------------------------------------------
-//		Calculates the kernel derivation (a double not vector) to distance
+//              Calculates the kernel derivation (a double not vector) to distance
 //----------------------------------------------------------------------------------------
 double QuinticSpline::F(const double distance) const
 {
@@ -130,57 +130,57 @@ double QuinticSpline::F(const double distance) const
 
     // the quintic-spline is composed of four functions, so we must determine, were we are
     if (normedDist < 1.0) 
-    // we are in the inner region of the kernel
+        // we are in the inner region of the kernel
     {
         return factorGradW * (ss3*ss3*ss3*ss3 - 6.0*ss2*ss2*ss2*ss2 + 15.0*ss1*ss1*ss1*ss1);
     }
     else if (normedDist < 2.0)
-    // we are in the middle region of the kernel (not outside!)
+        // we are in the middle region of the kernel (not outside!)
     {
         return factorGradW * (ss3*ss3*ss3*ss3 - 6.0*ss2*ss2*ss2*ss2);
     }
     else if (normedDist < 3.0)
-    // we are in the outer region of the kernel (not outside!)
+        // we are in the outer region of the kernel (not outside!)
     {
         return factorGradW * ss3*ss3*ss3*ss3;
     }
     else
-    //the distiance is bigger than the kernel.
+        //the distiance is bigger than the kernel.
     {
         return 0.0;
     }
 }
 //----------------------------------------------------------------------------------------
-//					Calculates the kernel Laplacian. 
+//                                      Calculates the kernel Laplacian. 
 //----------------------------------------------------------------------------------------
 double QuinticSpline::LapW(const double distance) const
 {
     // dist/smoothingLength is often needed
     double normedDist = 3.0*distance * reciprocH;
-	double ss3, ss2, ss1;
+    double ss3, ss2, ss1;
 
-	ss3 = (3.0 - normedDist);
-	ss2 = (2.0 - normedDist);
-	ss1 = (1.0 - normedDist);
+    ss3 = (3.0 - normedDist);
+    ss2 = (2.0 - normedDist);
+    ss1 = (1.0 - normedDist);
 
     // the quintic-spline is composed of four functions, so we must determine, were we are
     if (normedDist < 1.0) 
-    // we are in the inner region of the kernel
+        // we are in the inner region of the kernel
     {
         return factorLapW * (ss3*ss3*ss3 - 6.0*ss2*ss2*ss2 + 15.0*ss1*ss1*ss1);
     }
     else if (normedDist < 2.0)
-    // we are in the middle region of the kernel (not outside!)
+        // we are in the middle region of the kernel (not outside!)
     {
         return factorLapW * (ss3*ss3*ss3 - 6.0*ss2*ss2*ss2);
     }
     else if (normedDist < 3.0)
-    // we are in the outer region of the kernel (not outside!)
+        // we are in the outer region of the kernel (not outside!)
     {
         return factorLapW * ss3*ss3*ss3;
     }
     else
-    //the distiance is bigger than the kernel.
+        //the distiance is bigger than the kernel.
     {
         return 0.0;
     }

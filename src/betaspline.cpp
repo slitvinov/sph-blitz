@@ -4,9 +4,9 @@
 
 //----------------------------------------------------------------------------------------
 //      A concrete kernel class
-//		see Monaghan & Lattanzio (1985).
-//		Most often used kernel.
-//		bskernel.cpp
+//              see Monaghan & Lattanzio (1985).
+//              Most often used kernel.
+//              bskernel.cpp
 //----------------------------------------------------------------------------------------
 
 // ***** system includes *****
@@ -26,7 +26,7 @@
 using namespace std;
 
 //----------------------------------------------------------------------------------------
-//							constructor
+//                                                      constructor
 //----------------------------------------------------------------------------------------
 BetaSpline::BetaSpline(double smoothingLength)
     : Kernel(smoothingLength)
@@ -35,7 +35,7 @@ BetaSpline::BetaSpline(double smoothingLength)
     reciprocH = 1.0 / smoothingLength;
     
     //normalize to 1.0
-	norm = 40.0 / 7.0 / pi;
+    norm = 40.0 / 7.0 / pi;
       
     factorW     = norm * pow(reciprocH, 2);
     factorGradW = - 6.0 * norm * pow(reciprocH, 3);
@@ -56,19 +56,19 @@ double BetaSpline::w(double distance) const
 
     // the beta-spline is composed of three functions, so we must determine, were we are
     if (normedDist < 0.5) 
-    // we are in the inner region of the kernel
+        // we are in the inner region of the kernel
     {
         return factorW * (6.0 * normedDist * normedDist * normedDist - 
-                            6.0 * normedDist * normedDist + 1.0);
+                          6.0 * normedDist * normedDist + 1.0);
     }
     else if (normedDist < 1.0)
-    // we are in the outer region of the kernel (not outside!)
+        // we are in the outer region of the kernel (not outside!)
     {
         double aux = 1.0 - normedDist;
         return factorW * ( 2.0 * aux * aux * aux );
     }
     else
-    // dist is bigger then the kernel.
+        // dist is bigger then the kernel.
     {
         return 0.0;
     }
@@ -85,23 +85,23 @@ Vec2d BetaSpline::gradW(double distance, const Vec2d& distanceVector) const
     // the beta-spline is composed of three functions (so the derivate is also), 
     // we must determine, were we are
     if (normedDist < 0.5) 
-    // we are in the inner region of the kernel
+        // we are in the inner region of the kernel
     {
         return distanceVector * (factorGradW * (3.0 * normedDist * reciprocH - 2.0 * reciprocH));
     }
     else if (normedDist < 1.0)
-    // we are in the outer region of the kernel (not outside!)
+        // we are in the outer region of the kernel (not outside!)
     {
         return distanceVector * (- factorGradW * (1.0 / distance - 2.0 * reciprocH + normedDist * reciprocH));
     }
     else
-    // dist is bigger then the kernel.
+        // dist is bigger then the kernel.
     {
-		return Vec2d();
+        return Vec2d();
     }
 }
 //----------------------------------------------------------------------------------------
-//				Calculates the kernel derivation to distance
+//                              Calculates the kernel derivation to distance
 //----------------------------------------------------------------------------------------
 double BetaSpline::F(double distance) const
 {
@@ -110,19 +110,19 @@ double BetaSpline::F(double distance) const
     // the beta-spline is composed of three functions (so the derivate is also), 
     // we must determine, were we are
     if (normedDist < 0.5) 
-    // we are in the inner region of the kernel
+        // we are in the inner region of the kernel
     {
         return (factorGradW * (3.0 * normedDist * reciprocH - 2.0 * reciprocH));
     }
     else if (normedDist < 1.0)
-    // we are in the outer region of the kernel (not outside!)
+        // we are in the outer region of the kernel (not outside!)
     {
         return (- factorGradW * (1.0 / distance - 2.0 * reciprocH + normedDist * reciprocH));
     }
     else
-    // dist is bigger then the kernel.
+        // dist is bigger then the kernel.
     {
-		return 0.0;
+        return 0.0;
     }
 }
 

@@ -17,9 +17,9 @@ public:
 
     ///Calculates the kernel derivation for the given distance of two particles. 
     virtual Vec2d gradW(double distance, const Vec2d& distanceVector) const;
-	
+        
     ///Calculates the kernel derivation to distance. 
-	double F(double distance) const;
+    double F(double distance) const;
 
 private:
     ///Normalization factor
