@@ -1,6 +1,8 @@
 /// \file betaspline.h
 /// \brief Beta spline kernel function
-
+#ifndef BETASPLINE_H
+#define BETASPLINE_H
+#include "kernel.h"
 
 /// Beta spline kernel 
 class BetaSpline : public Kernel
@@ -15,9 +17,9 @@ public:
 
     ///Calculates the kernel derivation for the given distance of two particles. 
     virtual Vec2d gradW(double distance, const Vec2d& distanceVector) const;
-	
+        
     ///Calculates the kernel derivation to distance. 
-	double F(double distance) const;
+    double F(double distance) const;
 
 private:
     ///Normalization factor
@@ -33,3 +35,5 @@ private:
     double factorGradW;
 
 };
+
+#endif

@@ -1,5 +1,6 @@
 *Install*
 Run 
+./local-install.sh
 
 *Restart file format*
 <start time>
