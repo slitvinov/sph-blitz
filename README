@@ -1,8 +1,6 @@
 *Install*
 Run 
 
-./install.sh
-
 *Restart file format*
 <start time>
 <number of particles>
