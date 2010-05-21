@@ -23,6 +23,8 @@
 #include "particlemanager.h"
 #include "quinticspline.h"
 
+#include "tcl.h"
+
 using namespace std;
 
 //----------------------------------------------------------------------------------------
@@ -37,69 +39,79 @@ Initiation::Initiation(const char *project_name) {
 
     //the input file name
     strcpy(inputfile, Project_name);
-    strcat(inputfile, ".cfg");
+    strcat(inputfile, ".tcl");
         
     //check if inputfile exist
-    ifstream fin(inputfile, ios::in);
-    if (!fin) {
-        cout<<"Initialtion: Cannot open "<< inputfile <<" \n";
-        std::cout << __FILE__ << ':' << __LINE__ << std::endl;
-        exit(1);
+    Tcl_FindExecutable("UNUSED");
+       //   ftcl_interp = Tcl_CreateInterp() ;
+    Tcl_Interp*  tcl_interp = Tcl_CreateInterp();
+
+    if ( tcl_interp == NULL ) {
+      std::cerr << "Could not find tcl interpreter!\n" << std::endl;
+      exit( 1 ) ;
     }
-    else cout<<"Initialtion: Read the global configuration data from "<< inputfile <<" \n"; 
+
+    const int retval = Tcl_EvalFile( tcl_interp, inputfile) ;
+
+    if ( retval != TCL_OK )
+      {
+	std::cerr << "tcl_evalfile" <<  Tcl_GetStringResult(tcl_interp) << std::endl;
+	exit( 1 ) ;
+      }
+
 
     //reading key words and configuration data
-    while(!fin.eof()) {
+    // while(!fin.eof()) {
                 
-        //read a string block
-        fin>>Key_word;
+    //     //read a string block
+    //     fin>>Key_word;
                 
-        //comparing the key words for initial condition input
-        //0: Initialize the initial conditions from .cfg file
-        //1: restart from a .rst file
-        if(!strcmp(Key_word, "INITIAL_CONDITION")) fin>>initial_condition;
+    //     //comparing the key words for initial condition input
+    //     //0: Initialize the initial conditions from .cfg file
+    //     //1: restart from a .rst file
+    //     if(!strcmp(Key_word, "INITIAL_CONDITION")) fin>>initial_condition;
 
-        //output diagnose information
-        if(!strcmp(Key_word, "DIAGNOSE")) fin>>diagnose;
+    //     //output diagnose information
+    //     if(!strcmp(Key_word, "DIAGNOSE")) fin>>diagnose;
 
-        //comparing the key words for domian size
-        if(!strcmp(Key_word, "CELLS")) fin>>x_cells>>y_cells;
+    //     //comparing the key words for domian size
+    //     if(!strcmp(Key_word, "CELLS")) fin>>x_cells>>y_cells;
 
-        //comparing the key words for cell size
-        if(!strcmp(Key_word, "CELL_SIZE")) fin>>cell_size;
+    //     //comparing the key words for cell size
+    //     if(!strcmp(Key_word, "CELL_SIZE")) fin>>cell_size;
 
-        //comparing the key words for smoothinglength
-        if(!strcmp(Key_word, "SMOOTHING_LENGTH")) fin>>smoothinglength;
+    //     //comparing the key words for smoothinglength
+    //     if(!strcmp(Key_word, "SMOOTHING_LENGTH")) fin>>smoothinglength;
 
-        //comparing the key words for the ratio between cell size and initial particle width
-        if(!strcmp(Key_word, "CELL_RATIO")) fin>>hdelta;
+    //     //comparing the key words for the ratio between cell size and initial particle width
+    //     if(!strcmp(Key_word, "CELL_RATIO")) fin>>hdelta;
 
-        //comparing the key words for the g force
-        if(!strcmp(Key_word, "G_FORCE")) fin>>g_force[0]>>g_force[1];
+    //     //comparing the key words for the g force
+    //     if(!strcmp(Key_word, "G_FORCE")) fin>>g_force[0]>>g_force[1];
  
-        //comparing the key words for the artificial viscosity
-        if(!strcmp(Key_word, "ARTIFICIAL_VISCOSITY")) fin>>art_vis;
+    //     //comparing the key words for the artificial viscosity
+    //     if(!strcmp(Key_word, "ARTIFICIAL_VISCOSITY")) fin>>art_vis;
 
-        //comparing the key words for dimension
-        if(!strcmp(Key_word, "DIMENSION")) fin>>_length>>_v>>_rho>>_T;
+    //     //comparing the key words for dimension
+    //     if(!strcmp(Key_word, "DIMENSION")) fin>>_length>>_v>>_rho>>_T;
                 
-        //comparing the key words for number ofmaterials
-        if(!strcmp(Key_word, "NUMBER_OF_MATERIALS")) fin>>number_of_materials;
+    //     //comparing the key words for number ofmaterials
+    //     if(!strcmp(Key_word, "NUMBER_OF_MATERIALS")) fin>>number_of_materials;
 
-        //comparing the key words for timing
-        if(!strcmp(Key_word, "TIMING")) fin>>Start_time>>End_time>>D_time;
+    //     //comparing the key words for timing
+    //     if(!strcmp(Key_word, "TIMING")) fin>>Start_time>>End_time>>D_time;
 
-        //Premitted max particle number for MLS approximation
-        if(!strcmp(Key_word, "MLS_MAX")) fin>>MLS_MAX;
+    //     //Premitted max particle number for MLS approximation
+    //     if(!strcmp(Key_word, "MLS_MAX")) fin>>MLS_MAX;
 
-        //Initialize the initial conditions from .cfg file
-        if (initial_condition==0) {
-            //comparing the key words for the initial state
-            if(!strcmp(Key_word, "INITIAL_STATES")) fin>>U0[0]>>U0[1]>>rho0>>p0>>T0;
-        }
+    //     //Initialize the initial conditions from .cfg file
+    //     if (initial_condition==0) {
+    //         //comparing the key words for the initial state
+    //         if(!strcmp(Key_word, "INITIAL_STATES")) fin>>U0[0]>>U0[1]>>rho0>>p0>>T0;
+    //     }
 
-    }
-    fin.close();
+    // }
+    // fin.close();
 
     //create outdata directory
     const int ok = system("mkdir -p outdata");
