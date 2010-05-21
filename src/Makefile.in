@@ -50,7 +50,7 @@ am_sph_OBJECTS = boundary.$(OBJEXT) betaspline.$(OBJEXT) \
 	mls.$(OBJEXT) output.$(OBJEXT) particle.$(OBJEXT) \
 	particlemanager.$(OBJEXT) quinticspline.$(OBJEXT) \
 	sph.$(OBJEXT) timesolver.$(OBJEXT) vec2d.$(OBJEXT) \
-	wiener.$(OBJEXT)
+	wiener.$(OBJEXT) cpptcl.$(OBJEXT)
 sph_OBJECTS = $(am_sph_OBJECTS)
 sph_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@
@@ -163,6 +163,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+AM_CXXFLAGS = -I $(top_srcdir)/boost -I $(top_srcdir)
 sph_SOURCES = \
 	betaspline.h boundary.cpp boundary.h \
 	betaspline.cpp diagnose.h diagnose.cpp \
@@ -176,13 +177,14 @@ sph_SOURCES = \
 	particle.h particlemanager.cpp particlemanager.h \
 	quinticspline.cpp quinticspline.h sph.cpp \
 	timesolver.cpp timesolver.h vec2d.cpp \
-	vec2d.h wiener.cpp wiener.h 
+	vec2d.h wiener.cpp wiener.h  \
+	cpptcl.cc cpptcl.h
 
 EXTRA_DIST = Doxyfile
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .cpp .o .obj
+.SUFFIXES: .cc .cpp .o .obj
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -247,6 +249,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/betaspline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boundary.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cpptcl.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/diagnose.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/force.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/glbfunc.Po@am__quote@
@@ -264,6 +267,20 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timesolver.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vec2d.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wiener.Po@am__quote@
+
+.cc.o:
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ $<
+
+.cc.obj:
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

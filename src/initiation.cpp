@@ -23,7 +23,8 @@
 #include "particlemanager.h"
 #include "quinticspline.h"
 
-#include "tcl.h"
+#include "cpptcl.h"
+
 
 using namespace std;
 
@@ -41,24 +42,15 @@ Initiation::Initiation(const char *project_name) {
     strcpy(inputfile, Project_name);
     strcat(inputfile, ".tcl");
         
-    //check if inputfile exist
-    Tcl_FindExecutable("UNUSED");
-       //   ftcl_interp = Tcl_CreateInterp() ;
-    Tcl_Interp*  tcl_interp = Tcl_CreateInterp();
-
-    if ( tcl_interp == NULL ) {
-      std::cerr << "Could not find tcl interpreter!\n" << std::endl;
-      exit( 1 ) ;
-    }
-
-    const int retval = Tcl_EvalFile( tcl_interp, inputfile) ;
-
-    if ( retval != TCL_OK )
-      {
-	std::cerr << "tcl_evalfile" <<  Tcl_GetStringResult(tcl_interp) << std::endl;
-	exit( 1 ) ;
-      }
-
+    Tcl::interpreter interp; 
+    std::ifstream myfile;
+    myfile.open (inputfile);
+    
+    interp.eval(myfile);
+    initial_condition = interp.eval("[return $INITIAL_CONDITION]");
+    
+    std::cerr << "initial_condition = " << initial_condition;
+    exit(-1);
 
     //reading key words and configuration data
     // while(!fin.eof()) {

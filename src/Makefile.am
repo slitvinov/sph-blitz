@@ -1,3 +1,4 @@
+AM_CXXFLAGS=-I $(top_srcdir)/boost -I $(top_srcdir)
 bin_PROGRAMS = sph
 sph_SOURCES = \
 	betaspline.h boundary.cpp boundary.h \
@@ -12,7 +13,8 @@ sph_SOURCES = \
 	particle.h particlemanager.cpp particlemanager.h \
 	quinticspline.cpp quinticspline.h sph.cpp \
 	timesolver.cpp timesolver.h vec2d.cpp \
-	vec2d.h wiener.cpp wiener.h 
+	vec2d.h wiener.cpp wiener.h  \
+	cpptcl.cc cpptcl.h
 
 
 EXTRA_DIST = Doxyfile
