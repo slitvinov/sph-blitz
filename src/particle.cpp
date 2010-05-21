@@ -221,7 +221,7 @@ Particle::Particle(Particle &RealParticle, Material &material): bd(1), bd_type(0
 //----------------------------------------------------------------------------------------
 void Particle::StatesCopier(Particle &RealParticle, int type)
 {
-    int i, j;
+    int i;
 
     //copy states
     R = RealParticle.R; m = RealParticle.m;
@@ -235,7 +235,7 @@ void Particle::StatesCopier(Particle &RealParticle, int type)
     if (type == 1 ) {
         del_phi = RealParticle.del_phi;
         for(i = 0; i < number_of_materials; i++) {
-            for(j = 0; j < number_of_materials; j++) {
+            for(int j = 0; j < number_of_materials; j++) {
                 phi[i][j] = RealParticle.phi[i][j];
                 lap_phi[i][j] = RealParticle.lap_phi[i][j];
             }

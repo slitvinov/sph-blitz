@@ -137,7 +137,7 @@ double Material::get_rho(double p)
 //----------------------------------------------------------------------------------------
 //                              get internal energy
 //----------------------------------------------------------------------------------------
-double Material::get_e(double T)
+double Material::get_e(double T) const
 {
     return cv*T;
 }

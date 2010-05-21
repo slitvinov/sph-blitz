@@ -56,7 +56,7 @@ MLS::MLS(Initiation &ini)
 void MLS::MLS_Solver(int order)
 {
     int i, k, m;
-    double inter1, inter[3]; //temporary variables
+    double inter[3]; //temporary variables
     int ord; //avalible order of accuracy
 
     //calculate the weighted moment matrix
@@ -79,7 +79,7 @@ void MLS::MLS_Solver(int order)
 
     if(ord == 0) {
         //intermediate values
-        inter1 = 0.0;
+        double inter1 = 0.0;
         for(i = 0; i < N; i++)  inter1 += Wi[i];
         //the shape function
         for(i = 0; i < N; i++)  phi[i] = Wi[i]/inter1;

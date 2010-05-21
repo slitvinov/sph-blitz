@@ -43,7 +43,7 @@ public:
     ///equation of states
     double get_p(double rho);
     double get_rho(double p);
-    double get_e(double T);
+    double get_e(double T) const;
     double get_T(double e);
     double get_Cs(double p, double rho);
 

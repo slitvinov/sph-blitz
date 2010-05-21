@@ -43,6 +43,9 @@ public:
     ///constructor
     Hydrodynamics(ParticleManager &particles, Initiation &ini);
 
+  ///destructor
+  ~Hydrodynamics();
+
     ///get the time step
     double GetTimestep();
 

@@ -22,8 +22,8 @@
  * To generate documentation in html format
  * \verbatim
  cd src
- doxygen
- * \endverbatim 
+ doxygen \endverbatim 
+ * 
  *
  * \section restart_file Restart file format 
  * 

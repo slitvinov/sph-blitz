@@ -295,7 +295,7 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
 void ParticleManager::BiuldRealParticles(Hydrodynamics &hydro, Initiation &ini)
 {
         
-    int i, j, k, m;
+    int i, j, k;
     Vec2d position, velocity;
     double density, pressure, Temperature;
     int material_no;
@@ -308,7 +308,7 @@ void ParticleManager::BiuldRealParticles(Hydrodynamics &hydro, Initiation &ini)
                 
                 //creat a new real particle
                 for(k = 0; k < hdelta; k++) {
-                    for(m = 0; m < hdelta; m++) {
+                    for(int m = 0; m < hdelta; m++) {
 
                         position[0] = (i - 1)*cll_sz + (k + 0.5)*delta;
                         position[1] = (j - 1)*cll_sz + (m + 0.5)*delta;

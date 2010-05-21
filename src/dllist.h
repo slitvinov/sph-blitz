@@ -81,7 +81,7 @@ public:
     Ldata *retrieve(LlistNode<Ldata> *p) const    { return p->next->data; }
         
     ///set the particle
-    void store(LlistNode<Ldata> *p, Ldata *d)     { p->next->data = d; }
+    void store(LlistNode<Ldata> *p, Ldata *d)  const { p->next->data = d; }
 
     ///get the list length
     int length() const                  { return len; }
