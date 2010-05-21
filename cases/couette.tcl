@@ -13,7 +13,28 @@ set SMOOTHING_LENGTH 5.0e-3
 
 set CELL_RATIO  3
 
-# INITIAL_STATES		0.0		0.0		1.0		0.5		1.0
+set U0(1) 0.0
+set U0(2) 0.0
+
+set rho0 1.0
+set p0 0.5
+set T0 1.0
+
+set G_FORCE(1) 0.0
+set G_FORCE(2) 0.0
+
+set ARTIFICIAL_VISCOSITY 0.0
+
+set _lenth 1.0
+set _v 1.0
+set _rho 1.0
+set _T 1.0
+
+set NUMBER_OF_MATERIALS 3
+set Start_time 0.0
+set End_time 1.0
+set D_time 1e-3
+
 
 # DIMENSION			2.0e-2	0.9		1.0		1.0
 
