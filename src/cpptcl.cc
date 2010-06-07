@@ -1060,7 +1060,7 @@ double tcl_cast<double>::from(Tcl_Interp *interp, Tcl_Obj *obj)
      {
           throw tcl_error(interp);
      }
-     
+ 
      return res;
 }
 
