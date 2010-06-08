@@ -1,115 +1,106 @@
 /// \file hydrodynamics.h
-/// \brief Definition of hydrodynamics
+/// \brief  Definition of  materials and their hydrodynamical interactions
 
-#ifndef HYDRODYNAMICS_H
-#define HYDRODYNAMICS_H
-
-class Material;
-class Force;
-class Interaction;
-class ParticleManager;
-class QuinticSpline;
-class Boundary;
-class Initiation;
-class Particle;
-
-/// Definition of hydrodynamics
+/// Definition of  materials and their hydrodynamical interactions
 class Hydrodynamics
-{       
-    int number_of_materials;
-    Vec2d gravity;
-    double smoothinglength;
-    double delta, delta2, delta3;
-    double dt_g_vis, dt_surf;
+{	
+	int number_of_materials;
+	Vec2d gravity;
+	double smoothinglength;
+	double delta, delta2, delta3;
+	double dt_g_vis, dt_surf;
 
-    ///the interaction (particle pair) list
-    Llist<Interaction> interaction_list;
+	///the interaction (particle pair) list
+	Llist<Interaction> interaction_list;
 
-    ///for time step 
-    double viscosity_max, surface_max;
+	//for time step 
+	double viscosity_max;///<for first time step
+	double  surface_max;///<for first time step
 
 
 public:
 
-    ///the materials used
-    Material *materials;
-    ///the interaction force used
-    Force **forces;
-    Llist<Particle> particle_list; ///particle list for all particles
+	///the materials used
+	Material *materials;
+	///the interaction force used
+	Force **forces;
+	Llist<Particle> particle_list; ///<particle list for all particles
 
-    ///Wiener process
-    Wiener wiener;
+	///Wiener process
+	Wiener wiener;
 
-    ///constructor
-    Hydrodynamics(ParticleManager &particles, Initiation &ini);
+	///constructor
+	Hydrodynamics(ParticleManager &particles, Initiation &ini);
 
-  ///destructor
-  ~Hydrodynamics();
+	///get the time step
+	double GetTimestep();
 
-    ///get the time step
-    double GetTimestep();
+	///build new pairs
+	void BuildPair(ParticleManager &particles, QuinticSpline &weight_function);
+	///update new parameters in pairs
+	void UpdatePair(QuinticSpline &weight_function);
 
-    ///update new parameters in pairs
-    void BuildPair(ParticleManager &particles, QuinticSpline &weight_function);
-    void UpdatePair(QuinticSpline &weight_function);
+	//manupilate the particle physics
+	///initiate particle change rate
+	void ZeroChangeRate();
+	///add the gravity effects
+	void AddGravity();
+	///calculate interaction with updating interaction list
+	void UpdateChangeRate(ParticleManager &particles, QuinticSpline &weight_function);
+	///calculate interaction without updating interaction list
+	void UpdateChangeRate();
+	///initiate particle density to zero
+	void Zero_density();
+	void Zero_ShearRate();
+	///summation for particles density (with updating interaction list)
+	void UpdateDensity(ParticleManager &particles, QuinticSpline &weight_function);
+        ///summation for shear rates (with updating interaction list)
+	void UpdateShearRate(ParticleManager &particles, QuinticSpline &weight_function);
+	///currently no shear rate calculated  without updating interaction list
+	void UpdateDensity();///???
+	void UpdateShearRate();
+	
+	//update phase field
+	void UpdatePhaseGradient(Boundary &boundary);///< not independant with UpdateDensity
+	void Zero_PhaseGradient(Boundary &boundary);
+	void UpdatePhaseField(Boundary &boundary);
+	void Zero_PhaseField(Boundary &boundary);
+	void UpdateSurfaceStress(Boundary &boundary);
+	void UpdatePhaseLaplacian(Boundary &boundary);
+	void Zero_PhaseLaplacian(Boundary &boundary);
+	///calculate surface tension coefficient
+	double SurfaceTensionCoefficient();
+	///this method currently does <b>NOTHING</b>
+	void UpdatePahseMatrix(Boundary &boundary);
 
-    ///manupilate the particle physics
-    ///initiate particle change rate
-    void ZeroChangeRate();
-    ///add the gravity effects
-    void AddGravity();
-    ///calculate interaction with updating interaction list
-    void UpdateChangeRate(ParticleManager &particles, QuinticSpline &weight_function);
-    ///calculate interaction without updating interaction list
-    void UpdateChangeRate();
-    ///initiate particle density to zero
-    void Zero_density();
-    void Zero_ShearRate();
-    ///summation for particles density and shear rates
-    void UpdateDensity(ParticleManager &particles, QuinticSpline &weight_function);
-    void UpdateShearRate(ParticleManager &particles, QuinticSpline &weight_function);
-    ///currently no shear rate calculated  without updating interaction list
-    void UpdateDensity();
-    void UpdateShearRate();
-        
-    ///update pahse field
-    void UpdatePhaseGradient(Boundary &boundary);
-    void Zero_PhaseGradient(Boundary &boundary);
-    void UpdatePhaseField(Boundary &boundary);
-    void Zero_PhaseField(Boundary &boundary);
-    void UpdateSurfaceStress(Boundary &boundary);
-    void UpdatePhaseLaplacian(Boundary &boundary);
-    void Zero_PhaseLaplacian(Boundary &boundary);
-    double SurfaceTensionCoefficient();
-    void UpdatePahseMatrix(Boundary &boundary);
+	///calculate states from conservatives
+	void UpdateState();
+	///calculate partilce volume
+	void UpdateVolume(ParticleManager &particles, QuinticSpline &weight_function);
 
-    ///calculate states from conservatives
-    void UpdateState();
-    ///calculate partilce volume
-    void UpdateVolume(ParticleManager &particles, QuinticSpline &weight_function);
+	/// predictor method, density evaluated directly
+	void Predictor(double dt);
+	/// corrector method, density evaluated directly:<b> corrector advances p, rho, U</b>
+	void Corrector(double dt);
 
-    ///for predictor and corrector method, density evaluated directly
-    void Predictor(double dt);
-    void Corrector(double dt);
+	///for predictor method, density evaluated with summation (that means: no density update within this method)
+	void Predictor_summation(double dt);
+        ///for corrector method, density evaluated with summation (that means: no density update within this method)
+	void Corrector_summation(double dt);
 
-    ///for predictor and corrector method, density evaluated with summation
-    void Predictor_summation(double dt);
-    void Corrector_summation(double dt);
+	//DPD simultion
+	///initiate random force (DPD simulation)
+	void Zero_Random();
+	///calculate random interaction without updating interaction list (DPD simulation)
+	void UpdateRandom(double sqrtdt);
+	///including random effects (DPD simulation)
+	void RandomEffects();
 
-    ///DPD simultion
-    ///initiate random force
-    void Zero_Random();
-    ///calculate random interaction without updating interaction list
-    void UpdateRandom(double sqrtdt);
-    ///including random effects
-    void RandomEffects();
+	//test for debug
+	void MovingTest(Initiation &ini);///test for debug
+	double ConservationTest();//test for debug
 
-    ///tests for debug
-    void MovingTest(Initiation &ini);
-    double ConservationTest();
-
-    ///special uitilities
-    void Zero_Velocity();
+	///special uitilities
+	void Zero_Velocity();
 
 };
-#endif

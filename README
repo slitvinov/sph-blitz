@@ -1,6 +1,7 @@
 *Install*
 Run 
-./local-install.sh
+
+./install.sh
 
 *Restart file format*
 <start time>
@@ -46,7 +47,16 @@ BOUNDARY <use or not wall file, must be 0> <type codes of boundry X0, X1, Y0,
 Y1>
 <velocity of the wall>
 
+NUMBER_OF_MATERIALS <numb_mat>
+
+
 MATERIALS
+<material_name><material_type>	<cv>	<eta>	<zeta>	<kappa>	<gamma>	<b0>	<rho0>	<a0>
+(one line for each material)
+
+FORCES
+<mat#k>	<mat#m>		<epsilon>	<sigma>	<shear_slip>	<bulk_slip>	<heat_slip>
+(numb_mat*numb_mat lines, one for each material pair)
 
 
 *Simulations*

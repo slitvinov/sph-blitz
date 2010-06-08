@@ -1,10 +1,11 @@
 /// \file betaspline.h
 /// \brief Beta spline kernel function
-#ifndef BETASPLINE_H
-#define BETASPLINE_H
-#include "kernel.h"
 
-/// Beta spline kernel 
+
+/// \brief   A concrete kernel class
+///
+///    	see Monaghan & Lattanzio (1985) most often used kernel
+///	implemented in	bskernel.cpp
 class BetaSpline : public Kernel
 {
 
@@ -12,14 +13,20 @@ public:
     ///constructor to initialize the data members and
     BetaSpline(double smoothingLength);
 
-    ///Calculates the kernel value for the given distance of two particles. 
+    ///\brief Calculates the kernel value for the given distance of two particles.
+    ///
+    /// We take this from Monaghan & Lattenzio (1985)
+    /// but used a doubled smoothing length for the definition of the interaction radius. 
     virtual double w(double distance) const;
 
-    ///Calculates the kernel derivation for the given distance of two particles. 
+    ///\brief Calculates the kernel derivation for the given distance of two particles. 
+    ///
+    /// We take this from Monaghan & Lattenzio (1985)
+    /// but used a doubled smoothing length for the definition of the interaction radius.
     virtual Vec2d gradW(double distance, const Vec2d& distanceVector) const;
-        
+	
     ///Calculates the kernel derivation to distance. 
-    double F(double distance) const;
+	double F(double distance) const;
 
 private:
     ///Normalization factor
@@ -35,5 +42,3 @@ private:
     double factorGradW;
 
 };
-
-#endif

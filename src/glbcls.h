@@ -16,23 +16,25 @@
 #include "wiener.h"
 #include "dllist.h"
 
-//class Initiation; class Kernel; class MLS; class Interaction; class ParticleManager;
-//class Particle; class Initiation; class Boundary; class Force; class Output; class Diagnose;
-//class Hydrodynamics; class ListNode; class Material; class BetaSpline; class QuinticSpline;
+class Initiation; class Kernel; class MLS; class Interaction; class ParticleManager;
+class Particle; class Initiation; class Boundary; class Force; class Output; class Diagnose;
+class Hydrodynamics; class ListNode; class Material; class BetaSpline; class QuinticSpline;
 
-/* #include "initiation.h" */
-/* #include "kernel.h" */
-/* #include "betaspline.h" */
-/* #include "quinticspline.h" */
-/* #include "particle.h" */
-/* #include "particlemanager.h" */
-/* #include "boundary.h" */
-/* #include "material.h" */
-/* #include "force.h" */
-/* #include "interaction.h" */
-/* #include "hydrodynamics.h" */
-/* #include "timesolver.h" */
-/* #include "output.h" */
-/* #include "diagnose.h" */
-/* #include "mls.h" */
+#include "initiation.h"
+#include "kernel.h"
+#include "betaspline.h"
+#include "quinticspline.h"
+#include "particle.h"
+#include "particlemanager.h"
+#include "boundary.h"
+#include "material.h"
+#include "force.h"
+#include "interaction.h"
+#include "hydrodynamics.h"
+#include "timesolver.h"
+#include "output.h"
+#include "diagnose.h"
+#include "mls.h"
+
+
 #endif

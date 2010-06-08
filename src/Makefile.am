@@ -1,7 +1,6 @@
-bin_PROGRAMS = sph
-sph_SOURCES = \
-	betaspline.h boundary.cpp boundary.h \
-	betaspline.cpp diagnose.h diagnose.cpp \
+bin_PROGRAMS=sph
+sph_SOURCES=betaspline.h boundary.cpp boundary.h \
+	bskernel.cpp diagnose.h diagose.cpp \
 	dllist.h force.cpp force.h \
 	glbcls.h glbfunc.cpp glbfunc.h \
 	hydrodynamics.cpp hydrodynamics.h initiation.cpp \
@@ -13,5 +12,3 @@ sph_SOURCES = \
 	quinticspline.cpp quinticspline.h sph.cpp \
 	timesolver.cpp timesolver.h vec2d.cpp \
 	vec2d.h wiener.cpp wiener.h 
-
-EXTRA_DIST = Doxyfile

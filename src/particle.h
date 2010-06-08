@@ -1,100 +1,110 @@
 /// \file partilce.h 
 /// \brief a sph particle
 
-#ifndef PARTICLE_H
-#define PARTICLE_H
-
 ///note: reference a particle by pointer or adress
 ///never reference a particle directly!
 
-class Material;
-class Boundary;
-class Initiation;
-class Hydrodynamics;
-
 /// Particle class 
 class Particle {
-    static int number_of_materials;
-        
+	static int number_of_materials;
+	
 public:
-        
-    ///constructors-------------------------------------------------------------------
-        
-    ///a particle
-    Particle(Initiation &ini);
-    ///construct a real particle
-    Particle(Vec2d position, Vec2d velocity, double density, double pressure, double temperature, 
-             Material &material);
+	
+	//constructors-------------------------------------------------------------------
+	
+	///a particle constructur for empty particles
+	Particle(Initiation &ini);
 
-    ///construct a wall particle
-    Particle(double x, double y, double u, double v, 
-             double distance, double normal_x, double normal_y, Material &material);
-        
-    ///ghost particle creator
-    Particle(Particle &RealParticle);
-    ///Mirror image particle creator
-    Particle(Particle &RealParticle, Material &material);
+	///\brief construct a real particle
+	///NOTE the particle mass and volume will be specified in initiation::VolumeMass(w)
+	Particle(Vec2d position, Vec2d velocity, double density, double pressure, double temperature, Material &material);
+	///construct a wall particle
+	Particle(double x, double y, double u, double v, 
+			 double distance, double normal_x, double normal_y, Material &material);
+	
+	///ghost particle creator
+	Particle(Particle &RealParticle);
+	///Mirror image particle creator
+	Particle(Particle &RealParticle, Material &material);
 
-    ///deconstructor particle
-    ~Particle();
-        
-    ///particle creator
-    void StatesCopier(Particle &RealParticle, int type);
+	///deconstructor particle
+	~Particle();
+	
+	///particle states copier for boundary particles
+	void StatesCopier(Particle &RealParticle, int type);
 
-    ///constructors-------------------------------------------------------------------
 
-    int cell_i, cell_j; ///position in cells
-        
-    ///point to the material
-    Material *mtl; 
+	int cell_i;///<i-position in cells
+        int cell_j; ///<j-position in cells
+	
+	///pointer to the material
+	Material *mtl; 
 
-    ///point to a real particle
-    Particle *rl_prtl;
+	///pointer to a real particle
+	Particle *rl_prtl;
 
-    ///Physical data
-    Vec2d R, P, U; ///position, momentum, velocity
-    double rho, p, T, Cs, rho_I, rho_n; ///mass, density, inverse of density, pressure, temperature
-    double m, V, e; ///mass, volume, internal energy
-    Vec2d  R_I, P_I, U_I, P_n, U_n; ///intermediate momentum and velocity used in integrator
-    double e_I, e_n; ///intermediate volume, internal energy used in integrator
-    Vec2d ShearRate_x, ShearRate_y;
+	//Physical data
+	Vec2d R;///<position
+        Vec2d P;///<momentum
+        Vec2d U; ///<velocityy
+        double rho;///<density
+        double p;///<pressure
+        double T;///<Temperature
+        double Cs;///<do not know what this is <b>!!!Question!!!</b>
+        double rho_I;///<intermediate value for density (needed for integration)
+        double rho_n; ////<do not know what this is ("conservative value") <b>!!!Question!!!</b>
+	double m;///<mass
+	double V;///<volume
+	double e; ///<internal energy
+	Vec2d R_I;///<intermediate position
+	Vec2d P_I;///<intermediate momentim
+	Vec2d U_I;///<intermediate velocity
+	Vec2d P_n;///<do not knwo what this is n=?conservative???<b>!!!Question!!!</b>
+	Vec2d U_n; ///<do not knwo what this is n=?conservative???<b>!!!Question!!!</b>
+	double e_I;///<intermediate value of internal enegry (used in the integrator)
+        double e_n; ///intermediate volume, internal energy used in integrator
+	Vec2d ShearRate_x, ShearRate_y;
 
-    ///for multimaterials
-    double eta, zeta; ///viscosity of each particle
-    double **phi; ///phase field matrix
-    ///first as phase field gradient matrix 
-    ///then the independent values ([0][0] and [0][1]) of suface stress matrix 
-    Vec2d del_phi;
-    double **lap_phi;
-        
-    ///change rate for real particles
-    double drhodt, dedt; ///density and internal energy
-    Vec2d dUdt, _dU; ///acceration and random velocity change
+	//for multimaterials
+	double eta, zeta; ///particle.h(line 69-74) viscosity of each particle<b>!!!Question!!!</b>
+	double **phi; ///phase field matrix<b>!!!Question!!!</b>
+	///first as phase field gradient matrix <b>!!!Question!!!</b>
+	///then the independent values ([0][0] and [0][1]) of suface stress matrix <b>!!!Question!!!</b>
+	Vec2d del_phi;
+	double **lap_phi;
+	
+	//change rate for real particles
+	double drhodt; ///<density change rate for real particles
+        double dedt; ///<internal energy change rate for real particles
+	Vec2d dUdt;///<acceleration change for real particles <b>or is it the other wa round</b>
+        Vec2d _dU; ///< random velocity change for real particles <b>or is it the other wa round</b>
 
-    ///other data       
-    ///0: inside the boundary
-    ///1: on the boundary
-    int bd; ///boundary particle or not
-        
-    ///boundary type when bd = 1
-    ///0 wall particle with zero or constant velocity but never move its position
-    ///1 ghost particle for perodic boundary
-    int bd_type; 
+	//other data
+	
+	/// \brief boundary particle or not
+	///
+	///- 0: inside the boundary
+	///- 1: on the boundary
+	int bd; 
+	
+	///boundary type if bd = 1
+	///- 0 wall particle with zero or constant velocity but never move its position
+	///- 1 ghost particle for perodic boundary
+	int bd_type; 
 
-    ///ID number
-    ///a real particle has a unique positive ID
-    ///a wall particle has zero ID
-    ///an ghost particle (for perodic boundary condition)
-    ///has a negtive ID of its corresponding real particle
-    long ID; 
-        
-    ///maximum ID number for non-ghost particles (real or wall particles) in the simulation
-    static long ID_max;
+	///\brief ID number
+	///
+	///- a real particle has a unique positive ID
+	///- a wall particle has zero ID
+	///- an ghost particle (for perodic boundary condition)
+	///has a negtive ID of its corresponding real particle
+	long ID; 
+	
+	///maximum ID number for non-ghost particles (real or wall particles) in the simulation
+	static long ID_max;
 
-    ///for wall boundary particles
-    double bd_dst;
-    Vec2d  nrml;
+	//for wall boundary particles
+	double bd_dst;///<for wall boundary particles
+	Vec2d  nrml;///<for wall boundary particles
 
 };
-
-#endif
