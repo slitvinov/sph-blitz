@@ -1,3 +1,5 @@
+#ifndef INITIATION_H
+#define INITIATION_H
 /// \file initiation.h 
 /// \brief Initiates the simulation
 
@@ -111,3 +113,5 @@ public:
 	double dms_surface(double sigma_non);///<a re-dimensionalize method
 
 };
+
+#endif //INITIATION_H

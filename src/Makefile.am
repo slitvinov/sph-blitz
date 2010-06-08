@@ -1,6 +1,6 @@
 bin_PROGRAMS=sph
 sph_SOURCES=betaspline.h boundary.cpp boundary.h \
-	bskernel.cpp diagnose.h diagose.cpp \
+	betaspline.cpp diagnose.h diagnose.cpp \
 	dllist.h force.cpp force.h \
 	glbcls.h glbfunc.cpp glbfunc.h \
 	hydrodynamics.cpp hydrodynamics.h initiation.cpp \

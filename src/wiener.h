@@ -1,8 +1,7 @@
-/// \file wiener.h
-/// \brief Wiener process
-
 #ifndef WIENER_H
 #define WIENER_H
+/// \file wiener.h
+/// \brief Wiener process
 
 ///-----------------------------------------------------------------------
 ///		The class defining Wiener process in two dimensions
@@ -43,4 +42,4 @@ public:
 	void Ranils();
 };
 
-#endif
+#endif //WIENER_H

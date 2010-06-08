@@ -1,3 +1,5 @@
+#ifndef QUINTICSPLINE_H
+#define QUINTICSPLINE_H
 /// \file quinticspline.h 
 /// \brief Quintic spline kernel
 
@@ -45,3 +47,5 @@ private:
     double factorLapW;
 
 };
+
+#endif //QUINTICSPLINE_H

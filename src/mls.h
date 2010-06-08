@@ -1,3 +1,5 @@
+#ifndef MLS_H
+#define MLS_H
 /// \file mls.h
 /// contains MLS class
 
@@ -31,3 +33,5 @@ public:
 	void MLSMapping(Vec2d &point, Llist<Particle> &NNP_list, QuinticSpline &weight_function, int order);
 
 };
+
+#endif //MLS_H

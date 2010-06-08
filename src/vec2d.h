@@ -1,11 +1,10 @@
+#ifndef VEC2D_H
+#define VEC2D_H
 /// \file vec2d.h
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 /// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>
 /// \author changes by: Andreas Mattes
 /// \brief Define 2-d vectors and associated operations
-
-#ifndef VEC2D_H
-#define VEC2D_H
 
 #include <cmath>
 #include <blitz/tinyvec.h>
@@ -201,4 +200,4 @@ inline double sqr(double x) {
 }
 
 
-#endif
+#endif //VEC2D_H

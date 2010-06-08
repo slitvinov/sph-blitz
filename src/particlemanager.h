@@ -1,3 +1,5 @@
+#ifndef PARTICLEMANAGER_H
+#define PARTICLEMANAGER_H
 /// \file particlemanager.h 
 /// \brief particle manager
 
@@ -57,3 +59,5 @@ public:
 						Force **forces, QuinticSpline &weight_function);
 	
 };
+
+#endif //PARTICLEMANAGER_H

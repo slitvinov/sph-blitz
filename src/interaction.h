@@ -1,3 +1,5 @@
+#ifndef INTERACTION_H
+#define INTERACTION_H
 /// \file interaction.h 
 /// \brief Defines interaction between particles
 
@@ -113,3 +115,5 @@ public:
 	void RandomForces_Espanol(Wiener &wiener, double sqrtdt);
 	
 };
+
+#endif //INTERACTION_H
