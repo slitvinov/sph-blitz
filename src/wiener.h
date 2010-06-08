@@ -24,17 +24,22 @@ class Wiener {
 	void Gaussian(double &y1, double &y2);
 
 public:
-
 	double **sym_trclss;
+
+  /// trace of the matrix
 	double trace_d;
 	
 	double Random_p, Random_v;
 
 	///costructure
 	Wiener();
+
+	///costructure
 	Wiener(const int dimension);
+
 	///produce wiener vlaue matrix with symmetric tracless part, and the trace
 	void get_wiener_Espanol(const double sqrtdt);
+
 	///wiener process with Flekkoy's form
 	void get_wiener(const double sqrtdt);
 

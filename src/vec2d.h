@@ -195,7 +195,8 @@ inline void perodic_position(Vec2d &va, const Vec2d &vb, const Vec2d &perodic)
 
 }
 
-inline double sqr(double x) {
+/// return square of x
+inline double sqr(const double x) {
 	return x*x;
 }
 
