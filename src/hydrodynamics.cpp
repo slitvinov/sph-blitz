@@ -36,6 +36,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   number_of_materials = ini.number_of_materials;
   gravity = ini.g_force;
   smoothinglength = ini.smoothinglength;
+  simu_mode=ini.simu_mode;
   delta = ini.delta; delta2 = delta*delta; delta3 = delta2*delta;
 
   ///<li>create material matrix
@@ -129,7 +130,7 @@ void Hydrodynamics::BuildPair(ParticleManager &particles, QuinticSpline &weight_
 {
   ///- obtain the interaction pairs by just calling the particles BuildInteraction method
   particles.BuildInteraction(interaction_list, particle_list, forces, weight_function);
-
+  cout<<"\n BuildPair done\n";
 }
 //----------------------------------------------------------------------------------------
 //						update new parameters in pairs
@@ -230,7 +231,7 @@ void Hydrodynamics::UpdatePhaseField(Boundary &boundary)
 //----------------------------------------------------------------------------------------
 //		summation for particles density with updating interaction list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateDensity(ParticleManager &particles, QuinticSpline &weight_function)
+void Hydrodynamics::UpdateDensity(ParticleManager &particles, QuinticSpline &weight_function, Initiation &ini)
 {	
 
   ///- obtain the interaction pairs
@@ -250,7 +251,7 @@ void Hydrodynamics::UpdateDensity(ParticleManager &particles, QuinticSpline &wei
   }
 		
   ///- calulate new pressure by calling UpdateState() Method
-  UpdateState();
+  UpdateState(ini);
 }
 //----------------------------------------------------------------------------------------
 //		summation for shear rates without updating interaction list
@@ -274,9 +275,10 @@ void Hydrodynamics::UpdateShearRate()
 //----------------------------------------------------------------------------------------
 //		summation for particles density without updating interaction list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateDensity()
+void Hydrodynamics::UpdateDensity(Initiation &ini)
 {	
   ///- initiate zero density
+  cout<<"\n AM in update density\n ";
   Zero_density();
   ///- iterate the interaction list
   for (LlistNode<Interaction> *p1 = interaction_list.first(); 
@@ -290,7 +292,7 @@ void Hydrodynamics::UpdateDensity()
   }
 
   ///- calulate new pressure by calling UpdateState()
-  UpdateState();
+  UpdateState(ini);
 }
 //----------------------------------------------------------------------------------------
 //				calculate interaction with updating interaction list
@@ -314,7 +316,7 @@ void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, QuinticSpline &
     pair->UpdateForces();
 
   }
-
+  
   ///- include the gravity effects by calling AddGravity()
   AddGravity();
 }
@@ -363,8 +365,21 @@ void Hydrodynamics::UpdateChangeRate()
 
   }
 #endif
+  //control output
+  int q=0;
+for (LlistNode<Particle> *p = particle_list.first(); 
+       !particle_list.isEnd(p); 
+       p = particle_list.next(p)) {
 
-  ///- include the gravity effects
+					
+    //particle
+    Particle *prtl = particle_list.retrieve(p);
+    if(q%30==0)  
+  cout<<"\n dUdt0"<<prtl->dUdt[0]<<"dUdt1"<<prtl->dUdt[1];
+    q++;
+   
+ }
+    ///- include the gravity effects
   AddGravity();
 }
 //----------------------------------------------------------------------------------------
@@ -597,7 +612,7 @@ void Hydrodynamics::AddGravity()
 //----------------------------------------------------------------------------------------
 //							calculate states from conservatives
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateState()
+void Hydrodynamics::UpdateState(Initiation &ini)
 {
   ///- iterate particles on the real particle list
   for (LlistNode<Particle> *p = particle_list.first(); 
@@ -608,8 +623,15 @@ void Hydrodynamics::UpdateState()
     Particle *prtl = particle_list.retrieve(p);
 
     ///- calculate pressure for each particle
-    prtl->p = prtl->mtl->get_p(prtl->rho);
-    //			prtl->T = prtl->mtl->get_T(prtl->e);
+    if(ini.simu_mode==1)  //liquid mode equation of state
+      prtl->p = prtl->mtl->get_p(prtl->rho);
+    if(ini.simu_mode==2)//gas dynamics mode equation of state
+      {
+	prtl->p = prtl->mtl->get_p(prtl->rho,prtl->e);
+	prtl->Cs = prtl->mtl->get_Cs(prtl->p, prtl->rho);
+      }
+    //calculate temperature for each particle
+    prtl->T = prtl->mtl->get_T(prtl->e);
   }
 
 }
@@ -790,16 +812,19 @@ void Hydrodynamics::Predictor(double dt)
     prtl->R_I = prtl->R;
     prtl->rho_I = prtl->rho;
     prtl->U_I = prtl->U;
+    prtl->e_I = prtl->e;
 			
     ///<li>predict values at step n+1
     prtl->R = prtl->R + prtl->U*dt;
     prtl->rho = prtl->rho + prtl->drhodt*dt;
     prtl->U = prtl->U + prtl->dUdt*dt;
+    prtl->e = prtl->e + prtl->dedt*dt;
 			
     ///<li>calculate the middle values at step n+1/2</ul></ul>
     prtl->R = (prtl->R + prtl->R_I)*0.5;
     prtl->rho = (prtl->rho + prtl->rho_I)*0.5;
     prtl->U = (prtl->U + prtl->U_I)*0.5;
+    prtl->e=(prtl->e + prtl->e_I)*0.5;
   }
 }
 //----------------------------------------------------------------------------------------
@@ -818,6 +843,7 @@ void Hydrodynamics::Corrector(double dt)
     prtl->R = prtl->R_I + prtl->U*dt;
     prtl->rho = prtl->rho + prtl->drhodt*dt;
     prtl->U = prtl->U_I + prtl->dUdt*dt;
+    prtl->e = prtl->e_I + prtl->dedt*dt;
   }
 }
 //----------------------------------------------------------------------------------------
@@ -836,14 +862,17 @@ void Hydrodynamics::Predictor_summation(double dt)
     prtl->R_I = prtl->R;
     prtl->U += prtl->_dU; //renormalize velocity
     prtl->U_I = prtl->U;
+    prtl->e_I = prtl->e;
 			
     ///<li>predict values at step n+1
     prtl->R = prtl->R + prtl->U*dt;
     prtl->U = prtl->U + prtl->dUdt*dt;
+    prtl->e = prtl->e + prtl->dedt*dt;
 			
     ///<li>calculate the middle values at step n+1/2 and save them in Particle objects prtl</ul></ul>
     prtl->R = (prtl->R + prtl->R_I)*0.5;
     prtl->U = (prtl->U + prtl->U_I)*0.5;
+    prtl->e = (prtl->e + prtl->e_I)*0.5;
   }
 }
 //----------------------------------------------------------------------------------------
@@ -859,10 +888,36 @@ void Hydrodynamics::Corrector_summation(double dt)
     Particle *prtl = particle_list.retrieve(p);
 			
     ///- for each particle: correction (advances R,U) based on values on n step and change rate at n+1/2
+
+    if(simu_mode==1)
     prtl->U += prtl->_dU; //renormalize velocity
+  
     prtl->R = prtl->R_I + prtl->U*dt;
     prtl->U = prtl->U_I + prtl->dUdt*dt;
+    prtl->e = prtl->e_I + prtl->dedt*dt;
+
+   
   }
+  //control output
+ofstream tx2tFile("changeRatesN1");
+		if (tx2tFile.is_open())
+		{
+
+		
+ for (LlistNode<Particle> *p = particle_list.first(); 
+       !particle_list.isEnd(p); 
+       p = particle_list.next(p)) {
+	
+    Particle *prtl = particle_list.retrieve(p);
+  
+    tx2tFile<<"\n R_x: "<<prtl->R[0]<<"  U_x: "<<prtl->U[0]<<"  e: "<<prtl->e<<"  dUdt: "<<prtl->dUdt[0]<<" dedt "<<prtl->dedt<<"  ID  "<<prtl->ID<<"\n";
+    
+ } 
+
+	tx2tFile.close();
+		}
+ 
+
 }
 //----------------------------------------------------------------------------------------
 //							including random effects

@@ -1,0 +1,4 @@
+<area shape="rect" href="$classQuinticSpline.html#67fa50759531bbbbef728d28282788e7" title="Calculates the kernel derivation (a double, not a vector) to distance." alt="" coords="256,5,371,32">
+<area shape="rect" href="$classQuinticSpline.html#adc23e95cd346c434b423b3276156e8c" title="Calculates the kernel Laplacian." alt="" coords="244,56,383,83">
+<area shape="rect" href="$vec2d_8h.html#d4fd110790320d1dd8d63411159b4d9c" title="Return the absolute value of the vector (the length)." alt="" coords="287,107,340,133">
+<area shape="rect" href="$classQuinticSpline.html#021acaeb55230bf10cf3a2c634381088" title="Calculates the kernel value for the given distance of two particles." alt="" coords="256,157,371,184">

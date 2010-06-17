@@ -1,0 +1,474 @@
+\hypertarget{classInteraction}{
+\section{Interaction Class Reference}
+\label{classInteraction}\index{Interaction@{Interaction}}
+}
+Defines interaction between particles.  
+
+
+{\tt \#include $<$interaction.h$>$}
+
+Collaboration diagram for Interaction:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=192pt]{classInteraction__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classInteraction_76755da7b86df4bd62c2761d0bed095a}{Interaction} (\hyperlink{classInitiation}{Initiation} \&ini)
+\begin{CompactList}\small\item\em constructor \item\end{CompactList}\item 
+\hyperlink{classInteraction_9c72b648e00a7bafabc6c96a10492801}{Interaction} (\hyperlink{classParticle}{Particle} $\ast$prtl\_\-org, \hyperlink{classParticle}{Particle} $\ast$prtl\_\-dest, \hyperlink{classForce}{Force} $\ast$$\ast$forces, \hyperlink{classQuinticSpline}{QuinticSpline} \&weight\_\-function, double dstc)
+\begin{CompactList}\small\item\em constructor \item\end{CompactList}\item 
+void \hyperlink{classInteraction_cba2f76f1316695e948c07d31dfadea9}{NewInteraction} (\hyperlink{classParticle}{Particle} $\ast$prtl\_\-org, \hyperlink{classParticle}{Particle} $\ast$prtl\_\-dest, \hyperlink{classForce}{Force} $\ast$$\ast$forces, \hyperlink{classQuinticSpline}{QuinticSpline} \&weight\_\-function, double dstc)
+\begin{CompactList}\small\item\em use old interaction object for new interaction \item\end{CompactList}\item 
+void \hyperlink{classInteraction_1adb37756172d95124e56556c9008120}{RenewInteraction} (\hyperlink{classQuinticSpline}{QuinticSpline} \&weight\_\-function)
+\begin{CompactList}\small\item\em renew pair parameters and changing pair values \item\end{CompactList}\item 
+void \hyperlink{classInteraction_8151e605eb5d7695e0203e2f126c7b4c}{SummationDensity} ()
+\begin{CompactList}\small\item\em summation of the density \item\end{CompactList}\item 
+void \hyperlink{classInteraction_98a1dd36fd34e7646aec02e21426562d}{SummationShearRate} ()
+\begin{CompactList}\small\item\em summation of the shear rates \item\end{CompactList}\item 
+void \hyperlink{classInteraction_6c0000b8eaede20c1d3576013195d71f}{SummationPhaseField} ()
+\begin{CompactList}\small\item\em sum phase field contribution of interaction pair \item\end{CompactList}\item 
+\hypertarget{classInteraction_e12db5ebc1b5b49de8024073062c7d2d}{
+void \textbf{SummationCurvature} ()}
+\label{classInteraction_e12db5ebc1b5b49de8024073062c7d2d}
+
+\item 
+void \hyperlink{classInteraction_28d4a91b7bbf8a430474ff0659d61d2d}{SummationPhaseGradient} ()
+\begin{CompactList}\small\item\em sum phase gradient contribution of interaction pair \item\end{CompactList}\item 
+\hypertarget{classInteraction_30a4bcf8e6ba5372a5ccfa2eb5f0c599}{
+void \textbf{SummationPhaseGradient\_\-old} ()}
+\label{classInteraction_30a4bcf8e6ba5372a5ccfa2eb5f0c599}
+
+\item 
+\hypertarget{classInteraction_f0fbe6eae076e7416deebbfce35e2652}{
+void \textbf{SummationPhaseLaplacian} ()}
+\label{classInteraction_f0fbe6eae076e7416deebbfce35e2652}
+
+\item 
+void \hyperlink{classInteraction_7d1b68aea03829678cfbe8c5ec3acc2a}{UpdateForces} ()
+\begin{CompactList}\small\item\em update forces \item\end{CompactList}\item 
+void \hyperlink{classInteraction_4cfd21ed44349e4295fd70e98bdae381}{UpdateForces\_\-vis} ()
+\begin{CompactList}\small\item\em update forces with summation of viscosity \item\end{CompactList}\item 
+\hypertarget{classInteraction_25763a827f24b2b073c564f274b0ae47}{
+void \hyperlink{classInteraction_25763a827f24b2b073c564f274b0ae47}{RandomForces} (\hyperlink{classWiener}{Wiener} \&wiener, double sqrtdt)}
+\label{classInteraction_25763a827f24b2b073c564f274b0ae47}
+
+\begin{CompactList}\small\item\em update random forces \item\end{CompactList}\item 
+\hypertarget{classInteraction_90f82e85aeec6d1d2ee4229f18049bd8}{
+void \hyperlink{classInteraction_90f82e85aeec6d1d2ee4229f18049bd8}{RandomForces\_\-Espanol} (\hyperlink{classWiener}{Wiener} \&wiener, double sqrtdt)}
+\label{classInteraction_90f82e85aeec6d1d2ee4229f18049bd8}
+
+\begin{CompactList}\small\item\em update random forces with Espanol's method \item\end{CompactList}\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+\hypertarget{classInteraction_b68efe982297a5b6e71ec85e37a60bfb}{
+\hyperlink{classParticle}{Particle} $\ast$ \hyperlink{classInteraction_b68efe982297a5b6e71ec85e37a60bfb}{Org}}
+\label{classInteraction_b68efe982297a5b6e71ec85e37a60bfb}
+
+\begin{CompactList}\small\item\em pointer to particle with larger ID (of particle pair) \item\end{CompactList}\item 
+\hypertarget{classInteraction_61023db08855158f1d188044251a412d}{
+\hyperlink{classParticle}{Particle} $\ast$ \hyperlink{classInteraction_61023db08855158f1d188044251a412d}{Dest}}
+\label{classInteraction_61023db08855158f1d188044251a412d}
+
+\begin{CompactList}\small\item\em pointer to particle with smaller ID (of particle pair) \item\end{CompactList}\item 
+\hypertarget{classInteraction_d9eed70414bdb5e371b096a7671c7a20}{
+\hyperlink{classForce}{Force} $\ast$$\ast$ \hyperlink{classInteraction_d9eed70414bdb5e371b096a7671c7a20}{frc\_\-ij}}
+\label{classInteraction_d9eed70414bdb5e371b096a7671c7a20}
+
+\begin{CompactList}\small\item\em force from particle i to particle j \item\end{CompactList}\item 
+\hypertarget{classInteraction_3e9360ca4d40c2e68bdf383fdd24ccce}{
+int \hyperlink{classInteraction_3e9360ca4d40c2e68bdf383fdd24ccce}{noi}}
+\label{classInteraction_3e9360ca4d40c2e68bdf383fdd24ccce}
+
+\begin{CompactList}\small\item\em material NO. of the partilce i \item\end{CompactList}\item 
+\hypertarget{classInteraction_0bad561d2bd56d468e48e1c2436978fc}{
+int \hyperlink{classInteraction_0bad561d2bd56d468e48e1c2436978fc}{noj}}
+\label{classInteraction_0bad561d2bd56d468e48e1c2436978fc}
+
+\begin{CompactList}\small\item\em material NO. of the partilce j \item\end{CompactList}\item 
+\hypertarget{classInteraction_784e1559dae549bcfd16d610e0f0afc1}{
+double \hyperlink{classInteraction_784e1559dae549bcfd16d610e0f0afc1}{mi}}
+\label{classInteraction_784e1559dae549bcfd16d610e0f0afc1}
+
+\begin{CompactList}\small\item\em mass particle i \item\end{CompactList}\item 
+\hypertarget{classInteraction_4210c5eab19bbba749d449c62cd32dbf}{
+double \hyperlink{classInteraction_4210c5eab19bbba749d449c62cd32dbf}{rmi}}
+\label{classInteraction_4210c5eab19bbba749d449c62cd32dbf}
+
+\begin{CompactList}\small\item\em reciprocal value of mass particle i \item\end{CompactList}\item 
+\hypertarget{classInteraction_9d05f9f756cc060e83df36e6f4a91916}{
+double \hyperlink{classInteraction_9d05f9f756cc060e83df36e6f4a91916}{etai}}
+\label{classInteraction_9d05f9f756cc060e83df36e6f4a91916}
+
+\begin{CompactList}\small\item\em viscosity for particle i \item\end{CompactList}\item 
+\hypertarget{classInteraction_5894b29fda10089be87da2c66e600843}{
+double \hyperlink{classInteraction_5894b29fda10089be87da2c66e600843}{zetai}}
+\label{classInteraction_5894b29fda10089be87da2c66e600843}
+
+\begin{CompactList}\small\item\em {\bf !!!question!!!{\bf other viscosity for particle??? }}\item\end{CompactList}\item 
+\hypertarget{classInteraction_0c96b05bcc1f55aa3c095dd483478159}{
+double \hyperlink{classInteraction_0c96b05bcc1f55aa3c095dd483478159}{mj}}
+\label{classInteraction_0c96b05bcc1f55aa3c095dd483478159}
+
+\begin{CompactList}\small\item\em mass particle j \item\end{CompactList}\item 
+\hypertarget{classInteraction_fbdcead1ee80174b4d98952a12763e31}{
+double \hyperlink{classInteraction_fbdcead1ee80174b4d98952a12763e31}{rmj}}
+\label{classInteraction_fbdcead1ee80174b4d98952a12763e31}
+
+\begin{CompactList}\small\item\em reciprocal value of mass particle j \item\end{CompactList}\item 
+\hypertarget{classInteraction_af810b6d29f848738dc472d0bf1dd5f5}{
+double \hyperlink{classInteraction_af810b6d29f848738dc472d0bf1dd5f5}{etaj}}
+\label{classInteraction_af810b6d29f848738dc472d0bf1dd5f5}
+
+\begin{CompactList}\small\item\em viscosity for particle j \item\end{CompactList}\item 
+\hypertarget{classInteraction_fec2d2babd85fff5f6e54e41aa65a862}{
+double \hyperlink{classInteraction_fec2d2babd85fff5f6e54e41aa65a862}{zetaj}}
+\label{classInteraction_fec2d2babd85fff5f6e54e41aa65a862}
+
+\begin{CompactList}\small\item\em {\bf !!!question!!!{\bf other viscosity for particle??? }}\item\end{CompactList}\item 
+\hypertarget{classInteraction_d2a06f46206fe80c305c39320ec693f3}{
+double \hyperlink{classInteraction_d2a06f46206fe80c305c39320ec693f3}{rij}}
+\label{classInteraction_d2a06f46206fe80c305c39320ec693f3}
+
+\begin{CompactList}\small\item\em distance between 2 particles \item\end{CompactList}\item 
+\hypertarget{classInteraction_85655b8499e012ca1abfbe441b9cd877}{
+double \hyperlink{classInteraction_85655b8499e012ca1abfbe441b9cd877}{rrij}}
+\label{classInteraction_85655b8499e012ca1abfbe441b9cd877}
+
+\begin{CompactList}\small\item\em reciprocal value of distance between 2 particles \item\end{CompactList}\item 
+\hypertarget{classInteraction_eba240d2ffdb54061f81731aa71899c5}{
+double \hyperlink{classInteraction_eba240d2ffdb54061f81731aa71899c5}{Wij}}
+\label{classInteraction_eba240d2ffdb54061f81731aa71899c5}
+
+\begin{CompactList}\small\item\em {\bf !!!question!!!{\bf  }}\item\end{CompactList}\item 
+\hypertarget{classInteraction_852d78e817e68e1b993728fbd82be282}{
+double \hyperlink{classInteraction_852d78e817e68e1b993728fbd82be282}{Fij}}
+\label{classInteraction_852d78e817e68e1b993728fbd82be282}
+
+\begin{CompactList}\small\item\em {\bf !!!question!!!{\bf  }}\item\end{CompactList}\item 
+\hypertarget{classInteraction_7c35fdb7203d62ee603c98cd85bae892}{
+double \hyperlink{classInteraction_7c35fdb7203d62ee603c98cd85bae892}{LapWij}}
+\label{classInteraction_7c35fdb7203d62ee603c98cd85bae892}
+
+\begin{CompactList}\small\item\em {\bf !!!question!!!{\bf  }}\item\end{CompactList}\item 
+\hypertarget{classInteraction_ab5f36ffa814690f70e996687babc39e}{
+double \hyperlink{classInteraction_ab5f36ffa814690f70e996687babc39e}{Wij2}}
+\label{classInteraction_ab5f36ffa814690f70e996687babc39e}
+
+\begin{CompactList}\small\item\em {\bf !!!question!!!{\bf  }}\item\end{CompactList}\item 
+\hypertarget{classInteraction_7c283bad9c22a17c44d3566eacd02705}{
+Vec2d \hyperlink{classInteraction_7c283bad9c22a17c44d3566eacd02705}{eij}}
+\label{classInteraction_7c283bad9c22a17c44d3566eacd02705}
+
+\begin{CompactList}\small\item\em pair direction from orginal particle to destination particle \item\end{CompactList}\item 
+\hypertarget{classInteraction_cb951c6ab7ba28c54b6c03f9dcda6d2b}{
+double \hyperlink{classInteraction_cb951c6ab7ba28c54b6c03f9dcda6d2b}{shear\_\-rij}}
+\label{classInteraction_cb951c6ab7ba28c54b6c03f9dcda6d2b}
+
+\begin{CompactList}\small\item\em particle length to implement slip boundary$<${\bf !!!question!!!{\bf  }}\item\end{CompactList}\item 
+\hypertarget{classInteraction_6e7625bfb7180e7ca9e9d113b16ac64e}{
+double \hyperlink{classInteraction_6e7625bfb7180e7ca9e9d113b16ac64e}{bulk\_\-rij}}
+\label{classInteraction_6e7625bfb7180e7ca9e9d113b16ac64e}
+
+\begin{CompactList}\small\item\em particle length to implement slip boundary$<${\bf !!!question!!!{\bf  }}\item\end{CompactList}\end{CompactItemize}
+\subsection*{Static Private Attributes}
+\begin{CompactItemize}
+\item 
+\hypertarget{classInteraction_aeeeca2f8dcc8cd22803b2ef6633319f}{
+static int \hyperlink{classInteraction_aeeeca2f8dcc8cd22803b2ef6633319f}{number\_\-of\_\-materials} = 0}
+\label{classInteraction_aeeeca2f8dcc8cd22803b2ef6633319f}
+
+\begin{CompactList}\small\item\em total number of materials \item\end{CompactList}\item 
+\hypertarget{classInteraction_7d9addfe3a9f9c69357d900cd9495c94}{
+static double \textbf{smoothinglength} = 0.0}
+\label{classInteraction_7d9addfe3a9f9c69357d900cd9495c94}
+
+\item 
+\hypertarget{classInteraction_4480c9589b1406bed453fcb0f72bc215}{
+static double \hyperlink{classInteraction_4480c9589b1406bed453fcb0f72bc215}{delta} = 0.0}
+\label{classInteraction_4480c9589b1406bed453fcb0f72bc215}
+
+\begin{CompactList}\small\item\em particle distance \item\end{CompactList}\item 
+\hypertarget{classInteraction_e39ad193f42e2a0d3579e6b59fca3d72}{
+static double \hyperlink{classInteraction_e39ad193f42e2a0d3579e6b59fca3d72}{art\_\-vis} = 0.0}
+\label{classInteraction_e39ad193f42e2a0d3579e6b59fca3d72}
+
+\begin{CompactList}\small\item\em artificial viscosity \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Defines interaction between particles. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classInteraction_76755da7b86df4bd62c2761d0bed095a}{
+\index{Interaction@{Interaction}!Interaction@{Interaction}}
+\index{Interaction@{Interaction}!Interaction@{Interaction}}
+\subsubsection[{Interaction}]{\setlength{\rightskip}{0pt plus 5cm}Interaction::Interaction ({\bf Initiation} \& {\em ini})}}
+\label{classInteraction_76755da7b86df4bd62c2761d0bed095a}
+
+
+constructor 
+
+
+
+\begin{itemize}
+\item copy properties from initiation \end{itemize}
+\hypertarget{classInteraction_9c72b648e00a7bafabc6c96a10492801}{
+\index{Interaction@{Interaction}!Interaction@{Interaction}}
+\index{Interaction@{Interaction}!Interaction@{Interaction}}
+\subsubsection[{Interaction}]{\setlength{\rightskip}{0pt plus 5cm}Interaction::Interaction ({\bf Particle} $\ast$ {\em prtl\_\-org}, \/  {\bf Particle} $\ast$ {\em prtl\_\-dest}, \/  {\bf Force} $\ast$$\ast$ {\em forces}, \/  {\bf QuinticSpline} \& {\em weight\_\-function}, \/  double {\em dstc})}}
+\label{classInteraction_9c72b648e00a7bafabc6c96a10492801}
+
+
+constructor 
+
+
+
+\begin{itemize}
+\item assign the original and the destinate particle in the reaction pair\end{itemize}
+
+
+\begin{itemize}
+\item determine interaction parameters\end{itemize}
+
+
+\begin{itemize}
+\item define pair values (mass, viscosity), do not change in sub time steps\end{itemize}
+
+
+\begin{itemize}
+\item calculate pair parameters (weight functions, shear- and bulk-) \end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=149pt]{classInteraction_9c72b648e00a7bafabc6c96a10492801_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classInteraction_cba2f76f1316695e948c07d31dfadea9}{
+\index{Interaction@{Interaction}!NewInteraction@{NewInteraction}}
+\index{NewInteraction@{NewInteraction}!Interaction@{Interaction}}
+\subsubsection[{NewInteraction}]{\setlength{\rightskip}{0pt plus 5cm}void Interaction::NewInteraction ({\bf Particle} $\ast$ {\em prtl\_\-org}, \/  {\bf Particle} $\ast$ {\em prtl\_\-dest}, \/  {\bf Force} $\ast$$\ast$ {\em forces}, \/  {\bf QuinticSpline} \& {\em weight\_\-function}, \/  double {\em dstc})}}
+\label{classInteraction_cba2f76f1316695e948c07d31dfadea9}
+
+
+use old interaction object for new interaction 
+
+
+
+\begin{itemize}
+\item assign the original and the destinate particle in the reaction pair\end{itemize}
+
+
+\begin{itemize}
+\item determine interaction parameters\end{itemize}
+
+
+\begin{itemize}
+\item define pair values(mass, viscosity), do not change in sub time steps\end{itemize}
+
+
+\begin{itemize}
+\item calculate pair parameters (weight functions, shear- and bulk-) \end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=159pt]{classInteraction_cba2f76f1316695e948c07d31dfadea9_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{classInteraction_cba2f76f1316695e948c07d31dfadea9_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classInteraction_1adb37756172d95124e56556c9008120}{
+\index{Interaction@{Interaction}!RenewInteraction@{RenewInteraction}}
+\index{RenewInteraction@{RenewInteraction}!Interaction@{Interaction}}
+\subsubsection[{RenewInteraction}]{\setlength{\rightskip}{0pt plus 5cm}void Interaction::RenewInteraction ({\bf QuinticSpline} \& {\em weight\_\-function})}}
+\label{classInteraction_1adb37756172d95124e56556c9008120}
+
+
+renew pair parameters and changing pair values 
+
+Changes: \hyperlink{classInteraction}{Interaction} object\par
+ Depends on: \hyperlink{classInteraction}{Interaction} Object, Org, Dest 
+
+\begin{itemize}
+\item calculate pair parameters (weight functions, shear- and bulk-) \end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=164pt]{classInteraction_1adb37756172d95124e56556c9008120_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=323pt]{classInteraction_1adb37756172d95124e56556c9008120_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classInteraction_8151e605eb5d7695e0203e2f126c7b4c}{
+\index{Interaction@{Interaction}!SummationDensity@{SummationDensity}}
+\index{SummationDensity@{SummationDensity}!Interaction@{Interaction}}
+\subsubsection[{SummationDensity}]{\setlength{\rightskip}{0pt plus 5cm}void Interaction::SummationDensity ()}}
+\label{classInteraction_8151e605eb5d7695e0203e2f126c7b4c}
+
+
+summation of the density 
+
+Changes: Org(rho:summation), Dest(rho:summation)\par
+ Depends on: \hyperlink{classInteraction}{Interaction} Object, Org(rho), Dest(rho) Remark: the idea is different from the original sph method 
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=335pt]{classInteraction_8151e605eb5d7695e0203e2f126c7b4c_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classInteraction_6c0000b8eaede20c1d3576013195d71f}{
+\index{Interaction@{Interaction}!SummationPhaseField@{SummationPhaseField}}
+\index{SummationPhaseField@{SummationPhaseField}!Interaction@{Interaction}}
+\subsubsection[{SummationPhaseField}]{\setlength{\rightskip}{0pt plus 5cm}void Interaction::SummationPhaseField ()}}
+\label{classInteraction_6c0000b8eaede20c1d3576013195d71f}
+
+
+sum phase field contribution of interaction pair 
+
+Changes: Org(phi:summation), Dest(phi:summation)\par
+ Depends on: \hyperlink{classInteraction}{Interaction} Object, Org(phi, rho), Dest(phi, rho) 
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{classInteraction_6c0000b8eaede20c1d3576013195d71f_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classInteraction_28d4a91b7bbf8a430474ff0659d61d2d}{
+\index{Interaction@{Interaction}!SummationPhaseGradient@{SummationPhaseGradient}}
+\index{SummationPhaseGradient@{SummationPhaseGradient}!Interaction@{Interaction}}
+\subsubsection[{SummationPhaseGradient}]{\setlength{\rightskip}{0pt plus 5cm}void Interaction::SummationPhaseGradient ()}}
+\label{classInteraction_28d4a91b7bbf8a430474ff0659d61d2d}
+
+
+sum phase gradient contribution of interaction pair 
+
+Changes: Org(del\_\-phi:summation), Dest(del\_\-phi:summation)\par
+ Depends on: \hyperlink{classInteraction}{Interaction} Object, Org(del\_\-phi,rho), Dest(del\_\-phi,rho) 
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=367pt]{classInteraction_28d4a91b7bbf8a430474ff0659d61d2d_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classInteraction_98a1dd36fd34e7646aec02e21426562d}{
+\index{Interaction@{Interaction}!SummationShearRate@{SummationShearRate}}
+\index{SummationShearRate@{SummationShearRate}!Interaction@{Interaction}}
+\subsubsection[{SummationShearRate}]{\setlength{\rightskip}{0pt plus 5cm}void Interaction::SummationShearRate ()}}
+\label{classInteraction_98a1dd36fd34e7646aec02e21426562d}
+
+
+summation of the shear rates 
+
+Changes: Org(ShearRate\_\-x, ShearRate\_\-y:summation), Dest(ShearRate\_\-x, ShearRate\_\-y:summation)\par
+ Depends on: \hyperlink{classInteraction}{Interaction} Object, Org(ShearRate\_\-x, ShearRate\_\-y, U, rho), Dest(ShearRate\_\-x, ShearRate\_\-y, U, rho) 
+
+\begin{itemize}
+\item define particle state values\end{itemize}
+
+
+\begin{itemize}
+\item summation of shear rates \end{itemize}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=204pt]{classInteraction_98a1dd36fd34e7646aec02e21426562d_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classInteraction_7d1b68aea03829678cfbe8c5ec3acc2a}{
+\index{Interaction@{Interaction}!UpdateForces@{UpdateForces}}
+\index{UpdateForces@{UpdateForces}!Interaction@{Interaction}}
+\subsubsection[{UpdateForces}]{\setlength{\rightskip}{0pt plus 5cm}void Interaction::UpdateForces ()}}
+\label{classInteraction_7d1b68aea03829678cfbe8c5ec3acc2a}
+
+
+update forces 
+
+
+
+\begin{itemize}
+\item calculate artificial viscosity or Neumann\_\-Richtmyer viscosity\end{itemize}
+
+
+\begin{itemize}
+\item calculate density change rate\end{itemize}
+
+
+\begin{itemize}
+\item calculate momentum change rate\end{itemize}
+
+
+\begin{itemize}
+\item calculate additional momentum change rate contribution due to surface tension (with simplified model) \end{itemize}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=334pt]{classInteraction_7d1b68aea03829678cfbe8c5ec3acc2a_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classInteraction_4cfd21ed44349e4295fd70e98bdae381}{
+\index{Interaction@{Interaction}!UpdateForces\_\-vis@{UpdateForces\_\-vis}}
+\index{UpdateForces\_\-vis@{UpdateForces\_\-vis}!Interaction@{Interaction}}
+\subsubsection[{UpdateForces\_\-vis}]{\setlength{\rightskip}{0pt plus 5cm}void Interaction::UpdateForces\_\-vis ()}}
+\label{classInteraction_4cfd21ed44349e4295fd70e98bdae381}
+
+
+update forces with summation of viscosity 
+
+
+
+\begin{itemize}
+\item calculate shear force\end{itemize}
+
+
+\begin{itemize}
+\item define pair force or momentum change rate\end{itemize}
+
+
+summation (acceleration (=velovity change rate)=force (=momentum change rate)$\ast$ mass 
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{interaction_8h}{interaction.h}\item 
+\hyperlink{interaction_8cpp}{interaction.cpp}\end{CompactItemize}

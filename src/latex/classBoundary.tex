@@ -1,0 +1,498 @@
+\hypertarget{classBoundary}{
+\section{Boundary Class Reference}
+\label{classBoundary}\index{Boundary@{Boundary}}
+}
+\hyperlink{classBoundary}{Boundary} conditions.  
+
+
+{\tt \#include $<$boundary.h$>$}
+
+Collaboration diagram for Boundary:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=192pt]{classBoundary__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classBoundary_8fe88473063d74e67a5932f2e4d2e517}{Boundary} (\hyperlink{classInitiation}{Initiation} \&ini, \hyperlink{classHydrodynamics}{Hydrodynamics} \&hydro, \hyperlink{classParticleManager}{ParticleManager} \&particles)
+\begin{CompactList}\small\item\em boundary particle list for all boundray particles \item\end{CompactList}\item 
+void \hyperlink{classBoundary_8a40f99b73f3622cd5f1387fcbbdb824}{BuildBoundaryParticles} (\hyperlink{classParticleManager}{ParticleManager} \&particles, \hyperlink{classHydrodynamics}{Hydrodynamics} \&hydro)
+\begin{CompactList}\small\item\em build boundary particles \item\end{CompactList}\item 
+void \hyperlink{classBoundary_bedd190ee91482e4e59b2a613ab25d57}{BoundaryCondition} (\hyperlink{classParticleManager}{ParticleManager} \&particles)
+\begin{CompactList}\small\item\em boundary conditions \item\end{CompactList}\item 
+void \hyperlink{classBoundary_ac37e18aaf60503a66173d9428ed9e54}{RunAwayCheck} (\hyperlink{classHydrodynamics}{Hydrodynamics} \&hydro)
+\begin{CompactList}\small\item\em check particle if particle run out of the computational domain \item\end{CompactList}\end{CompactItemize}
+\subsection*{Public Attributes}
+\begin{CompactItemize}
+\item 
+int \hyperlink{classBoundary_10dd58ba0715412968c4902fe80b1318}{xBl}
+\begin{CompactList}\small\item\em boundary condition indicator left hand side \item\end{CompactList}\item 
+int \hyperlink{classBoundary_4a582b489cb580b8a6f3a7123f411a53}{xBr}
+\begin{CompactList}\small\item\em boundary condition indicator right hand side \item\end{CompactList}\item 
+int \hyperlink{classBoundary_0329bf6b954b3001418391cc16a9194e}{yBd}
+\begin{CompactList}\small\item\em boundary condition indicator bottom side \item\end{CompactList}\item 
+int \hyperlink{classBoundary_6ccff2a8c5a10104d202504034af9e84}{yBu}
+\begin{CompactList}\small\item\em boundary condition indicator upper side \item\end{CompactList}\item 
+\hypertarget{classBoundary_238a4e6e7358e1f9a2375d8df08a5c7a}{
+Vec2d \hyperlink{classBoundary_238a4e6e7358e1f9a2375d8df08a5c7a}{UxBl}}
+\label{classBoundary_238a4e6e7358e1f9a2375d8df08a5c7a}
+
+\begin{CompactList}\small\item\em left hand side boundary velocity \item\end{CompactList}\item 
+\hypertarget{classBoundary_375a949ddac9f633af007daa7d323099}{
+Vec2d \hyperlink{classBoundary_375a949ddac9f633af007daa7d323099}{UxBr}}
+\label{classBoundary_375a949ddac9f633af007daa7d323099}
+
+\begin{CompactList}\small\item\em right hand side boundary velocity \item\end{CompactList}\item 
+\hypertarget{classBoundary_cf4a2665428f1516626bf683d1eeb4ba}{
+Vec2d \hyperlink{classBoundary_cf4a2665428f1516626bf683d1eeb4ba}{UyBd}}
+\label{classBoundary_cf4a2665428f1516626bf683d1eeb4ba}
+
+\begin{CompactList}\small\item\em bottom side boundary velocity \item\end{CompactList}\item 
+\hypertarget{classBoundary_47eeae29ae83c1ec9ed3a0fdd96bec23}{
+Vec2d \hyperlink{classBoundary_47eeae29ae83c1ec9ed3a0fdd96bec23}{UyBu}}
+\label{classBoundary_47eeae29ae83c1ec9ed3a0fdd96bec23}
+
+\begin{CompactList}\small\item\em upper side boundary velocity \item\end{CompactList}\item 
+\hypertarget{classBoundary_03c656384691f3575170447ab267b8a5}{
+\hyperlink{classLlist}{Llist}$<$ \hyperlink{classParticle}{Particle} $>$ \hyperlink{classBoundary_03c656384691f3575170447ab267b8a5}{boundary\_\-particle\_\-list}}
+\label{classBoundary_03c656384691f3575170447ab267b8a5}
+
+\begin{CompactList}\small\item\em boundary particle lists \item\end{CompactList}\end{CompactItemize}
+\subsection*{Private Member Functions}
+\begin{CompactItemize}
+\item 
+\hypertarget{classBoundary_bdce0051ff1e2651413242877a4fc507}{
+void \hyperlink{classBoundary_bdce0051ff1e2651413242877a4fc507}{non\_\-dimensionalize} (\hyperlink{classInitiation}{Initiation} \&ini)}
+\label{classBoundary_bdce0051ff1e2651413242877a4fc507}
+
+\begin{CompactList}\small\item\em non-dimensionalize \item\end{CompactList}\item 
+void \hyperlink{classBoundary_116df4b717184d962f40bdc88de26763}{show\_\-information} (\hyperlink{classInitiation}{Initiation} \&ini)
+\begin{CompactList}\small\item\em show information on screen \item\end{CompactList}\item 
+\hypertarget{classBoundary_8879fae60c663d0bdf55acf44516cd42}{
+void \hyperlink{classBoundary_8879fae60c663d0bdf55acf44516cd42}{Boundary\_\-W} (\hyperlink{classParticle}{Particle} $\ast$prtl)}
+\label{classBoundary_8879fae60c663d0bdf55acf44516cd42}
+
+\begin{CompactList}\small\item\em implement west side boundary by modifying particle states \item\end{CompactList}\item 
+\hypertarget{classBoundary_e721f2c23112698b3cee9a3848f3deb1}{
+void \hyperlink{classBoundary_e721f2c23112698b3cee9a3848f3deb1}{Boundary\_\-E} (\hyperlink{classParticle}{Particle} $\ast$prtl)}
+\label{classBoundary_e721f2c23112698b3cee9a3848f3deb1}
+
+\begin{CompactList}\small\item\em implement east side boundary by modifying particle states \item\end{CompactList}\item 
+\hypertarget{classBoundary_50c82df28f8e11186b2f3e6f0bd971b0}{
+void \hyperlink{classBoundary_50c82df28f8e11186b2f3e6f0bd971b0}{Boundary\_\-S} (\hyperlink{classParticle}{Particle} $\ast$prtl)}
+\label{classBoundary_50c82df28f8e11186b2f3e6f0bd971b0}
+
+\begin{CompactList}\small\item\em implement south side boundary by modifying particle states \item\end{CompactList}\item 
+\hypertarget{classBoundary_ec89b3e4212c60f0b6a42199a844d032}{
+void \hyperlink{classBoundary_ec89b3e4212c60f0b6a42199a844d032}{Boundary\_\-N} (\hyperlink{classParticle}{Particle} $\ast$prtl)}
+\label{classBoundary_ec89b3e4212c60f0b6a42199a844d032}
+
+\begin{CompactList}\small\item\em implement north side boundary by modifying particle states \item\end{CompactList}\item 
+\hypertarget{classBoundary_5ec3b43fbe487290b3b3c584ffdfbd54}{
+void \hyperlink{classBoundary_5ec3b43fbe487290b3b3c584ffdfbd54}{Boundary\_\-SW} (\hyperlink{classParticle}{Particle} $\ast$prtl)}
+\label{classBoundary_5ec3b43fbe487290b3b3c584ffdfbd54}
+
+\begin{CompactList}\small\item\em implement south-west corner boundary by modifying particle states \item\end{CompactList}\item 
+\hypertarget{classBoundary_8a334d5f6950a17261504751a706ec78}{
+void \hyperlink{classBoundary_8a334d5f6950a17261504751a706ec78}{Boundary\_\-SE} (\hyperlink{classParticle}{Particle} $\ast$prtl)}
+\label{classBoundary_8a334d5f6950a17261504751a706ec78}
+
+\begin{CompactList}\small\item\em implement south-east corner boundary by modifying particle states \item\end{CompactList}\item 
+\hypertarget{classBoundary_75bfad6f3ef080a83ca3c0746f94ca4e}{
+void \hyperlink{classBoundary_75bfad6f3ef080a83ca3c0746f94ca4e}{Boundary\_\-NW} (\hyperlink{classParticle}{Particle} $\ast$prtl)}
+\label{classBoundary_75bfad6f3ef080a83ca3c0746f94ca4e}
+
+\begin{CompactList}\small\item\em implement north-west corner boundary by modifying particle states \item\end{CompactList}\item 
+\hypertarget{classBoundary_7ce0aad430a89265e89b76c79ab09dc9}{
+void \hyperlink{classBoundary_7ce0aad430a89265e89b76c79ab09dc9}{Boundary\_\-NE} (\hyperlink{classParticle}{Particle} $\ast$prtl)}
+\label{classBoundary_7ce0aad430a89265e89b76c79ab09dc9}
+
+\begin{CompactList}\small\item\em implement north-east corner boundary by modifying particle states \item\end{CompactList}\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+\hypertarget{classBoundary_0033d4ccb76b4fa29d2addda930dd572}{
+int \hyperlink{classBoundary_0033d4ccb76b4fa29d2addda930dd572}{wall\_\-file}}
+\label{classBoundary_0033d4ccb76b4fa29d2addda930dd572}
+
+\begin{CompactList}\small\item\em if read wall particle from file .wll \item\end{CompactList}\item 
+\hypertarget{classBoundary_e9c27eae4f9ac0853a089aa4d0c76904}{
+Vec2d \hyperlink{classBoundary_e9c27eae4f9ac0853a089aa4d0c76904}{box\_\-size}}
+\label{classBoundary_e9c27eae4f9ac0853a089aa4d0c76904}
+
+\begin{CompactList}\small\item\em computational domain size \item\end{CompactList}\item 
+\hypertarget{classBoundary_d6bdf67458e91f78f5679f450eee8e29}{
+int \hyperlink{classBoundary_d6bdf67458e91f78f5679f450eee8e29}{x\_\-clls}}
+\label{classBoundary_d6bdf67458e91f78f5679f450eee8e29}
+
+\begin{CompactList}\small\item\em cell matrix size \item\end{CompactList}\item 
+\hypertarget{classBoundary_9066d15cdf92a6d522344e037ed51503}{
+int \textbf{y\_\-clls}}
+\label{classBoundary_9066d15cdf92a6d522344e037ed51503}
+
+\item 
+\hypertarget{classBoundary_ad5dca4ff83933fafee8a858011ab56a}{
+int \textbf{number\_\-of\_\-materials}}
+\label{classBoundary_ad5dca4ff83933fafee8a858011ab56a}
+
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classBoundary}{Boundary} conditions. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classBoundary_8fe88473063d74e67a5932f2e4d2e517}{
+\index{Boundary@{Boundary}!Boundary@{Boundary}}
+\index{Boundary@{Boundary}!Boundary@{Boundary}}
+\subsubsection[{Boundary}]{\setlength{\rightskip}{0pt plus 5cm}Boundary::Boundary ({\bf Initiation} \& {\em ini}, \/  {\bf Hydrodynamics} \& {\em hydro}, \/  {\bf ParticleManager} \& {\em particles})}}
+\label{classBoundary_8fe88473063d74e67a5932f2e4d2e517}
+
+
+boundary particle list for all boundray particles 
+
+constructor 
+
+copy global properties from initiation class
+
+\begin{itemize}
+\item reading key words and configuration data from input file\end{itemize}
+
+
+\begin{itemize}
+\item compare the key words for left, right, upper and lower boundary condition type and their velocities\end{itemize}
+
+
+\begin{itemize}
+\item build boundary particles \end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=262pt]{classBoundary_8fe88473063d74e67a5932f2e4d2e517_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classBoundary_bedd190ee91482e4e59b2a613ab25d57}{
+\index{Boundary@{Boundary}!BoundaryCondition@{BoundaryCondition}}
+\index{BoundaryCondition@{BoundaryCondition}!Boundary@{Boundary}}
+\subsubsection[{BoundaryCondition}]{\setlength{\rightskip}{0pt plus 5cm}void Boundary::BoundaryCondition ({\bf ParticleManager} \& {\em particles})}}
+\label{classBoundary_bedd190ee91482e4e59b2a613ab25d57}
+
+
+boundary conditions 
+
+
+
+\begin{itemize}
+\item west side
+
+\begin{itemize}
+\item the rigid wall conditions\end{itemize}
+
+
+\begin{itemize}
+\item the perodic or symmetry conditions \end{itemize}
+
+
+\item east side \begin{itemize}
+\item the rigid wall conditions
+
+\item the perodic or symmetry conditions\end{itemize}
+
+
+\item south side
+
+\begin{itemize}
+\item the rigid wall conditions
+
+\item the perodic or symmetry conditions\end{itemize}
+
+
+\item north side
+
+\begin{itemize}
+\item the rigid wall conditions
+
+\item the perodic or symmetry conditions\end{itemize}
+\end{itemize}
+
+
+considering the coner cells
+
+\begin{itemize}
+\item south-west corner \begin{itemize}
+\item the rigid wall conditions
+
+\item the perodic or symmetry conditions\end{itemize}
+
+
+\item north-west corner \begin{itemize}
+\item the rigid wall conditions
+
+\item the perodic or symmetry conditions\end{itemize}
+
+
+\item north-east corner \begin{itemize}
+\item the rigid wall conditions
+
+\item the perodic or symmetry conditions\end{itemize}
+
+
+\item south-east corner \begin{itemize}
+\item the rigid wall conditions
+
+\item the perodic or symmetry conditions\end{itemize}
+\end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=176pt]{classBoundary_bedd190ee91482e4e59b2a613ab25d57_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=238pt]{classBoundary_bedd190ee91482e4e59b2a613ab25d57_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classBoundary_8a40f99b73f3622cd5f1387fcbbdb824}{
+\index{Boundary@{Boundary}!BuildBoundaryParticles@{BuildBoundaryParticles}}
+\index{BuildBoundaryParticles@{BuildBoundaryParticles}!Boundary@{Boundary}}
+\subsubsection[{BuildBoundaryParticles}]{\setlength{\rightskip}{0pt plus 5cm}void Boundary::BuildBoundaryParticles ({\bf ParticleManager} \& {\em particles}, \/  {\bf Hydrodynamics} \& {\em hydro})}}
+\label{classBoundary_8a40f99b73f3622cd5f1387fcbbdb824}
+
+
+build boundary particles 
+
+
+
+\begin{itemize}
+\item clear boundary particles list
+
+\item boundary condition for each side
+
+\begin{itemize}
+\item west side: test boundary parameter for one of the following cases and then build the appropriate boundary particles
+
+\begin{itemize}
+\item the rigid wall conditions
+
+\item the symmetry conditions
+
+\item the perodic conditions \end{itemize}
+
+
+\item east side
+
+\begin{itemize}
+\item the rigid wall conditions
+
+\item the symmetry conditions
+
+\item the perodic conditions\end{itemize}
+
+
+\item south side
+
+\begin{itemize}
+\item the rigid wall conditions
+
+\item the symmetry conditions
+
+\item the perodic conditions\end{itemize}
+
+
+\item north side
+
+\begin{itemize}
+\item the rigid wall conditions
+
+\item the symmetry conditions
+
+\item the perodic conditions\end{itemize}
+\end{itemize}
+
+
+\item considering the coner cells
+
+\begin{itemize}
+\item south-west corner \begin{itemize}
+\item the rigid wall conditions
+
+\item the symmetry conditions
+
+\item the perodic conditions \end{itemize}
+
+
+\item north-west corner
+
+\begin{itemize}
+\item the rigid wall conditions
+
+\item the symmetry conditions
+
+\item the perodic conditions\end{itemize}
+
+
+\item north-east corner
+
+\begin{itemize}
+\item the rigid wall conditions
+
+\item the symmetry conditions
+
+\item the perodic conditions\end{itemize}
+
+
+\item south-east corner
+
+\begin{itemize}
+\item the rigid wall conditions
+
+\item the symmetry conditions
+
+\item the perodic conditions\end{itemize}
+\end{itemize}
+\end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=186pt]{classBoundary_8a40f99b73f3622cd5f1387fcbbdb824_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=248pt]{classBoundary_8a40f99b73f3622cd5f1387fcbbdb824_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classBoundary_ac37e18aaf60503a66173d9428ed9e54}{
+\index{Boundary@{Boundary}!RunAwayCheck@{RunAwayCheck}}
+\index{RunAwayCheck@{RunAwayCheck}!Boundary@{Boundary}}
+\subsubsection[{RunAwayCheck}]{\setlength{\rightskip}{0pt plus 5cm}void Boundary::RunAwayCheck ({\bf Hydrodynamics} \& {\em hydro})}}
+\label{classBoundary_ac37e18aaf60503a66173d9428ed9e54}
+
+
+check particle if particle run out of the computational domain 
+
+
+
+\begin{itemize}
+\item iterate the partilce list\end{itemize}
+
+
+\begin{itemize}
+\item only checking real particles (for all boundaries) \end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=142pt]{classBoundary_ac37e18aaf60503a66173d9428ed9e54_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=231pt]{classBoundary_ac37e18aaf60503a66173d9428ed9e54_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classBoundary_116df4b717184d962f40bdc88de26763}{
+\index{Boundary@{Boundary}!show\_\-information@{show\_\-information}}
+\index{show\_\-information@{show\_\-information}!Boundary@{Boundary}}
+\subsubsection[{show\_\-information}]{\setlength{\rightskip}{0pt plus 5cm}void Boundary::show\_\-information ({\bf Initiation} \& {\em ini})\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classBoundary_116df4b717184d962f40bdc88de26763}
+
+
+show information on screen 
+
+
+
+\begin{itemize}
+\item output the property parameters to the screen \end{itemize}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=162pt]{classBoundary_116df4b717184d962f40bdc88de26763_icgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classBoundary_10dd58ba0715412968c4902fe80b1318}{
+\index{Boundary@{Boundary}!xBl@{xBl}}
+\index{xBl@{xBl}!Boundary@{Boundary}}
+\subsubsection[{xBl}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf Boundary::xBl}}}
+\label{classBoundary_10dd58ba0715412968c4902fe80b1318}
+
+
+boundary condition indicator left hand side 
+
+\begin{itemize}
+\item 0: wall boundary condition\item 1: perodic boundary condition\item 2: free slip wall boundary condition\item 3: symmetry boundary condition \end{itemize}
+\hypertarget{classBoundary_4a582b489cb580b8a6f3a7123f411a53}{
+\index{Boundary@{Boundary}!xBr@{xBr}}
+\index{xBr@{xBr}!Boundary@{Boundary}}
+\subsubsection[{xBr}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf Boundary::xBr}}}
+\label{classBoundary_4a582b489cb580b8a6f3a7123f411a53}
+
+
+boundary condition indicator right hand side 
+
+\begin{itemize}
+\item 0: wall boundary condition\item 1: perodic boundary condition\item 2: free slip wall boundary condition\item 3: symmetry boundary condition \end{itemize}
+\hypertarget{classBoundary_0329bf6b954b3001418391cc16a9194e}{
+\index{Boundary@{Boundary}!yBd@{yBd}}
+\index{yBd@{yBd}!Boundary@{Boundary}}
+\subsubsection[{yBd}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf Boundary::yBd}}}
+\label{classBoundary_0329bf6b954b3001418391cc16a9194e}
+
+
+boundary condition indicator bottom side 
+
+\begin{itemize}
+\item 0: wall boundary condition\item 1: perodic boundary condition\item 2: free slip wall boundary condition\item 3: symmetry boundary condition \end{itemize}
+\hypertarget{classBoundary_6ccff2a8c5a10104d202504034af9e84}{
+\index{Boundary@{Boundary}!yBu@{yBu}}
+\index{yBu@{yBu}!Boundary@{Boundary}}
+\subsubsection[{yBu}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf Boundary::yBu}}}
+\label{classBoundary_6ccff2a8c5a10104d202504034af9e84}
+
+
+boundary condition indicator upper side 
+
+\begin{itemize}
+\item 0: wall boundary condition\item 1: perodic boundary condition\item 2: free slip wall boundary condition\item 3: symmetry boundary condition \end{itemize}
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{boundary_8h}{boundary.h}\item 
+\hyperlink{boundary_8cpp}{boundary.cpp}\end{CompactItemize}

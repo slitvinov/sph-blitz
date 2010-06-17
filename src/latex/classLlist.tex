@@ -1,0 +1,107 @@
+\hypertarget{classLlist}{
+\section{Llist$<$ Ldata $>$ Class Template Reference}
+\label{classLlist}\index{Llist@{Llist}}
+}
+Double linked list implementation.  
+
+
+{\tt \#include $<$dllist.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hypertarget{classLlist_80be9511479463e949f442a22e48c064}{
+\hyperlink{classLlist_80be9511479463e949f442a22e48c064}{Llist} ()}
+\label{classLlist_80be9511479463e949f442a22e48c064}
+
+\begin{CompactList}\small\item\em creates a list with an empty head node (no data in the head, but the node exists) \item\end{CompactList}\item 
+\hypertarget{classLlist_6a139c360a8687527ebd74a27ff77ec2}{
+bool \hyperlink{classLlist_6a139c360a8687527ebd74a27ff77ec2}{empty} () const }
+\label{classLlist_6a139c360a8687527ebd74a27ff77ec2}
+
+\begin{CompactList}\small\item\em Check if the list is empty (the first node is the last). \item\end{CompactList}\item 
+\hypertarget{classLlist_a02016d71082697d45b3d0dcd5ce1343}{
+bool \hyperlink{classLlist_a02016d71082697d45b3d0dcd5ce1343}{isEnd} (\hyperlink{classLlistNode}{LlistNode}$<$ Ldata $>$ $\ast$p) const }
+\label{classLlist_a02016d71082697d45b3d0dcd5ce1343}
+
+\begin{CompactList}\small\item\em Check if the node is the last node. \item\end{CompactList}\item 
+\hypertarget{classLlist_91f735ef2924ff78864157c2434c81e3}{
+\hyperlink{classLlistNode}{LlistNode}$<$ Ldata $>$ $\ast$ \hyperlink{classLlist_91f735ef2924ff78864157c2434c81e3}{first} () const }
+\label{classLlist_91f735ef2924ff78864157c2434c81e3}
+
+\begin{CompactList}\small\item\em Get the first node. \item\end{CompactList}\item 
+\hypertarget{classLlist_db32667fa0f00bd82d0c1c08c5998fc9}{
+\hyperlink{classLlistNode}{LlistNode}$<$ Ldata $>$ $\ast$ \hyperlink{classLlist_db32667fa0f00bd82d0c1c08c5998fc9}{next} (\hyperlink{classLlistNode}{LlistNode}$<$ Ldata $>$ $\ast$p) const }
+\label{classLlist_db32667fa0f00bd82d0c1c08c5998fc9}
+
+\begin{CompactList}\small\item\em Get the next node. \item\end{CompactList}\item 
+\hypertarget{classLlist_367d32016c163108d10064afafd52029}{
+\hyperlink{classLlistNode}{LlistNode}$<$ Ldata $>$ $\ast$ \hyperlink{classLlist_367d32016c163108d10064afafd52029}{prev} (\hyperlink{classLlistNode}{LlistNode}$<$ Ldata $>$ $\ast$p) const }
+\label{classLlist_367d32016c163108d10064afafd52029}
+
+\begin{CompactList}\small\item\em Get the previous node. \item\end{CompactList}\item 
+\hypertarget{classLlist_67608f0f66a3def622134d074294585d}{
+Ldata $\ast$ \hyperlink{classLlist_67608f0f66a3def622134d074294585d}{retrieve} (\hyperlink{classLlistNode}{LlistNode}$<$ Ldata $>$ $\ast$p) const }
+\label{classLlist_67608f0f66a3def622134d074294585d}
+
+\begin{CompactList}\small\item\em Get the node data. \item\end{CompactList}\item 
+\hypertarget{classLlist_99cb4c4f9cbf48a6b1c2cdae4f366097}{
+void \hyperlink{classLlist_99cb4c4f9cbf48a6b1c2cdae4f366097}{store} (\hyperlink{classLlistNode}{LlistNode}$<$ Ldata $>$ $\ast$p, Ldata $\ast$d)}
+\label{classLlist_99cb4c4f9cbf48a6b1c2cdae4f366097}
+
+\begin{CompactList}\small\item\em set the particle \item\end{CompactList}\item 
+\hypertarget{classLlist_52e0c9e8af720fc20a70fcd159bae5c6}{
+int \hyperlink{classLlist_52e0c9e8af720fc20a70fcd159bae5c6}{length} () const }
+\label{classLlist_52e0c9e8af720fc20a70fcd159bae5c6}
+
+\begin{CompactList}\small\item\em get the list length \item\end{CompactList}\item 
+\hypertarget{classLlist_62d2c41eb7e240d74de37f15fb31717a}{
+void \hyperlink{classLlist_62d2c41eb7e240d74de37f15fb31717a}{insert} (\hyperlink{classLlistNode}{LlistNode}$<$ Ldata $>$ $\ast$p, Ldata $\ast$d)}
+\label{classLlist_62d2c41eb7e240d74de37f15fb31717a}
+
+\begin{CompactList}\small\item\em insert a node with node data \item\end{CompactList}\item 
+\hypertarget{classLlist_978a0ea9a47f2b809d8626a6261eb5f6}{
+void \hyperlink{classLlist_978a0ea9a47f2b809d8626a6261eb5f6}{remove} (\hyperlink{classLlistNode}{LlistNode}$<$ Ldata $>$ $\ast$p)}
+\label{classLlist_978a0ea9a47f2b809d8626a6261eb5f6}
+
+\begin{CompactList}\small\item\em delete a node \item\end{CompactList}\item 
+\hypertarget{classLlist_27c7c4149e117b782289c2d5bc965635}{
+void \hyperlink{classLlist_27c7c4149e117b782289c2d5bc965635}{clear} ()}
+\label{classLlist_27c7c4149e117b782289c2d5bc965635}
+
+\begin{CompactList}\small\item\em re-initialize to empty list \item\end{CompactList}\item 
+\hypertarget{classLlist_09061ffe39434195d24e86dc1c53a047}{
+void \hyperlink{classLlist_09061ffe39434195d24e86dc1c53a047}{clear\_\-data} ()}
+\label{classLlist_09061ffe39434195d24e86dc1c53a047}
+
+\begin{CompactList}\small\item\em re-initialize to empty list \item\end{CompactList}\item 
+\hypertarget{classLlist_f9d773bb9b844be5ff4a4bfb449cd0c9}{
+\hyperlink{classLlist_f9d773bb9b844be5ff4a4bfb449cd0c9}{$\sim$Llist} ()}
+\label{classLlist_f9d773bb9b844be5ff4a4bfb449cd0c9}
+
+\begin{CompactList}\small\item\em deconstructor \item\end{CompactList}\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+\hypertarget{classLlist_15efb1e209596ba50b865a7809f72783}{
+int \hyperlink{classLlist_15efb1e209596ba50b865a7809f72783}{len}}
+\label{classLlist_15efb1e209596ba50b865a7809f72783}
+
+\begin{CompactList}\small\item\em list length \item\end{CompactList}\item 
+\hypertarget{classLlist_3c383a2a2ed152eb6cbf451c6ca24198}{
+\hyperlink{classLlistNode}{LlistNode}$<$ Ldata $>$ $\ast$ \hyperlink{classLlist_3c383a2a2ed152eb6cbf451c6ca24198}{node}}
+\label{classLlist_3c383a2a2ed152eb6cbf451c6ca24198}
+
+\begin{CompactList}\small\item\em the list head \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class Ldata$>$ class Llist$<$ Ldata $>$}
+
+Double linked list implementation. 
+
+----------------------------------------------------------------------- the template linked list ----------------------------------------------------------------------- This class implements a double linked list with generic data. The next pointer of the last node points to the first node and the prev pointer of the first node point to the node itself 
+
+The documentation for this class was generated from the following file:\begin{CompactItemize}
+\item 
+\hyperlink{dllist_8h}{dllist.h}\end{CompactItemize}

@@ -58,11 +58,15 @@ Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &parti
   }
   fin.close();
 
-  show_information(ini);	
-  non_dimensionalize(ini);
+  show_information(ini);
 
+   if(ini.simu_mode==1)	
+   {
+   non_dimensionalize(ini);
   ///- build boundary particles
-  BuildBoundaryParticles(particles, hydro);
+   BuildBoundaryParticles(particles, hydro);
+   };
+    cout<<"\n boundary condition constructor successfully executed \n";
 }
 //----------------------------------------------------------------------------------------
 //								Non-dimensionalize

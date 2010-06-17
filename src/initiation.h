@@ -1,5 +1,3 @@
-#ifndef INITIATION_H
-#define INITIATION_H
 /// \file initiation.h 
 /// \brief Initiates the simulation
 
@@ -38,7 +36,8 @@ public:
 	int diagnose;
 	///artificial viscosity
 	double art_vis;
-
+	///simulation mode (1:liquids, 2: gas dynamics)
+	int simu_mode;
 	///smoothinglength
 	double smoothinglength;
 	///the compuational domain size
@@ -113,5 +112,3 @@ public:
 	double dms_surface(double sigma_non);///<a re-dimensionalize method
 
 };
-
-#endif //INITIATION_H

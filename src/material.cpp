@@ -125,6 +125,11 @@ double Material::get_p(double rho)
 {
 	return b0*pow(rho/rho0,gamma);
 }
+
+double Material::get_p(double rho, double e)
+{
+  return (gamma-1)*rho*e;
+}
 //----------------------------------------------------------------------------------------
 //					get rho from pressure
 //----------------------------------------------------------------------------------------
@@ -132,6 +137,27 @@ double Material::get_rho(double p)
 {
 	return rho0*pow(p/b0, 1.0/gamma);
 }
+double Material::get_rho(double p, double e)
+{
+  return p/((gamma-1)*e);
+}
+
+
+//----------------------------------------------------------------------------------------
+//				get temperaturey
+//----------------------------------------------------------------------------------------
+double Material::get_T(double e)
+{
+  return e/cv;
+}
+
+double Material::get_T(double p, double rho)
+{
+  return p/((gamma-1)*rho*cv);
+}
+
+
+
 //----------------------------------------------------------------------------------------
 //				get internal energy
 //----------------------------------------------------------------------------------------

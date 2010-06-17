@@ -49,6 +49,11 @@ Initiation::Initiation(const char *project_name) {
 		//read a string block
 		fin>>Key_word;
 		
+		//comparing the key words for simulation mode
+		//1: liquids
+		//2: gas dynamics
+		if(!strcmp(Key_word, "SIMULATION_MODE")) fin>>simu_mode;
+
 		//comparing the key words for initial condition input
 		//0: Initialize the initial conditions from .cfg file
 		//1: restart from a .rst file
@@ -116,6 +121,7 @@ Initiation::Initiation(const char *project_name) {
 void Initiation::show_information()
 {
 	///- output general information on screen
+  cout<<"The simulation mode is"<<simu_mode<<"! (1=liquids, 2=gas dynamics)\n";
 	cout<<"The number of materials in the simulation is  "<<number_of_materials<<"\n";
 	cout<<"The computational domain size is  "<<box_size[0]<<" micrometers x "<<box_size[1]<<" micrometers\n";
 	cout<<"The cell size is "<<cell_size<<" micrometers \n";
@@ -153,7 +159,12 @@ void Initiation::show_information()
 void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline &weight_function)
 {
 
-	double reciprocV; //the inverse of volume or volume
+  ///mass initiation is different of 1DSPH code: 
+  ///here: mass is calculated by summing up the kernel function contributions for easch particle, which gives a kind of the inverse volume taken by each particle (not perfectly true at the discontinuity). together with rho (from initialization) a mass for each particle can be obtained.
+  ///within the discontinuity zone, this mass varies because of the smoothing effect of the kernel summation.
+  ///The mass for each particle  stays constant during the simuation.
+
+	double reciprocV; //the inverse of volume 
 	double dstc;
 	Vec2d eij, sumdw;
 
@@ -189,10 +200,11 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, Qu
 			/// <li> save volume and mass in the respective particle list node (whih is each a Particle object with all the particle properties) 
 			prtl_org->V = reciprocV;
 			prtl_org->m = prtl_org->rho*reciprocV;
-			
+			cout<<" \n mass:  "<<prtl_org->m;
 			/// <li> clear the NNP_list</ul> </ul>
 			particles.NNP_list.clear();
 	}
+	cout<<"\n Volume and Mass successfully calculated\n ";
 }
 //----------------------------------------------------------------------------------------
 //				Non-dimensionalize the initial condition and parameters
@@ -387,7 +399,7 @@ Vec2d Initiation::dms_velocity(Vec2d velocity_non)
 //-------------------------------------------------------
 double Initiation::dms_energy(double energy_non)
 {
-	return energy_non*_rho*_length*_length*_length*_v*_v;
+	return energy_non*_v*_v;
 }
 //-------------------------------------------------------
 Vec2d Initiation::dms_acceleration(Vec2d acceleration_non)

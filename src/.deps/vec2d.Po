@@ -1,0 +1,1 @@
+vec2d.o: vec2d.cpp

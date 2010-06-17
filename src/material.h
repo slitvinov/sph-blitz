@@ -1,5 +1,3 @@
-#ifndef MATERIAL_H
-#define MATERIAL_H
 /// \file material.h 
 /// \brief Material 
 
@@ -53,16 +51,17 @@ public:
 	//equation of states
 
 	///get pressure
-	double get_p(double rho);
+	double get_p(double rho);// equation of state for liquids
+	double get_p(double rho, double e);//equation of state for gasdynamics
 	///get rho from pressure
-	double get_rho(double p);
+	double get_rho(double p);// equation of state for liquids
+	double get_rho(double p, double e);//equation of state for gasdynamics
 	///get interal energy
 	double get_e(double T);
-	///get temperature (function is defined nowhere)
-	double get_T(double e);
+	///get temperature 
+	double get_T(double e);//(function is defined nowhere)
+	double get_T(double p, double rho);
 	///get sound speed
 	double get_Cs(double p, double rho);
 
 };
-
-#endif //MATERIAL_H

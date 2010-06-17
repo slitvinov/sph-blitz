@@ -1,5 +1,3 @@
-#ifndef PARTICLEMANAGER_H
-#define PARTICLEMANAGER_H
 /// \file particlemanager.h 
 /// \brief particle manager
 
@@ -14,6 +12,7 @@ class ParticleManager
 	double cll_sz; ///<cell size
 	Vec2d box_size; ///<computational domain size
 	int initial_condition; ///<initial condition marker
+	int simu_mode;///<simulation mode
 	double delta; ///<the inital particle distance
 	int hdelta; ///<the ration between smoothing length and inital particle distance
 	Vec2d U0; ///<inital flow speed
@@ -59,5 +58,3 @@ public:
 						Force **forces, QuinticSpline &weight_function);
 	
 };
-
-#endif //PARTICLEMANAGER_H

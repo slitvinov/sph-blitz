@@ -1,5 +1,3 @@
-#ifndef OUTPUT_H
-#define OUTPUT_H
 /// \file output.h 
 /// \brief Output the computational results
 
@@ -16,6 +14,7 @@ class Output {
 	int x_cells, y_cells;
 	///the ratio between smoothing length and inital particle distance
 	int hdelta; 
+	int simu_mode;
 
 public:
 
@@ -38,5 +37,3 @@ public:
 	void OutAverage(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, 
 					double Time, Initiation &ini);
 };
-
-#endif //OUTPUT_H

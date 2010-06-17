@@ -1,0 +1,400 @@
+\hypertarget{classDiagnose}{
+\section{Diagnose Class Reference}
+\label{classDiagnose}\index{Diagnose@{Diagnose}}
+}
+\hyperlink{classOutput}{Output} diagnosal.  
+
+
+{\tt \#include $<$diagnose.h$>$}
+
+Collaboration diagram for Diagnose:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=183pt]{classDiagnose__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classDiagnose_915a3d571504c843748bf5e9a9ec801c}{Diagnose} (\hyperlink{classInitiation}{Initiation} \&ini, \hyperlink{classHydrodynamics}{Hydrodynamics} \&hydro)
+\begin{CompactList}\small\item\em constructor \item\end{CompactList}\item 
+void \hyperlink{classDiagnose_bf6d65f3716a9d637186f97c62f7218b}{SaveStates} (\hyperlink{classHydrodynamics}{Hydrodynamics} \&hydro)
+\begin{CompactList}\small\item\em save the states of a particle in particle states vectors (vx\_\-list, vy\_\-list, rho\_\-list) \item\end{CompactList}\item 
+void \hyperlink{classDiagnose_db2f9991031fb8c301f44518c1d851ea}{OutputProfile} (double Time, \hyperlink{classInitiation}{Initiation} \&ini)
+\begin{CompactList}\small\item\em output distribution up to the time \item\end{CompactList}\item 
+void \hyperlink{classDiagnose_8c14b3fa58083f64be2018bd0462604d}{Average} (\hyperlink{classParticleManager}{ParticleManager} \&particles, \hyperlink{classMLS}{MLS} \&mls, \hyperlink{classQuinticSpline}{QuinticSpline} \&weight\_\-function, \hyperlink{classInitiation}{Initiation} \&ini)
+\begin{CompactList}\small\item\em calculate the average values \item\end{CompactList}\item 
+void \hyperlink{classDiagnose_dc46dd26362f94e09b956b3affa247c9}{OutputAverage} (double Time, \hyperlink{classInitiation}{Initiation} \&ini)
+\begin{CompactList}\small\item\em output the average values \item\end{CompactList}\item 
+void \hyperlink{classDiagnose_9c73b32dc8facce488617780250c14bf}{KineticInformation} (double Time, \hyperlink{classInitiation}{Initiation} \&ini, \hyperlink{classHydrodynamics}{Hydrodynamics} \&hydro)
+\begin{CompactList}\small\item\em track the globle average kinetic energy, weight center position and velocity \item\end{CompactList}\end{CompactItemize}
+\subsection*{Private Member Functions}
+\begin{CompactItemize}
+\item 
+\hypertarget{classDiagnose_ef3922caa185f5d587edad0eaaf655d3}{
+void \hyperlink{classDiagnose_ef3922caa185f5d587edad0eaaf655d3}{BuildDistribution} (\hyperlink{classLlist}{Llist}$<$ double $>$ \&list, double dstrb\mbox{[}2\mbox{]}\mbox{[}101\mbox{]})}
+\label{classDiagnose_ef3922caa185f5d587edad0eaaf655d3}
+
+\begin{CompactList}\small\item\em build distribution \item\end{CompactList}\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+\hypertarget{classDiagnose_ff5505506d498c9a3d41a15b848f4fed}{
+double \hyperlink{classDiagnose_ff5505506d498c9a3d41a15b848f4fed}{delta}}
+\label{classDiagnose_ff5505506d498c9a3d41a15b848f4fed}
+
+\begin{CompactList}\small\item\em the inital particle distance \item\end{CompactList}\item 
+\hypertarget{classDiagnose_392e23f84c8d6c19a62ff729dabc4b08}{
+int \hyperlink{classDiagnose_392e23f84c8d6c19a62ff729dabc4b08}{x\_\-cells}}
+\label{classDiagnose_392e23f84c8d6c19a62ff729dabc4b08}
+
+\begin{CompactList}\small\item\em cells matrix for real particles \item\end{CompactList}\item 
+\hypertarget{classDiagnose_b99ebe8786c68b5ef9477c49e32227ad}{
+int \textbf{y\_\-cells}}
+\label{classDiagnose_b99ebe8786c68b5ef9477c49e32227ad}
+
+\item 
+\hypertarget{classDiagnose_85b126f2b079c38847e1b8a42fe39604}{
+int \hyperlink{classDiagnose_85b126f2b079c38847e1b8a42fe39604}{hdelta}}
+\label{classDiagnose_85b126f2b079c38847e1b8a42fe39604}
+
+\begin{CompactList}\small\item\em the ration between smoothing length and inital particle distance \item\end{CompactList}\item 
+\hypertarget{classDiagnose_ea27d34fbb662ee394b81802ddeca495}{
+char \hyperlink{classDiagnose_ea27d34fbb662ee394b81802ddeca495}{Project\_\-name} \mbox{[}25\mbox{]}}
+\label{classDiagnose_ea27d34fbb662ee394b81802ddeca495}
+
+\begin{CompactList}\small\item\em the project name \item\end{CompactList}\item 
+\hypertarget{classDiagnose_e91dcce776e5182100a0d813c7a490c9}{
+int \textbf{number\_\-of\_\-materials}}
+\label{classDiagnose_e91dcce776e5182100a0d813c7a490c9}
+
+\item 
+\hypertarget{classDiagnose_f67fdb70cb79df3d31d151630c63cef8}{
+double \hyperlink{classDiagnose_f67fdb70cb79df3d31d151630c63cef8}{vx\_\-dstrb} \mbox{[}2\mbox{]}\mbox{[}101\mbox{]}}
+\label{classDiagnose_f67fdb70cb79df3d31d151630c63cef8}
+
+\begin{CompactList}\small\item\em x-velocity distribution \item\end{CompactList}\item 
+\hypertarget{classDiagnose_0ec20a8f26b147df7f6dd74f054518fb}{
+double \hyperlink{classDiagnose_0ec20a8f26b147df7f6dd74f054518fb}{vy\_\-dstrb} \mbox{[}2\mbox{]}\mbox{[}101\mbox{]}}
+\label{classDiagnose_0ec20a8f26b147df7f6dd74f054518fb}
+
+\begin{CompactList}\small\item\em y-velocity distribution \item\end{CompactList}\item 
+\hypertarget{classDiagnose_c3b8eb576691e06bc18f30e1e23b053c}{
+double \hyperlink{classDiagnose_c3b8eb576691e06bc18f30e1e23b053c}{rho\_\-dstrb} \mbox{[}2\mbox{]}\mbox{[}101\mbox{]}}
+\label{classDiagnose_c3b8eb576691e06bc18f30e1e23b053c}
+
+\begin{CompactList}\small\item\em density distribution \item\end{CompactList}\item 
+\hypertarget{classDiagnose_145722f84ce6e10d9e6fc08104824996}{
+\hyperlink{classLlist}{Llist}$<$ double $>$ \hyperlink{classDiagnose_145722f84ce6e10d9e6fc08104824996}{vx\_\-list}}
+\label{classDiagnose_145722f84ce6e10d9e6fc08104824996}
+
+\begin{CompactList}\small\item\em list for vx states of a given particle \item\end{CompactList}\item 
+\hypertarget{classDiagnose_7b7a236d8ac6f9b7a901670a8f7703e0}{
+\hyperlink{classLlist}{Llist}$<$ double $>$ \hyperlink{classDiagnose_7b7a236d8ac6f9b7a901670a8f7703e0}{vy\_\-list}}
+\label{classDiagnose_7b7a236d8ac6f9b7a901670a8f7703e0}
+
+\begin{CompactList}\small\item\em list for vy states of a given particle \item\end{CompactList}\item 
+\hypertarget{classDiagnose_d10e7325edc977979a7db9fdcd34d8fd}{
+\hyperlink{classLlist}{Llist}$<$ double $>$ \hyperlink{classDiagnose_d10e7325edc977979a7db9fdcd34d8fd}{rho\_\-list}}
+\label{classDiagnose_d10e7325edc977979a7db9fdcd34d8fd}
+
+\begin{CompactList}\small\item\em list for rho states of a given particle \item\end{CompactList}\item 
+\hypertarget{classDiagnose_63dce0bdefd95c49730ab011321ad984}{
+int \hyperlink{classDiagnose_63dce0bdefd95c49730ab011321ad984}{gridx}}
+\label{classDiagnose_63dce0bdefd95c49730ab011321ad984}
+
+\begin{CompactList}\small\item\em average profile mesh size in x-direction \item\end{CompactList}\item 
+\hypertarget{classDiagnose_3cda015218278477cbbe85b6e55b4398}{
+int \hyperlink{classDiagnose_3cda015218278477cbbe85b6e55b4398}{gridy}}
+\label{classDiagnose_3cda015218278477cbbe85b6e55b4398}
+
+\begin{CompactList}\small\item\em average profile mesh size in y-direction \item\end{CompactList}\item 
+\hypertarget{classDiagnose_8fbc4859156ad72a70b471edd8326552}{
+double $\ast$$\ast$$\ast$ \textbf{U}}
+\label{classDiagnose_8fbc4859156ad72a70b471edd8326552}
+
+\item 
+\hypertarget{classDiagnose_a08ef64241663163214a68507d578e27}{
+int \hyperlink{classDiagnose_a08ef64241663163214a68507d578e27}{n\_\-average}}
+\label{classDiagnose_a08ef64241663163214a68507d578e27}
+
+\begin{CompactList}\small\item\em the times of average \item\end{CompactList}\item 
+double \hyperlink{classDiagnose_31e87c9b084b73a78c1e2758149800ed}{ttl\_\-m}
+\begin{CompactList}\small\item\em total mass, global average kinetic energy, \item\end{CompactList}\item 
+\hypertarget{classDiagnose_fb8a8b1acd170da00404455ee0e674df}{
+double $\ast$ \hyperlink{classDiagnose_fb8a8b1acd170da00404455ee0e674df}{mtl\_\-m}}
+\label{classDiagnose_fb8a8b1acd170da00404455ee0e674df}
+
+\begin{CompactList}\small\item\em ??????{\bf (\hyperlink{diagnose_8h}{diagnose.h}, line 36)} \item\end{CompactList}\item 
+\hypertarget{classDiagnose_1784f6a7677b271e8968147df019e8b0}{
+double \hyperlink{classDiagnose_1784f6a7677b271e8968147df019e8b0}{glb\_\-ave\_\-Ek}}
+\label{classDiagnose_1784f6a7677b271e8968147df019e8b0}
+
+\begin{CompactList}\small\item\em global average kinetic energy \item\end{CompactList}\item 
+\hypertarget{classDiagnose_52f9cc1859fecd569c05de78243e45bd}{
+Vec2d $\ast$ \hyperlink{classDiagnose_52f9cc1859fecd569c05de78243e45bd}{wght\_\-cntr}}
+\label{classDiagnose_52f9cc1859fecd569c05de78243e45bd}
+
+\begin{CompactList}\small\item\em material weight center position \item\end{CompactList}\item 
+\hypertarget{classDiagnose_8b02748469646274034f793aab57193b}{
+Vec2d $\ast$ \hyperlink{classDiagnose_8b02748469646274034f793aab57193b}{wght\_\-v}}
+\label{classDiagnose_8b02748469646274034f793aab57193b}
+
+\begin{CompactList}\small\item\em material weight center velocity \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classOutput}{Output} diagnosal. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classDiagnose_915a3d571504c843748bf5e9a9ec801c}{
+\index{Diagnose@{Diagnose}!Diagnose@{Diagnose}}
+\index{Diagnose@{Diagnose}!Diagnose@{Diagnose}}
+\subsubsection[{Diagnose}]{\setlength{\rightskip}{0pt plus 5cm}Diagnose::Diagnose ({\bf Initiation} \& {\em ini}, \/  {\bf Hydrodynamics} \& {\em hydro})}}
+\label{classDiagnose_915a3d571504c843748bf5e9a9ec801c}
+
+
+constructor 
+
+
+
+\begin{itemize}
+\item copy parameters from \hyperlink{classInitiation}{Initiation} class
+
+\item copy boundary properties from initiation class
+
+\item calculate total mass
+
+\item produce output file name (\char`\"{}kinetic\_\-info.dat\char`\"{})and file header \end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=128pt]{classDiagnose_915a3d571504c843748bf5e9a9ec801c_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classDiagnose_8c14b3fa58083f64be2018bd0462604d}{
+\index{Diagnose@{Diagnose}!Average@{Average}}
+\index{Average@{Average}!Diagnose@{Diagnose}}
+\subsubsection[{Average}]{\setlength{\rightskip}{0pt plus 5cm}void Diagnose::Average ({\bf ParticleManager} \& {\em particles}, \/  {\bf MLS} \& {\em mls}, \/  {\bf QuinticSpline} \& {\em weight\_\-function}, \/  {\bf Initiation} \& {\em ini})}}
+\label{classDiagnose_8c14b3fa58083f64be2018bd0462604d}
+
+
+calculate the average values 
+
+
+
+\begin{itemize}
+\item loop the grid points
+
+\begin{itemize}
+\item build the NNP\_\-list
+
+\item if the NNP list is not empty run \hyperlink{classMLS}{MLS} approximation
+
+\item iterate this Nearest Neighbor \hyperlink{classParticle}{Particle} list
+
+\begin{itemize}
+\item get particle data \end{itemize}
+
+
+\item clear the NNP\_\-list
+
+\item calculating the averages \end{itemize}
+\end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=331pt]{classDiagnose_8c14b3fa58083f64be2018bd0462604d_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{classDiagnose_8c14b3fa58083f64be2018bd0462604d_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classDiagnose_9c73b32dc8facce488617780250c14bf}{
+\index{Diagnose@{Diagnose}!KineticInformation@{KineticInformation}}
+\index{KineticInformation@{KineticInformation}!Diagnose@{Diagnose}}
+\subsubsection[{KineticInformation}]{\setlength{\rightskip}{0pt plus 5cm}void Diagnose::KineticInformation (double {\em Time}, \/  {\bf Initiation} \& {\em ini}, \/  {\bf Hydrodynamics} \& {\em hydro})}}
+\label{classDiagnose_9c73b32dc8facce488617780250c14bf}
+
+
+track the globle average kinetic energy, weight center position and velocity 
+
+
+
+\begin{itemize}
+\item produce output file name
+
+\item iterate the partilce list and calculate data
+
+\item output calculated data in \char`\"{}kinetic\_\-info.dat\char`\"{} \end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=166pt]{classDiagnose_9c73b32dc8facce488617780250c14bf_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=235pt]{classDiagnose_9c73b32dc8facce488617780250c14bf_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classDiagnose_dc46dd26362f94e09b956b3affa247c9}{
+\index{Diagnose@{Diagnose}!OutputAverage@{OutputAverage}}
+\index{OutputAverage@{OutputAverage}!Diagnose@{Diagnose}}
+\subsubsection[{OutputAverage}]{\setlength{\rightskip}{0pt plus 5cm}void Diagnose::OutputAverage (double {\em Time}, \/  {\bf Initiation} \& {\em ini})}}
+\label{classDiagnose_dc46dd26362f94e09b956b3affa247c9}
+
+
+output the average values 
+
+
+
+\begin{itemize}
+\item produce output file name\end{itemize}
+
+
+\begin{itemize}
+\item defining header for tecplot(plot software)\end{itemize}
+
+
+\begin{itemize}
+\item loop the grid points and output data \end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=160pt]{classDiagnose_dc46dd26362f94e09b956b3affa247c9_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=122pt]{classDiagnose_dc46dd26362f94e09b956b3affa247c9_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classDiagnose_db2f9991031fb8c301f44518c1d851ea}{
+\index{Diagnose@{Diagnose}!OutputProfile@{OutputProfile}}
+\index{OutputProfile@{OutputProfile}!Diagnose@{Diagnose}}
+\subsubsection[{OutputProfile}]{\setlength{\rightskip}{0pt plus 5cm}void Diagnose::OutputProfile (double {\em Time}, \/  {\bf Initiation} \& {\em ini})}}
+\label{classDiagnose_db2f9991031fb8c301f44518c1d851ea}
+
+
+output distribution up to the time 
+
+
+
+\begin{itemize}
+\item produce output file name \char`\"{}dstrXXXX.dat\char`\"{}\end{itemize}
+
+
+\begin{itemize}
+\item defining file header for tecplot(plot software)\end{itemize}
+
+
+-build the distribution
+
+\begin{itemize}
+\item normalize to unit\end{itemize}
+
+
+\begin{itemize}
+\item output distribution in file \end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=221pt]{classDiagnose_db2f9991031fb8c301f44518c1d851ea_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=119pt]{classDiagnose_db2f9991031fb8c301f44518c1d851ea_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classDiagnose_bf6d65f3716a9d637186f97c62f7218b}{
+\index{Diagnose@{Diagnose}!SaveStates@{SaveStates}}
+\index{SaveStates@{SaveStates}!Diagnose@{Diagnose}}
+\subsubsection[{SaveStates}]{\setlength{\rightskip}{0pt plus 5cm}void Diagnose::SaveStates ({\bf Hydrodynamics} \& {\em hydro})}}
+\label{classDiagnose_bf6d65f3716a9d637186f97c62f7218b}
+
+
+save the states of a particle in particle states vectors (vx\_\-list, vy\_\-list, rho\_\-list) 
+
+
+
+\begin{itemize}
+\item select a given node on the particle list\end{itemize}
+
+
+\begin{itemize}
+\item Insert the states of the particles in the states vectores (vx\_\-list, vy\_\-list, rho\_\-list) \end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=132pt]{classDiagnose_bf6d65f3716a9d637186f97c62f7218b_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=221pt]{classDiagnose_bf6d65f3716a9d637186f97c62f7218b_icgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classDiagnose_31e87c9b084b73a78c1e2758149800ed}{
+\index{Diagnose@{Diagnose}!ttl\_\-m@{ttl\_\-m}}
+\index{ttl\_\-m@{ttl\_\-m}!Diagnose@{Diagnose}}
+\subsubsection[{ttl\_\-m}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf Diagnose::ttl\_\-m}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classDiagnose_31e87c9b084b73a78c1e2758149800ed}
+
+
+total mass, global average kinetic energy, 
+
+total mass 
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{diagnose_8h}{diagnose.h}\item 
+\hyperlink{diagose_8cpp}{diagose.cpp}\end{CompactItemize}

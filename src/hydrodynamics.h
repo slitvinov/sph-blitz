@@ -1,5 +1,3 @@
-#ifndef HYDRODYNAMICS_H
-#define HYDRODYNAMICS_H
 /// \file hydrodynamics.h
 /// \brief  Definition of  materials and their hydrodynamical interactions
 
@@ -9,6 +7,7 @@ class Hydrodynamics
 	int number_of_materials;
 	Vec2d gravity;
 	double smoothinglength;
+	int simu_mode;
 	double delta, delta2, delta3;
 	double dt_g_vis, dt_surf;
 
@@ -55,11 +54,11 @@ public:
 	void Zero_density();
 	void Zero_ShearRate();
 	///summation for particles density (with updating interaction list)
-	void UpdateDensity(ParticleManager &particles, QuinticSpline &weight_function);
+	void UpdateDensity(ParticleManager &particles, QuinticSpline &weight_function, Initiation &ini);
         ///summation for shear rates (with updating interaction list)
 	void UpdateShearRate(ParticleManager &particles, QuinticSpline &weight_function);
 	///currently no shear rate calculated  without updating interaction list
-	void UpdateDensity();///???
+	void UpdateDensity(Initiation &ini);///???
 	void UpdateShearRate();
 	
 	//update phase field
@@ -76,7 +75,7 @@ public:
 	void UpdatePahseMatrix(Boundary &boundary);
 
 	///calculate states from conservatives
-	void UpdateState();
+	void UpdateState(Initiation &ini);
 	///calculate partilce volume
 	void UpdateVolume(ParticleManager &particles, QuinticSpline &weight_function);
 
@@ -106,5 +105,3 @@ public:
 	void Zero_Velocity();
 
 };
-
-#endif //HYDRODYNAMICS_H

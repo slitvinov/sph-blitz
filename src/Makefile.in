@@ -43,8 +43,8 @@ CONFIG_CLEAN_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
-am_sph_OBJECTS = boundary.$(OBJEXT) betaspline.$(OBJEXT) \
-	diagnose.$(OBJEXT) force.$(OBJEXT) glbfunc.$(OBJEXT) \
+am_sph_OBJECTS = boundary.$(OBJEXT) bskernel.$(OBJEXT) \
+	diagose.$(OBJEXT) force.$(OBJEXT) glbfunc.$(OBJEXT) \
 	hydrodynamics.$(OBJEXT) initiation.$(OBJEXT) \
 	interaction.$(OBJEXT) kernel.$(OBJEXT) material.$(OBJEXT) \
 	mls.$(OBJEXT) output.$(OBJEXT) particle.$(OBJEXT) \
@@ -163,7 +163,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 sph_SOURCES = betaspline.h boundary.cpp boundary.h \
-	betaspline.cpp diagnose.h diagnose.cpp \
+	bskernel.cpp diagnose.h diagose.cpp \
 	dllist.h force.cpp force.h \
 	glbcls.h glbfunc.cpp glbfunc.h \
 	hydrodynamics.cpp hydrodynamics.h initiation.cpp \
@@ -242,9 +242,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/betaspline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boundary.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/diagnose.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bskernel.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/diagose.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/force.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/glbfunc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hydrodynamics.Po@am__quote@

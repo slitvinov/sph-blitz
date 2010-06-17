@@ -1,0 +1,510 @@
+\hypertarget{classParticle}{
+\section{Particle Class Reference}
+\label{classParticle}\index{Particle@{Particle}}
+}
+\hyperlink{classParticle}{Particle} class.  
+
+
+{\tt \#include $<$particle.h$>$}
+
+Collaboration diagram for Particle:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=135pt]{classParticle__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classParticle_91ea71cca6b4c538391fc881bc8da59a}{Particle} (\hyperlink{classInitiation}{Initiation} \&ini)
+\begin{CompactList}\small\item\em a particle constructur for empty particles \item\end{CompactList}\item 
+\hyperlink{classParticle_5cf658952a598524638d789db59b4249}{Particle} (Vec2d position, Vec2d velocity, double density, double pressure, double temperature, \hyperlink{classMaterial}{Material} \&material)
+\begin{CompactList}\small\item\em construct a real particle NOTE the particle mass and volume will be specified in initiation::VolumeMass(w) \item\end{CompactList}\item 
+\hyperlink{classParticle_141d53920868e51381f83b6a5d5973d2}{Particle} (double x, double y, double u, double v, double distance, double normal\_\-x, double normal\_\-y, \hyperlink{classMaterial}{Material} \&material)
+\begin{CompactList}\small\item\em construct a wall particle \item\end{CompactList}\item 
+\hyperlink{classParticle_0c88a1f547bae9946678288ff371acb2}{Particle} (\hyperlink{classParticle}{Particle} \&RealParticle)
+\begin{CompactList}\small\item\em ghost particle creator \item\end{CompactList}\item 
+\hyperlink{classParticle_4f3ed6cdbd582d85e39622038205f0e1}{Particle} (\hyperlink{classParticle}{Particle} \&RealParticle, \hyperlink{classMaterial}{Material} \&material)
+\begin{CompactList}\small\item\em Mirror image particle creator. \item\end{CompactList}\item 
+\hyperlink{classParticle_d030d0fe7b88cf81744b127c99244ff4}{$\sim$Particle} ()
+\begin{CompactList}\small\item\em deconstructor particle \item\end{CompactList}\item 
+void \hyperlink{classParticle_d202d28edab1253eb51be75ea0cbdbfd}{StatesCopier} (\hyperlink{classParticle}{Particle} \&RealParticle, int type)
+\begin{CompactList}\small\item\em particle states copier for boundary particles \item\end{CompactList}\end{CompactItemize}
+\subsection*{Public Attributes}
+\begin{CompactItemize}
+\item 
+\hypertarget{classParticle_5dd341dff09126775ee3f94b9386345f}{
+int \hyperlink{classParticle_5dd341dff09126775ee3f94b9386345f}{cell\_\-i}}
+\label{classParticle_5dd341dff09126775ee3f94b9386345f}
+
+\begin{CompactList}\small\item\em i-position in cells \item\end{CompactList}\item 
+\hypertarget{classParticle_eea0c9b28b244318e2f0b8d4bb2a47b3}{
+int \hyperlink{classParticle_eea0c9b28b244318e2f0b8d4bb2a47b3}{cell\_\-j}}
+\label{classParticle_eea0c9b28b244318e2f0b8d4bb2a47b3}
+
+\begin{CompactList}\small\item\em j-position in cells \item\end{CompactList}\item 
+\hypertarget{classParticle_26fec1228a429d36a7e7fbbd5da13cc5}{
+\hyperlink{classMaterial}{Material} $\ast$ \hyperlink{classParticle_26fec1228a429d36a7e7fbbd5da13cc5}{mtl}}
+\label{classParticle_26fec1228a429d36a7e7fbbd5da13cc5}
+
+\begin{CompactList}\small\item\em pointer to the material \item\end{CompactList}\item 
+\hypertarget{classParticle_6baadd44a1051798d0e248757c450234}{
+\hyperlink{classParticle}{Particle} $\ast$ \hyperlink{classParticle_6baadd44a1051798d0e248757c450234}{rl\_\-prtl}}
+\label{classParticle_6baadd44a1051798d0e248757c450234}
+
+\begin{CompactList}\small\item\em pointer to a real particle \item\end{CompactList}\item 
+\hypertarget{classParticle_eef75ee5a8289086612542c3c1619e0e}{
+Vec2d \hyperlink{classParticle_eef75ee5a8289086612542c3c1619e0e}{R}}
+\label{classParticle_eef75ee5a8289086612542c3c1619e0e}
+
+\begin{CompactList}\small\item\em position \item\end{CompactList}\item 
+\hypertarget{classParticle_3fbc48c56ba3d5d7c9c1fd848f9f8dfa}{
+Vec2d \hyperlink{classParticle_3fbc48c56ba3d5d7c9c1fd848f9f8dfa}{P}}
+\label{classParticle_3fbc48c56ba3d5d7c9c1fd848f9f8dfa}
+
+\begin{CompactList}\small\item\em momentum \item\end{CompactList}\item 
+\hypertarget{classParticle_f931f3625b557b51cca6b199dc1f3e95}{
+Vec2d \hyperlink{classParticle_f931f3625b557b51cca6b199dc1f3e95}{U}}
+\label{classParticle_f931f3625b557b51cca6b199dc1f3e95}
+
+\begin{CompactList}\small\item\em velocityy \item\end{CompactList}\item 
+\hypertarget{classParticle_4a4fc6e753e74eac9d7725c431e94205}{
+double \hyperlink{classParticle_4a4fc6e753e74eac9d7725c431e94205}{rho}}
+\label{classParticle_4a4fc6e753e74eac9d7725c431e94205}
+
+\begin{CompactList}\small\item\em density \item\end{CompactList}\item 
+\hypertarget{classParticle_9ef797ea4feb5eed21755d5d8e99508e}{
+double \hyperlink{classParticle_9ef797ea4feb5eed21755d5d8e99508e}{p}}
+\label{classParticle_9ef797ea4feb5eed21755d5d8e99508e}
+
+\begin{CompactList}\small\item\em pressure \item\end{CompactList}\item 
+\hypertarget{classParticle_b07ac93118d84bc548e0dc837a5c31f5}{
+double \hyperlink{classParticle_b07ac93118d84bc548e0dc837a5c31f5}{T}}
+\label{classParticle_b07ac93118d84bc548e0dc837a5c31f5}
+
+\begin{CompactList}\small\item\em Temperature. \item\end{CompactList}\item 
+\hypertarget{classParticle_04aaaa78c93a52103d092923287d79ae}{
+double \hyperlink{classParticle_04aaaa78c93a52103d092923287d79ae}{Cs}}
+\label{classParticle_04aaaa78c93a52103d092923287d79ae}
+
+\begin{CompactList}\small\item\em do not know what this is {\bf !!!Question!!!} \item\end{CompactList}\item 
+\hypertarget{classParticle_c9af22c35c1bf1c33ae8145b0ec3a631}{
+double \hyperlink{classParticle_c9af22c35c1bf1c33ae8145b0ec3a631}{rho\_\-I}}
+\label{classParticle_c9af22c35c1bf1c33ae8145b0ec3a631}
+
+\begin{CompactList}\small\item\em intermediate value for density (needed for integration) \item\end{CompactList}\item 
+\hypertarget{classParticle_4a7dfc727da093aeb484b9e3a699f3b0}{
+double \textbf{rho\_\-n}}
+\label{classParticle_4a7dfc727da093aeb484b9e3a699f3b0}
+
+\item 
+\hypertarget{classParticle_edcc7e1bc53b0e2b1a4a07c9a1b47563}{
+double \hyperlink{classParticle_edcc7e1bc53b0e2b1a4a07c9a1b47563}{m}}
+\label{classParticle_edcc7e1bc53b0e2b1a4a07c9a1b47563}
+
+\begin{CompactList}\small\item\em mass \item\end{CompactList}\item 
+\hypertarget{classParticle_941e43f9d9b080269a58bc98847ea7ab}{
+double \hyperlink{classParticle_941e43f9d9b080269a58bc98847ea7ab}{V}}
+\label{classParticle_941e43f9d9b080269a58bc98847ea7ab}
+
+\begin{CompactList}\small\item\em volume \item\end{CompactList}\item 
+\hypertarget{classParticle_00a04c82ccc76272a9b4ae779c7583e1}{
+double \hyperlink{classParticle_00a04c82ccc76272a9b4ae779c7583e1}{e}}
+\label{classParticle_00a04c82ccc76272a9b4ae779c7583e1}
+
+\begin{CompactList}\small\item\em internal energy \item\end{CompactList}\item 
+\hypertarget{classParticle_ad1dfedaf6bb2f6ccd639d0a38322cca}{
+Vec2d \hyperlink{classParticle_ad1dfedaf6bb2f6ccd639d0a38322cca}{R\_\-I}}
+\label{classParticle_ad1dfedaf6bb2f6ccd639d0a38322cca}
+
+\begin{CompactList}\small\item\em intermediate position \item\end{CompactList}\item 
+\hypertarget{classParticle_4b83fe9f80ff112a9ef19ca0fe22d07d}{
+Vec2d \hyperlink{classParticle_4b83fe9f80ff112a9ef19ca0fe22d07d}{P\_\-I}}
+\label{classParticle_4b83fe9f80ff112a9ef19ca0fe22d07d}
+
+\begin{CompactList}\small\item\em intermediate momentim \item\end{CompactList}\item 
+\hypertarget{classParticle_346aeb99054a013436d225c9df535002}{
+Vec2d \hyperlink{classParticle_346aeb99054a013436d225c9df535002}{U\_\-I}}
+\label{classParticle_346aeb99054a013436d225c9df535002}
+
+\begin{CompactList}\small\item\em intermediate velocity \item\end{CompactList}\item 
+\hypertarget{classParticle_d5c24e7c813bcd558aa40acb8fd84de7}{
+Vec2d \hyperlink{classParticle_d5c24e7c813bcd558aa40acb8fd84de7}{P\_\-n}}
+\label{classParticle_d5c24e7c813bcd558aa40acb8fd84de7}
+
+\begin{CompactList}\small\item\em do not knwo what this is n=?conservative???{\bf !!!Question!!!} \item\end{CompactList}\item 
+\hypertarget{classParticle_9a4a7631b4f39ea1dbfdf9b426ad2e1a}{
+Vec2d \hyperlink{classParticle_9a4a7631b4f39ea1dbfdf9b426ad2e1a}{U\_\-n}}
+\label{classParticle_9a4a7631b4f39ea1dbfdf9b426ad2e1a}
+
+\begin{CompactList}\small\item\em do not knwo what this is n=?conservative???{\bf !!!Question!!!} \item\end{CompactList}\item 
+\hypertarget{classParticle_2a993ea8900f2f84595599fb18224bde}{
+double \hyperlink{classParticle_2a993ea8900f2f84595599fb18224bde}{e\_\-I}}
+\label{classParticle_2a993ea8900f2f84595599fb18224bde}
+
+\begin{CompactList}\small\item\em intermediate value of internal enegry (used in the integrator) \item\end{CompactList}\item 
+\hypertarget{classParticle_79b451e92d70e0b029820c528a346499}{
+double \textbf{e\_\-n}}
+\label{classParticle_79b451e92d70e0b029820c528a346499}
+
+\item 
+\hypertarget{classParticle_7a60f30c44da2e6cfb2c17d3199d65f2}{
+Vec2d \hyperlink{classParticle_7a60f30c44da2e6cfb2c17d3199d65f2}{ShearRate\_\-x}}
+\label{classParticle_7a60f30c44da2e6cfb2c17d3199d65f2}
+
+\begin{CompactList}\small\item\em intermediate volume, internal energy used in integrator \item\end{CompactList}\item 
+\hypertarget{classParticle_02f0b4442dc26c724d3bca383f542683}{
+Vec2d \textbf{ShearRate\_\-y}}
+\label{classParticle_02f0b4442dc26c724d3bca383f542683}
+
+\item 
+\hypertarget{classParticle_2d0c5ad7aa3ed6f2a18822020cfc5fa4}{
+double \textbf{eta}}
+\label{classParticle_2d0c5ad7aa3ed6f2a18822020cfc5fa4}
+
+\item 
+\hypertarget{classParticle_5d070e879a5fd02b62f822c5a21c1747}{
+double \textbf{zeta}}
+\label{classParticle_5d070e879a5fd02b62f822c5a21c1747}
+
+\item 
+\hypertarget{classParticle_acc4d2cb20aafcb510b648e8f0ccadac}{
+double $\ast$$\ast$ \hyperlink{classParticle_acc4d2cb20aafcb510b648e8f0ccadac}{phi}}
+\label{classParticle_acc4d2cb20aafcb510b648e8f0ccadac}
+
+\begin{CompactList}\small\item\em \hyperlink{particle_8h_source}{particle.h}(line 69-74) viscosity of each particle{\bf !!!Question!!!} \item\end{CompactList}\item 
+Vec2d \hyperlink{classParticle_0461d98d796ba0e2dc72edb5b2fb093a}{del\_\-phi}
+\item 
+\hypertarget{classParticle_5b6d8725dbd06dfeb73692f6a91776db}{
+double $\ast$$\ast$ \textbf{lap\_\-phi}}
+\label{classParticle_5b6d8725dbd06dfeb73692f6a91776db}
+
+\item 
+\hypertarget{classParticle_b8ed5fa9fede49e38ef74e955e1179ee}{
+double \hyperlink{classParticle_b8ed5fa9fede49e38ef74e955e1179ee}{drhodt}}
+\label{classParticle_b8ed5fa9fede49e38ef74e955e1179ee}
+
+\begin{CompactList}\small\item\em density change rate for real particles \item\end{CompactList}\item 
+\hypertarget{classParticle_114e4e1b158cff18b44a881981cba71a}{
+double \hyperlink{classParticle_114e4e1b158cff18b44a881981cba71a}{dedt}}
+\label{classParticle_114e4e1b158cff18b44a881981cba71a}
+
+\begin{CompactList}\small\item\em internal energy change rate for real particles \item\end{CompactList}\item 
+\hypertarget{classParticle_b3039ea91cdab042862b80f8ecd97c3e}{
+Vec2d \hyperlink{classParticle_b3039ea91cdab042862b80f8ecd97c3e}{dUdt}}
+\label{classParticle_b3039ea91cdab042862b80f8ecd97c3e}
+
+\begin{CompactList}\small\item\em acceleration change for real particles {\bf or is it the other wa round} \item\end{CompactList}\item 
+\hypertarget{classParticle_da30e275fe7bb7855bf968ed7bd3adbf}{
+Vec2d \hyperlink{classParticle_da30e275fe7bb7855bf968ed7bd3adbf}{\_\-dU}}
+\label{classParticle_da30e275fe7bb7855bf968ed7bd3adbf}
+
+\begin{CompactList}\small\item\em random velocity change for real particles {\bf or is it the other wa round} \item\end{CompactList}\item 
+int \hyperlink{classParticle_873301ecb921ab815ef7b693033e8c88}{bd}
+\begin{CompactList}\small\item\em boundary particle or not \item\end{CompactList}\item 
+int \hyperlink{classParticle_73728c6443f6ade479e960ef9d070221}{bd\_\-type}
+\item 
+long \hyperlink{classParticle_1072ca8f2323417f321cc333d37ff1a3}{ID}
+\begin{CompactList}\small\item\em ID number. \item\end{CompactList}\item 
+\hypertarget{classParticle_1ef8cc0c391f174490a54ba1bb4d712f}{
+double \hyperlink{classParticle_1ef8cc0c391f174490a54ba1bb4d712f}{bd\_\-dst}}
+\label{classParticle_1ef8cc0c391f174490a54ba1bb4d712f}
+
+\begin{CompactList}\small\item\em for wall boundary particles \item\end{CompactList}\item 
+\hypertarget{classParticle_8397ab51179bf583b6eded2f3d2004a9}{
+Vec2d \hyperlink{classParticle_8397ab51179bf583b6eded2f3d2004a9}{nrml}}
+\label{classParticle_8397ab51179bf583b6eded2f3d2004a9}
+
+\begin{CompactList}\small\item\em for wall boundary particles \item\end{CompactList}\end{CompactItemize}
+\subsection*{Static Public Attributes}
+\begin{CompactItemize}
+\item 
+\hypertarget{classParticle_c8d46625d0bcafc38564f213b9668580}{
+static long \hyperlink{classParticle_c8d46625d0bcafc38564f213b9668580}{ID\_\-max} = 0}
+\label{classParticle_c8d46625d0bcafc38564f213b9668580}
+
+\begin{CompactList}\small\item\em maximum ID number for non-ghost particles (real or wall particles) in the simulation \item\end{CompactList}\end{CompactItemize}
+\subsection*{Static Private Attributes}
+\begin{CompactItemize}
+\item 
+\hypertarget{classParticle_cbf60684ef8e09fb20fcd2e9aacf723f}{
+static int \textbf{number\_\-of\_\-materials} = 0}
+\label{classParticle_cbf60684ef8e09fb20fcd2e9aacf723f}
+
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classParticle}{Particle} class. 
+
+note: reference a particle by pointer or adress never reference a particle directly! 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classParticle_91ea71cca6b4c538391fc881bc8da59a}{
+\index{Particle@{Particle}!Particle@{Particle}}
+\index{Particle@{Particle}!Particle@{Particle}}
+\subsubsection[{Particle}]{\setlength{\rightskip}{0pt plus 5cm}Particle::Particle ({\bf Initiation} \& {\em ini})}}
+\label{classParticle_91ea71cca6b4c538391fc881bc8da59a}
+
+
+a particle constructur for empty particles 
+
+
+
+\begin{itemize}
+\item copy properties from initiation\end{itemize}
+
+
+\begin{itemize}
+\item set up phase field \end{itemize}
+\hypertarget{classParticle_5cf658952a598524638d789db59b4249}{
+\index{Particle@{Particle}!Particle@{Particle}}
+\index{Particle@{Particle}!Particle@{Particle}}
+\subsubsection[{Particle}]{\setlength{\rightskip}{0pt plus 5cm}Particle::Particle (Vec2d {\em position}, \/  Vec2d {\em velocity}, \/  double {\em density}, \/  double {\em pressure}, \/  double {\em temperature}, \/  {\bf Material} \& {\em material})}}
+\label{classParticle_5cf658952a598524638d789db59b4249}
+
+
+construct a real particle NOTE the particle mass and volume will be specified in initiation::VolumeMass(w) 
+
+
+
+\begin{itemize}
+\item increase the total particle number\end{itemize}
+
+
+\begin{itemize}
+\item give a new ID number\end{itemize}
+
+
+\begin{itemize}
+\item point to the material properties\end{itemize}
+
+
+\begin{itemize}
+\item set viscosity\end{itemize}
+
+
+\begin{itemize}
+\item set particle position\end{itemize}
+
+
+\begin{itemize}
+\item set states\end{itemize}
+
+
+\begin{itemize}
+\item set conservative values and their intermediate values\end{itemize}
+
+
+\begin{itemize}
+\item set up phase field \end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=128pt]{classParticle_5cf658952a598524638d789db59b4249_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{classParticle_141d53920868e51381f83b6a5d5973d2}{
+\index{Particle@{Particle}!Particle@{Particle}}
+\index{Particle@{Particle}!Particle@{Particle}}
+\subsubsection[{Particle}]{\setlength{\rightskip}{0pt plus 5cm}Particle::Particle (double {\em x}, \/  double {\em y}, \/  double {\em u}, \/  double {\em v}, \/  double {\em distance}, \/  double {\em normal\_\-x}, \/  double {\em normal\_\-y}, \/  {\bf Material} \& {\em material})}}
+\label{classParticle_141d53920868e51381f83b6a5d5973d2}
+
+
+construct a wall particle 
+
+
+
+\begin{itemize}
+\item give a new ID number\end{itemize}
+
+
+\begin{itemize}
+\item point to the material properties\end{itemize}
+
+
+\begin{itemize}
+\item set particle position\end{itemize}
+
+
+\begin{itemize}
+\item set states\end{itemize}
+
+
+\begin{itemize}
+\item set distance and normal directions to boundary\end{itemize}
+
+
+\begin{itemize}
+\item set states value to avoid error \end{itemize}
+\hypertarget{classParticle_0c88a1f547bae9946678288ff371acb2}{
+\index{Particle@{Particle}!Particle@{Particle}}
+\index{Particle@{Particle}!Particle@{Particle}}
+\subsubsection[{Particle}]{\setlength{\rightskip}{0pt plus 5cm}Particle::Particle ({\bf Particle} \& {\em RealParticle})}}
+\label{classParticle_0c88a1f547bae9946678288ff371acb2}
+
+
+ghost particle creator 
+
+
+
+\begin{itemize}
+\item give a new ID number\end{itemize}
+
+
+\begin{itemize}
+\item point to its real particle\end{itemize}
+
+
+\begin{itemize}
+\item point to the material properties\end{itemize}
+
+
+\begin{itemize}
+\item set viscosity\end{itemize}
+
+
+\begin{itemize}
+\item set states\end{itemize}
+
+
+\begin{itemize}
+\item set conservative values and their intermediate values\end{itemize}
+
+
+\begin{itemize}
+\item set up phase field \end{itemize}
+\hypertarget{classParticle_4f3ed6cdbd582d85e39622038205f0e1}{
+\index{Particle@{Particle}!Particle@{Particle}}
+\index{Particle@{Particle}!Particle@{Particle}}
+\subsubsection[{Particle}]{\setlength{\rightskip}{0pt plus 5cm}Particle::Particle ({\bf Particle} \& {\em RealParticle}, \/  {\bf Material} \& {\em material})}}
+\label{classParticle_4f3ed6cdbd582d85e39622038205f0e1}
+
+
+Mirror image particle creator. 
+
+
+
+\begin{itemize}
+\item give a new ID number\end{itemize}
+
+
+\begin{itemize}
+\item point to its real particle\end{itemize}
+
+
+\begin{itemize}
+\item point to the material properties\end{itemize}
+
+
+\begin{itemize}
+\item set viscosity\end{itemize}
+
+
+\begin{itemize}
+\item set states\end{itemize}
+
+
+\begin{itemize}
+\item set conservative values and their intermediate values\end{itemize}
+
+
+\begin{itemize}
+\item set up phase field \end{itemize}
+\hypertarget{classParticle_d030d0fe7b88cf81744b127c99244ff4}{
+\index{Particle@{Particle}!$\sim$Particle@{$\sim$Particle}}
+\index{$\sim$Particle@{$\sim$Particle}!Particle@{Particle}}
+\subsubsection[{$\sim$Particle}]{\setlength{\rightskip}{0pt plus 5cm}Particle::$\sim$Particle ()}}
+\label{classParticle_d030d0fe7b88cf81744b127c99244ff4}
+
+
+deconstructor particle 
+
+
+
+\begin{itemize}
+\item delete phase field\end{itemize}
+
+
+\begin{itemize}
+\item delete pahse field gradient matrix \end{itemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classParticle_d202d28edab1253eb51be75ea0cbdbfd}{
+\index{Particle@{Particle}!StatesCopier@{StatesCopier}}
+\index{StatesCopier@{StatesCopier}!Particle@{Particle}}
+\subsubsection[{StatesCopier}]{\setlength{\rightskip}{0pt plus 5cm}void Particle::StatesCopier ({\bf Particle} \& {\em RealParticle}, \/  int {\em type})}}
+\label{classParticle_d202d28edab1253eb51be75ea0cbdbfd}
+
+
+particle states copier for boundary particles 
+
+
+
+\begin{itemize}
+\item copy states\end{itemize}
+
+
+\begin{itemize}
+\item set phase field (depending on boundary type: periodic/wall) \end{itemize}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=312pt]{classParticle_d202d28edab1253eb51be75ea0cbdbfd_icgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classParticle_873301ecb921ab815ef7b693033e8c88}{
+\index{Particle@{Particle}!bd@{bd}}
+\index{bd@{bd}!Particle@{Particle}}
+\subsubsection[{bd}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf Particle::bd}}}
+\label{classParticle_873301ecb921ab815ef7b693033e8c88}
+
+
+boundary particle or not 
+
+\begin{itemize}
+\item 0: inside the boundary\item 1: on the boundary \end{itemize}
+\hypertarget{classParticle_73728c6443f6ade479e960ef9d070221}{
+\index{Particle@{Particle}!bd\_\-type@{bd\_\-type}}
+\index{bd\_\-type@{bd\_\-type}!Particle@{Particle}}
+\subsubsection[{bd\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf Particle::bd\_\-type}}}
+\label{classParticle_73728c6443f6ade479e960ef9d070221}
+
+
+boundary type if bd = 1\begin{itemize}
+\item 0 wall particle with zero or constant velocity but never move its position\item 1 ghost particle for perodic boundary \end{itemize}
+\hypertarget{classParticle_0461d98d796ba0e2dc72edb5b2fb093a}{
+\index{Particle@{Particle}!del\_\-phi@{del\_\-phi}}
+\index{del\_\-phi@{del\_\-phi}!Particle@{Particle}}
+\subsubsection[{del\_\-phi}]{\setlength{\rightskip}{0pt plus 5cm}Vec2d {\bf Particle::del\_\-phi}}}
+\label{classParticle_0461d98d796ba0e2dc72edb5b2fb093a}
+
+
+phase field matrix{\bf !!!Question!!!} first as phase field gradient matrix {\bf !!!Question!!!} then the independent values (\mbox{[}0\mbox{]}\mbox{[}0\mbox{]} and \mbox{[}0\mbox{]}\mbox{[}1\mbox{]}) of suface stress matrix {\bf !!!Question!!!} \hypertarget{classParticle_1072ca8f2323417f321cc333d37ff1a3}{
+\index{Particle@{Particle}!ID@{ID}}
+\index{ID@{ID}!Particle@{Particle}}
+\subsubsection[{ID}]{\setlength{\rightskip}{0pt plus 5cm}long {\bf Particle::ID}}}
+\label{classParticle_1072ca8f2323417f321cc333d37ff1a3}
+
+
+ID number. 
+
+\begin{itemize}
+\item a real particle has a unique positive ID\item a wall particle has zero ID\item an ghost particle (for perodic boundary condition) has a negtive ID of its corresponding real particle \end{itemize}
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+particle.h\item 
+\hyperlink{particle_8cpp}{particle.cpp}\end{CompactItemize}

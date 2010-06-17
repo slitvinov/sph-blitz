@@ -1,0 +1,517 @@
+\hypertarget{classInitiation}{
+\section{Initiation Class Reference}
+\label{classInitiation}\index{Initiation@{Initiation}}
+}
+Initiates the simulation.  
+
+
+{\tt \#include $<$initiation.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classInitiation_4db3b8c45d38cf4e188de6aa672e8c0d}{Initiation} (const char $\ast$project\_\-name)
+\item 
+void \hyperlink{classInitiation_916e5b3e316dad1f524a1327b9e4aeb4}{non\_\-dimensionalize} ()
+\begin{CompactList}\small\item\em non-dimensionalize initial condition and parameters \item\end{CompactList}\item 
+void \hyperlink{classInitiation_cdbf1374b9b0f0b50a0bb1d9abf76293}{show\_\-information} ()
+\begin{CompactList}\small\item\em show information on screen \item\end{CompactList}\item 
+void \hyperlink{classInitiation_e80adc7d2105ad67b766fd1127966df3}{VolumeMass} (\hyperlink{classHydrodynamics}{Hydrodynamics} \&hydro, \hyperlink{classParticleManager}{ParticleManager} \&particles, \hyperlink{classQuinticSpline}{QuinticSpline} \&weight\_\-function)
+\begin{CompactList}\small\item\em predict the particle volume and mass \item\end{CompactList}\item 
+\hypertarget{classInitiation_689c73dd7149dc11207eca5c3109a7cd}{
+double \hyperlink{classInitiation_689c73dd7149dc11207eca5c3109a7cd}{non\_\-dms\_\-p} (double p)}
+\label{classInitiation_689c73dd7149dc11207eca5c3109a7cd}
+
+\begin{CompactList}\small\item\em a non dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_deddac317c4755623e4fcef187b3f07a}{
+double \hyperlink{classInitiation_deddac317c4755623e4fcef187b3f07a}{non\_\-dms\_\-T} (double T)}
+\label{classInitiation_deddac317c4755623e4fcef187b3f07a}
+
+\begin{CompactList}\small\item\em a non dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_29245385c400c4f0de40707cb07dc0dd}{
+double \hyperlink{classInitiation_29245385c400c4f0de40707cb07dc0dd}{non\_\-dms\_\-rho} (double rho)}
+\label{classInitiation_29245385c400c4f0de40707cb07dc0dd}
+
+\begin{CompactList}\small\item\em a non dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_e39448af30a53dd8f4354492be9883fc}{
+double \hyperlink{classInitiation_e39448af30a53dd8f4354492be9883fc}{non\_\-dms\_\-mass} (double mass)}
+\label{classInitiation_e39448af30a53dd8f4354492be9883fc}
+
+\begin{CompactList}\small\item\em a non dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_2ec28f27a197bfaeb3937733dbb47b03}{
+double \hyperlink{classInitiation_2ec28f27a197bfaeb3937733dbb47b03}{non\_\-dms\_\-time} (double time)}
+\label{classInitiation_2ec28f27a197bfaeb3937733dbb47b03}
+
+\begin{CompactList}\small\item\em a non dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_921fe74dff7653520c5e72cc5c11b353}{
+double \hyperlink{classInitiation_921fe74dff7653520c5e72cc5c11b353}{non\_\-dms\_\-length} (double length)}
+\label{classInitiation_921fe74dff7653520c5e72cc5c11b353}
+
+\begin{CompactList}\small\item\em a non dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_1b13c381a36c5d841bf9b4dc108a03f6}{
+Vec2d \hyperlink{classInitiation_1b13c381a36c5d841bf9b4dc108a03f6}{non\_\-dms\_\-box\_\-size} (Vec2d \hyperlink{classInitiation_c4ab38f327f64513f4c21cd5781f508a}{box\_\-size})}
+\label{classInitiation_1b13c381a36c5d841bf9b4dc108a03f6}
+
+\begin{CompactList}\small\item\em a non dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_7e4fbcccd66df50f14970074038c2988}{
+double \hyperlink{classInitiation_7e4fbcccd66df50f14970074038c2988}{non\_\-dms\_\-velocity} (double velocity)}
+\label{classInitiation_7e4fbcccd66df50f14970074038c2988}
+
+\begin{CompactList}\small\item\em a non dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_f48f16aceb256dd582f8697f21408322}{
+double \hyperlink{classInitiation_f48f16aceb256dd582f8697f21408322}{non\_\-dms\_\-kinetic\_\-viscosity} (double nu)}
+\label{classInitiation_f48f16aceb256dd582f8697f21408322}
+
+\begin{CompactList}\small\item\em a non dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_32f485a6951b34ce75bac6422419ebce}{
+Vec2d \hyperlink{classInitiation_32f485a6951b34ce75bac6422419ebce}{non\_\-dms\_\-velocity} (Vec2d velocity)}
+\label{classInitiation_32f485a6951b34ce75bac6422419ebce}
+
+\begin{CompactList}\small\item\em a non dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_cc810254f426d6f2ed61ef6edee27d89}{
+double \hyperlink{classInitiation_cc810254f426d6f2ed61ef6edee27d89}{non\_\-dms\_\-acceleration} (double acceleration)}
+\label{classInitiation_cc810254f426d6f2ed61ef6edee27d89}
+
+\begin{CompactList}\small\item\em a non dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_68c764e4253f4cc5b66c8e978ef37fc8}{
+Vec2d \hyperlink{classInitiation_68c764e4253f4cc5b66c8e978ef37fc8}{non\_\-dms\_\-acceleration} (Vec2d acceleration)}
+\label{classInitiation_68c764e4253f4cc5b66c8e978ef37fc8}
+
+\begin{CompactList}\small\item\em a non dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_0d433208c495509df2e2270804b9c2ef}{
+double \hyperlink{classInitiation_0d433208c495509df2e2270804b9c2ef}{non\_\-dms\_\-viscosity} (double mu)}
+\label{classInitiation_0d433208c495509df2e2270804b9c2ef}
+
+\begin{CompactList}\small\item\em a non dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_98ded96b747a9ee7512fcc95702b2580}{
+double \hyperlink{classInitiation_98ded96b747a9ee7512fcc95702b2580}{non\_\-dms\_\-heat\_\-ratio} (double cv)}
+\label{classInitiation_98ded96b747a9ee7512fcc95702b2580}
+
+\begin{CompactList}\small\item\em a non dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_7d54bcdd903f0d9a0b602008bf9cd10d}{
+double \hyperlink{classInitiation_7d54bcdd903f0d9a0b602008bf9cd10d}{non\_\-dms\_\-heat\_\-conduction} (double kappa)}
+\label{classInitiation_7d54bcdd903f0d9a0b602008bf9cd10d}
+
+\begin{CompactList}\small\item\em a non dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_5e09a2250d66d54ef63def3cb9419eae}{
+double \hyperlink{classInitiation_5e09a2250d66d54ef63def3cb9419eae}{non\_\-dms\_\-Boltzmann} (double \hyperlink{sph_8cpp_a50583a118c0a3e801d3e48a45b6a259}{k\_\-bltz})}
+\label{classInitiation_5e09a2250d66d54ef63def3cb9419eae}
+
+\begin{CompactList}\small\item\em a non dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_190a357cdd44440885bd5081cc4236a5}{
+double \hyperlink{classInitiation_190a357cdd44440885bd5081cc4236a5}{non\_\-dms\_\-surface} (double sigma)}
+\label{classInitiation_190a357cdd44440885bd5081cc4236a5}
+
+\begin{CompactList}\small\item\em a non dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_282fa06b6cb9769ceb01a2b22976126f}{
+double \hyperlink{classInitiation_282fa06b6cb9769ceb01a2b22976126f}{dms\_\-p} (double p\_\-non)}
+\label{classInitiation_282fa06b6cb9769ceb01a2b22976126f}
+
+\begin{CompactList}\small\item\em a re-dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_f769934489a9293b6059072bf0e26ae7}{
+double \hyperlink{classInitiation_f769934489a9293b6059072bf0e26ae7}{dms\_\-T} (double T\_\-non)}
+\label{classInitiation_f769934489a9293b6059072bf0e26ae7}
+
+\begin{CompactList}\small\item\em a re-dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_4d77129052a63bf33ad36638aaa47972}{
+double \hyperlink{classInitiation_4d77129052a63bf33ad36638aaa47972}{dms\_\-rho} (double rho\_\-non)}
+\label{classInitiation_4d77129052a63bf33ad36638aaa47972}
+
+\begin{CompactList}\small\item\em a re-dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_e28be0f6a53920bdab379301eb414990}{
+double \hyperlink{classInitiation_e28be0f6a53920bdab379301eb414990}{dms\_\-mass} (double mass\_\-non)}
+\label{classInitiation_e28be0f6a53920bdab379301eb414990}
+
+\begin{CompactList}\small\item\em a re-dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_0e76e3a9e585398854689d151b4af2d8}{
+double \hyperlink{classInitiation_0e76e3a9e585398854689d151b4af2d8}{dms\_\-time} (double time\_\-non)}
+\label{classInitiation_0e76e3a9e585398854689d151b4af2d8}
+
+\begin{CompactList}\small\item\em a re-dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_d6747d9cbd12e6327249606b021a87f1}{
+double \hyperlink{classInitiation_d6747d9cbd12e6327249606b021a87f1}{dms\_\-length} (double length\_\-non)}
+\label{classInitiation_d6747d9cbd12e6327249606b021a87f1}
+
+\begin{CompactList}\small\item\em a re-dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_8b5815911256da330c686c9e84e3ccbc}{
+Vec2d \hyperlink{classInitiation_8b5815911256da330c686c9e84e3ccbc}{dms\_\-box\_\-size} (Vec2d box\_\-size\_\-non)}
+\label{classInitiation_8b5815911256da330c686c9e84e3ccbc}
+
+\begin{CompactList}\small\item\em a re-dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_1bbabaf118b739c082d9db6e5a0d1021}{
+double \hyperlink{classInitiation_1bbabaf118b739c082d9db6e5a0d1021}{dms\_\-velocity} (double velocity\_\-non)}
+\label{classInitiation_1bbabaf118b739c082d9db6e5a0d1021}
+
+\begin{CompactList}\small\item\em a re-dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_ff3a9cd4918e5d823b4a1413b805c056}{
+Vec2d \hyperlink{classInitiation_ff3a9cd4918e5d823b4a1413b805c056}{dms\_\-velocity} (Vec2d velocity\_\-non)}
+\label{classInitiation_ff3a9cd4918e5d823b4a1413b805c056}
+
+\begin{CompactList}\small\item\em a re-dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_d08c20a915f7c4878a8e382d54874fb1}{
+double \hyperlink{classInitiation_d08c20a915f7c4878a8e382d54874fb1}{dms\_\-energy} (double energy\_\-non)}
+\label{classInitiation_d08c20a915f7c4878a8e382d54874fb1}
+
+\begin{CompactList}\small\item\em a re-dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_7746aa0e130fbfdd4ef72d662eaf4fe5}{
+double \hyperlink{classInitiation_7746aa0e130fbfdd4ef72d662eaf4fe5}{dms\_\-acceleration} (double acceleration\_\-non)}
+\label{classInitiation_7746aa0e130fbfdd4ef72d662eaf4fe5}
+
+\begin{CompactList}\small\item\em a re-dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_c82bd7ac7f359587868b80b4498c4220}{
+Vec2d \hyperlink{classInitiation_c82bd7ac7f359587868b80b4498c4220}{dms\_\-acceleration} (Vec2d acceleration\_\-non)}
+\label{classInitiation_c82bd7ac7f359587868b80b4498c4220}
+
+\begin{CompactList}\small\item\em a re-dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_f867793b42e943a473d1132d0bbb721a}{
+double \hyperlink{classInitiation_f867793b42e943a473d1132d0bbb721a}{dms\_\-viscosity} (double mu\_\-non)}
+\label{classInitiation_f867793b42e943a473d1132d0bbb721a}
+
+\begin{CompactList}\small\item\em a re-dimensionalize method \item\end{CompactList}\item 
+\hypertarget{classInitiation_cbd8852ba19297b3278e96f6fb9ecb60}{
+double \hyperlink{classInitiation_cbd8852ba19297b3278e96f6fb9ecb60}{dms\_\-surface} (double sigma\_\-non)}
+\label{classInitiation_cbd8852ba19297b3278e96f6fb9ecb60}
+
+\begin{CompactList}\small\item\em a re-dimensionalize method \item\end{CompactList}\end{CompactItemize}
+\subsection*{Public Attributes}
+\begin{CompactItemize}
+\item 
+\hypertarget{classInitiation_d011ce1385a1cd46fb500d9a62de6883}{
+char \hyperlink{classInitiation_d011ce1385a1cd46fb500d9a62de6883}{Project\_\-name} \mbox{[}25\mbox{]}}
+\label{classInitiation_d011ce1385a1cd46fb500d9a62de6883}
+
+\begin{CompactList}\small\item\em the project name \item\end{CompactList}\item 
+int \hyperlink{classInitiation_ac12d75613f51d4a10a3f28887be0821}{number\_\-of\_\-materials}
+\begin{CompactList}\small\item\em number of materials \item\end{CompactList}\item 
+\hypertarget{classInitiation_3f9f020a489c9179885c02c867e77ef0}{
+char \hyperlink{classInitiation_3f9f020a489c9179885c02c867e77ef0}{inputfile} \mbox{[}25\mbox{]}}
+\label{classInitiation_3f9f020a489c9179885c02c867e77ef0}
+
+\begin{CompactList}\small\item\em the global inputfile name: a $\ast$.cfg file \item\end{CompactList}\item 
+int \hyperlink{classInitiation_1bbced7f2136569c065e0f5c874c6cff}{initial\_\-condition}
+\begin{CompactList}\small\item\em initial condition marker: \item\end{CompactList}\item 
+\hypertarget{classInitiation_b9979da1d25141fa58f79393232b0a9c}{
+int \hyperlink{classInitiation_b9979da1d25141fa58f79393232b0a9c}{diagnose}}
+\label{classInitiation_b9979da1d25141fa58f79393232b0a9c}
+
+\begin{CompactList}\small\item\em diagnose information maker: 1 output diagnose information \item\end{CompactList}\item 
+\hypertarget{classInitiation_115596cc83b34b6f75031c5e5b0c3fe7}{
+double \hyperlink{classInitiation_115596cc83b34b6f75031c5e5b0c3fe7}{art\_\-vis}}
+\label{classInitiation_115596cc83b34b6f75031c5e5b0c3fe7}
+
+\begin{CompactList}\small\item\em artificial viscosity \item\end{CompactList}\item 
+\hypertarget{classInitiation_db9ebb73d2d6e17bb8e0179d29abaf7b}{
+int \hyperlink{classInitiation_db9ebb73d2d6e17bb8e0179d29abaf7b}{simu\_\-mode}}
+\label{classInitiation_db9ebb73d2d6e17bb8e0179d29abaf7b}
+
+\begin{CompactList}\small\item\em simulation mode (1:liquids, 2: gas dynamics) \item\end{CompactList}\item 
+\hypertarget{classInitiation_7053a11a810568d6beb69ed19bc7fa59}{
+double \hyperlink{classInitiation_7053a11a810568d6beb69ed19bc7fa59}{smoothinglength}}
+\label{classInitiation_7053a11a810568d6beb69ed19bc7fa59}
+
+\begin{CompactList}\small\item\em smoothinglength \item\end{CompactList}\item 
+\hypertarget{classInitiation_c4ab38f327f64513f4c21cd5781f508a}{
+Vec2d \hyperlink{classInitiation_c4ab38f327f64513f4c21cd5781f508a}{box\_\-size}}
+\label{classInitiation_c4ab38f327f64513f4c21cd5781f508a}
+
+\begin{CompactList}\small\item\em the compuational domain size \item\end{CompactList}\item 
+\hypertarget{classInitiation_ed9ecf2c5296af4ac243b1a089966c86}{
+double \hyperlink{classInitiation_ed9ecf2c5296af4ac243b1a089966c86}{cell\_\-size}}
+\label{classInitiation_ed9ecf2c5296af4ac243b1a089966c86}
+
+\begin{CompactList}\small\item\em cell size \item\end{CompactList}\item 
+\hypertarget{classInitiation_300dc1f911e95df0ecf34179bf1931fa}{
+double \hyperlink{classInitiation_300dc1f911e95df0ecf34179bf1931fa}{delta}}
+\label{classInitiation_300dc1f911e95df0ecf34179bf1931fa}
+
+\begin{CompactList}\small\item\em the inital particle distance \item\end{CompactList}\item 
+\hypertarget{classInitiation_c0d2d3c34bb4831258ce646b05a35981}{
+int \hyperlink{classInitiation_c0d2d3c34bb4831258ce646b05a35981}{hdelta}}
+\label{classInitiation_c0d2d3c34bb4831258ce646b05a35981}
+
+\begin{CompactList}\small\item\em the ration between smoothing length and inital particle distance \item\end{CompactList}\item 
+\hypertarget{classInitiation_8bc245d0b81987fc9fb8443713ebe6df}{
+int \hyperlink{classInitiation_8bc245d0b81987fc9fb8443713ebe6df}{x\_\-cells}}
+\label{classInitiation_8bc245d0b81987fc9fb8443713ebe6df}
+
+\begin{CompactList}\small\item\em cells matrix for real particles \item\end{CompactList}\item 
+\hypertarget{classInitiation_4741b9c5dfa95aadd6b103f091456f72}{
+int \textbf{y\_\-cells}}
+\label{classInitiation_4741b9c5dfa95aadd6b103f091456f72}
+
+\item 
+\hypertarget{classInitiation_cf2bd144db5215805966ccd40a5abaed}{
+Vec2d \hyperlink{classInitiation_cf2bd144db5215805966ccd40a5abaed}{g\_\-force}}
+\label{classInitiation_cf2bd144db5215805966ccd40a5abaed}
+
+\begin{CompactList}\small\item\em g force on particles \item\end{CompactList}\item 
+\hypertarget{classInitiation_802c22e6b71f5d2cfe68309685bf423b}{
+double \hyperlink{classInitiation_802c22e6b71f5d2cfe68309685bf423b}{Start\_\-time}}
+\label{classInitiation_802c22e6b71f5d2cfe68309685bf423b}
+
+\begin{CompactList}\small\item\em Simulation start time. \item\end{CompactList}\item 
+\hypertarget{classInitiation_0d3e0f13a25c1bbbc7b319ef59838012}{
+double \hyperlink{classInitiation_0d3e0f13a25c1bbbc7b319ef59838012}{End\_\-time}}
+\label{classInitiation_0d3e0f13a25c1bbbc7b319ef59838012}
+
+\begin{CompactList}\small\item\em Simulation end time. \item\end{CompactList}\item 
+\hypertarget{classInitiation_e6599efb2ef3de1c552d39ba6ce5fe5e}{
+double \hyperlink{classInitiation_e6599efb2ef3de1c552d39ba6ce5fe5e}{D\_\-time}}
+\label{classInitiation_e6599efb2ef3de1c552d39ba6ce5fe5e}
+
+\begin{CompactList}\small\item\em time interval for output (every D\_\-time: output) \item\end{CompactList}\item 
+\hypertarget{classInitiation_8f3749288efc593efb8c6b2e5da2dce2}{
+Vec2d \hyperlink{classInitiation_8f3749288efc593efb8c6b2e5da2dce2}{U0}}
+\label{classInitiation_8f3749288efc593efb8c6b2e5da2dce2}
+
+\begin{CompactList}\small\item\em inital flow speed (if initial condition is defined here)w \item\end{CompactList}\item 
+\hypertarget{classInitiation_a426f5569c652979800af92d6d4dd033}{
+double \hyperlink{classInitiation_a426f5569c652979800af92d6d4dd033}{rho0}}
+\label{classInitiation_a426f5569c652979800af92d6d4dd033}
+
+\begin{CompactList}\small\item\em initial particle density(if initial condition is defined here) \item\end{CompactList}\item 
+\hypertarget{classInitiation_d108934b865ac8267f61d1e04339fea0}{
+double \hyperlink{classInitiation_d108934b865ac8267f61d1e04339fea0}{p0}}
+\label{classInitiation_d108934b865ac8267f61d1e04339fea0}
+
+\begin{CompactList}\small\item\em initial pressure(if initial condition is defined here) \item\end{CompactList}\item 
+\hypertarget{classInitiation_b8db429b0356e54c88d8769191e6f550}{
+double \hyperlink{classInitiation_b8db429b0356e54c88d8769191e6f550}{T0}}
+\label{classInitiation_b8db429b0356e54c88d8769191e6f550}
+
+\begin{CompactList}\small\item\em initial temperature(if initial condition is defined here) \item\end{CompactList}\item 
+\hypertarget{classInitiation_4a7f19654a3c5fc2c703796150ab7de5}{
+int \hyperlink{classInitiation_4a7f19654a3c5fc2c703796150ab7de5}{MLS\_\-MAX}}
+\label{classInitiation_4a7f19654a3c5fc2c703796150ab7de5}
+
+\begin{CompactList}\small\item\em Moving Least Squarr. \item\end{CompactList}\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+\hypertarget{classInitiation_18480401f4b40c2830a764cc56085167}{
+double \hyperlink{classInitiation_18480401f4b40c2830a764cc56085167}{\_\-length}}
+\label{classInitiation_18480401f4b40c2830a764cc56085167}
+
+\begin{CompactList}\small\item\em reference length for non dimensional value \item\end{CompactList}\item 
+\hypertarget{classInitiation_0e7baf9e9f15d03c957db7bc1df9e5f0}{
+double \hyperlink{classInitiation_0e7baf9e9f15d03c957db7bc1df9e5f0}{\_\-v}}
+\label{classInitiation_0e7baf9e9f15d03c957db7bc1df9e5f0}
+
+\begin{CompactList}\small\item\em reference speed for non dimensional value \item\end{CompactList}\item 
+\hypertarget{classInitiation_a20ec3ff1ccfd3aaf9505a86c2d629a1}{
+double \hyperlink{classInitiation_a20ec3ff1ccfd3aaf9505a86c2d629a1}{\_\-rho}}
+\label{classInitiation_a20ec3ff1ccfd3aaf9505a86c2d629a1}
+
+\begin{CompactList}\small\item\em reference density for non dimensional value \item\end{CompactList}\item 
+\hypertarget{classInitiation_8dc68dc47e54d0e3bf9ab4a222513c51}{
+double \hyperlink{classInitiation_8dc68dc47e54d0e3bf9ab4a222513c51}{\_\-T}}
+\label{classInitiation_8dc68dc47e54d0e3bf9ab4a222513c51}
+
+\begin{CompactList}\small\item\em reference temperature for non dimensional value \item\end{CompactList}\end{CompactItemize}
+\subsection*{Friends}
+\begin{CompactItemize}
+\item 
+\hypertarget{classInitiation_a1212b6e372a0f45d2c01f3cd203af77}{
+class \hyperlink{classInitiation_a1212b6e372a0f45d2c01f3cd203af77}{Material}}
+\label{classInitiation_a1212b6e372a0f45d2c01f3cd203af77}
+
+\item 
+\hypertarget{classInitiation_652e6d35f07e2091db6c1d01e86e2286}{
+class \hyperlink{classInitiation_652e6d35f07e2091db6c1d01e86e2286}{Hydrodynamics}}
+\label{classInitiation_652e6d35f07e2091db6c1d01e86e2286}
+
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Initiates the simulation. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classInitiation_4db3b8c45d38cf4e188de6aa672e8c0d}{
+\index{Initiation@{Initiation}!Initiation@{Initiation}}
+\index{Initiation@{Initiation}!Initiation@{Initiation}}
+\subsubsection[{Initiation}]{\setlength{\rightskip}{0pt plus 5cm}Initiation::Initiation (const char $\ast$ {\em project\_\-name})\hspace{0.3cm}{\tt  \mbox{[}explicit\mbox{]}}}}
+\label{classInitiation_4db3b8c45d38cf4e188de6aa672e8c0d}
+
+
+constructor \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em $\ast$project\_\-name,:}]a pointer to the project name array (the project name is defined as a main-function argument and therefore given as an additional command line element when running the progam) \end{description}
+\end{Desc}
+
+
+\begin{itemize}
+\item check if inputfile exists (if not exit the program)
+
+\item reading key words and configuration data from configuration file and assign them to the appropriate variable
+
+\item create outdata directory
+
+\item process the data {\bf !!!Question!!!}
+
+(line 104) this is only true if h=cell\_\-size (which is not necessarily given, as h, cell\_\-size can be initiated independently in configuration file)
+
+\item output information to screen
+
+\item non-dimensionalize \par
+\par
+ \end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=255pt]{classInitiation_4db3b8c45d38cf4e188de6aa672e8c0d_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classInitiation_916e5b3e316dad1f524a1327b9e4aeb4}{
+\index{Initiation@{Initiation}!non\_\-dimensionalize@{non\_\-dimensionalize}}
+\index{non\_\-dimensionalize@{non\_\-dimensionalize}!Initiation@{Initiation}}
+\subsubsection[{non\_\-dimensionalize}]{\setlength{\rightskip}{0pt plus 5cm}void Initiation::non\_\-dimensionalize ()}}
+\label{classInitiation_916e5b3e316dad1f524a1327b9e4aeb4}
+
+
+non-dimensionalize initial condition and parameters 
+
+
+
+method calls the individual non\_\-dms\_\-methods vor each variable\par
+ remark:to avoid confusion: the non dimensional variables have the same identifiers like the dimensional ones!!!\par
+\par
+ 
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{classInitiation_916e5b3e316dad1f524a1327b9e4aeb4_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=159pt]{classInitiation_916e5b3e316dad1f524a1327b9e4aeb4_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classInitiation_cdbf1374b9b0f0b50a0bb1d9abf76293}{
+\index{Initiation@{Initiation}!show\_\-information@{show\_\-information}}
+\index{show\_\-information@{show\_\-information}!Initiation@{Initiation}}
+\subsubsection[{show\_\-information}]{\setlength{\rightskip}{0pt plus 5cm}void Initiation::show\_\-information ()}}
+\label{classInitiation_cdbf1374b9b0f0b50a0bb1d9abf76293}
+
+
+show information on screen 
+
+
+
+\begin{itemize}
+\item output general information on screen\end{itemize}
+
+
+\begin{itemize}
+\item output the timing information on screen\end{itemize}
+
+
+\begin{itemize}
+\item output iniformation on initialization mode (.cfg file or .rst file) \end{itemize}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=154pt]{classInitiation_cdbf1374b9b0f0b50a0bb1d9abf76293_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classInitiation_e80adc7d2105ad67b766fd1127966df3}{
+\index{Initiation@{Initiation}!VolumeMass@{VolumeMass}}
+\index{VolumeMass@{VolumeMass}!Initiation@{Initiation}}
+\subsubsection[{VolumeMass}]{\setlength{\rightskip}{0pt plus 5cm}void Initiation::VolumeMass ({\bf Hydrodynamics} \& {\em hydro}, \/  {\bf ParticleManager} \& {\em particles}, \/  {\bf QuinticSpline} \& {\em weight\_\-function})}}
+\label{classInitiation_e80adc7d2105ad67b766fd1127966df3}
+
+
+predict the particle volume and mass 
+
+
+
+\begin{itemize}
+\item iterate particles on the particle list
+
+\begin{itemize}
+\item pick an origin particle
+
+\item build the nearest neighbor particle list for chosen origin particle
+
+\item iterate this Nearest Neighbor \hyperlink{classParticle}{Particle} list
+
+\begin{itemize}
+\item get a particle
+
+\item calculate distance (origin$<$-$>$ neighbor)
+
+\item calculate weight function for given distance (w=0, if dist$>$supportlengtg) an summ it up \end{itemize}
+
+
+\item calculate volume as reciprocal value of weight function
+
+\item save volume and mass in the respective particle list node (whih is each a \hyperlink{classParticle}{Particle} object with all the particle properties)
+
+\item clear the NNP\_\-list\end{itemize}
+\end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=227pt]{classInitiation_e80adc7d2105ad67b766fd1127966df3_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=117pt]{classInitiation_e80adc7d2105ad67b766fd1127966df3_icgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classInitiation_1bbced7f2136569c065e0f5c874c6cff}{
+\index{Initiation@{Initiation}!initial\_\-condition@{initial\_\-condition}}
+\index{initial\_\-condition@{initial\_\-condition}!Initiation@{Initiation}}
+\subsubsection[{initial\_\-condition}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf Initiation::initial\_\-condition}}}
+\label{classInitiation_1bbced7f2136569c065e0f5c874c6cff}
+
+
+initial condition marker: 
+
+\begin{itemize}
+\item 0 initialize from the .cfg file;\item 1 read from the .rst file particle by particle with non-dimensional data \end{itemize}
+\hypertarget{classInitiation_ac12d75613f51d4a10a3f28887be0821}{
+\index{Initiation@{Initiation}!number\_\-of\_\-materials@{number\_\-of\_\-materials}}
+\index{number\_\-of\_\-materials@{number\_\-of\_\-materials}!Initiation@{Initiation}}
+\subsubsection[{number\_\-of\_\-materials}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf Initiation::number\_\-of\_\-materials}}}
+\label{classInitiation_ac12d75613f51d4a10a3f28887be0821}
+
+
+number of materials 
+
+\begin{itemize}
+\item the no. zero material is always the wall\item therefore at least 2 materials should be included \end{itemize}
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{initiation_8h}{initiation.h}\item 
+\hyperlink{initiation_8cpp}{initiation.cpp}\end{CompactItemize}

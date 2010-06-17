@@ -1,5 +1,3 @@
-#ifndef PARTICLE_H
-#define PARTICLE_H
 /// \file partilce.h 
 /// \brief a sph particle
 
@@ -110,5 +108,3 @@ public:
 	Vec2d  nrml;///<for wall boundary particles
 
 };
-
-#endif //PARTICLE_H

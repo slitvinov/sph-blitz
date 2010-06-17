@@ -1,5 +1,3 @@
-#ifndef KERNEL_H
-#define KERNEL_H
 /// \file kernel.h 
 /// \brief Kernel abstract base
 
@@ -27,5 +25,3 @@ protected:
     ///A local copy of the smoothing length
     const double smoothingLength;
 };
-
-#endif //KERNEL_H

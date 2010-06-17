@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <math.h>
 
 #include <cstdio>
 #include <cstdlib>
@@ -24,6 +25,11 @@ int Interaction::number_of_materials = 0;
 double Interaction::smoothinglength = 0.0;
 double Interaction::art_vis = 0.0;
 double Interaction::delta = 0.0;
+int Interaction::simu_mode =0;
+double Interaction::alpha_artVis=0.0;
+double Interaction::beta_artVis=0.0;
+double Interaction::epsilon_artVis=0.0;
+
 //----------------------------------------------------------------------------------------
 //					constructor
 //----------------------------------------------------------------------------------------
@@ -32,8 +38,13 @@ Interaction::Interaction(Initiation &ini)
         ///- copy properties from initiation
 	number_of_materials = ini.number_of_materials;
 	smoothinglength = ini.smoothinglength;
+	simu_mode = ini.simu_mode;
 	art_vis = ini.art_vis;
 	delta = ini.delta;
+	alpha_artVis=1.0;
+	beta_artVis=2.0;
+	epsilon_artVis=0.1;
+
 }
 //----------------------------------------------------------------------------------------
 //					constructor
@@ -56,11 +67,13 @@ Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces
 	etai = Org->eta; etaj = Dest->eta; 
 	zetai = Org->zeta; zetaj = Dest->zeta; 
 
+
 	///- calculate pair parameters (weight functions, shear- and bulk-)
 	rij = dstc;
 	rrij = 1.0/(rij + 1.0e-30);
 	eij = (Org->R - Dest->R)*rrij;
 	Wij = weight_function.w(rij);
+	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
 //	Fij = weight_function.F(rij); //for BetaSpline weight fuction
 	Fij = weight_function.F(rij)*rrij; //for QuinticSpline wight fuction
 	LapWij = weight_function.LapW(rij); //for QuinticSpline fuction
@@ -68,6 +81,28 @@ Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces
 							 + etaj*(rij + 2.0*frc_ij[noi][noj].shear_slip) + 1.0e-30);
 	bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij + 2.0*frc_ij[noj][noi].bulk_slip) 
 							   + zetaj*(rij + 2.0*frc_ij[noi][noj].bulk_slip) + 1.0e-30);
+}
+
+//-------------------getter for origin-----------------
+Particle* Interaction::getOrigin()
+{
+  return this->Org;
+}
+//--------------------getter for destination---------------------
+Particle* Interaction::getDest()
+ 
+{ return this->Dest;
+}
+//-----------getter for Wij
+double Interaction::getWij()
+ 
+{ return this->Wij;
+}
+
+//----------getter for GradWij
+ Vec2d Interaction::getGradWij()
+ 
+ { return this->gradWij;
 }
 
 //----------------------------------------------------------------------------------------
@@ -96,6 +131,7 @@ void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force 
 	rrij = 1.0/(rij + 1.0e-30);
 	eij = (Org->R - Dest->R)*rrij;
 	Wij = weight_function.w(rij);
+	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
 //	Fij = weight_function.F(rij); //for BetaSpline wight fuction
 	Fij = weight_function.F(rij)*rrij; //for QuinticSpline wight fuction
 	LapWij = weight_function.LapW(rij); //for QuinticSpline fuction
@@ -118,6 +154,7 @@ void Interaction::RenewInteraction(QuinticSpline &weight_function)
 	rrij = 1.0/(rij + 1.0e-30);
 	eij = (Org->R - Dest->R)*rrij;
 	Wij = weight_function.w(rij);
+	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
 //	Fij = weight_function.F(rij); //for BetaSpline wight fuction
 	Fij = weight_function.F(rij)*rrij; //for QuinticSpline fuction
 	LapWij = weight_function.LapW(rij); //for QuinticSpline fuction
@@ -227,8 +264,10 @@ void Interaction::SummationCurvature()
 //----------------------------------------------------------------------------------------
 void Interaction::UpdateForces()
 {	
-	//pressure, density and inverse density and middle point pressure
-	double pi, rhoi, Vi, rVi, pj, rhoj, Vj, rVj, Uijdoteij; 
+  //contol output
+  //   cout<<"\n am in update forces and simu_mode is:"<<simu_mode<<"\n";
+  	//pressure, density and inverse density and middle point pressure
+        double pi, rhoi, Vi, rVi, pj, rhoj, Vj, rVj, Uijdoteij,UijdotRij; 
 	//velocity and velocity difference
 	Vec2d Ui, Uj, Uij; 
 
@@ -240,40 +279,86 @@ void Interaction::UpdateForces()
 	Ui = Org->U; Uj = Dest->U;
 	Uij = Ui - Uj;
 	Uijdoteij = dot(Uij, eij);
-
+	UijdotRij=dot(Uij,(Org->R - Dest->R));
 	//pair focres or change rate
-	Vec2d dPdti, dUi; //mometum change rate
-	double drhodti; //density change rate
-	double Vi2 = Vi*Vi, Vj2 = Vj*Vj;
-	///- calculate artificial viscosity or Neumann_Richtmyer viscosity
-	double theta, Csi, Csj, NR_vis;
-	Csi = Org->Cs; Csj = Dest->Cs;
-	theta = Uijdoteij*rij*delta/(rij*rij + 0.01*delta*delta);
-	NR_vis = Uijdoteij > 0.0 ? 0.0 : art_vis*theta*(rhoi*Csi*mj + rhoj*Csj*mi)/(mi + mj);
+	Vec2d dPdti, dUi, dUdti, dUdtj; //mometum&velocity change rate
+        double drhodti,drhodtj,dedti,dedtj; //density change rate
+
+	if(simu_mode==2)
+	{
+	  //control output
+	  // cout<<"\n am in update forces simu_mode =2\n";
+	  drhodti=mj*dot((Ui-Uj),gradWij);
+	  drhodtj=mi*dot((Uj-Ui),((-1)*gradWij));
+
+	  hij=smoothinglength/2;//=0.5*(hi+hj)for later (variable smoothing length);
+	  cij=0.5*(Org->Cs+Dest->Cs);
+          rhoij=0.5*(rhoi+rhoj);
 	
-	//normalize velocity
-	dUi = - eij*theta*Wij*art_vis/(rhoi + rhoj);
+          if (UijdotRij<0)//that means: whenever in compression (as only then artificial viscosity applies for a shock tube problem)
+          {
+            phiij=(hij*UijdotRij)/(pow(rij,2)+epsilon_artVis*pow(hij,2)); //according to formula monaghan artificial viscosity
+	    piij=(-1*alpha_artVis*cij*phiij+beta_artVis*pow(phiij,2))/rhoij; //according to formula monaghan artificial viscosity
+          }
+	  else //if no compression: artificial viscosity is zero
+	  {
+	    piij=0;
+	  };
+	  // cout<<"\n art v0isc Piij"<<piij;
+	  dUdti=-mj*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij;
+          dUdtj=mi*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij;
 
-	///- calculate density change rate
-	drhodti = - Fij*rij*dot((Ui*Vi2 - Uj*Vj2), eij);
+	  dedti=0.5*dot(dUdti,(Uj-Ui));//could also be the other way round: (Ui-Uj)has to be tried out
+          dedtj=0.5*dot(dUdtj,(Ui-Uj));
 
-	///- calculate momentum change rate
-	dPdti =   eij*Fij*rij*(pi*Vi2 + pj*Vj2)
+	  //control output
+	  //cout<<"\n dUdti:\n"<<dUdti[0];
+
+
+          Org->drhodt +=drhodti;
+          Dest->drhodt += drhodtj;
+          Org->dUdt += dUdti;
+          Dest->dUdt += dUdtj;
+	  Org->dedt+=dedti;
+	  Dest->dedt+=dedtj;
+
+	};
+
+      	if(simu_mode==1)
+	{
+	  // cout<<"am in simu_mode=1 section of update forces";
+	  double Vi2 = Vi*Vi, Vj2 = Vj*Vj;
+	  ///- calculate artificial viscosity or Neumann_Richtmyer viscosity
+	  double theta, Csi, Csj, NR_vis;
+	  Csi = Org->Cs; Csj = Dest->Cs;
+	  theta = Uijdoteij*rij*delta/(rij*rij + 0.01*delta*delta);
+	  NR_vis = Uijdoteij > 0.0 ? 0.0 : art_vis*theta*(rhoi*Csi*mj + rhoj*Csj*mi)/(mi + mj);
+	
+	  //normalize velocity
+	  dUi = - eij*theta*Wij*art_vis/(rhoi + rhoj);
+	
+	  ///- calculate density change rate
+	  drhodti = - Fij*rij*dot((Ui*Vi2 - Uj*Vj2), eij);
+	
+	  ///- calculate momentum change rate
+	  dPdti =   eij*Fij*rij*(pi*Vi2 + pj*Vj2)
 			- ((Uij - eij*Uijdoteij)*shear_rij + eij*(Uijdoteij*2.0*bulk_rij + NR_vis))
 			*Fij*(Vi2 + Vj2);
 	
-	//surface tension with a simple model
-//	dPdti += eij*frc_ij[noi][noj].sigma*Fij*Wij*rij*(Vi2 + Vj2);
+	  //surface tension with a simple model
+    //	dPdti += eij*frc_ij[noi][noj].sigma*Fij*Wij*rij*(Vi2 + Vj2);
 
-	///- calculate additional momentum change rate contribution due to surface tension (with simplified model)
-	Vec2d Surfi, Surfj, SurfaceForcei, SurfaceForcej;
-	Surfi = Org->del_phi; Surfj = Dest->del_phi;
+	  ///- calculate additional momentum change rate contribution due to surface tension (with simplified model)
+	  Vec2d Surfi, Surfj, SurfaceForcei, SurfaceForcej;
+	  Surfi = Org->del_phi; Surfj = Dest->del_phi;
 
-	SurfaceForcei[0] = Surfi[0]*eij[0] + Surfi[1]*eij[1];
-	SurfaceForcei[1] = Surfi[1]*eij[0] - Surfi[0]*eij[1];
-	SurfaceForcej[0] = Surfj[0]*eij[0] + Surfj[1]*eij[1];
-	SurfaceForcej[1] = Surfj[1]*eij[0] - Surfj[0]*eij[1];
-	dPdti +=  (SurfaceForcei*Vi2 + SurfaceForcej*Vj2)*rij*Fij;
+	  SurfaceForcei[0] = Surfi[0]*eij[0] + Surfi[1]*eij[1];
+	  SurfaceForcei[1] = Surfi[1]*eij[0] - Surfi[0]*eij[1];
+	  SurfaceForcej[0] = Surfj[0]*eij[0] + Surfj[1]*eij[1];
+	  SurfaceForcej[1] = Surfj[1]*eij[0] - Surfj[0]*eij[1];
+	  dPdti +=  (SurfaceForcei*Vi2 + SurfaceForcej*Vj2)*rij*Fij;
+	
+	
 
 	//summation
 #ifdef _OPENMP
@@ -291,6 +376,7 @@ void Interaction::UpdateForces()
 	Org->dUdt += dPdti*rmi;
 	Dest->dUdt -= dPdti*rmj;
 #endif
+	}
 }
 
 #ifdef _OPENMP

@@ -1,0 +1,13 @@
+digraph G
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  Node1 [label="Interaction",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node2 -> Node1 [dir=back,color="darkorchid3",fontsize="10",style="dashed",label="frc_ij"];
+  Node2 [label="Force",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classForce.html",tooltip="The class defining force on or between particles."];
+  Node3 -> Node1 [dir=back,color="darkorchid3",fontsize="10",style="dashed",label="Dest\nOrg"];
+  Node3 [label="Particle",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classParticle.html",tooltip="Particle class."];
+  Node4 -> Node3 [dir=back,color="darkorchid3",fontsize="10",style="dashed",label="mtl"];
+  Node4 [label="Material",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classMaterial.html",tooltip="Material."];
+  Node3 -> Node3 [dir=back,color="darkorchid3",fontsize="10",style="dashed",label="rl_prtl"];
+}

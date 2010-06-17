@@ -1,5 +1,3 @@
-#ifndef QUINTICSPLINE_H
-#define QUINTICSPLINE_H
 /// \file quinticspline.h 
 /// \brief Quintic spline kernel
 
@@ -37,6 +35,9 @@ private:
     ///Auxiliary factors for intermediate results: The inverse smoothing length
     double reciprocH;
 
+    ///smoothing length
+    double h;
+   
     ///Auxiliary factors for intermediate results: A pre-factor for w 
     double factorW;
 
@@ -47,5 +48,3 @@ private:
     double factorLapW;
 
 };
-
-#endif //QUINTICSPLINE_H

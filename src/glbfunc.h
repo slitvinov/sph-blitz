@@ -1,8 +1,9 @@
-#ifndef GLBFUNC_H
-#define GLBFUNC_H
 /// \file glbfunc.h
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 /// \changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
+
+#ifndef GLBFUNC_H
+#define GLBFUNC_H
 
 ///----------------------------------------------------------------------------------------
 ///      Define globle paremeters and functions
@@ -37,4 +38,4 @@ double compare(int a, int b);
 ///  i. square
 double sq(double a);
 
-#endif //GLBFUNC_H
+#endif

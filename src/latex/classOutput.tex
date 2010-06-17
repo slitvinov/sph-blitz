@@ -1,0 +1,272 @@
+\hypertarget{classOutput}{
+\section{Output Class Reference}
+\label{classOutput}\index{Output@{Output}}
+}
+\hyperlink{classOutput}{Output} class.  
+
+
+{\tt \#include $<$output.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classOutput_2bd84635e13bedd1b8417fd39062a767}{Output} (\hyperlink{classInitiation}{Initiation} \&ini)
+\begin{CompactList}\small\item\em constructor \item\end{CompactList}\item 
+void \hyperlink{classOutput_f9e8b1a0aa456c01c69f7b3c7ee2649a}{OutputParticles} (\hyperlink{classHydrodynamics}{Hydrodynamics} \&hydro, \hyperlink{classBoundary}{Boundary} \&boundary, double Time, \hyperlink{classInitiation}{Initiation} \&ini)
+\begin{CompactList}\small\item\em output particle positions respected different materials \item\end{CompactList}\item 
+void \hyperlink{classOutput_2b41cacb61eecf10cbaca6bebb3e6316}{OutputStates} (\hyperlink{classParticleManager}{ParticleManager} \&particles, \hyperlink{classMLS}{MLS} \&mls, \hyperlink{classQuinticSpline}{QuinticSpline} \&weight\_\-function, double Time, \hyperlink{classInitiation}{Initiation} \&ini)
+\begin{CompactList}\small\item\em output material states on uniform grid \item\end{CompactList}\item 
+void \hyperlink{classOutput_a96aad43762590fc7779d24050c0a151}{OutRestart} (\hyperlink{classHydrodynamics}{Hydrodynamics} \&hydro, double Time, \hyperlink{classInitiation}{Initiation} \&ini)
+\begin{CompactList}\small\item\em \hyperlink{classOutput}{Output} real particle data for restart the computation. \item\end{CompactList}\item 
+\hypertarget{classOutput_16c4f8bae53fec90a812e5d479ae822d}{
+void \hyperlink{classOutput_16c4f8bae53fec90a812e5d479ae822d}{CreatParticleMovie} ()}
+\label{classOutput_16c4f8bae53fec90a812e5d479ae822d}
+
+\begin{CompactList}\small\item\em create a head file for a movie of particle motion \item\end{CompactList}\item 
+void \hyperlink{classOutput_3ff4c5c04d9f7e89eb3f36b299256f10}{WriteParticleMovie} (\hyperlink{classHydrodynamics}{Hydrodynamics} \&hydro, double Time, \hyperlink{classInitiation}{Initiation} \&ini)
+\begin{CompactList}\small\item\em write the data for a movie of particle motion (output real and wall particles) \item\end{CompactList}\item 
+void \hyperlink{classOutput_13b9be49d851806b4ab40d60624095ad}{OutAverage} (\hyperlink{classParticleManager}{ParticleManager} \&particles, \hyperlink{classMLS}{MLS} \&mls, \hyperlink{classQuinticSpline}{QuinticSpline} \&weight\_\-function, double Time, \hyperlink{classInitiation}{Initiation} \&ini)
+\begin{CompactList}\small\item\em avergaed values for Poiseuille and Couette flows (average is taken in horizontal direction) \item\end{CompactList}\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+\hypertarget{classOutput_b52dd1cb165a9270cc45610b0bc8cc43}{
+char \hyperlink{classOutput_b52dd1cb165a9270cc45610b0bc8cc43}{Project\_\-name} \mbox{[}25\mbox{]}}
+\label{classOutput_b52dd1cb165a9270cc45610b0bc8cc43}
+
+\begin{CompactList}\small\item\em the project name \item\end{CompactList}\item 
+\hypertarget{classOutput_c2696f9c30e4840eab5b7ab3901bbf6b}{
+int \textbf{number\_\-of\_\-materials}}
+\label{classOutput_c2696f9c30e4840eab5b7ab3901bbf6b}
+
+\item 
+\hypertarget{classOutput_b3283271fd00c93268f9af19879a2fc6}{
+double \hyperlink{classOutput_b3283271fd00c93268f9af19879a2fc6}{delta}}
+\label{classOutput_b3283271fd00c93268f9af19879a2fc6}
+
+\begin{CompactList}\small\item\em the inital particle distance \item\end{CompactList}\item 
+\hypertarget{classOutput_8222be56a91be9ffd805ae2f87d68ec5}{
+int \hyperlink{classOutput_8222be56a91be9ffd805ae2f87d68ec5}{x\_\-cells}}
+\label{classOutput_8222be56a91be9ffd805ae2f87d68ec5}
+
+\begin{CompactList}\small\item\em cells matrix for real particles \item\end{CompactList}\item 
+\hypertarget{classOutput_d9bb2a18d020f12343b75eb5844fa79b}{
+int \textbf{y\_\-cells}}
+\label{classOutput_d9bb2a18d020f12343b75eb5844fa79b}
+
+\item 
+\hypertarget{classOutput_b2ba6673b6ca7b7ad7d952015c6dbfb7}{
+int \hyperlink{classOutput_b2ba6673b6ca7b7ad7d952015c6dbfb7}{hdelta}}
+\label{classOutput_b2ba6673b6ca7b7ad7d952015c6dbfb7}
+
+\begin{CompactList}\small\item\em the ratio between smoothing length and inital particle distance \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classOutput}{Output} class. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classOutput_2bd84635e13bedd1b8417fd39062a767}{
+\index{Output@{Output}!Output@{Output}}
+\index{Output@{Output}!Output@{Output}}
+\subsubsection[{Output}]{\setlength{\rightskip}{0pt plus 5cm}Output::Output ({\bf Initiation} \& {\em ini})}}
+\label{classOutput_2bd84635e13bedd1b8417fd39062a767}
+
+
+constructor 
+
+
+
+copy boundary properties from initiation class 
+
+\subsection{Member Function Documentation}
+\hypertarget{classOutput_13b9be49d851806b4ab40d60624095ad}{
+\index{Output@{Output}!OutAverage@{OutAverage}}
+\index{OutAverage@{OutAverage}!Output@{Output}}
+\subsubsection[{OutAverage}]{\setlength{\rightskip}{0pt plus 5cm}void Output::OutAverage ({\bf ParticleManager} \& {\em particles}, \/  {\bf MLS} \& {\em mls}, \/  {\bf QuinticSpline} \& {\em weight\_\-function}, \/  double {\em Time}, \/  {\bf Initiation} \& {\em ini})}}
+\label{classOutput_13b9be49d851806b4ab40d60624095ad}
+
+
+avergaed values for Poiseuille and Couette flows (average is taken in horizontal direction) 
+
+
+
+\begin{itemize}
+\item produce output file name\end{itemize}
+
+
+\begin{itemize}
+\item defining header for tecplot(plot software)\end{itemize}
+
+
+\begin{itemize}
+\item loop the grid points \end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=333pt]{classOutput_13b9be49d851806b4ab40d60624095ad_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{classOutput_f9e8b1a0aa456c01c69f7b3c7ee2649a}{
+\index{Output@{Output}!OutputParticles@{OutputParticles}}
+\index{OutputParticles@{OutputParticles}!Output@{Output}}
+\subsubsection[{OutputParticles}]{\setlength{\rightskip}{0pt plus 5cm}void Output::OutputParticles ({\bf Hydrodynamics} \& {\em hydro}, \/  {\bf Boundary} \& {\em boundary}, \/  double {\em Time}, \/  {\bf Initiation} \& {\em ini})}}
+\label{classOutput_f9e8b1a0aa456c01c69f7b3c7ee2649a}
+
+
+output particle positions respected different materials 
+
+
+
+\begin{itemize}
+\item produce output file name
+
+\item defining header for tecplot(plot software)
+
+\item output real and soild particles
+
+\begin{itemize}
+\item iterate the real partilce list
+
+\item iterate the boundary partilce list \end{itemize}
+\end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=157pt]{classOutput_f9e8b1a0aa456c01c69f7b3c7ee2649a_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=119pt]{classOutput_f9e8b1a0aa456c01c69f7b3c7ee2649a_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classOutput_2b41cacb61eecf10cbaca6bebb3e6316}{
+\index{Output@{Output}!OutputStates@{OutputStates}}
+\index{OutputStates@{OutputStates}!Output@{Output}}
+\subsubsection[{OutputStates}]{\setlength{\rightskip}{0pt plus 5cm}void Output::OutputStates ({\bf ParticleManager} \& {\em particles}, \/  {\bf MLS} \& {\em mls}, \/  {\bf QuinticSpline} \& {\em weight\_\-function}, \/  double {\em Time}, \/  {\bf Initiation} \& {\em ini})}}
+\label{classOutput_2b41cacb61eecf10cbaca6bebb3e6316}
+
+
+output material states on uniform grid 
+
+
+
+\begin{itemize}
+\item produce output file name\end{itemize}
+
+
+\begin{itemize}
+\item defining header for tecplot(plot software)\end{itemize}
+
+
+\begin{itemize}
+\item loop the grid points \end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=337pt]{classOutput_2b41cacb61eecf10cbaca6bebb3e6316_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=114pt]{classOutput_2b41cacb61eecf10cbaca6bebb3e6316_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classOutput_a96aad43762590fc7779d24050c0a151}{
+\index{Output@{Output}!OutRestart@{OutRestart}}
+\index{OutRestart@{OutRestart}!Output@{Output}}
+\subsubsection[{OutRestart}]{\setlength{\rightskip}{0pt plus 5cm}void Output::OutRestart ({\bf Hydrodynamics} \& {\em hydro}, \/  double {\em Time}, \/  {\bf Initiation} \& {\em ini})}}
+\label{classOutput_a96aad43762590fc7779d24050c0a151}
+
+
+\hyperlink{classOutput}{Output} real particle data for restart the computation. 
+
+
+
+\begin{itemize}
+\item output non-dimensional data\end{itemize}
+
+
+\begin{itemize}
+\item out reinitiation Time\end{itemize}
+
+
+\begin{itemize}
+\item output real particles (by iterating the particle list) \end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=126pt]{classOutput_a96aad43762590fc7779d24050c0a151_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=109pt]{classOutput_a96aad43762590fc7779d24050c0a151_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classOutput_3ff4c5c04d9f7e89eb3f36b299256f10}{
+\index{Output@{Output}!WriteParticleMovie@{WriteParticleMovie}}
+\index{WriteParticleMovie@{WriteParticleMovie}!Output@{Output}}
+\subsubsection[{WriteParticleMovie}]{\setlength{\rightskip}{0pt plus 5cm}void Output::WriteParticleMovie ({\bf Hydrodynamics} \& {\em hydro}, \/  double {\em Time}, \/  {\bf Initiation} \& {\em ini})}}
+\label{classOutput_3ff4c5c04d9f7e89eb3f36b299256f10}
+
+
+write the data for a movie of particle motion (output real and wall particles) 
+
+
+
+\begin{itemize}
+\item produce output file name\end{itemize}
+
+
+\begin{itemize}
+\item iterate the partilce list \end{itemize}
+
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=160pt]{classOutput_3ff4c5c04d9f7e89eb3f36b299256f10_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=125pt]{classOutput_3ff4c5c04d9f7e89eb3f36b299256f10_icgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+\hyperlink{output_8h}{output.h}\item 
+\hyperlink{output_8cpp}{output.cpp}\end{CompactItemize}

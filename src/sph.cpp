@@ -100,16 +100,17 @@ int main(int argc, char *argv[]) {
 	//a sample particle and interaction for static numbers
 	Particle sample(ini);
 	Interaction interaction(ini);
-
 	QuinticSpline weight_function(ini.smoothinglength); ///- initiate the weight function
 	MLS mls(ini); ///- initiate the Moving Least Squares approximation
 	ParticleManager particles(ini); ///- initiate the particle manager
 	Hydrodynamics hydro(particles, ini); ///- create materials, forces and real particles
+      
         Boundary boundary(ini, hydro, particles); ///- initiate boundary conditions and boundary particles
 	TimeSolver timesolver(ini); ///- initialize the time solver
 	Output output(ini); ///- initialize output class (should be the last to be initialized)
 	ini.VolumeMass(hydro, particles, weight_function); //predict particle volume and mass
-	boundary.BoundaryCondition(particles); //repose the boundary condition
+	if(ini.simu_mode==1)	
+	  boundary.BoundaryCondition(particles); //repose the boundary condition
 	Diagnose diagnose(ini, hydro); //initialize the diagnose applications
 
 	//start time
@@ -117,9 +118,12 @@ int main(int argc, char *argv[]) {
 
 	//output initial conditions
 	output.OutputParticles(hydro, boundary, Time, ini); //particle positions and velocites
+	if(ini.simu_mode==1)
+        {
 	output.OutputStates(particles, mls, weight_function, Time, ini); //initial states on uniform grid
 	output.CreatParticleMovie(); //the particle movie file head
 	output.WriteParticleMovie(hydro, Time, ini); //the first frame of the movie
+	};
 	//output diagnose information
 	if(ini.diagnose == 2 ) diagnose.KineticInformation(Time, ini, hydro);
 
@@ -132,14 +136,21 @@ int main(int argc, char *argv[]) {
 		//set the machine random seed
 		srand( (unsigned)time( NULL ) );
 		
+
+		  //control output
+		  cout<<"\n--------new output intervall beginns:output interval time:"<<ini.D_time<<"\n";
+		  
 		///- call the time slover (who iterates over one output time interval)
 //		timesolver.TimeIntegral(hydro, particles, boundary, Time, 
 //			ini.D_time, diagnose, ini, weight_function, mls);
 		timesolver.TimeIntegral_summation(hydro, particles, boundary, Time, 
 			ini.D_time, diagnose, ini, weight_function, mls);
 		
+		hydro.UpdateState(ini);///to update p,T,Cs to new values before output 
+		  //control output
+		cout<<"\n time is"<<Time<<"\n";
 		///- output results after a time interval\n\n
-		output.OutputParticles(hydro, boundary, Time, ini); //particle positions and velocites
+	        output.OutputParticles(hydro, boundary, Time, ini); //particle positions and velocites
 //		output.OutputStates(particles, mls, weight_function, Time, ini); //states on uniform grid
 //		output.OutAverage(particles, mls, weight_function, Time, ini);
 		output.WriteParticleMovie(hydro, Time, ini); //a frame of the particle movie

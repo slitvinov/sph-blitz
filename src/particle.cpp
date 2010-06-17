@@ -81,7 +81,7 @@ Particle::Particle(Vec2d position, Vec2d velocity, double density, double pressu
 	rho = density; p = pressure; T = temperature; Cs = mtl->get_Cs(p, rho);
 	U = velocity; U_I = U;
 	
-	///- set conservative values and their  intermediate values
+	///- set conservative values (mass and volume determined lateron) and their  intermediate values
 	m = 0.0; V = 0.0; e = mtl->get_e(T); e_I = e;
 	R_I = R; P_I = P; rho_I = rho;
 	P_n = P; U_n = U; rho_n = rho; e_n = e; 
@@ -227,6 +227,7 @@ void Particle::StatesCopier(Particle &RealParticle, int type)
 	R = RealParticle.R; m = RealParticle.m;
 	rho = RealParticle.rho; V = RealParticle.V;
 	p = RealParticle.p; T = RealParticle.T;
+	e = RealParticle.e;
 	rho_I = RealParticle.rho_I;
 	Cs =RealParticle.Cs; U = RealParticle.U; U_I = RealParticle.U_I;
 	ShearRate_x = RealParticle.ShearRate_x, ShearRate_y = RealParticle.ShearRate_y;

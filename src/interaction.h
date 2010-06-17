@@ -1,5 +1,3 @@
-#ifndef INTERACTION_H
-#define INTERACTION_H
 /// \file interaction.h 
 /// \brief Defines interaction between particles
 
@@ -9,10 +7,16 @@ class Interaction {
 	///total number of materials
 	static int number_of_materials;
 	static double smoothinglength;
-	///particle distance
+        ///particle distance
 	static double delta;
 	///artificial viscosity
 	static double art_vis;
+	///simulation mode
+       static int simu_mode;
+       static double alpha_artVis;///<factor for Monaghan Artificial viscosity
+       static double beta_artVis;///<factor for Monaghan Artificial viscosity
+       static double epsilon_artVis;///<factor for Monaghan Artificial viscosity
+
 
 	//particle pair
 	Particle *Org;	///<pointer to particle with larger ID (of particle pair)
@@ -31,6 +35,12 @@ class Interaction {
 	double etaj;///<viscosity for particle j
 	double zetaj;///<<b>!!!question!!!<b>other viscosity for particle???
 
+	double hij;///averaged smoothing length
+	double cij;///averaged sound speed
+	double rhoij;///averaged density
+	double phiij;///parameter for monaghan artificial viscosity
+	double piij;///Monaghan artificial viscosity
+
 	//distance between the two particles, weight and derivatives
 	double rij;///<distance between 2 particles
         double rrij;///< reciprocal value of distance between 2 particles
@@ -38,6 +48,7 @@ class Interaction {
         double Fij;///<<b>!!!question!!!<b>
         double LapWij;///<<b>!!!question!!!<b>
         double Wij2;///<<b>!!!question!!!<b>
+	Vec2d gradWij;///kernel gradient
 	Vec2d eij; ///<pair direction from orginal particle to destination particle 
 	double shear_rij ;///<particle length to implement slip boundary<<b>!!!question!!!<b>
 	double bulk_rij; ///<particle length to implement slip boundary<<b>!!!question!!!<b>
@@ -113,7 +124,9 @@ public:
 	void RandomForces(Wiener &wiener, double sqrtdt);
 	///update random forces with Espanol's method
 	void RandomForces_Espanol(Wiener &wiener, double sqrtdt);
-	
-};
+	Particle* getOrigin();
+	Particle* getDest();
+	double getWij();
+	Vec2d getGradWij();
 
-#endif //INTERACTION_H
+};

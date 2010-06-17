@@ -1,10 +1,11 @@
-#ifndef VEC2D_H
-#define VEC2D_H
 /// \file vec2d.h
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 /// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>
 /// \author changes by: Andreas Mattes
 /// \brief Define 2-d vectors and associated operations
+
+#ifndef VEC2D_H
+#define VEC2D_H
 
 #include <cmath>
 #include <blitz/tinyvec.h>
@@ -195,10 +196,9 @@ inline void perodic_position(Vec2d &va, const Vec2d &vb, const Vec2d &perodic)
 
 }
 
-/// return square of x
-inline double sqr(const double x) {
+inline double sqr(double x) {
 	return x*x;
 }
 
 
-#endif //VEC2D_H
+#endif

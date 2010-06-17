@@ -29,8 +29,10 @@ Output::Output(Initiation &ini)
   strcpy(Project_name, ini.Project_name);
   number_of_materials = ini.number_of_materials;
   x_cells = ini.x_cells; y_cells = ini.y_cells;
+  simu_mode=ini.simu_mode;
   hdelta = ini.hdelta; 
   delta = ini.delta;
+  cout<<"\n Output class object sussessfully constructed! \n"; 
 }
 //--------------------------------------------------------------------------------------------
 //				output particle positions respected different materials
@@ -52,23 +54,34 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
   ofstream out(file_name);
   ///<li>defining header for tecplot(plot software)
   out<<"title='particle position' \n";
-  out<<"variables=x, y, Ux, Uy \n";
-	
+  if( simu_mode==1)
+ out<<"variables=x, y, Ux, Uy \n";
+  if (simu_mode==2)
+ out<<"variables=x, rho, p, U, e \n";
+  int f=0, g=0, a=0, b=0; 	
   ///<li>output real and soild particles
   for(i = 0; i < number_of_materials; i++) {
-		
+    f=0; g=0; a=0; b=0;	
     j = 0; //if there is such material or not
     ///<ul><li>iterate the real partilce list
     for (LlistNode<Particle> *p = hydro.particle_list.first(); 
 	 !hydro.particle_list.isEnd(p); 
 	 p = hydro.particle_list.next(p)) {
-				
-      Particle *prtl = hydro.particle_list.retrieve(p);
+      f++;
+       Particle *prtl = hydro.particle_list.retrieve(p);
       if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) {
 	j ++;
-	if(j == 1) 	out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
-	out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
-	   <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])<<"\n";
+	a++;
+	if( simu_mode == 1)
+	{ 
+	  if(j == 1) 
+	    	out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
+	      out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
+		 <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])<<"\n";
+	   
+	}
+	if (simu_mode == 2)
+	  out<<setprecision(6)<< ::setw(16)<<ini.dms_length(prtl->R[0]) <<::setw(16)<<ini.dms_length(prtl->rho) << ::setw(16)<<ini.dms_velocity(prtl->p)<< ::setw(16)<<ini.dms_velocity(prtl->U[0])<< ::setw(16)<<ini.dms_velocity(prtl->e)<<"  "<<prtl->ID<<"\n";
       }
     }
 
@@ -76,17 +89,22 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
     for (LlistNode<Particle> *p1 = boundary.boundary_particle_list.first(); 
 	 !boundary.boundary_particle_list.isEnd(p1); 
 	 p1 = boundary.boundary_particle_list.next(p1)) {
-				
+      g++;		
       Particle *prtl = boundary.boundary_particle_list.retrieve(p1);
       if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) { 
 	j ++;
+	b++;
 	if(j == 1) 	out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
 	out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
 	   <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])<<"\n";
       }
     }
   }
-
+  cout<<"\n output particle method successfully executed for time"<<Time<<"\n";
+ cout<<"\n particles on real  particle list\n "<<f;
+ cout<<"\n particles on real  particle list with same mat name\n "<<a;
+cout<<"\n particles on boundary  particle list\n "<<g;
+ cout<<"\n particles on boundary  particle list with same mat name\n "<<b;
 }
 //--------------------------------------------------------------------------------------------
 //							output material states on uniform grid
@@ -117,7 +135,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
   out<<"title='mapped states' \n";
   out<<"variables=x, y, p, rho, phi, Ux, Uy, T \n";
   out<<"zone t='filed', i="<<gridx + 1<<", j="<<gridy + 1<<"\n";
-	
+  
   ///- loop the grid points
   //NOTE: loop the x direction first and then the y direction!
   for(j = 0; j <= gridy; j++) { 
@@ -157,7 +175,9 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
 	 <<"  "<<ini.dms_velocity(x_velocity)<<"  "<<ini.dms_velocity(y_velocity)
 	 <<"  "<<ini.dms_T(Temperature)<<"\n";
     }
+  
   }
+  
   out.close();
 
 }
