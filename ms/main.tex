@@ -10,16 +10,368 @@
 \tableofcontents
 \chapter{Introduction}
 \label{sec:intro}
-To test bibliography~\cite{Monaghan2005}
+
+
+This work aimes at the numerical simluation of high enthalpy flow in
+porosities. The subject is of interest, as CITATION
+NEEDED (Prof Hornung) has discovered porous surfaces to inhibit/block a
+certain form of instabilities in hypersonic flows over a body/cone. A numerical
+simulation of this configuration is desired to furnish data for a detailed
+analysis of the acting phenomena. The simulation method of choice for the first approach
+to this configuration is called Smoothed Particle Hydrodynamics (SPH).Although
+there has been no known application of SPH to this precise/concrete case yet/before,
+SPH is adopted, as it promises a crucial advantage in the way boundary
+conditions are implemented. And for the treatment of porosities,
+boundaries/walls represent a non negligible part of the problem.
+
+SPH designates a meshfree method for numerical simulation of particle
+ensembles (respectively matter that can be modelled as an ensemble of
+particles as it is the case for fluids).
+Thereby,the term particle ensembles not only refers
+to fluids (as the name of the method would suggest) but also to solids. In
+fact nowadays SPH is employed to simulate problems in different fields,
+such as body elasticity and fracture,liquid flows and gas
+dynamics~\cite{Monaghan2005}.
+The initial developement of the method dates back to 1977, where Gingold and
+Monaghan tempted to compute an astrophysical problem with a new, more
+efficient method~\cite{Gingold1977}. Independently and simultaneously, work in
+this field was also carried out by Lucy who came up with the same
+idea~\cite{Lucy1977}.
+ADVANTAGES???DISADVANTAGES???
+
+PREVIOUS APPLICATIONS IN GAS DYNAMICS (citing different relevant papers)
+
+OTHER APPROACHES FOR CAVITY/POROSITY SIMULATION (look up in literature)
+
+
+
+
 
 \chapter{Method}
 \label{sec:method}
+\section{Basic Idea of SPH}
+\label{sec:BasicsSPH}
 
+To illustrate the basic idea of SPH, it is helpful to first have a look at the
+ruling equations of fluid dynamics, here represented by the SPH equations in
+lagrangian form. The use of the lagrangian form seems logical as SPH is a
+particle method.
+
+\begin {equation}
+NAVIER STOKES IN LAGRANGIAN FORM
+\end {equation}
+
+The above equations have the form~\cite{Monaghan2005}
+
+\begin {equation}
+\label{eq:EFD_form}
+{dA(r)\over dt}=f(A(r),\nabla A(r),r)
+\end {equation}
+where
+\begin {equation}
+{d(.)\over dt}={\partial(.)\over \partial t}+v\nabla(.)
+\end{equation}
+
+Thus the rates of change of  physical quantity depend on its spatial
+derivatives. The goal of any method for numerical simulation is to approximate
+these derivatives by information of a discrete number of points in order for a
+computer to be able to handle it. 
+
+
+The SPH method is based on the idea of approximating a function $A(x)$ by an
+integral interpolant
+\begin{equation}
+\label{eq:int_interpolant}
+A_I(x)=\int A(r')W(r-r',h)dr'
+\end{equation}
+where $W(r-r',h)$ is the so called kernel or smoothing function and $h$ the
+smoothing length. This Interpolation is exact, if $W$ is the delta function,
+otherwise it describes/represents an approximation. As the theoretically
+perfect Kernel, the delta function, is of no practical use, the Kernels
+employed in practice are functions which tend to the delta function, when $h$
+tends to zero. Examples for those kernel functions are a Gaussian Kernel or
+Kernels based on Schoenbergs~\cite{Schoenberg1946} $M_n$ splines~\cite{Monaghan2005}. More details on Kernels are given in the section
+(LINK TO SECTION??) and in the book on SPH published by Liu~\cite{Liu2003}
+
+The fact of using a kernel different from the delta function constitutes/is the
+first of two approximations /approximative assumptions made for the SPH
+method. It is often refered to as kernel approximation~\cite{Liu2003}.
+The second approximation consists of a discretization of the integral
+expression in equation\ref{eq:int_interpolant}, leading to a summation over
+all discretized elements (the particles) of the domain instead
+of an integration when calculating the interpolant value $A_I(x)$, which
+finally allows a treatment of the problem by a numerical machine. In SPH
+literature, this second approximation is commonly called particle
+approximation~\cite{Liu2003}
+
+Applying the particle approximation on \ref{eq:int_interpolant} leads with the
+relation between mass, density and volume for each discretized particle
+\begin{equation}
+m_i=\rho_i V_i
+\end{equation}
+ to the following expression
+
+\begin{equation}
+A_S(r)=\sum_b m_b \frac{A_b}{\rho_b}W(r-r_b,h)
+\end{equation}
+
+In the same way, the derivative of the fieldfunction $frac{dA(x)}{dx}$ can be
+approximated to give\cite{Monaghan2005}or\cite{Liu2003}(in Liu with gradient,
+im Monaghan for 1 direction)
+
+\begin{equation}
+\label{eq:simpleDerivative}
+\nabla A_S(r)=\sum_b m_b \frac{A_b}{\rho_b}\nabla W(r-r_b,h)
+\end{equation}
+
+The disadvantage of the above equation \ref{eq:simpleDerivative} is, that for
+$A(r)=const.$ the approximated derivative does not vanish. By writing (in
+Monaghan the equation figures not with gradient but only in 1 direction!?!)
+\begin{equation}
+\label{eq:derivativeIdentity}
+\nabla A = \frac{1}{\Phi}(\nabla {\Phi A}-A\nabla \Phi)
+\end{equation}
+where $\Phi$ is any differentiable function, this problem can be resolved. In its
+SPH form  equation \ref{eq:derivativeIdentity} reads as follows:
+\begin{equation}
+\nabla_a A = \frac{1}{\Phi_a}\sum_b frac{m_b}{\rho_b}(A_b-A_a)\nabla_a W_{ab}
+\end{equation}
+
+
+It can be seen, that the (approximation of the) derivative of the
+fieldfunction $A$ is now expressed by a summation over the fieldfunction itself
+and the derivative of the kernel function - which can be determined exactly.
+
+Now the basic formulations are introduced in principle: Both the fieldfunction
+itself and its spacial derivatives can be approximated using only information
+(=the states) of a discrete number of particles. Hence, the change rates of
+the states described by the equations of fluid dynamics, which have a form
+according to \ref{eq:EFD_form} can be rewritten using this information. Doing
+this one obtains the SPH formulation of the equations of fluid dynamics.
+
+The detailed derivation of those equations will not be shown here, as the
+interest  only lies in describing the principle ideas behind the SPH
+method. To resume, this are the following ones: A (field) function can be
+described as an integral interpolation over the function itself and a kernel
+function (which has to be chosen in an appropriate way). A further
+approximation consists in transforming the integral over the domain into a
+summation over the discrete elements constituing this domain (the particles). This allows to express both
+the field function and its spacial derivatives dependent exclusively on discrete values
+of the fieldfunction itself (and the kernel function, which is known as well as
+its derivatvies).By finally choosing an appropriate kernel function with
+compact support, the summation over all particles in the domain can be reduced
+to a summation over those particles within the support domain of the particle
+in question.
+
+As already mentionned above, the SPH formulation of the equations of fluid
+dynamics is obtained by applying the above principles and conducting different
+transformations to the original (exact) equations. Depending on the
+transformations used, the final SPH equations can assume a different form. In
+the following, a common form for the change rates of density, velocity and
+internal energy based on the EULER EQUATIONS (i.e. without viscosity) is
+listed\cite{Monaghan2005}\cite{Liu2003} (perhaps list NSG-form as well, and
+explain why Euler is of interest as well (for 1DSPH code, perhaps later real
+code including viscosity???)
+
+\begin{equation}
+\frac{d\rho _a}{\mathit{dt}}=\sum{m_{b}v_{\mathit{ab}}\nabla _{a}W_{\mathit{ab}}}
+\end{equation}
+
+\begin{equation}
+\label{eq:VelChangeRate}
+\frac{dv_{a}}{\mathit{dt}}=-\sum {m_{b}(\frac{P_{a}}{\rho_{a}^{2}}+\frac{P_{b}}{\rho _{b}^{2}}+\Pi _{ab})\nabla_{a}W_{ab}}
+\end{equation}
+
+
+\begin{equation}
+\frac{de_{a}}{\mathit{dt}}=-\mathit{}\frac{1}{2}\sum{m_{b}(\frac{P_{a}}{\rho _{a}^{2}}+\frac{P_{b}}{\rho _{b}^{2}}+\Pi_{\mathit{ab}})v_{\mathit{ab}}\nabla _{a}W_{\mathit{ab}}}
+\end{equation}
+
+
+
+For the detailed procedure of derivation and for alternative formulations of
+these equations refer to \cite{Monaghan2005}\cite{Liu2003}
+
+Artificial Viscosity
+
+Another poit that has to be taken into account for SPH simulations, especially
+such including shock phenomena, is arificial viscosity\cite{Monaghan2005}. It
+prevents particles from penetrating one into an other in zones with high
+compression rates and also generally stabilizes a numerical
+allgorithm.
+Artificial viscosity for numerical simulation of shock phenomena
+in general was first introduced by \cite{vonNeumann1950}. They suggested to
+introduce an artificial dissipation to give the shock a thickness which
+allowed it to be calculated numerically (in the cited example with finite difference
+scheme) without introduction of pre-/after shock boundary conditions.    ...(see article)
+The first use of artificial viscosity specifically for the mesh free SPH goes
+back to Lucy\cite{Lucy1977}.He suggested an artificial bulk viscosity to
+prevent a slow buildup of acoustic energy by integration errors in zones with
+low density respectively low particle presence. 
+Finally, the form of artificial viscosity most commomly used in SPH
+literature\cite{Liu2003} is the one proposed by Monaghan and
+Gingold\cite{Monaghan1983}. They stated that the use of one of the artificial
+viscosities cited above (Neumann Richtmyer (adapted to SPH) or bulk
+viscosity) on shock problems would lead to either excessive particle
+oscillation or excessive smearing of the shock front. The expression for this
+artificial viscosity $\Pi_{ab}$, which is added to the pressure term of
+equation \ref{eq:VelChangeRate}, is:
+
+\begin{equation}
+\Pi _{\mathit{ab}}=-\nu
+(\frac{v_{\mathit{ab}}r_{\mathit{ab}}}{r_{\mathit{ab}}^{2}+\epsilon
+h_{\mathit{ab}}^{2}})
+\end{equation}
+where 
+\begin{equation}
+\nu =\frac{h_{\mathit{ab}}}{\rho _{\mathit{ab}}}(\alpha
+c_{\mathit{ab}}-\beta
+\frac{h_{\mathit{ab}}v_{\mathit{ab}}r_{\mathit{ab}}}{r_{\mathit{ab}}^{2}+\epsilon
+h_{\mathit{ab}}^{2}})
+\end{equation}
+
+$v_{ab}$ stands for $v_a-v_b$, $r_{ab}$ for $r_a-r_b$, $c_{ab}$ is the
+averaged sound speed of the two particles in question $1/2(c_a+c_b)$. The same
+applies for $\rho_{ab}(=1/2(\rho_a+\rho_b))$ and $h_{ab}=(1/2(h_a+h_b))$. IT
+HAS TO BE MENTIONED SOMEWHERE (but probably not right here) THAT: the use of
+the averaged smoothing length $h_{ab}$ is a way to symmetrize particle
+interactions when h is spatially variable. In this case a particle $a$ could be
+located in the support domain of a particle $b$ but not vice versa. This would
+lead to an assymetric mutual contribution of forces. To avoid this, using the
+averaged smoothing length between two particles is an appropriate remedy\cite{Liu2003}.
+
+
+ 
+mention somewhere that kernel unity is inverse of volume?!?!?
+
+\section{Implementation of an SPH code}
+This section presents some particular features of an SPH code. Emphasis is
+placed on these features which are finally implemented in one of the
+two SPH codes designed and modified during this work.
+Points of interest are the implementation of different boundary conditions in
+SPH, a closer description of the kernel function, as well as different methods/allgorithms
+to perform the search for the interacting particles. Furthermore different
+equations of state are introduced, depending on the nature of the flow problem
+to be considered(compressible/incompressible). Finally some words on numerical
+integration schemes that have proven to be reliable for SPH applications.
+
+
+\subsection{boundary condition implementation}
+For particles at the edge of the calculation domain, the summation interpolation does not
+give exact results, as the integral (or better the sum) is truncated due to
+the simple fact that outside the domain there are no
+particles.\cite{Liu2003}(find better citation...) This efect is called the
+problem of article deficiencythe particle deficiency
+problem.\cite{Liu2003}. In some cases there is no need to consider this
+problem, as the areas close to the edges are not of interest and due to
+limited simulation time there is no time for the error to propagate into the
+actual zone of interest. The 1D shock tube simulation described further below
+(PERHAPS LINK TO SECTION)is an example for such a case.  
+But for other applications the edges play an important role or the domain has
+to be rendered periodocally. So there is a need to define specific boundary
+conditions. This can be accomplished by a special boundary treatment, which
+often includes so called virtual particles or ghost
+particles\cite{Liu2003}. The first ones to come up with this idea were
+\cite{LIBERSKY1993}. Virtual particles are used to model solid walls by
+placing them inside the solid body, mirrored at the surface. For each real
+particle whose support domain interfres with the wall, one such particle is
+built. Virtual particles have the same properties as their real counterpart
+except for the velocity. Depending on the type of boundary condition they are
+supposed to represent, different velocities are assigned to them.\cite{Hu2006}
+
+non slip velocity boundary condition
+
+\begin{equation}
+v_{virtual}=2v_{wall}-v_{real}
+\end{equation}
+
+free slip velocity boundary condition
+
+\begin{equation}
+v_{virtual}^{tangential}=v_{real}^{tangential}
+\end{equation}
+
+ILLUSTRATION OF VELOCITY ASSIGNMENT FOR VIRTUAL BOUNDARY PARTICLES
+
+For the treatment of periodic boundary conditions, no ghost particles are
+needed. Particles leaving the calculation domain on one side are simple
+reinserted on the opposite side (with the same properties).
+
+
+\subsection{kernel function}
+???not sure, if its the right place here, but somewhere there should be a
+paragraph with more detailed information on kernels used, compact support,
+perhaps even some properties,...(and perhaps some graphics???)
+
+
+Some properties of Kernel functions (smoothing functions) and notions related
+to them have allready been mentionned in the section
+\ref{sec:BasicsSPH}. In principal every function can act as Kernel function
+when it respects a set of criteria complsed by \cite{Liu2003}.
+The most important ones are:
+
+The smoothing function should vanish outside of a certain area around its
+center. This property is called compact support and the domain where $W\neq0$
+the support domain of the smoothing function. The smoothing length $\kappa h$ and the
+support length $h$ may not be mixed up.
+\begin{equation}
+W(x-x')=0,\text{for}|x-x'|>\kappa h
+\end{equation}
+
+The smoothing function should be normalized to 1, which ensures that constants
+are interpolated exactly
+\begin{equation}
+\int{W(x-x',h)dx'}=1
+\end{equation}
+
+The smoothing function should tend towards the delta function as the smoothing
+length $h$ tends to zero
+\begin{equation}
+\lim\limits_{h \rightarrow 0}{W(x-x',h)}=\delta(x-x')
+\end{equation}
+This is to ensure consistency of the integral approximation, which means that
+the approximative expression tends to the exact expression of the integral
+interpolant equation.
+
+The full list of SPH kernel properties can be found in  \cite{Liu2003}.
+Based on those properties a variety of Kernels are used in SPH literature. A
+very commonly used Kernel though is the $M_4$ Kernel based on Schoenbergs
+$M_n$-Splines\cite{Schoenberg1946}.
+
+FORMULA M_4 Kernel
+
+In the work of \cite{Fulk1996} a mesure of merit for Kernels is developed and
+they came to the result, that in 1D no kernel performed significantly better
+than the cubic spline.
+This is why for the 1D SPH code described in section (WHATEVER) the cubic
+splime kernel is employed.
+
+\subsection{neighboring particle search methods}
+
+\subsection{equation of state}
+
+\subsection{numerical integration}
+...conservation properties more important than order of scheme\cite{Monaghan2005}
+
+
+
+\section{1D SPH code}
+\subsection{short overview}
+\subsection{components}
+\subsection {structure}
+\section{2D SPH code}
+\subsection{short overview}
+\subsection{components}
+
+\subsection{structure}
 
 \lstinputlisting[language=c++,caption=An example of program listing,captionpos=b]{code/hello.cpp}
 
-
 \chapter{Results}
+\section{1D SPH code}
+...Monaghan05 p.1739... not width important but pre and after shock values...
+
+\section{...}
 \label{sec:results}
 
 In the Figure~\ref{fig:1dshock} one can see \ldots
@@ -30,6 +382,7 @@ In the Figure~\ref{fig:1dshock} one can see \ldots
   \caption{An example of a figure}
   \label{fig:1dshock}
 \end{figure}
+
 
 
 
