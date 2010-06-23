@@ -28,11 +28,11 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //							constructor
 //----------------------------------------------------------------------------------------
-BetaSpline::BetaSpline(double smoothingLength)
-    : Kernel(smoothingLength)
+BetaSpline::BetaSpline(double supportlength)
+    : Kernel(supportlength)
 {
     ///-  initialize the auxiliary factors
-    reciprocH = 1.0 / smoothingLength;
+    reciprocH = 1.0 / supportlength;
     
       ///- normalize to 1.0
 	norm = 40.0 / 7.0 / pi;
@@ -51,7 +51,7 @@ BetaSpline::BetaSpline(double smoothingLength)
 //----------------------------------------------------------------------------------------
 double BetaSpline::w(double distance) const
 {
-    // dist/smoothingLength is often needed
+    // dist/supportlength is often needed
     double normedDist = distance * reciprocH;
 
     // the beta-spline is composed of three functions, so we must determine, were we are
@@ -80,7 +80,7 @@ double BetaSpline::w(double distance) const
 //----------------------------------------------------------------------------------------
 Vec2d BetaSpline::gradW(double distance, const Vec2d& distanceVector) const
 {
-    // dist/smoothingLength is often needed
+    // dist/supportlength is often needed
     double normedDist = distance * reciprocH;
     // the beta-spline is composed of three functions (so the derivate is also), 
     // we must determine, were we are
@@ -105,7 +105,7 @@ Vec2d BetaSpline::gradW(double distance, const Vec2d& distanceVector) const
 //----------------------------------------------------------------------------------------
 double BetaSpline::F(double distance) const
 {
-    // dist/smoothingLength is often needed
+    // dist/supportlength is often needed
     double normedDist = distance * reciprocH;
     // the beta-spline is composed of three functions (so the derivate is also), 
     // we must determine, were we are

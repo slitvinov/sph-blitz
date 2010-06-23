@@ -21,13 +21,13 @@
 #include "Kernel/kernel.h"
 
 //constructor to inizialize the data members
-Kernel::Kernel(const double smoothingLength)
-    : smoothingLength(smoothingLength)
+Kernel::Kernel(const double supportlength)
+    : supportlength(supportlength)
 {
-    if (smoothingLength <= 0.0)
+    if (supportlength <= 0.0)
     {
       std::cout << "\n FAILURE: The Kernel gets a non-positive smoothing length \"" 
-		<< smoothingLength << "\"!\n";
+		<< supportlength << "\"!\n";
       std::cout << __FILE__ << ':' << __LINE__ << std::endl;
       exit(1);
     }

@@ -11,7 +11,7 @@ class Kernel
 public:
 
     ///Constructor to initialize data members
-  Kernel(double smoothingLength);
+  Kernel(double supportlength);
     
     ///Base classes with virtual member functions should have a virtual destructor
     virtual ~Kernel();
@@ -29,7 +29,7 @@ public:
 
 protected:
     ///A local copy of the smoothing length
-    const double smoothingLength;
+    const double supportlength;
 };
 
 #endif //KERNEL_H

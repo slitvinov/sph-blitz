@@ -12,7 +12,7 @@ class QuinticSpline : public Kernel
 public:
 
   ///constructor to initialize the data members (auxiliary factors for kernel calculation)
-  QuinticSpline(const double smoothingLength);
+  QuinticSpline(const double supportlength);
   
   ///\brief Calculates the kernel value for the given distance of two particles
   ///

@@ -33,12 +33,12 @@ using namespace std;
 
 /*
 
-QuinticSpline::QuinticSpline(const double smoothingLength)
-  : Kernel(smoothingLength), 
+QuinticSpline::QuinticSpline(const double supportlength)
+  : Kernel(supportlength), 
     norm(/*63.0 / 478.0 / pi  360)
 {
   // initialize the auxiliary factors
-    reciprocH = 1.0 / smoothingLength;
+    reciprocH = 1.0 / supportlength;
       
       factorW     = norm * pow(reciprocH,1/* 2 );
 	factorGradW = 15.0*norm * pow(reciprocH,2/* 3 /);
@@ -54,7 +54,7 @@ QuinticSpline::QuinticSpline(const double smoothingLength)
 //----------------------------------------------------------------------------------------
 double QuinticSpline::w(const double distance) const
 {
-    // dist/smoothingLength is often needed
+    // dist/supportlength is often needed
     double normedDist = 3.0*distance * reciprocH;
 	double ss3, ss2, ss1;
 
@@ -91,7 +91,7 @@ double QuinticSpline::w(const double distance) const
 //----------------------------------------------------------------------------------------
 Vec2d QuinticSpline::gradW(const double distance, const Vec2d& distanceVector) const
 {
-    // dist/smoothingLength is often needed
+    // dist/supportlength is often needed
     double normedDist = 3.0*distance * reciprocH;
 	double ss3, ss2, ss1;
 
@@ -126,7 +126,7 @@ Vec2d QuinticSpline::gradW(const double distance, const Vec2d& distanceVector) c
 //----------------------------------------------------------------------------------------
 double QuinticSpline::F(const double distance) const
 {
-    // dist/smoothingLength is often needed
+    // dist/supportlength is often needed
     const double normedDist = 3.0*distance * reciprocH;
     
     const double ss3 = (3.0 - normedDist);
@@ -160,7 +160,7 @@ double QuinticSpline::F(const double distance) const
 //----------------------------------------------------------------------------------------
 double QuinticSpline::LapW(const double distance) const
 {
-    // dist/smoothingLength is often needed
+    // dist/supportlength is often needed
     double normedDist = 3.0*distance * reciprocH;
 	double ss3, ss2, ss1;
 
@@ -197,14 +197,14 @@ double QuinticSpline::LapW(const double distance) const
 
 
 */
-Cubicspline1D::Cubicspline1D(const double smoothingLength)
-  : Kernel(smoothingLength), 
+Cubicspline1D::Cubicspline1D(const double supportlength)
+  : Kernel(supportlength), 
     norm(1)
 {
   // initialize the auxiliary factors
 
 
-  h =smoothingLength/2;//factor two as the use ofsmoothinglength within this program is not consistent with its actula definition
+  h =supportlength/2;//factor two as the use ofsupportlength within this program is not consistent with its actula definition
   double alphaD=1/h; //coefficient for cubic spline kernel in 1D (see Liu eq(3.6), page 64)
 
  }
@@ -272,7 +272,7 @@ double dW;
 //----------------------------------------------------------------------------------------
 double Cubicspline1D::F(const double distance) const
 {
-  /*  // dist/smoothingLength is often needed
+  /*  // dist/supportlength is often needed
     const double normedDist = 3.0*distance * reciprocH;
     
     const double ss3 = (3.0 - normedDist);
@@ -306,7 +306,7 @@ double Cubicspline1D::F(const double distance) const
 //----------------------------------------------------------------------------------------
 double Cubicspline1D::LapW(const double distance) const
 {/*
-    // dist/smoothingLength is often needed
+    // dist/supportlength is often needed
     double normedDist = 3.0*distance * reciprocH;
 	double ss3, ss2, ss1;
 

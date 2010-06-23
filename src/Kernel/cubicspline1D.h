@@ -13,7 +13,7 @@ class Cubicspline1D : public Kernel
 public:
 
   ///constructor to initialize the data members (auxiliary factors for kernel calculation)
-  Cubicspline1D(const double smoothingLength);
+  Cubicspline1D(const double supportlength);
   
   ///\brief Calculates the kernel value for the given distance of two particles
   ///

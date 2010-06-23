@@ -70,7 +70,7 @@ Initiation::Initiation(const char *project_name) {
 		if(!strcmp(Key_word, "CELL_SIZE")) fin>>cell_size;
 
 		//comparing the key words for supportlength
-		if(!strcmp(Key_word, "SMOOTHING_LENGTH")) fin>>supportlength;
+		if(!strcmp(Key_word, "SUPPORT_LENGTH")) fin>>supportlength;
 
 		//comparing the key words for the ratio between cell size and initial particle width
 		if(!strcmp(Key_word, "CELL_RATIO")) fin>>hdelta;
