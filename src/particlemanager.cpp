@@ -18,6 +18,7 @@
 // ***** local includes *****
 #include "glbcls.h"
 #include "glbfunc.h"
+#include "material.h"
 
 using namespace std;
 

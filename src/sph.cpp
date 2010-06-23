@@ -62,6 +62,7 @@
 // ***** local includes *****
 #include "glbfunc.h"
 #include "glbcls.h"
+#include "vec2d.h"
 #include "Kernel/quinticspline.h"
 #include "Kernel/cubicspline1D.h"
 #include "Kernel/betaspline.h"
@@ -164,7 +165,7 @@ int main(int argc, char *argv[]) {
 //		output.OutputStates(particles, mls, weight_function, Time, ini); //states on uniform grid
 //		output.OutAverage(particles, mls, weight_function, Time, ini);
 		output.WriteParticleMovie(hydro, Time, ini); //a frame of the particle movie
-		output.OutRestart(hydro, Time, ini); //restarting file
+		output.OutRestart(hydro, Time); //restarting file
 
 		//output diagnose information
 		if(ini.diagnose == 1) {

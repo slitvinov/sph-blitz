@@ -1,8 +1,12 @@
+#ifndef INITIATION_H
+#define INITIATION_H
 /// \file initiation.h 
 /// \brief Initiates the simulation
 
 
 ///\brief Initiates the simulation
+#include "vec2d.h"
+
 class Initiation {
 	
 	friend class Material;
@@ -112,3 +116,4 @@ public:
 	double dms_surface(double sigma_non);///<a re-dimensionalize method
 
 };
+#endif

@@ -28,7 +28,7 @@ public:
 	void OutputStates(ParticleManager &particles, MLS &mls, Kernel &weight_function, 
 					  double Time, Initiation &ini);
 	///Output real particle data for restart the computation
-	void OutRestart(Hydrodynamics &hydro, double Time, Initiation &ini);
+	void OutRestart(Hydrodynamics &hydro, double Time);
 	///create a head file for a movie of particle motion
 	void CreatParticleMovie();
 	///write the data for a movie of particle motion (output real and wall particles)	

@@ -97,7 +97,7 @@ public:
 	void RandomEffects();
 
 	//test for debug
-	void MovingTest(Initiation &ini);///test for debug
+	void MovingTest();///test for debug
 	double ConservationTest();//test for debug
 
 	///special uitilities

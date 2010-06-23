@@ -17,6 +17,7 @@
 // ***** localincludes *****
 #include "glbcls.h"
 #include "glbfunc.h"
+#include "material.h"
 
 using namespace std;
 
@@ -188,7 +189,7 @@ void Diagnose::BuildDistribution(Llist<double> &list, double dstrb[2][101])
 //----------------------------------------------------------------------------------------
 //						calculate the average values
 //----------------------------------------------------------------------------------------
-void Diagnose::Average(ParticleManager &particles, MLS &mls, Kernel &weight_function, Initiation &ini)
+void Diagnose::Average(ParticleManager &particles, MLS &mls, Kernel &weight_function)
 {
 	int i, j, n;
 	Vec2d pstn;

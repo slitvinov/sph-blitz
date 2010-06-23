@@ -12,7 +12,7 @@
 #endif
 
 ///#include <iostream>
-#include "vec2d.h"
+///#include "vec2d.h"
 #include "wiener.h"
 #include "dllist.h"
 
@@ -24,7 +24,6 @@ class Hydrodynamics; class ListNode; class Material; class BetaSpline; class Ker
 #include "particle.h"
 #include "particlemanager.h"
 #include "boundary.h"
-#include "material.h"
 #include "force.h"
 #include "interaction.h"
 #include "hydrodynamics.h"

@@ -61,7 +61,7 @@ void TimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
 		///<li> calculating diagonse information
 		if(ini.diagnose == 1) {
 			diagnose.SaveStates(hydro);
-			diagnose.Average(particles, mls, weight_function, ini);
+			diagnose.Average(particles, mls, weight_function);
 		}
 		if(ini.diagnose == 2 && ite % 10 == 0) 
 			diagnose.KineticInformation(Time, ini, hydro);
@@ -127,7 +127,7 @@ cout<<"\n current absolute integraltime:"<<Time<<"\n";
 		///<li>calculating diagnose information
 		if(ini.diagnose == 1) {
 			diagnose.SaveStates(hydro);
-			diagnose.Average(particles, mls, weight_function, ini);
+			diagnose.Average(particles, mls, weight_function);
 		}
 
 		///<li>output diagnose information

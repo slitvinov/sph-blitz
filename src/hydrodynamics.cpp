@@ -17,6 +17,7 @@
 // ***** localincludes *****
 #include "glbcls.h"
 #include "glbfunc.h"
+#include "material.h"
 #include "Kernel/kernel.h"
 
 using namespace std;
@@ -687,7 +688,7 @@ void Hydrodynamics::RandomEffects()
 //----------------------------------------------------------------------------------------
 //					test assign random particle velocity, no density updating
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::MovingTest(Initiation &ini)
+void Hydrodynamics::MovingTest()
 {
   //a random double between 0.0 and 1.0
   Vec2d test_v;

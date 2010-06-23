@@ -18,6 +18,7 @@
 // ***** localincludes *****
 #include "glbcls.h"
 #include "glbfunc.h"
+#include "material.h"
 
 using namespace std;
 
@@ -113,7 +114,7 @@ void Material::show_properties()
 //			obtain parameter b0
 //			after nondimensionlization finished
 //----------------------------------------------------------------------------------------
-void Material::Get_b0(double sound)
+void Material::Get_b0(const double sound)
 {
 	//compressiblity
 	b0 = a0*sound/gamma;
@@ -121,23 +122,23 @@ void Material::Get_b0(double sound)
 //----------------------------------------------------------------------------------------
 //					get pressure
 //----------------------------------------------------------------------------------------
-double Material::get_p(double rho)
+double Material::get_p(const double rho)
 {
 	return b0*pow(rho/rho0,gamma);
 }
 
-double Material::get_p(double rho, double e)
+double Material::get_p(const double rho, const double e)
 {
   return (gamma-1)*rho*e;
 }
 //----------------------------------------------------------------------------------------
 //					get rho from pressure
 //----------------------------------------------------------------------------------------
-double Material::get_rho(double p)
+double Material::get_rho(const double p)
 {
 	return rho0*pow(p/b0, 1.0/gamma);
 }
-double Material::get_rho(double p, double e)
+double Material::get_rho(const double p, const double e)
 {
   return p/((gamma-1)*e);
 }
@@ -146,12 +147,12 @@ double Material::get_rho(double p, double e)
 //----------------------------------------------------------------------------------------
 //				get temperaturey
 //----------------------------------------------------------------------------------------
-double Material::get_T(double e)
+double Material::get_T(const double e)
 {
   return e/cv;
 }
 
-double Material::get_T(double p, double rho)
+double Material::get_T(const double p, const double rho)
 {
   return p/((gamma-1)*rho*cv);
 }
@@ -161,14 +162,14 @@ double Material::get_T(double p, double rho)
 //----------------------------------------------------------------------------------------
 //				get internal energy
 //----------------------------------------------------------------------------------------
-double Material::get_e(double T)
+double Material::get_e(const double T)
 {
 	return cv*T;
 }
 //----------------------------------------------------------------------------------------
 //					get sound speed
 //----------------------------------------------------------------------------------------
-double Material::get_Cs(double p, double rho)
+double Material::get_Cs(const double p, const double rho)
 {
 	return sqrt(gamma*p/rho);
 }

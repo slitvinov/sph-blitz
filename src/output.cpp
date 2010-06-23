@@ -17,6 +17,7 @@
 // ***** localincludes *****
 #include "glbcls.h"
 #include "glbfunc.h"
+#include "material.h"
 
 using namespace std;
 
@@ -57,7 +58,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
   if( simu_mode==1)
  out<<"variables=x, y, Ux, Uy \n";
   if (simu_mode==2)
- out<<"variables=x, rho, p, U, e \n";
+ out<<"variables=x, y, rho, p, U, e \n";
   int f=0, g=0, a=0, b=0; 	
   ///<li>output real and soild particles
   for(i = 0; i < number_of_materials; i++) {
@@ -81,7 +82,14 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
 	   
 	}
 	if (simu_mode == 2)
-	  out<<setprecision(6)<< ::setw(16)<<ini.dms_length(prtl->R[0]) <<::setw(16)<<ini.dms_length(prtl->rho) << ::setw(16)<<ini.dms_velocity(prtl->p)<< ::setw(16)<<ini.dms_velocity(prtl->U[0])<< ::setw(16)<<ini.dms_velocity(prtl->e)<<"  "<<prtl->ID<<"\n";
+	  out<<setprecision(6)
+	     << ::setw(16)<<ini.dms_length(prtl->R[0]) 
+	     << ::setw(16)<<ini.dms_length(prtl->R[1]) 
+	     <<::setw(16) <<ini.dms_length(prtl->rho) 
+	     << ::setw(16)<<ini.dms_velocity(prtl->p)
+	     << ::setw(16)<<ini.dms_velocity(prtl->U[0])
+	     << ::setw(16)<<ini.dms_velocity(prtl->e)
+	     <<"  "<<prtl->ID<<"\n";
       }
     }
 
@@ -184,7 +192,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, Kernel &weight_f
 //--------------------------------------------------------------------------------------------
 //		Output real particle data for restart the computation
 //--------------------------------------------------------------------------------------------
-void Output::OutRestart(Hydrodynamics &hydro, double Time, Initiation &ini)
+void Output::OutRestart(Hydrodynamics &hydro, double Time)
 {
   int n;
   char outputfile[25];
