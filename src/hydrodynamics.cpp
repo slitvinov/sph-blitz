@@ -193,24 +193,6 @@ void Hydrodynamics::UpdatePhaseGradient(Boundary &boundary)
   }
 }
 //----------------------------------------------------------------------------------------
-//		summation Phase Divergen
-//----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdatePhaseLaplacian(Boundary &boundary)
-{
-  ///- initiate zero shear rateby calling Zero_PhaseLaplacian()
-  Zero_PhaseLaplacian(boundary);
-  ///- iterate the interaction list
-  for (LlistNode<Interaction> *p2 = interaction_list.first(); 
-       !interaction_list.isEnd(p2); 
-       p2 = interaction_list.next(p2)) {
-		
-    //a interaction pair
-    Interaction *pair = interaction_list.retrieve(p2);
-    ///- calculate for each pair the pair forces or change rate
-    pair->SummationPhaseLaplacian();
-  }
-}
-//----------------------------------------------------------------------------------------
 //		summation for pahse field gradient
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::UpdatePhaseField(Boundary &boundary)

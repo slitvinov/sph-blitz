@@ -232,23 +232,6 @@ void Interaction::SummationPhaseGradient()
 	Dest->del_phi -= dphi*rVj*Vi2;
 }
 //----------------------------------------------------------------------------------------
-//						phase field Laplacian
-//----------------------------------------------------------------------------------------
-void Interaction::SummationPhaseLaplacian()
-{
-	//pair particle state values
-	double vi, vj; //particle volumes
-	double lapi;
-		
-	//define particle state values
-	vi = mi/Org->rho; vj = mj/Dest->rho;
-	lapi = LapWij;
-	
-	//summation
-	Org->lap_phi[noi][noj] += lapi*vj;
-	Dest->lap_phi[noj][noi] += lapi*vi;
-}
-//----------------------------------------------------------------------------------------
 //					Curvature
 //----------------------------------------------------------------------------------------
 void Interaction::SummationCurvature()

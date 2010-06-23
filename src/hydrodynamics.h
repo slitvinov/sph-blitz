@@ -67,7 +67,6 @@ public:
 	void UpdatePhaseField(Boundary &boundary);
 	void Zero_PhaseField(Boundary &boundary);
 	void UpdateSurfaceStress(Boundary &boundary);
-	void UpdatePhaseLaplacian(Boundary &boundary);
 	void Zero_PhaseLaplacian(Boundary &boundary);
 	///calculate surface tension coefficient
 	double SurfaceTensionCoefficient();

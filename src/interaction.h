@@ -110,7 +110,6 @@ public:
 	/// Depends on: Interaction Object, Org(del_phi,rho), Dest(del_phi,rho)
 	void SummationPhaseGradient();
 	void SummationPhaseGradient_old();
-	void SummationPhaseLaplacian();
 
 	///update forces
 	void UpdateForces();
