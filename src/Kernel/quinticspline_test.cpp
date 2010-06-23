@@ -6,7 +6,7 @@
 #include <numeric>
 
 int test_main( int, char *[] )     {  
-  const double eps  = 1e-6;
+  const double eps  = 1e-3;
   const double supportlength = 0.3;
   const double pi = 3.141592653589793;
   QuinticSpline weight_function (supportlength);
@@ -23,7 +23,6 @@ int test_main( int, char *[] )     {
  Array<double, 1> x(numSamples);
  x = dx * i;
 
-
  // integrate kernel 
  Array<double, 1> w(weight_function.w(x)*x);
  double s =  std::accumulate(w.begin(), w.end(), 0.0);
@@ -39,6 +38,20 @@ int test_main( int, char *[] )     {
  s = pi * dx * s;
  BOOST_CHECK( abs(s - 1.0) < eps );
 
+ // cumulative sum of the derivatives
+ Array<double, 1> cumsum(numSamples);
+ Array<double, 1> dw(weight_function.F(x));
+ w = Array<double, 1>(weight_function.w(x));
+ cumsum = 0.0;
+ s = 0.0;
+ for (int idx=0; idx<numSamples; idx++) {
+   cumsum(numSamples-idx-1) = s * dx; 
+   s += dw(numSamples - idx - 1);
+ }
+ w = Array<double, 1>(weight_function.w(x));
+ for (int idx=0; idx<numSamples; idx++) {
+   BOOST_REQUIRE( abs(cumsum(idx) - w(idx)) < eps*w(0.0) );
+ }
 
   /// check integral of the kernel function
   /// use Trapezoidal Rule
