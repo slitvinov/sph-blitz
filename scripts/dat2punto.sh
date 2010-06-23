@@ -5,6 +5,6 @@
 
 for file in $(ls -1 prtl[0-9]*.dat); do
     #printf "file: %s\n" $file > "/dev/stderr"
-    awk 'NF>3&&NR>3{print $1, $2, $3, $4}'  $file 
+    awk 'NF>3&&NR>3{print $1, $2, $3, $4, $5, $6, $7}'  $file 
     printf "\n"
 done 
