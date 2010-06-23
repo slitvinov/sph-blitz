@@ -1,0 +1,14 @@
+/* Maxima program to calculate kerenel's constants and derivatives */
+/* cubic spline */
+
+/* sd is smothing distance */
+w_1(x):= A/sd^2 * 1/6 * ( (2-2*x/sd)^3 - 4*(1-2*x/sd)^3 ) ;
+w_2(x):= A/sd^2*1/6 * (2 - 2*x/sd)^3;
+
+dw_1(x):= diff(w_1(x), x);
+dw_2(x):= diff(w_2(x), x);
+
+/* find a constants in 2D */
+solve(1 = 2*pi*( integrate(w_1(x)*x, x, 0, sd/2) + integrate(w_1(x)*x, x, sd/2, sd) ), A);
+
+/* gives A= 15 / (4*pi) */
