@@ -4,7 +4,7 @@
 /// \brief Quintic spline kernel
 
 #include "Kernel/kernel.h"
-#include <blitz/array.h>
+
 
 /// Quintic spline class 
 class QuinticSpline : public Kernel
@@ -33,8 +33,6 @@ public:
   ///Calculates the kernel Laplacian
   double LapW(const double distance) const;
 
-  BZ_DECLARE_MEMBER_FUNCTION(QuinticSpline, w);
-  BZ_DECLARE_MEMBER_FUNCTION(QuinticSpline, F);
 
 private:
     ///Normalization factor
