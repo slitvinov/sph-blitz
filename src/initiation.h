@@ -38,8 +38,8 @@ public:
 	double art_vis;
 	///simulation mode (1:liquids, 2: gas dynamics)
 	int simu_mode;
-	///smoothinglength
-	double smoothinglength;
+	///supportlength
+	double supportlength;
 	///the compuational domain size
 	Vec2d box_size;
 	///cell size

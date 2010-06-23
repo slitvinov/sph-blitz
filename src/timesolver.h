@@ -10,7 +10,7 @@ class TimeSolver{
 	//parameters copied from initiation
 	double cell_size;///<will be copied from initiation
 	Vec2d box_size;///<will be copied from initiation
-	double smoothinglength;///<will be copied from initiation
+	double supportlength;///<will be copied from initiation
 
 	int ite; ///<number of iteration
 	double dt; ///<time step

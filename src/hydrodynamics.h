@@ -6,7 +6,7 @@ class Hydrodynamics
 {	
 	int number_of_materials;
 	Vec2d gravity;
-	double smoothinglength;
+	double supportlength;
 	int simu_mode;
 	double delta, delta2, delta3;
 	double dt_g_vis, dt_surf;

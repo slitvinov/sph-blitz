@@ -6,7 +6,7 @@ class Material {
 
 	///total number of materials
 	static int number_of_materials;
-	static double smoothinglength;///<smoothinglenth
+	static double supportlength;///<smoothinglenth
 	static double delta;
 
 public:

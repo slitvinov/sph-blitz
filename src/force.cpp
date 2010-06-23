@@ -24,7 +24,7 @@ using namespace std;
 //total number of materials
 int Force::number_of_materials = 0;
 //smoothinglenth
-double Force::smoothinglength = 0.0;
+double Force::supportlength = 0.0;
 
 //----------------------------------------------------------------------------------------
 //					constructor
@@ -40,7 +40,7 @@ Force::Force(Initiation &ini)
 	//total number of materials
 	number_of_materials = ini.number_of_materials;
 	//smoothinglenth
-	smoothinglength = ini.smoothinglength;
+	supportlength = ini.supportlength;
 }
 //----------------------------------------------------------------------------------------
 //					non-dimensionalize

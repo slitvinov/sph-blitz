@@ -38,8 +38,8 @@ ParticleManager::ParticleManager(Initiation &ini)
   ///- copy properties from class Initiation
   strcpy(Project_name, ini.Project_name);
   number_of_materials = ini.number_of_materials;
-  smoothinglength = ini.smoothinglength;
-  smoothinglengthsquare = smoothinglength*smoothinglength;
+  supportlength = ini.supportlength;
+  supportlengthsquare = supportlength*supportlength;
   box_size = ini.box_size;
   cll_sz = ini.cell_size;
   x_clls = ini.x_cells + 2; y_clls = ini.y_cells + 2;
@@ -141,7 +141,7 @@ void ParticleManager::BuildNNP(Vec2d &point)
 	  ///and (if particle is NNP) insert the nearest particle to the list
 	  Particle *prtl = cell_lists[i][j].retrieve(p);
 	  dstc = v_distance(point, prtl->R);
-	  if(dstc < smoothinglength) {///<li>(line 137)<b>Question: WHY SMOOTHINGLENGTH AND NOT SUPPORT LENGT???</b>
+	  if(dstc < supportlength) {///<li>(line 137)<b>Question: WHY SMOOTHINGLENGTH AND NOT SUPPORT LENGT???</b>
 	    NNP_list.insert(NNP_list.first(), prtl);
 	  }
 	}
@@ -178,7 +178,7 @@ void ParticleManager::BuildNNP_MLSMapping(Vec2d &point)
 	  Particle *prtl = cell_lists[i][j].retrieve(p);
 	  dstc = v_distance(point, prtl->R);
 	  //only real particles included
-	  if(dstc < smoothinglength && prtl->bd == 0) {
+	  if(dstc < supportlength && prtl->bd == 0) {
 	    NNP_list.insert(NNP_list.first(), prtl);
 	  }
 	}
@@ -251,7 +251,7 @@ cout<<"\n Am in build interaction control point 2 \n";
 		
 	      ///<ul><li>calculate distance between particle in question and destination particle (which is iterated)and if interaction takes place: add pair to inetraction list (<b>question: why is dst compared to h^2 and not support length to determine if there is interaction or not??</b>
 	      dstc = v_sq(prtl_org->R - prtl_dest->R);
-	      if(dstc <= smoothinglengthsquare && prtl_org->ID >= prtl_dest->ID) {
+	      if(dstc <= supportlengthsquare && prtl_org->ID >= prtl_dest->ID) {
 		//	cout<<"\n distances for BuildInteractions positif:"<<dstc<<"\n";
 		if(current_used == old_length) {
 #ifdef _OPENMP

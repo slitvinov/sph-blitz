@@ -36,7 +36,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   ///<ul><li>copy properties from initiation class
   number_of_materials = ini.number_of_materials;
   gravity = ini.g_force;
-  smoothinglength = ini.smoothinglength;
+  supportlength = ini.supportlength;
   simu_mode=ini.simu_mode;
   delta = ini.delta; delta2 = delta*delta; delta3 = delta2*delta;
 
@@ -93,7 +93,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
 	     >>forces[k][m].shear_slip>>forces[k][m].bulk_slip
 	     >>forces[k][m].heat_slip;
 	  ///<li>copy smoothing length fro initiation
-	  forces[k][m].smoothinglength = ini.smoothinglength;
+	  forces[k][m].supportlength = ini.supportlength;
 	  ///<li>and non-dimensionalize</ul>
 	  forces[k][m].non_dimensionalize(ini);
 	}

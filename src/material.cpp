@@ -22,7 +22,7 @@
 using namespace std;
 
 int Material::number_of_materials = 0;
-double Material::smoothinglength = 0.0; //smoothinglenth
+double Material::supportlength = 0.0; //smoothinglenth
 double Material::delta = 0.0; //smoothinglenth
 //----------------------------------------------------------------------------------------
 //					constructors
@@ -38,7 +38,7 @@ Material::Material(Initiation &ini)
 {
 	//total number of materials
 	number_of_materials = ini.number_of_materials;
-	smoothinglength = ini.smoothinglength;
+	supportlength = ini.supportlength;
 	delta = ini.delta;
 }
 //----------------------------------------------------------------------------------------

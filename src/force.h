@@ -9,7 +9,7 @@ class Force {
 	///total number of materials
 	static int number_of_materials;
 	///smoothinglenth
-	static double smoothinglength;
+	static double supportlength;
 
 	///interactive force parameters
 	double epsilon;

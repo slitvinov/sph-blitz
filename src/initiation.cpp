@@ -69,8 +69,8 @@ Initiation::Initiation(const char *project_name) {
 		//comparing the key words for cell size
 		if(!strcmp(Key_word, "CELL_SIZE")) fin>>cell_size;
 
-		//comparing the key words for smoothinglength
-		if(!strcmp(Key_word, "SMOOTHING_LENGTH")) fin>>smoothinglength;
+		//comparing the key words for supportlength
+		if(!strcmp(Key_word, "SMOOTHING_LENGTH")) fin>>supportlength;
 
 		//comparing the key words for the ratio between cell size and initial particle width
 		if(!strcmp(Key_word, "CELL_RATIO")) fin>>hdelta;
@@ -126,7 +126,7 @@ void Initiation::show_information()
 	cout<<"The number of materials in the simulation is  "<<number_of_materials<<"\n";
 	cout<<"The computational domain size is  "<<box_size[0]<<" micrometers x "<<box_size[1]<<" micrometers\n";
 	cout<<"The cell size is "<<cell_size<<" micrometers \n";
-	cout<<"The smoothing length is "<<smoothinglength<<" micrometers \n";
+	cout<<"The smoothing length is "<<supportlength<<" micrometers \n";
 	cout<<"The cell matrix size is "<<x_cells<<" x "<<y_cells<<"\n";
 	cout<<"The ratio between cell size and initial particle width is "<<hdelta<<"\n";
 	cout<<"The initial particle width is "<<delta<<" micrometers\n";
@@ -216,7 +216,7 @@ void Initiation::non_dimensionalize()
         ///remark:to avoid confusion: the non dimensional variables have the same identifiers like the dimensional ones!!!\n\n
 	box_size = non_dms_box_size(box_size);
 	cell_size = non_dms_length(cell_size);
-	smoothinglength = non_dms_length(smoothinglength);
+	supportlength = non_dms_length(supportlength);
 	delta = non_dms_length(delta); 
 	g_force = non_dms_acceleration(g_force);
 	Start_time = non_dms_time(Start_time);

@@ -6,7 +6,7 @@ class Interaction {
 
 	///total number of materials
 	static int number_of_materials;
-	static double smoothinglength;
+	static double supportlength;
         ///particle distance
 	static double delta;
 	///artificial viscosity

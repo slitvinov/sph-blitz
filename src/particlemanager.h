@@ -7,8 +7,8 @@ class ParticleManager
 	//parameters copied from initiation
 	char Project_name[25]; ///<the project name
 	int number_of_materials;
-	double smoothinglength; ///<smoothinglenth
-	double smoothinglengthsquare; ///<smoothinglenth
+	double supportlength; ///<smoothinglenth
+	double supportlengthsquare; ///<smoothinglenth
 	double cll_sz; ///<cell size
 	Vec2d box_size; ///<computational domain size
 	int initial_condition; ///<initial condition marker

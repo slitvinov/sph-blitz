@@ -29,7 +29,7 @@ TimeSolver::TimeSolver(Initiation &ini)
         ///- copy properties from class Initiation
 	cell_size = ini.cell_size;
 	box_size = ini.box_size;
-	smoothinglength = ini.smoothinglength;
+	supportlength = ini.supportlength;
 	
 	///- initialize the iteration
 	ite = 0;

@@ -205,7 +205,7 @@ Cubicspline1D::Cubicspline1D(const double smoothingLength)
 
 
   h =smoothingLength/2;//factor two as the use ofsmoothinglength within this program is not consistent with its actula definition
-	double alphaD=1/h; //coefficient for cubic spline kernel in 1D (see Liu eq(3.6), page 64)
+  double alphaD=1/h; //coefficient for cubic spline kernel in 1D (see Liu eq(3.6), page 64)
 
  }
 //----------------------------------------------------------------------------------------

@@ -23,7 +23,7 @@
 using namespace std;
 
 int Interaction::number_of_materials = 0;
-double Interaction::smoothinglength = 0.0;
+double Interaction::supportlength = 0.0;
 double Interaction::art_vis = 0.0;
 double Interaction::delta = 0.0;
 int Interaction::simu_mode =0;
@@ -38,7 +38,7 @@ Interaction::Interaction(Initiation &ini)
 {
         ///- copy properties from initiation
 	number_of_materials = ini.number_of_materials;
-	smoothinglength = ini.smoothinglength;
+	supportlength = ini.supportlength;
 	simu_mode = ini.simu_mode;
 	art_vis = ini.art_vis;
 	delta = ini.delta;
@@ -292,7 +292,7 @@ void Interaction::UpdateForces()
 	  drhodti=mj*dot((Ui-Uj),gradWij);
 	  drhodtj=mi*dot((Uj-Ui),((-1)*gradWij));
 
-	  hij=smoothinglength/2;//=0.5*(hi+hj)for later (variable smoothing length);
+	  hij=supportlength/2;//=0.5*(hi+hj)for later (variable smoothing length);
 	  cij=0.5*(Org->Cs+Dest->Cs);
           rhoij=0.5*(rhoi+rhoj);
 	
