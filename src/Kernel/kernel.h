@@ -21,6 +21,9 @@ public:
     /// Calculates the kernel derivation for the given distance of two particles 
     virtual Vec2d gradW(double distance, const Vec2d& distanceVector) const = 0;
 
+  virtual double F(const double distance) const = 0;
+  virtual double LapW(const double distance) const = 0;
+
 protected:
     ///A local copy of the smoothing length
     const double smoothingLength;
