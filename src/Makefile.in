@@ -30,7 +30,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = sph$(EXEEXT) quinticspline_test$(EXEEXT)
+bin_PROGRAMS = sph$(EXEEXT) kernel_test$(EXEEXT)
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -50,10 +50,9 @@ am__objects_1 = boundary.$(OBJEXT) diagose.$(OBJEXT) force.$(OBJEXT) \
 	timesolver.$(OBJEXT) vec2d.$(OBJEXT) wiener.$(OBJEXT) \
 	kernel.$(OBJEXT) quinticspline.$(OBJEXT) \
 	cubicspline1D.$(OBJEXT) betaspline.$(OBJEXT)
-am_quinticspline_test_OBJECTS = $(am__objects_1) \
-	quinticspline_test.$(OBJEXT)
-quinticspline_test_OBJECTS = $(am_quinticspline_test_OBJECTS)
-quinticspline_test_LDADD = $(LDADD)
+am_kernel_test_OBJECTS = $(am__objects_1) kernel_test.$(OBJEXT)
+kernel_test_OBJECTS = $(am_kernel_test_OBJECTS)
+kernel_test_LDADD = $(LDADD)
 am_sph_OBJECTS = sph.$(OBJEXT) $(am__objects_1)
 sph_OBJECTS = $(am_sph_OBJECTS)
 sph_LDADD = $(LDADD)
@@ -69,8 +68,8 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(quinticspline_test_SOURCES) $(sph_SOURCES)
-DIST_SOURCES = $(quinticspline_test_SOURCES) $(sph_SOURCES)
+SOURCES = $(kernel_test_SOURCES) $(sph_SOURCES)
+DIST_SOURCES = $(kernel_test_SOURCES) $(sph_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -184,7 +183,7 @@ nomain = boundary.cpp boundary.h \
 	Kernel/betaspline.h Kernel/betaspline.cpp
 
 sph_SOURCES = sph.cpp $(nomain) 
-quinticspline_test_SOURCES = $(nomain) Kernel/quinticspline_test.cpp
+kernel_test_SOURCES = $(nomain) Kernel/kernel_test.cpp
 all: all-am
 
 .SUFFIXES:
@@ -241,9 +240,9 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
-quinticspline_test$(EXEEXT): $(quinticspline_test_OBJECTS) $(quinticspline_test_DEPENDENCIES) 
-	@rm -f quinticspline_test$(EXEEXT)
-	$(CXXLINK) $(quinticspline_test_OBJECTS) $(quinticspline_test_LDADD) $(LIBS)
+kernel_test$(EXEEXT): $(kernel_test_OBJECTS) $(kernel_test_DEPENDENCIES) 
+	@rm -f kernel_test$(EXEEXT)
+	$(CXXLINK) $(kernel_test_OBJECTS) $(kernel_test_LDADD) $(LIBS)
 sph$(EXEEXT): $(sph_OBJECTS) $(sph_DEPENDENCIES) 
 	@rm -f sph$(EXEEXT)
 	$(CXXLINK) $(sph_OBJECTS) $(sph_LDADD) $(LIBS)
@@ -264,13 +263,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/initiation.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interaction.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kernel.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kernel_test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/material.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mls.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/particle.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/particlemanager.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/quinticspline.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/quinticspline_test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sph.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timesolver.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vec2d.Po@am__quote@
@@ -346,19 +345,19 @@ betaspline.obj: Kernel/betaspline.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o betaspline.obj `if test -f 'Kernel/betaspline.cpp'; then $(CYGPATH_W) 'Kernel/betaspline.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/betaspline.cpp'; fi`
 
-quinticspline_test.o: Kernel/quinticspline_test.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT quinticspline_test.o -MD -MP -MF $(DEPDIR)/quinticspline_test.Tpo -c -o quinticspline_test.o `test -f 'Kernel/quinticspline_test.cpp' || echo '$(srcdir)/'`Kernel/quinticspline_test.cpp
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/quinticspline_test.Tpo $(DEPDIR)/quinticspline_test.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kernel/quinticspline_test.cpp' object='quinticspline_test.o' libtool=no @AMDEPBACKSLASH@
+kernel_test.o: Kernel/kernel_test.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT kernel_test.o -MD -MP -MF $(DEPDIR)/kernel_test.Tpo -c -o kernel_test.o `test -f 'Kernel/kernel_test.cpp' || echo '$(srcdir)/'`Kernel/kernel_test.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/kernel_test.Tpo $(DEPDIR)/kernel_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kernel/kernel_test.cpp' object='kernel_test.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o quinticspline_test.o `test -f 'Kernel/quinticspline_test.cpp' || echo '$(srcdir)/'`Kernel/quinticspline_test.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o kernel_test.o `test -f 'Kernel/kernel_test.cpp' || echo '$(srcdir)/'`Kernel/kernel_test.cpp
 
-quinticspline_test.obj: Kernel/quinticspline_test.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT quinticspline_test.obj -MD -MP -MF $(DEPDIR)/quinticspline_test.Tpo -c -o quinticspline_test.obj `if test -f 'Kernel/quinticspline_test.cpp'; then $(CYGPATH_W) 'Kernel/quinticspline_test.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/quinticspline_test.cpp'; fi`
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/quinticspline_test.Tpo $(DEPDIR)/quinticspline_test.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kernel/quinticspline_test.cpp' object='quinticspline_test.obj' libtool=no @AMDEPBACKSLASH@
+kernel_test.obj: Kernel/kernel_test.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT kernel_test.obj -MD -MP -MF $(DEPDIR)/kernel_test.Tpo -c -o kernel_test.obj `if test -f 'Kernel/kernel_test.cpp'; then $(CYGPATH_W) 'Kernel/kernel_test.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/kernel_test.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/kernel_test.Tpo $(DEPDIR)/kernel_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kernel/kernel_test.cpp' object='kernel_test.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o quinticspline_test.obj `if test -f 'Kernel/quinticspline_test.cpp'; then $(CYGPATH_W) 'Kernel/quinticspline_test.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/quinticspline_test.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o kernel_test.obj `if test -f 'Kernel/kernel_test.cpp'; then $(CYGPATH_W) 'Kernel/kernel_test.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/kernel_test.cpp'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \

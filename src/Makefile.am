@@ -1,4 +1,4 @@
-bin_PROGRAMS=sph quinticspline_test
+bin_PROGRAMS=sph kernel_test
 
 
 nomain=	 boundary.cpp boundary.h \
@@ -19,5 +19,5 @@ nomain=	 boundary.cpp boundary.h \
 	Kernel/betaspline.h Kernel/betaspline.cpp
 
 sph_SOURCES= sph.cpp $(nomain) 
-quinticspline_test_SOURCES= $(nomain) Kernel/quinticspline_test.cpp
+kernel_test_SOURCES= $(nomain) Kernel/kernel_test.cpp
 

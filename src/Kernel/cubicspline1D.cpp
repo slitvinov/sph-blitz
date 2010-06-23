@@ -65,34 +65,8 @@ double Cubicspline1D::w(const double distance) const
 // but used a tripled smoothing length for the definition of the interaction radius.
 //----------------------------------------------------------------------------------------
 Vec2d Cubicspline1D::gradW(const double distance, const Vec2d& distanceVector) const
-{  Vec2d GradW;
-
-  double dW;
-	double alphaD=1/h; //coefficient for cubic spline kernel in 1D (see Liu eq(3.6), page 64)
-	double R= distance/h; //nondimensional distance
-	if(R>2)//support of 4h, everything beyond is zero
-	{
-		dW=0;
-	}
-	else if(R<1)
-	{
-		dW=-2*R+1.5*pow(R,2);
-	}
-	else
-	{
-		dW=-((double)1)/2*pow((2-R),2);
-	};
-	if (R!=0)
-
-	dW=dW*alphaD*distanceVector[0]/distance/h; //deltaX/r for the sign (-->*(+/-1) )!!!, h because of d/dr=d/dR*dR/dr (dR/dr=1/h)-->substituted by distance vector
-
-	else
-        {
-	  dW=0;
-	}
-	GradW[0]=dW;
-	GradW[1]=0;
-	return GradW;
+{  
+  return Cubicspline1D::F(distance)*distanceVector;
 }
 //----------------------------------------------------------------------------------------
 //		Calculates the kernel derivation (a double not vector) to distance
