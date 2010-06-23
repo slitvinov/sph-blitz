@@ -1,4 +1,4 @@
-/// Quintic Spline test program 
+/// Kernels  test program 
 #include "Kernel/quinticspline.h"
 #include "Kernel/cubicspline1D.h"
 #include <boost/test/minimal.hpp>
@@ -32,6 +32,8 @@ void test_kernel(const Kernel& weight_function , const double supportlength) {
  }
  wOut.close();
  dwOut.close();
+ std::cerr << "output kernel to w.dat\n" ;
+ std::cerr << "output derivative  to dw.dat\n" ;
  
 
  // integrate kernel 
@@ -39,7 +41,6 @@ void test_kernel(const Kernel& weight_function , const double supportlength) {
  double s =  std::accumulate(w.begin(), w.end(), 0.0);
  s = s - 0.5*w(0) - 0.5*w(numSamples);
  s = 2.0 * pi * dx * s;
- std::cerr << "s = " << s << '\n';
  BOOST_REQUIRE( abs(s - 1.0) < eps );
 
 
@@ -48,7 +49,6 @@ void test_kernel(const Kernel& weight_function , const double supportlength) {
  s =  std::accumulate(w.begin(), w.end(), 0.0);
  s = s - 0.5*w(0) - 0.5*w(numSamples);
  s = pi * dx * s;
- std::cerr << "derivative normalization: " << s << '\n';
  BOOST_REQUIRE( abs(s - 1.0) < eps );
 
  // cumulative sum of the derivatives
@@ -76,6 +76,7 @@ int test_main( int, char *[] )     {
   //test_kernel(q_weight_function, supportlength);
 
   Cubicspline1D c_weight_function(supportlength);
+  std::cerr << "Testing Cubicspline1D kernel\n";
   test_kernel(c_weight_function, supportlength);
 
   return EXIT_SUCCESS;
