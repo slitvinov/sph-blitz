@@ -1,3 +1,5 @@
+#ifndef DIAGNOSE_H
+#define DIAGNOSE_H
 /// \file diagnose.h
 /// \brief Output the diagnosal results
 
@@ -60,3 +62,5 @@ public:
 	///track the globle average kinetic energy, weight center position and velocity
 	void KineticInformation(double Time, Initiation &ini, Hydrodynamics &hydro);
 };
+
+#endif //DIAGNOSE_H

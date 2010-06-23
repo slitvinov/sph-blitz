@@ -19,6 +19,9 @@
 #include "glbfunc.h"
 
 using namespace std;
+//global parameters
+const double pi=3.141592653589793; ///<Pi 
+double k_bltz  = 1.380662e-023;
 
 //----------------------------------------------------------------------------------------
 //	a. Get the maximum

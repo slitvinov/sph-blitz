@@ -1,3 +1,5 @@
+#ifndef BOUNDARY_H
+#define BOUNDARY_H
 /// \file boundary.h
 /// \brief Bonudary conditions
 
@@ -89,3 +91,5 @@ public:
 	///check particle if particle run out of the computational domain
 	void RunAwayCheck(Hydrodynamics &hydro);
 };
+
+#endif //BOUNDARY_H

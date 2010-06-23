@@ -455,7 +455,6 @@ void Interaction::RandomForces(Wiener &wiener, double sqrtdt)
 	double Ti, Tj; //temperature
 	Vec2d v_eij; //90 degree rotation of pair direction
 
-	extern double k_bltz;
 
 	//define particle state values
 	Vi = mi/Org->rho; Vj = mj/Dest->rho;
@@ -467,6 +466,7 @@ void Interaction::RandomForces(Wiener &wiener, double sqrtdt)
 	Vec2d _dUi; //mometum change rate
 	double Vi2 = Vi*Vi, Vj2 = Vj*Vj;
 
+	extern double k_bltz;
 	_dUi = v_eij*wiener.Random_p*sqrt(16.0*k_bltz*shear_rij*Ti*Tj/(Ti + Tj)*(Vi2 + Vj2)*Fij) +
 		   eij*wiener.Random_v*sqrt(16.0*k_bltz*bulk_rij*Ti*Tj/(Ti + Tj)*(Vi2 + Vj2)*Fij);
 
@@ -491,8 +491,6 @@ void Interaction::RandomForces_Espanol(Wiener &wiener, double sqrtdt)
 	double Ti, Tj; //temperature
 	Vec2d v_eij; //90 degree rotation of pair direction
 
-	extern double k_bltz;
-
 	//pair focres or change rate
 	Vec2d _dUi, random_force; //mometum change rate
 
@@ -506,6 +504,7 @@ void Interaction::RandomForces_Espanol(Wiener &wiener, double sqrtdt)
 	random_force[0] = wiener.sym_trclss[0][0]*eij[0] + wiener.sym_trclss[0][1]*eij[1];
 	random_force[1] = wiener.sym_trclss[1][0]*eij[0] + wiener.sym_trclss[1][1]*eij[1];
 
+	extern double k_bltz;
 	_dUi = random_force*sqrt(16.0*k_bltz*etai*etaj/(etai + etaj)*Ti*Tj/(Ti + Tj)*(rrhoi*rrhoi + rrhoj*rrhoj)*Fij) +
 		   eij*wiener.trace_d*sqrt(16.0*k_bltz*zetai*zetaj/(zetai + zetaj)*Ti*Tj/(Ti + Tj)*(rrhoi*rrhoi + rrhoj*rrhoj)*Fij);
 

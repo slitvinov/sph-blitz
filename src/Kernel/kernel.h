@@ -5,6 +5,8 @@
 /// \brief Kernel abstract base
 
 /// Kernel abstract base
+#include "vec2d.h"
+
 class Kernel
 {
 

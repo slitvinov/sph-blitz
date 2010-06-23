@@ -28,6 +28,8 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //										constructor
 //----------------------------------------------------------------------------------------
+const double pi = 3.141592653589793238462643383279502884197;
+
 QuinticSpline::QuinticSpline(const double supportlength)
   : Kernel(supportlength), 
     norm(63.0 / 478.0 / pi)
@@ -186,7 +188,4 @@ double QuinticSpline::LapW(const double distance) const
     }
 
 }
-
-
-
 

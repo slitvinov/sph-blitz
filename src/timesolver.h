@@ -1,3 +1,5 @@
+#ifndef TIMESOLVER_H
+#define TIMESOLVER_H
 /// \file timesolver.h 
 /// \brief Time solver class
 ///
@@ -30,3 +32,5 @@ public:
 				   Initiation &ini, Kernel &weight_function, MLS &mls);
 
 };
+
+#endif //TIMESOLVER_H

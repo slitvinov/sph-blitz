@@ -1,6 +1,7 @@
-bin_PROGRAMS=sph
-sph_SOURCES= \
-	 boundary.cpp boundary.h \
+bin_PROGRAMS=sph quinticspline_test
+
+
+nomain=	 boundary.cpp boundary.h \
 	diagnose.h diagose.cpp \
 	dllist.h force.cpp force.h \
 	glbcls.h glbfunc.cpp glbfunc.h \
@@ -10,10 +11,13 @@ sph_SOURCES= \
 	material.h mls.cpp mls.h \
 	output.cpp output.h particle.cpp \
 	particle.h particlemanager.cpp particlemanager.h \
-	sph.cpp \
 	timesolver.cpp timesolver.h vec2d.cpp \
 	vec2d.h wiener.cpp wiener.h \
 	Kernel/kernel.cpp Kernel/kernel.h \
 	Kernel/quinticspline.cpp Kernel/quinticspline.h \
 	Kernel/cubicspline1D.cpp Kernel/cubicspline1D.h \
 	Kernel/betaspline.h Kernel/betaspline.cpp
+
+sph_SOURCES= sph.cpp $(nomain) 
+quinticspline_test_SOURCES= $(nomain) Kernel/quinticspline_test.cpp
+
