@@ -74,7 +74,7 @@ public:
 	///show information on screen
 	void show_information();
 	///predict the particle volume and mass
-	void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline &weight_function);
+	void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, Kernel &weight_function);
 
 	//non-dimesionlize
 	double non_dms_p(double p);///<a non dimensionalize method

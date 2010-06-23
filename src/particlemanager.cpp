@@ -190,7 +190,7 @@ void ParticleManager::BuildNNP_MLSMapping(Vec2d &point)
 //					build the interaction (particle pair) list
 //----------------------------------------------------------------------------------------
 void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<Particle> &particle_list, 
-				       Force **forces, QuinticSpline &weight_function)
+				       Force **forces, Kernel &weight_function)
 {
   cout<<"\n Am in build interaction \n";
   LlistNode<Interaction> *current = interactions.first();

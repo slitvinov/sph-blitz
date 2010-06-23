@@ -126,7 +126,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
 //----------------------------------------------------------------------------------------
 //						Build new pairs
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::BuildPair(ParticleManager &particles, QuinticSpline &weight_function)
+void Hydrodynamics::BuildPair(ParticleManager &particles, Kernel &weight_function)
 {
   ///- obtain the interaction pairs by just calling the particles BuildInteraction method
   particles.BuildInteraction(interaction_list, particle_list, forces, weight_function);
@@ -135,7 +135,7 @@ void Hydrodynamics::BuildPair(ParticleManager &particles, QuinticSpline &weight_
 //----------------------------------------------------------------------------------------
 //						update new parameters in pairs
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdatePair(QuinticSpline &weight_function)
+void Hydrodynamics::UpdatePair(Kernel &weight_function)
 {
 
   ///- iterate the interaction list
@@ -152,7 +152,7 @@ void Hydrodynamics::UpdatePair(QuinticSpline &weight_function)
 //----------------------------------------------------------------------------------------
 //		summation for shear rates with updating interaction list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateShearRate(ParticleManager &particles, QuinticSpline &weight_function)
+void Hydrodynamics::UpdateShearRate(ParticleManager &particles, Kernel &weight_function)
 {	
 
   ///- obtain the interaction pairs
@@ -231,7 +231,7 @@ void Hydrodynamics::UpdatePhaseField(Boundary &boundary)
 //----------------------------------------------------------------------------------------
 //		summation for particles density with updating interaction list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateDensity(ParticleManager &particles, QuinticSpline &weight_function, Initiation &ini)
+void Hydrodynamics::UpdateDensity(ParticleManager &particles, Kernel &weight_function, Initiation &ini)
 {	
 
   ///- obtain the interaction pairs
@@ -297,7 +297,7 @@ void Hydrodynamics::UpdateDensity(Initiation &ini)
 //----------------------------------------------------------------------------------------
 //				calculate interaction with updating interaction list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, QuinticSpline &weight_function)
+void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, Kernel &weight_function)
 {
   ///- initiate change rate of each real particle by calling ZerpChangeRate()
   ZeroChangeRate();
@@ -737,7 +737,7 @@ double Hydrodynamics::SurfaceTensionCoefficient()
 //----------------------------------------------------------------------------------------
 //								calculate partilce volume
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateVolume(ParticleManager &particles, QuinticSpline &weight_function)
+void Hydrodynamics::UpdateVolume(ParticleManager &particles, Kernel &weight_function)
 {
   double reciprocV; //the inverse of volume or volume
 

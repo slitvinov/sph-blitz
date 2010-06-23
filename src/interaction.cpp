@@ -50,7 +50,7 @@ Interaction::Interaction(Initiation &ini)
 //					constructor
 //----------------------------------------------------------------------------------------
 Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
-				QuinticSpline &weight_function, double dstc)
+				Kernel &weight_function, double dstc)
 {
         ///- assign the original and the destinate particle in the reaction pair
 	Org = prtl_org;
@@ -75,8 +75,8 @@ Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces
 	Wij = weight_function.w(rij);
 	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
 //	Fij = weight_function.F(rij); //for BetaSpline weight fuction
-	Fij = weight_function.F(rij)*rrij; //for QuinticSpline wight fuction
-	LapWij = weight_function.LapW(rij); //for QuinticSpline fuction
+	Fij = weight_function.F(rij)*rrij; //for Kernel wight fuction
+	LapWij = weight_function.LapW(rij); //for Kernel fuction
 	shear_rij = 2.0*etai*etaj*rij/(etai*(rij + 2.0*frc_ij[noj][noi].shear_slip) 
 							 + etaj*(rij + 2.0*frc_ij[noi][noj].shear_slip) + 1.0e-30);
 	bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij + 2.0*frc_ij[noj][noi].bulk_slip) 
@@ -109,7 +109,7 @@ double Interaction::getWij()
 //	use old interaction object for new interaction
 //----------------------------------------------------------------------------------------
 void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
-				QuinticSpline &weight_function, double dstc)
+				Kernel &weight_function, double dstc)
 {
 	///- assign the original and the destinate particle in the reaction pair
 	Org = prtl_org;
@@ -133,8 +133,8 @@ void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force 
 	Wij = weight_function.w(rij);
 	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
 //	Fij = weight_function.F(rij); //for BetaSpline wight fuction
-	Fij = weight_function.F(rij)*rrij; //for QuinticSpline wight fuction
-	LapWij = weight_function.LapW(rij); //for QuinticSpline fuction
+	Fij = weight_function.F(rij)*rrij; //for Kernel wight fuction
+	LapWij = weight_function.LapW(rij); //for Kernel fuction
 	shear_rij = 2.0*etai*etaj*rij/(etai*(rij + 2.0*frc_ij[noj][noi].shear_slip) 
 							 + etaj*(rij + 2.0*frc_ij[noi][noj].shear_slip) + 1.0e-30);
 	bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij + 2.0*frc_ij[noj][noi].bulk_slip) 
@@ -147,7 +147,7 @@ void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force 
 //----------------------------------------------------------------------------------------
 // Changes: Interaction object
 // Depends on: Interaction Object, Org, Dest
-void Interaction::RenewInteraction(QuinticSpline &weight_function)
+void Interaction::RenewInteraction(Kernel &weight_function)
 {
 	///- calculate pair parameters (weight functions, shear- and bulk-)
 	rij = v_abs(Org->R - Dest->R);
@@ -156,8 +156,8 @@ void Interaction::RenewInteraction(QuinticSpline &weight_function)
 	Wij = weight_function.w(rij);
 	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
 //	Fij = weight_function.F(rij); //for BetaSpline wight fuction
-	Fij = weight_function.F(rij)*rrij; //for QuinticSpline fuction
-	LapWij = weight_function.LapW(rij); //for QuinticSpline fuction
+	Fij = weight_function.F(rij)*rrij; //for Kernel fuction
+	LapWij = weight_function.LapW(rij); //for Kernel fuction
 	shear_rij = 2.0*etai*etaj*rij/(etai*(rij + 2.0*frc_ij[noj][noi].shear_slip) 
 							 + etaj*(rij + 2.0*frc_ij[noi][noj].shear_slip) + 1.0e-30);
 	bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij + 2.0*frc_ij[noj][noi].bulk_slip) 

@@ -109,7 +109,7 @@ cout<<"\n particles on boundary  particle list\n "<<g;
 //--------------------------------------------------------------------------------------------
 //							output material states on uniform grid
 //--------------------------------------------------------------------------------------------
-void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, 
+void Output::OutputStates(ParticleManager &particles, MLS &mls, Kernel &weight_function, 
 			  double Time, Initiation &ini)
 {
   int i, j, n;
@@ -271,7 +271,7 @@ void Output::WriteParticleMovie(Hydrodynamics &hydro, double Time, Initiation &i
 //					avergaed values for Poiseuille and Couette flows
 //					the average is taken in horizontal direction
 //--------------------------------------------------------------------------------------------
-void Output::OutAverage(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, 
+void Output::OutAverage(ParticleManager &particles, MLS &mls, Kernel &weight_function, 
 			double Time, Initiation &ini)
 {
   int i, j, l, n;

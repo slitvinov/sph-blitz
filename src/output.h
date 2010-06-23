@@ -25,7 +25,7 @@ public:
 	void OutputParticles(Hydrodynamics &hydro, Boundary &boundary, 
 						double Time, Initiation &ini);
 	///output material states on uniform grid
-	void OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, 
+	void OutputStates(ParticleManager &particles, MLS &mls, Kernel &weight_function, 
 					  double Time, Initiation &ini);
 	///Output real particle data for restart the computation
 	void OutRestart(Hydrodynamics &hydro, double Time, Initiation &ini);
@@ -34,6 +34,6 @@ public:
 	///write the data for a movie of particle motion (output real and wall particles)	
 	void WriteParticleMovie(Hydrodynamics &hydro, double Time, Initiation &ini);
 	///avergaed values for Poiseuille and Couette flows (average is taken in horizontal direction)
-	void OutAverage(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, 
+	void OutAverage(ParticleManager &particles, MLS &mls, Kernel &weight_function, 
 					double Time, Initiation &ini);
 };

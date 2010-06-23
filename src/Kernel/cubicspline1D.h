@@ -1,14 +1,14 @@
-/// \file cubicspline1D.h 
+/// \file Cubicspline1D.h 
 /// \brief  cubic spline kernel 1D
 
-/// cubicspline1D class
-class cubicspline1D : public Kernel
+/// Cubicspline1D class
+class Cubicspline1D : public Kernel
 {
 
 public:
 
   ///constructor to initialize the data members (auxiliary factors for kernel calculation)
-  cubicspline1D(const double smoothingLength);
+  Cubicspline1D(const double smoothingLength);
   
   ///\brief Calculates the kernel value for the given distance of two particles
   ///

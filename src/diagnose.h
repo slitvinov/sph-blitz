@@ -52,7 +52,7 @@ public:
 	void OutputProfile(double Time, Initiation &ini);
 
 	///calculate the average values
-	void Average(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, Initiation &ini);
+	void Average(ParticleManager &particles, MLS &mls, Kernel &weight_function, Initiation &ini);
 
 	///output the average values
 	void OutputAverage(double Time, Initiation &ini);

@@ -55,6 +55,6 @@ public:
 
 	///build the interaction (particle pair) list
 	void BuildInteraction(Llist<Interaction> &interactions, Llist<Particle> &particle_list, 
-						Force **forces, QuinticSpline &weight_function);
+						Force **forces, Kernel &weight_function);
 	
 };

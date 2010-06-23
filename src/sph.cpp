@@ -100,7 +100,13 @@ int main(int argc, char *argv[]) {
 	//a sample particle and interaction for static numbers
 	Particle sample(ini);
 	Interaction interaction(ini);
-	QuinticSpline weight_function(ini.smoothinglength); ///- initiate the weight function
+
+	// Kernel
+        /// here one can choose which Kernel function to use 
+	QuinticSpline weight_function (ini.smoothinglength); ///- initiate the weight function
+	///QuinticSpline weight_function (ini.smoothinglength); ///- initiate the weight function
+
+
 	MLS mls(ini); ///- initiate the Moving Least Squares approximation
 	ParticleManager particles(ini); ///- initiate the particle manager
 	Hydrodynamics hydro(particles, ini); ///- create materials, forces and real particles

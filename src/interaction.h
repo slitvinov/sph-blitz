@@ -69,17 +69,17 @@ public:
 	Interaction(Initiation &ini);
 	///constructor
 	Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
-				QuinticSpline &weight_function, double dstc);
+				Kernel &weight_function, double dstc);
 	
 	///use old interaction object for new interaction
 	void NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
-				QuinticSpline &weight_function, double dstc);
+				Kernel &weight_function, double dstc);
 
 	///\brief renew pair parameters and changing pair values
 	///
         ///Changes: Interaction object\n
         ///Depends on: Interaction Object, Org, Dest
-	void RenewInteraction(QuinticSpline &weight_function);
+	void RenewInteraction(Kernel &weight_function);
 
 	//pair interaction
 

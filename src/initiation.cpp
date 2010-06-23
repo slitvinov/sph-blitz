@@ -156,7 +156,7 @@ void Initiation::show_information()
 //----------------------------------------------------------------------------------------
 //					predict the particle volume and mass
 //----------------------------------------------------------------------------------------
-void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline &weight_function)
+void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, Kernel &weight_function)
 {
 
   ///mass initiation is different of 1DSPH code: 

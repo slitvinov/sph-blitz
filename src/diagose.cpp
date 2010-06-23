@@ -188,7 +188,7 @@ void Diagnose::BuildDistribution(Llist<double> &list, double dstrb[2][101])
 //----------------------------------------------------------------------------------------
 //						calculate the average values
 //----------------------------------------------------------------------------------------
-void Diagnose::Average(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, Initiation &ini)
+void Diagnose::Average(ParticleManager &particles, MLS &mls, Kernel &weight_function, Initiation &ini)
 {
 	int i, j, n;
 	Vec2d pstn;

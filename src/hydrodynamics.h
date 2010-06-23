@@ -37,9 +37,9 @@ public:
 	double GetTimestep();
 
 	///build new pairs
-	void BuildPair(ParticleManager &particles, QuinticSpline &weight_function);
+	void BuildPair(ParticleManager &particles, Kernel &weight_function);
 	///update new parameters in pairs
-	void UpdatePair(QuinticSpline &weight_function);
+	void UpdatePair(Kernel &weight_function);
 
 	//manupilate the particle physics
 	///initiate particle change rate
@@ -47,16 +47,16 @@ public:
 	///add the gravity effects
 	void AddGravity();
 	///calculate interaction with updating interaction list
-	void UpdateChangeRate(ParticleManager &particles, QuinticSpline &weight_function);
+	void UpdateChangeRate(ParticleManager &particles, Kernel &weight_function);
 	///calculate interaction without updating interaction list
 	void UpdateChangeRate();
 	///initiate particle density to zero
 	void Zero_density();
 	void Zero_ShearRate();
 	///summation for particles density (with updating interaction list)
-	void UpdateDensity(ParticleManager &particles, QuinticSpline &weight_function, Initiation &ini);
+	void UpdateDensity(ParticleManager &particles, Kernel &weight_function, Initiation &ini);
         ///summation for shear rates (with updating interaction list)
-	void UpdateShearRate(ParticleManager &particles, QuinticSpline &weight_function);
+	void UpdateShearRate(ParticleManager &particles, Kernel &weight_function);
 	///currently no shear rate calculated  without updating interaction list
 	void UpdateDensity(Initiation &ini);///???
 	void UpdateShearRate();
@@ -77,7 +77,7 @@ public:
 	///calculate states from conservatives
 	void UpdateState(Initiation &ini);
 	///calculate partilce volume
-	void UpdateVolume(ParticleManager &particles, QuinticSpline &weight_function);
+	void UpdateVolume(ParticleManager &particles, Kernel &weight_function);
 
 	/// predictor method, density evaluated directly
 	void Predictor(double dt);

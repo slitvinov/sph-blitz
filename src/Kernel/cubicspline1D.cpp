@@ -1,4 +1,4 @@
-///\file cubicspline1D.cpp
+///\file Cubicspline1D.cpp
 ///\author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 ///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
 
@@ -21,14 +21,14 @@
 //local includes
 #include "glbcls.h"
 #include "glbfunc.h"
-#include "Kernel/cubicspline1D.h"
+#include "Kernel/Cubicspline1D.h"
 
 using namespace std;
 
 //----------------------------------------------------------------------------------------
 //										constructor
 //----------------------------------------------------------------------------------------
-cubicspline1D::cubicspline1D(const double smoothingLength)
+Cubicspline1D::Cubicspline1D(const double smoothingLength)
   : Kernel(smoothingLength), 
     norm(63.0 / 478.0 / pi)
 {
@@ -47,7 +47,7 @@ cubicspline1D::cubicspline1D(const double smoothingLength)
 // We take this from Morris, Fox and Zhu (1997)
 // but used a tripled smoothing length for the definition of the interaction radius.
 //----------------------------------------------------------------------------------------
-double cubicspline1D::w(const double distance) const
+double Cubicspline1D::w(const double distance) const
 {
     // dist/smoothingLength is often needed
     double normedDist = 3.0*distance * reciprocH;
@@ -84,7 +84,7 @@ double cubicspline1D::w(const double distance) const
 // We take this from Morris, Fox and Zhu (1997)
 // but used a tripled smoothing length for the definition of the interaction radius.
 //----------------------------------------------------------------------------------------
-Vec2d cubicspline1D::gradW(const double distance, const Vec2d& distanceVector) const
+Vec2d Cubicspline1D::gradW(const double distance, const Vec2d& distanceVector) const
 {
     // dist/smoothingLength is often needed
     double normedDist = 3.0*distance * reciprocH;
@@ -119,7 +119,7 @@ Vec2d cubicspline1D::gradW(const double distance, const Vec2d& distanceVector) c
 //----------------------------------------------------------------------------------------
 //		Calculates the kernel derivation (a double not vector) to distance
 //----------------------------------------------------------------------------------------
-double cubicspline1D::F(const double distance) const
+double Cubicspline1D::F(const double distance) const
 {
     // dist/smoothingLength is often needed
     const double normedDist = 3.0*distance * reciprocH;
@@ -153,7 +153,7 @@ double cubicspline1D::F(const double distance) const
 //----------------------------------------------------------------------------------------
 //					Calculates the kernel Laplacian. 
 //----------------------------------------------------------------------------------------
-double cubicspline1D::LapW(const double distance) const
+double Cubicspline1D::LapW(const double distance) const
 {
     // dist/smoothingLength is often needed
     double normedDist = 3.0*distance * reciprocH;

@@ -98,7 +98,7 @@ void MLS::MLS_Solver(int order)
 //----------------------------------------------------------------------------------------
 //				set up the enviroment for MLS calculation and run MLS solver
 //----------------------------------------------------------------------------------------
-void MLS::MLSMapping(Vec2d &point, Llist<Particle> &NNP_list, QuinticSpline &weight_function, int order)
+void MLS::MLSMapping(Vec2d &point, Llist<Particle> &NNP_list, Kernel &weight_function, int order)
 {
   N = 0; //numbers of reference points
   p[0] = 1.0; p[1] = point[0]; p[2] = point[1];

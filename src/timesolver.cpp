@@ -41,7 +41,7 @@ TimeSolver::TimeSolver(Initiation &ini)
 //-------------------------------------------------------------------------------------
 void TimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary,
 				   double &Time, double D_time, Diagnose &diagnose,
-				   Initiation &ini, QuinticSpline &weight_function, MLS &mls)
+				   Initiation &ini, Kernel &weight_function, MLS &mls)
 {
 	double integeral_time = 0.0;
 	
@@ -104,7 +104,7 @@ void TimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
 //----------------------------------------------------------------------------------------
 void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary,
 				   double &Time, double D_time, Diagnose &diagnose,
-				   Initiation &ini, QuinticSpline &weight_function, MLS &mls)
+				   Initiation &ini, Kernel &weight_function, MLS &mls)
 {
 	double integeral_time = 0.0;
 	

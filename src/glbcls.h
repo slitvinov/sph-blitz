@@ -18,7 +18,7 @@
 
 class Initiation; class Kernel; class MLS; class Interaction; class ParticleManager;
 class Particle; class Initiation; class Boundary; class Force; class Output; class Diagnose;
-class Hydrodynamics; class ListNode; class Material; class BetaSpline; class QuinticSpline;
+class Hydrodynamics; class ListNode; class Material; class BetaSpline; class Kernel;
 
 #include "initiation.h"
 #include "Kernel/kernel.h"
