@@ -1,1198 +1,1198 @@
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  599
+ R_x: 1.9933  U_x: 0.103937  e: 1.99723  dUdt: 0.00575415 dedt -7.13881e-05  ID  599
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  598
+ R_x: 1.96407  U_x: 0.0798499  e: 1.99479  dUdt: 0.592846 dedt -0.0242316  ID  598
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  597
+ R_x: 1.94409  U_x: -0.0010612  e: 1.99843  dUdt: 0.264383 dedt -0.0251616  ID  597
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  596
+ R_x: 1.92985  U_x: -0.00386028  e: 2.00038  dUdt: -0.061573 dedt 0.000581441  ID  596
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  595
+ R_x: 1.91503  U_x: 0.000235474  e: 2.00006  dUdt: -0.00539303 dedt 0.00156052  ID  595
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  594
+ R_x: 1.9  U_x: 0.000129027  e: 1.99999  dUdt: 0.0030406 dedt -0.000102401  ID  594
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  593
+ R_x: 1.885  U_x: -1.47682e-05  e: 2  dUdt: -0.00012671 dedt -5.11455e-05  ID  593
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  592
+ R_x: 1.87  U_x: -2.78437e-06  e: 2  dUdt: -8.70128e-05 dedt 5.93641e-06  ID  592
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  591
+ R_x: 1.855  U_x: 2.28458e-07  e: 2  dUdt: 4.05787e-06 dedt 1.08094e-06  ID  591
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  590
+ R_x: 1.84  U_x: 3.17793e-08  e: 2  dUdt: 1.26687e-06 dedt -9.03009e-08  ID  590
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  589
+ R_x: 1.825  U_x: -2.44751e-09  e: 2  dUdt: -6.80572e-08 dedt -1.21496e-08  ID  589
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  588
+ R_x: 1.81  U_x: -2.61876e-10  e: 2  dUdt: -1.21319e-08 dedt 9.4953e-10  ID  588
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  587
+ R_x: 1.795  U_x: 1.38169e-11  e: 2  dUdt: 4.67904e-10 dedt 9.88763e-11  ID  587
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  586
+ R_x: 1.78  U_x: 1.36164e-12  e: 2  dUdt: 7.36325e-11 dedt -5.31189e-12  ID  586
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  585
+ R_x: 1.765  U_x: -6.88649e-14  e: 2  dUdt: -2.92144e-12 dedt -5.07207e-13  ID  585
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  584
+ R_x: 1.75  U_x: -4.55136e-15  e: 2  dUdt: -3.19744e-13 dedt 2.55245e-14  ID  584
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  583
+ R_x: 1.735  U_x: -1.22763e-15  e: 2  dUdt: 3.33067e-15 dedt 2.75341e-15  ID  583
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  582
+ R_x: 1.72  U_x: 2.76862e-15  e: 2  dUdt: 1.02141e-14 dedt -5.75928e-16  ID  582
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  581
+ R_x: 1.705  U_x: -2.68341e-15  e: 2  dUdt: -9.54792e-15 dedt -3.37508e-17  ID  581
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  580
+ R_x: 1.69  U_x: 2.68341e-15  e: 2  dUdt: 9.54792e-15 dedt -2.5638e-29  ID  580
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  579
+ R_x: 1.675  U_x: -2.68341e-15  e: 2  dUdt: -9.54792e-15 dedt -2.5638e-29  ID  579
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  578
+ R_x: 1.66  U_x: 2.68341e-15  e: 2  dUdt: 9.54792e-15 dedt -3.37508e-17  ID  578
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  577
+ R_x: 1.645  U_x: -2.76862e-15  e: 2  dUdt: -1.02141e-14 dedt -5.62772e-16  ID  577
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  576
+ R_x: 1.63  U_x: 1.26982e-15  e: 2  dUdt: 4.21885e-15 dedt 1.10234e-15  ID  576
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  575
+ R_x: 1.615  U_x: 0  e: 2  dUdt: 0 dedt -1.01164e-15  ID  575
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  574
+ R_x: 1.6  U_x: -1.26982e-15  e: 2  dUdt: -4.21885e-15 dedt 1.10234e-15  ID  574
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  573
+ R_x: 1.585  U_x: 2.76862e-15  e: 2  dUdt: 1.02141e-14 dedt -5.62772e-16  ID  573
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  572
+ R_x: 1.57  U_x: -2.68341e-15  e: 2  dUdt: -9.54792e-15 dedt -3.37508e-17  ID  572
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  571
+ R_x: 1.555  U_x: 2.68341e-15  e: 2  dUdt: 9.54792e-15 dedt -3.37508e-17  ID  571
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  570
+ R_x: 1.54  U_x: -2.76862e-15  e: 2  dUdt: -1.02141e-14 dedt -5.62772e-16  ID  570
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  569
+ R_x: 1.525  U_x: 1.26982e-15  e: 2  dUdt: 4.21885e-15 dedt 1.10234e-15  ID  569
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  568
+ R_x: 1.51  U_x: 0  e: 2  dUdt: 0 dedt -1.01164e-15  ID  568
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  567
+ R_x: 1.495  U_x: -1.26982e-15  e: 2  dUdt: -4.21885e-15 dedt 1.10234e-15  ID  567
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  566
+ R_x: 1.48  U_x: 2.76862e-15  e: 2  dUdt: 1.02141e-14 dedt -5.62772e-16  ID  566
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  565
+ R_x: 1.465  U_x: -2.68341e-15  e: 2  dUdt: -9.54792e-15 dedt -3.37508e-17  ID  565
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  564
+ R_x: 1.45  U_x: 2.68341e-15  e: 2  dUdt: 9.54792e-15 dedt -2.5638e-29  ID  564
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  563
+ R_x: 1.435  U_x: -2.68341e-15  e: 2  dUdt: -9.54792e-15 dedt -2.5638e-29  ID  563
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  562
+ R_x: 1.42  U_x: 2.68341e-15  e: 2  dUdt: 9.54792e-15 dedt -3.37508e-17  ID  562
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  561
+ R_x: 1.405  U_x: -2.76862e-15  e: 2  dUdt: -1.02141e-14 dedt -5.62772e-16  ID  561
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  560
+ R_x: 1.39  U_x: 1.26982e-15  e: 2  dUdt: 4.21885e-15 dedt 1.10234e-15  ID  560
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  559
+ R_x: 1.375  U_x: 0  e: 2  dUdt: 0 dedt -1.01164e-15  ID  559
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  558
+ R_x: 1.36  U_x: -1.26982e-15  e: 2  dUdt: -4.21885e-15 dedt 1.10234e-15  ID  558
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  557
+ R_x: 1.345  U_x: 2.76862e-15  e: 2  dUdt: 1.02141e-14 dedt -5.62772e-16  ID  557
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  556
+ R_x: 1.33  U_x: -2.68341e-15  e: 2  dUdt: -9.54792e-15 dedt -3.37508e-17  ID  556
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  555
+ R_x: 1.315  U_x: 2.68341e-15  e: 2  dUdt: 9.54792e-15 dedt -2.5638e-29  ID  555
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  554
+ R_x: 1.3  U_x: -2.68341e-15  e: 2  dUdt: -9.54792e-15 dedt -2.5638e-29  ID  554
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  553
+ R_x: 1.285  U_x: 2.68341e-15  e: 2  dUdt: 9.54792e-15 dedt -3.37508e-17  ID  553
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  552
+ R_x: 1.27  U_x: -2.76806e-15  e: 2  dUdt: -9.99201e-15 dedt -5.46341e-16  ID  552
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  551
+ R_x: 1.255  U_x: 1.32921e-15  e: 2  dUdt: 1.59872e-14 dedt -4.54303e-16  ID  551
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  550
+ R_x: 1.24  U_x: -4.31238e-15  e: 2  dUdt: -3.06866e-13 dedt -2.51231e-14  ID  550
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  549
+ R_x: 1.225  U_x: -6.46513e-14  e: 2  dUdt: -2.44105e-12 dedt 4.66958e-13  ID  549
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  548
+ R_x: 1.21  U_x: 1.24226e-12  e: 2  dUdt: 6.00798e-11 dedt 5.12275e-12  ID  548
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  547
+ R_x: 1.195  U_x: 1.32947e-11  e: 2  dUdt: 4.23148e-10 dedt -5.13148e-11  ID  547
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  546
+ R_x: 1.18  U_x: -1.29371e-10  e: 2  dUdt: -2.06396e-09 dedt -6.77257e-10  ID  546
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  545
+ R_x: 1.165  U_x: -1.83115e-09  e: 2  dUdt: -1.06526e-07 dedt -9.66965e-09  ID  545
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  544
+ R_x: 1.15  U_x: -2.73072e-08  e: 2  dUdt: -2.30012e-06 dedt 3.58316e-07  ID  544
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  543
+ R_x: 1.135  U_x: 1.04775e-06  e: 2  dUdt: 0.000110321 dedt 5.37658e-06  ID  543
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  542
+ R_x: 1.12  U_x: 1.34731e-05  e: 2  dUdt: 0.000118703 dedt -0.000315476  ID  542
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  541
+ R_x: 1.10499  U_x: -0.000871203  e: 1.99999  dUdt: -0.0636109 dedt 0.000710212  ID  541
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  540
+ R_x: 1.08996  U_x: 0.00188279  e: 2.00147  dUdt: 0.254289 dedt 0.0753166  ID  540
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  539
+ R_x: 1.07519  U_x: 0.00652848  e: 2.00313  dUdt: -0.00273082 dedt 0.000736434  ID  539
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  538
+ R_x: 1.0604  U_x: 0.00389332  e: 2.0023  dUdt: -0.0496945 dedt -0.0352629  ID  538
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  537
+ R_x: 1.0469  U_x: 0.027392  e: 2.00344  dUdt: 0.199875 dedt 0.0412789  ID  537
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  536
+ R_x: 1.02978  U_x: 0.0555754  e: 2.00921  dUdt: 1.17576 dedt 0.0692218  ID  536
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  535
+ R_x: 1.03736  U_x: 0.15181  e: 2.00421  dUdt: 0.595149 dedt 0.029826  ID  535
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  534
+ R_x: 1.07599  U_x: 0.361286  e: 1.97819  dUdt: -0.435228 dedt 0.0803297  ID  534
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  533
+ R_x: 1.01829  U_x: 0.133982  e: 2.49595  dUdt: 0.16003 dedt -0.00378385  ID  533
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  532
+ R_x: 1.01722  U_x: 0.141522  e: 2.49487  dUdt: 0.158388 dedt -0.00604855  ID  532
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  531
+ R_x: 1.01556  U_x: 0.145677  e: 2.49381  dUdt: 0.159641 dedt -0.0095077  ID  531
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  530
+ R_x: 1.01262  U_x: 0.138056  e: 2.49281  dUdt: 0.106666 dedt -0.0162369  ID  530
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  529
+ R_x: 1.00763  U_x: 0.105266  e: 2.49156  dUdt: -0.212992 dedt -0.0345945  ID  529
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  528
+ R_x: 1.0008  U_x: 0.0594126  e: 2.48952  dUdt: -0.297828 dedt -0.0640861  ID  528
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  527
+ R_x: 0.994716  U_x: 0.0506652  e: 2.48935  dUdt: 0.319942 dedt -0.0470398  ID  527
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  526
+ R_x: 0.989952  U_x: 0.0535314  e: 2.49088  dUdt: 0.656036 dedt -0.0292501  ID  526
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  525
+ R_x: 0.986131  U_x: 0.0498194  e: 2.49256  dUdt: 0.623298 dedt -0.0213893  ID  525
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  524
+ R_x: 0.983091  U_x: 0.0439248  e: 2.49389  dUdt: 0.510906 dedt -0.0188129  ID  524
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  523
+ R_x: 0.980657  U_x: 0.0390922  e: 2.4949  dUdt: 0.410974 dedt -0.0186738  ID  523
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  522
+ R_x: 0.978643  U_x: 0.0363341  e: 2.4957  dUdt: 0.350512 dedt -0.019362  ID  522
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  521
+ R_x: 0.976888  U_x: 0.0346088  e: 2.49638  dUdt: 0.301202 dedt -0.0203684  ID  521
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  520
+ R_x: 0.975222  U_x: 0.0328399  e: 2.49696  dUdt: 0.26334 dedt -0.0211454  ID  520
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  519
+ R_x: 0.973508  U_x: 0.0304829  e: 2.49747  dUdt: 0.230932 dedt -0.021573  ID  519
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  518
+ R_x: 0.971608  U_x: 0.0262712  e: 2.49792  dUdt: 0.189212 dedt -0.0216213  ID  518
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  517
+ R_x: 0.969464  U_x: 0.0201024  e: 2.49831  dUdt: 0.137375 dedt -0.0212605  ID  517
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  516
+ R_x: 0.967131  U_x: 0.0125921  e: 2.49862  dUdt: 0.08556 dedt -0.0203808  ID  516
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  515
+ R_x: 0.964751  U_x: 0.00543182  e: 2.49886  dUdt: 0.0412786 dedt -0.0190912  ID  515
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  514
+ R_x: 0.962427  U_x: -0.000270352  e: 2.49902  dUdt: 0.0161032 dedt -0.0173585  ID  514
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  513
+ R_x: 0.960237  U_x: -0.00360035  e: 2.49916  dUdt: 0.0148676 dedt -0.0151736  ID  513
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  512
+ R_x: 0.958202  U_x: -0.00478284  e: 2.49928  dUdt: 0.0255433 dedt -0.0128291  ID  512
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  511
+ R_x: 0.956302  U_x: -0.00437442  e: 2.4994  dUdt: 0.0420782 dedt -0.0104829  ID  511
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  510
+ R_x: 0.9545  U_x: -0.00300818  e: 2.49951  dUdt: 0.0570247 dedt -0.00832107  ID  510
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  509
+ R_x: 0.95275  U_x: -0.00129294  e: 2.49962  dUdt: 0.068059 dedt -0.00634938  ID  509
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  508
+ R_x: 0.951017  U_x: 0.000331579  e: 2.49974  dUdt: 0.0736988 dedt -0.00458288  ID  508
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  507
+ R_x: 0.949266  U_x: 0.00149161  e: 2.49985  dUdt: 0.0713061 dedt -0.00304114  ID  507
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  506
+ R_x: 0.947478  U_x: 0.00198637  e: 2.49994  dUdt: 0.0603919 dedt -0.00174866  ID  506
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  505
+ R_x: 0.945647  U_x: 0.00181742  e: 2.50002  dUdt: 0.0428822 dedt -0.000754947  ID  505
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  504
+ R_x: 0.943777  U_x: 0.00113571  e: 2.50008  dUdt: 0.0219874 dedt -9.59812e-05  ID  504
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  503
+ R_x: 0.94188  U_x: 0.000199639  e: 2.50011  dUdt: 0.00163472 dedt 0.00024022  ID  503
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  502
+ R_x: 0.939972  U_x: -0.000701826  e: 2.50012  dUdt: -0.0144923 dedt 0.000319051  ID  502
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  501
+ R_x: 0.938069  U_x: -0.00135625  e: 2.50012  dUdt: -0.0243064 dedt 0.00023881  ID  501
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  500
+ R_x: 0.936177  U_x: -0.00167942  e: 2.5001  dUdt: -0.0277751 dedt 9.90789e-05  ID  500
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  499
+ R_x: 0.934299  U_x: -0.00168621  e: 2.50008  dUdt: -0.0259095 dedt -2.5283e-05  ID  499
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  498
+ R_x: 0.932431  U_x: -0.00145151  e: 2.50006  dUdt: -0.0204324 dedt -9.30133e-05  ID  498
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  497
+ R_x: 0.930571  U_x: -0.00108668  e: 2.50004  dUdt: -0.0135261 dedt -9.08944e-05  ID  497
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  496
+ R_x: 0.928713  U_x: -0.00069571  e: 2.50003  dUdt: -0.00694638 dedt -2.49708e-05  ID  496
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  495
+ R_x: 0.926853  U_x: -0.000354895  e: 2.50002  dUdt: -0.00183742 dedt 8.44254e-05  ID  495
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  494
+ R_x: 0.924991  U_x: -0.000108197  e: 2.50002  dUdt: 0.00127641 dedt 0.000209582  ID  494
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  493
+ R_x: 0.923124  U_x: 3.40185e-05  e: 2.50002  dUdt: 0.00245895 dedt 0.00032234  ID  493
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  492
+ R_x: 0.921253  U_x: 8.55987e-05  e: 2.50002  dUdt: 0.00209608 dedt 0.000400709  ID  492
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  491
+ R_x: 0.919379  U_x: 7.27679e-05  e: 2.50002  dUdt: 0.000812447 dedt 0.000433412  ID  491
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  490
+ R_x: 0.917503  U_x: 2.69731e-05  e: 2.50002  dUdt: -0.000720544 dedt 0.000420881  ID  490
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  489
+ R_x: 0.915626  U_x: -2.43805e-05  e: 2.50002  dUdt: -0.00198813 dedt 0.000372704  ID  489
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  488
+ R_x: 0.91375  U_x: -6.30061e-05  e: 2.50002  dUdt: -0.0027073 dedt 0.000303222  ID  488
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  487
+ R_x: 0.911874  U_x: -8.12767e-05  e: 2.50001  dUdt: -0.00284018 dedt 0.000227194  ID  487
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  486
+ R_x: 0.909998  U_x: -7.99807e-05  e: 2.50001  dUdt: -0.00249938 dedt 0.000156667  ID  486
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  485
+ R_x: 0.908123  U_x: -6.47756e-05  e: 2.50001  dUdt: -0.00187392 dedt 9.93583e-05  ID  485
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  484
+ R_x: 0.906249  U_x: -4.28899e-05  e: 2.5  dUdt: -0.00116166 dedt 5.84272e-05  ID  484
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  483
+ R_x: 0.904374  U_x: -2.07799e-05  e: 2.5  dUdt: -0.0005196 dedt 3.32257e-05  ID  483
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  482
+ R_x: 0.9025  U_x: -2.84085e-06  e: 2.5  dUdt: -4.25359e-05 dedt 2.05977e-05  ID  482
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  481
+ R_x: 0.900625  U_x: 9.03274e-06  e: 2.5  dUdt: 0.000245386 dedt 1.6312e-05  ID  481
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  480
+ R_x: 0.898751  U_x: 1.47913e-05  e: 2.5  dUdt: 0.000361425 dedt 1.62802e-05  ID  480
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  479
+ R_x: 0.896876  U_x: 1.56042e-05  e: 2.5  dUdt: 0.000349961 dedt 1.73379e-05  ID  479
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  478
+ R_x: 0.895  U_x: 1.32698e-05  e: 2.5  dUdt: 0.000266501 dedt 1.75567e-05  ID  478
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  477
+ R_x: 0.893125  U_x: 9.53152e-06  e: 2.5  dUdt: 0.000159653 dedt 1.61762e-05  ID  477
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  476
+ R_x: 0.89125  U_x: 5.71374e-06  e: 2.5  dUdt: 6.30616e-05 dedt 1.33034e-05  ID  476
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  475
+ R_x: 0.889375  U_x: 2.621e-06  e: 2.5  dUdt: -5.12393e-06 dedt 9.53399e-06  ID  475
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  474
+ R_x: 0.8875  U_x: 5.86199e-07  e: 2.5  dUdt: -4.04039e-05 dedt 5.6046e-06  ID  474
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  473
+ R_x: 0.885625  U_x: -4.23143e-07  e: 2.5  dUdt: -4.73045e-05 dedt 2.14318e-06  ID  473
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  472
+ R_x: 0.88375  U_x: -6.5697e-07  e: 2.5  dUdt: -3.60901e-05 dedt -4.61334e-07  ID  472
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  471
+ R_x: 0.881875  U_x: -4.38906e-07  e: 2.5  dUdt: -1.70205e-05 dedt -2.08241e-06  ID  471
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  470
+ R_x: 0.88  U_x: -5.24372e-08  e: 2.5  dUdt: 1.93397e-06 dedt -2.80591e-06  ID  470
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  469
+ R_x: 0.878125  U_x: 3.07573e-07  e: 2.5  dUdt: 1.60706e-05 dedt -2.8463e-06  ID  469
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  468
+ R_x: 0.87625  U_x: 5.41382e-07  e: 2.5  dUdt: 2.36124e-05 dedt -2.46202e-06  ID  468
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  467
+ R_x: 0.874375  U_x: 6.24438e-07  e: 2.5  dUdt: 2.49831e-05 dedt -1.89017e-06  ID  467
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  466
+ R_x: 0.8725  U_x: 5.82411e-07  e: 2.5  dUdt: 2.19313e-05 dedt -1.30861e-06  ID  466
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  465
+ R_x: 0.870625  U_x: 4.63026e-07  e: 2.5  dUdt: 1.65571e-05 dedt -8.24149e-07  ID  465
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  464
+ R_x: 0.86875  U_x: 3.1454e-07  e: 2.5  dUdt: 1.06724e-05 dedt -4.79701e-07  ID  464
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  463
+ R_x: 0.866875  U_x: 1.74046e-07  e: 2.5  dUdt: 5.51299e-06 dedt -2.71745e-07  ID  463
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  462
+ R_x: 0.865  U_x: 6.34137e-08  e: 2.5  dUdt: 1.7172e-06 dedt -1.70507e-07  ID  462
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  461
+ R_x: 0.863125  U_x: -9.54271e-09  e: 2.5  dUdt: -5.9146e-07 dedt -1.37485e-07  ID  461
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  460
+ R_x: 0.86125  U_x: -4.7006e-08  e: 2.5  dUdt: -1.61336e-06 dedt -1.37519e-07  ID  460
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  459
+ R_x: 0.859375  U_x: -5.78874e-08  e: 2.5  dUdt: -1.75037e-06 dedt -1.45061e-07  ID  459
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  458
+ R_x: 0.8575  U_x: -5.23296e-08  e: 2.5  dUdt: -1.39816e-06 dedt -1.45693e-07  ID  458
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  457
+ R_x: 0.855625  U_x: -3.92232e-08  e: 2.5  dUdt: -8.75986e-07 dedt -1.34497e-07  ID  457
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  456
+ R_x: 0.85375  U_x: -2.5013e-08  e: 2.5  dUdt: -3.94528e-07 dedt -1.12943e-07  ID  456
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  455
+ R_x: 0.851875  U_x: -1.3358e-08  e: 2.5  dUdt: -5.55011e-08 dedt -8.56097e-08  ID  455
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  454
+ R_x: 0.85  U_x: -5.59418e-09  e: 2.5  dUdt: 1.21719e-07 dedt -5.75868e-08  ID  454
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  453
+ R_x: 0.848125  U_x: -1.51478e-09  e: 2.5  dUdt: 1.67184e-07 dedt -3.28877e-08  ID  453
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  452
+ R_x: 0.84625  U_x: -1.45923e-10  e: 2.5  dUdt: 1.30216e-07 dedt -1.38042e-08  ID  452
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  451
+ R_x: 0.844375  U_x: -3.56476e-10  e: 2.5  dUdt: 5.68183e-08 dedt -9.5544e-10  ID  451
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  450
+ R_x: 0.8425  U_x: -1.19031e-09  e: 2.5  dUdt: -1.74713e-08 dedt 6.27729e-09  ID  450
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  449
+ R_x: 0.840625  U_x: -2.00571e-09  e: 2.5  dUdt: -7.23709e-08 dedt 9.1947e-09  ID  449
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  448
+ R_x: 0.83875  U_x: -2.48433e-09  e: 2.5  dUdt: -1.01218e-07 dedt 9.28435e-09  ID  448
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  447
+ R_x: 0.836875  U_x: -2.55413e-09  e: 2.5  dUdt: -1.06333e-07 dedt 7.87582e-09  ID  447
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  446
+ R_x: 0.835  U_x: -2.29065e-09  e: 2.5  dUdt: -9.46047e-08 dedt 5.96241e-09  ID  446
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  445
+ R_x: 0.833125  U_x: -1.8318e-09  e: 2.5  dUdt: -7.4063e-08 dedt 4.16109e-09  ID  445
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  444
+ R_x: 0.83125  U_x: -1.31541e-09  e: 2.5  dUdt: -5.16253e-08 dedt 2.76299e-09  ID  444
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  443
+ R_x: 0.829375  U_x: -8.42795e-10  e: 2.5  dUdt: -3.18347e-08 dedt 1.82778e-09  ID  443
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  442
+ R_x: 0.8275  U_x: -4.68917e-10  e: 2.5  dUdt: -1.68488e-08 dedt 1.28324e-09  ID  442
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  441
+ R_x: 0.825625  U_x: -2.09421e-10  e: 2.5  dUdt: -7.02241e-09 dedt 1.00612e-09  ID  441
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  440
+ R_x: 0.82375  U_x: -5.32042e-11  e: 2.5  dUdt: -1.56058e-09 dedt 8.75838e-10  ID  440
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  439
+ R_x: 0.821875  U_x: 2.43981e-11  e: 2.5  dUdt: 7.87643e-10 dedt 8.01847e-10  ID  439
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  438
+ R_x: 0.82  U_x: 5.06436e-11  e: 2.5  dUdt: 1.26873e-09 dedt 7.30742e-10  ID  438
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  437
+ R_x: 0.818125  U_x: 4.84918e-11  e: 2.5  dUdt: 8.5777e-10 dedt 6.4097e-10  ID  437
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  436
+ R_x: 0.81625  U_x: 3.50242e-11  e: 2.5  dUdt: 2.23829e-10 dedt 5.32322e-10  ID  436
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  435
+ R_x: 0.814375  U_x: 2.05112e-11  e: 2.5  dUdt: -2.7866e-10 dedt 4.15222e-10  ID  435
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  434
+ R_x: 0.8125  U_x: 9.70517e-12  e: 2.5  dUdt: -5.28995e-10 dedt 3.02475e-10  ID  434
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  433
+ R_x: 0.810625  U_x: 3.71434e-12  e: 2.5  dUdt: -5.45219e-10 dedt 2.04311e-10  ID  433
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  432
+ R_x: 0.80875  U_x: 1.69711e-12  e: 2.5  dUdt: -4.08083e-10 dedt 1.26379e-10  ID  432
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  431
+ R_x: 0.806875  U_x: 2.10399e-12  e: 2.5  dUdt: -2.09383e-10 dedt 6.98259e-11  ID  431
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  430
+ R_x: 0.805  U_x: 3.47558e-12  e: 2.5  dUdt: -1.85006e-11 dedt 3.248e-11  ID  430
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  429
+ R_x: 0.803125  U_x: 4.79068e-12  e: 2.5  dUdt: 1.24594e-10 dedt 1.03679e-11  ID  429
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  428
+ R_x: 0.80125  U_x: 5.52722e-12  e: 2.5  dUdt: 2.06605e-10 dedt -9.53789e-13  ID  428
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  427
+ R_x: 0.799375  U_x: 5.566e-12  e: 2.5  dUdt: 2.33261e-10 dedt -5.48386e-12  ID  427
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  426
+ R_x: 0.7975  U_x: 5.03492e-12  e: 2.5  dUdt: 2.1992e-10 dedt -6.31557e-12  ID  426
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  425
+ R_x: 0.795625  U_x: 4.16215e-12  e: 2.5  dUdt: 1.83824e-10 dedt -5.53769e-12  ID  425
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  424
+ R_x: 0.79375  U_x: 3.17442e-12  e: 2.5  dUdt: 1.39609e-10 dedt -4.36259e-12  ID  424
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  423
+ R_x: 0.791875  U_x: 2.24221e-12  e: 2.5  dUdt: 9.73328e-11 dedt -3.35691e-12  ID  423
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  422
+ R_x: 0.79  U_x: 1.46526e-12  e: 2.5  dUdt: 6.24771e-11 dedt -2.68223e-12  ID  422
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  421
+ R_x: 0.788125  U_x: 8.80158e-13  e: 2.5  dUdt: 3.69304e-11 dedt -2.29296e-12  ID  421
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  420
+ R_x: 0.78625  U_x: 4.79707e-13  e: 2.5  dUdt: 2.00881e-11 dedt -2.07288e-12  ID  420
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  419
+ R_x: 0.784375  U_x: 2.30963e-13  e: 2.5  dUdt: 1.01328e-11 dedt -1.91304e-12  ID  419
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  418
+ R_x: 0.7825  U_x: 9.22953e-14  e: 2.5  dUdt: 4.93501e-12 dedt -1.74366e-12  ID  418
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  417
+ R_x: 0.780625  U_x: 2.538e-14  e: 2.5  dUdt: 2.61341e-12 dedt -1.53705e-12  ID  417
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  416
+ R_x: 0.77875  U_x: -8.74925e-16  e: 2.5  dUdt: 1.76174e-12 dedt -1.29651e-12  ID  416
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  415
+ R_x: 0.776875  U_x: -7.66954e-15  e: 2.5  dUdt: 1.4867e-12 dedt -1.04153e-12  ID  415
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  414
+ R_x: 0.775  U_x: -7.38963e-15  e: 2.5  dUdt: 1.31729e-12 dedt -7.95196e-13  ID  414
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  413
+ R_x: 0.773125  U_x: -6.27205e-15  e: 2.5  dUdt: 1.07696e-12 dedt -5.76287e-13  ID  413
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  412
+ R_x: 0.77125  U_x: -6.05661e-15  e: 2.5  dUdt: 7.56173e-13 dedt -3.958e-13  ID  412
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  411
+ R_x: 0.769375  U_x: -6.83991e-15  e: 2.5  dUdt: 4.09159e-13 dedt -2.56922e-13  ID  411
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  410
+ R_x: 0.7675  U_x: -8.14933e-15  e: 2.5  dUdt: 9.85462e-14 dedt -1.56858e-13  ID  410
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  409
+ R_x: 0.765625  U_x: -8.8197e-15  e: 2.5  dUdt: -1.33116e-13 dedt -8.92795e-14  ID  409
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  408
+ R_x: 0.76375  U_x: -8.77648e-15  e: 2.5  dUdt: -2.72699e-13 dedt -4.65582e-14  ID  408
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  407
+ R_x: 0.761875  U_x: -8.34465e-15  e: 2.5  dUdt: -3.31041e-13 dedt -2.13758e-14  ID  407
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  406
+ R_x: 0.76  U_x: -7.11663e-15  e: 2.5  dUdt: -3.27918e-13 dedt -7.63233e-15  ID  406
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  405
+ R_x: 0.758125  U_x: -5.69932e-15  e: 2.5  dUdt: -2.86132e-13 dedt -7.70189e-16  ID  405
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  404
+ R_x: 0.75625  U_x: -4.3269e-15  e: 2.5  dUdt: -2.27818e-13 dedt 2.29314e-15  ID  404
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  403
+ R_x: 0.754375  U_x: -3.10059e-15  e: 2.5  dUdt: -1.67522e-13 dedt 3.44705e-15  ID  403
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  402
+ R_x: 0.7525  U_x: -2.21168e-15  e: 2.5  dUdt: -1.15842e-13 dedt 3.73058e-15  ID  402
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  401
+ R_x: 0.750625  U_x: -1.50076e-15  e: 2.5  dUdt: -7.5928e-14 dedt 3.64718e-15  ID  401
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  400
+ R_x: 0.74875  U_x: -8.66232e-16  e: 2.5  dUdt: -4.7737e-14 dedt 3.40672e-15  ID  400
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  399
+ R_x: 0.746875  U_x: -6.21762e-16  e: 2.5  dUdt: -2.96664e-14 dedt 3.08212e-15  ID  399
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  398
+ R_x: 0.745  U_x: -3.8688e-16  e: 2.5  dUdt: -1.80628e-14 dedt 2.70059e-15  ID  398
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  397
+ R_x: 0.743125  U_x: -9.4215e-17  e: 2.5  dUdt: -1.00176e-14 dedt 2.28531e-15  ID  397
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  396
+ R_x: 0.74125  U_x: -2.41129e-16  e: 2.5  dUdt: -6.09408e-15 dedt 1.86271e-15  ID  396
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  395
+ R_x: 0.739375  U_x: 1.89638e-17  e: 2.5  dUdt: -3.1971e-15 dedt 1.46203e-15  ID  395
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  394
+ R_x: 0.7375  U_x: 6.10926e-17  e: 2.5  dUdt: -1.73733e-15 dedt 1.10866e-15  ID  394
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  393
+ R_x: 0.735625  U_x: 3.22919e-17  e: 2.5  dUdt: -8.92949e-16 dedt 8.16691e-16  ID  393
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  392
+ R_x: 0.73375  U_x: 6.92762e-17  e: 2.5  dUdt: -4.16767e-16 dedt 5.90289e-16  ID  392
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  391
+ R_x: 0.731875  U_x: 6.42954e-17  e: 2.5  dUdt: 7.1991e-17 dedt 4.24561e-16  ID  391
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  390
+ R_x: 0.73  U_x: -1.57584e-16  e: 2.5  dUdt: -8.17055e-16 dedt 3.07257e-16  ID  390
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  389
+ R_x: 0.728125  U_x: -1.73177e-16  e: 2.5  dUdt: -6.08888e-16 dedt 2.25378e-16  ID  389
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  388
+ R_x: 0.72625  U_x: -3.34688e-16  e: 2.5  dUdt: -1.14492e-15 dedt 1.67401e-16  ID  388
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  387
+ R_x: 0.724375  U_x: -3.68961e-16  e: 2.5  dUdt: -1.38084e-15 dedt 1.24934e-16  ID  387
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  386
+ R_x: 0.7225  U_x: -2.20385e-16  e: 2.5  dUdt: -6.80012e-16 dedt 9.43775e-17  ID  386
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  385
+ R_x: 0.720625  U_x: -2.25299e-16  e: 2.5  dUdt: -8.74301e-16 dedt 7.34195e-17  ID  385
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  384
+ R_x: 0.71875  U_x: -2.54939e-17  e: 2.5  dUdt: -2.77556e-17 dedt 6.13456e-17  ID  384
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  383
+ R_x: 0.716875  U_x: 2.32568e-16  e: 2.5  dUdt: 8.32667e-16 dedt 5.78684e-17  ID  383
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  382
+ R_x: 0.715  U_x: 1.817e-16  e: 2.5  dUdt: 6.66134e-16 dedt 5.94731e-17  ID  382
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  381
+ R_x: 0.713125  U_x: 3.27783e-16  e: 2.5  dUdt: 1.08247e-15 dedt 6.17953e-17  ID  381
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  380
+ R_x: 0.71125  U_x: 3.55562e-16  e: 2.5  dUdt: 1.23512e-15 dedt 6.09844e-17  ID  380
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  379
+ R_x: 0.709375  U_x: 1.65598e-16  e: 2.5  dUdt: 5.13478e-16 dedt 5.23663e-17  ID  379
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  378
+ R_x: 0.7075  U_x: 1.15342e-16  e: 2.5  dUdt: 3.53884e-16 dedt 3.44658e-17  ID  378
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  377
+ R_x: 0.705625  U_x: -5.59925e-17  e: 2.5  dUdt: -2.22045e-16 dedt 8.32186e-18  ID  377
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  376
+ R_x: 0.70375  U_x: -1.06269e-16  e: 2.5  dUdt: -4.25007e-16 dedt -2.34089e-17  ID  376
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  375
+ R_x: 0.701875  U_x: -7.40781e-17  e: 2.5  dUdt: -2.96638e-16 dedt -5.58198e-17  ID  375
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  374
+ R_x: 0.7  U_x: -9.47137e-17  e: 2.5  dUdt: -1.61329e-16 dedt -8.46075e-17  ID  374
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  373
+ R_x: 0.698125  U_x: -4.38061e-17  e: 2.5  dUdt: -1.7434e-16 dedt -1.05928e-16  ID  373
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  372
+ R_x: 0.69625  U_x: 4.14241e-17  e: 2.5  dUdt: 1.61763e-16 dedt -1.16751e-16  ID  372
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  371
+ R_x: 0.694375  U_x: -1.33022e-16  e: 2.5  dUdt: -4.75314e-16 dedt -1.16842e-16  ID  371
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  370
+ R_x: 0.6925  U_x: 7.47525e-17  e: 2.5  dUdt: 3.00107e-16 dedt -1.05858e-16  ID  370
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  369
+ R_x: 0.690625  U_x: 9.27969e-17  e: 2.5  dUdt: 3.1572e-16 dedt -8.39741e-17  ID  369
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  368
+ R_x: 0.68875  U_x: 6.63998e-17  e: 2.5  dUdt: 2.73219e-16 dedt -5.45317e-17  ID  368
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  367
+ R_x: 0.686875  U_x: 5.35553e-17  e: 2.5  dUdt: 2.51101e-16 dedt -2.13623e-17  ID  367
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  366
+ R_x: 0.685  U_x: -1.27621e-17  e: 2.5  dUdt: 1.17094e-17 dedt 1.13981e-17  ID  366
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  365
+ R_x: 0.683125  U_x: -1.56475e-16  e: 2.5  dUdt: -6.04985e-16 dedt 3.91367e-17  ID  365
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  364
+ R_x: 0.68125  U_x: -1.86202e-16  e: 2.5  dUdt: -6.57894e-16 dedt 5.92198e-17  ID  364
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  363
+ R_x: 0.679375  U_x: -3.15829e-16  e: 2.5  dUdt: -1.10849e-15 dedt 7.06662e-17  ID  363
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  362
+ R_x: 0.6775  U_x: -3.69901e-16  e: 2.5  dUdt: -1.39992e-15 dedt 7.43201e-17  ID  362
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  361
+ R_x: 0.675625  U_x: -2.20992e-16  e: 2.5  dUdt: -6.8695e-16 dedt 7.344e-17  ID  361
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  360
+ R_x: 0.67375  U_x: -2.58294e-16  e: 2.5  dUdt: -8.8124e-16 dedt 7.08882e-17  ID  360
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  359
+ R_x: 0.671875  U_x: -2.77751e-17  e: 2.5  dUdt: -1.11022e-16 dedt 6.97675e-17  ID  359
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  358
+ R_x: 0.67  U_x: 2.18514e-16  e: 2.5  dUdt: 7.35523e-16 dedt 7.2307e-17  ID  358
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  357
+ R_x: 0.668125  U_x: 1.51897e-16  e: 2.5  dUdt: 5.41234e-16 dedt 7.66916e-17  ID  357
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  356
+ R_x: 0.66625  U_x: 3.19314e-16  e: 2.5  dUdt: 1.01308e-15 dedt 8.0282e-17  ID  356
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  355
+ R_x: 0.664375  U_x: 4.18463e-16  e: 2.5  dUdt: 1.33227e-15 dedt 8.04133e-17  ID  355
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  354
+ R_x: 0.6625  U_x: 2.29328e-16  e: 2.5  dUdt: 9.15934e-16 dedt 7.20545e-17  ID  354
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  353
+ R_x: 0.660625  U_x: 1.2616e-16  e: 2.5  dUdt: 3.19189e-16 dedt 5.27409e-17  ID  353
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  352
+ R_x: 0.65875  U_x: -3.13942e-17  e: 2.5  dUdt: -1.249e-16 dedt 2.35635e-17  ID  352
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  351
+ R_x: 0.656875  U_x: -1.1413e-16  e: 2.5  dUdt: -4.57967e-16 dedt -1.23497e-17  ID  351
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  350
+ R_x: 0.655  U_x: -9.84564e-18  e: 2.5  dUdt: -3.81639e-17 dedt -4.93308e-17  ID  350
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  349
+ R_x: 0.653125  U_x: -8.03285e-17  e: 2.5  dUdt: -2.25514e-16 dedt -8.27706e-17  ID  349
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  348
+ R_x: 0.65125  U_x: -3.49059e-17  e: 2.5  dUdt: -1.39645e-16 dedt -1.08818e-16  ID  348
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  347
+ R_x: 0.649375  U_x: 1.48802e-16  e: 2.5  dUdt: 5.96745e-16 dedt -1.23599e-16  ID  347
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  346
+ R_x: 0.6475  U_x: -1.03464e-16  e: 2.5  dUdt: -3.51715e-16 dedt -1.26779e-16  ID  346
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  345
+ R_x: 0.645625  U_x: 6.33803e-17  e: 2.5  dUdt: 5.11743e-17 dedt -1.18531e-16  ID  345
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  344
+ R_x: 0.64375  U_x: 1.33026e-16  e: 2.5  dUdt: 5.32994e-16 dedt -9.89078e-17  ID  344
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  343
+ R_x: 0.641875  U_x: 5.30533e-17  e: 2.5  dUdt: 2.13371e-16 dedt -7.10356e-17  ID  343
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  342
+ R_x: 0.64  U_x: 8.30792e-17  e: 2.5  dUdt: 3.30899e-16 dedt -3.86514e-17  ID  342
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  341
+ R_x: 0.638125  U_x: 4.29301e-17  e: 2.5  dUdt: 1.96024e-16 dedt -6.01869e-18  ID  341
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  340
+ R_x: 0.63625  U_x: -1.53794e-16  e: 2.5  dUdt: -5.84602e-16 dedt 2.14351e-17  ID  340
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  339
+ R_x: 0.634375  U_x: -2.13309e-16  e: 2.5  dUdt: -8.12718e-16 dedt 4.06655e-17  ID  339
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  338
+ R_x: 0.6325  U_x: -3.60895e-16  e: 2.5  dUdt: -1.27155e-15 dedt 5.09538e-17  ID  338
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  337
+ R_x: 0.630625  U_x: -3.56422e-16  e: 2.5  dUdt: -1.31622e-15 dedt 5.38043e-17  ID  337
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  336
+ R_x: 0.62875  U_x: -2.60415e-16  e: 2.5  dUdt: -8.33535e-16 dedt 5.30942e-17  ID  336
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  335
+ R_x: 0.626875  U_x: -2.1609e-16  e: 2.5  dUdt: -8.62158e-16 dedt 5.18451e-17  ID  335
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  334
+ R_x: 0.625  U_x: -1.86591e-17  e: 2.5  dUdt: -7.97973e-17 dedt 5.2962e-17  ID  334
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  333
+ R_x: 0.623125  U_x: 2.25595e-16  e: 2.5  dUdt: 7.91034e-16 dedt 5.81998e-17  ID  333
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  332
+ R_x: 0.62125  U_x: 1.74402e-16  e: 2.5  dUdt: 5.68989e-16 dedt 6.5322e-17  ID  332
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  331
+ R_x: 0.619375  U_x: 3.12826e-16  e: 2.5  dUdt: 1.09635e-15 dedt 7.09008e-17  ID  331
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  330
+ R_x: 0.6175  U_x: 3.51568e-16  e: 2.5  dUdt: 1.29063e-15 dedt 7.1787e-17  ID  330
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  329
+ R_x: 0.615625  U_x: 1.80576e-16  e: 2.5  dUdt: 4.16334e-16 dedt 6.39477e-17  ID  329
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  328
+ R_x: 0.61375  U_x: 1.44513e-16  e: 2.5  dUdt: 4.71845e-16 dedt 4.58998e-17  ID  328
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  327
+ R_x: 0.611875  U_x: -7.1733e-17  e: 2.5  dUdt: -2.63678e-16 dedt 1.86786e-17  ID  327
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  326
+ R_x: 0.61  U_x: -1.20877e-16  e: 2.5  dUdt: -2.91434e-16 dedt -1.46025e-17  ID  326
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  325
+ R_x: 0.608125  U_x: -8.49559e-17  e: 2.5  dUdt: -3.33067e-16 dedt -4.84365e-17  ID  325
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  324
+ R_x: 0.60625  U_x: -6.80608e-17  e: 2.5  dUdt: -1.52656e-16 dedt -7.79397e-17  ID  324
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  323
+ R_x: 0.604375  U_x: -1.29725e-17  e: 2.5  dUdt: -5.20417e-17 dedt -9.93146e-17  ID  323
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  322
+ R_x: 0.6025  U_x: 8.17586e-17  e: 2.5  dUdt: -2.51535e-17 dedt -1.09837e-16  ID  322
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  321
+ R_x: 0.600625  U_x: -1.1097e-16  e: 2.5  dUdt: -4.40186e-16 dedt -1.09654e-16  ID  321
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  320
+ R_x: 0.59875  U_x: 6.69614e-17  e: 2.5  dUdt: 2.6975e-16 dedt -9.85851e-17  ID  320
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  319
+ R_x: 0.596875  U_x: 1.19313e-16  e: 2.5  dUdt: 4.76615e-16 dedt -7.7014e-17  ID  319
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  318
+ R_x: 0.595  U_x: 3.04303e-17  e: 2.5  dUdt: 1.4138e-16 dedt -4.86818e-17  ID  318
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  317
+ R_x: 0.593125  U_x: 5.26922e-17  e: 2.5  dUdt: 2.40693e-16 dedt -1.70637e-17  ID  317
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  316
+ R_x: 0.59125  U_x: 4.56894e-17  e: 2.5  dUdt: 2.66714e-16 dedt 1.42553e-17  ID  316
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  315
+ R_x: 0.589375  U_x: -1.46218e-16  e: 2.5  dUdt: -5.29091e-16 dedt 4.0257e-17  ID  315
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  314
+ R_x: 0.5875  U_x: -1.50025e-16  e: 2.5  dUdt: -5.76796e-16 dedt 5.78328e-17  ID  314
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  313
+ R_x: 0.585625  U_x: -3.71382e-16  e: 2.5  dUdt: -1.27155e-15 dedt 6.5842e-17  ID  313
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  312
+ R_x: 0.58375  U_x: -3.27321e-16  e: 2.5  dUdt: -1.18785e-15 dedt 6.55392e-17  ID  312
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  311
+ R_x: 0.581875  U_x: -1.91364e-16  e: 2.5  dUdt: -5.55979e-16 dedt 6.09719e-17  ID  311
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  310
+ R_x: 0.58  U_x: -2.37507e-16  e: 2.5  dUdt: -9.0726e-16 dedt 5.50457e-17  ID  310
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  309
+ R_x: 0.578125  U_x: 8.0708e-18  e: 2.5  dUdt: 3.20924e-17 dedt 5.0899e-17  ID  309
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  308
+ R_x: 0.57625  U_x: 2.58825e-16  e: 2.5  dUdt: 9.45424e-16 dedt 5.10519e-17  ID  308
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  307
+ R_x: 0.574375  U_x: 1.89894e-16  e: 2.5  dUdt: 7.04298e-16 dedt 5.37225e-17  ID  307
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  306
+ R_x: 0.5725  U_x: 3.41088e-16  e: 2.5  dUdt: 1.1588e-15 dedt 5.58885e-17  ID  306
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  305
+ R_x: 0.570625  U_x: 3.96259e-16  e: 2.5  dUdt: 1.33227e-15 dedt 5.44812e-17  ID  305
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  304
+ R_x: 0.56875  U_x: 1.76914e-16  e: 2.5  dUdt: 5.27356e-16 dedt 4.5194e-17  ID  304
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  303
+ R_x: 0.566875  U_x: 1.21871e-16  e: 2.5  dUdt: 4.85723e-16 dedt 2.67156e-17  ID  303
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  302
+ R_x: 0.565  U_x: -4.9161e-17  e: 2.5  dUdt: -1.94289e-16 dedt 3.18115e-19  ID  302
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  301
+ R_x: 0.563125  U_x: -1.57139e-16  e: 2.5  dUdt: -5.55112e-16 dedt -3.08976e-17  ID  301
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  300
+ R_x: 0.56125  U_x: -7.95945e-17  e: 2.5  dUdt: -3.19189e-16 dedt -6.13945e-17  ID  300
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  299
+ R_x: 0.559375  U_x: -6.19979e-17  e: 2.5  dUdt: -1.52656e-16 dedt -8.6713e-17  ID  299
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  298
+ R_x: 0.5575  U_x: -4.4783e-17  e: 2.5  dUdt: -1.80411e-16 dedt -1.03774e-16  ID  298
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  297
+ R_x: 0.555625  U_x: 5.06778e-17  e: 2.5  dUdt: 2.01228e-16 dedt -1.1005e-16  ID  297
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  296
+ R_x: 0.55375  U_x: -1.44305e-16  e: 2.5  dUdt: -4.85723e-16 dedt -1.05754e-16  ID  296
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  295
+ R_x: 0.551875  U_x: 3.55098e-17  e: 2.5  dUdt: -3.46945e-17 dedt -9.10746e-17  ID  295
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  294
+ R_x: 0.55  U_x: 8.64315e-17  e: 2.5  dUdt: 2.91e-16 dedt -6.64722e-17  ID  294
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  293
+ R_x: 0.548125  U_x: 3.58557e-17  e: 2.5  dUdt: 1.51355e-16 dedt -3.58619e-17  ID  293
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  292
+ R_x: 0.54625  U_x: 8.90954e-17  e: 2.5  dUdt: 2.59775e-16 dedt -3.17366e-18  ID  292
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  291
+ R_x: 0.544375  U_x: 5.34685e-17  e: 2.5  dUdt: 2.49366e-16 dedt 2.75497e-17  ID  291
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  290
+ R_x: 0.5425  U_x: -1.4418e-16  e: 2.5  dUdt: -5.30392e-16 dedt 5.09197e-17  ID  290
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  289
+ R_x: 0.540625  U_x: -1.72195e-16  e: 2.5  dUdt: -6.28837e-16 dedt 6.38725e-17  ID  289
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  288
+ R_x: 0.53875  U_x: -3.48375e-16  e: 2.5  dUdt: -1.21517e-15 dedt 6.61775e-17  ID  288
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  287
+ R_x: 0.536875  U_x: -3.2253e-16  e: 2.5  dUdt: -1.17224e-15 dedt 6.06038e-17  ID  287
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  286
+ R_x: 0.535  U_x: -1.35384e-16  e: 2.5  dUdt: -4.65773e-16 dedt 5.2826e-17  ID  286
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  285
+ R_x: 0.533125  U_x: -1.91413e-16  e: 2.5  dUdt: -6.67435e-16 dedt 4.66579e-17  ID  285
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  284
+ R_x: 0.53125  U_x: 3.31896e-17  e: 2.5  dUdt: 1.32706e-16 dedt 4.49279e-17  ID  284
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  283
+ R_x: 0.529375  U_x: 2.81437e-16  e: 2.5  dUdt: 9.78384e-16 dedt 4.92581e-17  ID  283
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  282
+ R_x: 0.5275  U_x: 2.11597e-16  e: 2.5  dUdt: 8.4481e-16 dedt 5.66491e-17  ID  282
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  281
+ R_x: 0.525625  U_x: 3.32223e-16  e: 2.5  dUdt: 1.15186e-15 dedt 6.29051e-17  ID  281
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  280
+ R_x: 0.52375  U_x: 3.27147e-16  e: 2.5  dUdt: 1.22125e-15 dedt 6.41122e-17  ID  280
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  279
+ R_x: 0.521875  U_x: 1.08595e-16  e: 2.5  dUdt: 3.33067e-16 dedt 5.57313e-17  ID  279
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  278
+ R_x: 0.52  U_x: 9.03271e-17  e: 2.5  dUdt: 3.60822e-16 dedt 3.65425e-17  ID  278
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  277
+ R_x: 0.518125  U_x: -9.34127e-17  e: 2.5  dUdt: -3.46945e-16 dedt 8.39787e-18  ID  277
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  276
+ R_x: 0.51625  U_x: -1.81642e-16  e: 2.5  dUdt: -7.07767e-16 dedt -2.4438e-17  ID  276
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  275
+ R_x: 0.514375  U_x: -8.4712e-17  e: 2.5  dUdt: -2.77556e-16 dedt -5.4606e-17  ID  275
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  274
+ R_x: 0.5125  U_x: -1.37328e-16  e: 2.5  dUdt: -5.41234e-16 dedt -7.59713e-17  ID  274
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  273
+ R_x: 0.510625  U_x: 1.76226e-17  e: 2.5  dUdt: 6.93889e-17 dedt -8.4269e-17  ID  273
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  272
+ R_x: 0.50875  U_x: 1.97962e-16  e: 2.5  dUdt: 7.91034e-16 dedt -7.77397e-17  ID  272
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  271
+ R_x: 0.506875  U_x: 1.30036e-16  e: 2.5  dUdt: 4.02456e-16 dedt -6.03544e-17  ID  271
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  270
+ R_x: 0.505  U_x: 1.29786e-16  e: 2.5  dUdt: 5.16948e-16 dedt -3.82223e-17  ID  270
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  269
+ R_x: 0.503125  U_x: 9.39331e-17  e: 2.5  dUdt: 3.747e-16 dedt -1.67541e-17  ID  269
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  268
+ R_x: 0.50125  U_x: -5.26543e-17  e: 2.5  dUdt: -2.09468e-16 dedt -9.88811e-19  ID  268
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  267
+ R_x: 0.499375  U_x: -7.49292e-17  e: 2.5  dUdt: -2.99673e-16 dedt 6.83143e-18  ID  267
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  266
+ R_x: 0.4975  U_x: -1.72884e-16  e: 2.5  dUdt: -6.51822e-16 dedt 7.12753e-18  ID  266
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  265
+ R_x: 0.495625  U_x: -1.51045e-16  e: 2.5  dUdt: -5.30825e-16 dedt 2.03674e-18  ID  265
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  264
+ R_x: 0.49375  U_x: -5.16503e-17  e: 2.5  dUdt: -2.05131e-16 dedt -4.90684e-18  ID  264
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  263
+ R_x: 0.491875  U_x: -1.03944e-16  e: 2.5  dUdt: -4.16334e-16 dedt -1.11097e-17  ID  263
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  262
+ R_x: 0.49  U_x: -5.34783e-17  e: 2.5  dUdt: -2.15106e-16 dedt -1.48114e-17  ID  262
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  261
+ R_x: 0.488125  U_x: 2.41788e-17  e: 2.5  dUdt: 9.54098e-17 dedt -1.43188e-17  ID  261
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  260
+ R_x: 0.48625  U_x: 7.79661e-17  e: 2.5  dUdt: 3.12684e-16 dedt -9.6912e-18  ID  260
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  259
+ R_x: 0.484375  U_x: 1.24366e-16  e: 2.5  dUdt: 4.97432e-16 dedt -2.90742e-18  ID  259
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  258
+ R_x: 0.4825  U_x: 1.52505e-16  e: 2.5  dUdt: 6.10189e-16 dedt 3.51478e-18  ID  258
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  257
+ R_x: 0.480625  U_x: 1.10506e-16  e: 2.5  dUdt: 4.4062e-16 dedt 7.1883e-18  ID  257
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  256
+ R_x: 0.47875  U_x: 9.34257e-18  e: 2.5  dUdt: 3.77302e-17 dedt 6.52978e-18  ID  256
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  255
+ R_x: 0.476875  U_x: -6.60485e-17  e: 2.5  dUdt: -2.67147e-16 dedt 1.66527e-18  ID  255
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  254
+ R_x: 0.475  U_x: -1.66297e-16  e: 2.5  dUdt: -4.54498e-16 dedt -5.28843e-18  ID  254
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  253
+ R_x: 0.473125  U_x: -1.18785e-16  e: 2.5  dUdt: -4.71845e-16 dedt -1.07365e-17  ID  253
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  252
+ R_x: 0.47125  U_x: -4.19955e-17  e: 2.5  dUdt: -3.747e-16 dedt -1.15247e-17  ID  252
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  251
+ R_x: 0.469375  U_x: -5.61237e-17  e: 2.5  dUdt: -2.22045e-16 dedt -6.53106e-18  ID  251
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  250
+ R_x: 0.4675  U_x: -3.11166e-17  e: 2.5  dUdt: -1.249e-16 dedt 3.84622e-18  ID  250
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  249
+ R_x: 0.465625  U_x: 1.72627e-17  e: 2.5  dUdt: 6.93889e-17 dedt 1.77129e-17  ID  249
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  248
+ R_x: 0.46375  U_x: 6.42065e-18  e: 2.5  dUdt: 2.77556e-17 dedt 3.16568e-17  ID  248
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  247
+ R_x: 0.461875  U_x: -2.04253e-17  e: 2.5  dUdt: -8.32667e-17 dedt 4.23801e-17  ID  247
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  246
+ R_x: 0.46  U_x: -2.89352e-17  e: 2.5  dUdt: -5.55112e-17 dedt 4.76294e-17  ID  246
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  245
+ R_x: 0.458125  U_x: -2.0383e-17  e: 2.5  dUdt: -6.93889e-17 dedt 4.66176e-17  ID  245
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  244
+ R_x: 0.45625  U_x: -2.96855e-17  e: 2.5  dUdt: -1.17961e-16 dedt 4.01198e-17  ID  244
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  243
+ R_x: 0.454375  U_x: -3.48744e-17  e: 2.5  dUdt: -1.42247e-16 dedt 2.9339e-17  ID  243
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  242
+ R_x: 0.4525  U_x: 4.86818e-17  e: 2.5  dUdt: 1.93422e-16 dedt 1.62721e-17  ID  242
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  241
+ R_x: 0.450625  U_x: 8.0154e-17  e: 2.5  dUdt: 3.19189e-16 dedt 3.14721e-18  ID  241
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  240
+ R_x: 0.44875  U_x: 1.43454e-16  e: 2.5  dUdt: 5.74193e-16 dedt -8.67745e-18  ID  240
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  239
+ R_x: 0.446875  U_x: 1.76954e-16  e: 2.5  dUdt: 7.07333e-16 dedt -1.9147e-17  ID  239
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  238
+ R_x: 0.445  U_x: 9.60744e-17  e: 2.5  dUdt: 3.81205e-16 dedt -2.92693e-17  ID  238
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  237
+ R_x: 0.443125  U_x: -1.47278e-17  e: 2.5  dUdt: -6.28837e-17 dedt -3.94079e-17  ID  237
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  236
+ R_x: 0.44125  U_x: 3.52637e-17  e: 2.5  dUdt: 1.42247e-16 dedt -4.83098e-17  ID  236
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  235
+ R_x: 0.439375  U_x: -2.94079e-17  e: 2.5  dUdt: -1.17528e-16 dedt -5.43149e-17  ID  235
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  234
+ R_x: 0.4375  U_x: -2.79692e-17  e: 2.5  dUdt: -1.14492e-16 dedt -5.64396e-17  ID  234
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  233
+ R_x: 0.435625  U_x: -4.11249e-17  e: 2.5  dUdt: -1.66967e-16 dedt -5.42683e-17  ID  233
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  232
+ R_x: 0.43375  U_x: 2.70259e-17  e: 2.5  dUdt: 1.07987e-16 dedt -4.79252e-17  ID  232
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  231
+ R_x: 0.431875  U_x: -1.61589e-17  e: 2.5  dUdt: -6.20164e-17 dedt -3.84385e-17  ID  231
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  230
+ R_x: 0.43  U_x: -1.24735e-16  e: 2.5  dUdt: -4.40186e-16 dedt -2.77095e-17  ID  230
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  229
+ R_x: 0.428125  U_x: -2.05005e-16  e: 2.5  dUdt: -6.08454e-16 dedt -1.67803e-17  ID  229
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  228
+ R_x: 0.42625  U_x: -1.77432e-16  e: 2.5  dUdt: -7.07767e-16 dedt -4.76408e-18  ID  228
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  227
+ R_x: 0.424375  U_x: -5.82477e-17  e: 2.5  dUdt: -2.32453e-16 dedt 9.33262e-18  ID  227
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  226
+ R_x: 0.4225  U_x: -4.53955e-17  e: 2.5  dUdt: -1.80411e-16 dedt 2.49621e-17  ID  226
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  225
+ R_x: 0.420625  U_x: 2.99836e-17  e: 2.5  dUdt: -8.32667e-17 dedt 4.10256e-17  ID  225
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  224
+ R_x: 0.41875  U_x: 1.13993e-17  e: 2.5  dUdt: 4.16334e-17 dedt 5.56117e-17  ID  224
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  223
+ R_x: 0.416875  U_x: 1.50422e-17  e: 2.5  dUdt: -2.77556e-17 dedt 6.60754e-17  ID  223
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  222
+ R_x: 0.415  U_x: 2.56956e-19  e: 2.5  dUdt: 0 dedt 7.01622e-17  ID  222
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  221
+ R_x: 0.413125  U_x: -5.33276e-17  e: 2.5  dUdt: -1.94289e-16 dedt 6.66816e-17  ID  221
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  220
+ R_x: 0.41125  U_x: 1.06111e-17  e: 2.5  dUdt: -1.249e-16 dedt 5.63309e-17  ID  220
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  219
+ R_x: 0.409375  U_x: -3.95137e-17  e: 2.5  dUdt: -1.38778e-16 dedt 4.1019e-17  ID  219
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  218
+ R_x: 0.4075  U_x: -3.32525e-17  e: 2.5  dUdt: -1.249e-16 dedt 2.311e-17  ID  218
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  217
+ R_x: 0.405625  U_x: 8.67991e-17  e: 2.5  dUdt: 2.08167e-16 dedt 5.3476e-18  ID  217
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  216
+ R_x: 0.40375  U_x: 1.17662e-16  e: 2.5  dUdt: 4.71845e-16 dedt -1.06439e-17  ID  216
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  215
+ R_x: 0.401875  U_x: 1.67491e-16  e: 2.5  dUdt: 5.68122e-16 dedt -2.42963e-17  ID  215
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  214
+ R_x: 0.4  U_x: 1.55076e-16  e: 2.5  dUdt: 5.84168e-16 dedt -3.56339e-17  ID  214
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  213
+ R_x: 0.398125  U_x: 9.41315e-17  e: 2.5  dUdt: 3.747e-16 dedt -4.55088e-17  ID  213
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  212
+ R_x: 0.39625  U_x: 1.11066e-17  e: 2.5  dUdt: 4.11997e-17 dedt -5.43293e-17  ID  212
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  211
+ R_x: 0.394375  U_x: -4.47526e-17  e: 2.5  dUdt: -1.82146e-16 dedt -6.14254e-17  ID  211
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  210
+ R_x: 0.3925  U_x: -2.41474e-17  e: 2.5  dUdt: -1.0018e-16 dedt -6.54282e-17  ID  210
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  209
+ R_x: 0.390625  U_x: -4.53522e-17  e: 2.5  dUdt: -1.8258e-16 dedt -6.52553e-17  ID  209
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  208
+ R_x: 0.38875  U_x: -5.50417e-17  e: 2.5  dUdt: -2.24213e-16 dedt -6.06172e-17  ID  208
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  207
+ R_x: 0.386875  U_x: -2.93504e-17  e: 2.5  dUdt: -1.2013e-16 dedt -5.2124e-17  ID  207
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  206
+ R_x: 0.385  U_x: -8.52942e-17  e: 2.5  dUdt: -3.41307e-16 dedt -4.12659e-17  ID  206
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  205
+ R_x: 0.383125  U_x: -1.31519e-16  e: 2.5  dUdt: -4.7011e-16 dedt -2.92928e-17  ID  205
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  204
+ R_x: 0.38125  U_x: -2.25339e-16  e: 2.5  dUdt: -7.48967e-16 dedt -1.6737e-17  ID  204
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  203
+ R_x: 0.379375  U_x: -1.58363e-16  e: 2.5  dUdt: -5.55545e-16 dedt -3.08522e-18  ID  203
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  202
+ R_x: 0.3775  U_x: -6.66123e-17  e: 2.5  dUdt: -2.65413e-16 dedt 1.26013e-17  ID  202
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  201
+ R_x: 0.375625  U_x: -6.59596e-17  e: 2.5  dUdt: -2.63678e-16 dedt 2.97283e-17  ID  201
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  200
+ R_x: 0.37375  U_x: 7.13535e-17  e: 2.5  dUdt: 2.498e-16 dedt 4.70274e-17  ID  200
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  199
+ R_x: 0.371875  U_x: 3.81574e-17  e: 2.5  dUdt: 1.52656e-16 dedt 6.23522e-17  ID  199
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  198
+ R_x: 0.37  U_x: -3.1083e-17  e: 2.5  dUdt: -9.71445e-17 dedt 7.2808e-17  ID  198
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  197
+ R_x: 0.368125  U_x: -2.53161e-17  e: 2.5  dUdt: -2.77556e-17 dedt 7.66423e-17  ID  197
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  196
+ R_x: 0.36625  U_x: -4.09438e-17  e: 2.5  dUdt: -1.38778e-16 dedt 7.3261e-17  ID  196
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  195
+ R_x: 0.364375  U_x: -6.38259e-17  e: 2.5  dUdt: -2.22045e-16 dedt 6.34263e-17  ID  195
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  194
+ R_x: 0.3625  U_x: -3.774e-17  e: 2.5  dUdt: -1.249e-16 dedt 4.9169e-17  ID  194
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  193
+ R_x: 0.360625  U_x: -2.5315e-17  e: 2.5  dUdt: -8.32667e-17 dedt 3.29864e-17  ID  193
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  192
+ R_x: 0.35875  U_x: 5.92083e-17  e: 2.5  dUdt: 2.35922e-16 dedt 1.73213e-17  ID  192
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  191
+ R_x: 0.356875  U_x: 1.01078e-16  e: 2.5  dUdt: 4.02456e-16 dedt 3.39543e-18  ID  191
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  190
+ R_x: 0.355  U_x: 1.65328e-16  e: 2.5  dUdt: 6.59195e-16 dedt -9.06905e-18  ID  190
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  189
+ R_x: 0.353125  U_x: 1.64328e-16  e: 2.5  dUdt: 5.51642e-16 dedt -2.06884e-17  ID  189
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  188
+ R_x: 0.35125  U_x: 7.17102e-17  e: 2.5  dUdt: 2.8276e-16 dedt -3.22995e-17  ID  188
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  187
+ R_x: 0.349375  U_x: 2.73609e-17  e: 2.5  dUdt: 1.04083e-16 dedt -4.3886e-17  ID  187
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  186
+ R_x: 0.3475  U_x: -4.63767e-17  e: 2.5  dUdt: -1.86483e-16 dedt -5.40699e-17  ID  186
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  185
+ R_x: 0.345625  U_x: 9.37618e-18  e: 2.5  dUdt: 3.9465e-17 dedt -6.10123e-17  ID  185
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  184
+ R_x: 0.34375  U_x: -4.01502e-17  e: 2.5  dUdt: -1.63498e-16 dedt -6.35617e-17  ID  184
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  183
+ R_x: 0.341875  U_x: 4.09427e-17  e: 2.5  dUdt: 1.63498e-16 dedt -6.09749e-17  ID  183
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  182
+ R_x: 0.34  U_x: -2.25416e-17  e: 2.5  dUdt: -9.2374e-17 dedt -5.35966e-17  ID  182
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  181
+ R_x: 0.338125  U_x: -3.93912e-17  e: 2.5  dUdt: -1.54824e-16 dedt -4.32555e-17  ID  181
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  180
+ R_x: 0.33625  U_x: -1.76789e-16  e: 2.5  dUdt: -5.9024e-16 dedt -3.18117e-17  ID  180
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  179
+ R_x: 0.334375  U_x: -2.13211e-16  e: 2.5  dUdt: -8.51316e-16 dedt -1.98811e-17  ID  179
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  178
+ R_x: 0.3325  U_x: -1.32883e-16  e: 2.5  dUdt: -5.28657e-16 dedt -6.62837e-18  ID  178
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  177
+ R_x: 0.330625  U_x: -6.19025e-17  e: 2.5  dUdt: -2.39392e-16 dedt 8.65101e-18  ID  177
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  176
+ R_x: 0.32875  U_x: -1.21263e-16  e: 2.5  dUdt: -3.13118e-16 dedt 2.50997e-17  ID  176
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  175
+ R_x: 0.326875  U_x: 3.94216e-18  e: 2.5  dUdt: 1.38778e-17 dedt 4.163e-17  ID  175
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  174
+ R_x: 0.325  U_x: 2.3216e-17  e: 2.5  dUdt: 9.02056e-17 dedt 5.67162e-17  ID  174
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  173
+ R_x: 0.323125  U_x: -1.06306e-17  e: 2.5  dUdt: -4.16334e-17 dedt 6.77151e-17  ID  173
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  172
+ R_x: 0.32125  U_x: -3.71014e-18  e: 2.5  dUdt: -1.38778e-17 dedt 7.27046e-17  ID  172
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  171
+ R_x: 0.319375  U_x: -6.8836e-18  e: 2.5  dUdt: -2.77556e-17 dedt 7.07147e-17  ID  171
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  170
+ R_x: 0.3175  U_x: -4.26742e-17  e: 2.5  dUdt: -9.71445e-17 dedt 6.17905e-17  ID  170
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  169
+ R_x: 0.315625  U_x: 1.66739e-17  e: 2.5  dUdt: 6.93889e-17 dedt 4.7109e-17  ID  169
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  168
+ R_x: 0.31375  U_x: -2.77176e-17  e: 2.5  dUdt: -1.11022e-16 dedt 2.84415e-17  ID  168
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  167
+ R_x: 0.311875  U_x: 5.94956e-17  e: 2.5  dUdt: 2.35922e-16 dedt 8.47639e-18  ID  167
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  166
+ R_x: 0.31  U_x: 6.61483e-17  e: 2.5  dUdt: 2.63678e-16 dedt -1.0354e-17  ID  166
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  165
+ R_x: 0.308125  U_x: 1.28805e-16  e: 2.5  dUdt: 5.13478e-16 dedt -2.68333e-17  ID  165
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  164
+ R_x: 0.30625  U_x: 1.42931e-16  e: 2.5  dUdt: 4.85723e-16 dedt -4.03724e-17  ID  164
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  163
+ R_x: 0.304375  U_x: 1.48479e-16  e: 2.5  dUdt: 3.7817e-16 dedt -5.12274e-17  ID  163
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  162
+ R_x: 0.3025  U_x: 5.73521e-17  e: 2.5  dUdt: 2.28116e-16 dedt -5.99604e-17  ID  162
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  161
+ R_x: 0.300625  U_x: -3.78419e-17  e: 2.5  dUdt: -1.5439e-16 dedt -6.64327e-17  ID  161
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  160
+ R_x: 0.29875  U_x: -8.75645e-17  e: 2.5  dUdt: -3.52583e-16 dedt -6.94938e-17  ID  160
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  159
+ R_x: 0.296875  U_x: -4.28845e-17  e: 2.5  dUdt: -1.73906e-16 dedt -6.80186e-17  ID  159
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  158
+ R_x: 0.295  U_x: -7.06054e-17  e: 2.5  dUdt: -2.85796e-16 dedt -6.16173e-17  ID  158
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  157
+ R_x: 0.293125  U_x: -3.12792e-17  e: 2.5  dUdt: -1.30104e-16 dedt -5.06715e-17  ID  157
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  156
+ R_x: 0.29125  U_x: -9.40892e-17  e: 2.5  dUdt: -3.98553e-16 dedt -3.65056e-17  ID  156
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  155
+ R_x: 0.289375  U_x: -1.83983e-16  e: 2.5  dUdt: -5.79398e-16 dedt -2.09602e-17  ID  155
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  154
+ R_x: 0.2875  U_x: -1.94795e-16  e: 2.5  dUdt: -6.46184e-16 dedt -5.06844e-18  ID  154
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  153
+ R_x: 0.285625  U_x: -1.86076e-16  e: 2.5  dUdt: -7.43763e-16 dedt 1.09039e-17  ID  153
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  152
+ R_x: 0.28375  U_x: -7.67702e-17  e: 2.5  dUdt: -3.41307e-16 dedt 2.77071e-17  ID  152
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  151
+ R_x: 0.281875  U_x: -1.15799e-16  e: 2.5  dUdt: -4.76615e-16 dedt 4.65341e-17  ID  151
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  150
+ R_x: 0.28  U_x: 1.46367e-19  e: 2.5  dUdt: -3.10949e-16 dedt 6.95275e-17  ID  150
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  149
+ R_x: 0.278125  U_x: 2.29157e-17  e: 2.5  dUdt: -3.86843e-16 dedt 9.97817e-17  ID  149
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  148
+ R_x: 0.27625  U_x: 2.25373e-17  e: 2.5  dUdt: -5.10009e-16 dedt 1.415e-16  ID  148
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  147
+ R_x: 0.274375  U_x: 2.90512e-17  e: 2.5  dUdt: -9.78384e-16 dedt 2.0175e-16  ID  147
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  146
+ R_x: 0.2725  U_x: 3.72228e-17  e: 2.5  dUdt: -1.17961e-15 dedt 2.91155e-16  ID  146
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  145
+ R_x: 0.270625  U_x: 4.79868e-18  e: 2.5  dUdt: -1.33227e-15 dedt 4.23327e-16  ID  145
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  144
+ R_x: 0.26875  U_x: -1.21626e-17  e: 2.5  dUdt: -1.30451e-15 dedt 6.1347e-16  ID  144
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  143
+ R_x: 0.266875  U_x: -6.0518e-17  e: 2.5  dUdt: -7.07767e-16 dedt 8.76329e-16  ID  143
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  142
+ R_x: 0.265  U_x: 5.58169e-17  e: 2.5  dUdt: 6.66134e-16 dedt 1.22381e-15  ID  142
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  141
+ R_x: 0.263125  U_x: 8.15092e-17  e: 2.5  dUdt: 2.51188e-15 dedt 1.66089e-15  ID  141
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  140
+ R_x: 0.26125  U_x: 1.11761e-16  e: 2.5  dUdt: 5.66214e-15 dedt 2.1815e-15  ID  140
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  139
+ R_x: 0.259375  U_x: 1.6413e-16  e: 2.5  dUdt: 1.06304e-14 dedt 2.76843e-15  ID  139
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  138
+ R_x: 0.2575  U_x: 2.32394e-16  e: 2.5  dUdt: 1.78399e-14 dedt 3.39454e-15  ID  138
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  137
+ R_x: 0.255625  U_x: 3.88526e-16  e: 2.5  dUdt: 2.89109e-14 dedt 4.027e-15  ID  137
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  136
+ R_x: 0.25375  U_x: 6.41853e-16  e: 2.5  dUdt: 4.5409e-14 dedt 4.63356e-15  ID  136
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  135
+ R_x: 0.251875  U_x: 1.17764e-15  e: 2.5  dUdt: 7.05889e-14 dedt 5.18608e-15  ID  135
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  134
+ R_x: 0.25  U_x: 1.95673e-15  e: 2.5  dUdt: 1.05932e-13 dedt 5.652e-15  ID  134
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  133
+ R_x: 0.248125  U_x: 3.17066e-15  e: 2.5  dUdt: 1.54772e-13 dedt 5.95963e-15  ID  133
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  132
+ R_x: 0.24625  U_x: 4.52133e-15  e: 2.5  dUdt: 2.18043e-13 dedt 5.91819e-15  ID  132
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  131
+ R_x: 0.244375  U_x: 6.26792e-15  e: 2.5  dUdt: 2.92366e-13 dedt 5.07026e-15  ID  131
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  130
+ R_x: 0.2425  U_x: 8.09123e-15  e: 2.5  dUdt: 3.72118e-13 dedt 2.45448e-15  ID  130
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  129
+ R_x: 0.240625  U_x: 9.98007e-15  e: 2.5  dUdt: 4.42211e-13 dedt -3.72755e-15  ID  129
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  128
+ R_x: 0.23875  U_x: 1.16545e-14  e: 2.5  dUdt: 4.83468e-13 dedt -1.65166e-14  ID  128
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  127
+ R_x: 0.236875  U_x: 1.29522e-14  e: 2.5  dUdt: 4.70369e-13 dedt -4.06075e-14  ID  127
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  126
+ R_x: 0.235  U_x: 1.3631e-14  e: 2.5  dUdt: 3.774e-13 dedt -8.26415e-14  ID  126
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  125
+ R_x: 0.233125  U_x: 1.35246e-14  e: 2.5  dUdt: 1.84495e-13 dedt -1.51195e-13  ID  125
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  124
+ R_x: 0.23125  U_x: 1.29024e-14  e: 2.5  dUdt: -1.12507e-13 dedt -2.56249e-13  ID  124
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  123
+ R_x: 0.229375  U_x: 1.23212e-14  e: 2.5  dUdt: -4.92232e-13 dedt -4.07938e-13  ID  123
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  122
+ R_x: 0.2275  U_x: 1.23793e-14  e: 2.5  dUdt: -9.14172e-13 dedt -6.1452e-13  ID  122
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  121
+ R_x: 0.225625  U_x: 1.30934e-14  e: 2.5  dUdt: -1.33328e-12 dedt -8.79756e-13  ID  121
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  120
+ R_x: 0.22375  U_x: 1.30342e-14  e: 2.5  dUdt: -1.746e-12 dedt -1.20032e-12  ID  120
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  119
+ R_x: 0.221875  U_x: 7.2063e-15  e: 2.5  dUdt: -2.27335e-12 dedt -1.56435e-12  ID  119
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  118
+ R_x: 0.22  U_x: -1.53055e-14  e: 2.5  dUdt: -3.29704e-12 dedt -1.95261e-12  ID  118
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  117
+ R_x: 0.218125  U_x: -7.4166e-14  e: 2.5  dUdt: -5.59745e-12 dedt -2.34384e-12  ID  117
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  116
+ R_x: 0.21625  U_x: -2.00233e-13  e: 2.5  dUdt: -1.05028e-11 dedt -2.72514e-12  ID  116
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  115
+ R_x: 0.214375  U_x: -4.35414e-13  e: 2.5  dUdt: -1.99497e-11 dedt -3.10633e-12  ID  115
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  114
+ R_x: 0.2125  U_x: -8.3002e-13  e: 2.5  dUdt: -3.63782e-11 dedt -3.53412e-12  ID  114
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  113
+ R_x: 0.210625  U_x: -1.43463e-12  e: 2.5  dUdt: -6.23327e-11 dedt -4.09721e-12  ID  113
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  112
+ R_x: 0.20875  U_x: -2.28529e-12  e: 2.5  dUdt: -9.9696e-11 dedt -4.90817e-12  ID  112
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  111
+ R_x: 0.206875  U_x: -3.3836e-12  e: 2.5  dUdt: -1.48512e-10 dedt -6.0436e-12  ID  111
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  110
+ R_x: 0.205  U_x: -4.67414e-12  e: 2.5  dUdt: -2.05556e-10 dedt -7.42398e-12  ID  110
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  109
+ R_x: 0.203125  U_x: -6.02716e-12  e: 2.5  dUdt: -2.62925e-10 dedt -8.62244e-12  ID  109
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  108
+ R_x: 0.20125  U_x: -7.23594e-12  e: 2.5  dUdt: -3.07203e-10 dedt -8.60677e-12  ID  108
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  107
+ R_x: 0.199375  U_x: -8.04841e-12  e: 2.5  dUdt: -3.20159e-10 dedt -5.44866e-12  ID  107
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  106
+ R_x: 0.1975  U_x: -8.24835e-12  e: 2.5  dUdt: -2.82369e-10 dedt 3.9223e-12  ID  106
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  105
+ R_x: 0.195625  U_x: -7.78673e-12  e: 2.5  dUdt: -1.79069e-10 dedt 2.38e-11  ID  105
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  104
+ R_x: 0.19375  U_x: -6.9495e-12  e: 2.5  dUdt: -9.57267e-12 dedt 5.94707e-11  ID  104
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  103
+ R_x: 0.191875  U_x: -6.50829e-12  e: 2.5  dUdt: 2.02707e-10 dedt 1.16532e-10  ID  103
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  102
+ R_x: 0.19  U_x: -7.75864e-12  e: 2.5  dUdt: 4.0359e-10 dedt 1.99706e-10  ID  102
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  101
+ R_x: 0.188125  U_x: -1.23203e-11  e: 2.5  dUdt: 5.09905e-10 dedt 3.11267e-10  ID  101
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  100
+ R_x: 0.18625  U_x: -2.1542e-11  e: 2.5  dUdt: 4.29968e-10 dedt 4.49472e-10  ID  100
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  99
+ R_x: 0.184375  U_x: -3.53797e-11  e: 2.5  dUdt: 1.07437e-10 dedt 6.07681e-10  ID  99
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  98
+ R_x: 0.1825  U_x: -5.07061e-11  e: 2.5  dUdt: -4.05228e-10 dedt 7.75159e-10  ID  98
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  97
+ R_x: 0.180625  U_x: -5.92431e-11  e: 2.5  dUdt: -8.49368e-10 dedt 9.4062e-10  ID  97
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  96
+ R_x: 0.17875  U_x: -4.5515e-11  e: 2.5  dUdt: -6.54111e-10 dedt 1.09929e-09  ID  96
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  95
+ R_x: 0.176875  U_x: 1.38468e-11  e: 2.5  dUdt: 1.11942e-09 dedt 1.26332e-09  ID  95
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  94
+ R_x: 0.175  U_x: 1.48465e-10  e: 2.5  dUdt: 5.75407e-09 dedt 1.47387e-09  ID  94
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  93
+ R_x: 0.173125  U_x: 3.9138e-10  e: 2.5  dUdt: 1.47715e-08 dedt 1.8105e-09  ID  93
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  92
+ R_x: 0.17125  U_x: 7.68392e-10  e: 2.5  dUdt: 2.94853e-08 dedt 2.39137e-09  ID  92
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  91
+ R_x: 0.169375  U_x: 1.28503e-09  e: 2.5  dUdt: 5.0406e-08 dedt 3.35525e-09  ID  91
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  90
+ R_x: 0.1675  U_x: 1.91146e-09  e: 2.5  dUdt: 7.64747e-08 dedt 4.81714e-09  ID  90
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  89
+ R_x: 0.165625  U_x: 2.57075e-09  e: 2.5  dUdt: 1.04364e-07 dedt 6.79264e-09  ID  89
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  88
+ R_x: 0.16375  U_x: 3.13803e-09  e: 2.5  dUdt: 1.28042e-07 dedt 9.09402e-09  ID  88
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  87
+ R_x: 0.161875  U_x: 3.46145e-09  e: 2.5  dUdt: 1.39186e-07 dedt 1.12147e-08  ID  87
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  86
+ R_x: 0.16  U_x: 3.41517e-09  e: 2.5  dUdt: 1.29108e-07 dedt 1.22363e-08  ID  86
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  85
+ R_x: 0.158125  U_x: 2.98245e-09  e: 2.5  dUdt: 9.19651e-08 dedt 1.08069e-08  ID  85
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  84
+ R_x: 0.15625  U_x: 2.35877e-09  e: 2.5  dUdt: 2.89984e-08 dedt 5.24364e-09  ID  84
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  83
+ R_x: 0.154375  U_x: 2.05467e-09  e: 2.5  dUdt: -4.64208e-08 dedt -6.1952e-09  ID  83
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  82
+ R_x: 0.1525  U_x: 2.94694e-09  e: 2.5  dUdt: -1.04863e-07 dedt -2.48577e-08  ID  82
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  81
+ R_x: 0.150625  U_x: 6.2103e-09  e: 2.5  dUdt: -1.02082e-07 dedt -5.11187e-08  ID  81
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  80
+ R_x: 0.14875  U_x: 1.30675e-08  e: 2.5  dUdt: 1.54518e-08 dedt -8.38187e-08  ID  80
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  79
+ R_x: 0.146875  U_x: 2.427e-08  e: 2.5  dUdt: 2.92524e-07 dedt -1.19969e-07  ID  79
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  78
+ R_x: 0.145  U_x: 3.93228e-08  e: 2.5  dUdt: 7.37064e-07 dedt -1.55049e-07  ID  78
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  77
+ R_x: 0.143125  U_x: 5.55731e-08  e: 2.5  dUdt: 1.28454e-06 dedt -1.84216e-07  ID  77
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  76
+ R_x: 0.14125  U_x: 6.73936e-08  e: 2.5  dUdt: 1.75992e-06 dedt -2.04612e-07  ID  76
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  75
+ R_x: 0.139375  U_x: 6.60569e-08  e: 2.5  dUdt: 1.86399e-06 dedt -2.18634e-07  ID  75
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  74
+ R_x: 0.1375  U_x: 4.05031e-08  e: 2.5  dUdt: 1.18874e-06 dedt -2.37514e-07  ID  74
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  73
+ R_x: 0.135625  U_x: -2.08822e-08  e: 2.5  dUdt: -7.35105e-07 dedt -2.83974e-07  ID  73
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  72
+ R_x: 0.13375  U_x: -1.2577e-07  e: 2.5  dUdt: -4.27575e-06 dedt -3.92317e-07  ID  72
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  71
+ R_x: 0.131875  U_x: -2.7269e-07  e: 2.5  dUdt: -9.516e-06 dedt -6.04097e-07  ID  71
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  70
+ R_x: 0.13  U_x: -4.46956e-07  e: 2.5  dUdt: -1.60796e-05 dedt -9.57882e-07  ID  70
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  69
+ R_x: 0.128125  U_x: -6.17712e-07  e: 2.5  dUdt: -2.2973e-05 dedt -1.47268e-06  ID  69
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  68
+ R_x: 0.12625  U_x: -7.39093e-07  e: 2.5  dUdt: -2.85451e-05 dedt -2.12667e-06  ID  68
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  67
+ R_x: 0.124375  U_x: -7.58662e-07  e: 2.5  dUdt: -3.06633e-05 dedt -2.83603e-06  ID  67
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  66
+ R_x: 0.1225  U_x: -6.35156e-07  e: 2.5  dUdt: -2.71907e-05 dedt -3.44082e-06  ID  66
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  65
+ R_x: 0.120625  U_x: -3.66496e-07  e: 2.5  dUdt: -1.6876e-05 dedt -3.70711e-06  ID  65
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  64
+ R_x: 0.11875  U_x: -2.10632e-08  e: 2.5  dUdt: -4.52863e-07 dedt -3.35404e-06  ID  64
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  63
+ R_x: 0.116875  U_x: 2.36552e-07  e: 2.5  dUdt: 1.84747e-05 dedt -2.11031e-06  ID  63
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  62
+ R_x: 0.115  U_x: 1.38208e-07  e: 2.5  dUdt: 3.29689e-05 dedt 2.0396e-07  ID  62
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  61
+ R_x: 0.113125  U_x: -6.60139e-07  e: 2.5  dUdt: 3.29887e-05 dedt 3.58676e-06  ID  61
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  60
+ R_x: 0.11125  U_x: -2.48329e-06  e: 2.5  dUdt: 7.17281e-06 dedt 7.78578e-06  ID  60
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  59
+ R_x: 0.109375  U_x: -5.49018e-06  e: 2.5  dUdt: -5.17162e-05 dedt 1.22932e-05  ID  59
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  58
+ R_x: 0.1075  U_x: -9.50865e-06  e: 2.5  dUdt: -0.00014283 dedt 1.64425e-05  ID  58
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  57
+ R_x: 0.105624  U_x: -1.39061e-05  e: 2.5  dUdt: -0.000252924 dedt 1.96291e-05  ID  57
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  56
+ R_x: 0.103749  U_x: -1.7486e-05  e: 2.5  dUdt: -0.000352261 dedt 2.16412e-05  ID  56
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  55
+ R_x: 0.101874  U_x: -1.85342e-05  e: 2.5  dUdt: -0.00039466 dedt 2.30503e-05  ID  55
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  54
+ R_x: 0.0999994  U_x: -1.50565e-05  e: 2.5  dUdt: -0.000322374 dedt 2.55611e-05  ID  54
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  53
+ R_x: 0.0981247  U_x: -5.35195e-06  e: 2.5  dUdt: -8.05883e-05 dedt 3.217e-05  ID  53
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  52
+ R_x: 0.0962502  U_x: 1.11675e-05  e: 2.5  dUdt: 0.00036026 dedt 4.69659e-05  ID  52
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  51
+ R_x: 0.0943757  U_x: 3.35017e-05  e: 2.5  dUdt: 0.000996334 dedt 7.44588e-05  ID  51
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  50
+ R_x: 0.0925013  U_x: 5.82233e-05  e: 2.50001  dUdt: 0.00175687 dedt 0.00011842  ID  50
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  49
+ R_x: 0.0906266  U_x: 7.94032e-05  e: 2.50001  dUdt: 0.00250218 dedt 0.000180415  ID  49
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  48
+ R_x: 0.0887515  U_x: 8.96422e-05  e: 2.50001  dUdt: 0.0030385 dedt 0.000258395  ID  48
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  47
+ R_x: 0.0868757  U_x: 8.21951e-05  e: 2.50002  dUdt: 0.00316443 dedt 0.000345753  ID  47
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  46
+ R_x: 0.0849993  U_x: 5.43358e-05  e: 2.50002  dUdt: 0.00274028 dedt 0.000431329  ID  46
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  45
+ R_x: 0.0831226  U_x: 1.12987e-05  e: 2.50003  dUdt: 0.00177102 dedt 0.000500806  ID  45
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  44
+ R_x: 0.0812465  U_x: -3.08977e-05  e: 2.50003  dUdt: 0.000484076 dedt 0.000539723  ID  44
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  43
+ R_x: 0.079372  U_x: -4.56835e-05  e: 2.50003  dUdt: -0.00063984 dedt 0.000537712  ID  43
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  42
+ R_x: 0.0775004  U_x: -6.12637e-07  e: 2.50003  dUdt: -0.000947563 dedt 0.000492868  ID  42
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  41
+ R_x: 0.075633  U_x: 0.000132884  e: 2.50003  dUdt: 0.000186877 dedt 0.000414339  ID  41
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  40
+ R_x: 0.0737703  U_x: 0.000374613  e: 2.50004  dUdt: 0.00320122 dedt 0.000321434  ID  40
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  39
+ R_x: 0.071912  U_x: 0.000721839  e: 2.50005  dUdt: 0.00822527 dedt 0.000239052  ID  39
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  38
+ R_x: 0.0700562  U_x: 0.001139  e: 2.50006  dUdt: 0.014765 dedt 0.000190916  ID  38
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  37
+ R_x: 0.0681997  U_x: 0.00155631  e: 2.50008  dUdt: 0.0217548 dedt 0.000192444  ID  37
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  36
+ R_x: 0.0663381  U_x: 0.00187399  e: 2.5001  dUdt: 0.0275126 dedt 0.00024378  ID  36
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  35
+ R_x: 0.0644666  U_x: 0.00197371  e: 2.50012  dUdt: 0.0297696 dedt 0.000326263  ID  35
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  34
+ R_x: 0.0625822  U_x: 0.00176631  e: 2.50014  dUdt: 0.0267505 dedt 0.000394652  ID  34
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  33
+ R_x: 0.0606854  U_x: 0.0012229  e: 2.50015  dUdt: 0.0174178 dedt 0.000370955  ID  33
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  32
+ R_x: 0.0587821  U_x: 0.00040803  e: 2.50015  dUdt: 0.00179224 dedt 0.000154084  ID  32
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  31
+ R_x: 0.0568863  U_x: -0.000476341  e: 2.50011  dUdt: -0.0182571 dedt -0.000354362  ID  31
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  30
+ R_x: 0.0550162  U_x: -0.00111896  e: 2.50006  dUdt: -0.0386751 dedt -0.00121862  ID  30
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  29
+ R_x: 0.0531857  U_x: -0.00124886  e: 2.49997  dUdt: -0.055172 dedt -0.0024416  ID  29
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  28
+ R_x: 0.051399  U_x: -0.000745495  e: 2.49987  dUdt: -0.0649501 dedt -0.00397154  ID  28
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  27
+ R_x: 0.0496503  U_x: 0.000368034  e: 2.49976  dUdt: -0.0663052 dedt -0.0057543  ID  27
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  26
+ R_x: 0.0479214  U_x: 0.001875  e: 2.49963  dUdt: -0.0618566 dedt -0.00772551  ID  26
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  25
+ R_x: 0.046182  U_x: 0.00340652  e: 2.4995  dUdt: -0.052868 dedt -0.00990169  ID  25
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  24
+ R_x: 0.0443937  U_x: 0.00449323  e: 2.49935  dUdt: -0.0440092 dedt -0.0122052  ID  24
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  23
+ R_x: 0.0425113  U_x: 0.00452974  e: 2.49919  dUdt: -0.0358697 dedt -0.0147713  ID  23
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  22
+ R_x: 0.0404914  U_x: 0.00279833  e: 2.499  dUdt: -0.0390977 dedt -0.0173643  ID  22
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  21
+ R_x: 0.0383099  U_x: -0.00124745  e: 2.49875  dUdt: -0.0627733 dedt -0.0200529  ID  21
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  20
+ R_x: 0.0359816  U_x: -0.00774718  e: 2.49842  dUdt: -0.110175 dedt -0.023169  ID  20
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  19
+ R_x: 0.0335818  U_x: -0.0157486  e: 2.49796  dUdt: -0.181247 dedt -0.0263935  ID  19
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  18
+ R_x: 0.0312274  U_x: -0.0235716  e: 2.49735  dUdt: -0.254919 dedt -0.0301903  ID  18
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  17
+ R_x: 0.0290551  U_x: -0.0296504  e: 2.49662  dUdt: -0.301949 dedt -0.0348086  ID  17
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  16
+ R_x: 0.0271728  U_x: -0.0331197  e: 2.49581  dUdt: -0.335619 dedt -0.0386521  ID  16
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  15
+ R_x: 0.0254804  U_x: -0.0349833  e: 2.49495  dUdt: -0.360026 dedt -0.0417841  ID  15
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  14
+ R_x: 0.0237231  U_x: -0.0375498  e: 2.49408  dUdt: -0.392226 dedt -0.0445795  ID  14
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  13
+ R_x: 0.0216434  U_x: -0.0432069  e: 2.49319  dUdt: -0.461582 dedt -0.0471788  ID  13
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  12
+ R_x: 0.0189466  U_x: -0.0552634  e: 2.49228  dUdt: -0.595405 dedt -0.051024  ID  12
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  11
+ R_x: 0.0152532  U_x: -0.0792979  e: 2.49136  dUdt: -0.87266 dedt -0.0576608  ID  11
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  10
+ R_x: 0.0100855  U_x: -0.120959  e: 2.49022  dUdt: -1.36667 dedt -0.0725704  ID  10
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  9
+ R_x: 0.00309044  U_x: -0.177833  e: 2.4886  dUdt: -1.76497 dedt -0.100646  ID  9
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  8
+ R_x: -0.00476061  U_x: -0.190722  e: 2.48955  dUdt: 0 dedt 0  ID  8
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  7
+ R_x: -0.0102123  U_x: -0.169134  e: 2.49218  dUdt: 0 dedt 0  ID  7
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  6
+ R_x: -0.0139466  U_x: -0.15548  e: 2.49393  dUdt: 0 dedt 0  ID  6
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  5
+ R_x: -0.0158911  U_x: -0.138925  e: 2.49546  dUdt: 0 dedt 0  ID  5
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  4
+ R_x: -0.0164902  U_x: -0.120927  e: 2.49676  dUdt: 0 dedt 0  ID  4
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  3
+ R_x: -0.0157105  U_x: -0.0995848  e: 2.49792  dUdt: 0 dedt 0  ID  3
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  2
+ R_x: -0.0138811  U_x: -0.076469  e: 2.49885  dUdt: 0 dedt 0  ID  2
 
- R_x: nan  U_x: nan  e: nan  dUdt: 0 dedt 0  ID  1
+ R_x: -0.00819976  U_x: -0.037953  e: 2.49973  dUdt: 0 dedt 0  ID  1

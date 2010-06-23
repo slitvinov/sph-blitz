@@ -30,9 +30,6 @@ public:
   ///Calculates the kernel derivation (a double, not a vector) to distance
   double F(const double distance) const;
 
-  ///Calculates the kernel Laplacian
-  double LapW(const double distance) const;
-
 
 private:
     ///Normalization factor
@@ -49,9 +46,6 @@ private:
 
     ///Auxiliary factors for intermediate results: A pre-factor for grad w
     double factorGradW;
-
-    ///Auxiliary factors for Laplacian
-    double factorLapW;
 
 };
 

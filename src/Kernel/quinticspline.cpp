@@ -39,7 +39,6 @@ QuinticSpline::QuinticSpline(const double supportlength)
       
     factorW     = norm * pow(reciprocH, 2);
     factorGradW = 15.0*norm * pow(reciprocH, 3);
-    factorLapW = 15.0*12.0*norm * pow(reciprocH, 4);
 
     // a comment on the gradW sign:
     // The gradW has a minus in front!
@@ -151,41 +150,5 @@ double QuinticSpline::F(const double distance) const
     {
         return 0.0;
     }
-}
-//----------------------------------------------------------------------------------------
-//					Calculates the kernel Laplacian. 
-//----------------------------------------------------------------------------------------
-double QuinticSpline::LapW(const double distance) const
-{
-    // dist/supportlength is often needed
-    double normedDist = 3.0*distance * reciprocH;
-	double ss3, ss2, ss1;
-
-	ss3 = (3.0 - normedDist);
-	ss2 = (2.0 - normedDist);
-	ss1 = (1.0 - normedDist);
-
-    // the quintic-spline is composed of four functions, so we must determine, were we are
-    if (normedDist < 1.0) 
-    // we are in the inner region of the kernel
-    {
-        return factorLapW * (ss3*ss3*ss3 - 6.0*ss2*ss2*ss2 + 15.0*ss1*ss1*ss1);
-    }
-    else if (normedDist < 2.0)
-    // we are in the middle region of the kernel (not outside!)
-    {
-        return factorLapW * (ss3*ss3*ss3 - 6.0*ss2*ss2*ss2);
-    }
-    else if (normedDist < 3.0)
-    // we are in the outer region of the kernel (not outside!)
-    {
-        return factorLapW * ss3*ss3*ss3;
-    }
-    else
-    //the distiance is bigger than the kernel.
-    {
-        return 0.0;
-    }
-
 }
 

@@ -87,13 +87,3 @@ double Cubicspline1D::F(const double distance) const
     return  -factorGradW * ( 12.0 * s1*s1 - 3.0 * s2 * s2 );
   }
 }
-
-//----------------------------------------------------------------------------------------
-//					Calculates the kernel Laplacian. 
-//----------------------------------------------------------------------------------------
-double Cubicspline1D::LapW(const double distance) const
-{
-  std::cerr << "LapW of Cubicspline1D shell not be called" << '\n';
-  exit(-1);
-}
-

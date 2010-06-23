@@ -77,7 +77,6 @@ Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces
 	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
 //	Fij = weight_function.F(rij); //for BetaSpline weight fuction
 	Fij = weight_function.F(rij)*rrij; //for Kernel wight fuction
-	LapWij = weight_function.LapW(rij); //for Kernel fuction
 	shear_rij = 2.0*etai*etaj*rij/(etai*(rij + 2.0*frc_ij[noj][noi].shear_slip) 
 							 + etaj*(rij + 2.0*frc_ij[noi][noj].shear_slip) + 1.0e-30);
 	bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij + 2.0*frc_ij[noj][noi].bulk_slip) 
@@ -135,7 +134,6 @@ void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force 
 	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
 //	Fij = weight_function.F(rij); //for BetaSpline wight fuction
 	Fij = weight_function.F(rij)*rrij; //for Kernel wight fuction
-	LapWij = weight_function.LapW(rij); //for Kernel fuction
 	shear_rij = 2.0*etai*etaj*rij/(etai*(rij + 2.0*frc_ij[noj][noi].shear_slip) 
 							 + etaj*(rij + 2.0*frc_ij[noi][noj].shear_slip) + 1.0e-30);
 	bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij + 2.0*frc_ij[noj][noi].bulk_slip) 
@@ -158,7 +156,6 @@ void Interaction::RenewInteraction(Kernel &weight_function)
 	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
 //	Fij = weight_function.F(rij); //for BetaSpline wight fuction
 	Fij = weight_function.F(rij)*rrij; //for Kernel fuction
-	LapWij = weight_function.LapW(rij); //for Kernel fuction
 	shear_rij = 2.0*etai*etaj*rij/(etai*(rij + 2.0*frc_ij[noj][noi].shear_slip) 
 							 + etaj*(rij + 2.0*frc_ij[noi][noj].shear_slip) + 1.0e-30);
 	bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij + 2.0*frc_ij[noj][noi].bulk_slip) 

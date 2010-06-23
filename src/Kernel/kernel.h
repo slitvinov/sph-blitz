@@ -28,7 +28,6 @@ public:
   virtual Vec2d gradW(double distance, const Vec2d& distanceVector) const = 0;
 
   virtual double F(const double distance) const = 0;
-  virtual double LapW(const double distance) const = 0;
 
   BZ_DECLARE_MEMBER_FUNCTION(Kernel, w);
   BZ_DECLARE_MEMBER_FUNCTION(Kernel, F);

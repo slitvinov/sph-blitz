@@ -141,9 +141,7 @@ cout<<"\n current absolute integraltime:"<<Time<<"\n";
 		if(ini.simu_mode==1)
 		{
 		  boundary.BoundaryCondition(particles);///<li> boundary.BoundaryCondition
-		  hydro.UpdatePhaseGradient(boundary);///<li>hydro.UpdatePhaseGradient
 	          boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
-	          hydro.UpdateSurfaceStress(boundary);///<li>hydro.UpdateSurfaceStress
 		};
 		//control output
 		//	cout<<"\n     --- change rate for predictor:";	
@@ -159,9 +157,7 @@ cout<<"\n current absolute integraltime:"<<Time<<"\n";
 		if(ini.simu_mode==1)
 	        {
 		  boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
-		  hydro.UpdatePhaseGradient(boundary);///<li>hydro.UpdatePhaseGradient
 		  boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
-		  hydro.UpdateSurfaceStress(boundary);///<li>hydro.UpdateSurfaceStress
 		}
 		//control output
 		cout<<"\n     --- change rate for corrector:";

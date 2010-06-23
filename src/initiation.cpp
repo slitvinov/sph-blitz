@@ -201,7 +201,8 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, Ke
 			/// <li> save volume and mass in the respective particle list node (whih is each a Particle object with all the particle properties) 
 			prtl_org->V = reciprocV;
 			prtl_org->m = prtl_org->rho*reciprocV;
-			cout<<" \n mass:  "<<prtl_org->m;
+			std::cerr<<" \n rho:  "<<prtl_org->rho;
+			std::cerr<<" \n mass:  "<<prtl_org->m;
 			/// <li> clear the NNP_list</ul> </ul>
 			particles.NNP_list.clear();
 	}
