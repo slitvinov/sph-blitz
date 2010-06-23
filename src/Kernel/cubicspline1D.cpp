@@ -26,18 +26,15 @@
 #include "Kernel/cubicspline1D.h"
 
 using namespace std;
+const double pi = 3.141592653589793238462643383279502884197;
 
-
-
-
-*/
+/// Cubic spline kernel (see Liu eq. (3.6)
 Cubicspline1D::Cubicspline1D(const double supportlength)
-  : Kernel(supportlength), 
-    norm(1)
+  : Kernel(supportlength),
+    norm( 10.0 / (7.0*pi)  / (supportlength*supportlength) ) ,
+    factorGradW( 2.0*norm /supportlength )
 {
   // initialize the auxiliary factors
-  h =supportlength/2;//factor two as the use ofsupportlength within this program is not consistent with its actula definition
-  double alphaD=1/h; //coefficient for cubic spline kernel in 1D (see Liu eq(3.6), page 64)
 
  }
 //----------------------------------------------------------------------------------------
@@ -45,23 +42,22 @@ Cubicspline1D::Cubicspline1D(const double supportlength)
 //----------------------------------------------------------------------------------------
 double Cubicspline1D::w(const double distance) const
 {
-	double alphaD=1/h; //coefficient for cubic spline kernel in 1D (see Liu eq(3.6), page 64)
-	double R= distance/h;
-	double W;
-	if(R>2)//support of 4h, everything beyond is zero
-	{
-		W=0;
-	}
-	else if(R<1)
-	{
-		W=(double)2/3-pow(R,2)+0.5*pow(R,3); //attention: the "^"symbol does NOT mean "exponent"!!!
-	}
-	else
-	{
-		W=(double)1/6*pow((2-R),3);
-	};
-	W=W*alphaD;
-	return W;
+  const double R= 2.0 * distance/ supportlength;
+  if(R>2.0)
+    {
+      //support of 4h, everything beyond is zero
+      return 0.0;
+    }
+  else if(R>1.0) {
+    const double s2 = 2.0 - R;
+    return norm * s2 * s2 * s2 ;
+  }
+  else
+    {
+      const double s2 = 2.0 - R;
+      const double s1 = 1.0 - R;
+      return norm * ( s2*s2*s2 - 4.0*s1*s1*s1 );
+    };
 }
 //----------------------------------------------------------------------------------------
 // Calculates the kernel derivation for the given distance of two particles
@@ -103,69 +99,27 @@ Vec2d Cubicspline1D::gradW(const double distance, const Vec2d& distanceVector) c
 //----------------------------------------------------------------------------------------
 double Cubicspline1D::F(const double distance) const
 {
-  Vec2d GradW;
-
-  double dW;
-	double alphaD=1/h; //coefficient for cubic spline kernel in 1D (see Liu eq(3.6), page 64)
-	double R= distance/h; //nondimensional distance
-	if(R>2)//support of 4h, everything beyond is zero
-	{
-		dW=0;
-	}
-	else if(R<1)
-	{
-		dW=-2*R+1.5*pow(R,2);
-	}
-	else
-	{
-		dW=-((double)1)/2*pow((2-R),2);
-	};
-	if (R!=0) {
-
-	  dW=dW*alphaD/distance/h; //deltaX/r for the sign (-->*(+/-1) )!!!, h because of d/dr=d/dR*dR/dr (dR/dr=1/h)-->substituted by distance vector
-
-	else
-        {
-	  dW=0;
-	}
-	
-	return dW;
+  double R= 2.0*distance/ supportlength; // 
+  if (R>2.0) {
+    //support of 4h, everything beyond is zero    
+    return 0.0;
+  }
+  else if(R>1.0 ) {
+    const double s2 = 2.0 - R;
+    return  factorGradW * ( 3.0 * s2*s2);
+  } else  {
+    const double s1 = 1.0 - R;
+    const double s2 = 2.0 - R;
+    return  -factorGradW * ( 12.0 * s1*s1 - 3.0 * s2 * s2 );
+  }
 }
 
 //----------------------------------------------------------------------------------------
 //					Calculates the kernel Laplacian. 
 //----------------------------------------------------------------------------------------
 double Cubicspline1D::LapW(const double distance) const
-{/*
-    // dist/supportlength is often needed
-    double normedDist = 3.0*distance * reciprocH;
-	double ss3, ss2, ss1;
-
-	ss3 = (3.0 - normedDist);
-	ss2 = (2.0 - normedDist);
-	ss1 = (1.0 - normedDist);
-
-    // the quintic-spline is composed of four functions, so we must determine, were we are
-    if (normedDist < 1.0) 
-    // we are in the inner region of the kernel
-    {
-        return factorLapW * (ss3*ss3*ss3 - 6.0*ss2*ss2*ss2 + 15.0*ss1*ss1*ss1);
-    }
-    else if (normedDist < 2.0)
-    // we are in the middle region of the kernel (not outside!)
-    {
-        return factorLapW * (ss3*ss3*ss3 - 6.0*ss2*ss2*ss2);
-    }
-    else if (normedDist < 3.0)
-    // we are in the outer region of the kernel (not outside!)
-    {
-        return factorLapW * ss3*ss3*ss3;
-    }
-    else
-    //the distiance is bigger than the kernel.
-    {
-        return 0.0;
-    }
-    */
+{
+  std::cerr << "LapW of Cubicspline1D shell not be called" << '\n';
+  exit(-1);
 }
 

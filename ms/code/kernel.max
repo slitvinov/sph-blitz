@@ -2,13 +2,23 @@
 /* cubic spline */
 
 /* sd is smothing distance */
-w_1(x):= A/sd^2 * 1/6 * ( (2-2*x/sd)^3 - 4*(1-2*x/sd)^3 ) ;
-w_2(x):= A/sd^2*1/6 * (2 - 2*x/sd)^3;
+w_1(q):= A* ( (2- q)^3 - 4*(1- q)^3 ) ;
+w_2(q):= A * (2 - q)^3;
 
-dw_1(x):= diff(w_1(x), x);
-dw_2(x):= diff(w_2(x), x);
+dw_1(q):= ''(diff(w_1(q), q));
+dw_2(q):= ''(diff(w_2(q), q));
 
-/* find a constants in 2D */
-solve(1 = 2*pi*( integrate(w_1(x)*x, x, 0, sd/2) + integrate(w_1(x)*x, x, sd/2, sd) ), A);
+/* find a constants in 2D 
+ q = x/2
+ element x*dx  = q*dq /4
+*/
+solve(1 = 2*pi/4*( integrate(w_1(q)*q, q, 0, 1) + integrate(w_2(q)*q, q, 1, 2) ), A);
 
-/* gives A= 15 / (4*pi) */
+
+/* gives A= 10 / (7*pi) */
+
+
+A: 1.0;
+w(x):= if q>2 then 0.0 else if q>1 then w_2(q) else w_1(q);
+dw(x):= if q>2 then 0.0 else if q>1 then dw_2(q) else dw_1(q);
+plot2d([w(q), dw(q)], [q, 0, 2.0]);
