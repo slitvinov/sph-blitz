@@ -1,5 +1,9 @@
+#ifndef QUINTICSPLINE_H
+#define QUINTICSPLINE_H
 /// \file quinticspline.h 
 /// \brief Quintic spline kernel
+
+#include "Kernel/kernel.h"
 
 /// Quintic spline class 
 class QuinticSpline : public Kernel
@@ -48,3 +52,5 @@ private:
     double factorLapW;
 
 };
+
+#endif //QUINTICSPLINE_H

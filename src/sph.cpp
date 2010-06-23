@@ -62,6 +62,9 @@
 // ***** local includes *****
 #include "glbfunc.h"
 #include "glbcls.h"
+#include "Kernel/quinticspline.h"
+#include "Kernel/cubicspline1D.h"
+#include "Kernel/betaspline.h"
 
 using namespace std;
 

@@ -23,7 +23,7 @@
 //local includes
 #include "glbcls.h"
 #include "glbfunc.h"
-#include "Kernel/cubicspline1d.h"
+#include "Kernel/cubicspline1D.h"
 
 using namespace std;
 
@@ -197,7 +197,7 @@ double QuinticSpline::LapW(const double distance) const
 
 
 */
-QuinticSpline::Cubicspline1D(const double smoothingLength)
+Cubicspline1D::Cubicspline1D(const double smoothingLength)
   : Kernel(smoothingLength), 
     norm(1)
 {

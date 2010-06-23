@@ -21,6 +21,7 @@
 //local includes
 #include "glbcls.h"
 #include "glbfunc.h"
+#include "Kernel/betaspline.h"
 
 using namespace std;
 

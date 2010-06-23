@@ -1,6 +1,9 @@
+#ifndef BETASPLINE_H
+#define BETASPLINE_H
 /// \file betaspline.h
 /// \brief Beta spline kernel function
 
+#include "Kernel/kernel.h"
 
 /// \brief   A concrete kernel class
 ///
@@ -42,3 +45,5 @@ private:
     double factorGradW;
 
 };
+
+#endif //BETASPLINE_H

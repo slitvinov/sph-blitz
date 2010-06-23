@@ -1,4 +1,4 @@
-///\file Cubicspline1D.cpp
+///\file QuinticSpline.cpp
 ///\author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 ///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
 
@@ -28,7 +28,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //										constructor
 //----------------------------------------------------------------------------------------
-Cubicspline1D::QuinticSpline(const double smoothingLength)
+QuinticSpline::QuinticSpline(const double smoothingLength)
   : Kernel(smoothingLength), 
     norm(63.0 / 478.0 / pi)
 {

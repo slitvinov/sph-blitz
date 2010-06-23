@@ -43,14 +43,13 @@ CONFIG_CLEAN_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
-am_sph_OBJECTS = boundary.$(OBJEXT) bskernel.$(OBJEXT) \
-	diagose.$(OBJEXT) force.$(OBJEXT) glbfunc.$(OBJEXT) \
-	hydrodynamics.$(OBJEXT) initiation.$(OBJEXT) \
+am_sph_OBJECTS = boundary.$(OBJEXT) diagose.$(OBJEXT) force.$(OBJEXT) \
+	glbfunc.$(OBJEXT) hydrodynamics.$(OBJEXT) initiation.$(OBJEXT) \
 	interaction.$(OBJEXT) material.$(OBJEXT) mls.$(OBJEXT) \
 	output.$(OBJEXT) particle.$(OBJEXT) particlemanager.$(OBJEXT) \
 	sph.$(OBJEXT) timesolver.$(OBJEXT) vec2d.$(OBJEXT) \
 	wiener.$(OBJEXT) kernel.$(OBJEXT) quinticspline.$(OBJEXT) \
-	cubicspline1D.$(OBJEXT)
+	cubicspline1D.$(OBJEXT) betaspline.$(OBJEXT)
 sph_OBJECTS = $(am_sph_OBJECTS)
 sph_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@
@@ -163,8 +162,8 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 sph_SOURCES = \
-	betaspline.h boundary.cpp boundary.h \
-	bskernel.cpp diagnose.h diagose.cpp \
+	 boundary.cpp boundary.h \
+	diagnose.h diagose.cpp \
 	dllist.h force.cpp force.h \
 	glbcls.h glbfunc.cpp glbfunc.h \
 	hydrodynamics.cpp hydrodynamics.h initiation.cpp \
@@ -178,7 +177,8 @@ sph_SOURCES = \
 	vec2d.h wiener.cpp wiener.h \
 	Kernel/kernel.cpp Kernel/kernel.h \
 	Kernel/quinticspline.cpp Kernel/quinticspline.h \
-	Kernel/cubicspline1D.cpp Kernel/cubicspline1D.h
+	Kernel/cubicspline1D.cpp Kernel/cubicspline1D.h \
+	Kernel/betaspline.h Kernel/betaspline.cpp
 
 all: all-am
 
@@ -246,8 +246,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/betaspline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boundary.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bskernel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cubicspline1D.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/diagose.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/force.Po@am__quote@
@@ -322,6 +322,20 @@ cubicspline1D.obj: Kernel/cubicspline1D.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kernel/cubicspline1D.cpp' object='cubicspline1D.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o cubicspline1D.obj `if test -f 'Kernel/cubicspline1D.cpp'; then $(CYGPATH_W) 'Kernel/cubicspline1D.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/cubicspline1D.cpp'; fi`
+
+betaspline.o: Kernel/betaspline.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT betaspline.o -MD -MP -MF $(DEPDIR)/betaspline.Tpo -c -o betaspline.o `test -f 'Kernel/betaspline.cpp' || echo '$(srcdir)/'`Kernel/betaspline.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/betaspline.Tpo $(DEPDIR)/betaspline.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kernel/betaspline.cpp' object='betaspline.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o betaspline.o `test -f 'Kernel/betaspline.cpp' || echo '$(srcdir)/'`Kernel/betaspline.cpp
+
+betaspline.obj: Kernel/betaspline.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT betaspline.obj -MD -MP -MF $(DEPDIR)/betaspline.Tpo -c -o betaspline.obj `if test -f 'Kernel/betaspline.cpp'; then $(CYGPATH_W) 'Kernel/betaspline.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/betaspline.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/betaspline.Tpo $(DEPDIR)/betaspline.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kernel/betaspline.cpp' object='betaspline.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o betaspline.obj `if test -f 'Kernel/betaspline.cpp'; then $(CYGPATH_W) 'Kernel/betaspline.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/betaspline.cpp'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \

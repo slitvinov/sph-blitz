@@ -1,7 +1,12 @@
+#ifndef CUBICSPLINE1D_H
+#define CUBICSPLINE1D_H
 /// \file Cubicspline1D.h 
 /// \brief  cubic spline kernel 1D
 
 /// Cubicspline1D class
+
+#include "Kernel/kernel.h"
+
 class Cubicspline1D : public Kernel
 {
 
@@ -29,6 +34,9 @@ public:
   double LapW(const double distance) const;
 
 private:
+    ///smoothing length
+    double h;
+
     ///Normalization factor
     const double norm;
 
@@ -45,3 +53,5 @@ private:
     double factorLapW;
 
 };
+
+#endif //CUBICSPLINE1D_H

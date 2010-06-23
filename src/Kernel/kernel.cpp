@@ -18,6 +18,7 @@
 // ***** local includes *****
 #include "glbcls.h"
 #include "glbfunc.h"
+#include "Kernel/kernel.h"
 
 //constructor to inizialize the data members
 Kernel::Kernel(const double smoothingLength)
