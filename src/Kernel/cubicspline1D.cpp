@@ -23,6 +23,7 @@
 //local includes
 #include "glbcls.h"
 #include "glbfunc.h"
+#include "Kernel/cubicspline1d.h"
 
 using namespace std;
 
@@ -196,7 +197,7 @@ double QuinticSpline::LapW(const double distance) const
 
 
 */
-QuinticSpline::QuinticSpline(const double smoothingLength)
+QuinticSpline::Cubicspline1D(const double smoothingLength)
   : Kernel(smoothingLength), 
     norm(1)
 {
@@ -210,7 +211,7 @@ QuinticSpline::QuinticSpline(const double smoothingLength)
 //----------------------------------------------------------------------------------------
 // Calculates the kernel value for the given distance of two particles
 //----------------------------------------------------------------------------------------
-double QuinticSpline::w(const double distance) const
+double Cubicspline1D::w(const double distance) const
 {
 	double alphaD=1/h; //coefficient for cubic spline kernel in 1D (see Liu eq(3.6), page 64)
 	double R= distance/h;
@@ -235,7 +236,7 @@ if(R>2)//support of 4h, everything beyond is zero
 // We take this from Morris, Fox and Zhu (1997)
 // but used a tripled smoothing length for the definition of the interaction radius.
 //----------------------------------------------------------------------------------------
-Vec2d QuinticSpline::gradW(const double distance, const Vec2d& distanceVector) const
+Vec2d Cubicspline1D::gradW(const double distance, const Vec2d& distanceVector) const
 {
   Vec2d GradW;
 
@@ -269,7 +270,7 @@ double dW;
 //----------------------------------------------------------------------------------------
 //		Calculates the kernel derivation (a double not vector) to distance
 //----------------------------------------------------------------------------------------
-double QuinticSpline::F(const double distance) const
+double Cubicspline1D::F(const double distance) const
 {
   /*  // dist/smoothingLength is often needed
     const double normedDist = 3.0*distance * reciprocH;
@@ -303,7 +304,7 @@ double QuinticSpline::F(const double distance) const
 //----------------------------------------------------------------------------------------
 //					Calculates the kernel Laplacian. 
 //----------------------------------------------------------------------------------------
-double QuinticSpline::LapW(const double distance) const
+double Cubicspline1D::LapW(const double distance) const
 {/*
     // dist/smoothingLength is often needed
     double normedDist = 3.0*distance * reciprocH;

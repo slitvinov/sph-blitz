@@ -21,9 +21,7 @@ class Particle; class Initiation; class Boundary; class Force; class Output; cla
 class Hydrodynamics; class ListNode; class Material; class BetaSpline; class Kernel;
 
 #include "initiation.h"
-#include "Kernel/kernel.h"
 #include "betaspline.h"
-#include "Kernel/quinticspline.h"
 #include "particle.h"
 #include "particlemanager.h"
 #include "boundary.h"

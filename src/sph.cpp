@@ -103,8 +103,7 @@ int main(int argc, char *argv[]) {
 
 	// Kernel
         /// here one can choose which Kernel function to use 
-	QuinticSpline weight_function (ini.smoothinglength); ///- initiate the weight function
-	///QuinticSpline weight_function (ini.smoothinglength); ///- initiate the weight function
+	QuinticSpline weight_function (ini.smoothinglength); ///- initiate the weight QuinticSpline weight_function (ini.smoothinglength); ///- initiate the weight function
 
 
 	MLS mls(ini); ///- initiate the Moving Least Squares approximation
