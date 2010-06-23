@@ -298,13 +298,13 @@ double QuinticSpline::F(const double distance) const
     //the distiance is bigger than the kernel.
     {
         return 0.0;
-	}*/
+	}*/
 }
 //----------------------------------------------------------------------------------------
 //					Calculates the kernel Laplacian. 
 //----------------------------------------------------------------------------------------
 double QuinticSpline::LapW(const double distance) const
-{/*
+{/*
     // dist/smoothingLength is often needed
     double normedDist = 3.0*distance * reciprocH;
 	double ss3, ss2, ss1;
@@ -334,6 +334,6 @@ double QuinticSpline::LapW(const double distance) const
     {
         return 0.0;
     }
-    */
+    */
 }
 

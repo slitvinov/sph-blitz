@@ -21,6 +21,7 @@
 //local includes
 #include "glbcls.h"
 #include "glbfunc.h"
+#include "Kernel/cubicspline1D.h"
 
 using namespace std;
 
