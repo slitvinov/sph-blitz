@@ -1,4 +1,5 @@
 bin_PROGRAMS=sph kernel_test particlemanager_test
+AM_CXXFLAGS=-I${top_srcdir}
 
 
 nomain=	 boundary.cpp boundary.h \
