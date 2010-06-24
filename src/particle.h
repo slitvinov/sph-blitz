@@ -1,14 +1,16 @@
-#ifndef PARTICLE_H
-#define PARTICLE_H
 /// \file partilce.h 
 /// \brief a sph particle
 
+#ifndef PARTICLE_H
+#define PARTICLE_H
 ///note: reference a particle by pointer or adress
 ///never reference a particle directly!
 
-/// Particle class 
+
 class Initiation;
 class Material;
+
+/// Particle class 
 class Particle {
 	static int number_of_materials;
 	

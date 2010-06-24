@@ -51,8 +51,8 @@ public:
   /// default constructor
   ParticleManager(Initiation &ini);
 
-  /// constructor to create ParticleManager within help of Initiation object 
-  /// used only for testing 
+  /// constructor to create ParticleManager without help of Initiation object.
+  /// This constructor is used only for testing 
   ParticleManager(const char Project_name[25], const int number_of_materials, 
 		  const double supportlength, const Vec2d box_size, 
 		  const double cell_size, 
