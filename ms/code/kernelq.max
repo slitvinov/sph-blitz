@@ -1,5 +1,5 @@
 /* Maxima program to calculate kerenel's constants and derivatives */
-/* quintic spline */
+/* cubic spline */
 
 
 w(q):= A*[

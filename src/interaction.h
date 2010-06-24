@@ -1,10 +1,5 @@
-#ifndef INTERACTION_H
-#define INTERACTION_H
 /// \file interaction.h 
 /// \brief Defines interaction between particles
-
-#include "vec2d.h"
-#include "wiener.h"
 
 /// Defines interaction between particles
 class Interaction {
@@ -134,4 +129,3 @@ public:
 	Vec2d getGradWij();
 
 };
-#endif

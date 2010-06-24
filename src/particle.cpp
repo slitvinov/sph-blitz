@@ -11,8 +11,6 @@
 #include "glbcls.h"
 #include "glbfunc.h"
 #include "material.h"
-#include "initiation.h"
-#include "particle.h"
 
 long Particle::ID_max = 0;
 int Particle::number_of_materials = 0;

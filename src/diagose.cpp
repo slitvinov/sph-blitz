@@ -17,11 +17,7 @@
 // ***** localincludes *****
 #include "glbcls.h"
 #include "glbfunc.h"
-#include "particle.h"
 #include "material.h"
-#include "mls.h"
-#include "initiation.h"
-#include "particlemanager.h"
 
 using namespace std;
 

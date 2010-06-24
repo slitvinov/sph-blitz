@@ -19,9 +19,6 @@
 #include "glbcls.h"
 #include "glbfunc.h"
 #include "Kernel/kernel.h"
-#include "mls.h"
-#include "initiation.h"
-#include "particle.h"
 
 using namespace std;
 

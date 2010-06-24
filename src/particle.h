@@ -1,12 +1,8 @@
-#ifndef PARTILCE_H
-#define PARTILCE_H
 /// \file partilce.h 
 /// \brief a sph particle
 
 ///note: reference a particle by pointer or adress
 ///never reference a particle directly!
-
-#include "vec2d.h"
 
 /// Particle class 
 class Particle {
@@ -112,4 +108,3 @@ public:
 	Vec2d  nrml;///<for wall boundary particles
 
 };
-#endif 

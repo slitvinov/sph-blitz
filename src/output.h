@@ -1,5 +1,3 @@
-#ifndef OUTPUT_H
-#define OUTPUT_H
 /// \file output.h 
 /// \brief Output the computational results
 
@@ -34,10 +32,8 @@ public:
 	///create a head file for a movie of particle motion
 	void CreatParticleMovie();
 	///write the data for a movie of particle motion (output real and wall particles)	
-	void WriteParticleMovie(Hydrodynamics &hydro, 
-				double Time, Initiation &ini);
+	void WriteParticleMovie(Hydrodynamics &hydro, double Time, Initiation &ini);
 	///avergaed values for Poiseuille and Couette flows (average is taken in horizontal direction)
 	void OutAverage(ParticleManager &particles, MLS &mls, Kernel &weight_function, 
-			double Time, Initiation &ini);
+					double Time, Initiation &ini);
 };
-#endif

@@ -1,9 +1,5 @@
-#ifndef PARTICLEMANAGER_H
-#define PARTICLEMANAGER_H
 /// \file particlemanager.h 
 /// \brief particle manager
-
-#include "vec2d.h"
 
 /// Particle manager class 
 class ParticleManager
@@ -62,4 +58,3 @@ public:
 						Force **forces, Kernel &weight_function);
 	
 };
-#endif

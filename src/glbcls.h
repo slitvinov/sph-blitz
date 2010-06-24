@@ -13,19 +13,18 @@
 
 ///#include <iostream>
 ///#include "vec2d.h"
+#include "wiener.h"
+#include "dllist.h"
 
-
-class Initiation; class Kernel; class MLS; class Interaction; 
+class Initiation; class Kernel; class MLS; class Interaction; class ParticleManager;
 class Particle; class Initiation; class Boundary; class Force; class Output; class Diagnose;
 class Hydrodynamics; class ListNode; class Material; class BetaSpline; class Kernel;
 
-//#include "initiation.h"
-//#include "particle.h"
-//#include "particlemanager.h"
-//#include "boundary.h"
-//#include "dllist.h"
-//#include "wiener.h"
-//#include "force.h"
+#include "initiation.h"
+#include "particle.h"
+#include "particlemanager.h"
+#include "boundary.h"
+#include "force.h"
 #include "interaction.h"
 #include "hydrodynamics.h"
 #include "timesolver.h"
