@@ -30,4 +30,3 @@ dw_plot(q):= if q<1 then ''(subst(A_num, A, dw(q)[1]))
 /* dw(x):= if q>2 then 0.0 else if q>1 then dw_2(q) else dw_1(q); */
 
 plot2d([w_plot(q), dw_plot(q)], [q, 0, 2]);
-
