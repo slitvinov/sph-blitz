@@ -1,3 +1,5 @@
+#ifndef HYDRODYNAMICS_H
+#define HYDRODYNAMICS_H
 /// \file hydrodynamics.h
 /// \brief  Definition of  materials and their hydrodynamical interactions
 
@@ -104,3 +106,5 @@ public:
 	void Zero_Velocity();
 
 };
+
+#endif //HYDRODYNAMICS_H

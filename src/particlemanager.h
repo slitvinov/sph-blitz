@@ -1,5 +1,18 @@
+#ifndef PARTICLEMANAGER_H
+#define PARTICLEMANAGER_H
 /// \file particlemanager.h 
 /// \brief particle manager
+
+#include "vec2d.h"
+#include "dllist.h"
+#include "particle.h"
+
+class Hydrodynamics;
+class Initiation;
+class Boundary;
+class Interaction;
+class Force;
+class Kernel;
 
 /// Particle manager class 
 class ParticleManager
@@ -21,6 +34,9 @@ class ParticleManager
 	///buid the initial wall particles and the linked lists
 	void BiuldWallParticles(Hydrodynamics &hydro, Initiation &ini, Boundary &boundary);
 
+  ///private init class to create Lists
+  void Init();
+
 public:
 
 	//linked cell matrix size
@@ -32,13 +48,21 @@ public:
 	
 	Llist<Particle> NNP_list; ///<list for the nearest neighbor particles
 
-	//constructors
-	///"empty" constructor
-	ParticleManager();
-	/// constructor
-	ParticleManager(Initiation &ini);
-	///
-	ParticleManager(double cell_size, int x_cells, int y_cells);
+  /// default constructor
+  ParticleManager(Initiation &ini);
+
+  /// constructor to create ParticleManager within help of Initiation object 
+  /// used only for testing 
+  ParticleManager(const char Project_name[25], const int number_of_materials, 
+		  const double supportlength, const Vec2d box_size, 
+		  const double cell_size, 
+		  const int x_clls, const int y_cells,
+		  const int initial_condition, const int hdelta,
+		  const double delta, const int simu_mode, 
+		  const Vec2d U0_in, const double rho0_in, const double p0_in, 
+		  const double T0_in);
+
+
 
 	///buid the initial particles and the linked lists
 	void BiuldRealParticles(Hydrodynamics &hydro, Initiation &ini);
@@ -56,5 +80,6 @@ public:
 	///build the interaction (particle pair) list
 	void BuildInteraction(Llist<Interaction> &interactions, Llist<Particle> &particle_list, 
 						Force **forces, Kernel &weight_function);
-	
 };
+
+#endif //PARTICLEMANAGER_H

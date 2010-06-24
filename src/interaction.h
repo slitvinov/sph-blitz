@@ -1,3 +1,5 @@
+#ifndef INTERACTION_H
+#define INTERACTION_H
 /// \file interaction.h 
 /// \brief Defines interaction between particles
 
@@ -129,3 +131,5 @@ public:
 	Vec2d getGradWij() const;
 
 };
+
+#endif //INTERACTION_H

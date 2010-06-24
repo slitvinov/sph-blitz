@@ -25,17 +25,9 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //									constructor
 //----------------------------------------------------------------------------------------
-ParticleManager::ParticleManager()
-{
-}
-//----------------------------------------------------------------------------------------
-//									constructor
-//----------------------------------------------------------------------------------------
 ParticleManager::ParticleManager(Initiation &ini)
 {
-	
-  int i;
-	
+
   ///- copy properties from class Initiation
   strcpy(Project_name, ini.Project_name);
   number_of_materials = ini.number_of_materials;
@@ -55,21 +47,52 @@ ParticleManager::ParticleManager(Initiation &ini)
     T0 = ini.T0;
   }
 
+  ParticleManager::Init();
+
+}
+
+ParticleManager::ParticleManager(const char Project_name_in[25], const int number_of_materials, 
+				 const double supportlength, const Vec2d box_size, 
+				 const double cell_size, 
+				 const int x_cells, const int y_cells,
+				 const int initial_condition, const int hdelta,
+				 const double delta, const int simu_mode, 
+				 const Vec2d U0_in, const double rho0_in, const double p0_in, 
+				 const double T0_in
+				 ):
+  number_of_materials(number_of_materials),
+  supportlength(supportlength), 
+  supportlengthsquare(supportlength*supportlength),
+  box_size(box_size),
+  cll_sz(cell_size),
+  x_clls(x_cells+2),
+  y_clls(y_cells+2), 
+  initial_condition(initial_condition),
+  hdelta(hdelta), 
+  delta(delta),
+  simu_mode(simu_mode)
+{
+  strcpy(Project_name, Project_name_in);
+   if(initial_condition == 0) {
+    U0 = U0_in;
+    rho0 = rho0_in;
+    p0 = p0_in;
+    T0 = T0_in;
+  }
+  ParticleManager::Init();
+
+}
+
+
+
+void ParticleManager::Init() {
   ///- strore the cell linked lists in a 2-d array
   cell_lists = new Llist<Particle>*[x_clls];
-  for(i = 0; i < x_clls; i++) cell_lists[i] = new Llist<Particle>[y_clls];
-
+  for(int i = 0; i < x_clls; i++) cell_lists[i] = new Llist<Particle>[y_clls];
 }
-//----------------------------------------------------------------------------------------
-//								constructor
-//----------------------------------------------------------------------------------------
-ParticleManager::ParticleManager(double cell_size, int x_cells, int y_cells)
-{
 
-  cll_sz = cell_size;
-  x_clls = x_cells + 2; y_clls = y_cells + 2;
 
-}
+
 //----------------------------------------------------------------------------------------
 //				update the cell linked lists for real particles
 //----------------------------------------------------------------------------------------

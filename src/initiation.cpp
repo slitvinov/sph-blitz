@@ -126,7 +126,7 @@ void Initiation::show_information() const
 	cout<<"The number of materials in the simulation is  "<<number_of_materials<<"\n";
 	cout<<"The computational domain size is  "<<box_size[0]<<" micrometers x "<<box_size[1]<<" micrometers\n";
 	cout<<"The cell size is "<<cell_size<<" micrometers \n";
-	cout<<"The smoothing length is "<<supportlength<<" micrometers \n";
+	cout<<"The support length is "<<supportlength<<" micrometers \n";
 	cout<<"The cell matrix size is "<<x_cells<<" x "<<y_cells<<"\n";
 	cout<<"The ratio between cell size and initial particle width is "<<hdelta<<"\n";
 	cout<<"The initial particle width is "<<delta<<" micrometers\n";

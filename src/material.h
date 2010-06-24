@@ -1,3 +1,5 @@
+#ifndef MATERIAL_H
+#define MATERIAL_H
 /// \file material.h 
 /// \brief Material 
 
@@ -65,3 +67,5 @@ public:
 	double get_Cs(const double p, const double rho);
 
 };
+
+#endif //MATERIAL_H

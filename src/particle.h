@@ -1,3 +1,5 @@
+#ifndef PARTICLE_H
+#define PARTICLE_H
 /// \file partilce.h 
 /// \brief a sph particle
 
@@ -5,6 +7,8 @@
 ///never reference a particle directly!
 
 /// Particle class 
+class Initiation;
+class Material;
 class Particle {
 	static int number_of_materials;
 	
@@ -108,3 +112,5 @@ public:
 	Vec2d  nrml;///<for wall boundary particles
 
 };
+
+#endif //PARTICLE_H

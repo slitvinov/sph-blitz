@@ -1,4 +1,4 @@
-bin_PROGRAMS=sph kernel_test
+bin_PROGRAMS=sph kernel_test particlemanager_test
 
 
 nomain=	 boundary.cpp boundary.h \
@@ -19,5 +19,7 @@ nomain=	 boundary.cpp boundary.h \
 	Kernel/betaspline.h Kernel/betaspline.cpp
 
 sph_SOURCES= sph.cpp $(nomain) 
+
 kernel_test_SOURCES= $(nomain) Kernel/kernel_test.cpp
+particlemanager_test_SOURCES= $(nomain) particlemanager_test.cpp
 

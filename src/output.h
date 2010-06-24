@@ -1,3 +1,5 @@
+#ifndef OUTPUT_H
+#define OUTPUT_H
 /// \file output.h 
 /// \brief Output the computational results
 
@@ -37,3 +39,5 @@ public:
 	void OutAverage(ParticleManager &particles, MLS &mls, Kernel &weight_function, 
 					double Time, Initiation &ini);
 };
+
+#endif //OUTPUT_H
