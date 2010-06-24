@@ -1,5 +1,3 @@
-#ifndef MLS_H
-#define MLS_H
 /// \file mls.h
 /// contains MLS class
 
@@ -8,6 +6,12 @@
 ///  Using  Moving Least Squares Approximation
 ///  2D and linear aproximation
 ///  based on (Liu GR, Mesh Free Methods->Moving beyond the finite element method, CRC press, London, 2003, p79-87)
+
+#ifndef MLS_H
+#define MLS_H
+#include "mls.h"
+#include "vec2d.h"
+
 class MLS {
 	
         int N;///< numbers of points

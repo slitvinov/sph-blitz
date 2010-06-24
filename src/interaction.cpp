@@ -19,7 +19,11 @@
 #include "glbcls.h"
 #include "glbfunc.h"
 #include "material.h"
+#include "initiation.h"
 #include "Kernel/kernel.h"
+#include "particle.h"
+#include "force.h"
+
 
 using namespace std;
 

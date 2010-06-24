@@ -11,6 +11,7 @@
 #include <fstream>
 #include <string>
 
+
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
@@ -18,6 +19,8 @@
 // ***** localincludes *****
 #include "glbcls.h"
 #include "glbfunc.h"
+#include "initiation.h"
+#include "force.h"
 
 using namespace std;
 

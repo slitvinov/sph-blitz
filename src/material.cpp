@@ -19,6 +19,7 @@
 #include "glbcls.h"
 #include "glbfunc.h"
 #include "material.h"
+#include "initiation.h"
 
 using namespace std;
 

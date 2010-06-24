@@ -1,7 +1,12 @@
+#ifndef HYDRODYNAMICS_H
+#define HYDRODYNAMICS_H
 /// \file hydrodynamics.h
 /// \brief  Definition of  materials and their hydrodynamical interactions
 
+#include "dllist.h"
+
 /// Definition of  materials and their hydrodynamical interactions
+class ParticleManager;
 class Hydrodynamics
 {	
 	int number_of_materials;
@@ -104,3 +109,4 @@ public:
 	void Zero_Velocity();
 
 };
+#endif

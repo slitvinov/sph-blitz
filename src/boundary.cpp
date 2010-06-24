@@ -12,14 +12,22 @@
 #include <fstream>
 #include <string>
 
+
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
 
 // ***** localincludes *****
+#include "vec2d.h"
 #include "glbcls.h"
 #include "glbfunc.h"
+#include "dllist.h"
+#include "boundary.h"
+#include "initiation.h"
+#include "particlemanager.h"
 #include "material.h"
+#include "boundary.h"
+#include "particle.h"
 
 using namespace std;
 

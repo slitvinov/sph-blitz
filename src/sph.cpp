@@ -60,8 +60,18 @@
 #include <cmath>
 
 // ***** local includes *****
+#include "boundary.h"
 #include "glbfunc.h"
 #include "glbcls.h"
+#include "initiation.h"
+#include "interaction.h"
+#include "particle.h"
+#include "particlemanager.h"
+#include "hydrodynamics.h"
+#include "timesolver.h"
+#include "output.h"
+#include "diagnose.h"
+#include "mls.h"
 #include "vec2d.h"
 #include "Kernel/quinticspline.h"
 #include "Kernel/cubicspline1D.h"

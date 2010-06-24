@@ -19,6 +19,11 @@
 #include "glbcls.h"
 #include "glbfunc.h"
 #include "material.h"
+#include "initiation.h"
+#include "particle.h"
+#include "particlemanager.h"
+#include "boundary.h"
+
 
 using namespace std;
 

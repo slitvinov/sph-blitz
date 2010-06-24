@@ -4,6 +4,14 @@
 /// \brief Bonudary conditions
 
 /// Boundary conditions
+#include "vec2d.h"
+#include "dllist.h"
+
+class Initiation;
+class Particle;
+class Hydrodynamics;
+class ParticleManager;
+
 class Boundary
 {
 	///if read wall particle from file .wll
