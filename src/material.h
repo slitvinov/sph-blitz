@@ -46,7 +46,7 @@ public:
 	void show_properties();
 
 	///obtain parameter b0
-	void Get_b0(const double sound);
+	void Set_b0(const double sound);
 	
 	//equation of states
 

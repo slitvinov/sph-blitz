@@ -118,7 +118,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   sound = AMAX1(v_abs(ini.g_force), viscosity_max);
   //surface tension effects
   sound = AMAX1(surface_max, sound);
-  for(k = 0; k < number_of_materials; k++) materials[k].Get_b0(sound);
+  for(k = 0; k < number_of_materials; k++) materials[k].Set_b0(sound);
 
   ///<li>biuld the real particles
   particles.BiuldRealParticles(*this, ini);

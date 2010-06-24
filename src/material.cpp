@@ -114,7 +114,7 @@ void Material::show_properties()
 //			obtain parameter b0
 //			after nondimensionlization finished
 //----------------------------------------------------------------------------------------
-void Material::Get_b0(const double sound)
+void Material::Set_b0(const double sound)
 {
 	//compressiblity
 	b0 = a0*sound/gamma;
