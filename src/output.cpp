@@ -90,12 +90,12 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
 	}
 	if (simu_mode == 2)
 	  out<<setprecision(6)
-	     << ::setw(16)<<ini.dms_length(prtl->R[0]) 
-	     << ::setw(16)<<ini.dms_length(prtl->R[1]) 
-	     << ::setw(16) <<ini.dms_length(prtl->rho) 
-	     << ::setw(16)<<ini.dms_velocity(prtl->p)
-	     << ::setw(16)<<ini.dms_velocity(prtl->U[0])
-	     << ::setw(16)<<ini.dms_velocity(prtl->e)
+	     << std::setw(16)<<ini.dms_length(prtl->R[0]) 
+	     <<ini.dms_length(prtl->R[1]) 
+	     <<ini.dms_length(prtl->rho) 
+	     <<ini.dms_velocity(prtl->p)
+	     <<ini.dms_velocity(prtl->U[0])
+	     <<ini.dms_velocity(prtl->e)
 	     <<"  "<<prtl->ID<<"\n";
       }
     }
