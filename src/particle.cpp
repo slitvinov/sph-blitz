@@ -222,8 +222,6 @@ Particle::Particle(Particle &RealParticle, Material &material): bd(1), bd_type(0
 //----------------------------------------------------------------------------------------
 void Particle::StatesCopier(Particle &RealParticle, int type)
 {
-	int i, j;
-
 	///- copy states
 	R = RealParticle.R; m = RealParticle.m;
 	rho = RealParticle.rho; V = RealParticle.V;
@@ -237,8 +235,8 @@ void Particle::StatesCopier(Particle &RealParticle, int type)
 	//perodic boundary
 	if (type == 1 ) {
 		del_phi = RealParticle.del_phi;
-		for(i = 0; i < number_of_materials; i++) {
-			for(j = 0; j < number_of_materials; j++) {
+		for(int i = 0; i < number_of_materials; i++) {
+			for(int j = 0; j < number_of_materials; j++) {
 				phi[i][j] = RealParticle.phi[i][j];
 				lap_phi[i][j] = RealParticle.lap_phi[i][j];
 			}
@@ -248,7 +246,7 @@ void Particle::StatesCopier(Particle &RealParticle, int type)
 	//wall boundary
 	if (type == 0) {
 		phi[0][0] = 0.0;
-		for(i = 1; i < number_of_materials; i++) phi[0][0] += RealParticle.phi[i][i];
+		for(int i = 1; i < number_of_materials; i++) phi[0][0] += RealParticle.phi[i][i];
 	}
 
 }

@@ -106,17 +106,17 @@ double Wiener::Ranuls()
 	int j, k;
 
 	//parameters
-	long int in1 = 2147483563; 
-	long int ik1 = 40014;
-	long int iq1 = 53668;
-	long int ir1 = 12211;
-	long int in2 = 2147483399;
-	long int ik2 = 40692;
-	long int iq2 = 52774;
-	long int ir2 = 3791;
-	long int inm1 = in1 - 1;
-	long int ndiv = 1 + inm1/ntab;
-	double an = 1.0/(double)in1;
+	const long int in1 = 2147483563; 
+	const long int ik1 = 40014;
+	const long int iq1 = 53668;
+	const long int ir1 = 12211;
+	const long int in2 = 2147483399;
+	const long int ik2 = 40692;
+	const long int iq2 = 52774;
+	const long int ir2 = 3791;
+	const long int inm1 = in1 - 1;
+	const long int ndiv = 1 + inm1/ntab;
+	const double an = 1.0/(double)in1;
 
 //	Linear congruential generactor 1
 

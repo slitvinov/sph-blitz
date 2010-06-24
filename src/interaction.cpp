@@ -95,13 +95,13 @@ Particle* Interaction::getDest()
 { return this->Dest;
 }
 //-----------getter for Wij
-double Interaction::getWij()
+double Interaction::getWij() const
  
 { return this->Wij;
 }
 
 //----------getter for GradWij
- Vec2d Interaction::getGradWij()
+ Vec2d Interaction::getGradWij() const
  
  { return this->gradWij;
 }
@@ -264,14 +264,13 @@ void Interaction::UpdateForces()
 	UijdotRij=dot(Uij,(Org->R - Dest->R));
 	//pair focres or change rate
 	Vec2d dPdti, dUi, dUdti, dUdtj; //mometum&velocity change rate
-        double drhodti,drhodtj,dedti,dedtj; //density change rate
 
 	if(simu_mode==2)
 	{
 	  //control output
 	  // cout<<"\n am in update forces simu_mode =2\n";
-	  drhodti=mj*dot((Ui-Uj),gradWij);
-	  drhodtj=mi*dot((Uj-Ui),((-1)*gradWij));
+	  const double drhodti=mj*dot((Ui-Uj),gradWij);
+	  const double drhodtj=mi*dot((Uj-Ui),((-1)*gradWij));
 
 	  hij=supportlength/2;//=0.5*(hi+hj)for later (variable smoothing length);
 	  cij=0.5*(Org->Cs+Dest->Cs);
@@ -290,8 +289,8 @@ void Interaction::UpdateForces()
 	  dUdti=-mj*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij;
           dUdtj=mi*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij;
 
-	  dedti=0.5*dot(dUdti,(Uj-Ui));//could also be the other way round: (Ui-Uj)has to be tried out
-          dedtj=0.5*dot(dUdtj,(Ui-Uj));
+	  const double dedti=0.5*dot(dUdti,(Uj-Ui));//could also be the other way round: (Ui-Uj)has to be tried out
+          const double dedtj=0.5*dot(dUdtj,(Ui-Uj));
 
 	  //control output
 	  //cout<<"\n dUdti:\n"<<dUdti[0];
@@ -320,7 +319,7 @@ void Interaction::UpdateForces()
 	  dUi = - eij*theta*Wij*art_vis/(rhoi + rhoj);
 	
 	  ///- calculate density change rate
-	  drhodti = - Fij*rij*dot((Ui*Vi2 - Uj*Vj2), eij);
+	  const double drhodti = - Fij*rij*dot((Ui*Vi2 - Uj*Vj2), eij);
 	
 	  ///- calculate momentum change rate
 	  dPdti =   eij*Fij*rij*(pi*Vi2 + pj*Vj2)

@@ -125,7 +125,7 @@ public:
 	void RandomForces_Espanol(Wiener &wiener, double sqrtdt);
 	Particle* getOrigin();
 	Particle* getDest();
-	double getWij();
-	Vec2d getGradWij();
+	double getWij() const;
+	Vec2d getGradWij() const;
 
 };

@@ -43,7 +43,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
 {
   int i, j;
   double Itime;
-  char file_name[50], file_list[10];
+  char file_name[50], file_list[11];
 
   ///<ul><li>produce output file name
   Itime = ini.dms_time(Time)*1.0e6;

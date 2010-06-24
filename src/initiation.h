@@ -76,44 +76,44 @@ public:
 	///non-dimensionalize initial condition and parameters
 	void non_dimensionalize();
 	///show information on screen
-	void show_information();
+	void show_information() const;
 	///predict the particle volume and mass
 	void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, Kernel &weight_function);
 
 	//non-dimesionlize
-	double non_dms_p(double p);///<a non dimensionalize method
-	double non_dms_T(double T);///<a non dimensionalize method
-	double non_dms_rho(double rho);///<a non dimensionalize method
-	double non_dms_mass(double mass);///<a non dimensionalize method
-	double non_dms_time(double time);///<a non dimensionalize method
-	double non_dms_length(double length);///<a non dimensionalize method
-	Vec2d non_dms_box_size(Vec2d box_size);///<a non dimensionalize method
-	double non_dms_velocity(double velocity);///<a non dimensionalize method
-	double non_dms_kinetic_viscosity(double nu);///<a non dimensionalize method
-	Vec2d non_dms_velocity(Vec2d velocity);///<a non dimensionalize method
-	double non_dms_acceleration(double acceleration);///<a non dimensionalize method
-	Vec2d non_dms_acceleration(Vec2d acceleration);///<a non dimensionalize method
-	double non_dms_viscosity(double mu);///<a non dimensionalize method
-	double non_dms_heat_ratio(double cv);///<a non dimensionalize method
-	double non_dms_heat_conduction(double kappa);///<a non dimensionalize method
-	double non_dms_Boltzmann(double k_bltz);///<a non dimensionalize method
-	double non_dms_surface(double sigma);///<a non dimensionalize method
+	double non_dms_p(const double p) const ;///<a non dimensionalize method
+	double non_dms_T(const double T) const ;///<a non dimensionalize method
+	double non_dms_rho(const double rho) const ;///<a non dimensionalize method
+	double non_dms_mass(const double mass) const ;///<a non dimensionalize method
+	double non_dms_time(const double time) const ;///<a non dimensionalize method
+	double non_dms_length(const double length) const;///<a non dimensionalize method
+	Vec2d non_dms_box_size(const Vec2d box_size) const;///<a non dimensionalize method
+	double non_dms_velocity(const double velocity) const;///<a non dimensionalize method
+	double non_dms_kinetic_viscosity(const double nu) const;///<a non dimensionalize method
+	Vec2d non_dms_velocity(const Vec2d velocity) const;///<a non dimensionalize method
+	double non_dms_acceleration(const double acceleration) const ;///<a non dimensionalize method
+	Vec2d non_dms_acceleration(const Vec2d acceleration) const ;///<a non dimensionalize method
+	double non_dms_viscosity(const double mu) const ;///<a non dimensionalize method
+	double non_dms_heat_ratio(const double cv) const ;///<a non dimensionalize method
+	double non_dms_heat_conduction(const double kappa) const ;///<a non dimensionalize method
+	double non_dms_Boltzmann(const double k_bltz) const ;///<a non dimensionalize method
+	double non_dms_surface(const double sigma) const ;///<a non dimensionalize method
 
 	//re-dimesionlize
-	double dms_p(double p_non);///<a re-dimensionalize method
-	double dms_T(double T_non);///<a re-dimensionalize method
-	double dms_rho(double rho_non);///<a re-dimensionalize method
-	double dms_mass(double mass_non);///<a re-dimensionalize method
-	double dms_time(double time_non);///<a re-dimensionalize method
-	double dms_length(double length_non);///<a re-dimensionalize method
-	Vec2d dms_box_size(Vec2d box_size_non);///<a re-dimensionalize method
-	double dms_velocity(double velocity_non);///<a re-dimensionalize method
-	Vec2d dms_velocity(Vec2d velocity_non);///<a re-dimensionalize method
-	double dms_energy(double energy_non);///<a re-dimensionalize method
-	double dms_acceleration(double acceleration_non);///<a re-dimensionalize method
-	Vec2d dms_acceleration(Vec2d acceleration_non);///<a re-dimensionalize method
-	double dms_viscosity(double mu_non);///<a re-dimensionalize method
-	double dms_surface(double sigma_non);///<a re-dimensionalize method
+	double dms_p(const double p_non) const ;///<a re-dimensionalize method
+	double dms_T(const double T_non) const ;///<a re-dimensionalize method
+	double dms_rho(const double rho_non) const ;///<a re-dimensionalize method
+	double dms_mass(const double mass_non) const ;///<a re-dimensionalize method
+	double dms_time(const double time_non) const ;///<a re-dimensionalize method
+	double dms_length(const double length_non) const ;///<a re-dimensionalize method
+	Vec2d dms_box_size(const Vec2d box_size_non) const ;///<a re-dimensionalize method
+	double dms_velocity(const double velocity_non) const ;///<a re-dimensionalize method
+	Vec2d dms_velocity(const Vec2d velocity_non) const ;///<a re-dimensionalize method
+	double dms_energy(const double energy_non) const ;///<a re-dimensionalize method
+	double dms_acceleration(const double acceleration_non) const ;///<a re-dimensionalize method
+	Vec2d dms_acceleration(const Vec2d acceleration_non) const ;///<a re-dimensionalize method
+	double dms_viscosity(const double mu_non) const ;///<a re-dimensionalize method
+	double dms_surface(const double sigma_non) const ;///<a re-dimensionalize method
 
 };
 #endif

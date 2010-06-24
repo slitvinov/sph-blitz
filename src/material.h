@@ -51,16 +51,16 @@ public:
 	//equation of states
 
 	///get pressure
-	double get_p(const double rho);// equation of state for liquids
-	double get_p(const double rho, const double e);//equation of state for gasdynamics
+	double get_p(const double rho) const;// equation of state for liquids
+	double get_p(const double rho, const double e) const;//equation of state for gasdynamics
 	///get rho from pressure
-	double get_rho(const double p);// equation of state for liquids
-	double get_rho(const double p, const double e);//equation of state for gasdynamics
+	double get_rho(const double p) const ;// equation of state for liquids
+	double get_rho(const double p, const double e) const;//equation of state for gasdynamics
 	///get interal energy
-	double get_e(const double T);
+	double get_e(const double T) const;
 	///get temperature 
-	double get_T(const double e);//(function is defined nowhere)
-	double get_T(const double p, const double rho);
+	double get_T(const double e) const;//(function is defined nowhere)
+	double get_T(const double p, const double rho) const;
 	///get sound speed
 	double get_Cs(const double p, const double rho);
 

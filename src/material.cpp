@@ -122,23 +122,23 @@ void Material::Get_b0(const double sound)
 //----------------------------------------------------------------------------------------
 //					get pressure
 //----------------------------------------------------------------------------------------
-double Material::get_p(const double rho)
+double Material::get_p(const double rho) const
 {
 	return b0*pow(rho/rho0,gamma);
 }
 
-double Material::get_p(const double rho, const double e)
+double Material::get_p(const double rho, const double e) const
 {
   return (gamma-1)*rho*e;
 }
 //----------------------------------------------------------------------------------------
 //					get rho from pressure
 //----------------------------------------------------------------------------------------
-double Material::get_rho(const double p)
+double Material::get_rho(const double p) const
 {
 	return rho0*pow(p/b0, 1.0/gamma);
 }
-double Material::get_rho(const double p, const double e)
+double Material::get_rho(const double p, const double e) const
 {
   return p/((gamma-1)*e);
 }
@@ -147,12 +147,12 @@ double Material::get_rho(const double p, const double e)
 //----------------------------------------------------------------------------------------
 //				get temperaturey
 //----------------------------------------------------------------------------------------
-double Material::get_T(const double e)
+double Material::get_T(const double e) const
 {
   return e/cv;
 }
 
-double Material::get_T(const double p, const double rho)
+double Material::get_T(const double p, const double rho) const
 {
   return p/((gamma-1)*rho*cv);
 }
@@ -162,7 +162,7 @@ double Material::get_T(const double p, const double rho)
 //----------------------------------------------------------------------------------------
 //				get internal energy
 //----------------------------------------------------------------------------------------
-double Material::get_e(const double T)
+double Material::get_e(const double T) const
 {
 	return cv*T;
 }

@@ -119,7 +119,7 @@ Initiation::Initiation(const char *project_name) {
 //----------------------------------------------------------------------------------------
 //					show information to screen
 //----------------------------------------------------------------------------------------
-void Initiation::show_information()
+void Initiation::show_information() const 
 {
 	///- output general information on screen
   cout<<"The simulation mode is"<<simu_mode<<"! (1=liquids, 2=gas dynamics)\n";
@@ -240,21 +240,21 @@ void Initiation::non_dimensionalize()
 //-------------------------------------------------------
 //			Non_dimensionalize pressure
 //-------------------------------------------------------
-double Initiation::non_dms_p(double p)
+double Initiation::non_dms_p(const double p) const 
 {
 	return p/_v/_v/_rho;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize temperature
 //-------------------------------------------------------
-double Initiation::non_dms_T(double T)
+double Initiation::non_dms_T(const double T) const
 {
 	return T/_T;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize density
 //-------------------------------------------------------
-double Initiation::non_dms_rho(double rho)
+double Initiation::non_dms_rho(const double rho) const
 {
 	return rho/_rho;
 }
@@ -262,77 +262,77 @@ double Initiation::non_dms_rho(double rho)
 //			Non_dimensionalize mass
 //			in 2-dimension 
 //-------------------------------------------------------
-double Initiation::non_dms_mass(double mass)
+double Initiation::non_dms_mass(const double mass) const
 {
 	return mass/_rho/_length/_length/_length;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize time
 //-------------------------------------------------------
-double Initiation::non_dms_time(double time)
+double Initiation::non_dms_time(const double time) const
 {
 	return time*_v/_length;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize length
 //-------------------------------------------------------
-double Initiation::non_dms_length(double length)
+double Initiation::non_dms_length(const double length) const
 {
 	return length/_length;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize boxsize in 2-d
 //-------------------------------------------------------
-Vec2d Initiation::non_dms_box_size(Vec2d box_size)
+Vec2d Initiation::non_dms_box_size(const Vec2d box_size) const
 {
 	return box_size/_length;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize velocity
 //-------------------------------------------------------
-double Initiation::non_dms_velocity(double velocity)
+double Initiation::non_dms_velocity(const double velocity) const
 {
 	return velocity/_v;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize vector velocity
 //-------------------------------------------------------
-Vec2d Initiation::non_dms_velocity(Vec2d velocity)
+Vec2d Initiation::non_dms_velocity(const Vec2d velocity) const
 {
 	return velocity/_v;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize acceleration vector
 //-------------------------------------------------------
-Vec2d Initiation::non_dms_acceleration(Vec2d acceleration)
+Vec2d Initiation::non_dms_acceleration(const Vec2d acceleration) const
 {
 	 return acceleration*_length/_v/_v;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize surface tension coefficient
 //-------------------------------------------------------
-double Initiation::non_dms_surface(double sigma)
+double Initiation::non_dms_surface(const double sigma) const
 {
 	return sigma/_rho/_v/_v/_length;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize viscosity
 //-------------------------------------------------------
-double Initiation::non_dms_viscosity(double mu)
+double Initiation::non_dms_viscosity(const double mu) const
 {
 	return mu/_v/_rho/_length;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize kinetic viscosity
 //-------------------------------------------------------
-double Initiation::non_dms_kinetic_viscosity(double nu)
+double Initiation::non_dms_kinetic_viscosity(const double nu) const
 {
 	return nu/_v/_length;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize heat ratio
 //-------------------------------------------------------
-double Initiation::non_dms_heat_ratio(double cv)
+double Initiation::non_dms_heat_ratio(const double cv) const
 {
 	return cv*_T/_v/_v;
 
@@ -340,76 +340,76 @@ double Initiation::non_dms_heat_ratio(double cv)
 //-------------------------------------------------------
 //			Non_dimensionalize heat conduction rate
 //-------------------------------------------------------
-double Initiation::non_dms_heat_conduction(double kappa)
+double Initiation::non_dms_heat_conduction(const double kappa) const
 {
 	return kappa*_T/_v/_v/_v/_rho;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize Boltzmann constant
 //-------------------------------------------------------
-double Initiation::non_dms_Boltzmann(double k_bltz)
+double Initiation::non_dms_Boltzmann(const double k_bltz) const
 {
 	return k_bltz*_T/_v/_v/_rho/_length/_length/_length;
 }
 //-------------------------------------------------------
 //			Dimensionalize functions
 //-------------------------------------------------------
-double Initiation::dms_p(double p_non)
+double Initiation::dms_p(const double p_non) const
 {
 	return p_non*_v*_v*_rho;
 }
 //-------------------------------------------------------
-double Initiation::dms_T(double T_non)
+double Initiation::dms_T(const double T_non) const
 {
 	return T_non*_T;
 }
 //-------------------------------------------------------
-double Initiation::dms_rho(double rho_non)
+double Initiation::dms_rho(const double rho_non) const
 {
 	return rho_non*_rho;
 }
 //-------------------------------------------------------
-double Initiation::dms_mass(double mass_non)
+double Initiation::dms_mass(const double mass_non) const
 {
 	return mass_non*_rho*_length*_length;
 }
 //-------------------------------------------------------
-double Initiation::dms_time(double time_non)
+double Initiation::dms_time(const double time_non) const
 {
 	return time_non/_v*_length;
 }
 //-------------------------------------------------------
-double Initiation::dms_length(double length_non)
+double Initiation::dms_length(const double length_non) const
 {
 	return length_non*_length;
 }
 //-------------------------------------------------------
-Vec2d Initiation::dms_box_size(Vec2d box_size_non)
+Vec2d Initiation::dms_box_size(const Vec2d box_size_non) const
 {
 	return box_size_non*_length;
 }
 //-------------------------------------------------------
-double Initiation::dms_velocity(double velocity_non)
+double Initiation::dms_velocity(const double velocity_non) const
 {
 	return velocity_non*_v;
 }
 //-------------------------------------------------------
-Vec2d Initiation::dms_velocity(Vec2d velocity_non)
+Vec2d Initiation::dms_velocity(const Vec2d velocity_non) const
 {
 	return velocity_non*_v;
 }
 //-------------------------------------------------------
-double Initiation::dms_energy(double energy_non)
+double Initiation::dms_energy(const double energy_non) const
 {
 	return energy_non*_v*_v;
 }
 //-------------------------------------------------------
-Vec2d Initiation::dms_acceleration(Vec2d acceleration_non)
+Vec2d Initiation::dms_acceleration(const Vec2d acceleration_non) const
 {
 	 return acceleration_non*_v*_v/_length;
 }
 //-------------------------------------------------------
-double Initiation::dms_viscosity(double mu_non)
+double Initiation::dms_viscosity(const double mu_non) const
 {
 	return mu_non*_v*_rho*_length;
 }
