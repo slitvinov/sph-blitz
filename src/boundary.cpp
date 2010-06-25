@@ -225,18 +225,18 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
   for(j = 1; j < y_clls - 1; j++) {
     /// <ul><li>west side: test boundary parameter for one of the following cases and then build the appropriate boundary particles
     //clear cell linked list data (particles)
-    particles.cell_lists[0][j].clear_data();
+    particles.cell_lists(0,j).clear_data();
 		
     /// <ul>
       /// <li>the rigid wall conditions 	
     if(xBl == 0 || xBl == 2) {
       //iterate the correspeond cell linked list
-      for (LlistNode<Particle> *p10 = particles.cell_lists[1][j].first(); 
-	   !particles.cell_lists[1][j].isEnd(p10); 
-	   p10 = particles.cell_lists[1][j].next(p10)) {
+      for (LlistNode<Particle> *p10 = particles.cell_lists(1,j).first(); 
+	   !particles.cell_lists(1,j).isEnd(p10); 
+	   p10 = particles.cell_lists(1,j).next(p10)) {
 				
 	//the original real particle
-	Particle *prtl_old = particles.cell_lists[1][j].retrieve(p10);
+	Particle *prtl_old = particles.cell_lists(1,j).retrieve(p10);
 	Particle *prtl = new Particle(*prtl_old, hydro.materials[0]);
 
 	//boundary condition
@@ -247,19 +247,19 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
 	//insert its poistion on the particle list
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists[0][j].insert(particles.cell_lists[0][j].first(), prtl);
+	particles.cell_lists(0,j).insert(particles.cell_lists(0,j).first(), prtl);
       }
     }
 		
       /// <li>the symmetry conditions 	
     if(xBl == 3) {
       //iterate the correspeond cell linked list
-      for (LlistNode<Particle> *p13 = particles.cell_lists[1][j].first(); 
-	   !particles.cell_lists[1][j].isEnd(p13); 
-	   p13 = particles.cell_lists[1][j].next(p13)) {
+      for (LlistNode<Particle> *p13 = particles.cell_lists(1,j).first(); 
+	   !particles.cell_lists(1,j).isEnd(p13); 
+	   p13 = particles.cell_lists(1,j).next(p13)) {
 				
 	//the original real particle
-	Particle *prtl_old = particles.cell_lists[1][j].retrieve(p13);
+	Particle *prtl_old = particles.cell_lists(1,j).retrieve(p13);
 	Particle *prtl = new Particle(*prtl_old);
 
 	//boundary condition
@@ -270,19 +270,19 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
 	//insert its poistion on the particle list
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists[0][j].insert(particles.cell_lists[0][j].first(), prtl);
+	particles.cell_lists(0,j).insert(particles.cell_lists(0,j).first(), prtl);
       }
     }
 
       /// <li>the perodic conditions </ul>	
     if(xBl == 1) {
       //iterate the correspeond cell linked list
-      for (LlistNode<Particle> *p11 = particles.cell_lists[x_clls - 2][j].first(); 
-	   !particles.cell_lists[x_clls - 2][j].isEnd(p11); 
-	   p11 = particles.cell_lists[x_clls - 2][j].next(p11)) {
+      for (LlistNode<Particle> *p11 = particles.cell_lists(x_clls - 2,j).first(); 
+	   !particles.cell_lists(x_clls - 2,j).isEnd(p11); 
+	   p11 = particles.cell_lists(x_clls - 2,j).next(p11)) {
 					
 	//the original real particle
-	Particle *prtl_old = particles.cell_lists[x_clls - 2][j].retrieve(p11);
+	Particle *prtl_old = particles.cell_lists(x_clls - 2,j).retrieve(p11);
 	Particle *prtl = new Particle(*prtl_old);
 
 	//boundary condition
@@ -293,23 +293,23 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
 	//insert its poistion on the particle list
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists[0][j].insert(particles.cell_lists[0][j].first(), prtl);
+	particles.cell_lists(0,j).insert(particles.cell_lists(0,j).first(), prtl);
       }
     }
 
     /// <li>east side
     //clear linked list data (particles)
-    particles.cell_lists[x_clls - 1][j].clear_data();
+    particles.cell_lists(x_clls - 1,j).clear_data();
 
     /// <ul><li>the rigid wall conditions 	
     if(xBr == 0 || xBr == 2) {
       //iterate the correspeond cell linked list
-      for (LlistNode<Particle> *p20 = particles.cell_lists[x_clls - 2][j].first(); 
-	   !particles.cell_lists[x_clls - 2][j].isEnd(p20); 
-	   p20 = particles.cell_lists[x_clls - 2][j].next(p20)) {
+      for (LlistNode<Particle> *p20 = particles.cell_lists(x_clls - 2,j).first(); 
+	   !particles.cell_lists(x_clls - 2,j).isEnd(p20); 
+	   p20 = particles.cell_lists(x_clls - 2,j).next(p20)) {
 					
 	//the original real particle
-	Particle *prtl_old = particles.cell_lists[x_clls - 2][j].retrieve(p20);
+	Particle *prtl_old = particles.cell_lists(x_clls - 2,j).retrieve(p20);
 	Particle *prtl = new Particle(*prtl_old, hydro.materials[0]);
 
 	//boundary condition
@@ -320,19 +320,19 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
 	//insert its poistion on the particle list
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists[x_clls- 1][j].insert(particles.cell_lists[x_clls - 1][j].first(), prtl);
+	particles.cell_lists(x_clls- 1,j).insert(particles.cell_lists(x_clls - 1,j).first(), prtl);
       }
     }
 		
     /// <li>the symmetry conditions 	
     if(xBr == 3) {
       //iterate the correspeond cell linked list
-      for (LlistNode<Particle> *p23 = particles.cell_lists[x_clls - 2][j].first(); 
-	   !particles.cell_lists[x_clls - 2][j].isEnd(p23); 
-	   p23 = particles.cell_lists[x_clls - 2][j].next(p23)) {
+      for (LlistNode<Particle> *p23 = particles.cell_lists(x_clls - 2,j).first(); 
+	   !particles.cell_lists(x_clls - 2,j).isEnd(p23); 
+	   p23 = particles.cell_lists(x_clls - 2,j).next(p23)) {
 					
 	//the original real particle
-	Particle *prtl_old = particles.cell_lists[x_clls - 2][j].retrieve(p23);
+	Particle *prtl_old = particles.cell_lists(x_clls - 2,j).retrieve(p23);
 	Particle *prtl = new Particle(*prtl_old);
 
 	//boundary condition
@@ -343,19 +343,19 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
 	//insert its poistion on the particle list
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists[x_clls- 1][j].insert(particles.cell_lists[x_clls - 1][j].first(), prtl);
+	particles.cell_lists(x_clls- 1,j).insert(particles.cell_lists(x_clls - 1,j).first(), prtl);
       }
     }
 
       /// <li>the perodic conditions</ul>	
     if(xBr == 1) {
       //iterate the correspeond cell for real and wall partilces
-      for (LlistNode<Particle> *p21 = particles.cell_lists[1][j].first(); 
-	   !particles.cell_lists[1][j].isEnd(p21); 
-	   p21 = particles.cell_lists[1][j].next(p21)) {
+      for (LlistNode<Particle> *p21 = particles.cell_lists(1,j).first(); 
+	   !particles.cell_lists(1,j).isEnd(p21); 
+	   p21 = particles.cell_lists(1,j).next(p21)) {
 					
 	//the original real particle
-	Particle *prtl_old = particles.cell_lists[1][j].retrieve(p21);
+	Particle *prtl_old = particles.cell_lists(1,j).retrieve(p21);
 	Particle *prtl = new Particle(*prtl_old);
 
 	//boundary condition
@@ -366,7 +366,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
 	//insert its poistion on the particle list
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists[x_clls- 1][j].insert(particles.cell_lists[x_clls - 1][j].first(), prtl);
+	particles.cell_lists(x_clls- 1,j).insert(particles.cell_lists(x_clls - 1,j).first(), prtl);
       }
     }
   }
@@ -376,17 +376,17 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
   /// <li>south side
   for(i = kb; i < mb; i++) {
     //clear cell linked list data (particles)
-    particles.cell_lists[i][0].clear_data();
+    particles.cell_lists(i,0).clear_data();
 
     /// <ul><li>the rigid wall conditions 	
     if(yBd == 0 || yBd == 2) {
       //iterate the correspeond cell linked list
-      for (LlistNode<Particle> *p30 = particles.cell_lists[i][1].first(); 
-	   !particles.cell_lists[i][1].isEnd(p30); 
-	   p30 = particles.cell_lists[i][1].next(p30)) {
+      for (LlistNode<Particle> *p30 = particles.cell_lists(i,1).first(); 
+	   !particles.cell_lists(i,1).isEnd(p30); 
+	   p30 = particles.cell_lists(i,1).next(p30)) {
 					
 	//the original real particle
-	Particle *prtl_old = particles.cell_lists[i][1].retrieve(p30);
+	Particle *prtl_old = particles.cell_lists(i,1).retrieve(p30);
 	Particle *prtl = new Particle(*prtl_old, hydro.materials[0]);
 
 	//boundary condition
@@ -397,19 +397,19 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
 	//insert its poistion on the image particle list
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists[i][0].insert(particles.cell_lists[i][0].first(), prtl);
+	particles.cell_lists(i,0).insert(particles.cell_lists(i,0).first(), prtl);
       }
     }
 
     /// <li>the symmetry conditions 	
     if(yBd == 3) {
       //iterate the correspeond cell linked list
-      for (LlistNode<Particle> *p33 = particles.cell_lists[i][1].first(); 
-	   !particles.cell_lists[i][1].isEnd(p33); 
-	   p33 = particles.cell_lists[i][1].next(p33)) {
+      for (LlistNode<Particle> *p33 = particles.cell_lists(i,1).first(); 
+	   !particles.cell_lists(i,1).isEnd(p33); 
+	   p33 = particles.cell_lists(i,1).next(p33)) {
 					
 	//the original real particle
-	Particle *prtl_old = particles.cell_lists[i][1].retrieve(p33);
+	Particle *prtl_old = particles.cell_lists(i,1).retrieve(p33);
 	Particle *prtl = new Particle(*prtl_old);
 
 	//boundary condition
@@ -420,19 +420,19 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
 	//insert its poistion on the image particle list
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists[i][0].insert(particles.cell_lists[i][0].first(), prtl);
+	particles.cell_lists(i,0).insert(particles.cell_lists(i,0).first(), prtl);
       }
     }
 
     /// <li>the perodic conditions</ul>	
     if(yBd == 1) {
       //iterate the correspeond cell for real and wall partilces
-      for (LlistNode<Particle> *p31 = particles.cell_lists[i][y_clls - 2].first(); 
-	   !particles.cell_lists[i][y_clls - 2].isEnd(p31); 
-	   p31 = particles.cell_lists[i][y_clls - 2].next(p31)) {
+      for (LlistNode<Particle> *p31 = particles.cell_lists(i,y_clls - 2).first(); 
+	   !particles.cell_lists(i,y_clls - 2).isEnd(p31); 
+	   p31 = particles.cell_lists(i,y_clls - 2).next(p31)) {
 					
 	//the original real particle
-	Particle *prtl_old = particles.cell_lists[i][y_clls - 2].retrieve(p31);
+	Particle *prtl_old = particles.cell_lists(i,y_clls - 2).retrieve(p31);
 	Particle *prtl = new Particle(*prtl_old);
 
 	//boundary condition
@@ -443,7 +443,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
 	//insert its poistion on the particle list
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists[i][0].insert(particles.cell_lists[i][0].first(), prtl);
+	particles.cell_lists(i,0).insert(particles.cell_lists(i,0).first(), prtl);
       }
     }
   }
@@ -451,17 +451,17 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
   /// <li>north side
   for(i = ku; i < mu; i++) {
     //clear the linked list data (particles)
-    particles.cell_lists[i][y_clls - 1].clear_data();
+    particles.cell_lists(i,y_clls - 1).clear_data();
 
       /// <ul><li>the rigid wall conditions 	
     if(yBu == 0 || yBu == 2) {
       //iterate the correspeond cell for real and wall partilces
-      for (LlistNode<Particle> *p40 = particles.cell_lists[i][y_clls - 2].first(); 
-	   !particles.cell_lists[i][y_clls - 2].isEnd(p40); 
-	   p40 = particles.cell_lists[i][y_clls - 2].next(p40)) {
+      for (LlistNode<Particle> *p40 = particles.cell_lists(i,y_clls - 2).first(); 
+	   !particles.cell_lists(i,y_clls - 2).isEnd(p40); 
+	   p40 = particles.cell_lists(i,y_clls - 2).next(p40)) {
 					
 	//the original real particle
-	Particle *prtl_old = particles.cell_lists[i][y_clls - 2].retrieve(p40);
+	Particle *prtl_old = particles.cell_lists(i,y_clls - 2).retrieve(p40);
 	Particle *prtl = new Particle(*prtl_old, hydro.materials[0]);
 
 	//boundary condition
@@ -472,19 +472,19 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
 	//insert its poistion on the particle list
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists[i][y_clls- 1].insert(particles.cell_lists[i][y_clls - 1].first(), prtl);
+	particles.cell_lists(i,y_clls- 1).insert(particles.cell_lists(i,y_clls - 1).first(), prtl);
       }
     }
 	
     /// <li>the symmetry conditions 	
     if(yBu == 3) {
       //iterate the correspeond cell for real and wall partilces
-      for (LlistNode<Particle> *p43 = particles.cell_lists[i][y_clls - 2].first(); 
-	   !particles.cell_lists[i][y_clls - 2].isEnd(p43); 
-	   p43 = particles.cell_lists[i][y_clls - 2].next(p43)) {
+      for (LlistNode<Particle> *p43 = particles.cell_lists(i,y_clls - 2).first(); 
+	   !particles.cell_lists(i,y_clls - 2).isEnd(p43); 
+	   p43 = particles.cell_lists(i,y_clls - 2).next(p43)) {
 					
 	//the original real particle
-	Particle *prtl_old = particles.cell_lists[i][y_clls - 2].retrieve(p43);
+	Particle *prtl_old = particles.cell_lists(i,y_clls - 2).retrieve(p43);
 	Particle *prtl = new Particle(*prtl_old);
 
 	//boundary condition
@@ -495,19 +495,19 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
 	//insert its poistion on the particle list
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists[i][y_clls- 1].insert(particles.cell_lists[i][y_clls - 1].first(), prtl);
+	particles.cell_lists(i,y_clls- 1).insert(particles.cell_lists(i,y_clls - 1).first(), prtl);
       }
     }
 
     /// <li>the perodic conditions</ul></ul>	
     if(yBu == 1) {
       //iterate the correspeond cell for real and wall partilces
-      for (LlistNode<Particle> *p41 = particles.cell_lists[i][1].first(); 
-	   !particles.cell_lists[i][1].isEnd(p41); 
-	   p41 = particles.cell_lists[i][1].next(p41)) {
+      for (LlistNode<Particle> *p41 = particles.cell_lists(i,1).first(); 
+	   !particles.cell_lists(i,1).isEnd(p41); 
+	   p41 = particles.cell_lists(i,1).next(p41)) {
 					
 	//the original real particle
-	Particle *prtl_old = particles.cell_lists[i][1].retrieve(p41);
+	Particle *prtl_old = particles.cell_lists(i,1).retrieve(p41);
 	Particle *prtl = new Particle(*prtl_old);
 
 	//boundary condition
@@ -518,7 +518,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
 	//insert its poistion on the particle list
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists[i][y_clls- 1].insert(particles.cell_lists[i][y_clls - 1].first(), prtl);
+	particles.cell_lists(i,y_clls- 1).insert(particles.cell_lists(i,y_clls - 1).first(), prtl);
       }
     }
   }
@@ -529,14 +529,14 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
   /// <ul><li>the rigid wall conditions 	
   if(xBl == 0 && yBd == 0 || xBl == 2 && yBd == 2) {
     //clear cell linked list data (particles)
-    particles.cell_lists[0][0].clear_data();
+    particles.cell_lists(0,0).clear_data();
     //iterate the correspeond cell linked list
-    for (LlistNode<Particle> *p130 = particles.cell_lists[1][1].first(); 
-	 !particles.cell_lists[1][1].isEnd(p130); 
-	 p130 = particles.cell_lists[1][1].next(p130)) {
+    for (LlistNode<Particle> *p130 = particles.cell_lists(1,1).first(); 
+	 !particles.cell_lists(1,1).isEnd(p130); 
+	 p130 = particles.cell_lists(1,1).next(p130)) {
 					
       //the original real particle
-      Particle *prtl_old = particles.cell_lists[1][1].retrieve(p130);
+      Particle *prtl_old = particles.cell_lists(1,1).retrieve(p130);
       Particle *prtl = new Particle(*prtl_old, hydro.materials[0]);
 
       //boundary condition
@@ -547,21 +547,21 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
       //insert its poistion on the image particle list
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists[0][0].insert(particles.cell_lists[0][0].first(), prtl);
+      particles.cell_lists(0,0).insert(particles.cell_lists(0,0).first(), prtl);
     }
   }
 
   /// <li>the symmetry conditions 	
   if(xBl == 3 && yBd == 3) {
     //clear cell linked list data (particles)
-    particles.cell_lists[0][0].clear_data();
+    particles.cell_lists(0,0).clear_data();
     //iterate the correspeond cell linked list
-    for (LlistNode<Particle> *p130 = particles.cell_lists[1][1].first(); 
-	 !particles.cell_lists[1][1].isEnd(p130); 
-	 p130 = particles.cell_lists[1][1].next(p130)) {
+    for (LlistNode<Particle> *p130 = particles.cell_lists(1,1).first(); 
+	 !particles.cell_lists(1,1).isEnd(p130); 
+	 p130 = particles.cell_lists(1,1).next(p130)) {
 					
       //the original real particle
-      Particle *prtl_old = particles.cell_lists[1][1].retrieve(p130);
+      Particle *prtl_old = particles.cell_lists(1,1).retrieve(p130);
       Particle *prtl = new Particle(*prtl_old);
 
       //boundary condition
@@ -572,21 +572,21 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
       //insert its poistion on the image particle list
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists[0][0].insert(particles.cell_lists[0][0].first(), prtl);
+      particles.cell_lists(0,0).insert(particles.cell_lists(0,0).first(), prtl);
     }
   }
 	
     /// <li> the perodic conditions </ul>	
   if(xBl == 1 && yBd == 1) {
     //clear cell linked list data (particles)
-    particles.cell_lists[0][0].clear_data();
+    particles.cell_lists(0,0).clear_data();
     //iterate the correspeond cell for real and wall partilces
-    for (LlistNode<Particle> *p131 = particles.cell_lists[x_clls - 2][y_clls - 2].first(); 
-	 !particles.cell_lists[x_clls - 2][y_clls - 2].isEnd(p131); 
-	 p131 = particles.cell_lists[x_clls - 2][y_clls - 2].next(p131)) {
+    for (LlistNode<Particle> *p131 = particles.cell_lists(x_clls - 2,y_clls - 2).first(); 
+	 !particles.cell_lists(x_clls - 2,y_clls - 2).isEnd(p131); 
+	 p131 = particles.cell_lists(x_clls - 2,y_clls - 2).next(p131)) {
 					
       //the original real particle
-      Particle *prtl_old = particles.cell_lists[x_clls - 2][y_clls - 2].retrieve(p131);
+      Particle *prtl_old = particles.cell_lists(x_clls - 2,y_clls - 2).retrieve(p131);
       Particle *prtl = new Particle(*prtl_old);
 
       //boundary condition
@@ -597,7 +597,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
       //insert its poistion on the particle list
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists[0][0].insert(particles.cell_lists[0][0].first(), prtl);
+      particles.cell_lists(0,0).insert(particles.cell_lists(0,0).first(), prtl);
     }
   }
 		
@@ -606,14 +606,14 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
   /// <ul><li>the rigid wall conditions 	
   if(xBl == 0 && yBu == 0 || xBl == 2 && yBu == 2) {
     //clear the linked list data (particles)
-    particles.cell_lists[0][y_clls - 1].clear_data();
+    particles.cell_lists(0,y_clls - 1).clear_data();
     //iterate the correspeond cell for real and wall partilces
-    for (LlistNode<Particle> *p140 = particles.cell_lists[1][y_clls - 2].first(); 
-	 !particles.cell_lists[1][y_clls - 2].isEnd(p140); 
-	 p140 = particles.cell_lists[1][y_clls - 2].next(p140)) {
+    for (LlistNode<Particle> *p140 = particles.cell_lists(1,y_clls - 2).first(); 
+	 !particles.cell_lists(1,y_clls - 2).isEnd(p140); 
+	 p140 = particles.cell_lists(1,y_clls - 2).next(p140)) {
 				
       //the original real particle
-      Particle *prtl_old = particles.cell_lists[1][y_clls - 2].retrieve(p140);
+      Particle *prtl_old = particles.cell_lists(1,y_clls - 2).retrieve(p140);
       Particle *prtl = new Particle(*prtl_old, hydro.materials[0]);
 
       //boundary condition
@@ -624,21 +624,21 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
       //insert its poistion on the particle list
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists[0][y_clls- 1].insert(particles.cell_lists[0][y_clls - 1].first(), prtl);
+      particles.cell_lists(0,y_clls- 1).insert(particles.cell_lists(0,y_clls - 1).first(), prtl);
     }
   }
 	
   /// <li>the symmetry conditions 	
   if(xBl == 3 && yBu == 3) {
     //clear the linked list data (particles)
-    particles.cell_lists[0][y_clls - 1].clear_data();
+    particles.cell_lists(0,y_clls - 1).clear_data();
     //iterate the correspeond cell for real and wall partilces
-    for (LlistNode<Particle> *p140 = particles.cell_lists[1][y_clls - 2].first(); 
-	 !particles.cell_lists[1][y_clls - 2].isEnd(p140); 
-	 p140 = particles.cell_lists[1][y_clls - 2].next(p140)) {
+    for (LlistNode<Particle> *p140 = particles.cell_lists(1,y_clls - 2).first(); 
+	 !particles.cell_lists(1,y_clls - 2).isEnd(p140); 
+	 p140 = particles.cell_lists(1,y_clls - 2).next(p140)) {
 				
       //the original real particle
-      Particle *prtl_old = particles.cell_lists[1][y_clls - 2].retrieve(p140);
+      Particle *prtl_old = particles.cell_lists(1,y_clls - 2).retrieve(p140);
       Particle *prtl = new Particle(*prtl_old);
 
       //boundary condition
@@ -649,21 +649,21 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
       //insert its poistion on the particle list
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists[0][y_clls- 1].insert(particles.cell_lists[0][y_clls - 1].first(), prtl);
+      particles.cell_lists(0,y_clls- 1).insert(particles.cell_lists(0,y_clls - 1).first(), prtl);
     }
   }
 
   /// <li>the perodic conditions</ul>	
   if(xBl == 1 && yBu == 1) {
     //clear the linked list data (particles)
-    particles.cell_lists[0][y_clls - 1].clear_data();
+    particles.cell_lists(0,y_clls - 1).clear_data();
     //iterate the correspeond cell for real and wall partilces
-    for (LlistNode<Particle> *p141 = particles.cell_lists[x_clls - 2][1].first(); 
-	 !particles.cell_lists[x_clls - 2][1].isEnd(p141); 
-	 p141 = particles.cell_lists[x_clls - 2][1].next(p141)) {
+    for (LlistNode<Particle> *p141 = particles.cell_lists(x_clls - 2,1).first(); 
+	 !particles.cell_lists(x_clls - 2,1).isEnd(p141); 
+	 p141 = particles.cell_lists(x_clls - 2,1).next(p141)) {
 				
       //the original real particle
-      Particle *prtl_old = particles.cell_lists[x_clls - 2][1].retrieve(p141);
+      Particle *prtl_old = particles.cell_lists(x_clls - 2,1).retrieve(p141);
       Particle *prtl = new Particle(*prtl_old);
 
       //boundary condition
@@ -674,7 +674,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
       //insert its poistion on the particle list
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists[0][y_clls- 1].insert(particles.cell_lists[0][y_clls - 1].first(), prtl);
+      particles.cell_lists(0,y_clls- 1).insert(particles.cell_lists(0,y_clls - 1).first(), prtl);
     }
   }
 
@@ -683,14 +683,14 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
   /// <ul><li>the rigid wall conditions 	
   if(xBr == 0 && yBu == 0 || xBr == 2 && yBu == 2) {
     //clear the linked list data (particles)
-    particles.cell_lists[x_clls - 1][y_clls - 1].clear_data();
+    particles.cell_lists(x_clls - 1,y_clls - 1).clear_data();
     //iterate the correspeond cell linked list
-    for (LlistNode<Particle> *p240 = particles.cell_lists[x_clls - 2][y_clls - 2].first(); 
-	 !particles.cell_lists[x_clls - 2][y_clls - 2].isEnd(p240); 
-	 p240 = particles.cell_lists[x_clls - 2][y_clls - 2].next(p240)) {
+    for (LlistNode<Particle> *p240 = particles.cell_lists(x_clls - 2,y_clls - 2).first(); 
+	 !particles.cell_lists(x_clls - 2,y_clls - 2).isEnd(p240); 
+	 p240 = particles.cell_lists(x_clls - 2,y_clls - 2).next(p240)) {
 				
       //the original real particle
-      Particle *prtl_old = particles.cell_lists[x_clls - 2][y_clls - 2].retrieve(p240);
+      Particle *prtl_old = particles.cell_lists(x_clls - 2,y_clls - 2).retrieve(p240);
       Particle *prtl = new Particle(*prtl_old, hydro.materials[0]);
 
       //boundary condition
@@ -701,21 +701,21 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
       //insert its poistion on the particle list
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists[x_clls- 1][y_clls - 1].insert(particles.cell_lists[x_clls - 1][y_clls - 1].first(), prtl);
+      particles.cell_lists(x_clls- 1,y_clls - 1).insert(particles.cell_lists(x_clls - 1,y_clls - 1).first(), prtl);
     }
   }
 		
   /// <li>the symmetry conditions 	
   if(xBr == 3 && yBu == 3) {
     //clear the linked list data (particles)
-    particles.cell_lists[x_clls - 1][y_clls - 1].clear_data();
+    particles.cell_lists(x_clls - 1,y_clls - 1).clear_data();
     //iterate the correspeond cell linked list
-    for (LlistNode<Particle> *p240 = particles.cell_lists[x_clls - 2][y_clls - 2].first(); 
-	 !particles.cell_lists[x_clls - 2][y_clls - 2].isEnd(p240); 
-	 p240 = particles.cell_lists[x_clls - 2][y_clls - 2].next(p240)) {
+    for (LlistNode<Particle> *p240 = particles.cell_lists(x_clls - 2,y_clls - 2).first(); 
+	 !particles.cell_lists(x_clls - 2,y_clls - 2).isEnd(p240); 
+	 p240 = particles.cell_lists(x_clls - 2,y_clls - 2).next(p240)) {
 				
       //the original real particle
-      Particle *prtl_old = particles.cell_lists[x_clls - 2][y_clls - 2].retrieve(p240);
+      Particle *prtl_old = particles.cell_lists(x_clls - 2,y_clls - 2).retrieve(p240);
       Particle *prtl = new Particle(*prtl_old);
 
       //boundary condition
@@ -726,21 +726,21 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
       //insert its poistion on the particle list
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists[x_clls- 1][y_clls - 1].insert(particles.cell_lists[x_clls - 1][y_clls - 1].first(), prtl);
+      particles.cell_lists(x_clls- 1,y_clls - 1).insert(particles.cell_lists(x_clls - 1,y_clls - 1).first(), prtl);
     }
   }
 
   /// <li>the perodic conditions</ul>	
   if(xBr == 1 && yBu == 1) {
     //clear the linked list data (particles)
-    particles.cell_lists[x_clls - 1][y_clls - 1].clear_data();
+    particles.cell_lists(x_clls - 1,y_clls - 1).clear_data();
     //iterate the correspeond cell for real and wall partilces
-    for (LlistNode<Particle> *p241 = particles.cell_lists[1][1].first(); 
-	 !particles.cell_lists[1][1].isEnd(p241); 
-	 p241 = particles.cell_lists[1][1].next(p241)) {
+    for (LlistNode<Particle> *p241 = particles.cell_lists(1,1).first(); 
+	 !particles.cell_lists(1,1).isEnd(p241); 
+	 p241 = particles.cell_lists(1,1).next(p241)) {
 					
       //the original real particle
-      Particle *prtl_old = particles.cell_lists[1][1].retrieve(p241);
+      Particle *prtl_old = particles.cell_lists(1,1).retrieve(p241);
       Particle *prtl = new Particle(*prtl_old);
 
       //boundary condition
@@ -751,7 +751,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
       //insert its poistion on the particle list
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists[x_clls- 1][y_clls - 1].insert(particles.cell_lists[x_clls - 1][y_clls - 1].first(), prtl);
+      particles.cell_lists(x_clls- 1,y_clls - 1).insert(particles.cell_lists(x_clls - 1,y_clls - 1).first(), prtl);
     }
   }
 
@@ -760,14 +760,14 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
   /// <ul> <li>the rigid wall conditions 	
   if(xBr == 0 && yBd == 0 || xBr == 2 && yBd == 2) {
     //clear the linked list data (particles)
-    particles.cell_lists[x_clls - 1][0].clear_data();
+    particles.cell_lists(x_clls - 1,0).clear_data();
     //iterate the correspeond cell linked list
-    for (LlistNode<Particle> *p230 = particles.cell_lists[x_clls - 2][1].first(); 
-	 !particles.cell_lists[x_clls - 2][1].isEnd(p230); 
-	 p230 = particles.cell_lists[x_clls - 2][1].next(p230)) {
+    for (LlistNode<Particle> *p230 = particles.cell_lists(x_clls - 2,1).first(); 
+	 !particles.cell_lists(x_clls - 2,1).isEnd(p230); 
+	 p230 = particles.cell_lists(x_clls - 2,1).next(p230)) {
 				
       //the original real particle
-      Particle *prtl_old = particles.cell_lists[x_clls - 2][1].retrieve(p230);
+      Particle *prtl_old = particles.cell_lists(x_clls - 2,1).retrieve(p230);
       Particle *prtl = new Particle(*prtl_old, hydro.materials[0]);
 
       //boundary condition
@@ -778,21 +778,21 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
       //insert its poistion on the image particle list
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists[x_clls - 1][0].insert(particles.cell_lists[x_clls - 1][0].first(), prtl);
+      particles.cell_lists(x_clls - 1,0).insert(particles.cell_lists(x_clls - 1,0).first(), prtl);
     }
   }
 
   /// <li>the symmetry conditions 	
   if(xBr == 3 && yBd == 3) {
     //clear the linked list data (particles)
-    particles.cell_lists[x_clls - 1][0].clear_data();
+    particles.cell_lists(x_clls - 1,0).clear_data();
     //iterate the correspeond cell linked list
-    for (LlistNode<Particle> *p230 = particles.cell_lists[x_clls - 2][1].first(); 
-	 !particles.cell_lists[x_clls - 2][1].isEnd(p230); 
-	 p230 = particles.cell_lists[x_clls - 2][1].next(p230)) {
+    for (LlistNode<Particle> *p230 = particles.cell_lists(x_clls - 2,1).first(); 
+	 !particles.cell_lists(x_clls - 2,1).isEnd(p230); 
+	 p230 = particles.cell_lists(x_clls - 2,1).next(p230)) {
 				
       //the original real particle
-      Particle *prtl_old = particles.cell_lists[x_clls - 2][1].retrieve(p230);
+      Particle *prtl_old = particles.cell_lists(x_clls - 2,1).retrieve(p230);
       Particle *prtl = new Particle(*prtl_old);
 
       //boundary condition
@@ -803,21 +803,21 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
       //insert its poistion on the image particle list
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists[x_clls - 1][0].insert(particles.cell_lists[x_clls - 1][0].first(), prtl);
+      particles.cell_lists(x_clls - 1,0).insert(particles.cell_lists(x_clls - 1,0).first(), prtl);
     }
   }
 
   /// <li>the perodic conditions</ul></ul>	
   if(xBr == 1 && yBd == 1) {
     //clear the linked list data (particles)
-    particles.cell_lists[x_clls - 1][0].clear_data();
+    particles.cell_lists(x_clls - 1,0).clear_data();
     //iterate the correspeond cell for real and wall partilces
-    for (LlistNode<Particle> *p231 = particles.cell_lists[1][y_clls - 2].first(); 
-	 !particles.cell_lists[1][y_clls - 2].isEnd(p231); 
-	 p231 = particles.cell_lists[1][y_clls - 2].next(p231)) {
+    for (LlistNode<Particle> *p231 = particles.cell_lists(1,y_clls - 2).first(); 
+	 !particles.cell_lists(1,y_clls - 2).isEnd(p231); 
+	 p231 = particles.cell_lists(1,y_clls - 2).next(p231)) {
 					
       //the original real particle
-      Particle *prtl_old = particles.cell_lists[1][y_clls - 2].retrieve(p231);
+      Particle *prtl_old = particles.cell_lists(1,y_clls - 2).retrieve(p231);
       Particle *prtl = new Particle(*prtl_old);
 
       //boundary condition
@@ -828,7 +828,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
       //insert its poistion on the particle list
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists[x_clls - 1][0].insert(particles.cell_lists[x_clls - 1][0].first(), prtl);
+      particles.cell_lists(x_clls - 1,0).insert(particles.cell_lists(x_clls - 1,0).first(), prtl);
     }
   }
 }
@@ -858,11 +858,11 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
     /// <ul> <li>the rigid wall conditions</ul>	
     if(xBl == 0 || xBl == 2) {
       //iterate the correspeond cell linked list
-      for (LlistNode<Particle> *p1 = particles.cell_lists[0][j].first(); 
-	   !particles.cell_lists[0][j].isEnd(p1); 
-	   p1 = particles.cell_lists[0][j].next(p1)) {
+      for (LlistNode<Particle> *p1 = particles.cell_lists(0,j).first(); 
+	   !particles.cell_lists(0,j).isEnd(p1); 
+	   p1 = particles.cell_lists(0,j).next(p1)) {
 				
-	Particle *prtl = particles.cell_lists[0][j].retrieve(p1);
+	Particle *prtl = particles.cell_lists(0,j).retrieve(p1);
 	//copy states from the original particle
 	prtl->StatesCopier(*prtl->rl_prtl, 0);
 
@@ -873,11 +873,11 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
     /// <ul> <li>the perodic or symmetry conditions </ul>
     if(xBl == 1 || xBl == 3) {
       //iterate the correspeond cell linked list
-      for (LlistNode<Particle> *p1 = particles.cell_lists[0][j].first(); 
-	   !particles.cell_lists[0][j].isEnd(p1); 
-	   p1 = particles.cell_lists[0][j].next(p1)) {
+      for (LlistNode<Particle> *p1 = particles.cell_lists(0,j).first(); 
+	   !particles.cell_lists(0,j).isEnd(p1); 
+	   p1 = particles.cell_lists(0,j).next(p1)) {
 				
-	Particle *prtl = particles.cell_lists[0][j].retrieve(p1);
+	Particle *prtl = particles.cell_lists(0,j).retrieve(p1);
 	//copy states from the original particle
 	prtl->StatesCopier(*prtl->rl_prtl, 1);
 
@@ -890,11 +890,11 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
     /// <ul> <li> the rigid wall conditions	
     if(xBr == 0 || xBr == 2) {
       //iterate the correspeond cell linked list
-      for (LlistNode<Particle> *p2 = particles.cell_lists[x_clls - 1][j].first(); 
-	   !particles.cell_lists[x_clls - 1][j].isEnd(p2); 
-	   p2 = particles.cell_lists[x_clls - 1][j].next(p2)) {
+      for (LlistNode<Particle> *p2 = particles.cell_lists(x_clls - 1,j).first(); 
+	   !particles.cell_lists(x_clls - 1,j).isEnd(p2); 
+	   p2 = particles.cell_lists(x_clls - 1,j).next(p2)) {
 					
-	Particle *prtl = particles.cell_lists[x_clls - 1][j].retrieve(p2);
+	Particle *prtl = particles.cell_lists(x_clls - 1,j).retrieve(p2);
 	//copy states from the original particle
 	prtl->StatesCopier(*prtl->rl_prtl, 0);
 
@@ -905,11 +905,11 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
     /// <li>the perodic or symmetry conditions</ul>	
     if(xBr == 1 || xBr == 3) {
       //iterate the correspeond cell linked list
-      for (LlistNode<Particle> *p2 = particles.cell_lists[x_clls - 1][j].first(); 
-	   !particles.cell_lists[x_clls - 1][j].isEnd(p2); 
-	   p2 = particles.cell_lists[x_clls - 1][j].next(p2)) {
+      for (LlistNode<Particle> *p2 = particles.cell_lists(x_clls - 1,j).first(); 
+	   !particles.cell_lists(x_clls - 1,j).isEnd(p2); 
+	   p2 = particles.cell_lists(x_clls - 1,j).next(p2)) {
 					
-	Particle *prtl = particles.cell_lists[x_clls - 1][j].retrieve(p2);
+	Particle *prtl = particles.cell_lists(x_clls - 1,j).retrieve(p2);
 	//copy states from the original particle
 	prtl->StatesCopier(*prtl->rl_prtl, 1);
 
@@ -926,11 +926,11 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
     /// <ul><li>the rigid wall conditions	
     if(yBd == 0 || yBd == 2) {
       //iterate the correspeond cell linked list
-      for (LlistNode<Particle> *p3 = particles.cell_lists[i][0].first(); 
-	   !particles.cell_lists[i][0].isEnd(p3); 
-	   p3 = particles.cell_lists[i][0].next(p3)) {
+      for (LlistNode<Particle> *p3 = particles.cell_lists(i,0).first(); 
+	   !particles.cell_lists(i,0).isEnd(p3); 
+	   p3 = particles.cell_lists(i,0).next(p3)) {
 					
-	Particle *prtl = particles.cell_lists[i][0].retrieve(p3);
+	Particle *prtl = particles.cell_lists(i,0).retrieve(p3);
 	//copy states from the original particle
 	prtl->StatesCopier(*prtl->rl_prtl, 0);
 
@@ -941,11 +941,11 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
     /// <li>the perodic or symmetry conditions</ul>	
     if(yBd == 1 || yBd == 3) {
       //iterate the correspeond cell linked list
-      for (LlistNode<Particle> *p3 = particles.cell_lists[i][0].first(); 
-	   !particles.cell_lists[i][0].isEnd(p3); 
-	   p3 = particles.cell_lists[i][0].next(p3)) {
+      for (LlistNode<Particle> *p3 = particles.cell_lists(i,0).first(); 
+	   !particles.cell_lists(i,0).isEnd(p3); 
+	   p3 = particles.cell_lists(i,0).next(p3)) {
 					
-	Particle *prtl = particles.cell_lists[i][0].retrieve(p3);
+	Particle *prtl = particles.cell_lists(i,0).retrieve(p3);
 	//copy states from the original particle
 	prtl->StatesCopier(*prtl->rl_prtl, 1);
 
@@ -960,12 +960,12 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
     /// <ul><li>the rigid wall conditions	
     if(yBu == 0 || yBu == 2) {
       //iterate the correspeond cell for real and wall partilces
-      for (LlistNode<Particle> *p4 = particles.cell_lists[i][y_clls - 1].first(); 
-	   !particles.cell_lists[i][y_clls - 1].isEnd(p4); 
-	   p4 = particles.cell_lists[i][y_clls - 1].next(p4)) {
+      for (LlistNode<Particle> *p4 = particles.cell_lists(i,y_clls - 1).first(); 
+	   !particles.cell_lists(i,y_clls - 1).isEnd(p4); 
+	   p4 = particles.cell_lists(i,y_clls - 1).next(p4)) {
 					
 	//the original real particle
-	Particle *prtl = particles.cell_lists[i][y_clls - 1].retrieve(p4);
+	Particle *prtl = particles.cell_lists(i,y_clls - 1).retrieve(p4);
 	//copy states from the original particle
 	prtl->StatesCopier(*prtl->rl_prtl, 0);
 	
@@ -976,12 +976,12 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
     /// <li>the perodic or symmetry conditions</ul></ul>	
     if(yBu == 1 || yBu == 3) {
       //iterate the correspeond cell for real and wall partilces
-      for (LlistNode<Particle> *p4 = particles.cell_lists[i][y_clls - 1].first(); 
-	   !particles.cell_lists[i][y_clls - 1].isEnd(p4); 
-	   p4 = particles.cell_lists[i][y_clls - 1].next(p4)) {
+      for (LlistNode<Particle> *p4 = particles.cell_lists(i,y_clls - 1).first(); 
+	   !particles.cell_lists(i,y_clls - 1).isEnd(p4); 
+	   p4 = particles.cell_lists(i,y_clls - 1).next(p4)) {
 					
 	//the original real particle
-	Particle *prtl = particles.cell_lists[i][y_clls - 1].retrieve(p4);
+	Particle *prtl = particles.cell_lists(i,y_clls - 1).retrieve(p4);
 	//copy states from the original particle
 	prtl->StatesCopier(*prtl->rl_prtl, 1);
 	
@@ -997,11 +997,11 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
   /// <ul><li>the rigid wall conditions 	
   if(xBl == 0 && yBd == 0 || xBl == 2 && yBd == 2) {
     //iterate the correspeond cell linked list
-    for (LlistNode<Particle> *p13 = particles.cell_lists[0][0].first(); 
-	 !particles.cell_lists[0][0].isEnd(p13); 
-	 p13 = particles.cell_lists[0][0].next(p13)) {
+    for (LlistNode<Particle> *p13 = particles.cell_lists(0,0).first(); 
+	 !particles.cell_lists(0,0).isEnd(p13); 
+	 p13 = particles.cell_lists(0,0).next(p13)) {
 					
-      Particle *prtl = particles.cell_lists[0][0].retrieve(p13);
+      Particle *prtl = particles.cell_lists(0,0).retrieve(p13);
       //copy states from the original particle
       prtl->StatesCopier(*prtl->rl_prtl, 0);
 
@@ -1012,11 +1012,11 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
   /// <li>the perodic or symmetry conditions</ul>	
   if(xBl == 1 && yBd == 1 || xBl == 3 && yBd == 3) {
     //iterate the correspeond cell linked list
-    for (LlistNode<Particle> *p13 = particles.cell_lists[0][0].first(); 
-	 !particles.cell_lists[0][0].isEnd(p13); 
-	 p13 = particles.cell_lists[0][0].next(p13)) {
+    for (LlistNode<Particle> *p13 = particles.cell_lists(0,0).first(); 
+	 !particles.cell_lists(0,0).isEnd(p13); 
+	 p13 = particles.cell_lists(0,0).next(p13)) {
 					
-      Particle *prtl = particles.cell_lists[0][0].retrieve(p13);
+      Particle *prtl = particles.cell_lists(0,0).retrieve(p13);
       //copy states from the original particle
       prtl->StatesCopier(*prtl->rl_prtl, 1);
 
@@ -1029,12 +1029,12 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
   /// <ul><li>the rigid wall conditions 	
   if(xBl == 0 && yBu == 0 || xBl == 2 && yBu == 2) {
     //iterate the correspeond cell for real and wall partilces
-    for (LlistNode<Particle> *p14 = particles.cell_lists[0][y_clls - 1].first(); 
-	 !particles.cell_lists[0][y_clls - 1].isEnd(p14); 
-	 p14 = particles.cell_lists[0][y_clls - 1].next(p14)) {
+    for (LlistNode<Particle> *p14 = particles.cell_lists(0,y_clls - 1).first(); 
+	 !particles.cell_lists(0,y_clls - 1).isEnd(p14); 
+	 p14 = particles.cell_lists(0,y_clls - 1).next(p14)) {
 					
       //the original real particle
-      Particle *prtl = particles.cell_lists[0][y_clls - 1].retrieve(p14);
+      Particle *prtl = particles.cell_lists(0,y_clls - 1).retrieve(p14);
       //copy states from the original particle
       prtl->StatesCopier(*prtl->rl_prtl, 0);
 
@@ -1045,12 +1045,12 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
   /// <li>the perodic or symmetry conditions</ul>	
   if(xBl == 1 && yBu == 1 || xBl == 3 && yBu == 3) {
     //iterate the correspeond cell for real and wall partilces
-    for (LlistNode<Particle> *p14 = particles.cell_lists[0][y_clls - 1].first(); 
-	 !particles.cell_lists[0][y_clls - 1].isEnd(p14); 
-	 p14 = particles.cell_lists[0][y_clls - 1].next(p14)) {
+    for (LlistNode<Particle> *p14 = particles.cell_lists(0,y_clls - 1).first(); 
+	 !particles.cell_lists(0,y_clls - 1).isEnd(p14); 
+	 p14 = particles.cell_lists(0,y_clls - 1).next(p14)) {
 					
       //the original real particle
-      Particle *prtl = particles.cell_lists[0][y_clls - 1].retrieve(p14);
+      Particle *prtl = particles.cell_lists(0,y_clls - 1).retrieve(p14);
       //copy states from the original particle
       prtl->StatesCopier(*prtl->rl_prtl, 1);
 
@@ -1063,12 +1063,12 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
   /// <ul><li>the rigid wall conditions 	
   if(xBr == 0 && yBu == 0 || xBr == 2 && yBu == 2) {
     //iterate the correspeond cell linked list
-    for (LlistNode<Particle> *p24 = particles.cell_lists[x_clls - 1][y_clls - 1].first(); 
-	 !particles.cell_lists[x_clls - 1][y_clls - 1].isEnd(p24); 
-	 p24 = particles.cell_lists[x_clls - 1][y_clls - 1].next(p24)) {
+    for (LlistNode<Particle> *p24 = particles.cell_lists(x_clls - 1,y_clls - 1).first(); 
+	 !particles.cell_lists(x_clls - 1,y_clls - 1).isEnd(p24); 
+	 p24 = particles.cell_lists(x_clls - 1,y_clls - 1).next(p24)) {
 				
       //the original real particle
-      Particle *prtl = particles.cell_lists[x_clls - 1][y_clls - 1].retrieve(p24);
+      Particle *prtl = particles.cell_lists(x_clls - 1,y_clls - 1).retrieve(p24);
       //copy states from the original particle
       prtl->StatesCopier(*prtl->rl_prtl, 0);
 
@@ -1079,12 +1079,12 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
   /// <li>the perodic or symmetry conditions</ul>	
   if(xBr == 1 && yBu == 1 || xBr == 3 && yBu == 3) {
     //iterate the correspeond cell linked list
-    for (LlistNode<Particle> *p24 = particles.cell_lists[x_clls - 1][y_clls - 1].first(); 
-	 !particles.cell_lists[x_clls - 1][y_clls - 1].isEnd(p24); 
-	 p24 = particles.cell_lists[x_clls - 1][y_clls - 1].next(p24)) {
+    for (LlistNode<Particle> *p24 = particles.cell_lists(x_clls - 1,y_clls - 1).first(); 
+	 !particles.cell_lists(x_clls - 1,y_clls - 1).isEnd(p24); 
+	 p24 = particles.cell_lists(x_clls - 1,y_clls - 1).next(p24)) {
 				
       //the original real particle
-      Particle *prtl = particles.cell_lists[x_clls - 1][y_clls - 1].retrieve(p24);
+      Particle *prtl = particles.cell_lists(x_clls - 1,y_clls - 1).retrieve(p24);
       //copy states from the original particle
       prtl->StatesCopier(*prtl->rl_prtl, 1);
 
@@ -1097,12 +1097,12 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
   /// <ul><li>the rigid wall conditions 	
   if(xBr == 0 && yBd == 0 || xBr == 2 && yBd == 2) {	
     //iterate the correspeond cell linked list
-    for (LlistNode<Particle> *p23 = particles.cell_lists[x_clls - 1][0].first(); 
-	 !particles.cell_lists[x_clls - 1][0].isEnd(p23); 
-	 p23 = particles.cell_lists[x_clls - 1][0].next(p23)) {
+    for (LlistNode<Particle> *p23 = particles.cell_lists(x_clls - 1,0).first(); 
+	 !particles.cell_lists(x_clls - 1,0).isEnd(p23); 
+	 p23 = particles.cell_lists(x_clls - 1,0).next(p23)) {
 					
       //the original real particle
-      Particle *prtl = particles.cell_lists[x_clls - 1][0].retrieve(p23);
+      Particle *prtl = particles.cell_lists(x_clls - 1,0).retrieve(p23);
       //copy states from the original particle
       prtl->StatesCopier(*prtl->rl_prtl, 0);
 	
@@ -1114,12 +1114,12 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
   /// <li>the perodic or symmetry conditions</ul></ul></ul>	
   if(xBr == 1 && yBd == 1 || xBr == 3 && yBd == 3) {	
     //iterate the correspeond cell linked list
-    for (LlistNode<Particle> *p23 = particles.cell_lists[x_clls - 1][0].first(); 
-	 !particles.cell_lists[x_clls - 1][0].isEnd(p23); 
-	 p23 = particles.cell_lists[x_clls - 1][0].next(p23)) {
+    for (LlistNode<Particle> *p23 = particles.cell_lists(x_clls - 1,0).first(); 
+	 !particles.cell_lists(x_clls - 1,0).isEnd(p23); 
+	 p23 = particles.cell_lists(x_clls - 1,0).next(p23)) {
 					
       //the original real particle
-      Particle *prtl = particles.cell_lists[x_clls - 1][0].retrieve(p23);
+      Particle *prtl = particles.cell_lists(x_clls - 1,0).retrieve(p23);
       //copy states from the original particle
       prtl->StatesCopier(*prtl->rl_prtl, 1);
 

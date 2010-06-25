@@ -6,6 +6,7 @@
 #include "vec2d.h"
 #include "dllist.h"
 #include "particle.h"
+#include <boost/numeric/ublas/matrix.hpp>
 
 class Hydrodynamics;
 class Initiation;
@@ -15,6 +16,8 @@ class Force;
 class Kernel;
 
 /// Particle manager class 
+using namespace boost::numeric::ublas;
+
 class ParticleManager
 {
 	//parameters copied from initiation
@@ -44,7 +47,7 @@ public:
         int y_clls;///<linked cell matrix size y-direction
 
 	//lists
-	Llist<Particle> **cell_lists;	///<cell linked list in 2-d array
+  matrix<Llist<Particle> > cell_lists;	///<cell linked list in 2-d array
 	
 	Llist<Particle> NNP_list; ///<list for the nearest neighbor particles
 

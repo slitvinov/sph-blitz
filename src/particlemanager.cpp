@@ -88,9 +88,13 @@ ParticleManager::ParticleManager(const char Project_name_in[25], const int numbe
 
 void ParticleManager::Init() {
   ///- strore the cell linked lists in a 2-d array
-  
-  cell_lists = new Llist<Particle>*[x_clls];
-  for(int i = 0; i < x_clls; i++) cell_lists[i] = new Llist<Particle>[y_clls];
+  cell_lists.resize(x_clls, y_clls);
+  for (int i=0; i < x_clls; i++) {
+    for(int j = 0; j < y_clls; j++) {
+      Llist<Particle>* prtl_list = new Llist<Particle>;
+      cell_lists(i, j) = *prtl_list;
+    }
+  }
 }
 
 
@@ -109,11 +113,11 @@ void ParticleManager::UpdateCellLinkedLists()
     for(j = 0; j < y_clls; j++) { 
 
       ///<ul><li>iterate this cell list
-      LlistNode<Particle> *p = cell_lists[i][j].first(); 
+      LlistNode<Particle> *p = cell_lists(i,j).first(); 
       ///<li>if the list is empty or the node position is at the end <b>!!!Question!!! is this comment right? would it not rather be...if list NOT empty and NOT at the end </b>
-      while(!cell_lists[i][j].isEnd(p)) {
+      while(!cell_lists(i,j).isEnd(p)) {
 	///<ul><li>check the position of the real particle
-	Particle *prtl = cell_lists[i][j].retrieve(p);
+	Particle *prtl = cell_lists(i,j).retrieve(p);
 	if(prtl->bd == 0) {
 	  //where is the particle
 	  k = int ((prtl->R[0] + cll_sz)/ cll_sz);
@@ -122,13 +126,13 @@ void ParticleManager::UpdateCellLinkedLists()
 	  ///<ul><li>if the partilce runs out of the current cell
 	  if(k != i || m !=j) {
 	    ///<ul><li>delete the current node
-	    cell_lists[i][j].remove(p);
+	    cell_lists(i,j).remove(p);
 	   
 	    ///<li>insert it to the new cell linked list</ul></ul></ul></ul>
 	    if(prtl->R[0]>=0.0 &&prtl->R[0]<=2.0)
-	    cell_lists[k][m].insert(cell_lists[k][m].first(), prtl);
-	  } else p = cell_lists[i][j].next(p);
-	} else p = cell_lists[i][j].next(p);
+	      cell_lists(k,m).insert(cell_lists(k,m).first(), prtl);
+	  } else p = cell_lists(i,j).next(p);
+	} else p = cell_lists(i,j).next(p);
       }
 
     }
@@ -156,13 +160,13 @@ void ParticleManager::BuildNNP(Vec2d &point)
     for(int j = m - 1; j <= m + 1; j++) { 
       if(i < x_clls && j < y_clls && i >= 0 && j >= 0) {
 	///<ul><li>iterate this cell list
-	for (LlistNode<Particle> *p = cell_lists[i][j].first(); 
-	     !cell_lists[i][j].isEnd(p); 
-	     p = cell_lists[i][j].next(p)) {
+	for (LlistNode<Particle> *p = cell_lists(i,j).first(); 
+	     !cell_lists(i,j).isEnd(p); 
+	     p = cell_lists(i,j).next(p)) {
 
 	  ///<ul><li>check the position of the particle
 	  ///and (if particle is NNP) insert the nearest particle to the list
-	  Particle *prtl = cell_lists[i][j].retrieve(p);
+	  Particle *prtl = cell_lists(i,j).retrieve(p);
 	  const double dstc = v_distance(point, prtl->R);
 	  if(dstc < supportlength) {///<li>(line 137)<b>Question: WHY SMOOTHINGLENGTH AND NOT SUPPORT LENGT???</b>
 	    NNP_list.insert(NNP_list.first(), prtl);
@@ -192,13 +196,13 @@ void ParticleManager::BuildNNP_MLSMapping(Vec2d &point)
     for(j = m - 1; j <= m + 1; j++) { 
       if(i < x_clls && j < y_clls && i >= 0 && j >= 0) {
 	///<ul><li>iterate this cell list
-	for (LlistNode<Particle> *p = cell_lists[i][j].first(); 
-	     !cell_lists[i][j].isEnd(p); 
-	     p = cell_lists[i][j].next(p)) {
+	for (LlistNode<Particle> *p = cell_lists(i,j).first(); 
+	     !cell_lists(i,j).isEnd(p); 
+	     p = cell_lists(i,j).next(p)) {
 
 	  ///<ul><li>check the position of the real particle
 	  ///and (if particle is NNP) insert it to the list
-	  Particle *prtl = cell_lists[i][j].retrieve(p);
+	  Particle *prtl = cell_lists(i,j).retrieve(p);
 	  dstc = v_distance(point, prtl->R);
 	  //only real particles included
 	  if(dstc < supportlength && prtl->bd == 0) {
@@ -251,12 +255,12 @@ cout<<"\n Am in build interaction control point 2 \n";
 	for(k = i - 1; k <= i + 1; k++) 
 	  for(m = j - 1; m <= j + 1; m++) { 
 	    ///<ul><li>iterate this cell list
-	    for (LlistNode<Particle> *p1 = cell_lists[k][m].first(); 
-		 !cell_lists[k][m].isEnd(p1); 
-		 p1 = cell_lists[k][m].next(p1)) {
+	    for (LlistNode<Particle> *p1 = cell_lists(k,m).first(); 
+		 !cell_lists(k,m).isEnd(p1); 
+		 p1 = cell_lists(k,m).next(p1)) {
 
 	      // destination particle
-	      Particle *prtl_dest = cell_lists[k][m].retrieve(p1);
+	      Particle *prtl_dest = cell_lists(k,m).retrieve(p1);
 		
 	      ///<ul><li>calculate distance between particle in question and destination particle (which is iterated)and if interaction takes place: add pair to inetraction list (<b>question: why is dst compared to h^2 and not support length to determine if there is interaction or not??</b>
 	      dstc = v_sq(prtl_org->R - prtl_dest->R);
@@ -347,14 +351,16 @@ void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation &ini)
 	    //creat a new real particle
 	    Particle *prtl = new Particle( position, velocity, density, pressure, Temperature, 
 					   hydro.materials[material_no]);
-
+	    
 	    prtl->cell_i = i; prtl->cell_j = j; 
 						
 	    //insert its poistion on the particle list
 	    hydro.particle_list.insert(hydro.particle_list.first(), prtl);
 
 	    //insert the position into corresponding cell list
-	    cell_lists[i][j].insert(cell_lists[i][j].first(), prtl);
+	    std::cerr << "i = " << i << '\n';
+	    std::cerr << "j = " << j << '\n';
+	    cell_lists(i,j).insert(cell_lists(i,j).first(), prtl);
 
 	  }
 	}
@@ -413,7 +419,7 @@ void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation &ini)
 					
 	prtl->cell_i = i; prtl->cell_j = j; 
 	//insert the position into corresponding cell list
-	cell_lists[i][j].insert(cell_lists[i][j].first(), prtl);
+	cell_lists(i,j).insert(cell_lists(i,j).first(), prtl);
 
       } else {
 	cout<<"The material in the restart file is not used by the program! \n";
@@ -464,7 +470,7 @@ void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation &ini)
 	//insert the position into corresponding cell list
 	std::cerr << "i = " << i << '\n';
 	std::cerr << "i = " << i << '\n';
-	cell_lists[i][j].insert(cell_lists[i][j].first(), prtl);
+	cell_lists(i,j).insert(cell_lists(i,j).first(), prtl);
       };
     fin.close();
   }
@@ -493,7 +499,7 @@ void ParticleManager::BuildWallParticles(Hydrodynamics &hydro, Boundary &boundar
 	  hydro.particle_list.insert(hydro.particle_list.first(), prtl);
 
 	  ///<li>insert the position into corresponding cell list</ul></ul>
-	  cell_lists[0][j].insert(cell_lists[0][j].first(), prtl);
+	  cell_lists(0,j).insert(cell_lists(0,j).first(), prtl);
 
 	}
     }
@@ -515,7 +521,7 @@ void ParticleManager::BuildWallParticles(Hydrodynamics &hydro, Boundary &boundar
 	  hydro.particle_list.insert(hydro.particle_list.first(), prtl);
 
 	  ///<li>insert the position into corresponding cell list</ul></ul>
-	  cell_lists[x_clls - 1][j].insert(cell_lists[x_clls - 1][j].first(), prtl);
+	  cell_lists(x_clls - 1,j).insert(cell_lists(x_clls - 1,j).first(), prtl);
 
 	}
     }
@@ -537,7 +543,7 @@ void ParticleManager::BuildWallParticles(Hydrodynamics &hydro, Boundary &boundar
 	  hydro.particle_list.insert(hydro.particle_list.first(), prtl);
 
 	  ///<li>insert the position into corresponding cell list</ul></ul>
-	  cell_lists[i][0].insert(cell_lists[i][0].first(), prtl);
+	  cell_lists(i,0).insert(cell_lists(i,0).first(), prtl);
 
 	}
     }
@@ -559,7 +565,7 @@ void ParticleManager::BuildWallParticles(Hydrodynamics &hydro, Boundary &boundar
 	  hydro.particle_list.insert(hydro.particle_list.first(), prtl);
 
 	  ///<li>insert the position into corresponding cell list</ul></ul>
-	  cell_lists[i][y_clls - 1].insert(cell_lists[i][y_clls - 1].first(), prtl);
+	  cell_lists(i,y_clls - 1).insert(cell_lists(i,y_clls - 1).first(), prtl);
 
 	}
     }
