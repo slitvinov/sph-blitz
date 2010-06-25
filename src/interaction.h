@@ -37,10 +37,6 @@ class Interaction {
 	double etaj;///<viscosity for particle j
 	double zetaj;///<<b>!!!question!!!<b>other viscosity for particle???
 
-	double hij;///averaged smoothing length
-	double cij;///averaged sound speed
-	double rhoij;///averaged density
-	double phiij;///parameter for monaghan artificial viscosity
 	double piij;///Monaghan artificial viscosity
 
 	//distance between the two particles, weight and derivatives
@@ -48,22 +44,12 @@ class Interaction {
         double rrij;///< reciprocal value of distance between 2 particles
         double Wij;///<<b>!!!question!!!<b>
         double Fij;///<<b>!!!question!!!<b>
-        double LapWij;///<<b>!!!question!!!<b>
         double Wij2;///<<b>!!!question!!!<b>
 	Vec2d gradWij;///kernel gradient
 	Vec2d eij; ///<pair direction from orginal particle to destination particle 
 	double shear_rij ;///<particle length to implement slip boundary<<b>!!!question!!!<b>
 	double bulk_rij; ///<particle length to implement slip boundary<<b>!!!question!!!<b>
 
-#ifdef _OPENMP
-
-	double drhodt1;///<for temporary storage of computation terms
-	double drhodt2;///<for temporary storage of computation terms
-	Vec2d _dU1;///<for temporary storage of computation terms
-	Vec2d _dU2;///<for temporary storage of computation terms
-	Vec2d dUdt1;///<for temporary storage of computation terms
-	Vec2d dUdt2;///<for temporary storage of computation terms
-#endif
 		
 public:
 	

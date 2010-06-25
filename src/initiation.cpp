@@ -90,9 +90,6 @@ Initiation::Initiation(const char *project_name) {
 		//comparing the key words for timing
 		if(!strcmp(Key_word, "TIMING")) fin>>Start_time>>End_time>>D_time;
 
-		//Premitted max particle number for MLS approximation
-		if(!strcmp(Key_word, "MLS_MAX")) fin>>MLS_MAX;
-
 		//Initialize the initial conditions from .cfg file
 		if (initial_condition==0) {
 			//comparing the key words for the initial state
@@ -103,7 +100,13 @@ Initiation::Initiation(const char *project_name) {
 	fin.close();
 
 	///<li>create outdata directory
-	system("mkdir -p outdata");
+	const int sys_return = system("mkdir -p outdata");
+	if (sys_return) {
+	  std::cerr<<"system command faild"<< inputfile <<" \n";
+	  std::cerr << __FILE__ << ':' << __LINE__ << std::endl;
+	  exit(EXIT_FAILURE);
+	}
+	
 	
 	///<li>process the data <b>!!!Question!!!</b>
 	box_size[0] = x_cells*cell_size; box_size[1] = y_cells*cell_size;

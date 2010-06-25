@@ -6,11 +6,6 @@
 
 #ifndef GLBCLS_H
 #define GLBCLS_H
-
-#ifdef _OPENMP
-#include <omp.h>
-#endif
-
 ///#include <iostream>
 ///#include "vec2d.h"
 #include "dllist.h"

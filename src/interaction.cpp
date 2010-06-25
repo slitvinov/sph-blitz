@@ -230,13 +230,13 @@ void Interaction::UpdateForces()
 	  const double drhodti=mj*dot((Ui-Uj),gradWij);
 	  const double drhodtj=mi*dot((Uj-Ui),((-1)*gradWij));
 
-	  hij=supportlength/2;//=0.5*(hi+hj)for later (variable smoothing length);
-	  cij=0.5*(Org->Cs+Dest->Cs);
-          rhoij=0.5*(rhoi+rhoj);
+	  const double hij=supportlength/2.0;//=0.5*(hi+hj)for later (variable smoothing length);
+	  const double cij=0.5*(Org->Cs+Dest->Cs);
+          const double rhoij=0.5*(rhoi+rhoj);
 	
           if (UijdotRij<0)//that means: whenever in compression (as only then artificial viscosity applies for a shock tube problem)
           {
-            phiij=(hij*UijdotRij)/(pow(rij,2)+epsilon_artVis*pow(hij,2)); //according to formula monaghan artificial viscosity
+            const double phiij=(hij*UijdotRij)/(pow(rij,2)+epsilon_artVis*pow(hij,2)); //according to formula monaghan artificial viscosity
 	    piij=(-1*alpha_artVis*cij*phiij+beta_artVis*pow(phiij,2))/rhoij; //according to formula monaghan artificial viscosity
           }
 	  else //if no compression: artificial viscosity is zero
@@ -283,33 +283,13 @@ void Interaction::UpdateForces()
 	  dPdti =   eij*Fij*rij*(pi*Vi2 + pj*Vj2)
 			- ((Uij - eij*Uijdoteij)*shear_rij + eij*(Uijdoteij*2.0*bulk_rij + NR_vis))
 			*Fij*(Vi2 + Vj2);
-#ifdef _OPENMP
-	_dU1 = dUi*mi;
-	_dU2 = dUi*mj;
-	drhodt1 = drhodti*rhoi*rVi;
-	drhodt2 = drhodti*rhoj*rVj;
-	dUdt1 = dPdti*rmi;
-	dUdt2 = dPdti*rmj;
-#else
 	Org->drhodt += drhodti*rhoi*rVi;
 	Dest->drhodt += drhodti*rhoj*rVj;
 	Org->dUdt += dPdti*rmi;
 	Dest->dUdt -= dPdti*rmj;
-#endif
 	}
 }
 
-#ifdef _OPENMP
-void Interaction::SummationUpdateForces()
-{
-	Org->_dU += _dU1;
-	Dest->_dU -= _dU2;
-	Org->drhodt += drhodt1;
-	Dest->drhodt += drhodt2;
-	Org->dUdt += dUdt1;
-	Dest->dUdt -= dUdt2;
-}
-#endif
 
 //----------------------------------------------------------------------------------------
 //				update forces with summation viscosity
