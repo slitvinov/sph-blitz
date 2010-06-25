@@ -16,7 +16,7 @@ class Force;
 class Kernel;
 
 /// Particle manager class 
-using namespace boost::numeric::ublas;
+namespace blast = boost::numeric::ublas;
 
 class ParticleManager
 {
@@ -47,7 +47,7 @@ public:
         int y_clls;///<linked cell matrix size y-direction
 
 	//lists
-  matrix<Llist<Particle> > cell_lists;	///<cell linked list in 2-d array
+  blast::matrix<Llist<Particle> > cell_lists;	///<cell linked list in 2-d array
 	
 	Llist<Particle> NNP_list; ///<list for the nearest neighbor particles
 
@@ -68,7 +68,7 @@ public:
 
 
 	///buid the initial particles and the linked lists
-  void BuildRealParticles(std::vector<Material>, 
+  void BuildRealParticles(blast::vector<Material>, 
 			  Llist<Particle>& particle_list, 
 			  Initiation &ini);
 	void BuildRealParticles(Hydrodynamics &hydro);

@@ -4,8 +4,10 @@
 /// \brief  Definition of  materials and their hydrodynamical interactions
 
 
-#include <vector>
+#include <boost/numeric/ublas/matrix.hpp>
 #include "material.h"
+
+namespace blast = boost::numeric::ublas;
 
 /// Definition of  materials and their hydrodynamical interactions
 class Hydrodynamics
@@ -26,7 +28,7 @@ class Hydrodynamics
 public:
 
 	///the materials used
-	std::vector<Material> materials;
+	blast::vector<Material> materials;
 	///the interaction force used
 	Force **forces;
 	Llist<Particle> particle_list; ///<particle list for all particles

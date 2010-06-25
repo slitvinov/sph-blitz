@@ -73,8 +73,6 @@ public:
 
 	//for multimaterials
 	double eta, zeta; ///particle.h(line 69-74) viscosity of each particle<b>!!!Question!!!</b>
-	double **phi; ///phase field matrix<b>!!!Question!!!</b>
-
 	
 	//change rate for real particles
 	double drhodt; ///<density change rate for real particles
