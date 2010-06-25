@@ -27,6 +27,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 ParticleManager::ParticleManager(Initiation &ini)
 {
+  
 
   ///- copy properties from class Initiation
   strcpy(Project_name, ini.Project_name);
@@ -87,6 +88,7 @@ ParticleManager::ParticleManager(const char Project_name_in[25], const int numbe
 
 void ParticleManager::Init() {
   ///- strore the cell linked lists in a 2-d array
+  
   cell_lists = new Llist<Particle>*[x_clls];
   for(int i = 0; i < x_clls; i++) cell_lists[i] = new Llist<Particle>[y_clls];
 }
