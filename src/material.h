@@ -39,8 +39,6 @@ public:
 	Material();
 	///constructor
 	Material(Initiation &ini);
-	///constructor
-	Material(char *material_name, Initiation &ini);
 	
 	///non-dimensionalize
 	void non_dimensionalize(Initiation &ini);

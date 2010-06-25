@@ -51,16 +51,17 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
     std::cout << __FILE__ << ':' << __LINE__ << std::endl;
     exit(1);
   }
-  else cout<<"\nMaterial: read the propeties of materials and interaction forces \n"; 
+  else cout<<"\nMaterial: read the propeties of materials\n"; 
 
   ///<li>reading all key words and configuration data
   while(!fin.eof()) {
-		
     //read a string block
     fin>>Key_word;
 		
     //comparing the key words for the materials 
-    if(!strcmp(Key_word, "MATERIALS")) 
+    std::cerr << "Key_word: " << Key_word << '\n';
+
+    if(!strcmp(Key_word, "MATERIALS") )  {
       ///<li>if  key word material: read all materials (from .cfg file)
       for(int k = 0; k < number_of_materials; k++) {
 	//the material number
@@ -75,25 +76,23 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
 	///<li>non-dimensionalize</ul>
 	materials[k].non_dimensionalize(ini);
       }
-    fin.close();
- 	
-    ///<li>initialize parameters for time step and the artificial compressiblity
-    viscosity_max = 0.0; 
-    for(int k = 0; k < number_of_materials; k++) {
-      viscosity_max = AMAX1(viscosity_max, materials[k].nu);
     }
-    dt_g_vis = AMIN1(sqrt(delta/v_abs(gravity)), 0.5*delta2/viscosity_max);
-
-    ///<li>determine the artificial compressiblity
-    double sound;
-    //g force and viscosity
-    sound = AMAX1(v_abs(ini.g_force), viscosity_max);
-    for(int k = 0; k < number_of_materials; k++) materials[k].Set_b0(sound);
-
-    ///<li>biuld the real particles
-    particles.BuildRealParticles(*this, ini);
-
   }
+  fin.close();
+ 	
+  ///<li>initialize parameters for time step and the artificial compressiblity
+  viscosity_max = 0.0; 
+  for(int k = 0; k < number_of_materials; k++) {
+    viscosity_max = AMAX1(viscosity_max, materials[k].nu);
+  }
+  dt_g_vis = AMIN1(sqrt(delta/v_abs(gravity)), 0.5*delta2/viscosity_max);
+
+  ///<li>determine the artificial compressiblity
+  const double sound = AMAX1(v_abs(ini.g_force), viscosity_max);
+  for(int k = 0; k < number_of_materials; k++) materials[k].Set_b0(sound);
+
+  ///<li>biuld the real particles
+  particles.BuildRealParticles(*this, ini);
 }
 
 //----------------------------------------------------------------------------------------

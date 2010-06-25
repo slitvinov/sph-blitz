@@ -45,44 +45,6 @@ Material::Material(Initiation &ini)
 	  
 }
 //----------------------------------------------------------------------------------------
-//					constructors
-//----------------------------------------------------------------------------------------
-Material::Material(char *material_name, Initiation &ini)
-{
-
-	char Key_word[25];
-	char inputfile[25];
-
-	strcpy(inputfile, ini.inputfile);
-	
-	///-check if inputfile exist
-	ifstream fin(inputfile, ios::in);
-	if (!fin) {
-		cout<<"Initialtion: Cannot open "<< inputfile <<" \n";
-		std::cout << __FILE__ << ':' << __LINE__ << std::endl;
-		exit(1);
-	}
-	else cout<<"\nMaterial: read material propeties of "<<material_name<<" from "<< inputfile <<" \n"; 
-
-	  //- /reading key words and configuration data
-	while(!fin.eof()) {
-		
-		//read a string block
-		fin>>Key_word;
-		  ///-read material properties from .cfg file
-		//comparing the key words for the material name
-		if(!strcmp(Key_word, material_name)) fin>>cv>>eta>>zeta>>kappa>>gamma>>b0>>rho0>>a0;
-
-	}
-	fin.close();
-
-	  ///- output the property parameters to the screen
-	show_properties();
-
-	  //- /non-dimensionalize
-	non_dimensionalize(ini);
-}
-//----------------------------------------------------------------------------------------
 //					non-dimensionalize
 //----------------------------------------------------------------------------------------
 void Material::non_dimensionalize(Initiation &ini)
