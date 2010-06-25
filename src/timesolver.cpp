@@ -41,7 +41,7 @@ TimeSolver::TimeSolver(Initiation &ini)
 //-------------------------------------------------------------------------------------
 void TimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary,
 			      double &Time, double D_time, Diagnose &diagnose,
-			      Initiation &ini, Kernel &weight_function, MLS &mls)
+			      Initiation &ini, Kernel &weight_function)
 {
   double integeral_time = 0.0;
 	
@@ -61,7 +61,6 @@ void TimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
     ///<li> calculating diagonse information
     if(ini.diagnose == 1) {
       diagnose.SaveStates(hydro);
-      diagnose.Average(particles, mls, weight_function);
     }
     if(ini.diagnose == 2 && ite % 10 == 0) 
       diagnose.KineticInformation(Time, ini, hydro);
@@ -102,9 +101,10 @@ void TimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
 //					advance time interval D_time with summation for density
 //					predictor and corrector method used
 //----------------------------------------------------------------------------------------
-void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary,
+void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 
+					Boundary &boundary,
 					double &Time, double D_time, Diagnose &diagnose,
-					Initiation &ini, Kernel &weight_function, MLS &mls)
+					Initiation &ini, Kernel &weight_function)
 {
   double integeral_time = 0.0;
 	
@@ -123,12 +123,6 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
     ///<ul><li>screen information for the iteration
     if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
 			  <<ini.dms_time(Time)<<"	dt: "<<ini.dms_time(dt)<<"\n";
-	  
-    ///<li>calculating diagnose information
-    if(ini.diagnose == 1) {
-      diagnose.SaveStates(hydro);
-      diagnose.Average(particles, mls, weight_function);
-    }
 	  
     ///<li>output diagnose information
     if(ini.diagnose == 2 && ite % 10 == 0) diagnose.KineticInformation(Time, ini, hydro);

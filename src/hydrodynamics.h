@@ -3,6 +3,8 @@
 /// \file hydrodynamics.h
 /// \brief  Definition of  materials and their hydrodynamical interactions
 
+#include "wiener.h"
+
 /// Definition of  materials and their hydrodynamical interactions
 class Hydrodynamics
 {	

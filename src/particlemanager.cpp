@@ -484,9 +484,6 @@ void ParticleManager::BiuldRealParticles(Hydrodynamics &hydro, Initiation &ini)
       fin>>position[0]>>position[1]>>velocity[0]>>velocity[1]
 	 >>density>>pressure;
       Temperature=hydro.materials[material_no].get_T(pressure,density);
-			
-    
-
 	Particle *prtl = new Particle( position, velocity, density, pressure, Temperature, 
 				       hydro.materials[material_no]);
 	//insert its poistion on the particle list

@@ -9,7 +9,7 @@ nomain=	 boundary.cpp boundary.h \
 	hydrodynamics.cpp hydrodynamics.h initiation.cpp \
 	initiation.h interaction.cpp interaction.h \
 	material.cpp \
-	material.h mls.cpp mls.h \
+	material.h \
 	output.cpp output.h particle.cpp \
 	particle.h particlemanager.cpp particlemanager.h \
 	timesolver.cpp timesolver.h vec2d.cpp \

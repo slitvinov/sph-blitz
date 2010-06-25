@@ -186,61 +186,7 @@ void Diagnose::BuildDistribution(Llist<double> &list, double dstrb[2][101])
 		dstrb[1][m] += 1.0;
 	}
 }
-//----------------------------------------------------------------------------------------
-//						calculate the average values
-//----------------------------------------------------------------------------------------
-void Diagnose::Average(ParticleManager &particles, MLS &mls, Kernel &weight_function)
-{
-	int i, j, n;
-	Vec2d pstn;
-	double rho, pressure, Temperature, x_velocity, y_velocity;
-	double m_n_average, r_n_average;
 
-	//one time more for average
-	n_average ++;
-	
-	/// <ul> <li>loop the grid points
-	//NOTE: loop the x direction first and then the y direction!
-	for(j = 0; j < gridy; j++) { 
-		for(i = 0; i < gridx; i++) {
-			pstn[0] = i*delta; pstn[1] = j*delta;
-			/// <ul><li> build the NNP_list
-			particles.BuildNNP(pstn);
-			/// <li> if the NNP list is not empty run MLS approximation
-			if(!particles.NNP_list.empty()) 
-				mls.MLSMapping(pstn, particles.NNP_list, weight_function, 1);
-			n = 0;
-			rho = 0.0; pressure = 0.0; Temperature = 0.0;
-			x_velocity = 0.0; y_velocity = 0.0;
-			/// <li> iterate this Nearest Neighbor Particle list
-			for (LlistNode<Particle> *p = particles.NNP_list.first(); 
-			!particles.NNP_list.isEnd(p); 
-			p = particles.NNP_list.next(p)) {
-			
-				/// <ul><li>get particle data </ul>
-				Particle *prtl = particles.NNP_list.retrieve(p);
-				rho += prtl->rho*mls.phi[n];
-				pressure += prtl->p*mls.phi[n];
-				Temperature += prtl->T*mls.phi[n];
-				x_velocity += prtl->U[0]*mls.phi[n];
-				y_velocity += prtl->U[1]*mls.phi[n];
-				
-				n ++;
-			}
-			/// <li> clear the NNP_list
-			particles.NNP_list.clear();
-		
-			/// <li> calculating the averages </ul>
-			m_n_average = double(n_average) - 1.0; 
-			r_n_average = 1.0/double(n_average);
-			U[0][i][j] = (U[0][i][j]*m_n_average + rho)*r_n_average;
-			U[1][i][j] = (U[1][i][j]*m_n_average + pressure)*r_n_average;
-			U[2][i][j] = (U[2][i][j]*m_n_average + Temperature)*r_n_average;
-			U[3][i][j] = (U[3][i][j]*m_n_average + x_velocity)*r_n_average;
-			U[4][i][j] = (U[4][i][j]*m_n_average + y_velocity)*r_n_average;
-		}
-	}
-}
 //----------------------------------------------------------------------------------------
 //							output the average values
 //----------------------------------------------------------------------------------------

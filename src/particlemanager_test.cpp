@@ -1,6 +1,8 @@
 #include "particlemanager.h"
+#include "hydrodynamics.h"
 #include <boost/test/minimal.hpp>
 #include <cstdlib>
+
 
 int test_main( int, char *[] )     {  
 

@@ -111,8 +111,6 @@ int main(int argc, char *argv[]) {
 	// (not in runtime)
 	Cubicspline1D weight_function (ini.supportlength); 
 
-
-	MLS mls(ini); ///- initiate the Moving Least Squares approximation
 	ParticleManager particles(ini); ///- initiate the particle manager
 	Hydrodynamics hydro(particles, ini); ///- create materials, forces and real particles
       
@@ -131,7 +129,6 @@ int main(int argc, char *argv[]) {
 	output.OutputParticles(hydro, boundary, Time, ini); //particle positions and velocites
 	if(ini.simu_mode==1)
         {
-	output.OutputStates(particles, mls, weight_function, Time, ini); //initial states on uniform grid
 	output.CreatParticleMovie(); //the particle movie file head
 	output.WriteParticleMovie(hydro, Time, ini); //the first frame of the movie
 	};
@@ -155,7 +152,7 @@ int main(int argc, char *argv[]) {
 //		timesolver.TimeIntegral(hydro, particles, boundary, Time, 
 //			ini.D_time, diagnose, ini, weight_function, mls);
 		timesolver.TimeIntegral_summation(hydro, particles, boundary, Time, 
-			ini.D_time, diagnose, ini, weight_function, mls);
+			ini.D_time, diagnose, ini, weight_function);
 		
 		hydro.UpdateState(ini);///to update p,T,Cs to new values before output 
 		  //control output
