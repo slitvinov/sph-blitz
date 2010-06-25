@@ -68,7 +68,7 @@ public:
 
 
 	///buid the initial particles and the linked lists
-  void BuildRealParticles(Material* materials, 
+  void BuildRealParticles(std::vector<Material>, 
 			  Llist<Particle>& particle_list, 
 			  Initiation &ini);
 	void BuildRealParticles(Hydrodynamics &hydro);

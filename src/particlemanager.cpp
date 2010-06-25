@@ -313,7 +313,7 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
 //					build the initial particles and the linked lists
 //----------------------------------------------------------------------------------------
 void ParticleManager::BuildRealParticles(
-					 Material* materials, 
+					 std::vector<Material> materials, 
 					 Llist<Particle>& particle_list, 
 					 Initiation &ini)
 {

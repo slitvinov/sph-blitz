@@ -46,7 +46,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
 
   ///<li>create material matrix
   Material sample_material(ini);  //set satatic numbers
-  materials = new Material[number_of_materials];
+  materials.resize(number_of_materials);
   ///<li>create the force matrix
 
   ///<li>check if inputfile exists

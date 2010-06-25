@@ -4,6 +4,9 @@
 /// \brief  Definition of  materials and their hydrodynamical interactions
 
 
+#include <vector>
+#include "material.h"
+
 /// Definition of  materials and their hydrodynamical interactions
 class Hydrodynamics
 {	
