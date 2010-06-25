@@ -48,14 +48,9 @@ class Interaction {
         double Wij2;///<<b>!!!question!!!<b>
 	Vec2d gradWij;///kernel gradient
 	Vec2d eij; ///<pair direction from orginal particle to destination particle 
-	double shear_rij ;///<particle length to implement slip boundary<<b>!!!question!!!<b>
-	double bulk_rij; ///<particle length to implement slip boundary<<b>!!!question!!!<b>
-
-		
 public:
 	
-	///constructor
-	Interaction(Initiation &ini);
+
 	///constructor
 	Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
 				Kernel &weight_function, double dstc);

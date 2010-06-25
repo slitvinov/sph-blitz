@@ -35,22 +35,7 @@ double Interaction::alpha_artVis=0.0;
 double Interaction::beta_artVis=0.0;
 double Interaction::epsilon_artVis=0.0;
 
-//----------------------------------------------------------------------------------------
-//					constructor
-//----------------------------------------------------------------------------------------
-Interaction::Interaction(Initiation &ini) 
-{
-        ///- copy properties from initiation
-	number_of_materials = ini.number_of_materials;
-	supportlength = ini.supportlength;
-	simu_mode = ini.simu_mode;
-	art_vis = ini.art_vis;
-	delta = ini.delta;
-	alpha_artVis=1.0;
-	beta_artVis=2.0;
-	epsilon_artVis=0.1;
 
-}
 //----------------------------------------------------------------------------------------
 //					constructor
 //----------------------------------------------------------------------------------------
@@ -81,9 +66,7 @@ Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces
 	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
 //	Fij = weight_function.F(rij); //for BetaSpline weight fuction
 	Fij = weight_function.F(rij)*rrij; //for Kernel wight fuction
-	shear_rij = 2.0*etai*etaj*rij/(etai*(rij) + etaj*(rij) + 1.0e-30);
-	bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij) 
-							   + zetaj*(rij) + 1.0e-30);
+
 }
 
 //-------------------getter for origin-----------------
@@ -137,10 +120,6 @@ void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force 
 	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
 //	Fij = weight_function.F(rij); //for BetaSpline wight fuction
 	Fij = weight_function.F(rij)*rrij; //for Kernel wight fuction
-	shear_rij = 2.0*etai*etaj*rij/(etai*(rij) 
-							 + etaj*(rij) + 1.0e-30);
-	bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij) 
-							   + zetaj*(rij) + 1.0e-30);
 }
 
 
@@ -159,10 +138,7 @@ void Interaction::RenewInteraction(Kernel &weight_function)
 	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
 //	Fij = weight_function.F(rij); //for BetaSpline wight fuction
 	Fij = weight_function.F(rij)*rrij; //for Kernel fuction
-	shear_rij = 2.0*etai*etaj*rij/(etai*(rij) 
-							 + etaj*(rij) + 1.0e-30);
-	bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij) 
-							   + zetaj*(rij) + 1.0e-30);
+
 }
 //----------------------------------------------------------------------------------------
 //					summation of the density
@@ -269,8 +245,8 @@ void Interaction::UpdateForces()
 	
 	  ///- calculate momentum change rate
 	  dPdti =   eij*Fij*rij*(pi*Vi2 + pj*Vj2)
-			- ((Uij - eij*Uijdoteij)*shear_rij + eij*(Uijdoteij*2.0*bulk_rij + NR_vis))
-			*Fij*(Vi2 + Vj2);
+	    - (NR_vis)*Fij*(Vi2 + Vj2);
+		
 	Org->drhodt += drhodti*rhoi*rVi;
 	Dest->drhodt += drhodti*rhoj*rVj;
 	Org->dUdt += dPdti*rmi;

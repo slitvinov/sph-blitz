@@ -107,7 +107,6 @@ int main(int argc, char *argv[]) {
 
 	//a sample particle and interaction for static numbers
 	Particle sample(ini);
-	Interaction interaction(ini);
 
 	// Kernel
         /// here one can choose which Kernel function to use 

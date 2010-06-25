@@ -58,9 +58,9 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
   ///<li>defining header for tecplot(plot software)
   out<<"title='particle position' \n";
   if( simu_mode==1)
- out<<"variables=x, y, Ux, Uy \n";
+    out<<"variables=x, y, Ux, Uy \n";
   if (simu_mode==2)
- out<<"variables=x, y, rho, p, U, e \n";
+    out<<"variables=x, y, rho, p, U, e \n";
   int f=0, g=0, a=0, b=0; 	
   ///<li>output real and soild particles
   for(i = 0; i < number_of_materials; i++) {
@@ -72,6 +72,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
 	 p = hydro.particle_list.next(p)) {
       f++;
        Particle *prtl = hydro.particle_list.retrieve(p);
+       std::cerr << "prtl->mtl->material_name = " << prtl->mtl->material_name << '\n';
       if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) {
 	j ++;
 	a++;
