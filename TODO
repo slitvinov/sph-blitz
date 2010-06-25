@@ -5,3 +5,10 @@
 ** TODO [#A] Add tcl  or python support
 ** TODO [#B] Add tau http://www.cs.uoregon.edu/research/tau/home.php
 
+
+interaction_list: hydrodynamics.h
+particle_list: hydrodynamics.h
+**cell_lists: particlemanager.h
+
+** is it a local structure?
+NNP_list: particlemanager.h

@@ -13,7 +13,7 @@ nomain=	 boundary.cpp boundary.h \
 	output.cpp output.h particle.cpp \
 	particle.h particlemanager.cpp particlemanager.h \
 	timesolver.cpp timesolver.h vec2d.cpp \
-	vec2d.h wiener.cpp wiener.h \
+	vec2d.h \
 	Kernel/kernel.cpp Kernel/kernel.h \
 	Kernel/quinticspline.cpp Kernel/quinticspline.h \
 	Kernel/cubicspline1D.cpp Kernel/cubicspline1D.h \

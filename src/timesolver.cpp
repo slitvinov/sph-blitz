@@ -84,11 +84,8 @@ void TimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
     //		boundary.BoundaryCondition(particles);
 
     hydro.UpdateChangeRate();///<li>hydro.UpdateChangeRate
-    //		hydro.UpdateRandom(sqrt(dt));
-    hydro.UpdateRandom(sqrt(dt));///<li>hydro.UpdateRandom
     hydro.Corrector(dt);///<li>hydro.Corrector
     //		hydro.RandomEffects();
-    hydro.RandomEffects();///<li>hydro.RandomEffects
     hydro.UpdateState(ini);///<li>hydro.UpdateState</ol>
 
     ///<li> renew boundary particles
@@ -156,9 +153,7 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
     //control output
     cout<<"\n     --- change rate for corrector:";
     hydro.UpdateChangeRate(); ///<li>hydro.UpdateChangeRate
-    //		hydro.UpdateRandom(sqrt(dt));//
     hydro.Corrector_summation(dt);///<li>hydro.Corrector_summation</ol>
-    //		hydro.RandomEffects();
 
     ///<li> renew boundary particles
     if(ini.simu_mode==1)

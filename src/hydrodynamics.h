@@ -3,7 +3,6 @@
 /// \file hydrodynamics.h
 /// \brief  Definition of  materials and their hydrodynamical interactions
 
-#include "wiener.h"
 
 /// Definition of  materials and their hydrodynamical interactions
 class Hydrodynamics
@@ -30,9 +29,6 @@ public:
 	///the interaction force used
 	Force **forces;
 	Llist<Particle> particle_list; ///<particle list for all particles
-
-	///Wiener process
-	Wiener wiener;
 
 	///constructor
 	Hydrodynamics(ParticleManager &particles, Initiation &ini);
@@ -91,14 +87,6 @@ public:
 	void Predictor_summation(double dt);
         ///for corrector method, density evaluated with summation (that means: no density update within this method)
 	void Corrector_summation(double dt);
-
-	//DPD simultion
-	///initiate random force (DPD simulation)
-	void Zero_Random();
-	///calculate random interaction without updating interaction list (DPD simulation)
-	void UpdateRandom(double sqrtdt);
-	///including random effects (DPD simulation)
-	void RandomEffects();
 
 	//test for debug
 	void MovingTest();///test for debug

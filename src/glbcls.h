@@ -13,7 +13,6 @@
 
 ///#include <iostream>
 ///#include "vec2d.h"
-#include "wiener.h"
 #include "dllist.h"
 
 class Initiation; class Kernel; class MLS; class Interaction; class ParticleManager;

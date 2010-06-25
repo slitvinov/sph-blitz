@@ -83,7 +83,6 @@ public:
 	double drhodt; ///<density change rate for real particles
         double dedt; ///<internal energy change rate for real particles
 	Vec2d dUdt;///<acceleration change for real particles <b>or is it the other wa round</b>
-        Vec2d _dU; ///< random velocity change for real particles <b>or is it the other wa round</b>
 
 	//other data
 	

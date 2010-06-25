@@ -121,10 +121,6 @@ public:
 	void SummationUpdateForces();
 #endif
 
-	///update random forces
-	void RandomForces(Wiener &wiener, double sqrtdt);
-	///update random forces with Espanol's method
-	void RandomForces_Espanol(Wiener &wiener, double sqrtdt);
 	Particle* getOrigin();
 	Particle* getDest();
 	double getWij() const;

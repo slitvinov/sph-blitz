@@ -329,29 +329,6 @@ for (LlistNode<Particle> *p = particle_list.first();
   AddGravity();
 }
 //----------------------------------------------------------------------------------------
-//			calculate random interaction without updating interaction list
-//----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateRandom(double sqrtdt)
-{
-  //initiate the change rate of each real particle
-  Zero_Random();
-
-  //set a new random seed
-  //	wiener.Ranils();
-
-  //iterate the interaction list
-  for (LlistNode<Interaction> *p = interaction_list.first(); 
-       !interaction_list.isEnd(p); 
-       p = interaction_list.next(p)) {
-		
-    //a interaction pair
-    Interaction *pair = interaction_list.retrieve(p);
-    //calculate the pair forces or change rate
-    pair->RandomForces(wiener, sqrtdt);		
-  }
-	
-}
-//----------------------------------------------------------------------------------------
 //						initiate particle change rate
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::ZeroChangeRate()
@@ -368,7 +345,6 @@ void Hydrodynamics::ZeroChangeRate()
     prtl->dedt = 0.0;
     prtl->drhodt = 0.0;
     (prtl->dUdt) = 0.0;
-    (prtl->_dU) = 0.0;
 
   }
 }
@@ -422,23 +398,6 @@ void Hydrodynamics::Zero_Velocity()
 
     ///- all velocities to zero
     (prtl->U) = 0.0;
-  }
-}
-//----------------------------------------------------------------------------------------
-//						initiate random force
-//----------------------------------------------------------------------------------------
-void Hydrodynamics::Zero_Random()
-{
-  ///- iterate particles on the real particle list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
-       p = particle_list.next(p)) {
-					
-    //particle
-    Particle *prtl = particle_list.retrieve(p);
-
-    ///- all random values to zero (so, _dU is random value???)
-    (prtl->_dU) = 0.0;
   }
 }
 //----------------------------------------------------------------------------------------
@@ -610,7 +569,6 @@ void Hydrodynamics::Predictor_summation(double dt)
 	
     ///<ul><li>save values (R,U)  at step n in intermediate variables ._I
     prtl->R_I = prtl->R;
-    prtl->U += prtl->_dU; //renormalize velocity
     prtl->U_I = prtl->U;
     prtl->e_I = prtl->e;
 			
@@ -638,10 +596,6 @@ void Hydrodynamics::Corrector_summation(double dt)
     Particle *prtl = particle_list.retrieve(p);
 			
     ///- for each particle: correction (advances R,U) based on values on n step and change rate at n+1/2
-
-    if(simu_mode==1)
-    prtl->U += prtl->_dU; //renormalize velocity
-  
     prtl->R = prtl->R_I + prtl->U*dt;
     prtl->U = prtl->U_I + prtl->dUdt*dt;
     prtl->e = prtl->e_I + prtl->dedt*dt;
@@ -670,22 +624,6 @@ ofstream tx2tFile("changeRatesN1");
 
 }
 //----------------------------------------------------------------------------------------
-//							including random effects
-//----------------------------------------------------------------------------------------
-void Hydrodynamics::RandomEffects()
-{
-  ///- iterate the real partilce list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
-       p = particle_list.next(p)) {
-	
-    Particle *prtl = particle_list.retrieve(p);
-			
-    ///- for each particle: add random velocity _dU
-    prtl->U = prtl->U + prtl->_dU;
-  }
-}
-//----------------------------------------------------------------------------------------
 //					test assign random particle velocity, no density updating
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::MovingTest()
@@ -711,7 +649,6 @@ void Hydrodynamics::MovingTest()
 //----------------------------------------------------------------------------------------
 double Hydrodynamics::ConservationTest()
 {
-  Vec2d sdU = 0.0;
   Vec2d sU = 0.0;
   Vec2d U = 0.0; 
   //iterate the partilce list
@@ -720,7 +657,6 @@ double Hydrodynamics::ConservationTest()
        p = particle_list.next(p)) {
     const Particle *prtl = particle_list.retrieve(p);
     sU = sU + prtl->dUdt;
-    sdU = sdU + prtl->_dU;
     U = U + prtl->U;
   }
 
