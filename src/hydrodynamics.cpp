@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <iostream>
 
 #include <cstdio>
 #include <cstdlib>
@@ -21,6 +22,10 @@
 #include "particle.h"
 #include "Kernel/kernel.h"
 
+// to get trim function
+//#include <boost/algorithm/string.hpp>
+
+
 using namespace std;
 
 //----------------------------------------------------------------------------------------
@@ -28,7 +33,6 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   //make materials
-  char Key_word[25];
   char inputfile[25];
 
   ///<ul><li>copy properties from initiation class
@@ -54,14 +58,15 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   else cout<<"\nMaterial: read the propeties of materials\n"; 
 
   ///<li>reading all key words and configuration data
-  while(!fin.eof()) {
+  while(fin.good()) {
     //read a string block
-    fin>>Key_word;
+    std::string Key_word;
+    fin >> Key_word;
 		
     //comparing the key words for the materials 
-    std::cerr << "Key_word: " << Key_word << '\n';
+    //std::cerr << "Key_word: " << Key_word << '\n';
 
-    if(!strcmp(Key_word, "MATERIALS") )  {
+    if(Key_word == "MATERIALS")   {
       ///<li>if  key word material: read all materials (from .cfg file)
       for(int k = 0; k < number_of_materials; k++) {
 	//the material number

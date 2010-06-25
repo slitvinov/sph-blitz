@@ -460,9 +460,9 @@ void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation &ini)
 					
 	prtl->cell_i = i; prtl->cell_j = j; 
 	//insert the position into corresponding cell list
+	std::cerr << "i = " << i << '\n';
+	std::cerr << "i = " << i << '\n';
 	cell_lists[i][j].insert(cell_lists[i][j].first(), prtl);
-
-       
       };
     fin.close();
   }

@@ -128,8 +128,6 @@ double Material::get_T(const double p, const double rho) const
 //----------------------------------------------------------------------------------------
 double Material::get_e(const double T) const
 {
-  std::cerr << "(get_e) cv = " << cv << '\n';
-  std::cerr << "(get_e) T = " << cv << '\n';
 	return cv*T;
 }
 //----------------------------------------------------------------------------------------
