@@ -62,6 +62,8 @@
 // ***** local includes *****
 #include "glbfunc.h"
 #include "glbcls.h"
+#include "particlemanager.h"
+#include "hydrodynamics.h"
 #include "vec2d.h"
 #include "Kernel/quinticspline.h"
 #include "Kernel/cubicspline1D.h"
@@ -113,6 +115,7 @@ int main(int argc, char *argv[]) {
 
 	ParticleManager particles(ini); ///- initiate the particle manager
 	Hydrodynamics hydro(particles, ini); ///- create materials, forces and real particles
+	std::cerr << "hydro object created\n";
       
         Boundary boundary(ini, hydro, particles); ///- initiate boundary conditions and boundary particles
 	TimeSolver timesolver(ini); ///- initialize the time solver

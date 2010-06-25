@@ -16,10 +16,8 @@ class Hydrodynamics; class ListNode; class Material; class BetaSpline; class Ker
 
 #include "initiation.h"
 #include "particle.h"
-#include "particlemanager.h"
 #include "boundary.h"
 #include "interaction.h"
-#include "hydrodynamics.h"
 #include "timesolver.h"
 #include "output.h"
 #include "diagnose.h"

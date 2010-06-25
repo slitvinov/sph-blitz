@@ -18,6 +18,7 @@
 #include "glbcls.h"
 #include "glbfunc.h"
 #include "material.h"
+#include "hydrodynamics.h"
 
 using namespace std;
 

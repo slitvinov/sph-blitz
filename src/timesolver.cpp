@@ -18,6 +18,8 @@
 // ***** localincludes *****
 #include "glbcls.h"
 #include "glbfunc.h"
+#include "hydrodynamics.h"
+#include "particlemanager.h"
 
 using namespace std;
 

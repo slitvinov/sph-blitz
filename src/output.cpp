@@ -18,6 +18,8 @@
 #include "glbcls.h"
 #include "glbfunc.h"
 #include "material.h"
+#include "hydrodynamics.h"
+#include "particlemanager.h"
 
 using namespace std;
 

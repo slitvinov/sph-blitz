@@ -21,6 +21,8 @@
 #include "material.h"
 #include "particle.h"
 #include "Kernel/kernel.h"
+#include "hydrodynamics.h"
+#include "particlemanager.h"
 
 // to get trim function
 //#include <boost/algorithm/string.hpp>
@@ -97,7 +99,8 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   for(int k = 0; k < number_of_materials; k++) materials[k].Set_b0(sound);
 
   ///<li>biuld the real particles
-  particles.BuildRealParticles(*this, ini);
+  particles.BuildRealParticles(materials, particle_list, ini);
+  std::cerr << "after particles.BuildRealParticles\n";
 }
 
 //----------------------------------------------------------------------------------------

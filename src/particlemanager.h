@@ -68,7 +68,9 @@ public:
 
 
 	///buid the initial particles and the linked lists
-	void BuildRealParticles(Hydrodynamics &hydro, Initiation &ini);
+  void BuildRealParticles(Material* materials, 
+			  Llist<Particle>& particle_list, 
+			  Initiation &ini);
 	void BuildRealParticles(Hydrodynamics &hydro);
 
 	///update the cell linked lists for real particles
