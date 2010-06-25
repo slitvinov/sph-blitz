@@ -1153,7 +1153,6 @@ void Boundary::Boundary_W(Particle *prtl)
   case 3: 
     prtl->R[0] = - prtl->R[0]; 
     prtl->U[0] = UxBl[0]*2.0 - prtl->U[0];
-    prtl->del_phi[0] = - prtl->del_phi[0];
     break;
   }
 }
@@ -1182,7 +1181,6 @@ void Boundary::Boundary_E(Particle *prtl)
   case 3: 
     prtl->R[0] = box_size[0]*2.0 - prtl->R[0]; 
     prtl->U[0] = UxBr[0]*2.0 - prtl->U[0];
-    prtl->del_phi[0] = - prtl->del_phi[0];
     break;
   }
 }
@@ -1211,7 +1209,6 @@ void Boundary::Boundary_S(Particle *prtl)
   case 3: 
     prtl->R[1] = - prtl->R[1]; 
     prtl->U[1] = UyBd[1]*2.0 - prtl->U[1];
-    prtl->del_phi[1] = - prtl->del_phi[1];
     break;
   }
 }
@@ -1240,7 +1237,6 @@ void Boundary::Boundary_N(Particle *prtl)
   case 3: 
     prtl->R[1] = box_size[1]*2.0 - prtl->R[1]; 
     prtl->U[1] = UyBu[1]*2.0 - prtl->U[1];
-    prtl->del_phi[1] = - prtl->del_phi[1];
     break;
   }
 }
@@ -1272,7 +1268,6 @@ void Boundary::Boundary_SW(Particle *prtl)
     prtl->R = - prtl->R;
     prtl->U[0] = UyBd[0]*2.0 - prtl->U[0];
     prtl->U[1] = UxBl[1]*2.0 - prtl->U[1];
-    prtl->del_phi = - prtl->del_phi;
     break;
   }
 }
@@ -1308,7 +1303,6 @@ void Boundary::Boundary_NW(Particle *prtl)
     prtl->R[1] = box_size[1]*2.0 - prtl->R[1]; 
     prtl->U[0] = UyBu[0]*2.0 - prtl->U[0];
     prtl->U[1] = UxBl[1]*2.0 - prtl->U[1];
-    prtl->del_phi = - prtl->del_phi;
     break;
   }
 }
@@ -1340,7 +1334,6 @@ void Boundary::Boundary_NE(Particle *prtl)
     prtl->R = box_size*2.0 - prtl->R; 
     prtl->U[0] = UyBu[0]*2.0 - prtl->U[0];
     prtl->U[1] = UxBr[1]*2.0 - prtl->U[1];
-    prtl->del_phi = - prtl->del_phi;
     break;
   }
 }
@@ -1376,7 +1369,6 @@ void Boundary::Boundary_SE(Particle *prtl)
     prtl->R[1] = - prtl->R[1]; 
     prtl->U[0] = UyBd[0]*2.0 - prtl->U[0];
     prtl->U[1] = UxBr[1]*2.0 - prtl->U[1];
-    prtl->del_phi = - prtl->del_phi;
     break;
   }
 }		

@@ -74,10 +74,7 @@ public:
 	//for multimaterials
 	double eta, zeta; ///particle.h(line 69-74) viscosity of each particle<b>!!!Question!!!</b>
 	double **phi; ///phase field matrix<b>!!!Question!!!</b>
-	///first as phase field gradient matrix <b>!!!Question!!!</b>
-	///then the independent values ([0][0] and [0][1]) of suface stress matrix <b>!!!Question!!!</b>
-	Vec2d del_phi;
-	double **lap_phi;
+
 	
 	//change rate for real particles
 	double drhodt; ///<density change rate for real particles

@@ -18,6 +18,7 @@
 #include "glbcls.h"
 #include "glbfunc.h"
 #include "material.h"
+#include "particle.h"
 #include "Kernel/kernel.h"
 
 using namespace std;
@@ -81,48 +82,25 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
 	///<li>non-dimensionalize</ul>
 	materials[k].non_dimensionalize(ini);
       }
-
-    //comparing the key words for the force matrix 
-    if(!strcmp(Key_word, "FORCES")) 
-   ///<li>if  key word forces: read all forces for all materials (from .cfg file)
-      //read all materials
-      ///<ul><li> save eahc one of them in forces matrix
-      for(l = 0; l < number_of_materials; l++) 
-	for(n = 0; n < number_of_materials; n++) {
-	  fin>>k>>m;
-	  fin>>forces[k][m].epsilon>>forces[k][m].sigma
-	     >>forces[k][m].shear_slip>>forces[k][m].bulk_slip
-	     >>forces[k][m].heat_slip;
-	  ///<li>copy smoothing length fro initiation
-	  forces[k][m].supportlength = ini.supportlength;
-	  ///<li>and non-dimensionalize</ul>
-	  forces[k][m].non_dimensionalize(ini);
-	}
-  }
-  fin.close();
+    fin.close();
  	
-  ///<li>initialize parameters for time step and the artificial compressiblity
-  viscosity_max = 0.0; surface_max = 0.0;
-  for(k = 0; k < number_of_materials; k++) {
-    viscosity_max = AMAX1(viscosity_max, materials[k].nu);
-    for(l = 0; l < number_of_materials; l++) {
-      surface_max = AMAX1(surface_max, forces[k][l].sigma);
+    ///<li>initialize parameters for time step and the artificial compressiblity
+    viscosity_max = 0.0; 
+    for(k = 0; k < number_of_materials; k++) {
+      viscosity_max = AMAX1(viscosity_max, materials[k].nu);
     }
+    dt_g_vis = AMIN1(sqrt(delta/v_abs(gravity)), 0.5*delta2/viscosity_max);
+
+    ///<li>determine the artificial compressiblity
+    double sound;
+    //g force and viscosity
+    sound = AMAX1(v_abs(ini.g_force), viscosity_max);
+    for(k = 0; k < number_of_materials; k++) materials[k].Set_b0(sound);
+
+    ///<li>biuld the real particles
+    particles.BiuldRealParticles(*this, ini);
+
   }
-  dt_g_vis = AMIN1(sqrt(delta/v_abs(gravity)), 0.5*delta2/viscosity_max);
-  dt_surf = 0.4*sqrt(delta3/surface_max);
-
-  ///<li>determine the artificial compressiblity
-  double sound;
-  //g force and viscosity
-  sound = AMAX1(v_abs(ini.g_force), viscosity_max);
-  //surface tension effects
-  sound = AMAX1(surface_max, sound);
-  for(k = 0; k < number_of_materials; k++) materials[k].Set_b0(sound);
-
-  ///<li>biuld the real particles
-  particles.BiuldRealParticles(*this, ini);
-
 }
 
 //----------------------------------------------------------------------------------------
@@ -313,7 +291,7 @@ void Hydrodynamics::UpdateChangeRate()
 #endif
   //control output
   int q=0;
-for (LlistNode<Particle> *p = particle_list.first(); 
+  for (LlistNode<Particle> *p = particle_list.first(); 
        !particle_list.isEnd(p); 
        p = particle_list.next(p)) {
 
@@ -321,11 +299,11 @@ for (LlistNode<Particle> *p = particle_list.first();
     //particle
     Particle *prtl = particle_list.retrieve(p);
     if(q%30==0)  
-  cout<<"\n dUdt0"<<prtl->dUdt[0]<<"dUdt1"<<prtl->dUdt[1];
+      cout<<"\n dUdt0"<<prtl->dUdt[0]<<"dUdt1"<<prtl->dUdt[1];
     q++;
    
- }
-    ///- include the gravity effects
+  }
+  ///- include the gravity effects
   AddGravity();
 }
 //----------------------------------------------------------------------------------------
@@ -603,23 +581,23 @@ void Hydrodynamics::Corrector_summation(double dt)
    
   }
   //control output
-ofstream tx2tFile("changeRatesN1");
-		if (tx2tFile.is_open())
-		{
+  ofstream tx2tFile("changeRatesN1");
+  if (tx2tFile.is_open())
+    {
 
 		
- for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
-       p = particle_list.next(p)) {
+      for (LlistNode<Particle> *p = particle_list.first(); 
+	   !particle_list.isEnd(p); 
+	   p = particle_list.next(p)) {
 	
-    Particle *prtl = particle_list.retrieve(p);
+	Particle *prtl = particle_list.retrieve(p);
   
-    tx2tFile<<"\n R_x: "<<prtl->R[0]<<"  U_x: "<<prtl->U[0]<<"  e: "<<prtl->e<<"  dUdt: "<<prtl->dUdt[0]<<" dedt "<<prtl->dedt<<"  ID  "<<prtl->ID<<"\n";
+	tx2tFile<<"\n R_x: "<<prtl->R[0]<<"  U_x: "<<prtl->U[0]<<"  e: "<<prtl->e<<"  dUdt: "<<prtl->dUdt[0]<<" dedt "<<prtl->dedt<<"  ID  "<<prtl->ID<<"\n";
     
- } 
+      } 
 
-	tx2tFile.close();
-		}
+      tx2tFile.close();
+    }
  
 
 }
@@ -662,3 +640,4 @@ double Hydrodynamics::ConservationTest()
 
   return v_abs(U);
 }
+

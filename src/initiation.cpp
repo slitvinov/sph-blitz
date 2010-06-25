@@ -309,13 +309,6 @@ Vec2d Initiation::non_dms_acceleration(const Vec2d acceleration) const
 	 return acceleration*_length/_v/_v;
 }
 //-------------------------------------------------------
-//			Non_dimensionalize surface tension coefficient
-//-------------------------------------------------------
-double Initiation::non_dms_surface(const double sigma) const
-{
-	return sigma/_rho/_v/_v/_length;
-}
-//-------------------------------------------------------
 //			Non_dimensionalize viscosity
 //-------------------------------------------------------
 double Initiation::non_dms_viscosity(const double mu) const

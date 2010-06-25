@@ -97,7 +97,6 @@ public:
 	double non_dms_heat_ratio(const double cv) const ;///<a non dimensionalize method
 	double non_dms_heat_conduction(const double kappa) const ;///<a non dimensionalize method
 	double non_dms_Boltzmann(const double k_bltz) const ;///<a non dimensionalize method
-	double non_dms_surface(const double sigma) const ;///<a non dimensionalize method
 
 	//re-dimesionlize
 	double dms_p(const double p_non) const ;///<a re-dimensionalize method
@@ -113,7 +112,6 @@ public:
 	double dms_acceleration(const double acceleration_non) const ;///<a re-dimensionalize method
 	Vec2d dms_acceleration(const Vec2d acceleration_non) const ;///<a re-dimensionalize method
 	double dms_viscosity(const double mu_non) const ;///<a re-dimensionalize method
-	double dms_surface(const double sigma_non) const ;///<a re-dimensionalize method
 
 };
 #endif

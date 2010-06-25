@@ -78,10 +78,9 @@ Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces
 	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
 //	Fij = weight_function.F(rij); //for BetaSpline weight fuction
 	Fij = weight_function.F(rij)*rrij; //for Kernel wight fuction
-	shear_rij = 2.0*etai*etaj*rij/(etai*(rij + 2.0*frc_ij[noj][noi].shear_slip) 
-							 + etaj*(rij + 2.0*frc_ij[noi][noj].shear_slip) + 1.0e-30);
-	bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij + 2.0*frc_ij[noj][noi].bulk_slip) 
-							   + zetaj*(rij + 2.0*frc_ij[noi][noj].bulk_slip) + 1.0e-30);
+	shear_rij = 2.0*etai*etaj*rij/(etai*(rij) + etaj*(rij) + 1.0e-30);
+	bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij) 
+							   + zetaj*(rij) + 1.0e-30);
 }
 
 //-------------------getter for origin-----------------
@@ -135,10 +134,10 @@ void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force 
 	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
 //	Fij = weight_function.F(rij); //for BetaSpline wight fuction
 	Fij = weight_function.F(rij)*rrij; //for Kernel wight fuction
-	shear_rij = 2.0*etai*etaj*rij/(etai*(rij + 2.0*frc_ij[noj][noi].shear_slip) 
-							 + etaj*(rij + 2.0*frc_ij[noi][noj].shear_slip) + 1.0e-30);
-	bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij + 2.0*frc_ij[noj][noi].bulk_slip) 
-							   + zetaj*(rij + 2.0*frc_ij[noi][noj].bulk_slip) + 1.0e-30);
+	shear_rij = 2.0*etai*etaj*rij/(etai*(rij) 
+							 + etaj*(rij) + 1.0e-30);
+	bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij) 
+							   + zetaj*(rij) + 1.0e-30);
 }
 
 
@@ -157,10 +156,10 @@ void Interaction::RenewInteraction(Kernel &weight_function)
 	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
 //	Fij = weight_function.F(rij); //for BetaSpline wight fuction
 	Fij = weight_function.F(rij)*rrij; //for Kernel fuction
-	shear_rij = 2.0*etai*etaj*rij/(etai*(rij + 2.0*frc_ij[noj][noi].shear_slip) 
-							 + etaj*(rij + 2.0*frc_ij[noi][noj].shear_slip) + 1.0e-30);
-	bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij + 2.0*frc_ij[noj][noi].bulk_slip) 
-							   + zetaj*(rij + 2.0*frc_ij[noi][noj].bulk_slip) + 1.0e-30);
+	shear_rij = 2.0*etai*etaj*rij/(etai*(rij) 
+							 + etaj*(rij) + 1.0e-30);
+	bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij) 
+							   + zetaj*(rij) + 1.0e-30);
 }
 //----------------------------------------------------------------------------------------
 //					summation of the density
@@ -199,48 +198,7 @@ void Interaction::SummationShearRate()
 	Dest->ShearRate_x = Dest->ShearRate_x + ShearRate_xi*vi;
 	Dest->ShearRate_y = Dest->ShearRate_y + ShearRate_yi*vi;
 }
-//----------------------------------------------------------------------------------------
-//						phase field
-//----------------------------------------------------------------------------------------
-// Changes: Org(phi:summation), Dest(phi:summation)
-// Depends on: Interaction Object, Org(phi, rho), Dest(phi, rho)
-void Interaction::SummationPhaseField()
-{
-	double vi, vj; //particle volumes
-	vi = mi/Org->rho; vj = mj/Dest->rho;
 
-	Org->phi[noi][noj] += Wij*vj;
-	if(Org->ID != Dest->ID) Dest->phi[noj][noi] += Wij*vi;
-}
-//----------------------------------------------------------------------------------------
-//						density or phase gradient
-//----------------------------------------------------------------------------------------
-// Changes: Org(del_phi:summation), Dest(del_phi:summation)
-// Depends on: Interaction Object, Org(del_phi,rho), Dest(del_phi,rho)
-void Interaction::SummationPhaseGradient()
-{
-
-	double Vi, rVi, Vj, rVj; //mometum change rate
-	Vi = mi/Org->rho; Vj = mj/Dest->rho;
-	rVi = 1.0/Vi; rVj = 1.0/Vj;
-	double Vi2 = Vi*Vi, Vj2 = Vj*Vj;
-	Vec2d dphi = eij*Fij*rij*frc_ij[noi][noj].sigma;
-
-	Org->del_phi += dphi*rVi*Vj2;
-	Dest->del_phi -= dphi*rVj*Vi2;
-}
-//----------------------------------------------------------------------------------------
-//					Curvature
-//----------------------------------------------------------------------------------------
-void Interaction::SummationCurvature()
-{
-	double vi, vj; //particle volumes
-	vi = mi/Org->rho; vj = mj/Dest->rho;
-	double phii = Fij*rij;
-
-		Org->phi[noi][noj] += phii*vj;
-		Dest->phi[noj][noi] += phii*vi;
-}
 //----------------------------------------------------------------------------------------
 //					update pair forces
 //----------------------------------------------------------------------------------------
@@ -325,23 +283,6 @@ void Interaction::UpdateForces()
 	  dPdti =   eij*Fij*rij*(pi*Vi2 + pj*Vj2)
 			- ((Uij - eij*Uijdoteij)*shear_rij + eij*(Uijdoteij*2.0*bulk_rij + NR_vis))
 			*Fij*(Vi2 + Vj2);
-	
-	  //surface tension with a simple model
-    //	dPdti += eij*frc_ij[noi][noj].sigma*Fij*Wij*rij*(Vi2 + Vj2);
-
-	  ///- calculate additional momentum change rate contribution due to surface tension (with simplified model)
-	  Vec2d Surfi, Surfj, SurfaceForcei, SurfaceForcej;
-	  Surfi = Org->del_phi; Surfj = Dest->del_phi;
-
-	  SurfaceForcei[0] = Surfi[0]*eij[0] + Surfi[1]*eij[1];
-	  SurfaceForcei[1] = Surfi[1]*eij[0] - Surfi[0]*eij[1];
-	  SurfaceForcej[0] = Surfj[0]*eij[0] + Surfj[1]*eij[1];
-	  SurfaceForcej[1] = Surfj[1]*eij[0] - Surfj[0]*eij[1];
-	  dPdti +=  (SurfaceForcei*Vi2 + SurfaceForcej*Vj2)*rij*Fij;
-	
-	
-
-	//summation
 #ifdef _OPENMP
 	_dU1 = dUi*mi;
 	_dU2 = dUi*mj;

@@ -42,13 +42,4 @@ Force::Force(Initiation &ini)
 	//smoothinglenth
 	supportlength = ini.supportlength;
 }
-//----------------------------------------------------------------------------------------
-//					non-dimensionalize
-//----------------------------------------------------------------------------------------
-void Force::non_dimensionalize(Initiation &ini)
-{
-		sigma = ini.non_dms_surface(sigma);
-		shear_slip = ini.non_dms_length(shear_slip);
-		bulk_slip = ini.non_dms_length(bulk_slip);
-}
 

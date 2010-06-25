@@ -68,8 +68,6 @@ void TimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
     //predictor and corrector method used
     ///<li> the prediction step
     hydro.BuildPair(particles, weight_function);///<ol><li>hydro.BuildPair
-    //		hydro.UpdatePhaseGradient(boundary);
-    //		hydro.UpdateSurfaceStress(boundary);
     //		boundary.BoundaryCondition(particles);
 
     hydro.UpdateChangeRate();///<li>hydro.UpdateChangeRate

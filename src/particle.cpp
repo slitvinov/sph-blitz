@@ -24,35 +24,13 @@ Particle::Particle(Initiation &ini)
 
 	///- copy properties from initiation
 	number_of_materials = ini.number_of_materials;
-
-	///- set up phase field
-	phi = new double*[number_of_materials];
-	lap_phi = new double*[number_of_materials];
-	for(i = 0; i < number_of_materials; i++) {
-		phi[i] = new double[number_of_materials];
-		lap_phi[i] = new double[number_of_materials];
-	}
-	for(i = 0; i < number_of_materials; i++)
-		for(j = 0; j < number_of_materials; j++) {
-			phi[i][j] = 0.0;
-			lap_phi[i][j] = 0.0;
-		}
 }
 //----------------------------------------------------------------------------------------
 //	deconstructor particle
 //----------------------------------------------------------------------------------------
 Particle::~Particle()
 {
-	int i;
 
-	///- delete phase field
-	for(i = 0; i < number_of_materials; i++) {
-		delete[] phi[i];
-		delete[] lap_phi[i];
-	}
-	///- delete pahse field gradient matrix
-	delete[] phi;
-	delete[] lap_phi;
 }
 //----------------------------------------------------------------------------------------
 //							real particle
@@ -87,18 +65,6 @@ Particle::Particle(Vec2d position, Vec2d velocity, double density, double pressu
 	R_I = R; P_I = P; rho_I = rho;
 	P_n = P; U_n = U; rho_n = rho; e_n = e; 
 
-	///- set up phase field
-	phi = new double*[number_of_materials];
-	lap_phi = new double*[number_of_materials];
-	for(i = 0; i < number_of_materials; i++) {
-		phi[i] = new double[number_of_materials];
-		lap_phi[i] = new double[number_of_materials];
-	}
-	for(i = 0; i < number_of_materials; i++)
-		for(j = 0; j < number_of_materials; j++) {
-			phi[i][j] = 0.0;
-			lap_phi[i][j] = 0.0;
-		}
 }
 //----------------------------------------------------------------------------------------
 //								construct a wall particle
@@ -157,19 +123,6 @@ Particle::Particle(Particle &RealParticle) : bd(1), bd_type(1)
 	P_n = RealParticle.P_n; U_n = RealParticle.U_n; rho_n = RealParticle.rho_n;
 	e_n = RealParticle.e_n;
 	
-	///- set up phase field
-	phi = new double*[number_of_materials];
-	lap_phi = new double*[number_of_materials];
-	for(i = 0; i < number_of_materials; i++) {
-		phi[i] = new double[number_of_materials];
-		lap_phi[i] = new double[number_of_materials];
-	}
-	for(i = 0; i < number_of_materials; i++)
-		for(j = 0; j < number_of_materials; j++) {
-			phi[i][j] = 0.0;
-			lap_phi[i][j] = 0.0;
-		}
-
 }
 //----------------------------------------------------------------------------------------
 //							creat an image particle
@@ -203,19 +156,6 @@ Particle::Particle(Particle &RealParticle, Material &material): bd(1), bd_type(0
 	P_n = RealParticle.P_n; U_n = RealParticle.U_n; rho_n = RealParticle.rho_n;
 	e_n = RealParticle.e_n; 
 
-	///- set up phase field
-	phi = new double*[number_of_materials];
-	lap_phi = new double*[number_of_materials];
-	for(i = 0; i < number_of_materials; i++) {
-		phi[i] = new double[number_of_materials];
-		lap_phi[i] = new double[number_of_materials];
-	}
-	for(i = 0; i < number_of_materials; i++)
-		for(j = 0; j < number_of_materials; j++) {
-			phi[i][j] = 0.0;
-			lap_phi[i][j] = 0.0;
-		}
-
 }
 //----------------------------------------------------------------------------------------
 //					particle states copier for boundary particles
@@ -230,23 +170,4 @@ void Particle::StatesCopier(Particle &RealParticle, int type)
 	rho_I = RealParticle.rho_I;
 	Cs =RealParticle.Cs; U = RealParticle.U; U_I = RealParticle.U_I;
 	ShearRate_x = RealParticle.ShearRate_x, ShearRate_y = RealParticle.ShearRate_y;
-
-	///- set phase field (depending on boundary type: periodic/wall)
-	//perodic boundary
-	if (type == 1 ) {
-		del_phi = RealParticle.del_phi;
-		for(int i = 0; i < number_of_materials; i++) {
-			for(int j = 0; j < number_of_materials; j++) {
-				phi[i][j] = RealParticle.phi[i][j];
-				lap_phi[i][j] = RealParticle.lap_phi[i][j];
-			}
-		}
-	}
-	
-	//wall boundary
-	if (type == 0) {
-		phi[0][0] = 0.0;
-		for(int i = 1; i < number_of_materials; i++) phi[0][0] += RealParticle.phi[i][i];
-	}
-
 }
