@@ -23,7 +23,7 @@ class Hydrodynamics
 public:
 
 	///the materials used
-	Material *materials;
+	std::vector<Material> materials;
 	///the interaction force used
 	Force **forces;
 	Llist<Particle> particle_list; ///<particle list for all particles
