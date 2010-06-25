@@ -338,7 +338,7 @@ ofstream txtFile("BuddiesDataN1");
 //----------------------------------------------------------------------------------------
 //					build the initial particles and the linked lists
 //----------------------------------------------------------------------------------------
-void ParticleManager::BiuldRealParticles(Hydrodynamics &hydro, Initiation &ini)
+void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation &ini)
 {
 	
   int i, j, k, m;
@@ -506,7 +506,7 @@ void ParticleManager::BiuldRealParticles(Hydrodynamics &hydro, Initiation &ini)
 //----------------------------------------------------------------------------------------
 //				buid the initial wall particles and the linked lists
 //----------------------------------------------------------------------------------------
-void ParticleManager::BiuldWallParticles(Hydrodynamics &hydro, Initiation &ini, Boundary &boundary)
+void ParticleManager::BuildWallParticles(Hydrodynamics &hydro, Boundary &boundary)
 {
   int i, j, k, m;
 

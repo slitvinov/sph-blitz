@@ -20,8 +20,6 @@ int Particle::number_of_materials = 0;
 //----------------------------------------------------------------------------------------
 Particle::Particle(Initiation &ini)
 {
-	int i, j;
-
 	///- copy properties from initiation
 	number_of_materials = ini.number_of_materials;
 }
@@ -39,8 +37,6 @@ Particle::~Particle()
 Particle::Particle(Vec2d position, Vec2d velocity, double density, double pressure, double temperature, 
 				   Material &material) : bd(0)
 {
-	int i, j;
-
 	///- increase the total particle number
 	ID_max++;
 	
@@ -97,8 +93,6 @@ Particle::Particle(double x, double y, double u, double v,
 //----------------------------------------------------------------------------------------
 Particle::Particle(Particle &RealParticle) : bd(1), bd_type(1)
 {
-	int i, j;
-	
 	///- give a new ID number
 	ID = 0;
 
@@ -129,8 +123,6 @@ Particle::Particle(Particle &RealParticle) : bd(1), bd_type(1)
 //----------------------------------------------------------------------------------------
 Particle::Particle(Particle &RealParticle, Material &material): bd(1), bd_type(0)
 {
-	int i, j;
-	
 	///- give a new ID number
 	ID = 0;
 

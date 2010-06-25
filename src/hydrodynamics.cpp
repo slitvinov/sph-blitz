@@ -27,10 +27,6 @@ using namespace std;
 //						constructor
 //----------------------------------------------------------------------------------------
 Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
-	
-  int k, m;
-  int l, n;
-
   //make materials
   char Key_word[25];
   char inputfile[25];
@@ -48,7 +44,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   ///<li>create the force matrix
   Force sample_force(ini); //set satatic numbers
   forces = new Force*[number_of_materials];
-  for(k = 0; k < number_of_materials; k++) forces[k] = new Force[number_of_materials];
+  for(int k = 0; k < number_of_materials; k++) forces[k] = new Force[number_of_materials];
 
   ///<li>check if inputfile exists
   strcpy(inputfile, ini.inputfile);
@@ -69,7 +65,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
     //comparing the key words for the materials 
     if(!strcmp(Key_word, "MATERIALS")) 
       ///<li>if  key word material: read all materials (from .cfg file)
-      for(k = 0; k < number_of_materials; k++) {
+      for(int k = 0; k < number_of_materials; k++) {
 	//the material number
 	///<ul><li>save each one of them in materials matrix
 	materials[k].number = k;
@@ -86,7 +82,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
  	
     ///<li>initialize parameters for time step and the artificial compressiblity
     viscosity_max = 0.0; 
-    for(k = 0; k < number_of_materials; k++) {
+    for(int k = 0; k < number_of_materials; k++) {
       viscosity_max = AMAX1(viscosity_max, materials[k].nu);
     }
     dt_g_vis = AMIN1(sqrt(delta/v_abs(gravity)), 0.5*delta2/viscosity_max);
@@ -95,10 +91,10 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
     double sound;
     //g force and viscosity
     sound = AMAX1(v_abs(ini.g_force), viscosity_max);
-    for(k = 0; k < number_of_materials; k++) materials[k].Set_b0(sound);
+    for(int k = 0; k < number_of_materials; k++) materials[k].Set_b0(sound);
 
     ///<li>biuld the real particles
-    particles.BiuldRealParticles(*this, ini);
+    particles.BuildRealParticles(*this, ini);
 
   }
 }
