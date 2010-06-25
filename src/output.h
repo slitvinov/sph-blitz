@@ -31,8 +31,6 @@ public:
 	void OutRestart(Hydrodynamics &hydro, double Time);
 	///create a head file for a movie of particle motion
 	void CreatParticleMovie();
-	///write the data for a movie of particle motion (output real and wall particles)	
-	void WriteParticleMovie(Hydrodynamics &hydro, double Time, Initiation &ini);
 };
 
 #endif //OUTPUT_H

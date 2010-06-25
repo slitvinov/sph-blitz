@@ -3,6 +3,8 @@
 /// \file material.h 
 /// \brief Material 
 
+#include <string>
+
 /// Material 
 class Material {
 
@@ -12,9 +14,8 @@ class Material {
 	static double delta;
 
 public:
-	
 	///material name string
-	char material_name[25];
+	std::string material_name;
 	int number; ///<the material NO.
 
 	///\brief material type

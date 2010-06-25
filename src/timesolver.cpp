@@ -65,8 +65,6 @@ void TimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
     if(ini.diagnose == 1) {
       diagnose.SaveStates(hydro);
     }
-    if(ini.diagnose == 2 && ite % 10 == 0) 
-      diagnose.KineticInformation(Time, ini, hydro);
 
     //predictor and corrector method used
     ///<li> the prediction step
@@ -122,8 +120,6 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
     if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
 			  <<ini.dms_time(Time)<<"	dt: "<<ini.dms_time(dt)<<"\n";
 	  
-    ///<li>output diagnose information
-    if(ini.diagnose == 2 && ite % 10 == 0) diagnose.KineticInformation(Time, ini, hydro);
     //control output
     // cout<<"\n just before build pair\n";
     //predictor and corrector method used

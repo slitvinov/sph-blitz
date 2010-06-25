@@ -3,7 +3,7 @@ AM_CXXFLAGS=-I${top_srcdir}
 
 
 nomain=	 boundary.cpp boundary.h \
-	diagnose.h diagose.cpp \
+	diagnose.h diagnose.cpp \
 	dllist.h \
 	glbcls.h glbfunc.cpp glbfunc.h \
 	hydrodynamics.cpp hydrodynamics.h initiation.cpp \

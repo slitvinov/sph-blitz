@@ -56,8 +56,6 @@ public:
 	///output the average values
 	void OutputAverage(double Time, Initiation &ini);
 
-	///track the globle average kinetic energy, weight center position and velocity
-	void KineticInformation(double Time, Initiation &ini, Hydrodynamics &hydro);
 };
 
 #endif //DIAGNOSE_H

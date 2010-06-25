@@ -6,6 +6,8 @@
 ///note: reference a particle by pointer or adress
 ///never reference a particle directly!
 
+// to have a shared pointer to the material
+#include <boost/smart_ptr/shared_ptr.hpp>
 
 class Initiation;
 class Material;
@@ -43,8 +45,8 @@ public:
 	int cell_i;///<i-position in cells
         int cell_j; ///<j-position in cells
 	
-	///pointer to the material
-	Material *mtl; 
+	///a shared pointer  to the material
+	boost::shared_ptr<Material> mtl; 
 
 	///pointer to a real particle
 	Particle *rl_prtl;

@@ -69,13 +69,12 @@ Diagnose::Diagnose(Initiation &ini, Hydrodynamics &hydro)
 		for (LlistNode<Particle> *p = hydro.particle_list.first(); 
 			!hydro.particle_list.isEnd(p); 
 			p = hydro.particle_list.next(p)) {
-			
-				Particle *prtl = hydro.particle_list.retrieve(p);
-				//find the number of the material
-				for(k = 0;  k < number_of_materials; k++) 
-					if(strcmp(prtl->mtl->material_name, hydro.materials[k].material_name) == 0) 
-						mtl_m[k] += prtl->m;
-				ttl_m += prtl->m;
+		  Particle *prtl = hydro.particle_list.retrieve(p);
+		  //find the number of the material
+		  for(k = 0;  k < number_of_materials; k++) 
+		    if(prtl->mtl->material_name == hydro.materials[k].material_name)
+		      mtl_m[k] += prtl->m;
+		  ttl_m += prtl->m;
 		}
 
 		char file_name[50];
@@ -224,45 +223,3 @@ void Diagnose::OutputAverage(double Time, Initiation &ini)
 	}
 	out.close();
 }
-//----------------------------------------------------------------------------------------
-//		track the globlal average kinetic energy, weight center position and velocity
-//----------------------------------------------------------------------------------------
-void Diagnose::KineticInformation(double Time, Initiation &ini, Hydrodynamics &hydro)
-{
-	int k;
-	char file_name[50];
-
-	/// <ul><li>produce output file name
-	strcpy(file_name,"./outdata/kinetic_info.dat");
-	ofstream out(file_name, ios::out | ios::ate);
-
-	for(k = 0; k < number_of_materials; k++) {
-		(wght_cntr[k]) = 0.0;
-		(wght_v[k]) = 0.0;
-	}
-	glb_ave_Ek = 0.0;
-	/// <li>iterate the partilce list and calculate data 
-	for (LlistNode<Particle> *p = hydro.particle_list.first(); 
-		!hydro.particle_list.isEnd(p); 
-		p = hydro.particle_list.next(p)) {
-			
-			Particle *prtl = hydro.particle_list.retrieve(p);
-			//find the number of the material
-			for(k = 0;  k < number_of_materials; k++) 
-				if(strcmp(prtl->mtl->material_name, hydro.materials[k].material_name) == 0) {
-					wght_cntr[k] += prtl->R*prtl->m;
-					wght_v[k] += prtl->U*prtl->m;
-				}
-			glb_ave_Ek += 0.5*sqr(v_abs(prtl->U))*prtl->m;
-	}
-	/// <li> output calculated data in "kinetic_info.dat"
-	out<<ini.dms_time(Time)<<"  "<<ini.dms_mass(ttl_m)<<"  "<<ini.dms_energy(glb_ave_Ek)<<"  ";
-	for(k = 0; k < number_of_materials; k++) {
-		out<<ini.dms_length(wght_cntr[k][0]/mtl_m[k])<<"  "<<ini.dms_length(wght_cntr[k][1]/mtl_m[k])<<"  ";
-		out<<ini.dms_length(wght_v[k][0]/mtl_m[k])<<"  "<<ini.dms_length(wght_v[k][1]/mtl_m[k])<<"  ";
-	}
-	out<<"\n";
-	out.close();
-
-}
-

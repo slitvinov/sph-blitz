@@ -35,7 +35,9 @@ Particle::~Particle()
 //		NOTE the particle mass and volume will be specified initiation::VolumeMass(w)
 //----------------------------------------------------------------------------------------
 Particle::Particle(Vec2d position, Vec2d velocity, double density, double pressure, double temperature, 
-				   Material &material) : bd(0)
+				   Material &material) 
+  : bd(0),
+    mtl(boost::shared_ptr<Material>(&material))
 {
 	///- increase the total particle number
 	ID_max++;
@@ -44,7 +46,7 @@ Particle::Particle(Vec2d position, Vec2d velocity, double density, double pressu
 	ID = ID_max;
 
 	///- point to the material properties
-	mtl = &material;
+
 
 	///- set viscosity
 	eta = mtl->eta; zeta = mtl->zeta;
@@ -66,14 +68,16 @@ Particle::Particle(Vec2d position, Vec2d velocity, double density, double pressu
 //								construct a wall particle
 //----------------------------------------------------------------------------------------
 Particle::Particle(double x, double y, double u, double v, 
-				   double distance, double normal_x, double normal_y, Material &material) : bd(1), bd_type(0)
+		   double distance, double normal_x, double normal_y, Material &material) : 
+  bd(1), bd_type(0),
+  mtl(boost::shared_ptr<Material>(&material))
 {
 
 	///- give a new ID number
 	ID = 0;
 
 	///- point to the material properties
-	mtl = &material;
+	
 
 	///- set particle position
 	R[0] = x; R[1] = y; 
@@ -91,16 +95,15 @@ Particle::Particle(double x, double y, double u, double v,
 //----------------------------------------------------------------------------------------
 //						creat a ghost particle 
 //----------------------------------------------------------------------------------------
-Particle::Particle(Particle &RealParticle) : bd(1), bd_type(1)
+Particle::Particle(Particle &RealParticle) : 
+  bd(1), bd_type(1),
+  mtl(RealParticle.mtl)
 {
 	///- give a new ID number
 	ID = 0;
 
 	///- point to its real particle
 	rl_prtl = &RealParticle;
-
-	///- point to the material properties
-	mtl = RealParticle.mtl;
 
 	///- set viscosity
 	eta = mtl->eta; zeta = mtl->zeta; 
@@ -120,7 +123,11 @@ Particle::Particle(Particle &RealParticle) : bd(1), bd_type(1)
 //----------------------------------------------------------------------------------------
 //							creat an image particle
 //----------------------------------------------------------------------------------------
-Particle::Particle(Particle &RealParticle, Material &material): bd(1), bd_type(0)
+Particle::Particle(Particle &RealParticle, Material &material): 
+  bd(1), 
+  bd_type(0),
+  // create shared pointer to the material
+  mtl(boost::shared_ptr<Material>(&material))
 {
 	///- give a new ID number
 	ID = 0;
@@ -128,8 +135,6 @@ Particle::Particle(Particle &RealParticle, Material &material): bd(1), bd_type(0
 	///- point to its real particle
 	rl_prtl = &RealParticle;
 
-	///- point to the material properties
-	mtl = &material;
 
 	///- set viscosity
 	eta = RealParticle.eta; zeta = RealParticle.zeta; 

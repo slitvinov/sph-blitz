@@ -364,8 +364,6 @@ void ParticleManager::BuildRealParticles(
 		particle_list.insert(particle_list.first(), prtl);
 
 		//insert the position into corresponding cell list
-		std::cerr << "i = " << i << '\n';
-		std::cerr << "j = " << j << '\n';
 		cell_lists(i,j).insert(cell_lists(i,j).first(), prtl);
 
 	      }
@@ -410,7 +408,7 @@ void ParticleManager::BuildRealParticles(
 	  //find the right material number
 	  material_no = -1;
 	  for(int k = 0;  k <= number_of_materials; k++) 
-	    if(strcmp(material_name, materials[k].material_name) == 0) material_no = k;
+	    if(material_name == materials[k].material_name) material_no = k;
 	  if(material_no != -1) {	
 					
 	    pressure = materials[material_no].get_p(density);
@@ -473,10 +471,8 @@ void ParticleManager::BuildRealParticles(
 	  std::cerr << "i = " << i << '\n';
 	  std::cerr << "i = " << i << '\n';
 	  cell_lists(i,j).insert(cell_lists(i,j).first(), prtl);
-	  std::cerr << "after insert\n";
 	};
       fin.close();
-      std::cerr << "after fin.close()\n";
     }
 
 }

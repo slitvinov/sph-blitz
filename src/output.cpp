@@ -73,17 +73,16 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
       f++;
        Particle *prtl = hydro.particle_list.retrieve(p);
        std::cerr << "prtl->mtl->material_name = " << prtl->mtl->material_name << '\n';
-      if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) {
-	j ++;
-	a++;
-	if( simu_mode == 1)
-	{ 
-	  if(j == 1) 
-	    	out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
-	      out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
-		 <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])<<"\n";
-	   
-	}
+       if(hydro.materials[i].material_name == prtl->mtl->material_name) {
+	 j ++;
+	 a++;
+	 if( simu_mode == 1) {
+	   if(j == 1)  {
+	     out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
+	   }
+	   out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
+	      <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])<<"\n";
+	 }
 	if (simu_mode == 2)
 	  out<<setprecision(6)
 	     << ::setw(16)<<ini.dms_length(prtl->R[0]) 
@@ -102,7 +101,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
 	 p1 = boundary.boundary_particle_list.next(p1)) {
       g++;		
       Particle *prtl = boundary.boundary_particle_list.retrieve(p1);
-      if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) { 
+      if(hydro.materials[i].material_name == prtl->mtl->material_name) { 
 	j ++;
 	b++;
 	if(j == 1) 	out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
@@ -156,51 +155,4 @@ void Output::OutRestart(Hydrodynamics &hydro, double Time)
 	 <<"  "<<prtl->rho<<"  "<<prtl->p<<"  "<<prtl->T<<"  \n";
   }
   out.close();
-}
-//--------------------------------------------------------------------------------------------
-//					creat a head file for a movie of particle motion
-//--------------------------------------------------------------------------------------------
-void Output::CreatParticleMovie()
-{
-  char file_name[50];
-  //produce output file name
-  strcpy(file_name,"./outdata/prtl_movie.dat");
-
-  ofstream out(file_name);
-  out<<"title='particle movie' \n";
-  out<<"variables=x, y, material, size \n";
-
-  out.close();
-
-}
-//--------------------------------------------------------------------------------------------
-//						write the data for a movie of particle motion
-//						output the real and wall particles
-//--------------------------------------------------------------------------------------------
-void Output::WriteParticleMovie(Hydrodynamics &hydro, double Time, Initiation &ini)
-{
-  int k, m;
-  char file_name[50];
-
-  ///- produce output file name
-  strcpy(file_name,"./outdata/prtl_movie.dat");
-
-  ofstream out(file_name, ios::out | ios::ate);
-  //zone names
-  out<<"zone t='"<<ini.dms_time(Time)<<"' \n";
-  ///- iterate the partilce list
-  for (LlistNode<Particle> *p = hydro.particle_list.first(); 
-       !hydro.particle_list.isEnd(p); 
-       p = hydro.particle_list.next(p)) {
-			
-    Particle *prtl = hydro.particle_list.retrieve(p);
-    m = -1;
-    //find the number of the material
-    for(k = 0;  k < number_of_materials; k++) 
-      if(strcmp(prtl->mtl->material_name, hydro.materials[k].material_name) == 0) m = k;
-    out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
-       <<"  "<<m<<"  "<<ini.dms_rho(prtl->rho)<<"\n";
-  }
-  out.close();
-
 }
