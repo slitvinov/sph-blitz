@@ -92,7 +92,6 @@ public:
   Vec2d non_dms_acceleration(const Vec2d acceleration) const ;///<a non dimensionalize method
   double non_dms_viscosity(const double mu) const ;///<a non dimensionalize method
   double non_dms_heat_ratio(const double cv) const ;///<a non dimensionalize method
-  double non_dms_heat_conduction(const double kappa) const ;///<a non dimensionalize method
   double non_dms_Boltzmann(const double k_bltz) const ;///<a non dimensionalize method
 
   //re-dimesionlize

@@ -3,6 +3,7 @@
 /// \file interaction.h 
 /// \brief Defines interaction between particles
 
+
 /// Defines interaction between particles
 class Interaction {
 
@@ -78,16 +79,8 @@ public:
         ///Remark: the idea is different from the original sph method
 	void SummationDensity();
 
-	/// \brief summation of the shear rates
-	///
-	/// Changes: Org(ShearRate_x, ShearRate_y:summation), Dest(ShearRate_x, ShearRate_y:summation)\n
-        /// Depends on: Interaction Object, Org(ShearRate_x, ShearRate_y, U, rho), Dest(ShearRate_x, ShearRate_y, U, rho)
-	void SummationShearRate();
-
 	///update forces
 	void UpdateForces();
-	///update forces with summation of viscosity
-	void UpdateForces_vis();
 
 	Particle* getOrigin();
 	Particle* getDest();

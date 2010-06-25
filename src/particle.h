@@ -69,7 +69,6 @@ public:
 	Vec2d U_n; ///<do not knwo what this is n=?conservative???<b>!!!Question!!!</b>
 	double e_I;///<intermediate value of internal enegry (used in the integrator)
         double e_n; ///intermediate volume, internal energy used in integrator
-	Vec2d ShearRate_x, ShearRate_y;
 
 	//for multimaterials
 	double eta, zeta; ///particle.h(line 69-74) viscosity of each particle<b>!!!Question!!!</b>

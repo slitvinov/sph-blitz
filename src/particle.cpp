@@ -108,7 +108,6 @@ Particle::Particle(Particle &RealParticle) : bd(1), bd_type(1)
 	///- set states
 	R = RealParticle.R; rho = RealParticle.rho; p = RealParticle.p; T = RealParticle.T;
 	Cs =RealParticle.Cs; U = RealParticle.U; U_I = RealParticle.U_I;
-	ShearRate_x = RealParticle.ShearRate_x, ShearRate_y = RealParticle.ShearRate_y;
 	
 	///- set conservative values and their  intermediate values
 	m = RealParticle.m; V = RealParticle.V; e = RealParticle.e; 
@@ -139,7 +138,6 @@ Particle::Particle(Particle &RealParticle, Material &material): bd(1), bd_type(0
 	///- set states
 	R = RealParticle.R; rho = RealParticle.rho; p = RealParticle.p; T = RealParticle.T;
 	Cs =RealParticle.Cs; U = RealParticle.U; U_I = RealParticle.U_I;
-	ShearRate_x = RealParticle.ShearRate_x, ShearRate_y = RealParticle.ShearRate_y;
 	
 	///- set conservative values and their  intermediate values
 	m = RealParticle.m; V = RealParticle.V; e = RealParticle.e; 
@@ -161,5 +159,4 @@ void Particle::StatesCopier(Particle &RealParticle, int type)
 	e = RealParticle.e;
 	rho_I = RealParticle.rho_I;
 	Cs =RealParticle.Cs; U = RealParticle.U; U_I = RealParticle.U_I;
-	ShearRate_x = RealParticle.ShearRate_x, ShearRate_y = RealParticle.ShearRate_y;
 }

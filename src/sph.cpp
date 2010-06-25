@@ -65,6 +65,8 @@
 #include "particlemanager.h"
 #include "hydrodynamics.h"
 #include "vec2d.h"
+#include "interaction.h"
+#include "timesolver.h"
 #include "Kernel/quinticspline.h"
 #include "Kernel/cubicspline1D.h"
 #include "Kernel/betaspline.h"

@@ -20,6 +20,9 @@
 #include "glbfunc.h"
 #include "material.h"
 #include "Kernel/kernel.h"
+#include "interaction.h"
+
+#include <assert.h>
 
 using namespace std;
 
@@ -174,30 +177,7 @@ void Interaction::SummationDensity()
 	if(Org->ID != Dest->ID) Dest->rho += mj*Wij; 
 
 }
-//----------------------------------------------------------------------------------------
-//					summation of the shear rates
-//----------------------------------------------------------------------------------------
-// Changes: Org(ShearRate_x, ShearRate_y:summation), Dest(ShearRate_x, ShearRate_y:summation)
-// Depends on: Interaction Object, Org(ShearRate_x, ShearRate_y, U, rho), Dest(ShearRate_x, ShearRate_y, U, rho)
-void Interaction::SummationShearRate()
-{
-	//pair particle state values
-	double vi, vj; //particle volumes
-	Vec2d Uij; //velocity, velocity difference and midddle point velocity
-	Vec2d ShearRate_xi, ShearRate_yi; //shear rates
-		
-	///- define particle state values
-	vi = mi/Org->rho; vj = mj/Dest->rho;
-	Uij = Org->U - Dest->U;
-	ShearRate_xi = Uij*eij[0]*Fij*rij;
-	ShearRate_yi = Uij*eij[1]*Fij*rij;
-	
-	///- summation of shear rates
-	Org->ShearRate_x = Org->ShearRate_x + ShearRate_xi*vj;
-	Org->ShearRate_y = Org->ShearRate_y + ShearRate_yi*vj;
-	Dest->ShearRate_x = Dest->ShearRate_x + ShearRate_xi*vi;
-	Dest->ShearRate_y = Dest->ShearRate_y + ShearRate_yi*vi;
-}
+
 
 //----------------------------------------------------------------------------------------
 //					update pair forces
@@ -207,19 +187,28 @@ void Interaction::UpdateForces()
   //contol output
   //   cout<<"\n am in update forces and simu_mode is:"<<simu_mode<<"\n";
   	//pressure, density and inverse density and middle point pressure
-        double pi, rhoi, Vi, rVi, pj, rhoj, Vj, rVj, Uijdoteij,UijdotRij; 
+        double pi, rVi, pj, rVj, Uijdoteij,UijdotRij; 
 	//velocity and velocity difference
 	Vec2d Ui, Uj, Uij; 
 
 	//define pair values change in sub time steps
-	rhoi = Org->rho; rhoj = Dest->rho;
-	Vi = mi/rhoi; Vj = mj/rhoj;
+	const double rhoi = Org->rho; 
+	const double rhoj = Dest->rho;
+	assert(rhoi>0.0);
+	assert(rhoj>0.0);
+	
+	const double Vi = mi/rhoi; 
+	const double Vj = mj/rhoj;
+	assert(Vi>0.0);
+	assert(Vj>0.0);
 	rVi = 1.0/Vi; rVj = 1.0/Vj;
+
 	pi = Org->p; pj = Dest->p;
 	Ui = Org->U; Uj = Dest->U;
 	Uij = Ui - Uj;
 	Uijdoteij = dot(Uij, eij);
 	UijdotRij=dot(Uij,(Org->R - Dest->R));
+
 	//pair focres or change rate
 	Vec2d dPdti, dUi, dUdti, dUdtj; //mometum&velocity change rate
 
@@ -260,7 +249,6 @@ void Interaction::UpdateForces()
           Dest->dUdt += dUdtj;
 	  Org->dedt+=dedti;
 	  Dest->dedt+=dedtj;
-
 	};
 
       	if(simu_mode==1)
@@ -288,59 +276,7 @@ void Interaction::UpdateForces()
 	Org->dUdt += dPdti*rmi;
 	Dest->dUdt -= dPdti*rmj;
 	}
-}
-
-
-//----------------------------------------------------------------------------------------
-//				update forces with summation viscosity
-//----------------------------------------------------------------------------------------
-void Interaction::UpdateForces_vis()
-{
-	//pressure, density and inverse density and middle point pressure
-	double pi, rhoi, rrhoi, pj, rhoj, rrhoj, _pij; 
-	//velocity, velocity difference and midddle point velocity
-	Vec2d Ui, Uj, Uij, _Uij; 
-
-	//define pair values change in sub time steps
-	rhoi = Org->rho; rhoj = Dest->rho;
-	rrhoi = 1.0/rhoi; rrhoj = 1.0/rhoj;
-	pi = Org->p; pj = Dest->p;
-	Ui = Org->U; Uj = Dest->U;
-	Uij = Org->U - Dest->U;
-	_pij = (pi + pj)*0.5;
-	_Uij = (Ui + Uj)*0.5;
-
-	//shear rates
-	Vec2d ShearRate_xi, ShearRate_yi;
-	Vec2d ShearRate_xj, ShearRate_yj;
-	double ShearStress[2][2], CompressRate;
-	Vec2d ShearForce;
-
-	//pair focres or change rate
-	Vec2d dPdti; //mometum change rate
-
-	///- calculate shear force
-	ShearRate_xi = Org->ShearRate_x; ShearRate_yi =  Org->ShearRate_y;
-	ShearRate_xj = Dest->ShearRate_x; ShearRate_yj =  Dest->ShearRate_y;
-
-	ShearStress[0][0] = (ShearRate_xi[0] + ShearRate_xj[0]);
-	ShearStress[0][1] = ((ShearRate_xi[1] + ShearRate_xj[1]) + (ShearRate_yi[0] + ShearRate_yj[0]))*0.5;
-	ShearStress[1][0] = ShearStress[0][1];
-	ShearStress[1][1] = (ShearRate_yi[1] + ShearRate_yj[1]);
-	CompressRate = (ShearStress[0][0] + ShearStress[1][1])/3.0;
-	ShearStress[0][0] -= CompressRate; 	ShearStress[1][1] -= CompressRate;
-
-	ShearForce[0] = ShearStress[0][0]*eij[0] + ShearStress[1][0]*eij[1]; 
-	ShearForce[1] = ShearStress[0][1]*eij[0] + ShearStress[1][1]*eij[1]; 
-	ShearForce = ShearForce*2.0*etai*etaj/(etai + etaj) 
-			   + eij*CompressRate*2.0*zetai*zetaj/(zetai + zetaj); 
-
 	
-	///- define pair force or momentum change rate
-	dPdti =   eij*Fij*rij*_pij*(rrhoi*rrhoi + rrhoj*rrhoj)
-			- ShearForce*Fij*rij*(rrhoi*rrhoi + rrhoj*rrhoj);
-	///summation (acceleration (=velovity change rate)=force (=momentum change rate)* mass
-	Org->dUdt = Org->dUdt + dPdti*mj;
-	Dest->dUdt = Dest->dUdt - dPdti*mi;
-
+	
 }
+

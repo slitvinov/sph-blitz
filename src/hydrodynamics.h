@@ -3,8 +3,9 @@
 /// \file hydrodynamics.h
 /// \brief  Definition of  materials and their hydrodynamical interactions
 
-
+//#pragma GCC diagnostic ignored "-Weffc++"
 #include <boost/numeric/ublas/matrix.hpp>
+//#pragma GCC diagnostic warning "-Weffc++"
 #include "material.h"
 
 namespace blast = boost::numeric::ublas;
@@ -58,11 +59,8 @@ public:
 	void Zero_ShearRate();
 	///summation for particles density (with updating interaction list)
 	void UpdateDensity(ParticleManager &particles, Kernel &weight_function, Initiation &ini);
-        ///summation for shear rates (with updating interaction list)
-	void UpdateShearRate(ParticleManager &particles, Kernel &weight_function);
 	///currently no shear rate calculated  without updating interaction list
 	void UpdateDensity(Initiation &ini);///???
-	void UpdateShearRate();
 
 	///calculate states from conservatives
 	void UpdateState(Initiation &ini);

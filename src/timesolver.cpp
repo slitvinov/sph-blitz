@@ -20,6 +20,7 @@
 #include "glbfunc.h"
 #include "hydrodynamics.h"
 #include "particlemanager.h"
+#include "timesolver.h"
 
 using namespace std;
 

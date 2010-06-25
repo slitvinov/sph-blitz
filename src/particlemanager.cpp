@@ -21,6 +21,7 @@
 #include "material.h"
 #include "particlemanager.h"
 #include "hydrodynamics.h"
+#include "interaction.h"
 
 using namespace std;
 

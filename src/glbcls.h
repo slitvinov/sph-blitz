@@ -17,8 +17,7 @@ class Hydrodynamics; class ListNode; class BetaSpline; class Kernel;
 #include "initiation.h"
 #include "particle.h"
 #include "boundary.h"
-#include "interaction.h"
-#include "timesolver.h"
+
 #include "output.h"
 #include "diagnose.h"
 

@@ -334,13 +334,6 @@ double Initiation::non_dms_heat_ratio(const double cv) const
 
 }
 //-------------------------------------------------------
-//			Non_dimensionalize heat conduction rate
-//-------------------------------------------------------
-double Initiation::non_dms_heat_conduction(const double kappa) const
-{
-	return kappa*_T/_v/_v/_v/_rho;
-}
-//-------------------------------------------------------
 //			Non_dimensionalize Boltzmann constant
 //-------------------------------------------------------
 double Initiation::non_dms_Boltzmann(const double k_bltz) const

@@ -6,7 +6,10 @@
 #include "vec2d.h"
 #include "dllist.h"
 #include "particle.h"
+
+//#pragma GCC diagnostic ignored "-Weffc++"
 #include <boost/numeric/ublas/matrix.hpp>
+//#pragma GCC diagnostic warning "-Weffc++"
 
 class Hydrodynamics;
 class Initiation;
@@ -15,9 +18,10 @@ class Interaction;
 class Force;
 class Kernel;
 
-/// Particle manager class 
+
 namespace blast = boost::numeric::ublas;
 
+/// Particle manager class 
 class ParticleManager
 {
 	//parameters copied from initiation
