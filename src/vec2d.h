@@ -8,8 +8,12 @@
 #define VEC2D_H
 
 #include <cmath>
+
+#pragma GCC diagnostic ignored "-Wignored-qualifiers"
+#pragma GCC diagnostic ignored "-Wreturn-type"
 #include <blitz/tinyvec.h>
 #include <blitz/tinyvec-et.h>
+
 
 using namespace blitz;
 

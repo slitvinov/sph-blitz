@@ -23,7 +23,6 @@ class Hydrodynamics; class ListNode; class Material; class BetaSpline; class Ker
 #include "particle.h"
 #include "particlemanager.h"
 #include "boundary.h"
-#include "force.h"
 #include "interaction.h"
 #include "hydrodynamics.h"
 #include "timesolver.h"

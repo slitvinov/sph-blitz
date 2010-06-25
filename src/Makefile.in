@@ -44,8 +44,8 @@ CONFIG_CLEAN_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
-am__objects_1 = boundary.$(OBJEXT) diagose.$(OBJEXT) force.$(OBJEXT) \
-	glbfunc.$(OBJEXT) hydrodynamics.$(OBJEXT) initiation.$(OBJEXT) \
+am__objects_1 = boundary.$(OBJEXT) diagose.$(OBJEXT) glbfunc.$(OBJEXT) \
+	hydrodynamics.$(OBJEXT) initiation.$(OBJEXT) \
 	interaction.$(OBJEXT) material.$(OBJEXT) output.$(OBJEXT) \
 	particle.$(OBJEXT) particlemanager.$(OBJEXT) \
 	timesolver.$(OBJEXT) vec2d.$(OBJEXT) kernel.$(OBJEXT) \
@@ -175,7 +175,7 @@ top_srcdir = @top_srcdir@
 AM_CXXFLAGS = -I${top_srcdir}
 nomain = boundary.cpp boundary.h \
 	diagnose.h diagose.cpp \
-	dllist.h force.cpp force.h \
+	dllist.h \
 	glbcls.h glbfunc.cpp glbfunc.h \
 	hydrodynamics.cpp hydrodynamics.h initiation.cpp \
 	initiation.h interaction.cpp interaction.h \
@@ -269,7 +269,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boundary.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cubicspline1D.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/diagose.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/force.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/glbfunc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hydrodynamics.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/initiation.Po@am__quote@

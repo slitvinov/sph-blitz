@@ -137,24 +137,21 @@ void ParticleManager::UpdateCellLinkedLists()
 //----------------------------------------------------------------------------------------
 void ParticleManager::BuildNNP(Vec2d &point)
 {
-  int i, j; //current cell postions
-  int k, m; //possible new cell postions
-  double dstc; //distance
 
   ///<ul><li>clear the list first
   NNP_list.clear_data();
 
   //where is the point
-  k = int ((point[0] + cll_sz)/ cll_sz);
-  m = int ((point[1] + cll_sz)/ cll_sz);
+  const int k = int ((point[0] + cll_sz)/ cll_sz);
+  const int m = int ((point[1] + cll_sz)/ cll_sz);
 
 
   // if ( point[0]>=0.0 && point[0]<=2.0)//this if- condition has been added for the 1D shock case (as there are no boundary conditions and particles who left the domains should not be considered any more) 
 
  {
   ///<li>loop on this and all surrounding cells
-  for(i = k - 1; i <= k + 1; i++) {
-    for(j = m - 1; j <= m + 1; j++) { 
+  for(int i = k - 1; i <= k + 1; i++) {
+    for(int j = m - 1; j <= m + 1; j++) { 
       if(i < x_clls && j < y_clls && i >= 0 && j >= 0) {
 	///<ul><li>iterate this cell list
 	for (LlistNode<Particle> *p = cell_lists[i][j].first(); 
@@ -164,7 +161,7 @@ void ParticleManager::BuildNNP(Vec2d &point)
 	  ///<ul><li>check the position of the particle
 	  ///and (if particle is NNP) insert the nearest particle to the list
 	  Particle *prtl = cell_lists[i][j].retrieve(p);
-	  dstc = v_distance(point, prtl->R);
+	  const double dstc = v_distance(point, prtl->R);
 	  if(dstc < supportlength) {///<li>(line 137)<b>Question: WHY SMOOTHINGLENGTH AND NOT SUPPORT LENGT???</b>
 	    NNP_list.insert(NNP_list.first(), prtl);
 	  }
@@ -341,7 +338,6 @@ ofstream txtFile("BuddiesDataN1");
 void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation &ini)
 {
 	
-  int i, j, k, m;
   Vec2d position, velocity;
   double density, pressure, Temperature;
   int material_no;
@@ -352,12 +348,12 @@ void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation &ini)
   //initialize particles from the file .cfg
   if(initial_condition==0) {	
     //initialize the real particles inside the boundary
-    for(i = 1; i < x_clls - 1; i++) {
-      for(j = 1; j < y_clls - 1; j++) {
+    for(int i = 1; i < x_clls - 1; i++) {
+      for(int j = 1; j < y_clls - 1; j++) {
 	cout<<"Build initial particles within domain with .cfg data";
 	//creat a new real particle
-	for(k = 0; k < hdelta; k++) {
-	  for(m = 0; m < hdelta; m++) {
+	for(int k = 0; k < hdelta; k++) {
+	  for(int m = 0; m < hdelta; m++) {
 
 	    position[0] = (i - 1)*cll_sz + (k + 0.5)*delta;
 	    position[1] = (j - 1)*cll_sz + (m + 0.5)*delta;
@@ -430,7 +426,7 @@ void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation &ini)
 			
       //find the right material number
       material_no = -1;
-      for(k = 0;  k <= number_of_materials; k++) 
+      for(int k = 0;  k <= number_of_materials; k++) 
 	if(strcmp(material_name, hydro.materials[k].material_name) == 0) material_no = k;
       if(material_no != -1) {	
 					
@@ -441,8 +437,8 @@ void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation &ini)
 	hydro.particle_list.insert(hydro.particle_list.first(), prtl);
 					
 	//where is the particle
-	i = int (prtl->R[0] / cll_sz) + 1;
-	j = int (prtl->R[1] / cll_sz) + 1;
+	const int  i = int (prtl->R[0] / cll_sz) + 1;
+	const int j = int (prtl->R[1] / cll_sz) + 1;
 					
 	prtl->cell_i = i; prtl->cell_j = j; 
 	//insert the position into corresponding cell list
@@ -490,8 +486,8 @@ void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation &ini)
 	hydro.particle_list.insert(hydro.particle_list.first(), prtl);
 					
 	//where is the particle
-	i = int (prtl->R[0] / cll_sz)+1;//I had to remove the "+1" because there is no boundary particle cells
-	j = int (prtl->R[1] / cll_sz)+1;//but works better with it!!!???!!!
+	const int i = int (prtl->R[0] / cll_sz)+1;//I had to remove the "+1" because there is no boundary particle cells
+	const int j = int (prtl->R[1] / cll_sz)+1;//but works better with it!!!???!!!
 					
 	prtl->cell_i = i; prtl->cell_j = j; 
 	//insert the position into corresponding cell list

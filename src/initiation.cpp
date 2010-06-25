@@ -201,8 +201,6 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, Ke
 			/// <li> save volume and mass in the respective particle list node (whih is each a Particle object with all the particle properties) 
 			prtl_org->V = reciprocV;
 			prtl_org->m = prtl_org->rho*reciprocV;
-			std::cerr<<" \n rho:  "<<prtl_org->rho;
-			std::cerr<<" \n mass:  "<<prtl_org->m;
 			/// <li> clear the NNP_list</ul> </ul>
 			particles.NNP_list.clear();
 	}
@@ -382,12 +380,12 @@ Vec2d Initiation::dms_box_size(const Vec2d box_size_non) const
 	return box_size_non*_length;
 }
 //-------------------------------------------------------
-double Initiation::dms_velocity(const double velocity_non) const
+Vec2d Initiation::dms_velocity(const Vec2d velocity_non) const
 {
 	return velocity_non*_v;
 }
 //-------------------------------------------------------
-Vec2d Initiation::dms_velocity(const Vec2d velocity_non) const
+double Initiation::dms_velocity(const double velocity_non) const
 {
 	return velocity_non*_v;
 }
@@ -401,9 +399,3 @@ Vec2d Initiation::dms_acceleration(const Vec2d acceleration_non) const
 {
 	 return acceleration_non*_v*_v/_length;
 }
-//-------------------------------------------------------
-double Initiation::dms_viscosity(const double mu_non) const
-{
-	return mu_non*_v*_rho*_length;
-}
-//-------------------------------------------------------

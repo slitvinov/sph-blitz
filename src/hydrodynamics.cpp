@@ -42,9 +42,6 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   Material sample_material(ini);  //set satatic numbers
   materials = new Material[number_of_materials];
   ///<li>create the force matrix
-  Force sample_force(ini); //set satatic numbers
-  forces = new Force*[number_of_materials];
-  for(int k = 0; k < number_of_materials; k++) forces[k] = new Force[number_of_materials];
 
   ///<li>check if inputfile exists
   strcpy(inputfile, ini.inputfile);
