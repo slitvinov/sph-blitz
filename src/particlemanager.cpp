@@ -148,9 +148,8 @@ void ParticleManager::UpdateCellLinkedLists()
 //----------------------------------------------------------------------------------------
 void ParticleManager::BuildNNP(Vec2d &point)
 {
-
   ///<ul><li>clear the list first
-  NNP_list.clear_data();
+  NNP_list.clear();
 
   //where is the point
   std::cerr << __FILE__ << ':' << __LINE__ << " point: " << point << '\n';
@@ -199,7 +198,7 @@ void ParticleManager::BuildInteraction(Llist<spInteraction> &interactions,
 
   {
     //clear the list first
-    interactions.clear_data();
+    interactions.clear();
     interactions.clear();
     int current_used = 0;
 

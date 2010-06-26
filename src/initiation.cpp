@@ -178,6 +178,9 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, Ke
     /// <ul><li> pick an origin particle
     spParticle prtl_org = *(hydro.particle_list.retrieve(p));
     /// <li> build the nearest neighbor particle list for chosen origin particle
+    assert(prtl_org != NULL);
+    std::cerr << __FILE__ << ':' << __LINE__ 
+	      << " prtl_org->R: " << prtl_org->R << '\n';
     particles.BuildNNP(prtl_org->R);
     std::cerr << "particles.NNP_list.length: " << particles.NNP_list.length() << '\n';
 

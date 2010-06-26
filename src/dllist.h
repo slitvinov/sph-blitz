@@ -100,9 +100,6 @@ public:
   ///re-initialize to empty list
   inline void clear() {while (!empty()) remove(first());
     len = 0; }
-  ///re-initialize to empty list
-  //  inline void clear_data()  {while (!empty()) { delete retrieve(first()); remove(first()); }
-  //    len = 0; }
 	
   ///deconstructor
   inline ~Llist() { while (!empty()) remove(first());
