@@ -37,7 +37,7 @@ Particle::~Particle()
 Particle::Particle(Vec2d position, Vec2d velocity, double density, double pressure, double temperature, 
 				   Material &material) 
   : bd(0),
-    mtl(boost::shared_ptr<Material>(&material))
+    mtl(&material)
 {
 	///- increase the total particle number
 	ID_max++;
@@ -70,7 +70,7 @@ Particle::Particle(Vec2d position, Vec2d velocity, double density, double pressu
 Particle::Particle(double x, double y, double u, double v, 
 		   double distance, double normal_x, double normal_y, Material &material) : 
   bd(1), bd_type(0),
-  mtl(boost::shared_ptr<Material>(&material))
+  mtl(&material)
 {
 
 	///- give a new ID number
@@ -126,8 +126,7 @@ Particle::Particle(Particle &RealParticle) :
 Particle::Particle(Particle &RealParticle, Material &material): 
   bd(1), 
   bd_type(0),
-  // create shared pointer to the material
-  mtl(boost::shared_ptr<Material>(&material))
+  mtl(&material)
 {
 	///- give a new ID number
 	ID = 0;

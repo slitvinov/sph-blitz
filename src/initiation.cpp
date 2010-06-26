@@ -62,9 +62,6 @@ Initiation::Initiation(const char *project_name) {
 		//1: restart from a .rst file
 		if(!strcmp(Key_word, "INITIAL_CONDITION")) fin>>initial_condition;
 
-		//output diagnose information
-		if(!strcmp(Key_word, "DIAGNOSE")) fin>>diagnose;
-
 		//comparing the key words for domian size
 		if(!strcmp(Key_word, "CELLS")) fin>>x_cells>>y_cells;
 

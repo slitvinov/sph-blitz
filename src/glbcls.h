@@ -19,7 +19,6 @@ class Hydrodynamics; class ListNode; class BetaSpline; class Kernel;
 #include "boundary.h"
 
 #include "output.h"
-#include "diagnose.h"
 
 
 #endif

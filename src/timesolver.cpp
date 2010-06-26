@@ -43,7 +43,7 @@ TimeSolver::TimeSolver(Initiation &ini)
 //					predictor and corrector method used
 //-------------------------------------------------------------------------------------
 void TimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary,
-			      double &Time, double D_time, Diagnose &diagnose,
+			      double &Time, double D_time,
 			      Initiation &ini, Kernel &weight_function)
 {
   double integeral_time = 0.0;
@@ -61,10 +61,6 @@ void TimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
     ///<ul><li> print out screen information for the iteration
     if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "<<ini.dms_time(Time)<<"	dt: "<<dt<<"\n";
 
-    ///<li> calculating diagonse information
-    if(ini.diagnose == 1) {
-      diagnose.SaveStates(hydro);
-    }
 
     //predictor and corrector method used
     ///<li> the prediction step
@@ -99,7 +95,7 @@ void TimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
 //----------------------------------------------------------------------------------------
 void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 
 					Boundary &boundary,
-					double &Time, double D_time, Diagnose &diagnose,
+					double &Time, double D_time,
 					Initiation &ini, Kernel &weight_function)
 {
   double integeral_time = 0.0;

@@ -36,8 +36,6 @@ public:
   ///- 0 initialize from the .cfg file; 
   ///- 1 read from the .rst file particle by particle with non-dimensional data
   int initial_condition;
-  ///diagnose information maker: 1 output diagnose information
-  int diagnose;
   ///artificial viscosity
   double art_vis;
   ///simulation mode (1:liquids, 2: gas dynamics)
