@@ -20,16 +20,16 @@ class Particle {
 	///\brief construct a real particle
 	///NOTE the particle mass and volume will be specified in initiation::VolumeMass(w)
 	Particle(Vec2d position, Vec2d velocity, double density, 
-		 double pressure, double temperature, Material& material);
+		 double pressure, double temperature, spMaterial material);
 	///construct a wall particle
 	Particle(double x, double y, double u, double v, 
 		 double distance, double normal_x, double normal_y, 
-		 Material& material);
+		 spMaterial material);
 	
 	///ghost particle creator
 	Particle(Particle &RealParticle);
 	///Mirror image particle creator
-	Particle(Particle &RealParticle, Material& material);
+	Particle(Particle &RealParticle, spMaterial material);
 
 	///deconstructor particle
 	~Particle();
@@ -69,7 +69,7 @@ class Particle {
         double e_n; ///intermediate volume, internal energy used in integrator
 
 	//for multimaterials
-	double eta, zeta; ///particle.h(line 69-74) viscosity of each particle<b>!!!Question!!!</b>
+	double eta; ///particle.h(line 69-74) viscosity of each particle<b>!!!Question!!!</b>
 	
 	//change rate for real particles
 	double drhodt; ///<density change rate for real particles

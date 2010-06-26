@@ -181,42 +181,7 @@ void ParticleManager::BuildNNP(Vec2d &point)
     }
   }
 }
-//----------------------------------------------------------------------------------------
-//				do NNP search and biuld the NNP list for MLS Mapping
-//----------------------------------------------------------------------------------------
-void ParticleManager::BuildNNP_MLSMapping(Vec2d &point)
-{
-  int i, j; //current cell postions
-  int k, m; //possible new cell postions
-  double dstc; //distance
 
-
-  //where is the point
-  k = int ((point[0] + cll_sz)/ cll_sz);
-  m = int ((point[1] + cll_sz)/ cll_sz);
-  // if ( point[0]>=0 && point[0]<=2)
-  ///<ul><li>loop on this and all surrounding cells
-  for(i = k - 1; i <= k + 1; i++) {
-    for(j = m - 1; j <= m + 1; j++) { 
-      if(i < x_clls && j < y_clls && i >= 0 && j >= 0) {
-	///<ul><li>iterate this cell list
-	for (LlistNode<Particle> *p = cell_lists(i,j).first(); 
-	     !cell_lists(i,j).isEnd(p); 
-	     p = cell_lists(i,j).next(p)) {
-
-	  ///<ul><li>check the position of the real particle
-	  ///and (if particle is NNP) insert it to the list
-	  Particle *prtl = cell_lists(i,j).retrieve(p);
-	  dstc = v_distance(point, prtl->R);
-	  //only real particles included
-	  if(dstc < supportlength && prtl->bd == 0) {
-	    NNP_list.insert(NNP_list.first(), prtl);
-	  }
-	}
-      }
-    }
-  }
-}
 //----------------------------------------------------------------------------------------
 //					build the interaction (particle pair) list
 //----------------------------------------------------------------------------------------
@@ -268,14 +233,19 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
 		
 		///<ul><li>calculate distance between particle in question and destination particle (which is iterated)and if interaction takes place: add pair to inetraction list (<b>question: why is dst compared to h^2 and not support length to determine if there is interaction or not??</b>
 		dstc = v_sq(prtl_org->R - prtl_dest->R);
-		if(dstc <= supportlengthsquare && prtl_org->ID >= prtl_dest->ID) {
+		assert(supportlengthsquare>0.0);
+		if( (dstc < supportlengthsquare) && (prtl_org->ID > prtl_dest->ID)) {
 		  //	cout<<"\n distances for BuildInteractions positif:"<<dstc<<"\n";
 		  if(current_used == old_length) {
-		    Interaction *pair = new Interaction(prtl_org, prtl_dest, weight_function, sqrt(dstc));
-		    {interactions.insert(current, pair);}
+		    Interaction *pair = new Interaction(prtl_org, prtl_dest, 
+							weight_function, sqrt(dstc));
+		    interactions.insert(current, pair);
 		  }
 		  else {
-		    interactions.retrieve(current)->NewInteraction(prtl_org, prtl_dest, weight_function, sqrt(dstc));
+		    interactions.retrieve(current)->NewInteraction(prtl_org, 
+								   prtl_dest, 
+								   weight_function, 
+								   sqrt(dstc));
 		    current = interactions.next(current);
 		    current_used++;
 		  }
@@ -315,7 +285,7 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
 //					build the initial particles and the linked lists
 //----------------------------------------------------------------------------------------
 void ParticleManager::BuildRealParticles(
-					 blast::vector<Material> materials, 
+					 vecMaterial materials, 
 					 Llist<Particle>& particle_list, 
 					 Initiation &ini)
 {
@@ -343,8 +313,8 @@ void ParticleManager::BuildRealParticles(
 		material_no = 1;
 		velocity = U0;
 		Temperature = T0;
-		density = materials[material_no].rho0;
-		pressure = materials[material_no].get_p(density);
+		density = materials[material_no]->rho0;
+		pressure = materials[material_no]->get_p(density);
 						
 		Vec2d c_cntr;
 		c_cntr[0] = 4.0; c_cntr[1] = 4.0;
@@ -352,7 +322,7 @@ void ParticleManager::BuildRealParticles(
 		  //						if(position[1] < 0.2 && position[0] < 0.2) {
 		  material_no = 2;
 		  pressure += p0;
-		  density = materials[material_no].get_rho(pressure);
+		  density = materials[material_no]->get_rho(pressure);
 		}
 
 		//creat a new real particle
@@ -409,10 +379,10 @@ void ParticleManager::BuildRealParticles(
 	  //find the right material number
 	  material_no = -1;
 	  for(int k = 0;  k <= number_of_materials; k++) 
-	    if(material_name == materials[k].material_name) material_no = k;
+	    if(material_name == materials[k]->material_name) material_no = k;
 	  if(material_no != -1) {	
 					
-	    pressure = materials[material_no].get_p(density);
+	    pressure = materials[material_no]->get_p(density);
 	    Particle *prtl = new Particle( position, velocity, density, pressure, Temperature, 
 					   materials[material_no]);
 	    //insert its poistion on the particle list
@@ -457,8 +427,9 @@ void ParticleManager::BuildRealParticles(
 			
 	  fin>>position[0]>>position[1]>>velocity[0]>>velocity[1]
 	     >>density>>pressure;
-	  Temperature=materials[material_no].get_T(pressure,density);
-	  Particle *prtl = new Particle( position, velocity, density, pressure, Temperature, 
+	  Temperature=materials[material_no]->get_T(pressure,density);
+	  Particle *prtl = new Particle( position, velocity, density, 
+					 pressure, Temperature, 
 					 materials[material_no]);
 	  //insert its poistion on the particle list
 	  particle_list.insert(particle_list.first(), prtl);

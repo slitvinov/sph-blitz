@@ -26,6 +26,8 @@
 #include "interaction.h"
 #include "initiation.h"
 
+#include <boost/smart_ptr/make_shared.hpp>
+
 using namespace std;
 
 //----------------------------------------------------------------------------------------
@@ -43,7 +45,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   delta = ini.delta; delta2 = delta*delta; delta3 = delta2*delta;
 
   ///<li>create material matrix
-  Material sample_material(ini);  //set satatic numbers
+  //Material sample_material(ini);  //set satatic numbers
   materials.resize(number_of_materials);
   ///<li>create the force matrix
 
@@ -71,15 +73,18 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
       for(int k = 0; k < number_of_materials; k++) {
 	//the material number
 	///<ul><li>save each one of them in materials matrix
-	materials[k].number = k;
-	fin>>materials[k].material_name>>materials[k].material_type;
-	fin>>materials[k].cv>>materials[k].eta>>materials[k].zeta
-	   >>materials[k].gamma>>materials[k].b0>>materials[k].rho0>>materials[k].a0;
+	
+	///create a new Material object
+	materials[k] = boost::make_shared<Material>(ini);
+	materials[k]->number = k;
+	fin>>materials[k]->material_name>>materials[k]->material_type;
+	fin>>materials[k]->cv>>materials[k]->eta
+	   >>materials[k]->gamma>>materials[k]->b0>>materials[k]->rho0>>materials[k]->a0;
 	///<li>output the material property parameters to the screen
 	cout<<"The properties of the material No. "<<k<<"\n";		
-	materials[k].show_properties();
+	materials[k]->show_properties();
 	///<li>non-dimensionalize</ul>
-	materials[k].non_dimensionalize(ini);
+	materials[k]->non_dimensionalize(ini);
       }
     }
   }
@@ -88,13 +93,13 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   ///<li>initialize parameters for time step and the artificial compressiblity
   viscosity_max = 0.0; 
   for(int k = 0; k < number_of_materials; k++) {
-    viscosity_max = AMAX1(viscosity_max, materials[k].nu);
+    viscosity_max = AMAX1(viscosity_max, materials[k]->nu);
   }
   dt_g_vis = AMIN1(sqrt(delta/v_abs(gravity)), 0.5*delta2/viscosity_max);
 
   ///<li>determine the artificial compressiblity
   const double sound = AMAX1(v_abs(ini.g_force), viscosity_max);
-  for(int k = 0; k < number_of_materials; k++) materials[k].Set_b0(sound);
+  for(int k = 0; k < number_of_materials; k++) materials[k]->Set_b0(sound);
 
   ///<li>biuld the real particles
   particles.BuildRealParticles(materials, particle_list, ini);
@@ -376,8 +381,7 @@ void Hydrodynamics::UpdateVolume(ParticleManager &particles, Kernel &weight_func
 double Hydrodynamics::GetTimestep()
 {
   //maximum sound speed, particle velocity and density
-  double Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = 1.0;
-  double dt;
+  double Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = -1.0;
 
   //predict the time step
   //iterate the partilce list
@@ -392,7 +396,7 @@ double Hydrodynamics::GetTimestep()
     rho_max = AMAX1(rho_max, prtl->rho);
   }
 
-  dt = AMIN1(sqrt(0.5*(rho_min + rho_max))*dt_surf, dt_g_vis);
+  const double dt = AMIN1(sqrt(0.5*(rho_min + rho_max))*dt_surf, dt_g_vis);
   return  0.25*AMIN1(dt, delta/(Cs_max + V_max));
 }
 //----------------------------------------------------------------------------------------

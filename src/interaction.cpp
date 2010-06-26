@@ -46,16 +46,10 @@ Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest,
 	Org = prtl_org;
 	Dest = prtl_dest;
 	
-	///- determine interaction parameters
-	noi = Org->mtl->number;
-	noj = Dest->mtl->number; 
-
 	///- define pair values (mass, viscosity), do not change in sub time steps
 	mi = Org->m; mj = Dest->m;
 	rmi = 1.0/mi; rmj =1.0/mj;
 	etai = Org->eta; etaj = Dest->eta; 
-	zetai = Org->zeta; zetaj = Dest->zeta; 
-
 
 	///- calculate pair parameters (weight functions, shear- and bulk-)
 	rij = dstc;
@@ -87,31 +81,34 @@ double Interaction::getWij() const
 //----------getter for GradWij
  Vec2d Interaction::getGradWij() const
  
- { return this->gradWij;
+ { 
+   return gradWij;
 }
 
 //----------------------------------------------------------------------------------------
 //	use old interaction object for new interaction
 //----------------------------------------------------------------------------------------
 void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, 
-				Kernel &weight_function, double dstc)
+				 Kernel &weight_function, double dstc)
 {
 	///- assign the original and the destinate particle in the reaction pair
 	Org = prtl_org;
 	Dest = prtl_dest;
 	
-	///- determine interaction parameters
-	noi = Org->mtl->number;
-	noj = Dest->mtl->number; 
 
 	///- define pair values(mass, viscosity), do not change in sub time steps
 	mi = Org->m; mj = Dest->m;
 	rmi = 1.0/mi; rmj =1.0/mj;
 	etai = Org->eta; etaj = Dest->eta; 
-	zetai = Org->zeta; zetaj = Dest->zeta; 
 
 	///- calculate pair parameters (weight functions, shear- and bulk-)
 	rij = dstc;
+	
+	/// particle distance should be in this range
+	assert(rij>0.0);
+	assert(supportlength>0.0);
+	assert(rij<=supportlength);
+	
 	rrij = 1.0/(rij + 1.0e-30);
 	eij = (Org->R - Dest->R)*rrij;
 	Wij = weight_function.w(rij);
@@ -168,16 +165,25 @@ void Interaction::UpdateForces()
 	//define pair values change in sub time steps
 	const double rhoi = Org->rho; 
 	const double rhoj = Dest->rho;
+
+	/// make sure density is OK
 	assert(rhoi>0.0);
 	assert(rhoj>0.0);
 	
 	const double Vi = mi/rhoi; 
 	const double Vj = mj/rhoj;
+
+	/// make sure masses are OK
 	assert(Vi>0.0);
 	assert(Vj>0.0);
 	rVi = 1.0/Vi; rVj = 1.0/Vj;
 
 	pi = Org->p; pj = Dest->p;
+
+	/// make sure density is OK
+	assert(pi>0.0);
+	assert(pj>0.0);
+	
 	Ui = Org->U; Uj = Dest->U;
 	Uij = Ui - Uj;
 	Uijdoteij = dot(Uij, eij);

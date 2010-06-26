@@ -25,17 +25,13 @@ class Interaction {
 	Particle *Org;	///<pointer to particle with larger ID (of particle pair)
 	Particle *Dest;	///<pointer to particle with smaller ID (of particle pair)
 	
-	//pair values do not change in sub time steps
-	int noi; ///<material NO. of the partilce i
-        int noj; ///<material NO. of the partilce j
+
 	double mi;///<mass particle i
 	double rmi;///<reciprocal value of mass particle i
 	double etai;///<viscosity for particle i
-	double zetai;///<<b>!!!question!!!<b>other viscosity for particle???
 	double mj;///<mass particle j
 	double rmj;///<reciprocal value of mass particle j
 	double etaj;///<viscosity for particle j
-	double zetaj;///<<b>!!!question!!!<b>other viscosity for particle???
 
 	double piij;///Monaghan artificial viscosity
 

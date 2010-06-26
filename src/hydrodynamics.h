@@ -36,7 +36,9 @@ class Hydrodynamics
 public:
 
 	///the materials used
-	blast::vector<Material> materials;
+	/// store a shared pointers to the 
+	/// material class
+	vecMaterial materials;
 	///the interaction force used
 	Llist<Particle> particle_list; ///<particle list for all particles
 

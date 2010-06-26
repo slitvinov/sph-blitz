@@ -30,9 +30,9 @@ Particle::~Particle()
 //----------------------------------------------------------------------------------------
 Particle::Particle(Vec2d position, Vec2d velocity, double density, 
 		   double pressure, double temperature, 
-		   Material& material) 
+		   spMaterial material) 
   : bd(0),
-    mtl(spMaterial(&material))
+    mtl(material)
 {
   ///- increase the total particle number
   ID_max++;
@@ -44,7 +44,7 @@ Particle::Particle(Vec2d position, Vec2d velocity, double density,
 
 
   ///- set viscosity
-  eta = mtl->eta; zeta = mtl->zeta;
+  eta = mtl->eta;
 
   ///- set particle position
   R = position; 
@@ -64,9 +64,9 @@ Particle::Particle(Vec2d position, Vec2d velocity, double density,
 //----------------------------------------------------------------------------------------
 Particle::Particle(double x, double y, double u, double v, 
 		   double distance, double normal_x, double normal_y, 
-		   Material& material) : 
+		   spMaterial material) : 
   bd(1), bd_type(0),
-  mtl(spMaterial(&material))
+  mtl(material)
 {
 
   ///- give a new ID number
@@ -102,7 +102,7 @@ Particle::Particle(Particle &RealParticle) :
   rl_prtl = &RealParticle;
 
   ///- set viscosity
-  eta = mtl->eta; zeta = mtl->zeta; 
+  eta = mtl->eta;
 
   ///- set states
   R = RealParticle.R; rho = RealParticle.rho; p = RealParticle.p; T = RealParticle.T;
@@ -119,10 +119,10 @@ Particle::Particle(Particle &RealParticle) :
 //----------------------------------------------------------------------------------------
 //							creat an image particle
 //----------------------------------------------------------------------------------------
-Particle::Particle(Particle &RealParticle, Material &material): 
+Particle::Particle(Particle &RealParticle, spMaterial material): 
   bd(1), 
   bd_type(0),
-  mtl(spMaterial(&material))
+  mtl(material)
 {
   ///- give a new ID number
   ID = 0;
@@ -132,7 +132,7 @@ Particle::Particle(Particle &RealParticle, Material &material):
 
 
   ///- set viscosity
-  eta = RealParticle.eta; zeta = RealParticle.zeta; 
+  eta = RealParticle.eta;
 
 
   ///- set states

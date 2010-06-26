@@ -11,10 +11,9 @@ class Initiation;
 
 /// Material 
 class Material {
-
 	///total number of materials
 	static int number_of_materials;
-	static double supportlength;///<smoothinglenth
+	//	static double supportlength;///<smoothinglenth
 	static double delta;
 
 public:
@@ -31,7 +30,6 @@ public:
 
 	double cv;///<heat capacity
 	double eta;///<viscosity
-	double zeta;///<heat conduction rate
 	double gamma; ///<???
 
 	double nu; ///<kinetice viscosity
@@ -40,9 +38,7 @@ public:
 	double a0; ///<reference <b>sound speed??? was not commented</b>
 
 	///constructor
-	Material();
-	///constructor
-	Material(Initiation &ini);
+	Material(const Initiation &ini);
 	
 	///non-dimensionalize
 	void non_dimensionalize(Initiation &ini);

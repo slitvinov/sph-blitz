@@ -8,7 +8,7 @@
 #include "particle.h"
 
 //#pragma GCC diagnostic ignored "-Weffc++"
-#include <boost/numeric/ublas/matrix.hpp>
+
 //#pragma GCC diagnostic warning "-Weffc++"
 
 class Hydrodynamics;
@@ -71,7 +71,7 @@ public:
 
 
 	///buid the initial particles and the linked lists
-  void BuildRealParticles(blast::vector<Material>, 
+  void BuildRealParticles(vecMaterial materials, 
 			  Llist<Particle>& particle_list, 
 			  Initiation &ini);
 	void BuildRealParticles(Hydrodynamics &hydro);
@@ -81,9 +81,6 @@ public:
 
 	///do NNP search around a point and build the NNP list
 	void BuildNNP(Vec2d &point);
-
-	///do NNP search around a point and build the NNP list for MLS approximation
-	void BuildNNP_MLSMapping(Vec2d &point);
 
 	///build the interaction (particle pair) list
 	void BuildInteraction(Llist<Interaction> &interactions, Llist<Particle> &particle_list, 

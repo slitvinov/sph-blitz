@@ -22,27 +22,19 @@
 
 using namespace std;
 
-int Material::number_of_materials = 0;
-double Material::supportlength = 0.0; //smoothinglenth
-double Material::delta = 0.0; //smoothinglenth
+//int Material::number_of_materials = 0;
+//double Material::supportlength = 0.0; //smoothinglenth
+//double Material::delta = 0.0; //smoothinglenth
 //----------------------------------------------------------------------------------------
 //					constructors
 //----------------------------------------------------------------------------------------
-Material::Material():
-  material_name("unnamed")
-{
-  
-}
-//----------------------------------------------------------------------------------------
-//					constructors
-//----------------------------------------------------------------------------------------
-Material::Material(Initiation &ini):
+Material::Material(const Initiation &ini):
   material_name("unnamed")
 {
 	//total number of materials
-	number_of_materials = ini.number_of_materials;
-	supportlength = ini.supportlength;
-	delta = ini.delta;
+  //number_of_materials = ini.number_of_materials;
+  //	supportlength = ini.supportlength;
+  //  delta = ini.delta;
 }
 
 //----------------------------------------------------------------------------------------
@@ -52,7 +44,6 @@ void Material::non_dimensionalize(Initiation &ini)
 {
 	cv = ini.non_dms_heat_ratio(cv);
 	eta = ini.non_dms_viscosity(eta);
-	zeta = ini.non_dms_viscosity(zeta);
 	nu = ini.non_dms_viscosity(nu);
 	b0 =ini.non_dms_p(b0);
 	rho0 = ini.non_dms_rho(rho0);
@@ -63,7 +54,7 @@ void Material::non_dimensionalize(Initiation &ini)
 void Material::show_properties()
 {
 	//kinetic viscosity
-	nu = AMAX1(eta, zeta)/rho0;
+	nu = eta/rho0;
 	
 	cout<<"Material: "<<material_name<<"\n";		
 	cout<<"The heat capacity is  "<<cv<<" J/kg/K\n";
