@@ -3,7 +3,7 @@
 /// \file interaction.h 
 /// \brief Defines interaction between particles
 
-
+class Particle;
 /// Defines interaction between particles
 class Interaction {
 
@@ -24,7 +24,6 @@ class Interaction {
 	//particle pair
 	Particle *Org;	///<pointer to particle with larger ID (of particle pair)
 	Particle *Dest;	///<pointer to particle with smaller ID (of particle pair)
-	Force **frc_ij;	///<force from particle i to particle j
 	
 	//pair values do not change in sub time steps
 	int noi; ///<material NO. of the partilce i
@@ -52,11 +51,11 @@ public:
 	
 
 	///constructor
-	Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
+	Interaction(Particle *prtl_org, Particle *prtl_dest, 
 				Kernel &weight_function, double dstc);
 	
 	///use old interaction object for new interaction
-	void NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
+	void NewInteraction(Particle *prtl_org, Particle *prtl_dest, 
 				Kernel &weight_function, double dstc);
 
 	///\brief renew pair parameters and changing pair values

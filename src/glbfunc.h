@@ -18,9 +18,6 @@ double AMAX1(double a, double b);
 ///	b. Get the minimum
 double AMIN1(double a, double b);
 
-//double ABS(double a);
-///	c. Get the absolute
-inline double ABS(double a) { return fabs(a); }
 ///	d. Sign of the first value is determined by the secomax_species_number value's sign
 double SIGN(double a, double b);
 ///	e. Get the maximum from four

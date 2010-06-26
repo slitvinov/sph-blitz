@@ -16,11 +16,11 @@
 #include <cstdlib>
 
 // ***** localincludes *****
-#include "glbcls.h"
 #include "glbfunc.h"
 #include "material.h"
 #include "Kernel/kernel.h"
 #include "interaction.h"
+#include "particle.h"
 
 #include <assert.h>
 
@@ -39,7 +39,7 @@ double Interaction::epsilon_artVis=0.0;
 //----------------------------------------------------------------------------------------
 //					constructor
 //----------------------------------------------------------------------------------------
-Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
+Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, 
 				Kernel &weight_function, double dstc)
 {
         ///- assign the original and the destinate particle in the reaction pair
@@ -49,7 +49,6 @@ Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces
 	///- determine interaction parameters
 	noi = Org->mtl->number;
 	noj = Dest->mtl->number; 
-	frc_ij = forces;
 
 	///- define pair values (mass, viscosity), do not change in sub time steps
 	mi = Org->m; mj = Dest->m;
@@ -94,7 +93,7 @@ double Interaction::getWij() const
 //----------------------------------------------------------------------------------------
 //	use old interaction object for new interaction
 //----------------------------------------------------------------------------------------
-void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
+void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, 
 				Kernel &weight_function, double dstc)
 {
 	///- assign the original and the destinate particle in the reaction pair
@@ -104,7 +103,6 @@ void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force 
 	///- determine interaction parameters
 	noi = Org->mtl->number;
 	noj = Dest->mtl->number; 
-	frc_ij = forces;
 
 	///- define pair values(mass, viscosity), do not change in sub time steps
 	mi = Org->m; mj = Dest->m;

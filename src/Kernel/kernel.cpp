@@ -16,7 +16,6 @@
 #include <cstdlib>
 
 // ***** local includes *****
-#include "glbcls.h"
 #include "glbfunc.h"
 #include "Kernel/kernel.h"
 

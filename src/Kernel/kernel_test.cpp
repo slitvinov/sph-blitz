@@ -16,16 +16,16 @@ void test_kernel(const Kernel& weight_function , const double supportlength) {
   // create an array with kernel values
  const int numSamples = 2000;  // Number of samples
  const double dx = supportlength / numSamples; // step 
- firstIndex i;
- Array<double, 1> x(numSamples);
+ blitz::firstIndex i;
+ blitz::Array<double, 1> x(numSamples);
  x = dx * i;
  /// output kernel and derivative
- Array<double, 1> w(weight_function.w(x));
- Array<double, 1> dw(weight_function.F(x));
+ blitz::Array<double, 1> w(weight_function.w(x));
+ blitz::Array<double, 1> dw(weight_function.F(x));
  std::ofstream wOut;
  std::ofstream dwOut;
- wOut.open("w.dat", ios::out);
- dwOut.open("dw.dat", ios::out);
+ wOut.open("w.dat", std::ios::out);
+ dwOut.open("dw.dat", std::ios::out);
  for (int i=0; i<numSamples; i++) {
    wOut << w(i) << '\n';
    dwOut << dw(i) << '\n';
@@ -37,7 +37,7 @@ void test_kernel(const Kernel& weight_function , const double supportlength) {
  
 
  // integrate kernel 
- w = Array<double, 1>(weight_function.w(x)*x);
+ w = blitz::Array<double, 1>(weight_function.w(x)*x);
  double s =  std::accumulate(w.begin(), w.end(), 0.0);
  s = s - 0.5*w(0) - 0.5*w(numSamples);
  s = 2.0 * pi * dx * s;
@@ -45,23 +45,23 @@ void test_kernel(const Kernel& weight_function , const double supportlength) {
 
 
  // integrate the derivative of the kernel
- w = Array<double, 1>(weight_function.F(x)*x*x);
+ w = blitz::Array<double, 1>(weight_function.F(x)*x*x);
  s =  std::accumulate(w.begin(), w.end(), 0.0);
  s = s - 0.5*w(0) - 0.5*w(numSamples);
  s = pi * dx * s;
  BOOST_REQUIRE( abs(s - 1.0) < eps );
 
  // cumulative sum of the derivatives
- Array<double, 1> cumsum(numSamples);
- dw = Array<double, 1>(weight_function.F(x));
- w = Array<double, 1>(weight_function.w(x));
+ blitz::Array<double, 1> cumsum(numSamples);
+ dw = blitz::Array<double, 1>(weight_function.F(x));
+ w = blitz::Array<double, 1>(weight_function.w(x));
  cumsum = 0.0;
  s = 0.0;
  for (int idx=0; idx<numSamples; idx++) {
    cumsum(numSamples-idx-1) = s * dx; 
    s += dw(numSamples - idx - 1);
  }
- w = Array<double, 1>(weight_function.w(x));
+ w = blitz::Array<double, 1>(weight_function.w(x));
  for (int idx=0; idx<numSamples; idx++) {
    BOOST_REQUIRE( abs(cumsum(idx) - w(idx)) < eps*w(0.0) );
  }

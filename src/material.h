@@ -4,6 +4,10 @@
 /// \brief Material 
 
 #include <string>
+#include <boost/smart_ptr/shared_ptr.hpp>
+
+class Material;
+class Initiation;
 
 /// Material 
 class Material {

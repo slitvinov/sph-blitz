@@ -9,7 +9,7 @@
  *
  * \section intro_sec Introduction
  *
- * SPH and SDPD 2D code 
+ * SPH 2D code 
  *
  * \section install_sec Installation
  * Check the source code from github and compile 
@@ -61,12 +61,14 @@
 
 // ***** local includes *****
 #include "glbfunc.h"
-#include "glbcls.h"
 #include "particlemanager.h"
 #include "hydrodynamics.h"
 #include "vec2d.h"
 #include "interaction.h"
 #include "timesolver.h"
+#include "initiation.h"
+#include "output.h"
+#include "boundary.h"
 #include "Kernel/quinticspline.h"
 #include "Kernel/cubicspline1D.h"
 #include "Kernel/betaspline.h"
@@ -92,8 +94,7 @@ int main(int argc, char *argv[]) {
 
   time_t bm_start_time = time(NULL);
 
-  //computation time
-  double Time;
+
 
   //check if project name specified
   if (argc<2)  {
@@ -106,7 +107,7 @@ int main(int argc, char *argv[]) {
   Initiation ini(argv[1]); ///- global initialization (by defining an object of class Initiation (initialization "automatically" done at this moment (from .cfg or .rst file) by constructor method of Initiation class. That is by the way the reason why the initiation::initiation method does not figure in the call grapf of the main function (constructors are not shwon there)
 
   //a sample particle and interaction for static numbers
-  Particle sample(ini);
+  Particle::number_of_materials = ini.number_of_materials;
 
   // Kernel
   /// here one can choose which Kernel function to use 
@@ -126,7 +127,7 @@ int main(int argc, char *argv[]) {
     boundary.BoundaryCondition(particles); //repose the boundary condition
 
   //start time
-  Time = ini.Start_time;
+  double Time = ini.Start_time;
 
   //output initial conditions
   output.OutputParticles(hydro, boundary, Time, ini); //particle positions and velocites

@@ -15,11 +15,11 @@
 #include <cstdlib>
 
 // ***** localincludes *****
-#include "glbcls.h"
 #include "glbfunc.h"
 #include "hydrodynamics.h"
 #include "particlemanager.h"
 #include "Kernel/kernel.h"
+#include "initiation.h"
 
 using namespace std;
 

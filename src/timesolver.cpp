@@ -16,11 +16,12 @@
 #include <cmath>
 
 // ***** localincludes *****
-#include "glbcls.h"
 #include "glbfunc.h"
 #include "hydrodynamics.h"
 #include "particlemanager.h"
 #include "timesolver.h"
+#include "initiation.h"
+#include "boundary.h"
 
 using namespace std;
 

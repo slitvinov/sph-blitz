@@ -6,34 +6,30 @@
 ///note: reference a particle by pointer or adress
 ///never reference a particle directly!
 
-// to have a shared pointer to the material
-//#include <boost/smart_ptr/shared_ptr.hpp>
+
+#include "vec2d.h"
+#include "glbtype.h"
 
 class Initiation;
-class Material;
 
 /// Particle class 
 class Particle {
+ public:
 	static int number_of_materials;
 	
-public:
-	
-	//constructors-------------------------------------------------------------------
-	
-	///a particle constructur for empty particles
-	Particle(Initiation &ini);
-
 	///\brief construct a real particle
 	///NOTE the particle mass and volume will be specified in initiation::VolumeMass(w)
-	Particle(Vec2d position, Vec2d velocity, double density, double pressure, double temperature, Material &material);
+	Particle(Vec2d position, Vec2d velocity, double density, 
+		 double pressure, double temperature, Material& material);
 	///construct a wall particle
 	Particle(double x, double y, double u, double v, 
-			 double distance, double normal_x, double normal_y, Material &material);
+		 double distance, double normal_x, double normal_y, 
+		 Material& material);
 	
 	///ghost particle creator
 	Particle(Particle &RealParticle);
 	///Mirror image particle creator
-	Particle(Particle &RealParticle, Material &material);
+	Particle(Particle &RealParticle, Material& material);
 
 	///deconstructor particle
 	~Particle();
@@ -46,7 +42,7 @@ public:
         int cell_j; ///<j-position in cells
 	
 	///a shared pointer  to the material
-	Material* mtl; 
+	spMaterial mtl; 
 
 	///pointer to a real particle
 	Particle *rl_prtl;

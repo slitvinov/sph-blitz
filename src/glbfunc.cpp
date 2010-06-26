@@ -50,8 +50,8 @@ double ABS(double a){
 //	d. Sign of the first value is determined by the secomax_species_number value's sign
 //----------------------------------------------------------------------------------------
 double SIGN(double a, double b){
-	if(b > 0.0) return ABS(a);
-	return -ABS(a);
+	if(b > 0.0) return fabs(a);
+	return -fabs(a);
 }
 //----------------------------------------------------------------------------------------
 // e. Get the maximum from four
@@ -104,7 +104,7 @@ int SymmetricInverse3x3(double M[3][3]) {
 	z8 = z13 + z14 + z15 + z16 + z8;
 	
 	// check the determinant
-	 if (ABS(z8) < 1.0e-2)	return 0;
+	 if (fabs(z8) < 1.0e-2)	return 0;
 	    
 	z1 = z1 + z4;
 	z4 = 1./z8;

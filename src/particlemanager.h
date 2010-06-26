@@ -15,7 +15,6 @@ class Hydrodynamics;
 class Initiation;
 class Boundary;
 class Interaction;
-class Force;
 class Kernel;
 
 
@@ -88,7 +87,7 @@ public:
 
 	///build the interaction (particle pair) list
 	void BuildInteraction(Llist<Interaction> &interactions, Llist<Particle> &particle_list, 
-						Force **forces, Kernel &weight_function);
+						Kernel &weight_function);
 };
 
 #endif //PARTICLEMANAGER_H

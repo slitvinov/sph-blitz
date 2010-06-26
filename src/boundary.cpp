@@ -17,11 +17,11 @@
 #include <cmath>
 
 // ***** localincludes *****
-#include "glbcls.h"
-#include "glbfunc.h"
 #include "hydrodynamics.h"
 #include "particlemanager.h"
 #include "material.h"
+#include "boundary.h"
+#include "initiation.h"
 
 using namespace std;
 
@@ -107,7 +107,7 @@ void Boundary::RunAwayCheck(Hydrodynamics &hydro)
 				
     Particle *prtl = hydro.particle_list.retrieve(p);
 
-    if(ABS(prtl->R[0]) >= 2.0*box_size[0] || ABS(prtl->R[1]) >= 2.0*box_size[1]) {
+    if(fabs(prtl->R[0]) >= 2.0*box_size[0] || fabs(prtl->R[1]) >= 2.0*box_size[1]) {
       cout<<"Boundary: the particles run out too far away from the domain! \n";
       std::cout << __FILE__ << ':' << __LINE__ << std::endl;
       exit(1);

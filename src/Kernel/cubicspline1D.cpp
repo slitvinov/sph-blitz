@@ -21,7 +21,6 @@
 #include <math.h>
 
 //local includes
-#include "glbcls.h"
 #include "glbfunc.h"
 #include "Kernel/cubicspline1D.h"
 

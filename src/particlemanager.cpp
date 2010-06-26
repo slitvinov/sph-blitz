@@ -16,12 +16,13 @@
 #include <cmath>
 
 // ***** local includes *****
-#include "glbcls.h"
 #include "glbfunc.h"
 #include "material.h"
 #include "particlemanager.h"
 #include "hydrodynamics.h"
 #include "interaction.h"
+#include "initiation.h"
+#include "boundary.h"
 
 using namespace std;
 
@@ -220,7 +221,7 @@ void ParticleManager::BuildNNP_MLSMapping(Vec2d &point)
 //					build the interaction (particle pair) list
 //----------------------------------------------------------------------------------------
 void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<Particle> &particle_list, 
-				       Force **forces, Kernel &weight_function)
+				       Kernel &weight_function)
 {
   cout<<"\n Am in build interaction \n";
   LlistNode<Interaction> *current = interactions.first();
@@ -270,11 +271,11 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
 		if(dstc <= supportlengthsquare && prtl_org->ID >= prtl_dest->ID) {
 		  //	cout<<"\n distances for BuildInteractions positif:"<<dstc<<"\n";
 		  if(current_used == old_length) {
-		    Interaction *pair = new Interaction(prtl_org, prtl_dest, forces, weight_function, sqrt(dstc));
+		    Interaction *pair = new Interaction(prtl_org, prtl_dest, weight_function, sqrt(dstc));
 		    {interactions.insert(current, pair);}
 		  }
 		  else {
-		    interactions.retrieve(current)->NewInteraction(prtl_org, prtl_dest, forces, weight_function, sqrt(dstc));
+		    interactions.retrieve(current)->NewInteraction(prtl_org, prtl_dest, weight_function, sqrt(dstc));
 		    current = interactions.next(current);
 		    current_used++;
 		  }
@@ -468,8 +469,6 @@ void ParticleManager::BuildRealParticles(
 					
 	  prtl->cell_i = i; prtl->cell_j = j; 
 	  //insert the position into corresponding cell list
-	  std::cerr << "i = " << i << '\n';
-	  std::cerr << "i = " << i << '\n';
 	  cell_lists(i,j).insert(cell_lists(i,j).first(), prtl);
 	};
       fin.close();

@@ -12,11 +12,11 @@
 #include <string>
 #include <iostream>
 
+
 #include <cstdio>
 #include <cstdlib>
 
 // ***** localincludes *****
-#include "glbcls.h"
 #include "glbfunc.h"
 #include "material.h"
 #include "particle.h"
@@ -24,6 +24,7 @@
 #include "hydrodynamics.h"
 #include "particlemanager.h"
 #include "interaction.h"
+#include "initiation.h"
 
 using namespace std;
 
@@ -106,7 +107,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
 void Hydrodynamics::BuildPair(ParticleManager &particles, Kernel &weight_function)
 {
   ///- obtain the interaction pairs by just calling the particles BuildInteraction method
-  particles.BuildInteraction(interaction_list, particle_list, forces, weight_function);
+  particles.BuildInteraction(interaction_list, particle_list, weight_function);
   cout<<"\n BuildPair done\n";
 }
 //----------------------------------------------------------------------------------------
@@ -134,7 +135,7 @@ void Hydrodynamics::UpdateDensity(ParticleManager &particles, Kernel &weight_fun
 {	
 
   ///- obtain the interaction pairs
-  particles.BuildInteraction(interaction_list, particle_list, forces, weight_function);
+  particles.BuildInteraction(interaction_list, particle_list, weight_function);
 	
   ///- initiate by calling Zero_density method
   Zero_density();
@@ -184,7 +185,7 @@ void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, Kernel &weight_
   ZeroChangeRate();
 
   ///- obtain the interaction pairs
-  particles.BuildInteraction(interaction_list, particle_list, forces, weight_function);
+  particles.BuildInteraction(interaction_list, particle_list, weight_function);
 
   ///- iterate the interaction list
   for (LlistNode<Interaction> *p = interaction_list.first(); 

@@ -7,7 +7,14 @@
 #include <boost/numeric/ublas/matrix.hpp>
 //#pragma GCC diagnostic warning "-Weffc++"
 #include "material.h"
+#include "dllist.h"
+#include "vec2d.h"
+#include "glbtype.h"
 
+class Interaction;
+class Particle;
+class ParticleManager;
+class Kernel;
 namespace blast = boost::numeric::ublas;
 
 /// Definition of  materials and their hydrodynamical interactions
@@ -31,7 +38,6 @@ public:
 	///the materials used
 	blast::vector<Material> materials;
 	///the interaction force used
-	Force **forces;
 	Llist<Particle> particle_list; ///<particle list for all particles
 
 	///constructor

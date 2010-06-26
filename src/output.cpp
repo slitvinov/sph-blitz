@@ -15,11 +15,13 @@
 #include <cstdlib>
 
 // ***** localincludes *****
-#include "glbcls.h"
 #include "glbfunc.h"
 #include "material.h"
 #include "hydrodynamics.h"
 #include "particlemanager.h"
+#include "output.h"
+#include "initiation.h"
+#include "boundary.h"
 
 using namespace std;
 
@@ -72,6 +74,9 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
 	 p = hydro.particle_list.next(p)) {
       f++;
        Particle *prtl = hydro.particle_list.retrieve(p);
+       assert(prtl != NULL);
+       assert(prtl->mtl != NULL);
+       std::cerr << "prtl->mtl->cv = " << prtl->mtl->cv << '\n';
        std::cerr << "prtl->mtl->material_name = " << prtl->mtl->material_name << '\n';
        if(hydro.materials[i].material_name == prtl->mtl->material_name) {
 	 j ++;

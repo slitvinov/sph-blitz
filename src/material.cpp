@@ -16,9 +16,9 @@
 #include <cmath>
 
 // ***** localincludes *****
-#include "glbcls.h"
 #include "glbfunc.h"
 #include "material.h"
+#include "initiation.h"
 
 using namespace std;
 
@@ -36,15 +36,15 @@ Material::Material():
 //----------------------------------------------------------------------------------------
 //					constructors
 //----------------------------------------------------------------------------------------
-Material::Material(Initiation &ini)
+Material::Material(Initiation &ini):
+  material_name("unnamed")
 {
 	//total number of materials
 	number_of_materials = ini.number_of_materials;
 	supportlength = ini.supportlength;
 	delta = ini.delta;
-	  
-	  
 }
+
 //----------------------------------------------------------------------------------------
 //					non-dimensionalize
 //----------------------------------------------------------------------------------------
