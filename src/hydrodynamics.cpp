@@ -107,20 +107,19 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
 }
 
 //----------------------------------------------------------------------------------------
-//						Build new pairs
+//						Build new interactions
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::BuildPair(ParticleManager &particles, Kernel &weight_function)
+void Hydrodynamics::BuildInteractions(ParticleManager &particles, Kernel &weight_function)
 {
   ///- obtain the interaction pairs by just calling the particles BuildInteraction method
   particles.BuildInteraction(interaction_list, particle_list, weight_function);
-  cout<<"\n BuildPair done\n";
+  cout<<"\n BuildInteraction done\n";
 }
 //----------------------------------------------------------------------------------------
-//						update new parameters in pairs
+// update new parameters in pairs interaction_list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdatePair(Kernel &weight_function)
+void Hydrodynamics::UpdateInteractions(Kernel &weight_function)
 {
-
   ///- iterate the interaction list
   for (LlistNode<Interaction> *p = interaction_list.first(); 
        !interaction_list.isEnd(p); 

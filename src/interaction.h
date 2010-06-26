@@ -44,6 +44,8 @@ class Interaction {
 	Vec2d gradWij;///kernel gradient
 	Vec2d eij; ///<pair direction from orginal particle to destination particle 
 public:
+	/// constructor
+	Interaction(Initiation &ini);
 	
 
 	///constructor

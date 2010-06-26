@@ -39,57 +39,7 @@ TimeSolver::TimeSolver(Initiation &ini)
   ite = 0;
   cout<<"\n initiation of time solver succeeded\n ";
 }
-//---------------------------------------------------------------------------------------------
-//				       	advance time interval D_time(=output time interval)
-//					predictor and corrector method used
-//-------------------------------------------------------------------------------------
-void TimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary,
-			      double &Time, double D_time,
-			      Initiation &ini, Kernel &weight_function)
-{
-  double integeral_time = 0.0;
-	
-  //integrate time (loop) until the next output time
-  while(integeral_time < D_time) {
 
-    dt = hydro.GetTimestep();
-    //control output
-    cout<<"\n current timestep:"<<dt<<"\n";
-    ite ++;
-    integeral_time += dt;
-    Time += dt;
-		
-    ///<ul><li> print out screen information for the iteration
-    if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "<<ini.dms_time(Time)<<"	dt: "<<dt<<"\n";
-
-
-    //predictor and corrector method used
-    ///<li> the prediction step
-    hydro.BuildPair(particles, weight_function);///<ol><li>hydro.BuildPair
-    //		boundary.BoundaryCondition(particles);
-
-    hydro.UpdateChangeRate();///<li>hydro.UpdateChangeRate
-    hydro.Predictor(dt);///<li>hydro.Predictor
-    hydro.UpdateState(ini);///<li>hydro.UpdateState</ol>
-
-    ///<li> the correction step without update the interaction list
-    hydro.UpdatePair(weight_function);///<ol><li>hydro.UpdatePair
-    boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
-    //		hydro.UpdatePhaseGradient(boundary);
-    //		hydro.UpdateSurfaceStress(boundary);
-    //		boundary.BoundaryCondition(particles);
-
-    hydro.UpdateChangeRate();///<li>hydro.UpdateChangeRate
-    hydro.Corrector(dt);///<li>hydro.Corrector
-    //		hydro.RandomEffects();
-    hydro.UpdateState(ini);///<li>hydro.UpdateState</ol>
-
-    ///<li> renew boundary particles
-    boundary.RunAwayCheck(hydro);///<ol><li>boundary.RunAwayCheck
-    particles.UpdateCellLinkedLists();///<li>particles.UpdateCellLinkedLists
-    boundary.BuildBoundaryParticles(particles, hydro);///<li>boundary.BuildBoundaryParticles</ol></ul>
-  }
-}
 //----------------------------------------------------------------------------------------
 //					advance time interval D_time with summation for density
 //					predictor and corrector method used
@@ -121,7 +71,7 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
     // cout<<"\n just before build pair\n";
     //predictor and corrector method used
     ///<li>the prediction step
-    hydro.BuildPair(particles, weight_function);///<ol><li>hydro.buildPair
+    hydro.BuildInteractions(particles, weight_function);///<ol><li> rebuild interactions
     hydro.UpdateDensity(ini);///<li> hydro.UpdateDensity
     if(ini.simu_mode==1)
       {
@@ -137,8 +87,11 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
     ///<li> the correction step without update the interaction list
     if(ini.simu_mode==1)
       boundary.BoundaryCondition(particles);///<ol><li>boundary.BoundaryCondition
-    hydro.UpdatePair(weight_function);///<li>hydro.UpdatePair
+
+    
+    hydro.UpdateInteractions(weight_function);///<li> update interactions
     hydro.UpdateDensity(ini);///<li>hydro.UpdateDensity
+
     if(ini.simu_mode==1)
       {
 	boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition

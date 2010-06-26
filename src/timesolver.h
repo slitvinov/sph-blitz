@@ -24,10 +24,6 @@ public:
 	///constructor
 	TimeSolver(Initiation &ini);
 	
-	///advance time interval D_time (=output time interval)
-	void TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary,
-			  double &Time, double D_time,
-			  Initiation &ini, Kernel &weight_function);
 
 	///advance time interval D_time with summation for density
 	void TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 

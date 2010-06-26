@@ -21,6 +21,7 @@
 #include "Kernel/kernel.h"
 #include "interaction.h"
 #include "particle.h"
+#include "initiation.h"
 
 #include <assert.h>
 
@@ -35,6 +36,23 @@ double Interaction::alpha_artVis=0.0;
 double Interaction::beta_artVis=0.0;
 double Interaction::epsilon_artVis=0.0;
 
+//----------------------------------------------------------------------------------------
+//					constructor
+//----------------------------------------------------------------------------------------
+Interaction::Interaction(Initiation &ini) 
+{
+        ///- copy properties from initiation
+	number_of_materials = ini.number_of_materials;
+	supportlength = ini.supportlength;
+	simu_mode = ini.simu_mode;
+	art_vis = ini.art_vis;
+	delta = ini.delta;
+	alpha_artVis=1.0;
+	beta_artVis=2.0;
+	epsilon_artVis=0.1;
+}
+
+
 
 //----------------------------------------------------------------------------------------
 //					constructor
@@ -42,40 +60,27 @@ double Interaction::epsilon_artVis=0.0;
 Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, 
 				Kernel &weight_function, double dstc)
 {
-        ///- assign the original and the destinate particle in the reaction pair
-	Org = prtl_org;
-	Dest = prtl_dest;
-	
-	///- define pair values (mass, viscosity), do not change in sub time steps
-	mi = Org->m; mj = Dest->m;
-	rmi = 1.0/mi; rmj =1.0/mj;
-	etai = Org->eta; etaj = Dest->eta; 
-
-	///- calculate pair parameters (weight functions, shear- and bulk-)
-	rij = dstc;
-	rrij = 1.0/(rij + 1.0e-30);
-	eij = (Org->R - Dest->R)*rrij;
-	Wij = weight_function.w(rij);
-	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
-//	Fij = weight_function.F(rij); //for BetaSpline weight fuction
-	Fij = weight_function.F(rij)*rrij; //for Kernel wight fuction
-
+  assert(prtl_dest != NULL);
+  assert(prtl_org != NULL);
+  /// reuse the code 
+  NewInteraction(prtl_org, prtl_dest, weight_function, dstc);
 }
 
 //-------------------getter for origin-----------------
 Particle* Interaction::getOrigin()
 {
-  return this->Org;
+  return Org;
 }
 //--------------------getter for destination---------------------
 Particle* Interaction::getDest()
  
-{ return this->Dest;
+{ 
+  return Dest;
 }
 //-----------getter for Wij
 double Interaction::getWij() const
  
-{ return this->Wij;
+{ return Wij;
 }
 
 //----------getter for GradWij
@@ -91,6 +96,10 @@ double Interaction::getWij() const
 void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, 
 				 Kernel &weight_function, double dstc)
 {
+
+  assert(prtl_dest != NULL);
+  assert(prtl_org != NULL);
+
 	///- assign the original and the destinate particle in the reaction pair
 	Org = prtl_org;
 	Dest = prtl_dest;
@@ -113,7 +122,6 @@ void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest,
 	eij = (Org->R - Dest->R)*rrij;
 	Wij = weight_function.w(rij);
 	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
-//	Fij = weight_function.F(rij); //for BetaSpline wight fuction
 	Fij = weight_function.F(rij)*rrij; //for Kernel wight fuction
 }
 
@@ -180,7 +188,7 @@ void Interaction::UpdateForces()
 
 	pi = Org->p; pj = Dest->p;
 
-	/// make sure density is OK
+	/// make sure pressure is OK
 	assert(pi>0.0);
 	assert(pj>0.0);
 	
@@ -190,15 +198,20 @@ void Interaction::UpdateForces()
 	UijdotRij=dot(Uij,(Org->R - Dest->R));
 
 	//pair focres or change rate
-	Vec2d dPdti, dUi, dUdti, dUdtj; //mometum&velocity change rate
+	Vec2d dPdti, dUdti, dUdtj; //mometum&velocity change rate
 
-	if(simu_mode==2)
-	{
-	  //control output
+	if(simu_mode==2) {
+	  assert(supportlength>0.0);
+	  assert(rij>0.0);
+	  assert(rij<=supportlength);
+	  /// do not have to be true 
+	  /// depends on the type of the kernel
+
+	  assert(v_abs(gradWij)>0.0);
 	  // cout<<"\n am in update forces simu_mode =2\n";
 	  const double drhodti=mj*dot((Ui-Uj),gradWij);
 	  const double drhodtj=mi*dot((Uj-Ui),((-1)*gradWij));
-
+	  
 	  const double hij=supportlength/2.0;//=0.5*(hi+hj)for later (variable smoothing length);
 	  const double cij=0.5*(Org->Cs+Dest->Cs);
           const double rhoij=0.5*(rhoi+rhoj);
@@ -222,7 +235,6 @@ void Interaction::UpdateForces()
 	  //control output
 	  //cout<<"\n dUdti:\n"<<dUdti[0];
 
-
           Org->drhodt +=drhodti;
           Dest->drhodt += drhodtj;
           Org->dUdt += dUdti;
@@ -242,7 +254,7 @@ void Interaction::UpdateForces()
 	  NR_vis = Uijdoteij > 0.0 ? 0.0 : art_vis*theta*(rhoi*Csi*mj + rhoj*Csj*mi)/(mi + mj);
 	
 	  //normalize velocity
-	  dUi = - eij*theta*Wij*art_vis/(rhoi + rhoj);
+	  const Vec2d dUi = - eij*theta*Wij*art_vis/(rhoi + rhoj);
 	
 	  ///- calculate density change rate
 	  const double drhodti = - Fij*rij*dot((Ui*Vi2 - Uj*Vj2), eij);

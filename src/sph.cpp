@@ -108,6 +108,8 @@ int main(int argc, char *argv[]) {
 
   //a sample particle and interaction for static numbers
   Particle::number_of_materials = ini.number_of_materials;
+  Interaction sample_interaction(ini);
+  
 
   // Kernel
   /// here one can choose which Kernel function to use 

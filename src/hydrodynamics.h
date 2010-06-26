@@ -49,9 +49,9 @@ public:
 	double GetTimestep();
 
 	///build new pairs
-	void BuildPair(ParticleManager &particles, Kernel &weight_function);
+	void BuildInteractions(ParticleManager &particles, Kernel &weight_function);
 	///update new parameters in pairs
-	void UpdatePair(Kernel &weight_function);
+	void UpdateInteractions(Kernel &weight_function);
 
 	//manupilate the particle physics
 	///initiate particle change rate

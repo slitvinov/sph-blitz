@@ -109,12 +109,12 @@ void ParticleManager::Init() {
 void ParticleManager::UpdateCellLinkedLists() 
 {
 	
-  int i, j; //current cell postions
-  int k, m; //possible new cell postions
+  //  int i, j; //current cell postions
+  //  int k, m; //possible new cell postions
 
   ///<ul><li>(double) loop (as indices i, j) on all cells
-  for(i = 0; i < x_clls; i++) {
-    for(j = 0; j < y_clls; j++) { 
+  for(int i = 0; i < x_clls; i++) {
+    for(int j = 0; j < y_clls; j++) { 
 
       ///<ul><li>iterate this cell list
       LlistNode<Particle> *p = cell_lists(i,j).first(); 
@@ -124,8 +124,8 @@ void ParticleManager::UpdateCellLinkedLists()
 	Particle *prtl = cell_lists(i,j).retrieve(p);
 	if(prtl->bd == 0) {
 	  //where is the particle
-	  k = int ((prtl->R[0] + cll_sz)/ cll_sz);
-	  m = int ((prtl->R[1] + cll_sz)/ cll_sz);
+	  const int k = int ((prtl->R[0] + cll_sz)/ cll_sz);
+	  const int m = int ((prtl->R[1] + cll_sz)/ cll_sz);
 				
 	  ///<ul><li>if the partilce runs out of the current cell
 	  if(k != i || m !=j) {
@@ -195,14 +195,9 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
   int old_length = interactions.length();
 
   {
-    int i, j, k, m;
-    double dstc; //distance
-	
     //clear the list first
-    //interactions.clear_data();
-
+    interactions.clear_data();
     int current_used = 0;
-
 
     cout<<"\n Am in build interaction control point 2 \n";
     ///<ul><li>iterate particles on the particle list
@@ -217,12 +212,12 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
 	{
 		
 	  ///<li>find out where(in which cell) the particle is
-	  i = int ((prtl_org->R[0] + cll_sz)/ cll_sz);
-	  j = int ((prtl_org->R[1] + cll_sz)/ cll_sz);
+	  const int i = int ((prtl_org->R[0] + cll_sz)/ cll_sz);
+	  const int j = int ((prtl_org->R[1] + cll_sz)/ cll_sz);
 
 	  ///<li>loop on this and all surrounding cells
-	  for(k = i - 1; k <= i + 1; k++) 
-	    for(m = j - 1; m <= j + 1; m++) { 
+	  for(int k = i - 1; k <= i + 1; k++) 
+	    for(int m = j - 1; m <= j + 1; m++) { 
 	      ///<ul><li>iterate this cell list
 	      for (LlistNode<Particle> *p1 = cell_lists(k,m).first(); 
 		   !cell_lists(k,m).isEnd(p1); 
@@ -232,7 +227,7 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
 		Particle *prtl_dest = cell_lists(k,m).retrieve(p1);
 		
 		///<ul><li>calculate distance between particle in question and destination particle (which is iterated)and if interaction takes place: add pair to inetraction list (<b>question: why is dst compared to h^2 and not support length to determine if there is interaction or not??</b>
-		dstc = v_sq(prtl_org->R - prtl_dest->R);
+		const double dstc = v_sq(prtl_org->R - prtl_dest->R);
 		assert(supportlengthsquare>0.0);
 		if( (dstc < supportlengthsquare) && (prtl_org->ID > prtl_dest->ID)) {
 		  //	cout<<"\n distances for BuildInteractions positif:"<<dstc<<"\n";
