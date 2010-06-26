@@ -57,8 +57,9 @@ Interaction::Interaction(Initiation &ini)
 //----------------------------------------------------------------------------------------
 //					constructor
 //----------------------------------------------------------------------------------------
-Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, 
-				Kernel &weight_function, double dstc)
+Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest, 
+			 const Kernel &weight_function, 
+			 const double dstc)
 {
   assert(prtl_dest != NULL);
   assert(prtl_org != NULL);
@@ -67,12 +68,12 @@ Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest,
 }
 
 //-------------------getter for origin-----------------
-Particle* Interaction::getOrigin()
+spParticle  Interaction::getOrigin()
 {
   return Org;
 }
 //--------------------getter for destination---------------------
-Particle* Interaction::getDest()
+spParticle  Interaction::getDest()
  
 { 
   return Dest;
@@ -93,10 +94,9 @@ double Interaction::getWij() const
 //----------------------------------------------------------------------------------------
 //	use old interaction object for new interaction
 //----------------------------------------------------------------------------------------
-void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, 
-				 Kernel &weight_function, double dstc)
+void Interaction::NewInteraction(const spParticle prtl_org, const spParticle prtl_dest, 
+				 const Kernel &weight_function, const double dstc)
 {
-
   assert(prtl_dest != NULL);
   assert(prtl_org != NULL);
 

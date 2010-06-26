@@ -23,6 +23,7 @@
 #include "interaction.h"
 #include "initiation.h"
 #include "boundary.h"
+#include <boost/smart_ptr/make_shared.hpp>
 
 using namespace std;
 
@@ -95,7 +96,7 @@ void ParticleManager::Init() {
   cell_lists.resize(x_clls, y_clls);
   for (int i=0; i < x_clls; i++) {
     for(int j = 0; j < y_clls; j++) {
-      Llist<Particle>* prtl_list = new Llist<Particle>;
+      Llist<spParticle>* prtl_list = new Llist<spParticle >;
       cell_lists(i, j) = *prtl_list;
     }
   }
@@ -117,11 +118,11 @@ void ParticleManager::UpdateCellLinkedLists()
     for(int j = 0; j < y_clls; j++) { 
 
       ///<ul><li>iterate this cell list
-      LlistNode<Particle> *p = cell_lists(i,j).first(); 
+      LlistNode<spParticle >*p = cell_lists(i,j).first(); 
       ///<li>if the list is empty or the node position is at the end <b>!!!Question!!! is this comment right? would it not rather be...if list NOT empty and NOT at the end </b>
       while(!cell_lists(i,j).isEnd(p)) {
 	///<ul><li>check the position of the real particle
-	Particle *prtl = cell_lists(i,j).retrieve(p);
+	spParticle prtl = *(cell_lists(i,j).retrieve(p));
 	if(prtl->bd == 0) {
 	  //where is the particle
 	  const int k = int ((prtl->R[0] + cll_sz)/ cll_sz);
@@ -130,11 +131,11 @@ void ParticleManager::UpdateCellLinkedLists()
 	  ///<ul><li>if the partilce runs out of the current cell
 	  if(k != i || m !=j) {
 	    ///<ul><li>delete the current node
-	    cell_lists(i,j).remove(p);
+	      cell_lists(i,j).remove(p);
 	   
 	    ///<li>insert it to the new cell linked list</ul></ul></ul></ul>
 	    if(prtl->R[0]>=0.0 &&prtl->R[0]<=2.0)
-	      cell_lists(k,m).insert(cell_lists(k,m).first(), prtl);
+	      cell_lists(k,m).insert(cell_lists(k,m).first(), &prtl);
 	  } else p = cell_lists(i,j).next(p);
 	} else p = cell_lists(i,j).next(p);
       }
@@ -152,6 +153,7 @@ void ParticleManager::BuildNNP(Vec2d &point)
   NNP_list.clear_data();
 
   //where is the point
+  std::cerr << __FILE__ << ':' << __LINE__ << " point: " << point << '\n';
   const int k = int ((point[0] + cll_sz)/ cll_sz);
   const int m = int ((point[1] + cll_sz)/ cll_sz);
 
@@ -164,16 +166,16 @@ void ParticleManager::BuildNNP(Vec2d &point)
       for(int j = m - 1; j <= m + 1; j++) { 
 	if(i < x_clls && j < y_clls && i >= 0 && j >= 0) {
 	  ///<ul><li>iterate this cell list
-	  for (LlistNode<Particle> *p = cell_lists(i,j).first(); 
+	  for (LlistNode<spParticle >*p = cell_lists(i,j).first(); 
 	       !cell_lists(i,j).isEnd(p); 
 	       p = cell_lists(i,j).next(p)) {
 
 	    ///<ul><li>check the position of the particle
 	    ///and (if particle is NNP) insert the nearest particle to the list
-	    Particle *prtl = cell_lists(i,j).retrieve(p);
+	    spParticle prtl = *(cell_lists(i,j).retrieve(p));
 	    const double dstc = v_distance(point, prtl->R);
-	    if(dstc < supportlength) {///<li>(line 137)<b>Question: WHY SMOOTHINGLENGTH AND NOT SUPPORT LENGT???</b>
-	      NNP_list.insert(NNP_list.first(), prtl);
+	    if(dstc < supportlength) {///<li>(line 137)
+	      NNP_list.insert(NNP_list.first(), &prtl);
 	    }
 	  }
 	}
@@ -185,28 +187,30 @@ void ParticleManager::BuildNNP(Vec2d &point)
 //----------------------------------------------------------------------------------------
 //					build the interaction (particle pair) list
 //----------------------------------------------------------------------------------------
-void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<Particle> &particle_list, 
+void ParticleManager::BuildInteraction(Llist<spInteraction> &interactions, 
+				       Llist<spParticle > &particle_list, 
 				       Kernel &weight_function)
 {
   cout<<"\n Am in build interaction \n";
-  LlistNode<Interaction> *current = interactions.first();
+  LlistNode<spInteraction> *current = interactions.first();
   bool used_up_old = interactions.isEnd(current);
-  LlistNode<Interaction> *first_unused;
+  LlistNode<spInteraction> *first_unused;
   int old_length = interactions.length();
 
   {
     //clear the list first
     interactions.clear_data();
+    interactions.clear();
     int current_used = 0;
 
     cout<<"\n Am in build interaction control point 2 \n";
     ///<ul><li>iterate particles on the particle list
-    for (LlistNode<Particle> *p = particle_list.first(); 
+    for (LlistNode<spParticle >*p = particle_list.first(); 
 	 !particle_list.isEnd(p); 
 	 p = particle_list.next(p)) {
 					
       /// <ul><li> choose origin particle 
-      Particle *prtl_org = particle_list.retrieve(p);
+      spParticle prtl_org = *(particle_list.retrieve(p));
 
       if(prtl_org->bd == 0 && prtl_org->R[0]>=0 && prtl_org->R[0]<=2)//the second and the third condition have been added for the 1D shock case (as there are no boundary conditions and particles who left the domains should not be considered any more) 
 	{
@@ -219,12 +223,12 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
 	  for(int k = i - 1; k <= i + 1; k++) 
 	    for(int m = j - 1; m <= j + 1; m++) { 
 	      ///<ul><li>iterate this cell list
-	      for (LlistNode<Particle> *p1 = cell_lists(k,m).first(); 
+	      for (LlistNode<spParticle >*p1 = cell_lists(k,m).first(); 
 		   !cell_lists(k,m).isEnd(p1); 
 		   p1 = cell_lists(k,m).next(p1)) {
 
 		// destination particle
-		Particle *prtl_dest = cell_lists(k,m).retrieve(p1);
+		spParticle prtl_dest = *(cell_lists(k,m).retrieve(p1));
 		
 		///<ul><li>calculate distance between particle in question and destination particle (which is iterated)and if interaction takes place: add pair to inetraction list (<b>question: why is dst compared to h^2 and not support length to determine if there is interaction or not??</b>
 		const double dstc = v_sq(prtl_org->R - prtl_dest->R);
@@ -232,12 +236,13 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
 		if( (dstc < supportlengthsquare) && (prtl_org->ID > prtl_dest->ID)) {
 		  //	cout<<"\n distances for BuildInteractions positif:"<<dstc<<"\n";
 		  if(current_used == old_length) {
-		    Interaction *pair = new Interaction(prtl_org, prtl_dest, 
-							weight_function, sqrt(dstc));
-		    interactions.insert(current, pair);
+		    spInteraction pair = 
+		      boost::make_shared<Interaction>(prtl_org, prtl_dest, 
+						      weight_function, sqrt(dstc));
+		    interactions.insert(current, &pair);
 		  }
 		  else {
-		    interactions.retrieve(current)->NewInteraction(prtl_org, 
+		    (*interactions.retrieve(current))->NewInteraction(prtl_org, 
 								   prtl_dest, 
 								   weight_function, 
 								   sqrt(dstc));
@@ -263,11 +268,11 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
   if (txtFile.is_open())
     {
 
-      for (LlistNode<Interaction> *p = interactions.first(); 
+      for (LlistNode<spInteraction> *p = interactions.first(); 
 	   !interactions.isEnd(p); 
 	   p = interactions.next(p))
 	{
-	  Interaction *inte=interactions.retrieve (p);
+	  spInteraction inte= *(interactions.retrieve(p)) ;
 
 	  txtFile <<setprecision (3)<< ::setw( 7 )<<inte->getOrigin()->ID<<::setw( 7 )<<inte->getDest()->ID<<::setw(17 )<<inte->getWij()<<"  "<<inte->getGradWij()[0]<<endl;
 	}
@@ -279,9 +284,9 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
 //----------------------------------------------------------------------------------------
 //					build the initial particles and the linked lists
 //----------------------------------------------------------------------------------------
-void ParticleManager::BuildRealParticles(
+void ParticleManager::BuildRealParticle(
 					 vecMaterial materials, 
-					 Llist<Particle>& particle_list, 
+					 Llist<spParticle >& particle_list, 
 					 Initiation &ini)
 {
 	
@@ -321,16 +326,17 @@ void ParticleManager::BuildRealParticles(
 		}
 
 		//creat a new real particle
-		Particle *prtl = new Particle( position, velocity, density, pressure, Temperature, 
-					       materials[material_no]);
-	    
+		spParticle prtl = boost::make_shared<Particle>(position, velocity, 
+							       density, pressure, 
+							       Temperature, 
+							       materials[material_no]);
 		prtl->cell_i = i; prtl->cell_j = j; 
 						
 		//insert its poistion on the particle list
-		particle_list.insert(particle_list.first(), prtl);
+		particle_list.insert(particle_list.first(), &prtl);
 
 		//insert the position into corresponding cell list
-		cell_lists(i,j).insert(cell_lists(i,j).first(), prtl);
+		cell_lists(i,j).insert(cell_lists(i,j).first(), &prtl);
 
 	      }
 	    }
@@ -378,10 +384,10 @@ void ParticleManager::BuildRealParticles(
 	  if(material_no != -1) {	
 					
 	    pressure = materials[material_no]->get_p(density);
-	    Particle *prtl = new Particle( position, velocity, density, pressure, Temperature, 
+	    spParticle prtl = boost::make_shared<Particle> ( position, velocity, density, pressure, Temperature, 
 					   materials[material_no]);
 	    //insert its poistion on the particle list
-	    particle_list.insert(particle_list.first(), prtl);
+	    particle_list.insert(particle_list.first(), &prtl);
 					
 	    //where is the particle
 	    const int  i = int (prtl->R[0] / cll_sz) + 1;
@@ -389,7 +395,7 @@ void ParticleManager::BuildRealParticles(
 					
 	    prtl->cell_i = i; prtl->cell_j = j; 
 	    //insert the position into corresponding cell list
-	    cell_lists(i,j).insert(cell_lists(i,j).first(), prtl);
+	    cell_lists(i,j).insert(cell_lists(i,j).first(), &prtl);
 
 	  } else {
 	    cout<<"The material in the restart file is not used by the program! \n";
@@ -423,11 +429,11 @@ void ParticleManager::BuildRealParticles(
 	  fin>>position[0]>>position[1]>>velocity[0]>>velocity[1]
 	     >>density>>pressure;
 	  Temperature=materials[material_no]->get_T(pressure,density);
-	  Particle *prtl = new Particle( position, velocity, density, 
+	  spParticle prtl = boost::make_shared<Particle> ( position, velocity, density, 
 					 pressure, Temperature, 
 					 materials[material_no]);
 	  //insert its poistion on the particle list
-	  particle_list.insert(particle_list.first(), prtl);
+	  particle_list.insert(particle_list.first(), &prtl);
 					
 	  //where is the particle
 	  const int i = int (prtl->R[0] / cll_sz)+1;//I had to remove the "+1" because there is no boundary particle cells
@@ -435,7 +441,7 @@ void ParticleManager::BuildRealParticles(
 					
 	  prtl->cell_i = i; prtl->cell_j = j; 
 	  //insert the position into corresponding cell list
-	  cell_lists(i,j).insert(cell_lists(i,j).first(), prtl);
+	  cell_lists(i,j).insert(cell_lists(i,j).first(), &prtl);
 	};
       fin.close();
     }
@@ -444,7 +450,7 @@ void ParticleManager::BuildRealParticles(
 //----------------------------------------------------------------------------------------
 //				buid the initial wall particles and the linked lists
 //----------------------------------------------------------------------------------------
-void ParticleManager::BuildWallParticles(Hydrodynamics &hydro, Boundary &boundary)
+void ParticleManager::BuildWallParticle(Hydrodynamics &hydro, Boundary &boundary)
 {
   int i, j, k, m;
 
@@ -456,15 +462,15 @@ void ParticleManager::BuildWallParticles(Hydrodynamics &hydro, Boundary &boundar
       ///<ul><li>create a new wall particle
       for(k = 0; k < hdelta; k++)
 	for(m = 0; m < hdelta; m++) {
-	  Particle *prtl = new Particle( -1*cll_sz + (k + 0.5)*delta, (j - 1)*cll_sz + (m + 0.5)*delta, 
+	  spParticle prtl = boost::make_shared<Particle> ( -1*cll_sz + (k + 0.5)*delta, (j - 1)*cll_sz + (m + 0.5)*delta, 
 					 0.0, 0.0, cll_sz - (k + 0.5)*delta, 1.0, 0.0, hydro.materials[0]);
 
 	  prtl->cell_i = 0; prtl->cell_j = j; 
 	  ///<li>insert its position on the particle list
-	  hydro.particle_list.insert(hydro.particle_list.first(), prtl);
+	  hydro.particle_list.insert(hydro.particle_list.first(), &prtl);
 
 	  ///<li>insert the position into corresponding cell list</ul></ul>
-	  cell_lists(0,j).insert(cell_lists(0,j).first(), prtl);
+	  cell_lists(0,j).insert(cell_lists(0,j).first(), &prtl);
 
 	}
     }
@@ -478,15 +484,15 @@ void ParticleManager::BuildWallParticles(Hydrodynamics &hydro, Boundary &boundar
       ///<ul><li>create a new wall particle
       for(k = 0; k < hdelta; k++)
 	for(m = 0; m < hdelta; m++) {
-	  Particle *prtl = new Particle( (x_clls - 2)*cll_sz + (k + 0.5)*delta, (j - 1)*cll_sz + (m + 0.5)*delta, 
+	  spParticle prtl = boost::make_shared<Particle> ( (x_clls - 2)*cll_sz + (k + 0.5)*delta, (j - 1)*cll_sz + (m + 0.5)*delta, 
 					 0.0, 0.0, (k + 0.5)*delta, 1.0, 0.0, hydro.materials[0]);
 
 	  prtl->cell_i = x_clls - 1; prtl->cell_j = j; 
 	  ///<li>insert its poistion on the particle list
-	  hydro.particle_list.insert(hydro.particle_list.first(), prtl);
+	  hydro.particle_list.insert(hydro.particle_list.first(), &prtl);
 
 	  ///<li>insert the position into corresponding cell list</ul></ul>
-	  cell_lists(x_clls - 1,j).insert(cell_lists(x_clls - 1,j).first(), prtl);
+	  cell_lists(x_clls - 1,j).insert(cell_lists(x_clls - 1,j).first(), &prtl);
 
 	}
     }
@@ -500,15 +506,15 @@ void ParticleManager::BuildWallParticles(Hydrodynamics &hydro, Boundary &boundar
       ///<ul><li>creat a new wall particle
       for(k = 0; k < hdelta; k++)
 	for(m = 0; m < hdelta; m++) {
-	  Particle *prtl = new Particle( (i - 1)*cll_sz + (k + 0.5)*delta, -1*cll_sz + (m + 0.5)*delta, 
+	  spParticle prtl = boost::make_shared<Particle> ( (i - 1)*cll_sz + (k + 0.5)*delta, -1*cll_sz + (m + 0.5)*delta, 
 					 0.0, 0.0, cll_sz - (m + 0.5)*delta, 0.0, 1.0, hydro.materials[0]);
 
 	  prtl->cell_i = i; prtl->cell_j = 0; 
 	  ///<li>insert its poistion on the particle list
-	  hydro.particle_list.insert(hydro.particle_list.first(), prtl);
+	  hydro.particle_list.insert(hydro.particle_list.first(), &prtl);
 
 	  ///<li>insert the position into corresponding cell list</ul></ul>
-	  cell_lists(i,0).insert(cell_lists(i,0).first(), prtl);
+	  cell_lists(i,0).insert(cell_lists(i,0).first(), &prtl);
 
 	}
     }
@@ -522,15 +528,15 @@ void ParticleManager::BuildWallParticles(Hydrodynamics &hydro, Boundary &boundar
       ///<ul><li>create a new wall particle
       for(k = 0; k < hdelta; k++)
 	for(m = 0; m < hdelta; m++) {
-	  Particle *prtl = new Particle( (i - 1)*cll_sz + (k + 0.5)*delta, (y_clls - 2)*cll_sz + (m + 0.5)*delta, 
+	  spParticle prtl = boost::make_shared<Particle> ( (i - 1)*cll_sz + (k + 0.5)*delta, (y_clls - 2)*cll_sz + (m + 0.5)*delta, 
 					 0.0, 0.0, (m + 0.5)*delta, 0.0, 1.0, hydro.materials[0]);
 
 	  prtl->cell_i = i; prtl->cell_j = y_clls - 1; 
 	  ///<li>insert its poistion on the particle list
-	  hydro.particle_list.insert(hydro.particle_list.first(), prtl);
+	  hydro.particle_list.insert(hydro.particle_list.first(), &prtl);
 
 	  ///<li>insert the position into corresponding cell list</ul></ul>
-	  cell_lists(i,y_clls - 1).insert(cell_lists(i,y_clls - 1).first(), prtl);
+	  cell_lists(i,y_clls - 1).insert(cell_lists(i,y_clls - 1).first(), &prtl);
 
 	}
     }

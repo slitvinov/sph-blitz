@@ -10,9 +10,10 @@
 #include "dllist.h"
 #include "vec2d.h"
 #include "glbtype.h"
+#include <list>
 
 class Interaction;
-class Particle;
+class Particle ;
 class ParticleManager;
 class Kernel;
 namespace blast = boost::numeric::ublas;
@@ -28,7 +29,7 @@ class Hydrodynamics
 	double dt_g_vis, dt_surf;
 
 	///the interaction (particle pair) list
-	Llist<Interaction> interaction_list;
+	Llist<spInteraction> interaction_list;
 
 	//for time step 
 	double viscosity_max;///<for first time step
@@ -40,7 +41,7 @@ public:
 	/// material class
 	vecMaterial materials;
 	///the interaction force used
-	Llist<Particle> particle_list; ///<particle list for all particles
+	Llist<spParticle> particle_list; ///<particle list for all particles
 
 	///constructor
 	Hydrodynamics(ParticleManager &particles, Initiation &ini);

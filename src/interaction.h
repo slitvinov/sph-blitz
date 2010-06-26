@@ -3,7 +3,9 @@
 /// \file interaction.h 
 /// \brief Defines interaction between particles
 
-class Particle;
+#include "glbtype.h"
+
+
 /// Defines interaction between particles
 class Interaction {
 
@@ -22,8 +24,8 @@ class Interaction {
 
 
 	//particle pair
-	Particle *Org;	///<pointer to particle with larger ID (of particle pair)
-	Particle *Dest;	///<pointer to particle with smaller ID (of particle pair)
+	spParticle Org;	///<pointer to particle with larger ID (of particle pair)
+	spParticle Dest;	///<pointer to particle with smaller ID (of particle pair)
 	
 
 	double mi;///<mass particle i
@@ -49,12 +51,12 @@ public:
 	
 
 	///constructor
-	Interaction(Particle *prtl_org, Particle *prtl_dest, 
-				Kernel &weight_function, double dstc);
+	Interaction(const spParticle prtl_org, const spParticle prtl_dest, 
+		    const Kernel &weight_function, const double dstc);
 	
 	///use old interaction object for new interaction
-	void NewInteraction(Particle *prtl_org, Particle *prtl_dest, 
-				Kernel &weight_function, double dstc);
+	void NewInteraction(const spParticle prtl_org, const spParticle prtl_dest, 
+			    const Kernel &weight_function, const double dstc);
 
 	///\brief renew pair parameters and changing pair values
 	///
@@ -74,8 +76,8 @@ public:
 	///update forces
 	void UpdateForces();
 
-	Particle* getOrigin();
-	Particle* getDest();
+	spParticle  getOrigin();
+	spParticle  getDest();
 	double getWij() const;
 	Vec2d getGradWij() const;
 

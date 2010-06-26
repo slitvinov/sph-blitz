@@ -42,7 +42,7 @@ Output::Output(Initiation &ini)
 //--------------------------------------------------------------------------------------------
 //				output particle positions respected different materials
 //--------------------------------------------------------------------------------------------
-void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary, 
+void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary, 
 			     double Time, Initiation &ini)
 {
   int i, j;
@@ -69,11 +69,11 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
     f=0; g=0; a=0; b=0;	
     j = 0; //if there is such material or not
     ///<ul><li>iterate the real partilce list
-    for (LlistNode<Particle> *p = hydro.particle_list.first(); 
+    for (LlistNode<spParticle >*p = hydro.particle_list.first(); 
 	 !hydro.particle_list.isEnd(p); 
 	 p = hydro.particle_list.next(p)) {
       f++;
-       Particle *prtl = hydro.particle_list.retrieve(p);
+      spParticle prtl = *(hydro.particle_list.retrieve(p));
        assert(prtl != NULL);
        assert(prtl->mtl != NULL);
        if(hydro.materials[i]->material_name == prtl->mtl->material_name) {
@@ -99,11 +99,11 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
     }
 
     /// <li>iterate the boundary partilce list
-    for (LlistNode<Particle> *p1 = boundary.boundary_particle_list.first(); 
+    for (LlistNode<spParticle >*p1 = boundary.boundary_particle_list.first(); 
 	 !boundary.boundary_particle_list.isEnd(p1); 
 	 p1 = boundary.boundary_particle_list.next(p1)) {
       g++;		
-      Particle *prtl = boundary.boundary_particle_list.retrieve(p1);
+      spParticle prtl = *(boundary.boundary_particle_list.retrieve(p1));
       if(hydro.materials[i]->material_name == prtl->mtl->material_name) { 
 	j ++;
 	b++;
@@ -135,11 +135,11 @@ void Output::OutRestart(Hydrodynamics &hydro, double Time)
 
   //calculate the real particle number
   n = 0;
-  for (LlistNode<Particle> *pp = hydro.particle_list.first(); 
+  for (LlistNode<spParticle >*pp = hydro.particle_list.first(); 
        !hydro.particle_list.isEnd(pp); 
        pp = hydro.particle_list.next(pp)) {
 			
-    Particle *prtl = hydro.particle_list.retrieve(pp);
+    spParticle prtl = *(hydro.particle_list.retrieve(pp));
     if(prtl->bd == 0) n ++;
 						
   }
@@ -148,11 +148,11 @@ void Output::OutRestart(Hydrodynamics &hydro, double Time)
   out<<n<<"\n";
   ///- output real particles (by iterating the particle list)
   //iterate the partilce list
-  for (LlistNode<Particle> *p = hydro.particle_list.first(); 
+  for (LlistNode<spParticle >*p = hydro.particle_list.first(); 
        !hydro.particle_list.isEnd(p); 
        p = hydro.particle_list.next(p)) {
 				
-    Particle *prtl = hydro.particle_list.retrieve(p);
+    spParticle prtl = *(hydro.particle_list.retrieve(p));
     if(prtl->bd == 0) 
       out<<prtl->mtl->material_name<<"  "<<prtl->R[0]<<"  "<<prtl->R[1]<<"  "<<prtl->U[0]<<"  "<<prtl->U[1]
 	 <<"  "<<prtl->rho<<"  "<<prtl->p<<"  "<<prtl->T<<"  \n";

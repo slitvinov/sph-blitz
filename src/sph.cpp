@@ -131,7 +131,7 @@ int main(int argc, char *argv[]) {
   double Time = ini.Start_time;
 
   //output initial conditions
-  output.OutputParticles(hydro, boundary, Time, ini); //particle positions and velocites
+  output.OutputParticle(hydro, boundary, Time, ini); //particle positions and velocites
 
 
   ///\n computation loop starts 
@@ -155,7 +155,7 @@ int main(int argc, char *argv[]) {
     //control output
     cout<<"\n time is"<<Time<<"\n";
     ///- output results after a time interval\n\n
-    output.OutputParticles(hydro, boundary, Time, ini); //particle positions and velocites
+    output.OutputParticle(hydro, boundary, Time, ini); //particle positions and velocites
     output.OutRestart(hydro, Time); //restarting file
 
   }

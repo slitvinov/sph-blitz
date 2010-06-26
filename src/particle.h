@@ -19,23 +19,23 @@ class Particle {
 	
 	///\brief construct a real particle
 	///NOTE the particle mass and volume will be specified in initiation::VolumeMass(w)
-	Particle(Vec2d position, Vec2d velocity, double density, 
+	Particle (Vec2d position, Vec2d velocity, double density, 
 		 double pressure, double temperature, spMaterial material);
 	///construct a wall particle
-	Particle(double x, double y, double u, double v, 
+	Particle (double x, double y, double u, double v, 
 		 double distance, double normal_x, double normal_y, 
 		 spMaterial material);
 	
 	///ghost particle creator
-	Particle(Particle &RealParticle);
+	Particle (spParticle RealParticle );
 	///Mirror image particle creator
-	Particle(Particle &RealParticle, spMaterial material);
+	Particle (spParticle RealParticle , spMaterial material);
 
 	///deconstructor particle
-	~Particle();
+	~Particle ();
 	
 	///particle states copier for boundary particles
-	void StatesCopier(Particle &RealParticle, int type);
+	void StatesCopier(spParticle RealParticle , int type);
 
 
 	int cell_i;///<i-position in cells
@@ -45,7 +45,7 @@ class Particle {
 	spMaterial mtl; 
 
 	///pointer to a real particle
-	Particle *rl_prtl;
+	spParticle rl_prtl;
 
 	//Physical data
 	Vec2d R;///<position

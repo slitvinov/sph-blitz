@@ -3,6 +3,8 @@
 /// \file boundary.h
 /// \brief Bonudary conditions
 
+
+
 /// Boundary conditions
 class Boundary
 {
@@ -22,21 +24,21 @@ class Boundary
 	//implement a side boundary by modifying particle states
 
         ///implement west side boundary by modifying particle states
-	void Boundary_W(Particle *prtl);
+	void Boundary_W(spParticle prtl);
 	///implement east side boundary by modifying particle states
-	void Boundary_E(Particle *prtl);
+	void Boundary_E(spParticle prtl);
 	///implement south side boundary by modifying particle states
-	void Boundary_S(Particle *prtl);
+	void Boundary_S(spParticle prtl);
 	///implement north side boundary by modifying particle states
-	void Boundary_N(Particle *prtl);
+	void Boundary_N(spParticle prtl);
 	///implement south-west corner boundary by modifying particle states
-	void Boundary_SW(Particle *prtl);
+	void Boundary_SW(spParticle prtl);
 	///implement south-east corner boundary by modifying particle states
-	void Boundary_SE(Particle *prtl);
+	void Boundary_SE(spParticle prtl);
 	///implement north-west corner boundary by modifying particle states
-	void Boundary_NW(Particle *prtl);
+	void Boundary_NW(spParticle prtl);
 	///implement north-east corner boundary by modifying particle states
-	void Boundary_NE(Particle *prtl);
+	void Boundary_NE(spParticle prtl);
 
 public:
 	///\brief boundary condition indicator left hand side
@@ -79,13 +81,13 @@ public:
 	Vec2d UyBu;///<upper side boundary velocity
 
 	///boundary particle lists
-	Llist<Particle> boundary_particle_list; ///boundary particle list for all boundray particles
+	Llist<spParticle > boundary_particle_list; ///boundary particle list for all boundray particles
 
 	///constructor
 	Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &particles);
 
 	///build boundary particles
-	void BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics &hydro);
+	void BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &hydro);
 	///boundary conditions
 	void BoundaryCondition(ParticleManager &particles);
 	///check particle if particle run out of the computational domain

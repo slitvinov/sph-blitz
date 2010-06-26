@@ -14,13 +14,13 @@
 
 #include "particle.h"
 
-long Particle::ID_max = 0;
-int Particle::number_of_materials = 0;
+long Particle ::ID_max = 0;
+int Particle ::number_of_materials = 0;
 
 //----------------------------------------------------------------------------------------
 //	deconstructor particle
 //----------------------------------------------------------------------------------------
-Particle::~Particle()
+Particle::~Particle ()
 {
 
 }
@@ -28,7 +28,7 @@ Particle::~Particle()
 //							real particle
 //		NOTE the particle mass and volume will be specified initiation::VolumeMass(w)
 //----------------------------------------------------------------------------------------
-Particle::Particle(Vec2d position, Vec2d velocity, double density, 
+Particle::Particle (Vec2d position, Vec2d velocity, double density, 
 		   double pressure, double temperature, 
 		   spMaterial material) 
   : bd(0),
@@ -62,7 +62,7 @@ Particle::Particle(Vec2d position, Vec2d velocity, double density,
 //----------------------------------------------------------------------------------------
 //								construct a wall particle
 //----------------------------------------------------------------------------------------
-Particle::Particle(double x, double y, double u, double v, 
+Particle::Particle (double x, double y, double u, double v, 
 		   double distance, double normal_x, double normal_y, 
 		   spMaterial material) : 
   bd(1), bd_type(0),
@@ -91,72 +91,73 @@ Particle::Particle(double x, double y, double u, double v,
 //----------------------------------------------------------------------------------------
 //						creat a ghost particle 
 //----------------------------------------------------------------------------------------
-Particle::Particle(Particle &RealParticle) : 
+Particle::Particle (spParticle RealParticle ) : 
   bd(1), bd_type(1),
-  mtl(RealParticle.mtl)
+  mtl(RealParticle->mtl)
 {
   ///- give a new ID number
   ID = 0;
 
   ///- point to its real particle
-  rl_prtl = &RealParticle;
+  rl_prtl = RealParticle ;
 
   ///- set viscosity
   eta = mtl->eta;
 
   ///- set states
-  R = RealParticle.R; rho = RealParticle.rho; p = RealParticle.p; T = RealParticle.T;
-  Cs =RealParticle.Cs; U = RealParticle.U; U_I = RealParticle.U_I;
+  R = RealParticle->R; rho = RealParticle->rho; p = RealParticle->p; T = RealParticle->T;
+  Cs =RealParticle->Cs; U = RealParticle->U; U_I = RealParticle->U_I;
 	
   ///- set conservative values and their  intermediate values
-  m = RealParticle.m; V = RealParticle.V; e = RealParticle.e; 
-  R_I = RealParticle.R_I;	e_I = RealParticle.e_I;
-  P = RealParticle.P; P_I = RealParticle.P_I; rho_I = rho;
-  P_n = RealParticle.P_n; U_n = RealParticle.U_n; rho_n = RealParticle.rho_n;
-  e_n = RealParticle.e_n;
+  m = RealParticle->m; V = RealParticle->V; e = RealParticle->e; 
+  R_I = RealParticle->R_I;	e_I = RealParticle->e_I;
+  P = RealParticle->P; P_I = RealParticle->P_I; rho_I = rho;
+  P_n = RealParticle->P_n; U_n = RealParticle->U_n; rho_n = RealParticle->rho_n;
+  e_n = RealParticle->e_n;
 	
 }
 //----------------------------------------------------------------------------------------
 //							creat an image particle
 //----------------------------------------------------------------------------------------
-Particle::Particle(Particle &RealParticle, spMaterial material): 
+Particle::Particle (spParticle RealParticle , spMaterial material): 
   bd(1), 
   bd_type(0),
-  mtl(material)
+  mtl(material),
+  rl_prtl(RealParticle)
 {
   ///- give a new ID number
   ID = 0;
 
   ///- point to its real particle
-  rl_prtl = &RealParticle;
+
 
 
   ///- set viscosity
-  eta = RealParticle.eta;
+  eta = RealParticle->eta;
 
 
   ///- set states
-  R = RealParticle.R; rho = RealParticle.rho; p = RealParticle.p; T = RealParticle.T;
-  Cs =RealParticle.Cs; U = RealParticle.U; U_I = RealParticle.U_I;
+  R = RealParticle->R; rho = RealParticle->rho; p = RealParticle->p; T = RealParticle->T;
+  Cs =RealParticle->Cs; U = RealParticle->U; U_I = RealParticle->U_I;
 	
   ///- set conservative values and their  intermediate values
-  m = RealParticle.m; V = RealParticle.V; e = RealParticle.e; 
-  R_I = RealParticle.R_I;	e_I = RealParticle.e_I;
-  P = RealParticle.P; P_I = RealParticle.P_I; rho_I = rho;
-  P_n = RealParticle.P_n; U_n = RealParticle.U_n; rho_n = RealParticle.rho_n;
-  e_n = RealParticle.e_n; 
+  m = RealParticle->m; V = RealParticle->V; e = RealParticle->e; 
+  R_I = RealParticle->R_I;	e_I = RealParticle->e_I;
+  P = RealParticle->P; P_I = RealParticle->P_I; rho_I = rho;
+  P_n = RealParticle->P_n; U_n = RealParticle->U_n; rho_n = RealParticle->rho_n;
+  e_n = RealParticle->e_n; 
 
 }
 //----------------------------------------------------------------------------------------
 //					particle states copier for boundary particles
 //----------------------------------------------------------------------------------------
-void Particle::StatesCopier(Particle &RealParticle, int type)
+void Particle ::StatesCopier(spParticle RealParticle , int type)
 {
   ///- copy states
-  R = RealParticle.R; m = RealParticle.m;
-  rho = RealParticle.rho; V = RealParticle.V;
-  p = RealParticle.p; T = RealParticle.T;
-  e = RealParticle.e;
-  rho_I = RealParticle.rho_I;
-  Cs =RealParticle.Cs; U = RealParticle.U; U_I = RealParticle.U_I;
+  R = RealParticle->R; m = RealParticle->m;
+  rho = RealParticle->rho; V = RealParticle->V;
+  p = RealParticle->p; T = RealParticle->T;
+  e = RealParticle->e;
+  rho_I = RealParticle->rho_I;
+  Cs =RealParticle->Cs; U = RealParticle->U; U_I = RealParticle->U_I;
 }

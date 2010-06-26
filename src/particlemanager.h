@@ -6,6 +6,7 @@
 #include "vec2d.h"
 #include "dllist.h"
 #include "particle.h"
+#include <list>
 
 //#pragma GCC diagnostic ignored "-Weffc++"
 
@@ -20,7 +21,7 @@ class Kernel;
 
 namespace blast = boost::numeric::ublas;
 
-/// Particle manager class 
+/// spParticle manager class 
 class ParticleManager
 {
 	//parameters copied from initiation
@@ -38,7 +39,7 @@ class ParticleManager
 	double rho0, p0, T0; ///<initial particle mass and density, pressure and temperature
 
 	///buid the initial wall particles and the linked lists
-	void BuildWallParticles(Hydrodynamics &hydro, Boundary &boundary);
+	void BuildWallParticle(Hydrodynamics &hydro, Boundary &boundary);
 
   ///private init class to create Lists
   void Init();
@@ -50,9 +51,9 @@ public:
         int y_clls;///<linked cell matrix size y-direction
 
 	//lists
-  blast::matrix<Llist<Particle> > cell_lists;	///<cell linked list in 2-d array
+	blast::matrix<Llist<spParticle > > cell_lists; ///<cell linked list in 2-d array
 	
-	Llist<Particle> NNP_list; ///<list for the nearest neighbor particles
+	Llist<spParticle > NNP_list; ///<list for the nearest neighbor particles
 
   /// default constructor
   ParticleManager(Initiation &ini);
@@ -71,10 +72,10 @@ public:
 
 
 	///buid the initial particles and the linked lists
-  void BuildRealParticles(vecMaterial materials, 
-			  Llist<Particle>& particle_list, 
-			  Initiation &ini);
-	void BuildRealParticles(Hydrodynamics &hydro);
+  void BuildRealParticle(vecMaterial materials, 
+			 Llist<spParticle >& particle_list, 
+			 Initiation &ini);
+	void BuildRealParticle(Hydrodynamics &hydro);
 
 	///update the cell linked lists for real particles
 	void UpdateCellLinkedLists();
@@ -83,8 +84,9 @@ public:
 	void BuildNNP(Vec2d &point);
 
 	///build the interaction (particle pair) list
-	void BuildInteraction(Llist<Interaction> &interactions, Llist<Particle> &particle_list, 
-						Kernel &weight_function);
+	void BuildInteraction(Llist<spInteraction> &interactions, 
+			      Llist<spParticle > &particle_list, 
+			      Kernel &weight_function);
 };
 
 #endif //PARTICLEMANAGER_H

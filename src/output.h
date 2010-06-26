@@ -24,13 +24,11 @@ public:
 	Output(Initiation &ini);
 
 	///output particle positions respected different materials
-	void OutputParticles(Hydrodynamics &hydro, Boundary &boundary, 
+	void OutputParticle(Hydrodynamics &hydro, Boundary &boundary, 
 						double Time, Initiation &ini);
 
 	///Output real particle data for restart the computation
 	void OutRestart(Hydrodynamics &hydro, double Time);
-	///create a head file for a movie of particle motion
-	void CreatParticleMovie();
 };
 
 #endif //OUTPUT_H
