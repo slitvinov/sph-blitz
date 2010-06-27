@@ -161,14 +161,10 @@ void Initiation::show_information() const
 //----------------------------------------------------------------------------------------
 void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, Kernel &weight_function)
 {
-
   ///mass initiation is different of 1DSPH code: 
   ///here: mass is calculated by summing up the kernel function contributions for easch particle, which gives a kind of the inverse volume taken by each particle (not perfectly true at the discontinuity). together with rho (from initialization) a mass for each particle can be obtained.
   ///within the discontinuity zone, this mass varies because of the smoothing effect of the kernel summation.
   ///The mass for each particle  stays constant during the simuation.
-
-  double reciprocV; //the inverse of volume 
-  Vec2d eij, sumdw;
 
   /// <ul><li>iterate particles on the particle list
   for (std::list<spParticle >::iterator p = hydro.particle_list.begin(); 
@@ -179,36 +175,37 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, Ke
     spParticle prtl_org = *p;
     /// <li> build the nearest neighbor particle list for chosen origin particle
     assert(prtl_org != NULL);
-    std::cerr << __FILE__ << ':' << __LINE__ 
-	      << " prtl_org->R: " << prtl_org->R << '\n';
-    particles.BuildNNP(prtl_org->R);
-    std::cerr << "particles.NNP_list.length: " << particles.NNP_list.size() << '\n';
+    const std::list<spParticle> NNP_list = particles.BuildNNP(prtl_org->R);
 
-    reciprocV = 0.0; sumdw = 0.0;
+    /// size of the list can be zero in some circumstances
+    /// but in 1D (2D) shock it is not expected
+    assert(NNP_list.size() > 0);
+
+    double reciprocV = 0.0; 
     /// <li>iterate this Nearest Neighbor spParticle list
-    for (std::list<spParticle >::iterator p1 = particles.NNP_list.begin(); 
-	 p1 != particles.NNP_list.end(); 
+    for (std::list<spParticle >::const_iterator p1 = NNP_list.begin(); 
+	 p1 != NNP_list.end(); 
 	 p1++) {
 			
       /// <ul><li> get a particle
-      std::cerr << "p1" << '\n';
       spParticle prtl_dest = *p1;
-      
+
       /// <li> calculate distance (origin<-> neighbor)
-      const double dstc = v_distance(prtl_org->R, prtl_dest->R);
-      assert(dstc>0.0);
-      eij = (prtl_org->R - prtl_dest->R)/(dstc + 1.e-30);
-      /// <li> calculate weight function for given distance (w=0, if dist>supportlengtg) an summ it up </ul> 
-      reciprocV += weight_function.w(dstc);
-      sumdw = sumdw + eij*weight_function.F(dstc);
+      if ( prtl_dest->ID != prtl_dest->ID) {
+	const double dstc = v_distance(prtl_org->R, prtl_dest->R);
+	assert(dstc>0.0);
+	/// <li> calculate weight function for given distance (w=0, if dist>supportlengtg) an summ it up </ul> 
+	reciprocV += weight_function.w(dstc);
+      } else {
+	/// particle with itself
+	reciprocV += weight_function.w(0.0);
+      }
     }
     /// <li> calculate volume as reciprocal value of weight function
     reciprocV = 1.0/reciprocV;
     /// <li> save volume and mass in the respective particle list node (whih is each a spParticle object with all the particle properties) 
     prtl_org->V = reciprocV;
     prtl_org->m = prtl_org->rho*reciprocV;
-    /// <li> clear the NNP_list</ul> </ul>
-    particles.NNP_list.clear();
   }
   cout<<"\n Volume and Mass successfully calculated\n ";
 }

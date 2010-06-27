@@ -142,7 +142,7 @@ void Hydrodynamics::UpdateDensity(ParticleManager &particles, Kernel &weight_fun
   particles.BuildInteraction(interaction_list, particle_list, weight_function);
 	
   ///- initiate by calling Zero_density method
-  Zero_density();
+  Self_density(weight_function);
   ///- iterate the interaction list
   for (std::list<spInteraction>::iterator p1 = interaction_list.begin(); 
        p1 != interaction_list.end(); 
@@ -161,16 +161,15 @@ void Hydrodynamics::UpdateDensity(ParticleManager &particles, Kernel &weight_fun
 //----------------------------------------------------------------------------------------
 //		summation for particles density without updating interaction list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateDensity(Initiation &ini)
+void Hydrodynamics::UpdateDensity(Initiation &ini, const Kernel& weight_function)
 {	
   ///- initiate zero density
   cout<<"\n AM in update density\n ";
-  Zero_density();
+  Self_density(weight_function);
   ///- iterate the interaction list
   for (std::list<spInteraction>::iterator p1 = interaction_list.begin(); 
        p1 != interaction_list.end(); 
        p1++) {
-		
     //a interaction pair
     spInteraction pair = *p1;
     ///- calculate for each pair the pair forces or change rate
@@ -278,6 +277,20 @@ void Hydrodynamics::Zero_density()
   }
 }
 
+/// initiate particle density to the contributions of the 
+/// particle itself
+void Hydrodynamics::Self_density(const Kernel& weight_function)
+{
+  ///- iterate particles on the real particle list
+  for (std::list<spParticle>::iterator p = particle_list.begin(); 
+       p != particle_list.end(); 
+       p++) {
+    spParticle prtl = *p;
+    prtl->rho = weight_function.w(0.0) * prtl->m;
+  }
+}
+
+
 //----------------------------------------------------------------------------------------
 //					static solution: set velocity to zero
 //----------------------------------------------------------------------------------------
@@ -353,12 +366,12 @@ void Hydrodynamics::UpdateVolume(ParticleManager &particles, Kernel &weight_func
     ///<ul><li>take origin particle
     spParticle prtl_org = *p;
     //<li>build the nearest particle list
-    particles.BuildNNP(prtl_org->R);
+    const std::list<spParticle> NNP_list = particles.BuildNNP(prtl_org->R);
 
     reciprocV = 0.0; 
     //<li>iterate this Nearest Neighbor spParticle list
-    for (std::list<spParticle >::iterator  p1 = particles.NNP_list.begin(); 
-	 p1 != particles.NNP_list.end(); 
+    for (std::list<spParticle >::const_iterator  p1 = NNP_list.begin(); 
+	 p1 != NNP_list.end(); 
 	 p1++) {
 			
       //get a particle
@@ -371,7 +384,6 @@ void Hydrodynamics::UpdateVolume(ParticleManager &particles, Kernel &weight_func
     prtl_org->V = 1.0/reciprocV;
 		
     ///<li>clear the NNP_list</ul></ul>
-    particles.NNP_list.clear();
   }
 
 }

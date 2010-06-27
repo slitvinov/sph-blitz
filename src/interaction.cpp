@@ -116,9 +116,11 @@ void Interaction::NewInteraction(const spParticle prtl_org, const spParticle prt
 	/// particle distance should be in this range
 	assert(rij>0.0);
 	assert(supportlength>0.0);
-	assert(rij<=supportlength);
 	
-	rrij = 1.0/(rij + 1.0e-30);
+	/// particle must not be that far 
+	assert(rij<=2.0*supportlength);
+	
+	rrij = 1.0/rij;
 	eij = (Org->R - Dest->R)*rrij;
 	Wij = weight_function.w(rij);
 	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
@@ -152,8 +154,13 @@ void Interaction::RenewInteraction(Kernel &weight_function)
 void Interaction::SummationDensity()
 {
 	//summation according to: rho_i=sum{m_j*W_ij} (here only the contribution of the pair in questiion)
-	Org->rho += mi*Wij;
-	if(Org->ID != Dest->ID) Dest->rho += mj*Wij; 
+
+  /// shel not be called with interaction of the particle
+  /// with itself
+  assert(Org->ID != Dest->ID);
+
+  Org->rho += mi*Wij;
+  Dest->rho += mj*Wij; 
 
 }
 
@@ -203,12 +210,9 @@ void Interaction::UpdateForces()
 	if(simu_mode==2) {
 	  assert(supportlength>0.0);
 	  assert(rij>0.0);
-	  assert(rij<=supportlength);
-	  /// do not have to be true 
-	  /// depends on the type of the kernel
+	  /// particle must not be that far 
+	  assert(rij<=2.0*supportlength);
 
-	  assert(v_abs(gradWij)>0.0);
-	  // cout<<"\n am in update forces simu_mode =2\n";
 	  const double drhodti=mj*dot((Ui-Uj),gradWij);
 	  const double drhodtj=mi*dot((Uj-Ui),((-1)*gradWij));
 	  

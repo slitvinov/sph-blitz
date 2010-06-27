@@ -146,13 +146,13 @@ void ParticleManager::UpdateCellLinkedLists()
 //----------------------------------------------------------------------------------------
 //						do NNP search and build the NNP list
 //----------------------------------------------------------------------------------------
-void ParticleManager::BuildNNP(Vec2d &point)
+std::list<spParticle> ParticleManager::BuildNNP(Vec2d &point)
 {
   ///<ul><li>clear the list first
+  std::list<spParticle> NNP_list;
   NNP_list.clear();
 
   //where is the point
-  std::cerr << __FILE__ << ':' << __LINE__ << " point: " << point << '\n';
   const int k = int ((point[0] + cll_sz)/ cll_sz);
   const int m = int ((point[1] + cll_sz)/ cll_sz);
 
@@ -181,6 +181,7 @@ void ParticleManager::BuildNNP(Vec2d &point)
       }
     }
   }
+  return NNP_list;
 }
 
 //----------------------------------------------------------------------------------------

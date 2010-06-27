@@ -72,7 +72,7 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
     //predictor and corrector method used
     ///<li>the prediction step
     hydro.BuildInteractions(particles, weight_function);///<ol><li> rebuild interactions
-    hydro.UpdateDensity(ini);///<li> hydro.UpdateDensity
+    hydro.UpdateDensity(ini, weight_function);///<li> hydro.UpdateDensity
     if(ini.simu_mode==1)
       {
 	boundary.BoundaryCondition(particles);///<li> boundary.BoundaryCondition
@@ -90,7 +90,7 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
 
     
     hydro.UpdateInteractions(weight_function);///<li> update interactions
-    hydro.UpdateDensity(ini);///<li>hydro.UpdateDensity
+    hydro.UpdateDensity(ini, weight_function);///<li>hydro.UpdateDensity
 
     if(ini.simu_mode==1)
       {

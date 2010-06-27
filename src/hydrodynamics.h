@@ -64,11 +64,14 @@ public:
 	void UpdateChangeRate();
 	///initiate particle density to zero
 	void Zero_density();
-	void Zero_ShearRate();
+	/// initiate particle density to the contributions of the 
+	/// particle itself
+	void Self_density(const Kernel& weight_function);
 	///summation for particles density (with updating interaction list)
-	void UpdateDensity(ParticleManager &particles, Kernel &weight_function, Initiation &ini);
+	void UpdateDensity(ParticleManager &particles, Kernel &weight_function,
+			   Initiation &ini);
 	///currently no shear rate calculated  without updating interaction list
-	void UpdateDensity(Initiation &ini);///???
+	void UpdateDensity(Initiation &ini, const Kernel &weight_function);///???
 
 	///calculate states from conservatives
 	void UpdateState(Initiation &ini);
