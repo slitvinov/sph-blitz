@@ -119,8 +119,6 @@ int main(int argc, char *argv[]) {
   Interaction::beta_artVis=2.0;
   Interaction::epsilon_artVis=0.1;
 
-  
-
   // Kernel
   /// here one can choose which Kernel function to use 
   //QuinticSpline weight_function (ini.supportlength); 
@@ -142,7 +140,6 @@ int main(int argc, char *argv[]) {
 
   //output initial conditions
   output.OutputParticle(hydro, boundary, Time, ini); //particle positions and velocites
-
 
   ///\n computation loop starts 
   while(Time < ini.End_time) {
@@ -167,7 +164,6 @@ int main(int argc, char *argv[]) {
     ///- output results after a time interval\n\n
     output.OutputParticle(hydro, boundary, Time, ini); //particle positions and velocites
     output.OutRestart(hydro, Time); //restarting file
-
   }
 
   cout << time(NULL) - bm_start_time << " seconds.\n";

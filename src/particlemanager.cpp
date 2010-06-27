@@ -96,8 +96,9 @@ void ParticleManager::Init() {
   cell_lists.resize(x_clls, y_clls);
   for (int i=0; i < x_clls; i++) {
     for(int j = 0; j < y_clls; j++) {
-      std::list<spParticle>* prtl_list = new std::list<spParticle >;
-      cell_lists(i, j) = *prtl_list;
+      /// TODO: probably the lists are already cleared 
+      /// on creation (check C++ book)
+      cell_lists(i, j).clear();
     }
   }
 }

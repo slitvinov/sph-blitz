@@ -22,6 +22,7 @@
 #include "output.h"
 #include "initiation.h"
 #include "boundary.h"
+#include <boost/format.hpp>
 
 using namespace std;
 
@@ -46,17 +47,13 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
 			     double Time, Initiation &ini)
 {
   int i, j;
-  double Itime;
-  std::string file_name;
-
-  /// TODO: should be a std::string
-  char file_list[11];
 
   ///<ul><li>produce output file name
-  Itime = Time*1.0e6;
-  file_name = "./outdata/prtl";
-  sprintf(file_list, "%.10d", (int)Itime);
-  file_name = std::string(file_list) + ".dat";
+  const double Itime = Time*1.0e6;
+
+  /// TODO: add zeros
+  const std::string file_list = boost::str(boost::format("%.8d") % (int)Itime);
+  const std::string file_name = "./outdata/prtl" + file_list + ".dat";
 
   ofstream out(file_name.c_str());
   ///<li>defining header for tecplot(plot software)

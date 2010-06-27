@@ -46,6 +46,9 @@ Initiation::Initiation(const std::string& project_name) {
 	else cout<<"Initialtion: Read the global configuration data from "<< inputfile <<" \n"; 
 
 	///<li>reading key words and configuration data from configuration file and assign them to the appropriate variable
+
+	// the status before reading the file
+	bool initial_condition_known  = false;
 	while(!fin.eof()) {
 		
 		//read a string block
@@ -59,7 +62,11 @@ Initiation::Initiation(const std::string& project_name) {
 		//comparing the key words for initial condition input
 		//0: Initialize the initial conditions from .cfg file
 		//1: restart from a .rst file
-		if(Key_word == "INITIAL_CONDITION") fin>>initial_condition;
+		if(Key_word == "INITIAL_CONDITION") {
+		  fin>>initial_condition;
+		  /// now we know the initial_condition status
+		  initial_condition_known = true;
+		}
 
 		//comparing the key words for domian size
 		if(Key_word == "CELLS") fin>>x_cells>>y_cells;
@@ -89,7 +96,7 @@ Initiation::Initiation(const std::string& project_name) {
 		if(Key_word == "TIMING") fin>>Start_time>>End_time>>D_time;
 
 		//Initialize the initial conditions from .cfg file
-		if (initial_condition==0) {
+		if ( (initial_condition_known)  && (initial_condition==0) ) {
 			//comparing the key words for the initial state
 			if(Key_word == "INITIAL_STATES") fin>>U0[0]>>U0[1]>>rho0>>p0>>T0;
 		}
