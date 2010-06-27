@@ -27,7 +27,6 @@
 
 using namespace std;
 
-int Interaction::number_of_materials = 0;
 double Interaction::supportlength = 0.0;
 double Interaction::art_vis = 0.0;
 double Interaction::delta = 0.0;

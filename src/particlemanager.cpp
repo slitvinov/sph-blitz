@@ -36,8 +36,6 @@ ParticleManager::ParticleManager(const Initiation &ini)
   
 
   ///- copy properties from class Initiation
-  Project_name = ini.Project_name;
-  number_of_materials = ini.number_of_materials;
   supportlength = ini.supportlength;
   supportlengthsquare = supportlength*supportlength;
   box_size = ini.box_size;
@@ -45,7 +43,6 @@ ParticleManager::ParticleManager(const Initiation &ini)
   x_clls = ini.x_cells + 2; y_clls = ini.y_cells + 2;
   initial_condition = ini.initial_condition;
   hdelta = ini.hdelta; delta = ini.delta;
-  simu_mode=ini.simu_mode;
 	
   if(initial_condition == 0) {
     U0 = ini.U0;
@@ -58,17 +55,15 @@ ParticleManager::ParticleManager(const Initiation &ini)
 
 }
 
-ParticleManager::ParticleManager(const std::string& Project_name_in, 
-				 const int number_of_materials, 
+ParticleManager::ParticleManager(
 				 const double supportlength, const Vec2d& box_size, 
 				 const double cell_size, 
 				 const int x_cells, const int y_cells,
 				 const int initial_condition, const int hdelta,
-				 const double delta, const int simu_mode, 
+				 const double delta, 
 				 const Vec2d& U0_in, const double rho0_in, 
 				 const double p0_in, const double T0_in
 				 ):
-  number_of_materials(number_of_materials),
   supportlength(supportlength), 
   supportlengthsquare(supportlength*supportlength),
   box_size(box_size),
@@ -77,10 +72,8 @@ ParticleManager::ParticleManager(const std::string& Project_name_in,
   y_clls(y_cells+2), 
   initial_condition(initial_condition),
   hdelta(hdelta), 
-  delta(delta),
-  simu_mode(simu_mode)
+  delta(delta)
 {
-  Project_name = Project_name_in;
   if(initial_condition == 0) {
     U0 = U0_in;
     rho0 = rho0_in;
@@ -331,7 +324,7 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 	std::string material_name;
 		
 	//the restart file name
-	inputfile = Project_name + ".rst";
+	inputfile = ini.Project_name + ".rst";
 	
 	//check if the restart exist
 	ifstream fin(inputfile.c_str(), ios::in);
@@ -357,7 +350,7 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 			
 	  //find the right material number
 	  material_no = -1;
-	  for(int k = 0;  k <= number_of_materials; k++) 
+	  for(int k = 0;  k <= ini.number_of_materials; k++) 
 	    if(material_name == materials[k]->material_name) material_no = k;
 	  if(material_no != -1) {	
 					

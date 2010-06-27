@@ -100,7 +100,6 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
 
   ///<li>biuld the real particles
   particles.BuildRealParticle(materials, particle_list, ini);
-  std::cerr << "after particles.BuildRealParticle\n";
 }
 
 //----------------------------------------------------------------------------------------

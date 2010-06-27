@@ -101,9 +101,7 @@ int main(int argc, char *argv[]) {
   /// moved initiation of static members to here
   /// TODO: it should be a separate procedure but not 
   /// a constructor
-  Particle::number_of_materials = ini.number_of_materials;
 
-  Interaction::number_of_materials = ini.number_of_materials;
   Interaction::supportlength = ini.supportlength;
   Interaction::art_vis = ini.art_vis;
   Interaction::delta = ini.delta;

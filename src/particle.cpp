@@ -15,7 +15,6 @@
 #include "particle.h"
 
 long Particle ::ID_max = 0;
-int Particle ::number_of_materials = 0;
 
 //----------------------------------------------------------------------------------------
 //	deconstructor particle

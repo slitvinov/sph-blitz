@@ -24,12 +24,12 @@ int test_main( int, char *[] )     {
   const double p0_in = 0.0;
   const double T0_in = 0.0;
 
-  ParticleManager prtl_mng = ParticleManager("nofile", number_of_materials, 
+  ParticleManager prtl_mng = ParticleManager(
 					     supportlength, box_size, 
 					     cell_size, 
 					     x_cells, y_cells,
 					     initial_condition, hdelta,
-					     delta, simu_mode, 
+					     delta, 
 					     U0_in, rho0_in, p0_in, 
 					     T0_in
 					     );

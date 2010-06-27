@@ -34,7 +34,6 @@ class Interaction {
 	Vec2d eij; ///<pair direction from orginal particle to destination particle 
 public:
 	///total number of materials
-	static int number_of_materials;
 	static double supportlength;
         ///particle distance
 	static double delta;

@@ -3,20 +3,12 @@
 
 #ifndef PARTICLE_H
 #define PARTICLE_H
-///note: reference a particle by pointer or adress
-///never reference a particle directly!
-
-
 #include "vec2d.h"
 #include "glbtype.h"
-
-class Initiation;
 
 /// Particle class 
 class Particle {
  public:
-	static int number_of_materials;
-	
 	///\brief construct a real particle
 	///NOTE the particle mass and volume will be specified in initiation::VolumeMass(w)
 	Particle (Vec2d position, Vec2d velocity, double density, 
