@@ -46,17 +46,18 @@ public:
   //lists
   blast::matrix<std::list<spParticle > > cell_lists; ///<cell linked list in 2-d array
   /// default constructor
-  ParticleManager(Initiation &ini);
+  ParticleManager(const Initiation &ini);
 
   /// constructor to create ParticleManager without help of Initiation object.
   /// This constructor is used only for testing 
-  ParticleManager(const std::string Project_name, const int number_of_materials, 
-		  const double supportlength, const Vec2d box_size, 
+  ParticleManager(const std::string& Project_name, 
+		  const int number_of_materials, 
+		  const double supportlength, const Vec2d& box_size, 
 		  const double cell_size, 
 		  const int x_clls, const int y_cells,
 		  const int initial_condition, const int hdelta,
 		  const double delta, const int simu_mode, 
-		  const Vec2d U0_in, const double rho0_in, const double p0_in, 
+		  const Vec2d& U0_in, const double rho0_in, const double p0_in, 
 		  const double T0_in);
 
 

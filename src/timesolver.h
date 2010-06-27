@@ -17,18 +17,17 @@ class TimeSolver{
 	double supportlength;///<will be copied from initiation
 
 	int ite; ///<number of iteration
-	double dt; ///<time step
 
 public:
 	
 	///constructor
-	TimeSolver(Initiation &ini);
+	TimeSolver(const Initiation &ini);
 	
 
 	///advance time interval D_time with summation for density
 	void TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 
 				    Boundary &boundary, double &Time, double D_time, 
-				    Initiation &ini, const Kernel &weight_function);
+				    const Initiation &ini, const Kernel &weight_function);
 
 };
 

@@ -50,12 +50,12 @@ Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest,
 }
 
 //-------------------getter for origin-----------------
-spParticle  Interaction::getOrigin()
+spParticle  Interaction::getOrigin() const
 {
   return Org;
 }
 //--------------------getter for destination---------------------
-spParticle  Interaction::getDest()
+spParticle  Interaction::getDest() const
  
 { 
   return Dest;

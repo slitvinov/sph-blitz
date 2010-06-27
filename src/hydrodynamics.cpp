@@ -39,8 +39,8 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   std::string inputfile;
 
   ///<ul><li>copy properties from initiation class
-  gravity = ini.g_force;
-  delta = ini.delta; 
+  const Vec2d gravity = ini.g_force;
+  const double delta = ini.delta; 
 
   ///<li>create material matrix
   //Material sample_material(ini);  //set satatic numbers
@@ -133,7 +133,7 @@ void Hydrodynamics::UpdateInteractions(const Kernel &weight_function)
 //----------------------------------------------------------------------------------------
 //		summation for particles density with updating interaction list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateDensity(ParticleManager &particles, const Kernel &weight_function, Initiation &ini)
+void Hydrodynamics::UpdateDensity(ParticleManager &particles, const Kernel &weight_function, const Initiation &ini)
 {	
 
   ///- obtain the interaction pairs
@@ -159,7 +159,7 @@ void Hydrodynamics::UpdateDensity(ParticleManager &particles, const Kernel &weig
 //----------------------------------------------------------------------------------------
 //		summation for particles density without updating interaction list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateDensity(Initiation &ini, const Kernel& weight_function)
+void Hydrodynamics::UpdateDensity(const Initiation &ini, const Kernel& weight_function)
 {	
   ///- initiate zero density
   cout<<"\n AM in update density\n ";
@@ -180,7 +180,9 @@ void Hydrodynamics::UpdateDensity(Initiation &ini, const Kernel& weight_function
 //----------------------------------------------------------------------------------------
 //				calculate interaction with updating interaction list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, const Kernel &weight_function)
+void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, 
+				     const Kernel &weight_function, 
+				     const Initiation& ini)
 {
   ///- initiate change rate of each real particle by calling ZerpChangeRate()
   ZeroChangeRate();
@@ -201,12 +203,12 @@ void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, const Kernel &w
   }
   
   ///- include the gravity effects by calling AddGravity()
-  AddGravity();
+  AddGravity(ini);
 }
 //----------------------------------------------------------------------------------------
 //				calculate interaction without updating interaction list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateChangeRate()
+void Hydrodynamics::UpdateChangeRate(const Initiation& ini)
 {
   ///- initiate the change rate of each real particle by calling ZeroChangeRate()
   ZeroChangeRate();	
@@ -235,7 +237,7 @@ void Hydrodynamics::UpdateChangeRate()
    
   }
   ///- include the gravity effects
-  AddGravity();
+  AddGravity(ini);
 }
 //----------------------------------------------------------------------------------------
 //						initiate particle change rate
@@ -309,24 +311,22 @@ void Hydrodynamics::Zero_Velocity()
 //----------------------------------------------------------------------------------------
 //							add the gravity effects
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::AddGravity()
+void Hydrodynamics::AddGravity(const Initiation &ini)
 {
   ///- iterate particles on the real particle list
   for (std::list<spParticle>::const_iterator  p = particle_list.begin(); 
        p != particle_list.end(); 
        p++) {
-					
     //a particle
     spParticle prtl = *p;
-
     ///- to each particles dUdt: add the gravity effects
-    prtl->dUdt = prtl->dUdt + gravity;
+    prtl->dUdt = prtl->dUdt + ini.g_force;
   }
 }
 //----------------------------------------------------------------------------------------
 //							calculate states from conservatives
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateState(Initiation &ini)
+void Hydrodynamics::UpdateState(const Initiation &ini)
 {
   ///- iterate particles on the real particle list
   for (std::list<spParticle>::const_iterator  p = particle_list.begin(); 
@@ -388,7 +388,7 @@ void Hydrodynamics::UpdateVolume(ParticleManager &particles, const Kernel &weigh
 //----------------------------------------------------------------------------------------
 //							get the time step
 //----------------------------------------------------------------------------------------
-double Hydrodynamics::GetTimestep()
+double Hydrodynamics::GetTimestep(const Initiation& ini) const
 {
   //maximum sound speed, particle velocity and density
   double Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = -1.0;
@@ -406,7 +406,7 @@ double Hydrodynamics::GetTimestep()
     rho_max = AMAX1(rho_max, prtl->rho);
   }
 
-  return  0.25*AMIN1(dt_g_vis, delta/(Cs_max + V_max));
+  return  0.25*AMIN1(dt_g_vis, ini.delta/(Cs_max + V_max));
 }
 //----------------------------------------------------------------------------------------
 //						the redictor and corrector method: predictor

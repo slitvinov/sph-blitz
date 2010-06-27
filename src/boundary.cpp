@@ -30,7 +30,7 @@
 using namespace std;
 
 //construtor
-Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &particles)
+Boundary::Boundary(const Initiation &ini, Hydrodynamics &hydro, ParticleManager &particles)
 {
   std::string Key_word;
   std::string inputfile;
@@ -77,7 +77,7 @@ Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &parti
 //----------------------------------------------------------------------------------------
 //								show information on screen
 //----------------------------------------------------------------------------------------
-void Boundary::show_information(Initiation &ini)
+void Boundary::show_information(const Initiation &ini)
 {
   ///- output the property parameters to the screen
   if(wall_file == 1) cout<<"We read wall particle data from " <<ini.Project_name<<".wll \n";

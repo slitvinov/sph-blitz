@@ -31,7 +31,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //									constructor
 //----------------------------------------------------------------------------------------
-ParticleManager::ParticleManager(Initiation &ini)
+ParticleManager::ParticleManager(const Initiation &ini)
 {
   
 
@@ -58,14 +58,15 @@ ParticleManager::ParticleManager(Initiation &ini)
 
 }
 
-ParticleManager::ParticleManager(const std::string Project_name_in, const int number_of_materials, 
-				 const double supportlength, const Vec2d box_size, 
+ParticleManager::ParticleManager(const std::string& Project_name_in, 
+				 const int number_of_materials, 
+				 const double supportlength, const Vec2d& box_size, 
 				 const double cell_size, 
 				 const int x_cells, const int y_cells,
 				 const int initial_condition, const int hdelta,
 				 const double delta, const int simu_mode, 
-				 const Vec2d U0_in, const double rho0_in, const double p0_in, 
-				 const double T0_in
+				 const Vec2d& U0_in, const double rho0_in, 
+				 const double p0_in, const double T0_in
 				 ):
   number_of_materials(number_of_materials),
   supportlength(supportlength), 
@@ -263,10 +264,9 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
 //----------------------------------------------------------------------------------------
 //					build the initial particles and the linked lists
 //----------------------------------------------------------------------------------------
-void ParticleManager::BuildRealParticle(
-					 vecMaterial materials, 
-					 std::list<spParticle >& particle_list, 
-					 Initiation &ini)
+void ParticleManager::BuildRealParticle(vecMaterial materials, 
+					std::list<spParticle >& particle_list, 
+					Initiation &ini)
 {
 	
   Vec2d position, velocity;

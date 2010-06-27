@@ -72,8 +72,8 @@ public:
 	///update forces
 	void UpdateForces();
 
-	spParticle  getOrigin();
-	spParticle  getDest();
+	spParticle  getOrigin() const;
+	spParticle  getDest() const;
 	double getWij() const;
 	Vec2d getGradWij() const;
 

@@ -39,8 +39,6 @@ Output::Output(const Initiation &ini)
 void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary, 
 			     double Time, const Initiation &ini)
 {
-  int i, j;
-
   ///<ul><li>produce output file name
   const double Itime = Time*1.0e6;
 
@@ -57,9 +55,9 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
     out<<"variables=x, y, rho, p, U, e \n";
   int f=0, g=0, a=0, b=0; 	
   ///<li>output real and soild particles
-  for(i = 0; i < ini.number_of_materials; i++) {
+  for(int i = 0; i < ini.number_of_materials; i++) {
     f=0; g=0; a=0; b=0;	
-    j = 0; //if there is such material or not
+    int j = 0; //if there is such material or not
     ///<ul><li>iterate the real partilce list
     for (std::list<spParticle >::const_iterator p = hydro.particle_list.begin(); 
 	 p != hydro.particle_list.end(); 
@@ -108,7 +106,7 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
   cout<<"\n output particle method successfully executed for time"<<Time<<"\n";
  cout<<"\n particles on real  particle list\n "<<f;
  cout<<"\n particles on real  particle list with same mat name\n "<<a;
-cout<<"\n particles on boundary  particle list\n "<<g;
+ cout<<"\n particles on boundary  particle list\n "<<g;
  cout<<"\n particles on boundary  particle list with same mat name\n "<<b;
 }
 

@@ -16,7 +16,7 @@ class Boundary
 	int x_clls, y_clls;
 	int number_of_materials;
 	///show information on screen
-	void show_information(Initiation &ini);
+	void show_information(const Initiation &ini);
 
 	//implement a side boundary by modifying particle states
 
@@ -81,7 +81,7 @@ public:
 	std::list<spParticle > boundary_particle_list; ///boundary particle list for all boundray particles
 
 	///constructor
-	Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &particles);
+	Boundary(const Initiation &ini, Hydrodynamics &hydro, ParticleManager &particles);
 
 	///build boundary particles
 	void BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &hydro);

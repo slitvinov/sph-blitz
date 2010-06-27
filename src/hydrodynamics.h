@@ -17,13 +17,10 @@ namespace blast = boost::numeric::ublas;
 /// Definition of  materials and their hydrodynamical interactions
 class Hydrodynamics
 {	
-	Vec2d gravity;
-	double delta;
-	double dt_g_vis;
+  double dt_g_vis;
 
-	///the interaction (particle pair) list
-	std::list<spInteraction> interaction_list;
-
+  ///the interaction (particle pair) list
+  std::list<spInteraction> interaction_list;
 public:
 	///the materials used
 	/// store a shared pointers to the 
@@ -36,7 +33,7 @@ public:
 	Hydrodynamics(ParticleManager &particles, Initiation &ini);
 
 	///get the time step
-	double GetTimestep();
+	double GetTimestep(const Initiation& ini) const;
 
 	///build new pairs
 	void BuildInteractions(ParticleManager &particles, const Kernel &weight_function);
@@ -47,11 +44,13 @@ public:
 	///initiate particle change rate
 	void ZeroChangeRate();
 	///add the gravity effects
-	void AddGravity();
+	void AddGravity(const Initiation& ini);
 	///calculate interaction with updating interaction list
-	void UpdateChangeRate(ParticleManager &particles, const Kernel &weight_function);
+	void UpdateChangeRate(ParticleManager &particles, 
+			      const Kernel &weight_function,
+			      const Initiation& ini);
 	///calculate interaction without updating interaction list
-	void UpdateChangeRate();
+	void UpdateChangeRate(const Initiation& ini);
 	///initiate particle density to zero
 	void Zero_density();
 	/// initiate particle density to the contributions of the 
@@ -59,12 +58,12 @@ public:
 	void Self_density(const Kernel& weight_function);
 	///summation for particles density (with updating interaction list)
 	void UpdateDensity(ParticleManager &particles, const Kernel &weight_function,
-			   Initiation &ini);
+			   const Initiation &ini);
 	///currently no shear rate calculated  without updating interaction list
-	void UpdateDensity(Initiation &ini, const Kernel &weight_function);///???
+	void UpdateDensity(const Initiation &ini, const Kernel &weight_function);///???
 
 	///calculate states from conservatives
-	void UpdateState(Initiation &ini);
+	void UpdateState(const Initiation &ini);
 	///calculate partilce volume
 	void UpdateVolume(ParticleManager &particles, const Kernel &weight_function);
 

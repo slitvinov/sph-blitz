@@ -28,7 +28,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //							constructor
 //----------------------------------------------------------------------------------------
-TimeSolver::TimeSolver(Initiation &ini)
+TimeSolver::TimeSolver(const Initiation &ini)
 {
   ///- copy properties from class Initiation
   cell_size = ini.cell_size;
@@ -47,13 +47,13 @@ TimeSolver::TimeSolver(Initiation &ini)
 void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 
 					Boundary &boundary,
 					double &Time, double D_time,
-					Initiation &ini, const Kernel &weight_function)
+					const Initiation &ini, const Kernel &weight_function)
 {
   double integeral_time = 0.0;
 	
   while(integeral_time < D_time) {
 
-    dt =0.0025/* hydro.GetTimestep()*/;
+    const double dt =0.0025/* hydro.GetTimestep(ini)*/;
     //control output
     cout<<"\n current timestep:"<<dt<<"\n";
     cout<<"\n current absolute integraltime:"<<Time<<"\n";	
@@ -80,7 +80,7 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
       };
     //control output
     //	cout<<"\n     --- change rate for predictor:";	
-    hydro.UpdateChangeRate();///<li> hydro.UpdateChangeRate
+    hydro.UpdateChangeRate(ini);///<li> hydro.UpdateChangeRate
 	  
     hydro.Predictor_summation(dt);///<li>hydro.Predictor_summation</ol>
 	  
@@ -99,7 +99,7 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
       }
     //control output
     cout<<"\n     --- change rate for corrector:";
-    hydro.UpdateChangeRate(); ///<li>hydro.UpdateChangeRate
+    hydro.UpdateChangeRate(ini); ///<li>hydro.UpdateChangeRate
     hydro.Corrector_summation(dt);///<li>hydro.Corrector_summation</ol>
 
     ///<li> renew boundary particles
