@@ -38,17 +38,6 @@ Material::Material(const Initiation &ini):
 }
 
 //----------------------------------------------------------------------------------------
-//					non-dimensionalize
-//----------------------------------------------------------------------------------------
-void Material::non_dimensionalize(Initiation &ini)
-{
-	cv = ini.non_dms_heat_ratio(cv);
-	eta = ini.non_dms_viscosity(eta);
-	nu = ini.non_dms_viscosity(nu);
-	b0 =ini.non_dms_p(b0);
-	rho0 = ini.non_dms_rho(rho0);
-}
-//----------------------------------------------------------------------------------------
 //			output the property parameters to the screen
 //----------------------------------------------------------------------------------------
 void Material::show_properties()

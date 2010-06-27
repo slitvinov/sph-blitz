@@ -39,9 +39,7 @@ public:
 
 	///constructor
 	Material(const Initiation &ini);
-	
-	///non-dimensionalize
-	void non_dimensionalize(Initiation &ini);
+
 	///show properties
 	void show_properties();
 

@@ -65,7 +65,7 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
 	  
     ///<ul><li>screen information for the iteration
     if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
-			  <<ini.dms_time(Time)<<"	dt: "<<ini.dms_time(dt)<<"\n";
+			  <<Time<<"	dt: "<<dt<<"\n";
 	  
     //control output
     // cout<<"\n just before build pair\n";

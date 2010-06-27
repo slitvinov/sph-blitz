@@ -50,7 +50,7 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
   char file_name[50], file_list[11];
 
   ///<ul><li>produce output file name
-  Itime = ini.dms_time(Time)*1.0e6;
+  Itime = Time*1.0e6;
   strcpy(file_name,"./outdata/prtl");
   sprintf(file_list, "%.10d", (int)Itime);
   strcat(file_name, file_list);
@@ -83,17 +83,17 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
 	   if(j == 1)  {
 	     out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
 	   }
-	   out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
-	      <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])<<"\n";
+	   out<<prtl->R[0]<<"  "<<prtl->R[1]
+	      <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
 	 }
 	if (simu_mode == 2)
 	  out<<setprecision(6)
-	     << ::setw(16)<<ini.dms_length(prtl->R[0]) 
-	     << ::setw(16)<<ini.dms_length(prtl->R[1]) 
-	     << ::setw(16) <<ini.dms_length(prtl->rho) 
-	     << ::setw(16)<<ini.dms_velocity(prtl->p)
-	     << ::setw(16)<<ini.dms_velocity(prtl->U[0])
-	     << ::setw(16)<<ini.dms_velocity(prtl->e)
+	     << ::setw(16)<<prtl->R[0] 
+	     << ::setw(16)<<prtl->R[1] 
+	     << ::setw(16) <<prtl->rho 
+	     << ::setw(16)<<prtl->p
+	     << ::setw(16)<<prtl->U[0]
+	     << ::setw(16)<<prtl->e
 	     <<"  "<<prtl->ID<<"\n";
       }
     }
@@ -108,8 +108,8 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
 	j ++;
 	b++;
 	if(j == 1) 	out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
-	out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
-	   <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])<<"\n";
+	out<<prtl->R[0]<<"  "<<prtl->R[1]
+	   <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
       }
     }
   }

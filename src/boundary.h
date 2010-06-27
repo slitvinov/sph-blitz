@@ -15,9 +15,6 @@ class Boundary
 	///cell matrix size
 	int x_clls, y_clls;
 	int number_of_materials;
-
-	///non-dimensionalize
-	void non_dimensionalize(Initiation &ini);
 	///show information on screen
 	void show_information(Initiation &ini);
 

@@ -106,17 +106,12 @@ Initiation::Initiation(const char *project_name) {
 	  exit(EXIT_FAILURE);
 	}
 	
-	
 	///<li>process the data <b>!!!Question!!!</b>
 	box_size[0] = x_cells*cell_size; box_size[1] = y_cells*cell_size;
 	delta = cell_size/hdelta;///(line 104) this is only true if h=cell_size (which is not necessarily given, as h, cell_size can be initiated independently in configuration file)
 	
 	///<li>output information to screen
 	show_information();
-
-	///<li>non-dimensionalize \n\n
-	non_dimensionalize();
-
 }
 //----------------------------------------------------------------------------------------
 //					show information to screen
@@ -125,41 +120,42 @@ void Initiation::show_information() const
 {
 	///- output general information on screen
   cout<<"The simulation mode is"<<simu_mode<<"! (1=liquids, 2=gas dynamics)\n";
-	cout<<"The number of materials in the simulation is  "<<number_of_materials<<"\n";
-	cout<<"The computational domain size is  "<<box_size[0]<<" micrometers x "<<box_size[1]<<" micrometers\n";
-	cout<<"The cell size is "<<cell_size<<" micrometers \n";
-	cout<<"The support length is "<<supportlength<<" micrometers \n";
-	cout<<"The cell matrix size is "<<x_cells<<" x "<<y_cells<<"\n";
-	cout<<"The ratio between cell size and initial particle width is "<<hdelta<<"\n";
-	cout<<"The initial particle width is "<<delta<<" micrometers\n";
-	cout<<"The g force is "<<g_force[0]<<" m/s^2 x "<<g_force[1]<<" m/s^2 \n";
-	cout<<"The dimensionless reference length, speed, density and temperature are \n"
-		<<_length<<" micrometer, "<<_v<<" m/s, "<<_rho<<" kg/m^3, "<<_T<<" K\n";
+  cout<<"The number of materials in the simulation is  "<<number_of_materials<<"\n";
+  cout<<"The computational domain size is  "<<box_size[0]<<" micrometers x "<<box_size[1]<<" micrometers\n";
+  cout<<"The cell size is "<<cell_size<<" micrometers \n";
+  cout<<"The support length is "<<supportlength<<" micrometers \n";
+  cout<<"The cell matrix size is "<<x_cells<<" x "<<y_cells<<"\n";
+  cout<<"The ratio between cell size and initial particle width is "<<hdelta<<"\n";
+  cout<<"The initial particle width is "<<delta<<" micrometers\n";
+  cout<<"The g force is "<<g_force[0]<<" m/s^2 x "<<g_force[1]<<" m/s^2 \n";
+  cout<<"The dimensionless reference length, speed, density and temperature are \n"
+      <<_length<<" micrometer, "<<_v<<" m/s, "<<_rho<<" kg/m^3, "<<_T<<" K\n";
 
 	///- output the timing information on screen
-	cout<<"\nInitialtion: Time controlling:\nStarting time is "<<Start_time<<" \n";
-	cout<<"Ending time is "<<End_time<<" \n";
-	cout<<"Output time interval is "<<D_time<<" \n";
+  cout<<"\nInitialtion: Time controlling:\nStarting time is "<<Start_time<<" \n";
+  cout<<"Ending time is "<<End_time<<" \n";
+  cout<<"Output time interval is "<<D_time<<" \n";
 
-	///- output iniformation on initialization mode (.cfg file or .rst file)
-	//Initialize the initial conditions from .cfg file
-	if (initial_condition==0) {
-		cout<<"\nInitialize the initial conditions from "<<inputfile<<" \n";
-		cout<<"The initial flow speed is "<<U0[0]<<" m/s x "<<U0[1]<<" m/s\n";
-		cout<<"The initial density is "<<rho0<<" kg/m^3\n";
-		cout<<"The initial pressure is "<<p0<<" Pa\n";
-		cout<<"The initial temperature is "<<T0<<" K\n";
-
-	}
+  ///- output iniformation on initialization mode (.cfg file or .rst file)
+  //Initialize the initial conditions from .cfg file
+  if (initial_condition==0) {
+    cout<<"\nInitialize the initial conditions from "<<inputfile<<" \n";
+    cout<<"The initial flow speed is "<<U0[0]<<" m/s x "<<U0[1]<<" m/s\n";
+    cout<<"The initial density is "<<rho0<<" kg/m^3\n";
+    cout<<"The initial pressure is "<<p0<<" Pa\n";
+    cout<<"The initial temperature is "<<T0<<" K\n";
+  }
 	
-	//Initialize the initial conditions from .rst file
-	if (initial_condition == 1)
-		cout<<"Read the initial conditions from separated restat file "<<Project_name<<".rst \n";
+  //Initialize the initial conditions from .rst file
+  if (initial_condition == 1)
+    cout<<"Read the initial conditions from separated restat file "
+	<<Project_name<<".rst \n";
 }
 //----------------------------------------------------------------------------------------
 //					predict the particle volume and mass
 //----------------------------------------------------------------------------------------
-void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, Kernel &weight_function)
+void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, 
+			    Kernel &weight_function)
 {
   ///mass initiation is different of 1DSPH code: 
   ///here: mass is calculated by summing up the kernel function contributions for easch particle, which gives a kind of the inverse volume taken by each particle (not perfectly true at the discontinuity). together with rho (from initialization) a mass for each particle can be obtained.
@@ -208,183 +204,4 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, Ke
     prtl_org->m = prtl_org->rho*reciprocV;
   }
   cout<<"\n Volume and Mass successfully calculated\n ";
-}
-//----------------------------------------------------------------------------------------
-//				Non-dimensionalize the initial condition and parameters
-//----------------------------------------------------------------------------------------
-void Initiation::non_dimensionalize()
-{
-        ///method calls the individual non_dms_methods vor each variable\n
-        ///remark:to avoid confusion: the non dimensional variables have the same identifiers like the dimensional ones!!!\n\n
-	box_size = non_dms_box_size(box_size);
-	cell_size = non_dms_length(cell_size);
-	supportlength = non_dms_length(supportlength);
-	delta = non_dms_length(delta); 
-	g_force = non_dms_acceleration(g_force);
-	Start_time = non_dms_time(Start_time);
-	End_time = non_dms_time(End_time);
-	D_time = non_dms_time(D_time);
-
-	//Bltzmann constant
-	extern double k_bltz;
-	k_bltz = non_dms_Boltzmann(k_bltz);
-	
-	//non-dimensionalize initial states
-	if(initial_condition==0) {
-
-		U0 = non_dms_velocity(U0);
-		rho0 = non_dms_rho(rho0);
-		p0 = non_dms_p(p0);
-		T0 = non_dms_T(T0);
-	}
-}
-//-------------------------------------------------------
-//			Non_dimensionalize pressure
-//-------------------------------------------------------
-double Initiation::non_dms_p(const double p) const 
-{
-	return p/_v/_v/_rho;
-}
-//-------------------------------------------------------
-//			Non_dimensionalize temperature
-//-------------------------------------------------------
-double Initiation::non_dms_T(const double T) const
-{
-	return T/_T;
-}
-//-------------------------------------------------------
-//			Non_dimensionalize density
-//-------------------------------------------------------
-double Initiation::non_dms_rho(const double rho) const
-{
-	return rho/_rho;
-}
-//-------------------------------------------------------
-//			Non_dimensionalize mass
-//			in 2-dimension 
-//-------------------------------------------------------
-double Initiation::non_dms_mass(const double mass) const
-{
-	return mass/_rho/_length/_length/_length;
-}
-//-------------------------------------------------------
-//			Non_dimensionalize time
-//-------------------------------------------------------
-double Initiation::non_dms_time(const double time) const
-{
-	return time*_v/_length;
-}
-//-------------------------------------------------------
-//			Non_dimensionalize length
-//-------------------------------------------------------
-double Initiation::non_dms_length(const double length) const
-{
-	return length/_length;
-}
-//-------------------------------------------------------
-//			Non_dimensionalize boxsize in 2-d
-//-------------------------------------------------------
-Vec2d Initiation::non_dms_box_size(const Vec2d box_size) const
-{
-	return box_size/_length;
-}
-//-------------------------------------------------------
-//			Non_dimensionalize velocity
-//-------------------------------------------------------
-double Initiation::non_dms_velocity(const double velocity) const
-{
-	return velocity/_v;
-}
-//-------------------------------------------------------
-//			Non_dimensionalize vector velocity
-//-------------------------------------------------------
-Vec2d Initiation::non_dms_velocity(const Vec2d velocity) const
-{
-	return velocity/_v;
-}
-//-------------------------------------------------------
-//			Non_dimensionalize acceleration vector
-//-------------------------------------------------------
-Vec2d Initiation::non_dms_acceleration(const Vec2d acceleration) const
-{
-	 return acceleration*_length/_v/_v;
-}
-//-------------------------------------------------------
-//			Non_dimensionalize viscosity
-//-------------------------------------------------------
-double Initiation::non_dms_viscosity(const double mu) const
-{
-	return mu/_v/_rho/_length;
-}
-//-------------------------------------------------------
-//			Non_dimensionalize heat ratio
-//-------------------------------------------------------
-double Initiation::non_dms_heat_ratio(const double cv) const
-{
-	return cv*_T/_v/_v;
-
-}
-//-------------------------------------------------------
-//			Non_dimensionalize Boltzmann constant
-//-------------------------------------------------------
-double Initiation::non_dms_Boltzmann(const double k_bltz) const
-{
-	return k_bltz*_T/_v/_v/_rho/_length/_length/_length;
-}
-//-------------------------------------------------------
-//			Dimensionalize functions
-//-------------------------------------------------------
-double Initiation::dms_p(const double p_non) const
-{
-	return p_non*_v*_v*_rho;
-}
-//-------------------------------------------------------
-double Initiation::dms_T(const double T_non) const
-{
-	return T_non*_T;
-}
-//-------------------------------------------------------
-double Initiation::dms_rho(const double rho_non) const
-{
-	return rho_non*_rho;
-}
-//-------------------------------------------------------
-double Initiation::dms_mass(const double mass_non) const
-{
-	return mass_non*_rho*_length*_length;
-}
-//-------------------------------------------------------
-double Initiation::dms_time(const double time_non) const
-{
-	return time_non/_v*_length;
-}
-//-------------------------------------------------------
-double Initiation::dms_length(const double length_non) const
-{
-	return length_non*_length;
-}
-//-------------------------------------------------------
-Vec2d Initiation::dms_box_size(const Vec2d box_size_non) const
-{
-	return box_size_non*_length;
-}
-//-------------------------------------------------------
-Vec2d Initiation::dms_velocity(const Vec2d velocity_non) const
-{
-	return velocity_non*_v;
-}
-//-------------------------------------------------------
-double Initiation::dms_velocity(const double velocity_non) const
-{
-	return velocity_non*_v;
-}
-//-------------------------------------------------------
-double Initiation::dms_energy(const double energy_non) const
-{
-	return energy_non*_v*_v;
-}
-//-------------------------------------------------------
-Vec2d Initiation::dms_acceleration(const Vec2d acceleration_non) const
-{
-	 return acceleration_non*_v*_v/_length;
 }

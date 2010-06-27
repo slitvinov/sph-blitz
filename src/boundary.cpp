@@ -67,21 +67,10 @@ Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &parti
 
    if(ini.simu_mode==1)	
    {
-   non_dimensionalize(ini);
   ///- build boundary particles
    BuildBoundaryParticle(particles, hydro);
    };
     cout<<"\n boundary condition constructor successfully executed \n";
-}
-//----------------------------------------------------------------------------------------
-//								Non-dimensionalize
-//----------------------------------------------------------------------------------------
-void Boundary::non_dimensionalize(Initiation &ini)
-{
-  UxBl = ini.non_dms_velocity(UxBl); 
-  UxBr = ini.non_dms_velocity(UxBr); 
-  UyBd = ini.non_dms_velocity(UyBd); 
-  UyBu = ini.non_dms_velocity(UyBu); 
 }
 //----------------------------------------------------------------------------------------
 //								show information on screen

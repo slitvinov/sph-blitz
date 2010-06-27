@@ -66,41 +66,10 @@ public:
   ///constructor
   ///\param *project_name: a pointer to the project name array (the project name is defined as a main-function argument and therefore given as an additional command line element when running the progam) 
   explicit Initiation(const char *project_name);
-  ///non-dimensionalize initial condition and parameters
-  void non_dimensionalize();
   ///show information on screen
   void show_information() const;
   ///predict the particle volume and mass
-  void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, Kernel &weight_function);
-
-  //non-dimesionlize
-  double non_dms_p(const double p) const ;///<a non dimensionalize method
-  double non_dms_T(const double T) const ;///<a non dimensionalize method
-  double non_dms_rho(const double rho) const ;///<a non dimensionalize method
-  double non_dms_mass(const double mass) const ;///<a non dimensionalize method
-  double non_dms_time(const double time) const ;///<a non dimensionalize method
-  double non_dms_length(const double length) const;///<a non dimensionalize method
-  Vec2d non_dms_box_size(const Vec2d box_size) const;///<a non dimensionalize method
-  double non_dms_velocity(const double velocity) const;///<a non dimensionalize method
-  Vec2d non_dms_velocity(const Vec2d velocity) const;///<a non dimensionalize method
-  double non_dms_acceleration(const double acceleration) const ;///<a non dimensionalize method
-  Vec2d non_dms_acceleration(const Vec2d acceleration) const ;///<a non dimensionalize method
-  double non_dms_viscosity(const double mu) const ;///<a non dimensionalize method
-  double non_dms_heat_ratio(const double cv) const ;///<a non dimensionalize method
-  double non_dms_Boltzmann(const double k_bltz) const ;///<a non dimensionalize method
-
-  //re-dimesionlize
-  double dms_p(const double p_non) const ;///<a re-dimensionalize method
-  double dms_T(const double T_non) const ;///<a re-dimensionalize method
-  double dms_rho(const double rho_non) const ;///<a re-dimensionalize method
-  double dms_mass(const double mass_non) const ;///<a re-dimensionalize method
-  double dms_time(const double time_non) const ;///<a re-dimensionalize method
-  double dms_length(const double length_non) const ;///<a re-dimensionalize method
-  Vec2d dms_box_size(const Vec2d box_size_non) const ;///<a re-dimensionalize method
-  double dms_velocity(const double velocity_non) const ;///<a re-dimensionalize method
-  Vec2d dms_velocity(const Vec2d velocity_non) const ;///<a re-dimensionalize method
-  double dms_energy(const double energy_non) const ;///<a re-dimensionalize method
-  double dms_acceleration(const double acceleration_non) const ;///<a re-dimensionalize method
-  Vec2d dms_acceleration(const Vec2d acceleration_non) const ;///<a re-dimensionalize method
+  void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, 
+		  Kernel &weight_function);
 };
 #endif

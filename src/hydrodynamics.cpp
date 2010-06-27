@@ -84,7 +84,6 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
 	cout<<"The properties of the material No. "<<k<<"\n";		
 	materials[k]->show_properties();
 	///<li>non-dimensionalize</ul>
-	materials[k]->non_dimensionalize(ini);
       }
     }
   }

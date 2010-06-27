@@ -37,8 +37,6 @@ class ParticleManager
   Vec2d U0; ///<inital flow speed
   double rho0, p0, T0; ///<initial particle mass and density, pressure and temperature
 
-  ///buid the initial wall particles and the linked lists
-  void BuildWallParticle(Hydrodynamics &hydro, Boundary &boundary);
 
   ///private init class to create Lists
   void Init();
@@ -70,6 +68,9 @@ public:
   void BuildRealParticle(vecMaterial materials, 
 			 std::list<spParticle >& particle_list, 
 			 Initiation &ini);
+
+  ///buid the initial wall particles and the linked lists
+  void BuildWallParticle(Hydrodynamics &hydro, Boundary &boundary);
 
   /// build real particles 
   void BuildRealParticle(Hydrodynamics &hydro);
