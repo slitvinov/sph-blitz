@@ -49,7 +49,7 @@ am__objects_1 = boundary.$(OBJEXT) glbfunc.$(OBJEXT) \
 	interaction.$(OBJEXT) material.$(OBJEXT) output.$(OBJEXT) \
 	particle.$(OBJEXT) particlemanager.$(OBJEXT) \
 	timesolver.$(OBJEXT) vec2d.$(OBJEXT) kernel.$(OBJEXT) \
-	quinticspline.$(OBJEXT) cubicspline1D.$(OBJEXT) \
+	quinticspline.$(OBJEXT) cubicspline.$(OBJEXT) \
 	betaspline.$(OBJEXT)
 am_kernel_test_OBJECTS = $(am__objects_1) kernel_test.$(OBJEXT)
 kernel_test_OBJECTS = $(am_kernel_test_OBJECTS)
@@ -185,7 +185,7 @@ nomain = boundary.cpp boundary.h \
 	vec2d.h \
 	Kernel/kernel.cpp Kernel/kernel.h \
 	Kernel/quinticspline.cpp Kernel/quinticspline.h \
-	Kernel/cubicspline1D.cpp Kernel/cubicspline1D.h \
+	Kernel/cubicspline.cpp Kernel/cubicspline.h \
 	Kernel/betaspline.h Kernel/betaspline.cpp
 
 sph_SOURCES = sph.cpp $(nomain) 
@@ -265,7 +265,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/betaspline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boundary.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cubicspline1D.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cubicspline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/glbfunc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hydrodynamics.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/initiation.Po@am__quote@
@@ -324,19 +324,19 @@ quinticspline.obj: Kernel/quinticspline.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o quinticspline.obj `if test -f 'Kernel/quinticspline.cpp'; then $(CYGPATH_W) 'Kernel/quinticspline.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/quinticspline.cpp'; fi`
 
-cubicspline1D.o: Kernel/cubicspline1D.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT cubicspline1D.o -MD -MP -MF $(DEPDIR)/cubicspline1D.Tpo -c -o cubicspline1D.o `test -f 'Kernel/cubicspline1D.cpp' || echo '$(srcdir)/'`Kernel/cubicspline1D.cpp
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/cubicspline1D.Tpo $(DEPDIR)/cubicspline1D.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kernel/cubicspline1D.cpp' object='cubicspline1D.o' libtool=no @AMDEPBACKSLASH@
+cubicspline.o: Kernel/cubicspline.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT cubicspline.o -MD -MP -MF $(DEPDIR)/cubicspline.Tpo -c -o cubicspline.o `test -f 'Kernel/cubicspline.cpp' || echo '$(srcdir)/'`Kernel/cubicspline.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/cubicspline.Tpo $(DEPDIR)/cubicspline.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kernel/cubicspline.cpp' object='cubicspline.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o cubicspline1D.o `test -f 'Kernel/cubicspline1D.cpp' || echo '$(srcdir)/'`Kernel/cubicspline1D.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o cubicspline.o `test -f 'Kernel/cubicspline.cpp' || echo '$(srcdir)/'`Kernel/cubicspline.cpp
 
-cubicspline1D.obj: Kernel/cubicspline1D.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT cubicspline1D.obj -MD -MP -MF $(DEPDIR)/cubicspline1D.Tpo -c -o cubicspline1D.obj `if test -f 'Kernel/cubicspline1D.cpp'; then $(CYGPATH_W) 'Kernel/cubicspline1D.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/cubicspline1D.cpp'; fi`
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/cubicspline1D.Tpo $(DEPDIR)/cubicspline1D.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kernel/cubicspline1D.cpp' object='cubicspline1D.obj' libtool=no @AMDEPBACKSLASH@
+cubicspline.obj: Kernel/cubicspline.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT cubicspline.obj -MD -MP -MF $(DEPDIR)/cubicspline.Tpo -c -o cubicspline.obj `if test -f 'Kernel/cubicspline.cpp'; then $(CYGPATH_W) 'Kernel/cubicspline.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/cubicspline.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/cubicspline.Tpo $(DEPDIR)/cubicspline.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kernel/cubicspline.cpp' object='cubicspline.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o cubicspline1D.obj `if test -f 'Kernel/cubicspline1D.cpp'; then $(CYGPATH_W) 'Kernel/cubicspline1D.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/cubicspline1D.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o cubicspline.obj `if test -f 'Kernel/cubicspline.cpp'; then $(CYGPATH_W) 'Kernel/cubicspline.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/cubicspline.cpp'; fi`
 
 betaspline.o: Kernel/betaspline.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT betaspline.o -MD -MP -MF $(DEPDIR)/betaspline.Tpo -c -o betaspline.o `test -f 'Kernel/betaspline.cpp' || echo '$(srcdir)/'`Kernel/betaspline.cpp

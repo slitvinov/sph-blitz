@@ -70,17 +70,10 @@
 #include "output.h"
 #include "boundary.h"
 #include "Kernel/quinticspline.h"
-#include "Kernel/cubicspline1D.h"
+#include "Kernel/cubicspline.h"
 #include "Kernel/betaspline.h"
 
 using namespace std;
-
-//-----------------------------------------------------------------------
-//					Basic global physical values
-//-----------------------------------------------------------------------
-///Bltzmann constant, will be non-dimensionalized in the program
-//double k_bltz  = 1.380662e-023; //[J/K]
-
 
 ///
 /// \brief The main program
@@ -96,9 +89,9 @@ int main(int argc, char *argv[]) {
 
   //check if project name specified
   if (argc<2)  {
-    cout<<"No Project Name Specified!!\n";
-    std::cout << __FILE__ << ':' << __LINE__ << std::endl;
-    exit(1);
+    std::cout << __FILE__ << ':' << __LINE__ << 
+      " No Project Name Specified!!\n";
+    exit(EXIT_FAILURE);
   }
 	
   /// initializations
@@ -123,7 +116,7 @@ int main(int argc, char *argv[]) {
   /// here one can choose which Kernel function to use 
   //QuinticSpline weight_function (ini.supportlength); 
   // (not in runtime)
-  Cubicspline1D weight_function (ini.supportlength); 
+  CubicSpline weight_function (ini.supportlength); 
 
   ParticleManager particles(ini); ///- initiate the particle manager
   Hydrodynamics hydro(particles, ini); ///- create materials, forces and real particles
@@ -163,10 +156,11 @@ int main(int argc, char *argv[]) {
     cout<<"\n time is"<<Time<<"\n";
     ///- output results after a time interval\n\n
     output.OutputParticle(hydro, boundary, Time, ini); //particle positions and velocites
-    output.OutRestart(hydro, Time); //restarting file
+    output.OutRestart(hydro, Time, ini); //restarting file
   }
 
   cout << time(NULL) - bm_start_time << " seconds.\n";
 
-  return 0; //end the program
+  cout << __FILE__ << ':' << __LINE__ << " program ends successfully\n" ;
+  return EXIT_SUCCESS; //end the program
 }

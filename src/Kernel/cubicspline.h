@@ -1,19 +1,19 @@
-#ifndef CUBICSPLINE1D_H
-#define CUBICSPLINE1D_H
-/// \file Cubicspline1D.h 
+#ifndef CUBICSPLINE_H
+#define CUBICSPLINE_H
+/// \file CubicSpline.h 
 /// \brief  cubic spline kernel 1D
 
-/// Cubicspline1D class
+/// CubicSpline class
 
 #include "Kernel/kernel.h"
 
-class Cubicspline1D : public Kernel
+class CubicSpline : public Kernel
 {
 
 public:
 
   ///constructor to initialize the data members (auxiliary factors for kernel calculation)
-  Cubicspline1D(const double supportlength);
+  CubicSpline(const double supportlength);
   
   ///\brief Calculates the kernel value for the given distance of two particles
   ///
@@ -54,4 +54,4 @@ private:
 
 };
 
-#endif //CUBICSPLINE1D_H
+#endif //CUBICSPLINE_H

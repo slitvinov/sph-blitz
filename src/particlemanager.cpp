@@ -23,6 +23,7 @@
 #include "interaction.h"
 #include "initiation.h"
 #include "boundary.h"
+
 #include <boost/smart_ptr/make_shared.hpp>
 
 using namespace std;
@@ -337,7 +338,7 @@ void ParticleManager::BuildRealParticle(
 	if (!fin) {
 	  cout<<"Initialtion: Cannot open "<< inputfile <<" \n";
 	  std::cout << __FILE__ << ':' << __LINE__ << std::endl;
-	  exit(1);
+	  exit(EXIT_FAILURE);
 	}
 	else cout<<"Initialtion: Read real particle data from "<< inputfile <<" \n"; 
 
@@ -377,7 +378,7 @@ void ParticleManager::BuildRealParticle(
 	  } else {
 	    cout<<"The material in the restart file is not used by the program! \n";
 	    std::cout << __FILE__ << ':' << __LINE__ << std::endl;
-	    exit(1);
+	    exit(EXIT_FAILURE);
 	  }
 	}
 	fin.close();
@@ -393,7 +394,7 @@ void ParticleManager::BuildRealParticle(
       if (!fin) {
 	cout<<"Initialtion: Cannot open "<< inputfile <<" \n";
 	std::cout << __FILE__ << ':' << __LINE__ << std::endl;
-	exit(1);
+	exit(EXIT_FAILURE);
       }
       else cout<<"Initialtion: Read real particle data from "<< inputfile <<" \n"; 
       //read the real particle number

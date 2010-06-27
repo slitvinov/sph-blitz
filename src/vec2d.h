@@ -8,13 +8,9 @@
 #define VEC2D_H
 
 #include <cmath>
-
-//#pragma GCC diagnostic ignored "-Wignored-qualifiers"
-//#pragma GCC diagnostic ignored "-Wreturn-type"
-//#pragma GCC diagnostic ignored "-Weffc++"
 #include <blitz/tinyvec.h>
 #include <blitz/tinyvec-et.h>
-//#pragma GCC diagnostic warning "-Weffc++"
+
 
 
 typedef blitz::TinyVector<double,2> Vec2d;

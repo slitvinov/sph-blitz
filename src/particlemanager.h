@@ -7,10 +7,6 @@
 #include "particle.h"
 #include <list>
 
-//#pragma GCC diagnostic ignored "-Weffc++"
-
-//#pragma GCC diagnostic warning "-Weffc++"
-
 class Hydrodynamics;
 class Initiation;
 class Boundary;

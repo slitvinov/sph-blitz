@@ -22,6 +22,7 @@
 #include "output.h"
 #include "initiation.h"
 #include "boundary.h"
+
 #include <boost/format.hpp>
 
 using namespace std;
@@ -29,22 +30,14 @@ using namespace std;
 //--------------------------------------------------------------------------------------------
 //									constructor
 //--------------------------------------------------------------------------------------------
-Output::Output(Initiation &ini)
+Output::Output(const Initiation &ini)
 {
-  ///copy boundary properties from initiation class
-  Project_name = ini.Project_name;
-  number_of_materials = ini.number_of_materials;
-  x_cells = ini.x_cells; y_cells = ini.y_cells;
-  simu_mode=ini.simu_mode;
-  hdelta = ini.hdelta; 
-  delta = ini.delta;
-  cout<<"\n Output class object sussessfully constructed! \n"; 
 }
 //--------------------------------------------------------------------------------------------
 //				output particle positions respected different materials
 //--------------------------------------------------------------------------------------------
 void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary, 
-			     double Time, Initiation &ini)
+			     double Time, const Initiation &ini)
 {
   int i, j;
 
@@ -58,13 +51,13 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
   ofstream out(file_name.c_str());
   ///<li>defining header for tecplot(plot software)
   out<<"title='particle position' \n";
-  if( simu_mode==1)
+  if( ini.simu_mode==1)
     out<<"variables=x, y, Ux, Uy \n";
-  if (simu_mode==2)
+  if (ini.simu_mode==2)
     out<<"variables=x, y, rho, p, U, e \n";
   int f=0, g=0, a=0, b=0; 	
   ///<li>output real and soild particles
-  for(i = 0; i < number_of_materials; i++) {
+  for(i = 0; i < ini.number_of_materials; i++) {
     f=0; g=0; a=0; b=0;	
     j = 0; //if there is such material or not
     ///<ul><li>iterate the real partilce list
@@ -78,14 +71,14 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
        if(hydro.materials[i]->material_name == prtl->mtl->material_name) {
 	 j ++;
 	 a++;
-	 if( simu_mode == 1) {
+	 if( ini.simu_mode == 1) {
 	   if(j == 1)  {
 	     out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
 	   }
 	   out<<prtl->R[0]<<"  "<<prtl->R[1]
 	      <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
 	 }
-	if (simu_mode == 2)
+	if (ini.simu_mode == 2)
 	  out<<setprecision(6)
 	     << ::setw(16)<<prtl->R[0] 
 	     << ::setw(16)<<prtl->R[1] 
@@ -122,12 +115,12 @@ cout<<"\n particles on boundary  particle list\n "<<g;
 //--------------------------------------------------------------------------------------------
 //		Output real particle data for restart the computation
 //--------------------------------------------------------------------------------------------
-void Output::OutRestart(Hydrodynamics &hydro, double Time)
+void Output::OutRestart(Hydrodynamics &hydro, double Time, const Initiation& ini)
 {
   std::string outputfile;
 
   ///- output non-dimensional data
-  outputfile = Project_name + ".rst";
+  outputfile = ini.Project_name + ".rst";
   ofstream out(outputfile.c_str());
 
   //calculate the real particle number

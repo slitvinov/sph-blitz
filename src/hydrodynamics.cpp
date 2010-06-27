@@ -28,6 +28,7 @@
 
 #include <boost/smart_ptr/make_shared.hpp>
 
+
 using namespace std;
 
 //----------------------------------------------------------------------------------------
@@ -55,7 +56,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   if (!fin) {
     cout<<"Initialtion: Cannot open "<< inputfile <<" \n";
     std::cout << __FILE__ << ':' << __LINE__ << std::endl;
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   else cout<<"\nMaterial: read the propeties of materials\n"; 
 

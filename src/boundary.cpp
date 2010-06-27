@@ -23,7 +23,9 @@
 #include "boundary.h"
 #include "initiation.h"
 #include "glbtype.h"
+
 #include <boost/smart_ptr/make_shared.hpp>
+
 
 using namespace std;
 
@@ -44,7 +46,7 @@ Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &parti
   if (!fin) {
     cout<<"Boundary: Cannot open "<< inputfile <<" \n";
     std::cout << __FILE__ << ':' << __LINE__ << std::endl;
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   else cout<<"\nBoundary: read left, right, upper and lower boundary conditions from "<< inputfile <<" \n"; 
 
@@ -101,7 +103,7 @@ void Boundary::RunAwayCheck(Hydrodynamics &hydro)
     if(fabs(prtl->R[0]) >= 2.0*box_size[0] || fabs(prtl->R[1]) >= 2.0*box_size[1]) {
       cout<<"Boundary: the particles run out too far away from the domain! \n";
       std::cout << __FILE__ << ':' << __LINE__ << std::endl;
-      exit(1);
+      exit(EXIT_FAILURE);
     }
     ///- only checking real particles (for all boundaries)
     if(prtl->bd == 0) {

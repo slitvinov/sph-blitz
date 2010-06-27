@@ -3,9 +3,6 @@
 /// \file hydrodynamics.h
 /// \brief  Definition of  materials and their hydrodynamical interactions
 
-//#pragma GCC diagnostic ignored "-Weffc++"
-#include <boost/numeric/ublas/matrix.hpp>
-//#pragma GCC diagnostic warning "-Weffc++"
 #include "material.h"
 #include "vec2d.h"
 #include "glbtype.h"

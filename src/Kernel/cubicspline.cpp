@@ -22,13 +22,13 @@
 
 //local includes
 #include "glbfunc.h"
-#include "Kernel/cubicspline1D.h"
+#include "Kernel/cubicspline.h"
 
 using namespace std;
 const double pi = 3.141592653589793238462643383279502884197;
 
 /// Cubic spline kernel (see Liu eq. (3.6)
-Cubicspline1D::Cubicspline1D(const double supportlength)
+CubicSpline::CubicSpline(const double supportlength)
   : Kernel(supportlength),
     norm( 10.0 / (7.0*pi)  / (supportlength*supportlength) ) ,
     factorGradW( 2.0*norm /supportlength )
@@ -39,7 +39,7 @@ Cubicspline1D::Cubicspline1D(const double supportlength)
 //----------------------------------------------------------------------------------------
 // Calculates the kernel value for the given distance of two particles
 //----------------------------------------------------------------------------------------
-double Cubicspline1D::w(const double distance) const
+double CubicSpline::w(const double distance) const
 {
   const double R= 2.0 * distance/ supportlength;
   if(R>2.0)
@@ -63,14 +63,14 @@ double Cubicspline1D::w(const double distance) const
 // We take this from Morris, Fox and Zhu (1997)
 // but used a tripled smoothing length for the definition of the interaction radius.
 //----------------------------------------------------------------------------------------
-Vec2d Cubicspline1D::gradW(const double distance, const Vec2d& distanceVector) const
+Vec2d CubicSpline::gradW(const double distance, const Vec2d& distanceVector) const
 {  
-  return Cubicspline1D::F(distance)*distanceVector;
+  return CubicSpline::F(distance)*distanceVector;
 }
 //----------------------------------------------------------------------------------------
 //		Calculates the kernel derivation (a double not vector) to distance
 //----------------------------------------------------------------------------------------
-double Cubicspline1D::F(const double distance) const
+double CubicSpline::F(const double distance) const
 {
   double R= 2.0*distance/ supportlength; // 
   if (R>2.0) {

@@ -14,7 +14,7 @@ nomain=	 boundary.cpp boundary.h \
 	vec2d.h \
 	Kernel/kernel.cpp Kernel/kernel.h \
 	Kernel/quinticspline.cpp Kernel/quinticspline.h \
-	Kernel/cubicspline1D.cpp Kernel/cubicspline1D.h \
+	Kernel/cubicspline.cpp Kernel/cubicspline.h \
 	Kernel/betaspline.h Kernel/betaspline.cpp
 
 sph_SOURCES= sph.cpp $(nomain) 

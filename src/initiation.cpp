@@ -41,7 +41,7 @@ Initiation::Initiation(const std::string& project_name) {
 	if (!fin) {
 		cout<<"Initialtion: Cannot open "<< inputfile <<" \n";
 		std::cout << __FILE__ << ':' << __LINE__ << std::endl;
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	else cout<<"Initialtion: Read the global configuration data from "<< inputfile <<" \n"; 
 

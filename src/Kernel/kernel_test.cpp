@@ -1,6 +1,6 @@
 /// Kernels  test program 
 #include "Kernel/quinticspline.h"
-#include "Kernel/cubicspline1D.h"
+#include "Kernel/cubicspline.h"
 #include <boost/test/minimal.hpp>
 #include <blitz/vector.h>
 #include <blitz/array.h>
@@ -75,8 +75,8 @@ int test_main( int, char *[] )     {
   QuinticSpline q_weight_function(supportlength);
   //test_kernel(q_weight_function, supportlength);
 
-  Cubicspline1D c_weight_function(supportlength);
-  std::cerr << "Testing Cubicspline1D kernel\n";
+  CubicSpline c_weight_function(supportlength);
+  std::cerr << "Testing CubicSpline kernel\n";
   test_kernel(c_weight_function, supportlength);
 
   return EXIT_SUCCESS;
