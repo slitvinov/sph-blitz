@@ -30,8 +30,8 @@ using namespace std;
 //construtor
 Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &particles)
 {
-  char Key_word[25];
-  char inputfile[25];
+  std::string Key_word;
+  std::string inputfile;
 
   ///copy global properties from initiation class
   box_size = ini.box_size;
@@ -39,8 +39,8 @@ Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &parti
   number_of_materials = ini.number_of_materials;
 
   //check if inputfile exist
-  strcpy(inputfile, ini.inputfile);
-  ifstream fin(inputfile, ios::in);
+  inputfile = ini.inputfile;
+  ifstream fin(inputfile.c_str(), ios::in);
   if (!fin) {
     cout<<"Boundary: Cannot open "<< inputfile <<" \n";
     std::cout << __FILE__ << ':' << __LINE__ << std::endl;
@@ -55,7 +55,7 @@ Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &parti
     fin>>Key_word;
 		
      ///- compare the key words for left, right, upper and lower boundary condition type and their velocities
-    if(!strcmp(Key_word, "BOUNDARY")) fin>>wall_file>>xBl>>UxBl[0]>>UxBl[1]
+    if(Key_word == "BOUNDARY") fin>>wall_file>>xBl>>UxBl[0]>>UxBl[1]
 					 >>xBr>>UxBr[0]>>UxBr[1]
 					 >>yBd>>UyBd[0]>>UyBd[1]
 					 >>yBu>>UyBu[0]>>UyBu[1];

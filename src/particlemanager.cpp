@@ -35,7 +35,7 @@ ParticleManager::ParticleManager(Initiation &ini)
   
 
   ///- copy properties from class Initiation
-  strcpy(Project_name, ini.Project_name);
+  Project_name = ini.Project_name;
   number_of_materials = ini.number_of_materials;
   supportlength = ini.supportlength;
   supportlengthsquare = supportlength*supportlength;
@@ -57,7 +57,7 @@ ParticleManager::ParticleManager(Initiation &ini)
 
 }
 
-ParticleManager::ParticleManager(const char Project_name_in[25], const int number_of_materials, 
+ParticleManager::ParticleManager(const std::string Project_name_in, const int number_of_materials, 
 				 const double supportlength, const Vec2d box_size, 
 				 const double cell_size, 
 				 const int x_cells, const int y_cells,
@@ -78,7 +78,7 @@ ParticleManager::ParticleManager(const char Project_name_in[25], const int numbe
   delta(delta),
   simu_mode(simu_mode)
 {
-  strcpy(Project_name, Project_name_in);
+  Project_name = Project_name_in;
   if(initial_condition == 0) {
     U0 = U0_in;
     rho0 = rho0_in;
@@ -325,15 +325,14 @@ void ParticleManager::BuildRealParticle(
       if(initial_condition==1) {	
 
 	int n, N;
-	char inputfile[25];
-	char material_name[25];
+	std::string inputfile;
+	std::string material_name;
 		
 	//the restart file name
-	strcpy(inputfile, Project_name);
-	strcat(inputfile, ".rst");
+	inputfile = Project_name + ".rst";
 	
 	//check if the restart exist
-	ifstream fin(inputfile, ios::in);
+	ifstream fin(inputfile.c_str(), ios::in);
 	if (!fin) {
 	  cout<<"Initialtion: Cannot open "<< inputfile <<" \n";
 	  std::cout << __FILE__ << ':' << __LINE__ << std::endl;
@@ -386,10 +385,10 @@ void ParticleManager::BuildRealParticle(
     }
   if(ini.simu_mode==2)//gas dynamics
     {
-      char inputfile[]="../cases/1Dshock.ivs";
+      const std::string inputfile ="../cases/1Dshock.ivs";
       int material_no = 1; //number for Air (second line in cfg file (->index 1)
       //check if the .ivs file exists
-      ifstream fin(inputfile, ios::in);
+      ifstream fin(inputfile.c_str(), ios::in);
       if (!fin) {
 	cout<<"Initialtion: Cannot open "<< inputfile <<" \n";
 	std::cout << __FILE__ << ':' << __LINE__ << std::endl;

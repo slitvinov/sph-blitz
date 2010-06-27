@@ -31,7 +31,7 @@ using namespace std;
 Output::Output(Initiation &ini)
 {
   ///copy boundary properties from initiation class
-  strcpy(Project_name, ini.Project_name);
+  Project_name = ini.Project_name;
   number_of_materials = ini.number_of_materials;
   x_cells = ini.x_cells; y_cells = ini.y_cells;
   simu_mode=ini.simu_mode;
@@ -47,16 +47,18 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
 {
   int i, j;
   double Itime;
-  char file_name[50], file_list[11];
+  std::string file_name;
+
+  /// TODO: should be a std::string
+  char file_list[11];
 
   ///<ul><li>produce output file name
   Itime = Time*1.0e6;
-  strcpy(file_name,"./outdata/prtl");
+  file_name = "./outdata/prtl";
   sprintf(file_list, "%.10d", (int)Itime);
-  strcat(file_name, file_list);
-  strcat(file_name, ".dat");
+  file_name = std::string(file_list) + ".dat";
 
-  ofstream out(file_name);
+  ofstream out(file_name.c_str());
   ///<li>defining header for tecplot(plot software)
   out<<"title='particle position' \n";
   if( simu_mode==1)
@@ -125,24 +127,21 @@ cout<<"\n particles on boundary  particle list\n "<<g;
 //--------------------------------------------------------------------------------------------
 void Output::OutRestart(Hydrodynamics &hydro, double Time)
 {
-  int n;
-  char outputfile[25];
+  std::string outputfile;
 
   ///- output non-dimensional data
-  strcpy(outputfile, Project_name);
-  strcat(outputfile,".rst");
-  ofstream out(outputfile);
+  outputfile = Project_name + ".rst";
+  ofstream out(outputfile.c_str());
 
   //calculate the real particle number
-  n = 0;
+  int n = 0;
   for (std::list<spParticle >::iterator pp = hydro.particle_list.begin(); 
        pp != hydro.particle_list.end(); 
        pp++) {
-			
     spParticle prtl = *pp;
     if(prtl->bd == 0) n ++;
-						
   }
+
   ///- out reinitiation Time
   out<<Time<<"\n";
   out<<n<<"\n";

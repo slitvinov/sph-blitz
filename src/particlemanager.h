@@ -24,7 +24,7 @@ namespace blast = boost::numeric::ublas;
 class ParticleManager
 {
   //parameters copied from initiation
-  char Project_name[25]; ///<the project name
+  std::string Project_name; ///<the project name
   int number_of_materials;
   double supportlength; ///<smoothinglenth
   double supportlengthsquare; ///<smoothinglenth
@@ -54,7 +54,7 @@ public:
 
   /// constructor to create ParticleManager without help of Initiation object.
   /// This constructor is used only for testing 
-  ParticleManager(const char Project_name[25], const int number_of_materials, 
+  ParticleManager(const std::string Project_name, const int number_of_materials, 
 		  const double supportlength, const Vec2d box_size, 
 		  const double cell_size, 
 		  const int x_clls, const int y_cells,

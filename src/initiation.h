@@ -19,7 +19,7 @@ class Initiation {
 public:
 	
   ///the project name
-  char Project_name[25];
+  std::string Project_name;
 
   ///\brief number of materials
   ///
@@ -27,7 +27,7 @@ public:
   ///- therefore at least 2 materials should be included
   int number_of_materials;
   ///the global inputfile name: a *.cfg file
-  char inputfile[25];
+  std::string inputfile;
 
   /// \brief initial condition marker:
   ///
@@ -65,7 +65,7 @@ public:
 
   ///constructor
   ///\param *project_name: a pointer to the project name array (the project name is defined as a main-function argument and therefore given as an additional command line element when running the progam) 
-  explicit Initiation(const char *project_name);
+  explicit Initiation(const std::string& project_name);
   ///show information on screen
   void show_information() const;
   ///predict the particle volume and mass

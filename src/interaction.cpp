@@ -39,24 +39,6 @@ double Interaction::epsilon_artVis=0.0;
 //----------------------------------------------------------------------------------------
 //					constructor
 //----------------------------------------------------------------------------------------
-Interaction::Interaction(Initiation &ini) 
-{
-        ///- copy properties from initiation
-	number_of_materials = ini.number_of_materials;
-	supportlength = ini.supportlength;
-	simu_mode = ini.simu_mode;
-	art_vis = ini.art_vis;
-	delta = ini.delta;
-	alpha_artVis=1.0;
-	beta_artVis=2.0;
-	epsilon_artVis=0.1;
-}
-
-
-
-//----------------------------------------------------------------------------------------
-//					constructor
-//----------------------------------------------------------------------------------------
 Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest, 
 			 const Kernel &weight_function, 
 			 const double dstc)

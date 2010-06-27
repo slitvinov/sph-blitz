@@ -7,7 +7,7 @@
 class Output {
 	
 	///the project name
-	char Project_name[25];
+  std::string Project_name;
 
 	int number_of_materials;
 	///the inital particle distance

@@ -94,8 +94,6 @@ int main(int argc, char *argv[]) {
 
   time_t bm_start_time = time(NULL);
 
-
-
   //check if project name specified
   if (argc<2)  {
     cout<<"No Project Name Specified!!\n";
@@ -104,11 +102,23 @@ int main(int argc, char *argv[]) {
   }
 	
   /// initializations
-  Initiation ini(argv[1]); ///- global initialization (by defining an object of class Initiation (initialization "automatically" done at this moment (from .cfg or .rst file) by constructor method of Initiation class. That is by the way the reason why the initiation::initiation method does not figure in the call grapf of the main function (constructors are not shwon there)
+  std::string aux_string  = std::string(argv[1]);
+  Initiation ini(aux_string); ///- global initialization (by defining an object of class Initiation (initialization "automatically" done at this moment (from .cfg or .rst file) by constructor method of Initiation class. That is by the way the reason why the initiation::initiation method does not figure in the call graph of the main function (constructors are not shwon there)
 
-  //a sample particle and interaction for static numbers
+  /// moved initiation of static members to here
+  /// TODO: it should be a separate procedure but not 
+  /// a constructor
   Particle::number_of_materials = ini.number_of_materials;
-  Interaction sample_interaction(ini);
+
+  Interaction::number_of_materials = ini.number_of_materials;
+  Interaction::supportlength = ini.supportlength;
+  Interaction::art_vis = ini.art_vis;
+  Interaction::delta = ini.delta;
+  Interaction::simu_mode = ini.simu_mode;
+  Interaction::alpha_artVis=1.0;
+  Interaction::beta_artVis=2.0;
+  Interaction::epsilon_artVis=0.1;
+
   
 
   // Kernel

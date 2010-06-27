@@ -35,7 +35,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   //make materials
-  char inputfile[25];
+  std::string inputfile;
 
   ///<ul><li>copy properties from initiation class
   number_of_materials = ini.number_of_materials;
@@ -50,8 +50,8 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   ///<li>create the force matrix
 
   ///<li>check if inputfile exists
-  strcpy(inputfile, ini.inputfile);
-  ifstream fin(inputfile, ios::in);
+  inputfile = ini.inputfile;
+  ifstream fin(inputfile.c_str(), ios::in);
   if (!fin) {
     cout<<"Initialtion: Cannot open "<< inputfile <<" \n";
     std::cout << __FILE__ << ':' << __LINE__ << std::endl;

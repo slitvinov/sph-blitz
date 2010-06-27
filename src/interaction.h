@@ -9,19 +9,6 @@
 /// Defines interaction between particles
 class Interaction {
 
-	///total number of materials
-	static int number_of_materials;
-	static double supportlength;
-        ///particle distance
-	static double delta;
-	///artificial viscosity
-	static double art_vis;
-	///simulation mode
-       static int simu_mode;
-       static double alpha_artVis;///<factor for Monaghan Artificial viscosity
-       static double beta_artVis;///<factor for Monaghan Artificial viscosity
-       static double epsilon_artVis;///<factor for Monaghan Artificial viscosity
-
 
 	//particle pair
 	spParticle Org;	///<pointer to particle with larger ID (of particle pair)
@@ -46,9 +33,18 @@ class Interaction {
 	Vec2d gradWij;///kernel gradient
 	Vec2d eij; ///<pair direction from orginal particle to destination particle 
 public:
-	/// constructor
-	Interaction(Initiation &ini);
-	
+	///total number of materials
+	static int number_of_materials;
+	static double supportlength;
+        ///particle distance
+	static double delta;
+	///artificial viscosity
+	static double art_vis;
+	///simulation mode
+       static int simu_mode;
+       static double alpha_artVis;///<factor for Monaghan Artificial viscosity
+       static double beta_artVis;///<factor for Monaghan Artificial viscosity
+       static double epsilon_artVis;///<factor for Monaghan Artificial viscosity
 
 	///constructor
 	Interaction(const spParticle prtl_org, const spParticle prtl_dest, 

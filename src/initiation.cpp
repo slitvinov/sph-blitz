@@ -26,19 +26,18 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //							constructor
 //----------------------------------------------------------------------------------------
-Initiation::Initiation(const char *project_name) {
+Initiation::Initiation(const std::string& project_name) {
 	
-	char Key_word[25];
+  std::string  Key_word;
 
 	//the project name
-	strcpy(Project_name, project_name);
+	Project_name = project_name;
 
 	//the input file name
-	strcpy(inputfile, Project_name);
-	strcat(inputfile, ".cfg");
+	inputfile = Project_name + ".cfg";
 	
 	///<ul><li>check if inputfile exists (if not exit the program)
-	ifstream fin(inputfile, ios::in);
+	ifstream fin(inputfile.c_str(), ios::in);
 	if (!fin) {
 		cout<<"Initialtion: Cannot open "<< inputfile <<" \n";
 		std::cout << __FILE__ << ':' << __LINE__ << std::endl;
@@ -55,44 +54,44 @@ Initiation::Initiation(const char *project_name) {
 		//comparing the key words for simulation mode
 		//1: liquids
 		//2: gas dynamics
-		if(!strcmp(Key_word, "SIMULATION_MODE")) fin>>simu_mode;
+		if(Key_word == "SIMULATION_MODE") fin>>simu_mode;
 
 		//comparing the key words for initial condition input
 		//0: Initialize the initial conditions from .cfg file
 		//1: restart from a .rst file
-		if(!strcmp(Key_word, "INITIAL_CONDITION")) fin>>initial_condition;
+		if(Key_word == "INITIAL_CONDITION") fin>>initial_condition;
 
 		//comparing the key words for domian size
-		if(!strcmp(Key_word, "CELLS")) fin>>x_cells>>y_cells;
+		if(Key_word == "CELLS") fin>>x_cells>>y_cells;
 
 		//comparing the key words for cell size
-		if(!strcmp(Key_word, "CELL_SIZE")) fin>>cell_size;
+		if(Key_word == "CELL_SIZE") fin>>cell_size;
 
 		//comparing the key words for supportlength
-		if(!strcmp(Key_word, "SUPPORT_LENGTH")) fin>>supportlength;
+		if(Key_word == "SUPPORT_LENGTH") fin>>supportlength;
 
 		//comparing the key words for the ratio between cell size and initial particle width
-		if(!strcmp(Key_word, "CELL_RATIO")) fin>>hdelta;
+		if(Key_word == "CELL_RATIO") fin>>hdelta;
 
 		//comparing the key words for the g force
-		if(!strcmp(Key_word, "G_FORCE")) fin>>g_force[0]>>g_force[1];
+		if(Key_word == "G_FORCE") fin>>g_force[0]>>g_force[1];
  
 		//comparing the key words for the artificial viscosity
-		if(!strcmp(Key_word, "ARTIFICIAL_VISCOSITY")) fin>>art_vis;
+		if(Key_word == "ARTIFICIAL_VISCOSITY") fin>>art_vis;
 
 		//comparing the key words for dimension
-		if(!strcmp(Key_word, "DIMENSION")) fin>>_length>>_v>>_rho>>_T;
+		if(Key_word == "DIMENSION") fin>>_length>>_v>>_rho>>_T;
 		
 		//comparing the key words for number ofmaterials
-		if(!strcmp(Key_word, "NUMBER_OF_MATERIALS")) fin>>number_of_materials;
+		if(Key_word == "NUMBER_OF_MATERIALS") fin>>number_of_materials;
 
 		//comparing the key words for timing
-		if(!strcmp(Key_word, "TIMING")) fin>>Start_time>>End_time>>D_time;
+		if(Key_word == "TIMING") fin>>Start_time>>End_time>>D_time;
 
 		//Initialize the initial conditions from .cfg file
 		if (initial_condition==0) {
 			//comparing the key words for the initial state
-			if(!strcmp(Key_word, "INITIAL_STATES")) fin>>U0[0]>>U0[1]>>rho0>>p0>>T0;
+			if(Key_word == "INITIAL_STATES") fin>>U0[0]>>U0[1]>>rho0>>p0>>T0;
 		}
 
 	}
