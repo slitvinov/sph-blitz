@@ -47,7 +47,7 @@ TimeSolver::TimeSolver(Initiation &ini)
 void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 
 					Boundary &boundary,
 					double &Time, double D_time,
-					Initiation &ini, Kernel &weight_function)
+					Initiation &ini, const Kernel &weight_function)
 {
   double integeral_time = 0.0;
 	

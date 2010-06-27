@@ -65,6 +65,6 @@ public:
   void show_information() const;
   ///predict the particle volume and mass
   void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, 
-		  Kernel &weight_function);
+		  const Kernel &weight_function);
 };
 #endif

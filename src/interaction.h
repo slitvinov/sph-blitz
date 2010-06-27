@@ -58,7 +58,7 @@ public:
 	///
         ///Changes: Interaction object\n
         ///Depends on: Interaction Object, Org, Dest
-	void RenewInteraction(Kernel &weight_function);
+	void RenewInteraction(const Kernel &weight_function);
 
 	//pair interaction
 

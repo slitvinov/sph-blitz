@@ -39,15 +39,12 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   std::string inputfile;
 
   ///<ul><li>copy properties from initiation class
-  number_of_materials = ini.number_of_materials;
   gravity = ini.g_force;
-  supportlength = ini.supportlength;
-  simu_mode=ini.simu_mode;
-  delta = ini.delta; delta2 = delta*delta; delta3 = delta2*delta;
+  delta = ini.delta; 
 
   ///<li>create material matrix
   //Material sample_material(ini);  //set satatic numbers
-  materials.resize(number_of_materials);
+  materials.resize(ini.number_of_materials);
   ///<li>create the force matrix
 
   ///<li>check if inputfile exists
@@ -71,7 +68,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
 
     if(Key_word == "MATERIALS")   {
       ///<li>if  key word material: read all materials (from .cfg file)
-      for(int k = 0; k < number_of_materials; k++) {
+      for(int k = 0; k < ini.number_of_materials; k++) {
 	//the material number
 	///<ul><li>save each one of them in materials matrix
 	
@@ -91,15 +88,15 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   fin.close();
  	
   ///<li>initialize parameters for time step and the artificial compressiblity
-  viscosity_max = 0.0; 
-  for(int k = 0; k < number_of_materials; k++) {
+  double viscosity_max = 0.0; 
+  for(int k = 0; k < ini.number_of_materials; k++) {
     viscosity_max = AMAX1(viscosity_max, materials[k]->nu);
   }
-  dt_g_vis = AMIN1(sqrt(delta/v_abs(gravity)), 0.5*delta2/viscosity_max);
+  dt_g_vis = AMIN1(sqrt(delta/v_abs(gravity)), 0.5*delta*delta/viscosity_max);
 
   ///<li>determine the artificial compressiblity
   const double sound = AMAX1(v_abs(ini.g_force), viscosity_max);
-  for(int k = 0; k < number_of_materials; k++) materials[k]->Set_b0(sound);
+  for(int k = 0; k < ini.number_of_materials; k++) materials[k]->Set_b0(sound);
 
   ///<li>biuld the real particles
   particles.BuildRealParticle(materials, particle_list, ini);
@@ -109,7 +106,8 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
 //----------------------------------------------------------------------------------------
 //						Build new interactions
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::BuildInteractions(ParticleManager &particles, Kernel &weight_function)
+void Hydrodynamics::BuildInteractions(ParticleManager &particles, 
+				      const Kernel &weight_function)
 {
   ///- obtain the interaction pairs by just calling the particles BuildInteraction method
   particles.BuildInteraction(interaction_list, particle_list, weight_function);
@@ -118,7 +116,7 @@ void Hydrodynamics::BuildInteractions(ParticleManager &particles, Kernel &weight
 //----------------------------------------------------------------------------------------
 // update new parameters in pairs interaction_list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateInteractions(Kernel &weight_function)
+void Hydrodynamics::UpdateInteractions(const Kernel &weight_function)
 {
   ///- iterate the interaction list
   for (std::list<spInteraction>::const_iterator p = interaction_list.begin();
@@ -135,7 +133,7 @@ void Hydrodynamics::UpdateInteractions(Kernel &weight_function)
 //----------------------------------------------------------------------------------------
 //		summation for particles density with updating interaction list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateDensity(ParticleManager &particles, Kernel &weight_function, Initiation &ini)
+void Hydrodynamics::UpdateDensity(ParticleManager &particles, const Kernel &weight_function, Initiation &ini)
 {	
 
   ///- obtain the interaction pairs
@@ -182,7 +180,7 @@ void Hydrodynamics::UpdateDensity(Initiation &ini, const Kernel& weight_function
 //----------------------------------------------------------------------------------------
 //				calculate interaction with updating interaction list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, Kernel &weight_function)
+void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, const Kernel &weight_function)
 {
   ///- initiate change rate of each real particle by calling ZerpChangeRate()
   ZeroChangeRate();
@@ -354,7 +352,7 @@ void Hydrodynamics::UpdateState(Initiation &ini)
 //----------------------------------------------------------------------------------------
 //								calculate partilce volume
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateVolume(ParticleManager &particles, Kernel &weight_function)
+void Hydrodynamics::UpdateVolume(ParticleManager &particles, const Kernel &weight_function)
 {
   double reciprocV; //the inverse of volume or volume
 
@@ -408,8 +406,7 @@ double Hydrodynamics::GetTimestep()
     rho_max = AMAX1(rho_max, prtl->rho);
   }
 
-  const double dt = AMIN1(sqrt(0.5*(rho_min + rho_max))*dt_surf, dt_g_vis);
-  return  0.25*AMIN1(dt, delta/(Cs_max + V_max));
+  return  0.25*AMIN1(dt_g_vis, delta/(Cs_max + V_max));
 }
 //----------------------------------------------------------------------------------------
 //						the redictor and corrector method: predictor
@@ -526,46 +523,5 @@ void Hydrodynamics::Corrector_summation(double dt)
 
       tx2tFile.close();
     }
- 
-
-}
-//----------------------------------------------------------------------------------------
-//					test assign random particle velocity, no density updating
-//----------------------------------------------------------------------------------------
-void Hydrodynamics::MovingTest()
-{
-  //a random double between 0.0 and 1.0
-  Vec2d test_v;
-  double f_rdmx = (float)RAND_MAX;
-	
-  //iterate the partilce list
-  for (std::list<spParticle>::const_iterator p = particle_list.begin(); 
-       p != particle_list.end(); 
-       p++) {
-	
-    spParticle prtl = *p;
-    if(prtl->bd == 0) {
-      prtl->U_I = prtl->U;
-      prtl->U =  prtl->U + prtl->U*0.1*((float)rand() - f_rdmx / 2.0) / f_rdmx;
-    }
-  }
-}
-//----------------------------------------------------------------------------------------
-//								test the conservation properties
-//----------------------------------------------------------------------------------------
-double Hydrodynamics::ConservationTest()
-{
-  Vec2d sU = 0.0;
-  Vec2d U = 0.0; 
-  //iterate the partilce list
-  for (std::list<spParticle>::const_iterator p = particle_list.begin(); 
-       p != particle_list.end(); 
-       p++) {
-    const spParticle prtl = *p;
-    sU = sU + prtl->dUdt;
-    U = U + prtl->U;
-  }
-
-  return v_abs(U);
 }
 

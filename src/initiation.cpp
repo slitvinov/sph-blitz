@@ -156,7 +156,7 @@ void Initiation::show_information() const
 //					predict the particle volume and mass
 //----------------------------------------------------------------------------------------
 void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, 
-			    Kernel &weight_function)
+			    const Kernel &weight_function)
 {
   ///mass initiation is different of 1DSPH code: 
   ///here: mass is calculated by summing up the kernel function contributions for easch particle, which gives a kind of the inverse volume taken by each particle (not perfectly true at the discontinuity). together with rho (from initialization) a mass for each particle can be obtained.

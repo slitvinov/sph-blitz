@@ -115,7 +115,7 @@ void Interaction::NewInteraction(const spParticle prtl_org, const spParticle prt
 //----------------------------------------------------------------------------------------
 // Changes: Interaction object
 // Depends on: Interaction Object, Org, Dest
-void Interaction::RenewInteraction(Kernel &weight_function)
+void Interaction::RenewInteraction(const Kernel &weight_function)
 {
 	///- calculate pair parameters (weight functions, shear- and bulk-)
 	rij = v_abs(Org->R - Dest->R);

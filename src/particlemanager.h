@@ -80,7 +80,7 @@ public:
   ///build the interaction (particle pair) list
   void BuildInteraction(std::list<spInteraction> &interactions, 
 			std::list<spParticle > &particle_list, 
-			Kernel &weight_function);
+			const Kernel &weight_function);
 };
 
 #endif //PARTICLEMANAGER_H

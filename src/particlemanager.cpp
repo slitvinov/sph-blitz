@@ -191,7 +191,7 @@ std::list<spParticle> ParticleManager::BuildNNP(Vec2d &point)
 //----------------------------------------------------------------------------------------
 void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions, 
 				       std::list<spParticle > &particle_list, 
-				       Kernel &weight_function)
+				       const Kernel &weight_function)
 {
   //clear the list first
   interactions.clear();
