@@ -86,9 +86,6 @@ Initiation::Initiation(const std::string& project_name) {
 		//comparing the key words for the artificial viscosity
 		if(Key_word == "ARTIFICIAL_VISCOSITY") fin>>art_vis;
 
-		//comparing the key words for dimension
-		if(Key_word == "DIMENSION") fin>>_length>>_v>>_rho>>_T;
-		
 		//comparing the key words for number ofmaterials
 		if(Key_word == "NUMBER_OF_MATERIALS") fin>>number_of_materials;
 
@@ -134,8 +131,6 @@ void Initiation::show_information() const
   cout<<"The ratio between cell size and initial particle width is "<<hdelta<<"\n";
   cout<<"The initial particle width is "<<delta<<" micrometers\n";
   cout<<"The g force is "<<g_force[0]<<" m/s^2 x "<<g_force[1]<<" m/s^2 \n";
-  cout<<"The dimensionless reference length, speed, density and temperature are \n"
-      <<_length<<" micrometer, "<<_v<<" m/s, "<<_rho<<" kg/m^3, "<<_T<<" K\n";
 
 	///- output the timing information on screen
   cout<<"\nInitialtion: Time controlling:\nStarting time is "<<Start_time<<" \n";
@@ -169,7 +164,7 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
   ///The mass for each particle  stays constant during the simuation.
 
   /// <ul><li>iterate particles on the particle list
-  for (std::list<spParticle >::iterator p = hydro.particle_list.begin(); 
+  for (std::list<spParticle >::const_iterator p = hydro.particle_list.begin(); 
        p != hydro.particle_list.end(); 
        p++) {
 					

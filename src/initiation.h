@@ -10,12 +10,6 @@ class Kernel;
 
 ///\brief Initiates the simulation
 class Initiation {
-  //reference length, speed, and density for non-dimensionalization
-  double _length;///<reference length for non dimensional value 
-  double _v;///<reference speed for non dimensional value
-  double _rho;///<reference density for non dimensional value
-  double _T;///<reference temperature for non dimensional value
-
 public:
 	
   ///the project name
@@ -26,6 +20,7 @@ public:
   ///- the no. zero material is always the wall
   ///- therefore at least 2 materials should be included
   int number_of_materials;
+
   ///the global inputfile name: a *.cfg file
   std::string inputfile;
 

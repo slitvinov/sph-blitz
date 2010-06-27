@@ -120,7 +120,7 @@ void ParticleManager::UpdateCellLinkedLists()
     for(int j = 0; j < y_clls; j++) { 
 
       ///<ul><li>iterate this cell list
-      std::list<spParticle >::iterator p = cell_lists(i,j).begin(); 
+      std::list<spParticle >::iterator p = cell_lists(i,j).begin();
       ///<li>if the list is empty or the node position is at the end <b>!!!Question!!! is this comment right? would it not rather be...if list NOT empty and NOT at the end </b>
       while(p != cell_lists(i,j).end()) {
 	///<ul><li>check the position of the real particle
@@ -167,7 +167,7 @@ std::list<spParticle> ParticleManager::BuildNNP(Vec2d &point)
       for(int j = m - 1; j <= m + 1; j++) { 
 	if(i < x_clls && j < y_clls && i >= 0 && j >= 0) {
 	  ///<ul><li>iterate this cell list
-	  for (std::list<spParticle >::iterator p = cell_lists(i,j).begin(); 
+	  for (std::list<spParticle >::const_iterator p = cell_lists(i,j).begin(); 
 	       p != cell_lists(i,j).end(); 
 	       p++) {
 
@@ -198,7 +198,7 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
   
   cout<<"\n Am in build interaction control point 2 \n";
   ///<ul><li>iterate particles on the particle list
-  for (std::list<spParticle >::iterator p = particle_list.begin(); 
+  for (std::list<spParticle >::const_iterator p = particle_list.begin(); 
        p != particle_list.end();
        p++) {
       /// <ul><li> choose origin particle 
@@ -215,7 +215,7 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
 	  for(int k = i - 1; k <= i + 1; k++) 
 	    for(int m = j - 1; m <= j + 1; m++) { 
 	      ///<ul><li>iterate this cell list
-	      for (std::list<spParticle >::iterator p1 = cell_lists(k,m).begin(); 
+	      for (std::list<spParticle >::const_iterator p1 = cell_lists(k,m).begin(); 
 		   p1 != cell_lists(k,m).end();
 		   p1++) {
 		// destination particle
@@ -247,7 +247,7 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
   if (txtFile.is_open())
     {
 
-      for (std::list<spInteraction>::iterator  p = interactions.begin(); 
+      for (std::list<spInteraction>::const_iterator  p = interactions.begin(); 
 	   p!=interactions.end();
 	   p++)
 	{
