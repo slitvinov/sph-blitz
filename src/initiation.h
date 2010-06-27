@@ -10,10 +10,6 @@ class Kernel;
 
 ///\brief Initiates the simulation
 class Initiation {
-	
-  friend class Material;
-  friend class Hydrodynamics;
-
   //reference length, speed, and density for non-dimensionalization
   double _length;///<reference length for non dimensional value 
   double _v;///<reference speed for non dimensional value
@@ -86,7 +82,6 @@ public:
   double non_dms_length(const double length) const;///<a non dimensionalize method
   Vec2d non_dms_box_size(const Vec2d box_size) const;///<a non dimensionalize method
   double non_dms_velocity(const double velocity) const;///<a non dimensionalize method
-  double non_dms_kinetic_viscosity(const double nu) const;///<a non dimensionalize method
   Vec2d non_dms_velocity(const Vec2d velocity) const;///<a non dimensionalize method
   double non_dms_acceleration(const double acceleration) const ;///<a non dimensionalize method
   Vec2d non_dms_acceleration(const Vec2d acceleration) const ;///<a non dimensionalize method

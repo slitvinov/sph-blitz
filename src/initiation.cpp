@@ -317,13 +317,6 @@ double Initiation::non_dms_viscosity(const double mu) const
 	return mu/_v/_rho/_length;
 }
 //-------------------------------------------------------
-//			Non_dimensionalize kinetic viscosity
-//-------------------------------------------------------
-double Initiation::non_dms_kinetic_viscosity(const double nu) const
-{
-	return nu/_v/_length;
-}
-//-------------------------------------------------------
 //			Non_dimensionalize heat ratio
 //-------------------------------------------------------
 double Initiation::non_dms_heat_ratio(const double cv) const
