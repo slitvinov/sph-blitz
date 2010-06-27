@@ -34,8 +34,6 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
   : bd(0),
     mtl(material)
 {
-  // only 2D position is accepted
-  assert(position.size() == 2);
 
   ///- increase the total particle number
   ID_max++;

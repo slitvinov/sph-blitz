@@ -4,7 +4,6 @@
 /// \brief particle manager
 
 #include "vec2d.h"
-#include "dllist.h"
 #include "particle.h"
 #include <list>
 
@@ -51,9 +50,9 @@ public:
         int y_clls;///<linked cell matrix size y-direction
 
 	//lists
-	blast::matrix<Llist<spParticle > > cell_lists; ///<cell linked list in 2-d array
+	blast::matrix<std::list<spParticle > > cell_lists; ///<cell linked list in 2-d array
 	
-	Llist<spParticle > NNP_list; ///<list for the nearest neighbor particles
+	std::list<spParticle > NNP_list; ///<list for the nearest neighbor particles
 
   /// default constructor
   ParticleManager(Initiation &ini);
@@ -73,7 +72,7 @@ public:
 
 	///buid the initial particles and the linked lists
   void BuildRealParticle(vecMaterial materials, 
-			 Llist<spParticle >& particle_list, 
+			 std::list<spParticle >& particle_list, 
 			 Initiation &ini);
 	void BuildRealParticle(Hydrodynamics &hydro);
 
@@ -84,8 +83,8 @@ public:
 	void BuildNNP(Vec2d &point);
 
 	///build the interaction (particle pair) list
-	void BuildInteraction(Llist<spInteraction> &interactions, 
-			      Llist<spParticle > &particle_list, 
+	void BuildInteraction(std::list<spInteraction> &interactions, 
+			      std::list<spParticle > &particle_list, 
 			      Kernel &weight_function);
 };
 

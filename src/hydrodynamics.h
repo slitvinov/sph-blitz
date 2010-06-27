@@ -7,7 +7,6 @@
 #include <boost/numeric/ublas/matrix.hpp>
 //#pragma GCC diagnostic warning "-Weffc++"
 #include "material.h"
-#include "dllist.h"
 #include "vec2d.h"
 #include "glbtype.h"
 #include <list>
@@ -29,7 +28,7 @@ class Hydrodynamics
 	double dt_g_vis, dt_surf;
 
 	///the interaction (particle pair) list
-	Llist<spInteraction> interaction_list;
+	std::list<spInteraction> interaction_list;
 
 	//for time step 
 	double viscosity_max;///<for first time step
@@ -41,7 +40,7 @@ public:
 	/// material class
 	vecMaterial materials;
 	///the interaction force used
-	Llist<spParticle> particle_list; ///<particle list for all particles
+	std::list<spParticle> particle_list; ///<particle list for all particles
 
 	///constructor
 	Hydrodynamics(ParticleManager &particles, Initiation &ini);

@@ -103,11 +103,11 @@ void Boundary::show_information(Initiation &ini)
 void Boundary::RunAwayCheck(Hydrodynamics &hydro)
 {
   ///- iterate the partilce list
-  for (LlistNode<spParticle >* p = hydro.particle_list.first(); 
-       !hydro.particle_list.isEnd(p); 
-       p = hydro.particle_list.next(p)) {
+   for (std::list<spParticle>::iterator  p = hydro.particle_list.begin(); 
+       p != hydro.particle_list.end(); 
+       p++) {
 				
-    spParticle prtl = *hydro.particle_list.retrieve(p);
+    spParticle prtl = *p;
 
     if(fabs(prtl->R[0]) >= 2.0*box_size[0] || fabs(prtl->R[1]) >= 2.0*box_size[1]) {
       cout<<"Boundary: the particles run out too far away from the domain! \n";
@@ -235,12 +235,12 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
       /// <li>the rigid wall conditions 	
     if(xBl == 0 || xBl == 2) {
       //iterate the correspeond cell linked list
-      for (LlistNode<spParticle >* p10 = particles.cell_lists(1,j).first(); 
-	   !particles.cell_lists(1,j).isEnd(p10); 
-	   p10 = particles.cell_lists(1,j).next(p10)) {
+      for (std::list<spParticle>::iterator  p10 = particles.cell_lists(1,j).begin(); 
+	   p10!=particles.cell_lists(1,j).end(); 
+	   p10++) {
 				
 	//the original real particle
-	spParticle prtl_old = * (particles.cell_lists(1,j).retrieve(p10) );
+	spParticle prtl_old = *p10;
 	spParticle prtl = boost::make_shared<Particle >(prtl_old, hydro.materials[0]);
 
 	//boundary condition
@@ -249,21 +249,21 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 	//in which cell
 	prtl->cell_i = 0; prtl->cell_j = j; 
 	//insert its poistion on the particle list
-	boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+	boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists(0,j).insert(particles.cell_lists(0,j).first(), &prtl);
+	particles.cell_lists(0,j).insert(particles.cell_lists(0,j).begin(), prtl);
       }
     }
 		
       /// <li>the symmetry conditions 	
     if(xBl == 3) {
       //iterate the correspeond cell linked list
-      for (LlistNode<spParticle>* p13 = particles.cell_lists(1,j).first(); 
-	   !particles.cell_lists(1,j).isEnd(p13); 
-	   p13 = particles.cell_lists(1,j).next(p13)) {
+      for (std::list<spParticle>::iterator  p13 = particles.cell_lists(1,j).begin(); 
+	   p13 != particles.cell_lists(1,j).end(); 
+	   p13++) {
 				
 	//the original real particle
-	spParticle prtl_old = *(particles.cell_lists(1,j).retrieve(p13));
+	spParticle prtl_old = *p13;
 	spParticle prtl = boost::make_shared<Particle>(prtl_old);
 
 	//boundary condition
@@ -272,21 +272,21 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 	//in which cell
 	prtl->cell_i = 0; prtl->cell_j = j; 
 	//insert its poistion on the particle list
-	boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+	boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists(0,j).insert(particles.cell_lists(0,j).first(), &prtl);
+	particles.cell_lists(0,j).insert(particles.cell_lists(0,j).begin(), prtl);
       }
     }
 
       /// <li>the perodic conditions </ul>	
     if(xBl == 1) {
       //iterate the correspeond cell linked list
-      for (LlistNode<spParticle >* p11 = particles.cell_lists(x_clls - 2,j).first(); 
-	   !particles.cell_lists(x_clls - 2,j).isEnd(p11); 
-	   p11 = particles.cell_lists(x_clls - 2,j).next(p11)) {
+      for (std::list<spParticle>::iterator  p11 = particles.cell_lists(x_clls - 2,j).begin(); 
+	   p11 != particles.cell_lists(x_clls - 2,j).end(); 
+	   p11++) {
 					
 	//the original real particle
-	spParticle prtl_old = *( particles.cell_lists(x_clls - 2,j).retrieve(p11) );
+	spParticle prtl_old = *p11;
 	spParticle prtl = boost::make_shared<Particle>(prtl_old);
 
 	//boundary condition
@@ -295,9 +295,9 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 	//in which cell
 	prtl->cell_i = 0; prtl->cell_j = j; 
 	//insert its poistion on the particle list
-	boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+	boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists(0,j).insert(particles.cell_lists(0,j).first(), &prtl);
+	particles.cell_lists(0,j).insert(particles.cell_lists(0,j).begin(), prtl);
       }
     }
 
@@ -308,12 +308,12 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     /// <ul><li>the rigid wall conditions 	
     if(xBr == 0 || xBr == 2) {
       //iterate the correspeond cell linked list
-      for (LlistNode<spParticle >* p20 = particles.cell_lists(x_clls - 2,j).first(); 
-	   !particles.cell_lists(x_clls - 2,j).isEnd(p20); 
-	   p20 = particles.cell_lists(x_clls - 2,j).next(p20)) {
+      for (std::list<spParticle>::iterator  p20 = particles.cell_lists(x_clls - 2,j).begin(); 
+	   p20 != particles.cell_lists(x_clls - 2,j).end(); 
+	   p20++) {
 					
 	//the original real particle
-	spParticle prtl_old = *( particles.cell_lists(x_clls - 2,j).retrieve(p20) );
+	spParticle prtl_old = *p20;
 	spParticle prtl = boost::make_shared<Particle>(prtl_old, hydro.materials[0]);
 
 	//boundary condition
@@ -322,21 +322,21 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 	//in which cell
 	prtl->cell_i = x_clls - 1; prtl->cell_j = j; 
 	//insert its poistion on the particle list
-	boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+	boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists(x_clls- 1,j).insert(particles.cell_lists(x_clls - 1,j).first(), &prtl);
+	particles.cell_lists(x_clls- 1,j).insert(particles.cell_lists(x_clls - 1,j).begin(), prtl);
       }
     }
 		
     /// <li>the symmetry conditions 	
     if(xBr == 3) {
       //iterate the correspeond cell linked list
-      for (LlistNode<spParticle >* p23 = particles.cell_lists(x_clls - 2,j).first(); 
-	   !particles.cell_lists(x_clls - 2,j).isEnd(p23); 
-	   p23 = particles.cell_lists(x_clls - 2,j).next(p23)) {
+      for (std::list<spParticle>::iterator  p23 = particles.cell_lists(x_clls - 2,j).begin(); 
+	   p23 != particles.cell_lists(x_clls - 2,j).end(); 
+	   p23++) {
 					
 	//the original real particle
-	spParticle prtl_old = *( particles.cell_lists(x_clls - 2,j).retrieve(p23) );
+	spParticle prtl_old = *p23;
 	spParticle prtl = boost::make_shared<Particle>(prtl_old);
 
 	//boundary condition
@@ -345,21 +345,21 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 	//in which cell
 	prtl->cell_i = x_clls - 1; prtl->cell_j = j; 
 	//insert its poistion on the particle list
-	boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+	boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists(x_clls- 1,j).insert(particles.cell_lists(x_clls - 1,j).first(), &prtl);
+	particles.cell_lists(x_clls- 1,j).insert(particles.cell_lists(x_clls - 1,j).begin(), prtl);
       }
     }
 
       /// <li>the perodic conditions</ul>	
     if(xBr == 1) {
       //iterate the correspeond cell for real and wall partilces
-      for (LlistNode<spParticle >* p21 = particles.cell_lists(1,j).first(); 
-	   !particles.cell_lists(1,j).isEnd(p21); 
-	   p21 = particles.cell_lists(1,j).next(p21)) {
+      for (std::list<spParticle>::iterator  p21 = particles.cell_lists(1,j).begin(); 
+	   p21 != particles.cell_lists(1,j).end(); 
+	   p21++) {
 					
 	//the original real particle
-	spParticle prtl_old = *( particles.cell_lists(1,j).retrieve(p21) );
+	spParticle prtl_old = *p21;
 	spParticle prtl = boost::make_shared<Particle>(prtl_old);
 
 	//boundary condition
@@ -368,9 +368,9 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 	//in which cell
 	prtl->cell_i = x_clls - 1; prtl->cell_j = j; 
 	//insert its poistion on the particle list
-	boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+	boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists(x_clls- 1,j).insert(particles.cell_lists(x_clls - 1,j).first(), &prtl);
+	particles.cell_lists(x_clls- 1,j).insert(particles.cell_lists(x_clls - 1,j).begin(), prtl);
       }
     }
   }
@@ -385,12 +385,12 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     /// <ul><li>the rigid wall conditions 	
     if(yBd == 0 || yBd == 2) {
       //iterate the correspeond cell linked list
-      for (LlistNode<spParticle >* p30 = particles.cell_lists(i,1).first(); 
-	   !particles.cell_lists(i,1).isEnd(p30); 
-	   p30 = particles.cell_lists(i,1).next(p30)) {
+      for (std::list<spParticle>::iterator  p30 = particles.cell_lists(i,1).begin(); 
+	   p30 != particles.cell_lists(i,1).end(); 
+	   p30++) {
 					
 	//the original real particle
-	spParticle prtl_old = *( particles.cell_lists(i,1).retrieve(p30) );
+	spParticle prtl_old = *p30;
 	spParticle prtl = boost::make_shared<Particle>(prtl_old, hydro.materials[0]);
 
 	//boundary condition
@@ -399,21 +399,21 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 	//in which cell
 	prtl->cell_i = i; prtl->cell_j = 0; 
 	//insert its poistion on the image particle list
-	boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+	boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists(i,0).insert(particles.cell_lists(i,0).first(), &prtl);
+	particles.cell_lists(i,0).insert(particles.cell_lists(i,0).begin(), prtl);
       }
     }
 
     /// <li>the symmetry conditions 	
     if(yBd == 3) {
       //iterate the correspeond cell linked list
-      for (LlistNode<spParticle >* p33 = particles.cell_lists(i,1).first(); 
-	   !particles.cell_lists(i,1).isEnd(p33); 
-	   p33 = particles.cell_lists(i,1).next(p33)) {
+      for (std::list<spParticle>::iterator  p33 = particles.cell_lists(i,1).begin(); 
+	   p33 != particles.cell_lists(i,1).end(); 
+	   p33++) {
 					
 	//the original real particle
-	spParticle prtl_old = *( particles.cell_lists(i,1).retrieve(p33) );
+	spParticle prtl_old = *p33;
 	spParticle prtl = boost::make_shared<Particle>(prtl_old);
 
 	//boundary condition
@@ -422,21 +422,21 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 	//in which cell
 	prtl->cell_i = i; prtl->cell_j = 0; 
 	//insert its poistion on the image particle list
-	boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+	boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists(i,0).insert(particles.cell_lists(i,0).first(), &prtl);
+	particles.cell_lists(i,0).insert(particles.cell_lists(i,0).begin(), prtl);
       }
     }
 
     /// <li>the perodic conditions</ul>	
     if(yBd == 1) {
       //iterate the correspeond cell for real and wall partilces
-      for (LlistNode<spParticle >* p31 = particles.cell_lists(i,y_clls - 2).first(); 
-	   !particles.cell_lists(i,y_clls - 2).isEnd(p31); 
-	   p31 = particles.cell_lists(i,y_clls - 2).next(p31)) {
+      for (std::list<spParticle>::iterator  p31 = particles.cell_lists(i,y_clls - 2).begin(); 
+	   p31 != particles.cell_lists(i,y_clls - 2).end(); 
+	   p31++) {
 					
 	//the original real particle
-	spParticle prtl_old = *( particles.cell_lists(i,y_clls - 2).retrieve(p31) );
+	spParticle prtl_old = *p31;
 	spParticle prtl = boost::make_shared<Particle>(prtl_old);
 
 	//boundary condition
@@ -445,9 +445,9 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 	//in which cell
 	prtl->cell_i = i; prtl->cell_j = 0; 
 	//insert its poistion on the particle list
-	boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+	boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists(i,0).insert(particles.cell_lists(i,0).first(), &prtl);
+	particles.cell_lists(i,0).insert(particles.cell_lists(i,0).begin(), prtl);
       }
     }
   }
@@ -460,12 +460,12 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
       /// <ul><li>the rigid wall conditions 	
     if(yBu == 0 || yBu == 2) {
       //iterate the correspeond cell for real and wall partilces
-      for (LlistNode<spParticle >* p40 = particles.cell_lists(i,y_clls - 2).first(); 
-	   !particles.cell_lists(i,y_clls - 2).isEnd(p40); 
-	   p40 = particles.cell_lists(i,y_clls - 2).next(p40)) {
+      for (std::list<spParticle>::iterator  p40 = particles.cell_lists(i,y_clls - 2).begin(); 
+	   p40 != particles.cell_lists(i,y_clls - 2).end(); 
+	   p40++) {
 					
 	//the original real particle
-	spParticle prtl_old = *( particles.cell_lists(i,y_clls - 2).retrieve(p40) );
+	spParticle prtl_old = *p40;
 	spParticle prtl = boost::make_shared<Particle>(prtl_old, hydro.materials[0]);
 
 	//boundary condition
@@ -474,21 +474,21 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 	//in which cell
 	prtl->cell_i = i; prtl->cell_j = y_clls - 1; 
 	//insert its poistion on the particle list
-	boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+	boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists(i,y_clls- 1).insert(particles.cell_lists(i,y_clls - 1).first(), &prtl);
+	particles.cell_lists(i,y_clls- 1).insert(particles.cell_lists(i,y_clls - 1).begin(), prtl);
       }
     }
 	
     /// <li>the symmetry conditions 	
     if(yBu == 3) {
       //iterate the correspeond cell for real and wall partilces
-      for (LlistNode<spParticle >* p43 = particles.cell_lists(i,y_clls - 2).first(); 
-	   !particles.cell_lists(i,y_clls - 2).isEnd(p43); 
-	   p43 = particles.cell_lists(i,y_clls - 2).next(p43)) {
+      for (std::list<spParticle>::iterator  p43 = particles.cell_lists(i,y_clls - 2).begin(); 
+	   p43 != particles.cell_lists(i,y_clls - 2).end(); 
+	   p43++) {
 					
 	//the original real particle
-	spParticle prtl_old = *( particles.cell_lists(i,y_clls - 2).retrieve(p43) );
+	spParticle prtl_old = *p43;
 	spParticle prtl = boost::make_shared<Particle>(prtl_old);
 
 	//boundary condition
@@ -497,21 +497,21 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 	//in which cell
 	prtl->cell_i = i; prtl->cell_j = y_clls - 1; 
 	//insert its poistion on the particle list
-	boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+	boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists(i,y_clls- 1).insert(particles.cell_lists(i,y_clls - 1).first(), &prtl);
+	particles.cell_lists(i,y_clls- 1).insert(particles.cell_lists(i,y_clls - 1).begin(), prtl);
       }
     }
 
     /// <li>the perodic conditions</ul></ul>	
     if(yBu == 1) {
       //iterate the correspeond cell for real and wall partilces
-      for (LlistNode<spParticle >* p41 = particles.cell_lists(i,1).first(); 
-	   !particles.cell_lists(i,1).isEnd(p41); 
-	   p41 = particles.cell_lists(i,1).next(p41)) {
+      for (std::list<spParticle>::iterator  p41 = particles.cell_lists(i,1).begin(); 
+	   p41 != particles.cell_lists(i,1).end(); 
+	   p41++) {
 					
 	//the original real particle
-	spParticle prtl_old = *( particles.cell_lists(i,1).retrieve(p41) );
+	spParticle prtl_old = *p41;
 	spParticle prtl = boost::make_shared<Particle>(prtl_old);
 
 	//boundary condition
@@ -520,9 +520,9 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 	//in which cell
 	prtl->cell_i = i; prtl->cell_j = y_clls - 1; 
 	//insert its poistion on the particle list
-	boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+	boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
 	//insert the position into corresponding cell list
-	particles.cell_lists(i,y_clls- 1).insert(particles.cell_lists(i,y_clls - 1).first(), &prtl);
+	particles.cell_lists(i,y_clls- 1).insert(particles.cell_lists(i,y_clls - 1).begin(), prtl);
       }
     }
   }
@@ -535,12 +535,12 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     //clear cell linked list data (particles)
     particles.cell_lists(0,0).clear();
     //iterate the correspeond cell linked list
-    for (LlistNode<spParticle >* p130 = particles.cell_lists(1,1).first(); 
-	 !particles.cell_lists(1,1).isEnd(p130); 
-	 p130 = particles.cell_lists(1,1).next(p130)) {
+    for (std::list<spParticle>::iterator  p130 = particles.cell_lists(1,1).begin(); 
+	 p130 != particles.cell_lists(1,1).end(); 
+	 p130++) {
 					
       //the original real particle
-      spParticle prtl_old = *( particles.cell_lists(1,1).retrieve(p130) );
+      spParticle prtl_old = *p130;
       spParticle prtl = boost::make_shared<Particle>(prtl_old, hydro.materials[0]);
 
       //boundary condition
@@ -549,9 +549,9 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
       //in which cell
       prtl->cell_i = 0; prtl->cell_j = 0; 
       //insert its poistion on the image particle list
-      boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+      boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists(0,0).insert(particles.cell_lists(0,0).first(), &prtl);
+      particles.cell_lists(0,0).insert(particles.cell_lists(0,0).begin(), prtl);
     }
   }
 
@@ -560,12 +560,12 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     //clear cell linked list data (particles)
     particles.cell_lists(0,0).clear();
     //iterate the correspeond cell linked list
-    for (LlistNode<spParticle >* p130 = particles.cell_lists(1,1).first(); 
-	 !particles.cell_lists(1,1).isEnd(p130); 
-	 p130 = particles.cell_lists(1,1).next(p130)) {
+    for (std::list<spParticle>::iterator  p130 = particles.cell_lists(1,1).begin(); 
+	 p130 != particles.cell_lists(1,1).end(); 
+	 p130++) {
 					
       //the original real particle
-      spParticle prtl_old = *( particles.cell_lists(1,1).retrieve(p130) );
+      spParticle prtl_old = *p130;
       spParticle prtl = boost::make_shared<Particle>(prtl_old);
 
       //boundary condition
@@ -574,9 +574,9 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
       //in which cell
       prtl->cell_i = 0; prtl->cell_j = 0; 
       //insert its poistion on the image particle list
-      boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+      boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists(0,0).insert(particles.cell_lists(0,0).first(), &prtl);
+      particles.cell_lists(0,0).insert(particles.cell_lists(0,0).begin(), prtl);
     }
   }
 	
@@ -585,12 +585,12 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     //clear cell linked list data (particles)
     particles.cell_lists(0,0).clear();
     //iterate the correspeond cell for real and wall partilces
-    for (LlistNode<spParticle >* p131 = particles.cell_lists(x_clls - 2,y_clls - 2).first(); 
-	 !particles.cell_lists(x_clls - 2,y_clls - 2).isEnd(p131); 
-	 p131 = particles.cell_lists(x_clls - 2,y_clls - 2).next(p131)) {
+    for (std::list<spParticle>::iterator  p131 = particles.cell_lists(x_clls - 2,y_clls - 2).begin(); 
+	 p131 != particles.cell_lists(x_clls - 2,y_clls - 2).end(); 
+	 p131++) {
 					
       //the original real particle
-      spParticle prtl_old = *( particles.cell_lists(x_clls - 2,y_clls - 2).retrieve(p131) );
+      spParticle prtl_old = *p131;
       spParticle prtl = boost::make_shared<Particle>(prtl_old);
 
       //boundary condition
@@ -599,9 +599,9 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
       //in which cell
       prtl->cell_i = 0; prtl->cell_j = 0; 
       //insert its poistion on the particle list
-      boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+      boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists(0,0).insert(particles.cell_lists(0,0).first(), &prtl);
+      particles.cell_lists(0,0).insert(particles.cell_lists(0,0).begin(), prtl);
     }
   }
 		
@@ -612,12 +612,12 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     //clear the linked list data (particles)
     particles.cell_lists(0,y_clls - 1).clear();
     //iterate the correspeond cell for real and wall partilces
-    for (LlistNode<spParticle >* p140 = particles.cell_lists(1,y_clls - 2).first(); 
-	 !particles.cell_lists(1,y_clls - 2).isEnd(p140); 
-	 p140 = particles.cell_lists(1,y_clls - 2).next(p140)) {
+    for (std::list<spParticle>::iterator  p140 = particles.cell_lists(1,y_clls - 2).begin(); 
+	 p140 != particles.cell_lists(1,y_clls - 2).end(); 
+	 p140++) {
 				
       //the original real particle
-      spParticle prtl_old = *( particles.cell_lists(1,y_clls - 2).retrieve(p140) );
+      spParticle prtl_old = *p140;
       spParticle prtl = boost::make_shared<Particle>(prtl_old, hydro.materials[0]);
 
       //boundary condition
@@ -626,9 +626,9 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
       //in which cell
       prtl->cell_i = 0; prtl->cell_j = y_clls - 1; 
       //insert its poistion on the particle list
-      boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+      boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists(0,y_clls- 1).insert(particles.cell_lists(0,y_clls - 1).first(), &prtl);
+      particles.cell_lists(0,y_clls- 1).insert(particles.cell_lists(0,y_clls - 1).begin(), prtl);
     }
   }
 	
@@ -637,12 +637,12 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     //clear the linked list data (particles)
     particles.cell_lists(0,y_clls - 1).clear();
     //iterate the correspeond cell for real and wall partilces
-    for (LlistNode<spParticle >* p140 = particles.cell_lists(1,y_clls - 2).first(); 
-	 !particles.cell_lists(1,y_clls - 2).isEnd(p140); 
-	 p140 = particles.cell_lists(1,y_clls - 2).next(p140)) {
+    for (std::list<spParticle>::iterator  p140 = particles.cell_lists(1,y_clls - 2).begin(); 
+	 p140 != particles.cell_lists(1,y_clls - 2).end(); 
+	 p140++) {
 				
       //the original real particle
-      spParticle prtl_old = *( particles.cell_lists(1,y_clls - 2).retrieve(p140) );
+      spParticle prtl_old = *p140;
       spParticle prtl = boost::make_shared<Particle>(prtl_old);
 
       //boundary condition
@@ -651,9 +651,9 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
       //in which cell
       prtl->cell_i = 0; prtl->cell_j = y_clls - 1; 
       //insert its poistion on the particle list
-      boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+      boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists(0,y_clls- 1).insert(particles.cell_lists(0,y_clls - 1).first(), &prtl);
+      particles.cell_lists(0,y_clls- 1).insert(particles.cell_lists(0,y_clls - 1).begin(), prtl);
     }
   }
 
@@ -662,12 +662,12 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     //clear the linked list data (particles)
     particles.cell_lists(0,y_clls - 1).clear();
     //iterate the correspeond cell for real and wall partilces
-    for (LlistNode<spParticle >* p141 = particles.cell_lists(x_clls - 2,1).first(); 
-	 !particles.cell_lists(x_clls - 2,1).isEnd(p141); 
-	 p141 = particles.cell_lists(x_clls - 2,1).next(p141)) {
+    for (std::list<spParticle>::iterator  p141 = particles.cell_lists(x_clls - 2,1).begin(); 
+	 p141 != particles.cell_lists(x_clls - 2,1).end(); 
+	 p141++) {
 				
       //the original real particle
-      spParticle prtl_old = *( particles.cell_lists(x_clls - 2,1).retrieve(p141) );
+      spParticle prtl_old = *p141;
       spParticle prtl = boost::make_shared<Particle>(prtl_old);
 
       //boundary condition
@@ -676,9 +676,9 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
       //in which cell
       prtl->cell_i = 0; prtl->cell_j = y_clls - 1; 
       //insert its poistion on the particle list
-      boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+      boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists(0,y_clls- 1).insert(particles.cell_lists(0,y_clls - 1).first(), &prtl);
+      particles.cell_lists(0,y_clls- 1).insert(particles.cell_lists(0,y_clls - 1).begin(), prtl);
     }
   }
 
@@ -689,12 +689,12 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     //clear the linked list data (particles)
     particles.cell_lists(x_clls - 1,y_clls - 1).clear();
     //iterate the correspeond cell linked list
-    for (LlistNode<spParticle >* p240 = particles.cell_lists(x_clls - 2,y_clls - 2).first(); 
-	 !particles.cell_lists(x_clls - 2,y_clls - 2).isEnd(p240); 
-	 p240 = particles.cell_lists(x_clls - 2,y_clls - 2).next(p240)) {
+    for (std::list<spParticle>::iterator  p240 = particles.cell_lists(x_clls - 2,y_clls - 2).begin(); 
+	 p240 != particles.cell_lists(x_clls - 2,y_clls - 2).end(); 
+	 p240++) {
 				
       //the original real particle
-      spParticle prtl_old = *( particles.cell_lists(x_clls - 2,y_clls - 2).retrieve(p240) );
+      spParticle prtl_old = *p240;
       spParticle prtl = boost::make_shared<Particle>(prtl_old, hydro.materials[0]);
 
       //boundary condition
@@ -703,9 +703,9 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
       //in which cell
       prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1; 
       //insert its poistion on the particle list
-      boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+      boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists(x_clls- 1,y_clls - 1).insert(particles.cell_lists(x_clls - 1,y_clls - 1).first(), &prtl);
+      particles.cell_lists(x_clls- 1,y_clls - 1).insert(particles.cell_lists(x_clls - 1,y_clls - 1).begin(), prtl);
     }
   }
 		
@@ -714,12 +714,12 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     //clear the linked list data (particles)
     particles.cell_lists(x_clls - 1,y_clls - 1).clear();
     //iterate the correspeond cell linked list
-    for (LlistNode<spParticle >* p240 = particles.cell_lists(x_clls - 2,y_clls - 2).first(); 
-	 !particles.cell_lists(x_clls - 2,y_clls - 2).isEnd(p240); 
-	 p240 = particles.cell_lists(x_clls - 2,y_clls - 2).next(p240)) {
+    for (std::list<spParticle>::iterator  p240 = particles.cell_lists(x_clls - 2,y_clls - 2).begin(); 
+	 p240 != particles.cell_lists(x_clls - 2,y_clls - 2).end(); 
+	 p240++) {
 				
       //the original real particle
-      spParticle prtl_old = *( particles.cell_lists(x_clls - 2,y_clls - 2).retrieve(p240) );
+      spParticle prtl_old = *p240;
       spParticle prtl = boost::make_shared<Particle>(prtl_old);
 
       //boundary condition
@@ -728,9 +728,9 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
       //in which cell
       prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1; 
       //insert its poistion on the particle list
-      boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+      boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists(x_clls- 1,y_clls - 1).insert(particles.cell_lists(x_clls - 1,y_clls - 1).first(), &prtl);
+      particles.cell_lists(x_clls- 1,y_clls - 1).insert(particles.cell_lists(x_clls - 1,y_clls - 1).begin(), prtl);
     }
   }
 
@@ -739,12 +739,12 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     //clear the linked list data (particles)
     particles.cell_lists(x_clls - 1,y_clls - 1).clear();
     //iterate the correspeond cell for real and wall partilces
-    for (LlistNode<spParticle >* p241 = particles.cell_lists(1,1).first(); 
-	 !particles.cell_lists(1,1).isEnd(p241); 
-	 p241 = particles.cell_lists(1,1).next(p241)) {
+    for (std::list<spParticle>::iterator  p241 = particles.cell_lists(1,1).begin(); 
+	 p241 != particles.cell_lists(1,1).end(); 
+	 p241++) {
 					
       //the original real particle
-      spParticle prtl_old = *( particles.cell_lists(1,1).retrieve(p241) );
+      spParticle prtl_old = *p241;
       spParticle prtl = boost::make_shared<Particle>(prtl_old);
 
       //boundary condition
@@ -753,9 +753,9 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
       //in which cell
       prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1; 
       //insert its poistion on the particle list
-      boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+      boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists(x_clls- 1,y_clls - 1).insert(particles.cell_lists(x_clls - 1,y_clls - 1).first(), &prtl);
+      particles.cell_lists(x_clls- 1,y_clls - 1).insert(particles.cell_lists(x_clls - 1,y_clls - 1).begin(), prtl);
     }
   }
 
@@ -766,12 +766,12 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     //clear the linked list data (particles)
     particles.cell_lists(x_clls - 1,0).clear();
     //iterate the correspeond cell linked list
-    for (LlistNode<spParticle >* p230 = particles.cell_lists(x_clls - 2,1).first(); 
-	 !particles.cell_lists(x_clls - 2,1).isEnd(p230); 
-	 p230 = particles.cell_lists(x_clls - 2,1).next(p230)) {
+    for (std::list<spParticle>::iterator  p230 = particles.cell_lists(x_clls - 2,1).begin(); 
+	 p230 != particles.cell_lists(x_clls - 2,1).end(); 
+	 p230++) {
 				
       //the original real particle
-      spParticle prtl_old = *( particles.cell_lists(x_clls - 2,1).retrieve(p230) );
+      spParticle prtl_old = *p230;
       spParticle prtl = boost::make_shared<Particle>(prtl_old, hydro.materials[0]);
 
       //boundary condition
@@ -780,9 +780,9 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
       //in which cell
       prtl->cell_i = x_clls - 1; prtl->cell_j = 0; 
       //insert its poistion on the image particle list
-      boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+      boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists(x_clls - 1,0).insert(particles.cell_lists(x_clls - 1,0).first(), &prtl);
+      particles.cell_lists(x_clls - 1,0).insert(particles.cell_lists(x_clls - 1,0).begin(), prtl);
     }
   }
 
@@ -791,12 +791,12 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     //clear the linked list data (particles)
     particles.cell_lists(x_clls - 1,0).clear();
     //iterate the correspeond cell linked list
-    for (LlistNode<spParticle >* p230 = particles.cell_lists(x_clls - 2,1).first(); 
-	 !particles.cell_lists(x_clls - 2,1).isEnd(p230); 
-	 p230 = particles.cell_lists(x_clls - 2,1).next(p230)) {
+    for (std::list<spParticle>::iterator  p230 = particles.cell_lists(x_clls - 2,1).begin(); 
+	 p230 != particles.cell_lists(x_clls - 2,1).end(); 
+	 p230++) {
 				
       //the original real particle
-      spParticle prtl_old = *( particles.cell_lists(x_clls - 2,1).retrieve(p230) );
+      spParticle prtl_old = *p230;
       spParticle prtl = boost::make_shared<Particle>(prtl_old);
 
       //boundary condition
@@ -805,9 +805,9 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
       //in which cell
       prtl->cell_i = x_clls - 1; prtl->cell_j = 0; 
       //insert its poistion on the image particle list
-      boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+      boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists(x_clls - 1,0).insert(particles.cell_lists(x_clls - 1,0).first(), &prtl);
+      particles.cell_lists(x_clls - 1,0).insert(particles.cell_lists(x_clls - 1,0).begin(), prtl);
     }
   }
 
@@ -816,12 +816,12 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     //clear the linked list data (particles)
     particles.cell_lists(x_clls - 1,0).clear();
     //iterate the correspeond cell for real and wall partilces
-    for (LlistNode<spParticle >* p231 = particles.cell_lists(1,y_clls - 2).first(); 
-	 !particles.cell_lists(1,y_clls - 2).isEnd(p231); 
-	 p231 = particles.cell_lists(1,y_clls - 2).next(p231)) {
+    for (std::list<spParticle>::iterator  p231 = particles.cell_lists(1,y_clls - 2).begin(); 
+	 p231 != particles.cell_lists(1,y_clls - 2).end(); 
+	 p231++) {
 					
       //the original real particle
-      spParticle prtl_old = *( particles.cell_lists(1,y_clls - 2).retrieve(p231) );
+      spParticle prtl_old = *p231;
       spParticle prtl = boost::make_shared<Particle>(prtl_old);
 
       //boundary condition
@@ -830,9 +830,9 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
       //in which cell
       prtl->cell_i = x_clls - 1; prtl->cell_j = 0; 
       //insert its poistion on the particle list
-      boundary_particle_list.insert(boundary_particle_list.first(), &prtl);
+      boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
-      particles.cell_lists(x_clls - 1,0).insert(particles.cell_lists(x_clls - 1,0).first(), &prtl);
+      particles.cell_lists(x_clls - 1,0).insert(particles.cell_lists(x_clls - 1,0).begin(), prtl);
     }
   }
 }
@@ -862,11 +862,10 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
     /// <ul> <li>the rigid wall conditions</ul>	
     if(xBl == 0 || xBl == 2) {
       //iterate the correspeond cell linked list
-      for (LlistNode<spParticle >* p1 = particles.cell_lists(0,j).first(); 
-	   !particles.cell_lists(0,j).isEnd(p1); 
-	   p1 = particles.cell_lists(0,j).next(p1)) {
-				
-	spParticle prtl = *( particles.cell_lists(0,j).retrieve(p1) );
+      for (std::list<spParticle>::iterator  p1 = particles.cell_lists(0,j).begin(); 
+	   p1 != particles.cell_lists(0,j).end(); 
+	   p1++) {
+	spParticle prtl = *p1;
 	//copy states from the original particle
 	prtl->StatesCopier(prtl->rl_prtl, 0);
 
@@ -877,11 +876,11 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
     /// <ul> <li>the perodic or symmetry conditions </ul>
     if(xBl == 1 || xBl == 3) {
       //iterate the correspeond cell linked list
-      for (LlistNode<spParticle >* p1 = particles.cell_lists(0,j).first(); 
-	   !particles.cell_lists(0,j).isEnd(p1); 
-	   p1 = particles.cell_lists(0,j).next(p1)) {
+      for (std::list<spParticle>::iterator  p1 = particles.cell_lists(0,j).begin(); 
+	   p1 != particles.cell_lists(0,j).end(); 
+	   p1++) {
 				
-	spParticle prtl = *( particles.cell_lists(0,j).retrieve(p1) );
+	spParticle prtl = *p1;
 	//copy states from the original particle
 	prtl->StatesCopier(prtl->rl_prtl, 1);
 
@@ -894,11 +893,11 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
     /// <ul> <li> the rigid wall conditions	
     if(xBr == 0 || xBr == 2) {
       //iterate the correspeond cell linked list
-      for (LlistNode<spParticle >* p2 = particles.cell_lists(x_clls - 1,j).first(); 
-	   !particles.cell_lists(x_clls - 1,j).isEnd(p2); 
-	   p2 = particles.cell_lists(x_clls - 1,j).next(p2)) {
+      for (std::list<spParticle>::iterator  p2 = particles.cell_lists(x_clls - 1,j).begin(); 
+	   p2 != particles.cell_lists(x_clls - 1,j).end(); 
+	   p2++) {
 					
-	spParticle prtl = *( particles.cell_lists(x_clls - 1,j).retrieve(p2) );
+	spParticle prtl = *p2;
 	//copy states from the original particle
 	prtl->StatesCopier(prtl->rl_prtl, 0);
 
@@ -909,11 +908,11 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
     /// <li>the perodic or symmetry conditions</ul>	
     if(xBr == 1 || xBr == 3) {
       //iterate the correspeond cell linked list
-      for (LlistNode<spParticle >* p2 = particles.cell_lists(x_clls - 1,j).first(); 
-	   !particles.cell_lists(x_clls - 1,j).isEnd(p2); 
-	   p2 = particles.cell_lists(x_clls - 1,j).next(p2)) {
+      for (std::list<spParticle>::iterator  p2 = particles.cell_lists(x_clls - 1,j).begin(); 
+	   p2 != particles.cell_lists(x_clls - 1,j).end(); 
+	   p2++) {
 					
-	spParticle prtl = *( particles.cell_lists(x_clls - 1,j).retrieve(p2) );
+	spParticle prtl = *p2;
 	//copy states from the original particle
 	prtl->StatesCopier(prtl->rl_prtl, 1);
 
@@ -930,11 +929,11 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
     /// <ul><li>the rigid wall conditions	
     if(yBd == 0 || yBd == 2) {
       //iterate the correspeond cell linked list
-      for (LlistNode<spParticle >* p3 = particles.cell_lists(i,0).first(); 
-	   !particles.cell_lists(i,0).isEnd(p3); 
-	   p3 = particles.cell_lists(i,0).next(p3)) {
+      for (std::list<spParticle>::iterator  p3 = particles.cell_lists(i,0).begin(); 
+	   p3 != particles.cell_lists(i,0).end(); 
+	   p3++) {
 					
-	spParticle prtl = *( particles.cell_lists(i,0).retrieve(p3) );
+	spParticle prtl = *p3;
 	//copy states from the original particle
 	prtl->StatesCopier(prtl->rl_prtl, 0);
 
@@ -945,11 +944,11 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
     /// <li>the perodic or symmetry conditions</ul>	
     if(yBd == 1 || yBd == 3) {
       //iterate the correspeond cell linked list
-      for (LlistNode<spParticle >* p3 = particles.cell_lists(i,0).first(); 
-	   !particles.cell_lists(i,0).isEnd(p3); 
-	   p3 = particles.cell_lists(i,0).next(p3)) {
+      for (std::list<spParticle>::iterator  p3 = particles.cell_lists(i,0).begin(); 
+	   p3 != particles.cell_lists(i,0).end(); 
+	   p3++) {
 					
-	spParticle prtl = *( particles.cell_lists(i,0).retrieve(p3) );
+	spParticle prtl = *p3;
 	//copy states from the original particle
 	prtl->StatesCopier(prtl->rl_prtl, 1);
 
@@ -964,12 +963,12 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
     /// <ul><li>the rigid wall conditions	
     if(yBu == 0 || yBu == 2) {
       //iterate the correspeond cell for real and wall partilces
-      for (LlistNode<spParticle >* p4 = particles.cell_lists(i,y_clls - 1).first(); 
-	   !particles.cell_lists(i,y_clls - 1).isEnd(p4); 
-	   p4 = particles.cell_lists(i,y_clls - 1).next(p4)) {
+      for (std::list<spParticle>::iterator  p4 = particles.cell_lists(i,y_clls - 1).begin(); 
+	   p4 != particles.cell_lists(i,y_clls - 1).end(); 
+	   p4++) {
 					
 	//the original real particle
-	spParticle prtl = *( particles.cell_lists(i,y_clls - 1).retrieve(p4) );
+	spParticle prtl = *p4;
 	//copy states from the original particle
 	prtl->StatesCopier(prtl->rl_prtl, 0);
 	
@@ -980,12 +979,12 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
     /// <li>the perodic or symmetry conditions</ul></ul>	
     if(yBu == 1 || yBu == 3) {
       //iterate the correspeond cell for real and wall partilces
-      for (LlistNode<spParticle >* p4 = particles.cell_lists(i,y_clls - 1).first(); 
-	   !particles.cell_lists(i,y_clls - 1).isEnd(p4); 
-	   p4 = particles.cell_lists(i,y_clls - 1).next(p4)) {
+      for (std::list<spParticle>::iterator  p4 = particles.cell_lists(i,y_clls - 1).begin(); 
+	   p4 != particles.cell_lists(i,y_clls - 1).end(); 
+	   p4++) {
 					
 	//the original real particle
-	spParticle prtl = *( particles.cell_lists(i,y_clls - 1).retrieve(p4) );
+	spParticle prtl = *p4;
 	//copy states from the original particle
 	prtl->StatesCopier(prtl->rl_prtl, 1);
 	
@@ -1001,11 +1000,11 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
   /// <ul><li>the rigid wall conditions 	
   if(xBl == 0 && yBd == 0 || xBl == 2 && yBd == 2) {
     //iterate the correspeond cell linked list
-    for (LlistNode<spParticle >* p13 = particles.cell_lists(0,0).first(); 
-	 !particles.cell_lists(0,0).isEnd(p13); 
-	 p13 = particles.cell_lists(0,0).next(p13)) {
+    for (std::list<spParticle>::iterator  p13 = particles.cell_lists(0,0).begin(); 
+	 p13 != particles.cell_lists(0,0).end(); 
+	 p13++) {
 					
-      spParticle prtl = *( particles.cell_lists(0,0).retrieve(p13) );
+      spParticle prtl = *p13;
       //copy states from the original particle
       prtl->StatesCopier(prtl->rl_prtl, 0);
 
@@ -1016,11 +1015,11 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
   /// <li>the perodic or symmetry conditions</ul>	
   if(xBl == 1 && yBd == 1 || xBl == 3 && yBd == 3) {
     //iterate the correspeond cell linked list
-    for (LlistNode<spParticle >* p13 = particles.cell_lists(0,0).first(); 
-	 !particles.cell_lists(0,0).isEnd(p13); 
-	 p13 = particles.cell_lists(0,0).next(p13)) {
+    for (std::list<spParticle>::iterator  p13 = particles.cell_lists(0,0).begin(); 
+	 p13 != particles.cell_lists(0,0).end(); 
+	 p13++) {
 					
-      spParticle prtl = *( particles.cell_lists(0,0).retrieve(p13) );
+      spParticle prtl = *p13;
       //copy states from the original particle
       prtl->StatesCopier(prtl->rl_prtl, 1);
 
@@ -1033,12 +1032,12 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
   /// <ul><li>the rigid wall conditions 	
   if(xBl == 0 && yBu == 0 || xBl == 2 && yBu == 2) {
     //iterate the correspeond cell for real and wall partilces
-    for (LlistNode<spParticle >* p14 = particles.cell_lists(0,y_clls - 1).first(); 
-	 !particles.cell_lists(0,y_clls - 1).isEnd(p14); 
-	 p14 = particles.cell_lists(0,y_clls - 1).next(p14)) {
+    for (std::list<spParticle>::iterator  p14 = particles.cell_lists(0,y_clls - 1).begin(); 
+	 p14 != particles.cell_lists(0,y_clls - 1).end(); 
+	 p14++) {
 					
       //the original real particle
-      spParticle prtl = *( particles.cell_lists(0,y_clls - 1).retrieve(p14) );
+      spParticle prtl = *p14;
       //copy states from the original particle
       prtl->StatesCopier(prtl->rl_prtl, 0);
 
@@ -1049,12 +1048,12 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
   /// <li>the perodic or symmetry conditions</ul>	
   if(xBl == 1 && yBu == 1 || xBl == 3 && yBu == 3) {
     //iterate the correspeond cell for real and wall partilces
-    for (LlistNode<spParticle >* p14 = particles.cell_lists(0,y_clls - 1).first(); 
-	 !particles.cell_lists(0,y_clls - 1).isEnd(p14); 
-	 p14 = particles.cell_lists(0,y_clls - 1).next(p14)) {
+    for (std::list<spParticle>::iterator  p14 = particles.cell_lists(0,y_clls - 1).begin(); 
+	 p14 != particles.cell_lists(0,y_clls - 1).end(); 
+	 p14++) {
 					
       //the original real particle
-      spParticle prtl = *( particles.cell_lists(0,y_clls - 1).retrieve(p14) );
+      spParticle prtl = *p14;
       //copy states from the original particle
       prtl->StatesCopier(prtl->rl_prtl, 1);
 
@@ -1067,12 +1066,12 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
   /// <ul><li>the rigid wall conditions 	
   if(xBr == 0 && yBu == 0 || xBr == 2 && yBu == 2) {
     //iterate the correspeond cell linked list
-    for (LlistNode<spParticle >* p24 = particles.cell_lists(x_clls - 1,y_clls - 1).first(); 
-	 !particles.cell_lists(x_clls - 1,y_clls - 1).isEnd(p24); 
-	 p24 = particles.cell_lists(x_clls - 1,y_clls - 1).next(p24)) {
+    for (std::list<spParticle>::iterator  p24 = particles.cell_lists(x_clls - 1,y_clls - 1).begin(); 
+	 p24 != particles.cell_lists(x_clls - 1,y_clls - 1).end(); 
+	 p24++) {
 				
       //the original real particle
-      spParticle prtl = *( particles.cell_lists(x_clls - 1,y_clls - 1).retrieve(p24) );
+      spParticle prtl = *p24;
       //copy states from the original particle
       prtl->StatesCopier(prtl->rl_prtl, 0);
 
@@ -1083,12 +1082,12 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
   /// <li>the perodic or symmetry conditions</ul>	
   if(xBr == 1 && yBu == 1 || xBr == 3 && yBu == 3) {
     //iterate the correspeond cell linked list
-    for (LlistNode<spParticle >* p24 = particles.cell_lists(x_clls - 1,y_clls - 1).first(); 
-	 !particles.cell_lists(x_clls - 1,y_clls - 1).isEnd(p24); 
-	 p24 = particles.cell_lists(x_clls - 1,y_clls - 1).next(p24)) {
+    for (std::list<spParticle>::iterator  p24 = particles.cell_lists(x_clls - 1,y_clls - 1).begin(); 
+	 p24 != particles.cell_lists(x_clls - 1,y_clls - 1).end(); 
+	 p24++) {
 				
       //the original real particle
-      spParticle prtl = *( particles.cell_lists(x_clls - 1,y_clls - 1).retrieve(p24) );
+      spParticle prtl = *p24;
       //copy states from the original particle
       prtl->StatesCopier(prtl->rl_prtl, 1);
 
@@ -1101,12 +1100,12 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
   /// <ul><li>the rigid wall conditions 	
   if(xBr == 0 && yBd == 0 || xBr == 2 && yBd == 2) {	
     //iterate the correspeond cell linked list
-    for (LlistNode<spParticle >* p23 = particles.cell_lists(x_clls - 1,0).first(); 
-	 !particles.cell_lists(x_clls - 1,0).isEnd(p23); 
-	 p23 = particles.cell_lists(x_clls - 1,0).next(p23)) {
+    for (std::list<spParticle>::iterator  p23 = particles.cell_lists(x_clls - 1,0).begin(); 
+	 p23 != particles.cell_lists(x_clls - 1,0).end(); 
+	 p23++) {
 					
       //the original real particle
-      spParticle prtl = *( particles.cell_lists(x_clls - 1,0).retrieve(p23) );
+      spParticle prtl = *p23;
       //copy states from the original particle
       prtl->StatesCopier(prtl->rl_prtl, 0);
 	
@@ -1118,12 +1117,12 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
   /// <li>the perodic or symmetry conditions</ul></ul></ul>	
   if(xBr == 1 && yBd == 1 || xBr == 3 && yBd == 3) {	
     //iterate the correspeond cell linked list
-    for (LlistNode<spParticle >* p23 = particles.cell_lists(x_clls - 1,0).first(); 
-	 !particles.cell_lists(x_clls - 1,0).isEnd(p23); 
-	 p23 = particles.cell_lists(x_clls - 1,0).next(p23)) {
+    for (std::list<spParticle>::iterator  p23 = particles.cell_lists(x_clls - 1,0).begin(); 
+	 p23 != particles.cell_lists(x_clls - 1,0).end(); 
+	 p23++) {
 					
       //the original real particle
-      spParticle prtl = *( particles.cell_lists(x_clls - 1,0).retrieve(p23) );
+      spParticle prtl = *p23;
       //copy states from the original particle
       prtl->StatesCopier(prtl->rl_prtl, 1);
 

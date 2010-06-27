@@ -171,28 +171,28 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, Ke
   Vec2d eij, sumdw;
 
   /// <ul><li>iterate particles on the particle list
-  for (LlistNode<spParticle >*p = hydro.particle_list.first(); 
-       !hydro.particle_list.isEnd(p); 
-       p = hydro.particle_list.next(p)) {
+  for (std::list<spParticle >::iterator p = hydro.particle_list.begin(); 
+       p != hydro.particle_list.end(); 
+       p++) {
 					
     /// <ul><li> pick an origin particle
-    spParticle prtl_org = *(hydro.particle_list.retrieve(p));
+    spParticle prtl_org = *p;
     /// <li> build the nearest neighbor particle list for chosen origin particle
     assert(prtl_org != NULL);
     std::cerr << __FILE__ << ':' << __LINE__ 
 	      << " prtl_org->R: " << prtl_org->R << '\n';
     particles.BuildNNP(prtl_org->R);
-    std::cerr << "particles.NNP_list.length: " << particles.NNP_list.length() << '\n';
+    std::cerr << "particles.NNP_list.length: " << particles.NNP_list.size() << '\n';
 
     reciprocV = 0.0; sumdw = 0.0;
     /// <li>iterate this Nearest Neighbor spParticle list
-    for (LlistNode<spParticle >* p1 = particles.NNP_list.first(); 
-	 !particles.NNP_list.isEnd(p1); 
-	 p1 = particles.NNP_list.next(p1)) {
+    for (std::list<spParticle >::iterator p1 = particles.NNP_list.begin(); 
+	 p1 != particles.NNP_list.end(); 
+	 p1++) {
 			
       /// <ul><li> get a particle
       std::cerr << "p1" << '\n';
-      spParticle prtl_dest = *(particles.NNP_list.retrieve(p1));
+      spParticle prtl_dest = *p1;
       
       /// <li> calculate distance (origin<-> neighbor)
       const double dstc = v_distance(prtl_org->R, prtl_dest->R);

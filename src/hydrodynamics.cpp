@@ -121,12 +121,12 @@ void Hydrodynamics::BuildInteractions(ParticleManager &particles, Kernel &weight
 void Hydrodynamics::UpdateInteractions(Kernel &weight_function)
 {
   ///- iterate the interaction list
-  for (LlistNode<spInteraction> *p = interaction_list.first(); 
-       !interaction_list.isEnd(p); 
-       p = interaction_list.next(p)) {
+  for (std::list<spInteraction>::iterator p = interaction_list.begin();
+       p != interaction_list.end(); 
+       p++) {
     ///- and for each interactionpair call RenewInteraction method
     //a interaction pair
-    spInteraction pair = *(interaction_list.retrieve(p));
+    spInteraction pair = *p;
     //renew pair parameters
     pair->RenewInteraction(weight_function);
   }
@@ -144,12 +144,12 @@ void Hydrodynamics::UpdateDensity(ParticleManager &particles, Kernel &weight_fun
   ///- initiate by calling Zero_density method
   Zero_density();
   ///- iterate the interaction list
-  for (LlistNode<spInteraction> *p1 = interaction_list.first(); 
-       !interaction_list.isEnd(p1); 
-       p1 = interaction_list.next(p1)) {
+  for (std::list<spInteraction>::iterator p1 = interaction_list.begin(); 
+       p1 != interaction_list.end(); 
+       p1++) {
 		
     //a interaction pair
-    spInteraction pair = *(interaction_list.retrieve(p1));
+    spInteraction pair = *p1;
     ///- calculate for each pair the pair forces or change rate by calling SummationDensity() method
     pair->SummationDensity();	
   }
@@ -167,12 +167,12 @@ void Hydrodynamics::UpdateDensity(Initiation &ini)
   cout<<"\n AM in update density\n ";
   Zero_density();
   ///- iterate the interaction list
-  for (LlistNode<spInteraction> *p1 = interaction_list.first(); 
-       !interaction_list.isEnd(p1); 
-       p1 = interaction_list.next(p1)) {
+  for (std::list<spInteraction>::iterator p1 = interaction_list.begin(); 
+       p1 != interaction_list.end(); 
+       p1++) {
 		
     //a interaction pair
-    spInteraction pair = *(interaction_list.retrieve(p1));
+    spInteraction pair = *p1;
     ///- calculate for each pair the pair forces or change rate
     pair->SummationDensity();	
   }
@@ -192,12 +192,12 @@ void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, Kernel &weight_
   particles.BuildInteraction(interaction_list, particle_list, weight_function);
 
   ///- iterate the interaction list
-  for (LlistNode<spInteraction> *p = interaction_list.first(); 
-       !interaction_list.isEnd(p); 
-       p = interaction_list.next(p)) {
+  for (std::list<spInteraction>::iterator p = interaction_list.begin(); 
+       p != interaction_list.end(); 
+       p++) {
 		
     //a interaction pair
-    spInteraction pair = *(interaction_list.retrieve(p));
+    spInteraction pair = *p;
     ///- calculate for eahc pair the pair forces or change rate
     pair->UpdateForces();
 
@@ -215,23 +215,23 @@ void Hydrodynamics::UpdateChangeRate()
   ZeroChangeRate();	
 
     ///- iterate the interaction list
-    for (LlistNode<spInteraction> *p = interaction_list.first(); 
-	 !interaction_list.isEnd(p); 
-	 p = interaction_list.next(p)) {
+  for (std::list<spInteraction>::iterator p = interaction_list.begin(); 
+	 p != interaction_list.end(); 
+	 p++) {
 	//a interaction pair
 	///- calculate for each pair the pair forces or change rate
-      spInteraction aux_interaction = *(interaction_list.retrieve(p));
+      spInteraction aux_interaction = *p;
       aux_interaction->UpdateForces();
     }
   //control output
   int q=0;
-  for (LlistNode<spParticle>*  p = particle_list.first(); 
-       !particle_list.isEnd(p); 
-       p = particle_list.next(p)) {
+  for (std::list<spParticle>::iterator p = particle_list.begin(); 
+       p != particle_list.end(); 
+       p++) {
 
 					
     //particle
-    spParticle prtl = * (particle_list.retrieve(p)) ;
+    spParticle prtl = *p;
     if(q%30==0)  
       cout<<"\n dUdt0"<<prtl->dUdt[0]<<"dUdt1"<<prtl->dUdt[1];
     q++;
@@ -246,12 +246,12 @@ void Hydrodynamics::UpdateChangeRate()
 void Hydrodynamics::ZeroChangeRate()
 {
   ///- iterate particles on the real particle list
-  for (LlistNode<spParticle>*  p = particle_list.first(); 
-       !particle_list.isEnd(p); 
-       p = particle_list.next(p)) {
+  for (std::list<spParticle>::iterator  p = particle_list.begin(); 
+       p != particle_list.end(); 
+       p++) {
 					
     //particle
-    spParticle prtl = * (particle_list.retrieve(p)) ;
+    spParticle prtl = *p;
 
     ///- set for each particle change rates to zero
     prtl->dedt = 0.0;
@@ -266,12 +266,12 @@ void Hydrodynamics::ZeroChangeRate()
 void Hydrodynamics::Zero_density()
 {
   ///- iterate particles on the real particle list
-  for (LlistNode<spParticle>*  p = particle_list.first(); 
-       !particle_list.isEnd(p); 
-       p = particle_list.next(p)) {
+  for (std::list<spParticle>::iterator p = particle_list.begin(); 
+       p != particle_list.end(); 
+       p++) {
 					
     //particle
-    spParticle prtl = * (particle_list.retrieve(p));
+    spParticle prtl = *p;
 
     ///- set for each particle density to zero
     prtl->rho = 0.0;
@@ -284,12 +284,12 @@ void Hydrodynamics::Zero_density()
 void Hydrodynamics::Zero_Velocity()
 {
   ///- iterate particles on the real particle list
-  for (LlistNode<spParticle>*  p = particle_list.first(); 
-       !particle_list.isEnd(p); 
-       p = particle_list.next(p)) {
+  for (std::list<spParticle>::iterator  p = particle_list.begin(); 
+       p != particle_list.end(); 
+       p++) {
 					
     //particle
-    spParticle prtl = * (particle_list.retrieve(p)) ;
+    spParticle prtl = *p;
 
     ///- all velocities to zero
     (prtl->U) = 0.0;
@@ -301,12 +301,12 @@ void Hydrodynamics::Zero_Velocity()
 void Hydrodynamics::AddGravity()
 {
   ///- iterate particles on the real particle list
-  for (LlistNode<spParticle>*  p = particle_list.first(); 
-       !particle_list.isEnd(p); 
-       p = particle_list.next(p)) {
+  for (std::list<spParticle>::iterator  p = particle_list.begin(); 
+       p != particle_list.end(); 
+       p++) {
 					
     //a particle
-    spParticle prtl = * (particle_list.retrieve(p)) ;
+    spParticle prtl = *p;
 
     ///- to each particles dUdt: add the gravity effects
     prtl->dUdt = prtl->dUdt + gravity;
@@ -318,12 +318,12 @@ void Hydrodynamics::AddGravity()
 void Hydrodynamics::UpdateState(Initiation &ini)
 {
   ///- iterate particles on the real particle list
-  for (LlistNode<spParticle>*  p = particle_list.first(); 
-       !particle_list.isEnd(p); 
-       p = particle_list.next(p)) {
+  for (std::list<spParticle>::iterator  p = particle_list.begin(); 
+       p != particle_list.end(); 
+       p++) {
 					
     //a particle
-    spParticle prtl = *(particle_list.retrieve(p));
+    spParticle prtl = *p;
 
     ///- calculate pressure for each particle
     if(ini.simu_mode==1)  //liquid mode equation of state
@@ -346,23 +346,23 @@ void Hydrodynamics::UpdateVolume(ParticleManager &particles, Kernel &weight_func
   double reciprocV; //the inverse of volume or volume
 
   ///<ul><li> iterate particles on the particle list
-  for (LlistNode<spParticle>*  p = particle_list.first(); 
-       !particle_list.isEnd(p); 
-       p = particle_list.next(p)) {
+  for (std::list<spParticle>::iterator  p = particle_list.begin(); 
+       p != particle_list.end(); 
+       p++) {
 					
     ///<ul><li>take origin particle
-    spParticle prtl_org = *(particle_list.retrieve(p));
+    spParticle prtl_org = *p;
     //<li>build the nearest particle list
     particles.BuildNNP(prtl_org->R);
 
     reciprocV = 0.0; 
     //<li>iterate this Nearest Neighbor spParticle list
-    for (LlistNode<spParticle >*  p1 = particles.NNP_list.first(); 
-	 !particles.NNP_list.isEnd(p1); 
-	 p1 = particles.NNP_list.next(p1)) {
+    for (std::list<spParticle >::iterator  p1 = particles.NNP_list.begin(); 
+	 p1 != particles.NNP_list.end(); 
+	 p1++) {
 			
       //get a particle
-      spParticle prtl_dest = *(particles.NNP_list.retrieve(p1));
+      spParticle prtl_dest = *p1;
 				
       ///<ul><li>sum the weights for all of these particles (because they are the inverse of a volume!?!)</ul>
       reciprocV += weight_function.w(v_distance(prtl_org->R, prtl_dest->R));
@@ -385,11 +385,11 @@ double Hydrodynamics::GetTimestep()
 
   //predict the time step
   //iterate the partilce list
-  for (LlistNode<spParticle>*  p = particle_list.first(); 
-       !particle_list.isEnd(p); 
-       p = particle_list.next(p)) {
+  for (std::list<spParticle>::iterator p = particle_list.begin(); 
+       p != particle_list.end(); 
+       p++) {
 				
-    spParticle prtl = *(particle_list.retrieve(p));
+    spParticle prtl = *p;
     Cs_max = AMAX1(Cs_max, prtl->Cs);
     V_max = AMAX1(V_max, v_abs(prtl->U));
     rho_min = AMIN1(rho_min, prtl->rho);
@@ -405,11 +405,11 @@ double Hydrodynamics::GetTimestep()
 void Hydrodynamics::Predictor(double dt)
 {
   ///<ul><li> iterate the real partilce list
-  for (LlistNode<spParticle>*  p = particle_list.first(); 
-       !particle_list.isEnd(p); 
-       p = particle_list.next(p)) {
+  for (std::list<spParticle>::iterator p = particle_list.begin(); 
+       p != particle_list.end(); 
+       p++) {
 		
-    spParticle prtl = *(particle_list.retrieve(p));
+    spParticle prtl = *p;
 	
     ///<ul><li>save values at step n
     prtl->R_I = prtl->R;
@@ -436,11 +436,11 @@ void Hydrodynamics::Predictor(double dt)
 void Hydrodynamics::Corrector(double dt)
 {
   ///- iterate the real partilce list
-  for (LlistNode<spParticle>*  p = particle_list.first(); 
-       !particle_list.isEnd(p); 
-       p = particle_list.next(p)) {
+  for (std::list<spParticle>::iterator p = particle_list.begin(); 
+       p != particle_list.end(); 
+       p++) {
 	
-    spParticle prtl = *(particle_list.retrieve(p));
+    spParticle prtl = *p;
 			
     ///- for each particle: correction based on values on n step and change rate at n+1/2
     prtl->R = prtl->R_I + prtl->U*dt;
@@ -455,11 +455,11 @@ void Hydrodynamics::Corrector(double dt)
 void Hydrodynamics::Predictor_summation(double dt)
 {
   ///<ul><li>iterate the real partilce list
-  for (LlistNode<spParticle>*  p = particle_list.first(); 
-       !particle_list.isEnd(p); 
-       p = particle_list.next(p)) {
+  for (std::list<spParticle>::iterator  p = particle_list.begin(); 
+       p != particle_list.end(); 
+       p++) {
 		
-    spParticle prtl = *(particle_list.retrieve(p));
+    spParticle prtl = *p;
 	
     ///<ul><li>save values (R,U)  at step n in intermediate variables ._I
     prtl->R_I = prtl->R;
@@ -483,11 +483,11 @@ void Hydrodynamics::Predictor_summation(double dt)
 void Hydrodynamics::Corrector_summation(double dt)
 {
   ///- iterate the real partilce list
-  for (LlistNode<spParticle>*  p = particle_list.first(); 
-       !particle_list.isEnd(p); 
-       p = particle_list.next(p)) {
+  for (std::list<spParticle>::iterator p = particle_list.begin(); 
+       p != particle_list.end(); 
+       p++) {
 	
-    spParticle prtl = *(particle_list.retrieve(p));
+    spParticle prtl = *p;
 			
     ///- for each particle: correction (advances R,U) based on values on n step and change rate at n+1/2
     prtl->R = prtl->R_I + prtl->U*dt;
@@ -502,11 +502,11 @@ void Hydrodynamics::Corrector_summation(double dt)
     {
 
 		
-      for (LlistNode<spParticle>*  p = particle_list.first(); 
-	   !particle_list.isEnd(p); 
-	   p = particle_list.next(p)) {
+      for (std::list<spParticle>::iterator p = particle_list.begin(); 
+	   p != particle_list.end(); 
+	   p++) {
 	
-	spParticle prtl = *(particle_list.retrieve(p));
+	spParticle prtl = *p;
   
 	tx2tFile<<"\n R_x: "<<prtl->R[0]<<"  U_x: "<<prtl->U[0]<<"  e: "<<prtl->e<<"  dUdt: "<<prtl->dUdt[0]<<" dedt "<<prtl->dedt<<"  ID  "<<prtl->ID<<"\n";
     
@@ -527,11 +527,11 @@ void Hydrodynamics::MovingTest()
   double f_rdmx = (float)RAND_MAX;
 	
   //iterate the partilce list
-  for (LlistNode<spParticle>*  p = particle_list.first(); 
-       !particle_list.isEnd(p); 
-       p = particle_list.next(p)) {
+  for (std::list<spParticle>::iterator p = particle_list.begin(); 
+       p != particle_list.end(); 
+       p++) {
 	
-    spParticle prtl = *(particle_list.retrieve(p));
+    spParticle prtl = *p;
     if(prtl->bd == 0) {
       prtl->U_I = prtl->U;
       prtl->U =  prtl->U + prtl->U*0.1*((float)rand() - f_rdmx / 2.0) / f_rdmx;
@@ -546,10 +546,10 @@ double Hydrodynamics::ConservationTest()
   Vec2d sU = 0.0;
   Vec2d U = 0.0; 
   //iterate the partilce list
-  for (LlistNode<spParticle>*  p = particle_list.first(); 
-       !particle_list.isEnd(p); 
-       p = particle_list.next(p)) {
-    const spParticle prtl = *(particle_list.retrieve(p));
+  for (std::list<spParticle>::iterator p = particle_list.begin(); 
+       p != particle_list.end(); 
+       p++) {
+    const spParticle prtl = *p;
     sU = sU + prtl->dUdt;
     U = U + prtl->U;
   }

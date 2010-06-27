@@ -3,7 +3,6 @@ AM_CXXFLAGS=-I${top_srcdir}
 
 
 nomain=	 boundary.cpp boundary.h \
-	dllist.h \
 	glbtype.h glbfunc.cpp glbfunc.h \
 	hydrodynamics.cpp hydrodynamics.h initiation.cpp \
 	initiation.h interaction.cpp interaction.h \
