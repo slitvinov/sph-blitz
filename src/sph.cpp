@@ -108,8 +108,8 @@ int main(int argc, char *argv[]) {
   Hydrodynamics hydro(particles, ini); ///- create materials, forces and real particles
       
   Boundary boundary(ini, hydro, particles); ///- initiate boundary conditions and boundary particles
-  TimeSolver timesolver(ini); ///- initialize the time solver
-  Output output(ini); ///- initialize output class (should be the last to be initialized)
+  TimeSolver timesolver; ///- initialize the time solver
+  Output output; ///- initialize output class (should be the last to be initialized)
   ini.VolumeMass(hydro, particles, weight_function); //predict particle volume and mass
   if(ini.simu_mode==1)	
     boundary.BoundaryCondition(particles); //repose the boundary condition

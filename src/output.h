@@ -7,7 +7,7 @@
 class Output {
 public:
 	///constructor
-	Output(const Initiation &ini);
+  Output();
 
 	///output particle positions respected different materials
 	void OutputParticle(Hydrodynamics &hydro, 

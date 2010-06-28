@@ -63,7 +63,6 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
 //								construct a wall particle
 //----------------------------------------------------------------------------------------
 Particle::Particle (double x, double y, double u, double v, 
-		   double distance, double normal_x, double normal_y, 
 		   spMaterial material) : 
   bd(1),
   mtl(material)
