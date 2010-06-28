@@ -28,7 +28,8 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //							constructor
 //----------------------------------------------------------------------------------------
-TimeSolver::TimeSolver(const Initiation &ini)
+TimeSolver::TimeSolver(const Initiation &ini):
+  ite(0)
 {
   ///- copy properties from class Initiation
   //  cell_size = ini.cell_size;

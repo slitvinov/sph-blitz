@@ -150,7 +150,7 @@ void Interaction::UpdateForces()
   //contol output
   //   cout<<"\n am in update forces and simu_mode is:"<<simu_mode<<"\n";
   	//pressure, density and inverse density and middle point pressure
-        double pi, rVi, pj, rVj, Uijdoteij,UijdotRij; 
+  double pi, rVi, pj, rVj;
 	//velocity and velocity difference
 	Vec2d Ui, Uj, Uij; 
 
@@ -178,8 +178,7 @@ void Interaction::UpdateForces()
 	
 	Ui = Org->U; Uj = Dest->U;
 	Uij = Ui - Uj;
-	Uijdoteij = dot(Uij, eij);
-	UijdotRij=dot(Uij,(Org->R - Dest->R));
+	const double UijdotRij=dot(Uij,(Org->R - Dest->R));
 
 	//pair focres or change rate
 	Vec2d dPdti, dUdti, dUdtj; //mometum&velocity change rate
@@ -234,7 +233,7 @@ void Interaction::UpdateForces()
 	  // cout<<"am in simu_mode=1 section of update forces";
 	  double Vi2 = Vi*Vi, Vj2 = Vj*Vj;
 	  ///- calculate artificial viscosity or Neumann_Richtmyer viscosity
-	  double theta, Csi, Csj, NR_vis;
+	  double Csi, Csj;
 	  Csi = Org->Cs; Csj = Dest->Cs;
 	  //theta = Uijdoteij*rij*ini.delta/(rij*rij + 0.01*ini.delta*ini.delta);
 	  //NR_vis = Uijdoteij > 0.0 ? 0.0 : ini.art_vis*theta*(rhoi*Csi*mj + rhoj*Csj*mi)/(mi + mj);

@@ -14,7 +14,7 @@ class Boundary
 	int x_clls, y_clls;
 
 	///show information on screen
-	void show_information(const Initiation &ini);
+	void show_information(const Initiation &ini) const;
 
 	//implement a side boundary by modifying particle states
 
