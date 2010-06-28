@@ -11,7 +11,8 @@ WRKDIR=$(pwd)
 
 # compile and install tcl
 cd tcl/unix
-CC=gcc CXX=g++ ./configure --prefix=$PREFIX
+# if not given use default values
+CC=${CC:=gcc} CXX=${CXX:=g++} ./configure --prefix=$PREFIX
 make install
 cd ${WRKDIR}
 
