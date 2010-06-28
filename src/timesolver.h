@@ -21,7 +21,7 @@ class TimeSolver{
 public:
 	
 	///constructor
-	TimeSolver(const Initiation &ini);
+  TimeSolver();
 	
 
 	///advance time interval D_time with summation for density

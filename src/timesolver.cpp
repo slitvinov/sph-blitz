@@ -28,7 +28,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //							constructor
 //----------------------------------------------------------------------------------------
-TimeSolver::TimeSolver(const Initiation &ini):
+TimeSolver::TimeSolver():
   ite(0)
 {
   ///- copy properties from class Initiation

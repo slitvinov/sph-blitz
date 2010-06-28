@@ -8,8 +8,11 @@
 #define VEC2D_H
 
 #include <cmath>
+
+
 #include <blitz/tinyvec.h>
 #include <blitz/tinyvec-et.h>
+
 
 typedef blitz::TinyVector<double,2> Vec2d;
 

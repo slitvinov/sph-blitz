@@ -203,7 +203,6 @@ void Interaction::UpdateForces()
           if (UijdotRij<0)//that means: whenever in compression (as only then artificial viscosity applies for a shock tube problem)
           {
             const double phiij=(hij*UijdotRij)/(pow(rij,2)+ini.epsilon_artVis*pow(hij,2)); //according to formula monaghan artificial viscosity
-	    const double alpha_artVis = ini.alpha_artVis;
 	    piij=(-1*ini.alpha_artVis*cij*phiij+ini.beta_artVis*pow(phiij,2))/rhoij; //according to formula monaghan artificial viscosity
           }
 	  else //if no compression: artificial viscosity is zero

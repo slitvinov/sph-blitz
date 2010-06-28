@@ -15,7 +15,6 @@ class Particle {
 		  double pressure, double temperature, spMaterial material);
 	///construct a wall particle
 	Particle (double x, double y, double u, double v, 
-		  double distance, double normal_x, double normal_y, 
 		  spMaterial material);
 	
 	///ghost particle creator
