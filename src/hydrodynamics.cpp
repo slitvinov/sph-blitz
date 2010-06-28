@@ -35,63 +35,33 @@ using namespace std;
 //						constructor
 //----------------------------------------------------------------------------------------
 Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
-  //make materials
-  std::string inputfile;
-
   ///<ul><li>copy properties from initiation class
-  const Vec2d gravity = ini.g_force;
-  const double delta = ini.delta; 
+
+
 
   ///<li>create material matrix
   //Material sample_material(ini);  //set satatic numbers
   materials.resize(ini.number_of_materials);
-  ///<li>create the force matrix
 
-  ///<li>check if inputfile exists
-  inputfile = ini.inputfile;
-  ifstream fin(inputfile.c_str(), ios::in);
-  if (!fin) {
-    cout<<"Initialtion: Cannot open "<< inputfile <<" \n";
-    std::cout << __FILE__ << ':' << __LINE__ << std::endl;
-    exit(EXIT_FAILURE);
+  ///<li>if  key word material: read all materials (from .cfg file)
+  for(int k = 0; k < ini.number_of_materials; k++) {
+    //the material number
+    ///<ul><li>save each one of them in materials matrix
+    
+    ///create a new Material object
+    materials[k] = spMaterial(new Material(ini, k));
+    materials[k]->show_properties();
+    ///<li>non-dimensionalize</ul>
   }
-  else cout<<"\nMaterial: read the propeties of materials\n"; 
-
-  ///<li>reading all key words and configuration data
-  while(fin.good()) {
-    //read a string block
-    std::string Key_word;
-    fin >> Key_word;
-		
-    //comparing the key words for the materials 
-    //std::cerr << "Key_word: " << Key_word << '\n';
-
-    if(Key_word == "MATERIALS")   {
-      ///<li>if  key word material: read all materials (from .cfg file)
-      for(int k = 0; k < ini.number_of_materials; k++) {
-	//the material number
-	///<ul><li>save each one of them in materials matrix
-	
-	///create a new Material object
-	materials[k] = boost::make_shared<Material>(ini);
-	materials[k]->number = k;
-	fin>>materials[k]->material_name>>materials[k]->material_type;
-	fin>>materials[k]->cv>>materials[k]->eta
-	   >>materials[k]->gamma>>materials[k]->b0>>materials[k]->rho0>>materials[k]->a0;
-	///<li>output the material property parameters to the screen
-	cout<<"The properties of the material No. "<<k<<"\n";		
-	materials[k]->show_properties();
-	///<li>non-dimensionalize</ul>
-      }
-    }
-  }
-  fin.close();
  	
   ///<li>initialize parameters for time step and the artificial compressiblity
   double viscosity_max = 0.0; 
   for(int k = 0; k < ini.number_of_materials; k++) {
     viscosity_max = AMAX1(viscosity_max, materials[k]->nu);
   }
+
+  const Vec2d gravity = ini.g_force;
+  const double delta = ini.delta; 
   dt_g_vis = AMIN1(sqrt(delta/v_abs(gravity)), 0.5*delta*delta/viscosity_max);
 
   ///<li>determine the artificial compressiblity

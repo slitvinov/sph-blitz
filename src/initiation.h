@@ -3,6 +3,7 @@
 /// \file initiation.h 
 /// \brief Initiates the simulation
 
+#include "cpptcl.h"
 #include "vec2d.h"
 class Hydrodynamics;
 class ParticleManager;
@@ -23,6 +24,9 @@ public:
 
   ///the global inputfile name: a *.cfg file
   std::string inputfile;
+
+  ///tcl interpreter to read configuration data
+  Tcl::interpreter interp; 
 
   /// \brief initial condition marker:
   ///

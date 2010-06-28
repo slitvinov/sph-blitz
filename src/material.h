@@ -38,7 +38,8 @@ public:
 	double a0; ///<reference <b>sound speed??? was not commented</b>
 
 	///constructor
-	Material(const Initiation &ini);
+	/// imaterial is a number of material in input file
+	Material(Initiation &ini, const int number);
 
 	///show properties
 	void show_properties();

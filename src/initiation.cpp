@@ -20,8 +20,6 @@
 #include "particlemanager.h"
 #include "Kernel/kernel.h"
 #include "initiation.h"
-#include "cpptcl.h"
-
 using namespace std;
 
 //----------------------------------------------------------------------------------------
@@ -36,7 +34,6 @@ Initiation::Initiation(const std::string& project_name) {
 
 	//the input file name
 	inputfile = Project_name + ".tcl";
-	Tcl::interpreter interp; 
 	std::ifstream myfile;
 	myfile.open (inputfile.c_str());
 

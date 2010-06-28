@@ -28,13 +28,16 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //					constructors
 //----------------------------------------------------------------------------------------
-Material::Material(const Initiation &ini):
-  material_name("unnamed")
+Material::Material(Initiation &ini, const int number):
+  number(number)
 {
-	//total number of materials
-  //number_of_materials = ini.number_of_materials;
-  //	supportlength = ini.supportlength;
-  //  delta = ini.delta;
+  material_name = std::string(ini.interp.eval("[return $material_name]"));
+  material_type = ini.interp.eval("[return $material_type]");
+  cv = ini.interp.eval("[return $material_cv]");
+  gamma = ini.interp.eval("[return $material_gamma]");
+  b0 = ini.interp.eval("[return $material_b0]");
+  rho0 = ini.interp.eval("[return $material_rho0]");
+  a0 = ini.interp.eval("[return $material_a0]");
 }
 
 //----------------------------------------------------------------------------------------

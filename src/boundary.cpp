@@ -30,7 +30,7 @@
 using namespace std;
 
 //construtor
-Boundary::Boundary(const Initiation &ini, Hydrodynamics &hydro, ParticleManager &particles)
+Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &particles)
 {
   std::string Key_word;
   std::string inputfile;
@@ -51,26 +51,31 @@ Boundary::Boundary(const Initiation &ini, Hydrodynamics &hydro, ParticleManager 
   else cout<<"\nBoundary: read left, right, upper and lower boundary conditions from "<< inputfile <<" \n"; 
 
   ///- reading key words and configuration data from input file
-  while(!fin.eof()) {
-		
-    //read a string block
-    fin>>Key_word;
-		
-     ///- compare the key words for left, right, upper and lower boundary condition type and their velocities
-    if(Key_word == "BOUNDARY") fin>>wall_file>>xBl>>UxBl[0]>>UxBl[1]
-					 >>xBr>>UxBr[0]>>UxBr[1]
-					 >>yBd>>UyBd[0]>>UyBd[1]
-					 >>yBu>>UyBu[0]>>UyBu[1];
+  wall_file = ini.interp.eval("[reading $wall_file]");
 
-  }
-  fin.close();
+xBr = ini.interp.eval("[return $xBr]");
+UxBr[0] = ini.interp.eval("[return $UxBr(0)]");
+UxBr[1] = ini.interp.eval("[return $UxBr(1)]");
+
+xBl = ini.interp.eval("[return $xBl]");
+UxBl[0] = ini.interp.eval("[return $UxBl(0)]");
+UxBl[1] = ini.interp.eval("[return $UxBl(1)]");
+
+yBd = ini.interp.eval("[return $yBd]");
+UyBd[0] = ini.interp.eval("[return $UyBd(0)]");
+UyBd[1] = ini.interp.eval("[return $UyBd(1)]");
+
+yBu = ini.interp.eval("[return $yBu]");
+UyBu[0] = ini.interp.eval("[return $UyBu(0)]");
+UyBu[1] = ini.interp.eval("[return $UyBu(1)]");
+
 
   show_information(ini);
 
    if(ini.simu_mode==1)	
    {
-  ///- build boundary particles
-   BuildBoundaryParticle(particles, hydro);
+     ///- build boundary particles
+     BuildBoundaryParticle(particles, hydro);
    };
     cout<<"\n boundary condition constructor successfully executed \n";
 }
