@@ -424,18 +424,19 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 //----------------------------------------------------------------------------------------
 void ParticleManager::BuildWallParticle(Hydrodynamics &hydro, Boundary &boundary)
 {
-  int i, j, k, m;
-
   ///left hand border (corresponds to the first column)
   if(boundary.xBl == 0) {
 
     ///<ul><li>iterate over the first colums of all cells that constitute this boundary
-    for(j = 1; j < y_clls - 1; j++) {
+    for(int j = 1; j < y_clls - 1; j++) {
       ///<ul><li>create a new wall particle
-      for(k = 0; k < hdelta; k++)
-	for(m = 0; m < hdelta; m++) {
-	  spParticle prtl = boost::make_shared<Particle> ( -1*cll_sz + (k + 0.5)*delta, (j - 1)*cll_sz + (m + 0.5)*delta, 
-					 0.0, 0.0, cll_sz - (k + 0.5)*delta, 1.0, 0.0, hydro.materials[0]);
+      for(int k = 0; k < hdelta; k++)
+	for(int m = 0; m < hdelta; m++) {
+	  spParticle prtl = 
+	    boost::make_shared<Particle> ( -1*cll_sz + (k + 0.5)*delta, 
+					   (j - 1)*cll_sz + (m + 0.5)*delta, 
+					   0.0, 0.0, 
+					   hydro.materials[0]);
 
 	  prtl->cell_i = 0; prtl->cell_j = j; 
 	  ///<li>insert its position on the particle list
@@ -452,20 +453,21 @@ void ParticleManager::BuildWallParticle(Hydrodynamics &hydro, Boundary &boundary
   if(boundary.xBr == 0) {
 
     ///<ul><li>iterate over the last colums of all cells that constitute this boundary
-    for(j = 1; j < y_clls - 1; j++) {
+    for(int j = 1; j < y_clls - 1; j++) {
       ///<ul><li>create a new wall particle
-      for(k = 0; k < hdelta; k++)
-	for(m = 0; m < hdelta; m++) {
-	  spParticle prtl = boost::make_shared<Particle> ( (x_clls - 2)*cll_sz + (k + 0.5)*delta, (j - 1)*cll_sz + (m + 0.5)*delta, 
-					 0.0, 0.0, (k + 0.5)*delta, 1.0, 0.0, hydro.materials[0]);
+      for(int k = 0; k < hdelta; k++)
+	for(int m = 0; m < hdelta; m++) {
+	  spParticle prtl = 
+	    boost::make_shared<Particle> ( (x_clls - 2)*cll_sz + (k + 0.5)*delta, 
+					   (j - 1)*cll_sz + (m + 0.5)*delta, 
+					   0.0, 0.0, 
+					   hydro.materials[0]);
 
 	  prtl->cell_i = x_clls - 1; prtl->cell_j = j; 
 	  ///<li>insert its poistion on the particle list
 	  hydro.particle_list.insert(hydro.particle_list.begin(), prtl);
-
 	  ///<li>insert the position into corresponding cell list</ul></ul>
 	  cell_lists(x_clls - 1,j).insert(cell_lists(x_clls - 1,j).begin(), prtl);
-
 	}
     }
   }
@@ -474,12 +476,15 @@ void ParticleManager::BuildWallParticle(Hydrodynamics &hydro, Boundary &boundary
   if(boundary.yBd == 0) {
 
     ///<ul><li>iterate over the lowest row of all cells that constitute this boundary
-    for(i = 1; i < x_clls - 1; i++) {
+    for(int i = 1; i < x_clls - 1; i++) {
       ///<ul><li>creat a new wall particle
-      for(k = 0; k < hdelta; k++)
-	for(m = 0; m < hdelta; m++) {
-	  spParticle prtl = boost::make_shared<Particle> ( (i - 1)*cll_sz + (k + 0.5)*delta, -1*cll_sz + (m + 0.5)*delta, 
-					 0.0, 0.0, cll_sz - (m + 0.5)*delta, 0.0, 1.0, hydro.materials[0]);
+      for(int k = 0; k < hdelta; k++)
+	for(int m = 0; m < hdelta; m++) {
+	  spParticle prtl = 
+	    boost::make_shared<Particle> ( (i - 1)*cll_sz + (k + 0.5)*delta, 
+					   -1*cll_sz + (m + 0.5)*delta, 
+					   0.0, 0.0, 
+					   hydro.materials[0]);
 
 	  prtl->cell_i = i; prtl->cell_j = 0; 
 	  ///<li>insert its poistion on the particle list
@@ -496,16 +501,16 @@ void ParticleManager::BuildWallParticle(Hydrodynamics &hydro, Boundary &boundary
   if(boundary.yBu == 0) {
 
     ///<ul><li>iterate over the last rows of all cells that constitute this boundary
-    for(i = 1; i < x_clls - 1; i++) {
+    for(int i = 1; i < x_clls - 1; i++) {
       ///<ul><li>create a new wall particle
-      for(k = 0; k < hdelta; k++)
-	for(m = 0; m < hdelta; m++) {
+      for(int k = 0; k < hdelta; k++)
+	for(int m = 0; m < hdelta; m++) {
 	  spParticle prtl = boost::make_shared<Particle>((i - 1)*cll_sz + 
 							 (k + 0.5)*delta, 
 							 (y_clls - 2)*cll_sz + 
 							 (m + 0.5)*delta, 
-							 0.0, 0.0, (m + 0.5)*delta, 
-							 0.0, 1.0, hydro.materials[0]);
+							 0.0, 0.0,
+							 hydro.materials[0]);
 	  prtl->cell_i = i; prtl->cell_j = y_clls - 1; 
 	  ///<li>insert its poistion on the particle list
 	  hydro.particle_list.insert(hydro.particle_list.begin(), prtl);

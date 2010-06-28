@@ -231,13 +231,7 @@ void Interaction::UpdateForces()
 	{
 	  // cout<<"am in simu_mode=1 section of update forces";
 	  double Vi2 = Vi*Vi, Vj2 = Vj*Vj;
-	  ///- calculate artificial viscosity or Neumann_Richtmyer viscosity
-	  double Csi, Csj;
-	  Csi = Org->Cs; Csj = Dest->Cs;
-	  //theta = Uijdoteij*rij*ini.delta/(rij*rij + 0.01*ini.delta*ini.delta);
-	  //NR_vis = Uijdoteij > 0.0 ? 0.0 : ini.art_vis*theta*(rhoi*Csi*mj + rhoj*Csj*mi)/(mi + mj);
-	
-	
+
 	  ///- calculate density change rate
 	  const double drhodti = - Fij*rij*dot((Ui*Vi2 - Uj*Vj2), eij);
 	
