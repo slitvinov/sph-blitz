@@ -18,9 +18,9 @@ cd ${WRKDIR}
 
 # compile and install blitz
 cd blitz
-CXX=g++ ./configure --prefix=$PREFIX
+CXX=${CXX} ./configure --prefix=$PREFIX
 make install
 cd ${WRKDIR}
 
-./configure --with-blitz=${PREFIX} --with-tcl=${PREFIX}/lib/
+CXX=${CXX} ./configure --with-blitz=${PREFIX} --with-tcl=${PREFIX}/lib/
 make
