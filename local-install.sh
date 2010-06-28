@@ -2,9 +2,20 @@
 
 set -e
 set -u
-cd blitz
-CXX=g++ ./configure --prefix=$(pwd)/blitz-prefix
+PREFIX=$(pwd)/prefix-thirdparty
+WRKDIR=$(pwd)
+
+# compile and install tcl
+cd tcl/unix
+CC=gcc CXX=g++ ./configure --prefix=$PREFIX
 make install
-cd ..
-./configure --with-blitz=$(pwd)/blitz/blitz-prefix
+cd ${WRKDIR}
+
+# compile and install blitz
+cd blitz
+CXX=g++ ./configure --prefix=$PREFIX
+make install
+cd ${WRKDIR}
+
+./configure --with-blitz=${PREFIX} --with-tcl=${PREFIX}/lib/
 make

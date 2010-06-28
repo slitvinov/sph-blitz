@@ -20,6 +20,7 @@
 #include "particlemanager.h"
 #include "Kernel/kernel.h"
 #include "initiation.h"
+#include "cpptcl.h"
 
 using namespace std;
 
@@ -34,72 +35,37 @@ Initiation::Initiation(const std::string& project_name) {
 	Project_name = project_name;
 
 	//the input file name
-	inputfile = Project_name + ".cfg";
-	
-	///<ul><li>check if inputfile exists (if not exit the program)
-	ifstream fin(inputfile.c_str(), ios::in);
-	if (!fin) {
-		cout<<"Initialtion: Cannot open "<< inputfile <<" \n";
-		std::cout << __FILE__ << ':' << __LINE__ << std::endl;
-		exit(EXIT_FAILURE);
-	}
-	else cout<<"Initialtion: Read the global configuration data from "<< inputfile <<" \n"; 
+	inputfile = Project_name + ".tcl";
+	Tcl::interpreter interp; 
+	std::ifstream myfile;
+	myfile.open (inputfile.c_str());
 
+	interp.eval(myfile);
 	///<li>reading key words and configuration data from configuration file and assign them to the appropriate variable
 
-	// the status before reading the file
-	bool initial_condition_known  = false;
-	while(!fin.eof()) {
-		
-		//read a string block
-		fin>>Key_word;
-		
-		//comparing the key words for simulation mode
-		//1: liquids
-		//2: gas dynamics
-		if(Key_word == "SIMULATION_MODE") fin>>simu_mode;
+	initial_condition = interp.eval("[return $INITIAL_CONDITION]");
+	simu_mode = interp.eval("[return $SIMULATION_MODE]");
+	x_cells = interp.eval ("[return $CELLS(1)]");
+	y_cells = interp.eval ("[return $CELLS(2)]");
+	cell_size = interp.eval("[return $CELL_SIZE]");
+	supportlength = interp.eval("[return $SUPPORT_LENGTH]");
+	hdelta = interp.eval("[return $CELL_RATIO]");
 
-		//comparing the key words for initial condition input
-		//0: Initialize the initial conditions from .cfg file
-		//1: restart from a .rst file
-		if(Key_word == "INITIAL_CONDITION") {
-		  fin>>initial_condition;
-		  /// now we know the initial_condition status
-		  initial_condition_known = true;
-		}
+	g_force[0] = interp.eval ("[return $G_FORCE(1)]");
+	g_force[1] = interp.eval ("[return $G_FORCE(2)]");
 
-		//comparing the key words for domian size
-		if(Key_word == "CELLS") fin>>x_cells>>y_cells;
+	number_of_materials = interp.eval("[return $NUMBER_OF_MATERIALS]");
+	Start_time = interp.eval("[return $Start_time]");
+	End_time = interp.eval("[return $End_time]");
+	D_time = interp.eval("[return $D_time]");
 
-		//comparing the key words for cell size
-		if(Key_word == "CELL_SIZE") fin>>cell_size;
-
-		//comparing the key words for supportlength
-		if(Key_word == "SUPPORT_LENGTH") fin>>supportlength;
-
-		//comparing the key words for the ratio between cell size and initial particle width
-		if(Key_word == "CELL_RATIO") fin>>hdelta;
-
-		//comparing the key words for the g force
-		if(Key_word == "G_FORCE") fin>>g_force[0]>>g_force[1];
- 
-		//comparing the key words for the artificial viscosity
-		if(Key_word == "ARTIFICIAL_VISCOSITY") fin>>art_vis;
-
-		//comparing the key words for number ofmaterials
-		if(Key_word == "NUMBER_OF_MATERIALS") fin>>number_of_materials;
-
-		//comparing the key words for timing
-		if(Key_word == "TIMING") fin>>Start_time>>End_time>>D_time;
-
-		//Initialize the initial conditions from .cfg file
-		if ( (initial_condition_known)  && (initial_condition==0) ) {
-			//comparing the key words for the initial state
-			if(Key_word == "INITIAL_STATES") fin>>U0[0]>>U0[1]>>rho0>>p0>>T0;
-		}
-
+	if (initial_condition == 0) {
+	  rho0 = interp.eval("[return $rho0]");
+	  p0 = interp.eval("[return $p0]");
+	  T0 = interp.eval("[return $T0]");
+	  U0[0] = interp.eval ("[return $U0(1)]");
+	  U0[1] = interp.eval ("[return $U0(2)]");
 	}
-	fin.close();
 
 	///<li>create outdata directory
 	const int sys_return = system("mkdir -p outdata");

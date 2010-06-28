@@ -9,6 +9,17 @@ AM_INIT_AUTOMAKE(sph, 0.1)
 # Checks for programs.
 AC_PROG_CXX
 
+SC_PATH_TCLCONFIG 
+AC_SUBST(TCL_BIN_DIR)
+. ${TCL_BIN_DIR}/tclConfig.sh
+
+TCL_LIB_SPEC=$(${SHELL} -c "echo ${TCL_LIB_SPEC}")
+TCL_INCLUDE_SPEC=$(${SHELL} -c "echo ${TCL_INCLUDE_SPEC}")
+
+LIBS="${TCL_LIB_SPEC} ${LIBS}"
+CXXFLAGS="${TCL_INCLUDE_SPEC} ${CXXFLAGS}"
+
+
 # Checks for libraries.
 AC_CHECK_BLITZ(
   [
@@ -32,3 +43,7 @@ AC_CHECK_FUNCS([pow sqrt])
 
 AC_OUTPUT(Makefile src/Makefile)
 
+AC_MSG_NOTICE([================================================])
+AC_MSG_NOTICE([CXX=$CXX])
+AC_MSG_NOTICE([CXXFLAGS=$CXXFLAGS])
+AC_MSG_NOTICE([LIBS=$LIBS])

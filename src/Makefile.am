@@ -15,10 +15,12 @@ nomain=	 boundary.cpp boundary.h \
 	Kernel/kernel.cpp Kernel/kernel.h \
 	Kernel/quinticspline.cpp Kernel/quinticspline.h \
 	Kernel/cubicspline.cpp Kernel/cubicspline.h \
-	Kernel/betaspline.h Kernel/betaspline.cpp
+	Kernel/betaspline.h Kernel/betaspline.cpp \
+	cpptcl.cc cpptcl.h
 
 sph_SOURCES= sph.cpp $(nomain) 
 
 kernel_test_SOURCES= $(nomain) Kernel/kernel_test.cpp
 particlemanager_test_SOURCES= $(nomain) particlemanager_test.cpp
 
+EXTRA_DIST = Doxyfile
