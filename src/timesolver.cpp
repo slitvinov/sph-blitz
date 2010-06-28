@@ -31,12 +31,11 @@ using namespace std;
 TimeSolver::TimeSolver(const Initiation &ini)
 {
   ///- copy properties from class Initiation
-  cell_size = ini.cell_size;
-  box_size = ini.box_size;
-  supportlength = ini.supportlength;
+  //  cell_size = ini.cell_size;
+  // box_size = ini.box_size;
+  //supportlength = ini.supportlength;
 	
   ///- initialize the iteration
-  ite = 0;
   cout<<"\n initiation of time solver succeeded\n ";
 }
 
@@ -53,7 +52,13 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
 	
   while(integeral_time < D_time) {
 
-    const double dt =0.0025/* hydro.GetTimestep(ini)*/;
+    double dt;
+    if (ini.simu_mode == 2) {
+      dt =0.0025;
+    } else {
+      dt = hydro.GetTimestep(ini);
+    }
+    assert(dt>0.0);
     //control output
     cout<<"\n current timestep:"<<dt<<"\n";
     cout<<"\n current absolute integraltime:"<<Time<<"\n";	
@@ -71,7 +76,7 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
     // cout<<"\n just before build pair\n";
     //predictor and corrector method used
     ///<li>the prediction step
-    hydro.BuildInteractions(particles, weight_function);///<ol><li> rebuild interactions
+    hydro.BuildInteractions(particles, weight_function, ini);///<ol><li> rebuild interactions
     hydro.UpdateDensity(ini, weight_function);///<li> hydro.UpdateDensity
     if(ini.simu_mode==1)
       {

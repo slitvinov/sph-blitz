@@ -5,12 +5,17 @@
 
 #include "cpptcl.h"
 #include "vec2d.h"
+#include <boost/utility.hpp>
+
+
 class Hydrodynamics;
 class ParticleManager;
 class Kernel;
 
 ///\brief Initiates the simulation
-class Initiation {
+/// It must be a one copy of Initiation object
+/// and copy is prevented
+class Initiation : boost::noncopyable {
 public:
 	
   ///the project name
@@ -57,6 +62,11 @@ public:
   double rho0;///<initial particle density(if initial condition is defined here)
   double p0;///<initial pressure(if initial condition is defined here)
   double T0;///<initial temperature(if initial condition is defined here)
+
+  ///artificial viscosity
+  double alpha_artVis;
+  double beta_artVis;
+  double epsilon_artVis;
 
   ///constructor
   ///\param *project_name: a pointer to the project name array (the project name is defined as a main-function argument and therefore given as an additional command line element when running the progam) 

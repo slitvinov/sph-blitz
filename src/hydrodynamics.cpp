@@ -11,6 +11,7 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <boost/foreach.hpp>
 
 
 #include <cstdio>
@@ -74,10 +75,11 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
 //						Build new interactions
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::BuildInteractions(ParticleManager &particles, 
-				      const Kernel &weight_function)
+				      const Kernel &weight_function, 
+				      const Initiation& ini)
 {
   ///- obtain the interaction pairs by just calling the particles BuildInteraction method
-  particles.BuildInteraction(interaction_list, particle_list, weight_function);
+  particles.BuildInteraction(interaction_list, particle_list, weight_function, ini);
   cout<<"\n BuildInteraction done\n";
 }
 //----------------------------------------------------------------------------------------
@@ -104,7 +106,7 @@ void Hydrodynamics::UpdateDensity(ParticleManager &particles, const Kernel &weig
 {	
 
   ///- obtain the interaction pairs
-  particles.BuildInteraction(interaction_list, particle_list, weight_function);
+  particles.BuildInteraction(interaction_list, particle_list, weight_function, ini);
 	
   ///- initiate by calling Zero_density method
   Self_density(weight_function);
@@ -155,7 +157,7 @@ void Hydrodynamics::UpdateChangeRate(ParticleManager &particles,
   ZeroChangeRate();
 
   ///- obtain the interaction pairs
-  particles.BuildInteraction(interaction_list, particle_list, weight_function);
+  particles.BuildInteraction(interaction_list, particle_list, weight_function, ini);
 
   ///- iterate the interaction list
   for (std::list<spInteraction>::const_iterator p = interaction_list.begin(); 
@@ -362,18 +364,20 @@ double Hydrodynamics::GetTimestep(const Initiation& ini) const
 
   //predict the time step
   //iterate the partilce list
-  for (std::list<spParticle>::const_iterator p = particle_list.begin(); 
-       p != particle_list.end(); 
-       p++) {
-				
-    spParticle prtl = *p;
+  BOOST_FOREACH(spParticle prtl, particle_list) {
+    assert(prtl != NULL);
     Cs_max = AMAX1(Cs_max, prtl->Cs);
     V_max = AMAX1(V_max, v_abs(prtl->U));
     rho_min = AMIN1(rho_min, prtl->rho);
     rho_max = AMAX1(rho_max, prtl->rho);
   }
 
-  return  0.25*AMIN1(dt_g_vis, ini.delta/(Cs_max + V_max));
+  assert(ini.delta>0.0);
+  assert(dt_g_vis>0.0);
+  const double dt = 0.25*AMIN1(dt_g_vis, ini.delta/(Cs_max + V_max));
+  assert(dt>0.0);
+  return dt;
+  
 }
 //----------------------------------------------------------------------------------------
 //						the redictor and corrector method: predictor

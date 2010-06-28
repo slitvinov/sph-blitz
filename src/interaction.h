@@ -5,15 +5,13 @@
 
 #include "glbtype.h"
 
+class Initiation;
 
 /// Defines interaction between particles
 class Interaction {
-
-
 	//particle pair
 	spParticle Org;	///<pointer to particle with larger ID (of particle pair)
 	spParticle Dest;	///<pointer to particle with smaller ID (of particle pair)
-	
 
 	double mi;///<mass particle i
 	double rmi;///<reciprocal value of mass particle i
@@ -21,8 +19,6 @@ class Interaction {
 	double mj;///<mass particle j
 	double rmj;///<reciprocal value of mass particle j
 	double etaj;///<viscosity for particle j
-
-	double piij;///Monaghan artificial viscosity
 
 	//distance between the two particles, weight and derivatives
 	double rij;///<distance between 2 particles
@@ -32,22 +28,26 @@ class Interaction {
         double Wij2;///<<b>!!!question!!!<b>
 	Vec2d gradWij;///kernel gradient
 	Vec2d eij; ///<pair direction from orginal particle to destination particle 
+  
+  /// a 
+  const Initiation& ini;
 public:
 	///total number of materials
-	static double supportlength;
+	//static double supportlength;
         ///particle distance
-	static double delta;
+	//static double delta;
 	///artificial viscosity
-	static double art_vis;
+  //	static double art_vis;
 	///simulation mode
-       static int simu_mode;
-       static double alpha_artVis;///<factor for Monaghan Artificial viscosity
-       static double beta_artVis;///<factor for Monaghan Artificial viscosity
-       static double epsilon_artVis;///<factor for Monaghan Artificial viscosity
+  //static int simu_mode;
+  //   static double alpha_artVis;///<factor for Monaghan Artificial viscosity
+  //   static double beta_artVis;///<factor for Monaghan Artificial viscosity
+  //   static double epsilon_artVis;///<factor for Monaghan Artificial viscosity
 
 	///constructor
 	Interaction(const spParticle prtl_org, const spParticle prtl_dest, 
-		    const Kernel &weight_function, const double dstc);
+		    const Kernel &weight_function, const double dstc,
+		    const Initiation& ini);
 	
 	///use old interaction object for new interaction
 	void NewInteraction(const spParticle prtl_org, const spParticle prtl_dest, 

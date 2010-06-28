@@ -185,7 +185,8 @@ std::list<spParticle> ParticleManager::BuildNNP(Vec2d &point)
 //----------------------------------------------------------------------------------------
 void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions, 
 				       std::list<spParticle > &particle_list, 
-				       const Kernel &weight_function)
+				       const Kernel &weight_function, 
+				       const Initiation& ini)
 {
   //clear the list first
   interactions.clear();
@@ -226,7 +227,8 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
 		  //	cout<<"\n distances for BuildInteractions positif:"<<dstc<<"\n";
 		  spInteraction pair = 
 		    boost::make_shared<Interaction>(prtl_org, prtl_dest, 
-						    weight_function, sqrt(dstc));
+						    weight_function, sqrt(dstc),
+						    ini);
 		  interactions.push_back(pair);
 
 		}
@@ -274,7 +276,6 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 	//initialize the real particles inside the boundary
 	for(int i = 1; i < x_clls - 1; i++) {
 	  for(int j = 1; j < y_clls - 1; j++) {
-	    cout<<"Build initial particles within domain with .cfg data";
 	    //creat a new real particle
 	    for(int k = 0; k < hdelta; k++) {
 	      for(int m = 0; m < hdelta; m++) {

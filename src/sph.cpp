@@ -102,12 +102,9 @@ int main(int argc, char *argv[]) {
   /// TODO: it should be a separate procedure but not 
   /// a constructor
 
-  Interaction::supportlength = ini.supportlength;
-  Interaction::delta = ini.delta;
-  Interaction::simu_mode = ini.simu_mode;
-  Interaction::alpha_artVis=1.0;
-  Interaction::beta_artVis=2.0;
-  Interaction::epsilon_artVis=0.1;
+  //Interaction::alpha_artVis=1.0;
+  //Interaction::beta_artVis=2.0;
+  //Interaction::epsilon_artVis=0.1;
 
   // Kernel
   /// here one can choose which Kernel function to use 

@@ -38,7 +38,8 @@ public:
 	double GetTimestep(const Initiation& ini) const;
 
 	///build new pairs
-	void BuildInteractions(ParticleManager &particles, const Kernel &weight_function);
+  void BuildInteractions(ParticleManager &particles, const Kernel &weight_function,
+			 const Initiation& ini);
 	///update new parameters in pairs
 	void UpdateInteractions(const Kernel &weight_function);
 

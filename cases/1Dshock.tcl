@@ -33,6 +33,11 @@ set T0 1.0
 set G_FORCE(0) 0.0
 set G_FORCE(1) 0.0
 
+# parameters of artificial viscosity
+set alpha_artVis 1.0
+set beta_artVis 1.0
+set epsilon_artVis 1.0
+
 # boundary conditions
 # type and velocity
 set xBl 0

@@ -77,7 +77,8 @@ public:
   ///build the interaction (particle pair) list
   void BuildInteraction(std::list<spInteraction> &interactions, 
 			std::list<spParticle > &particle_list, 
-			const Kernel &weight_function);
+			const Kernel &weight_function,
+			const Initiation& ini);
 };
 
 #endif //PARTICLEMANAGER_H

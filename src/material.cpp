@@ -42,6 +42,10 @@ Material::Material(Initiation &ini, const int number)
   b0 = ini.interp.eval("[return $material_b0"  + index);
   rho0 = ini.interp.eval("[return $material_rho0"  + index);
   a0 = ini.interp.eval("[return $material_a0"  + index);
+
+  if (ini.simu_mode == 1) {
+    eta = ini.interp.eval("[return $material_eta"  + index);
+  }
 }
 
 //----------------------------------------------------------------------------------------
@@ -121,5 +125,7 @@ double Material::get_e(const double T) const
 //----------------------------------------------------------------------------------------
 double Material::get_Cs(const double p, const double rho)
 {
-	return sqrt(gamma*p/rho);
+  assert(rho>0.0);
+  assert(p>0.0);
+  return sqrt(gamma*p/rho);
 }

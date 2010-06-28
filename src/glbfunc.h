@@ -14,7 +14,7 @@
 //global functions
 
 ///	a. Get the maximum
-double AMAX1(double a, double b);
+double AMAX1(const double a, const double b);
 ///	b. Get the minimum
-double AMIN1(double a, double b);
+double AMIN1(const double a, const double b);
 #endif

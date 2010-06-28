@@ -27,20 +27,15 @@
 
 using namespace std;
 
-double Interaction::supportlength = 0.0;
-double Interaction::art_vis = 0.0;
-double Interaction::delta = 0.0;
-int Interaction::simu_mode =0;
-double Interaction::alpha_artVis=0.0;
-double Interaction::beta_artVis=0.0;
-double Interaction::epsilon_artVis=0.0;
 
 //----------------------------------------------------------------------------------------
 //					constructor
 //----------------------------------------------------------------------------------------
 Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest, 
 			 const Kernel &weight_function, 
-			 const double dstc)
+			 const double dstc,
+			 const Initiation& ini):
+  ini(ini)
 {
   assert(prtl_dest != NULL);
   assert(prtl_org != NULL);
@@ -96,6 +91,7 @@ void Interaction::NewInteraction(const spParticle prtl_org, const spParticle prt
 	
 	/// particle distance should be in this range
 	assert(rij>0.0);
+	const double supportlength  = ini.supportlength;
 	assert(supportlength>0.0);
 	
 	/// particle must not be that far 
@@ -188,7 +184,8 @@ void Interaction::UpdateForces()
 	//pair focres or change rate
 	Vec2d dPdti, dUdti, dUdtj; //mometum&velocity change rate
 
-	if(simu_mode==2) {
+	if(ini.simu_mode==2) {
+	  const double supportlength = ini.supportlength;
 	  assert(supportlength>0.0);
 	  assert(rij>0.0);
 	  /// particle must not be that far 
@@ -200,11 +197,15 @@ void Interaction::UpdateForces()
 	  const double hij=supportlength/2.0;//=0.5*(hi+hj)for later (variable smoothing length);
 	  const double cij=0.5*(Org->Cs+Dest->Cs);
           const double rhoij=0.5*(rhoi+rhoj);
+
+	  ///Monaghan artificial viscosity
+	  double piij = 0.0;
 	
           if (UijdotRij<0)//that means: whenever in compression (as only then artificial viscosity applies for a shock tube problem)
           {
-            const double phiij=(hij*UijdotRij)/(pow(rij,2)+epsilon_artVis*pow(hij,2)); //according to formula monaghan artificial viscosity
-	    piij=(-1*alpha_artVis*cij*phiij+beta_artVis*pow(phiij,2))/rhoij; //according to formula monaghan artificial viscosity
+            const double phiij=(hij*UijdotRij)/(pow(rij,2)+ini.epsilon_artVis*pow(hij,2)); //according to formula monaghan artificial viscosity
+	    const double alpha_artVis = ini.alpha_artVis;
+	    piij=(-1*ini.alpha_artVis*cij*phiij+ini.beta_artVis*pow(phiij,2))/rhoij; //according to formula monaghan artificial viscosity
           }
 	  else //if no compression: artificial viscosity is zero
 	  {
@@ -228,25 +229,26 @@ void Interaction::UpdateForces()
 	  Dest->dedt+=dedtj;
 	};
 
-      	if(simu_mode==1)
+      	if(ini.simu_mode==1)
 	{
 	  // cout<<"am in simu_mode=1 section of update forces";
 	  double Vi2 = Vi*Vi, Vj2 = Vj*Vj;
 	  ///- calculate artificial viscosity or Neumann_Richtmyer viscosity
 	  double theta, Csi, Csj, NR_vis;
 	  Csi = Org->Cs; Csj = Dest->Cs;
-	  theta = Uijdoteij*rij*delta/(rij*rij + 0.01*delta*delta);
-	  NR_vis = Uijdoteij > 0.0 ? 0.0 : art_vis*theta*(rhoi*Csi*mj + rhoj*Csj*mi)/(mi + mj);
+	  //theta = Uijdoteij*rij*ini.delta/(rij*rij + 0.01*ini.delta*ini.delta);
+	  //NR_vis = Uijdoteij > 0.0 ? 0.0 : ini.art_vis*theta*(rhoi*Csi*mj + rhoj*Csj*mi)/(mi + mj);
 	
-	  //normalize velocity
-	  const Vec2d dUi = - eij*theta*Wij*art_vis/(rhoi + rhoj);
 	
 	  ///- calculate density change rate
 	  const double drhodti = - Fij*rij*dot((Ui*Vi2 - Uj*Vj2), eij);
 	
-	  ///- calculate momentum change rate
-	  dPdti =   eij*Fij*rij*(pi*Vi2 + pj*Vj2)
-	    - (NR_vis)*Fij*(Vi2 + Vj2);
+	  const double shear_rij = 2.0*etai*etaj/(etai + etaj);
+
+	  ///- calculate momentum change rate 	  
+	  /// viscouse and pressure parts
+	  const Vec2d dPdti = shear_rij*Fij*(Vi2 + Vj2) * Uij +
+	    eij*Fij*rij*(pi*Vi2 + pj*Vj2);
 		
 	Org->drhodt += drhodti*rhoi*rVi;
 	Dest->drhodt += drhodti*rhoj*rVj;

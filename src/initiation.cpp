@@ -43,6 +43,14 @@ Initiation::Initiation(const std::string& project_name) {
 
 	initial_condition = interp.eval("[return $INITIAL_CONDITION]");
 	simu_mode = interp.eval("[return $SIMULATION_MODE]");
+
+	/// if gas dynamics
+	if (simu_mode == 2) {
+	  /// read parameters of artificial viscosity 
+	  alpha_artVis = interp.eval("[return $alpha_artVis]");
+	  beta_artVis = interp.eval("[return $beta_artVis]");
+	  epsilon_artVis = interp.eval("[return $epsilon_artVis]");
+	} 
 	x_cells = interp.eval ("[return $CELLS(0)]");
 	y_cells = interp.eval ("[return $CELLS(1)]");
 	cell_size = interp.eval("[return $CELL_SIZE]");
@@ -64,6 +72,8 @@ Initiation::Initiation(const std::string& project_name) {
 	  U0[0] = interp.eval ("[return $U0(0)]");
 	  U0[1] = interp.eval ("[return $U0(1)]");
 	}
+
+	
 
 	///<li>create outdata directory
 	const int sys_return = system("mkdir -p outdata");

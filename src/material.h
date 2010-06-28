@@ -11,10 +11,6 @@ class Initiation;
 
 /// Material 
 class Material {
-	///total number of materials
-  //	static int number_of_materials;
-	//	static double supportlength;///<smoothinglenth
-  //	static double delta;
 
 public:
 	///material name string
