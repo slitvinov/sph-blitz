@@ -98,15 +98,7 @@ int main(int argc, char *argv[]) {
   std::string aux_string  = std::string(argv[1]);
   Initiation ini(aux_string); ///- global initialization (by defining an object of class Initiation (initialization "automatically" done at this moment (from .cfg or .rst file) by constructor method of Initiation class. That is by the way the reason why the initiation::initiation method does not figure in the call graph of the main function (constructors are not shwon there)
 
-  /// moved initiation of static members to here
-  /// TODO: it should be a separate procedure but not 
-  /// a constructor
 
-  //Interaction::alpha_artVis=1.0;
-  //Interaction::beta_artVis=2.0;
-  //Interaction::epsilon_artVis=0.1;
-
-  // Kernel
   /// here one can choose which Kernel function to use 
   //QuinticSpline weight_function (ini.supportlength); 
   // (not in runtime)
@@ -137,7 +129,6 @@ int main(int argc, char *argv[]) {
     //set the machine random seed
     srand( (unsigned)time( NULL ) );
 		
-
     //control output
     cout<<"\n--------new output intervall beginns:output interval time:"<<ini.D_time<<"\n";
 		  
