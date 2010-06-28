@@ -1,27 +1,40 @@
+# 1D shock configuration file
 set SIMULATION_MODE 2
+
+# initial conditions flag 
+# 0: use initial 
+# 1: use restart file
 set INITIAL_CONDITION 0
 
+# number of cells in X and Y directions
 set CELLS(0) 40
 set CELLS(1) 1
 
+# size of one cell
 set CELL_SIZE 0.05
+
+# support length of the kernel
 set SUPPORT_LENGTH 0.03
 
+# number of particles in one cell size
+# not use in 1D shock 
 set CELL_RATIO 1
 
+# initial particles velocity
 set U0(0) 0.0
 set U0(1) 0.0
 
+# initial propeties of the particles
 set rho0 0.0
 set p0 0.5
 set T0 1.0
 
+# gravity force
 set G_FORCE(0) 0.0
 set G_FORCE(1) 0.0
 
-# ARTIFICIAL_VISCOSITY		0	
-
-set is_wall_file 0
+# boundary conditions
+# type and velocity
 set xBl 0
 set UxBl(0) 0.0
 set UxBl(1) 0.0
@@ -38,6 +51,7 @@ set yBu 0
 set UyBu(0) 0.0
 set UyBu(1) 0.0
 
+# time step
 set Start_time 0.0		
 set End_time 0.25	
 set D_time 0.0025

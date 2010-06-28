@@ -12,7 +12,7 @@ class Boundary
 	Vec2d box_size;
 	///cell matrix size
 	int x_clls, y_clls;
-	int number_of_materials;
+
 	///show information on screen
 	void show_information(const Initiation &ini);
 

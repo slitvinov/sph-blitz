@@ -69,18 +69,11 @@ class Particle {
         double dedt; ///<internal energy change rate for real particles
 	Vec2d dUdt;///<acceleration change for real particles <b>or is it the other wa round</b>
 
-	//other data
-	
 	/// \brief boundary particle or not
 	///
 	///- 0: inside the boundary
 	///- 1: on the boundary
-	int bd; 
-	
-	///boundary type if bd = 1
-	///- 0 wall particle with zero or constant velocity but never move its position
-	///- 1 ghost particle for perodic boundary
-	int bd_type; 
+	const int bd; 
 
 	///\brief ID number
 	///
@@ -92,11 +85,6 @@ class Particle {
 	
 	///maximum ID number for non-ghost particles (real or wall particles) in the simulation
 	static long ID_max;
-
-	//for wall boundary particles
-	double bd_dst;///<for wall boundary particles
-	Vec2d  nrml;///<for wall boundary particles
-
 };
 
 #endif //PARTICLE_H

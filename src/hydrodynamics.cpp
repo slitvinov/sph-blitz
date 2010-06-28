@@ -37,8 +37,6 @@ using namespace std;
 Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   ///<ul><li>copy properties from initiation class
 
-
-
   ///<li>create material matrix
   //Material sample_material(ini);  //set satatic numbers
   materials.resize(ini.number_of_materials);

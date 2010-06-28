@@ -21,11 +21,13 @@ class Hydrodynamics
 
   ///the interaction (particle pair) list
   std::list<spInteraction> interaction_list;
+
 public:
 	///the materials used
 	/// store a shared pointers to the 
 	/// material class
 	vecMaterial materials;
+
 	///the interaction force used
 	std::list<spParticle> particle_list; ///<particle list for all particles
 

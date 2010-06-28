@@ -22,9 +22,6 @@ public:
   ///- therefore at least 2 materials should be included
   int number_of_materials;
 
-  ///the global inputfile name: a *.cfg file
-  std::string inputfile;
-
   ///tcl interpreter to read configuration data
   Tcl::interpreter interp; 
 
@@ -33,8 +30,7 @@ public:
   ///- 0 initialize from the .cfg file; 
   ///- 1 read from the .rst file particle by particle with non-dimensional data
   int initial_condition;
-  ///artificial viscosity
-  double art_vis;
+
   ///simulation mode (1:liquids, 2: gas dynamics)
   int simu_mode;
   ///supportlength

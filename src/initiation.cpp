@@ -20,6 +20,7 @@
 #include "particlemanager.h"
 #include "Kernel/kernel.h"
 #include "initiation.h"
+#include <boost/foreach.hpp>
 using namespace std;
 
 //----------------------------------------------------------------------------------------
@@ -33,7 +34,7 @@ Initiation::Initiation(const std::string& project_name) {
 	Project_name = project_name;
 
 	//the input file name
-	inputfile = Project_name + ".tcl";
+	const std::string inputfile = Project_name + ".tcl";
 	std::ifstream myfile;
 	myfile.open (inputfile.c_str());
 
@@ -103,7 +104,6 @@ void Initiation::show_information() const
   ///- output iniformation on initialization mode (.cfg file or .rst file)
   //Initialize the initial conditions from .cfg file
   if (initial_condition==0) {
-    cout<<"\nInitialize the initial conditions from "<<inputfile<<" \n";
     cout<<"The initial flow speed is "<<U0[0]<<" m/s x "<<U0[1]<<" m/s\n";
     cout<<"The initial density is "<<rho0<<" kg/m^3\n";
     cout<<"The initial pressure is "<<p0<<" Pa\n";
@@ -115,6 +115,7 @@ void Initiation::show_information() const
     cout<<"Read the initial conditions from separated restat file "
 	<<Project_name<<".rst \n";
 }
+
 //----------------------------------------------------------------------------------------
 //					predict the particle volume and mass
 //----------------------------------------------------------------------------------------
@@ -127,13 +128,8 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
   ///The mass for each particle  stays constant during the simuation.
 
   /// <ul><li>iterate particles on the particle list
-  for (std::list<spParticle >::const_iterator p = hydro.particle_list.begin(); 
-       p != hydro.particle_list.end(); 
-       p++) {
-					
+  BOOST_FOREACH(spParticle prtl_org, hydro.particle_list) {
     /// <ul><li> pick an origin particle
-    spParticle prtl_org = *p;
-    /// <li> build the nearest neighbor particle list for chosen origin particle
     assert(prtl_org != NULL);
     const std::list<spParticle> NNP_list = particles.BuildNNP(prtl_org->R);
 
@@ -143,13 +139,7 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
 
     double reciprocV = 0.0; 
     /// <li>iterate this Nearest Neighbor spParticle list
-    for (std::list<spParticle >::const_iterator p1 = NNP_list.begin(); 
-	 p1 != NNP_list.end(); 
-	 p1++) {
-			
-      /// <ul><li> get a particle
-      spParticle prtl_dest = *p1;
-
+    BOOST_FOREACH(const spParticle prtl_dest, NNP_list) {
       /// <li> calculate distance (origin<-> neighbor)
       if ( prtl_dest->ID != prtl_dest->ID) {
 	const double dstc = v_distance(prtl_org->R, prtl_dest->R);

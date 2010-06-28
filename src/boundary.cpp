@@ -32,41 +32,28 @@ using namespace std;
 //construtor
 Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &particles)
 {
-  std::string Key_word;
-  std::string inputfile;
-
   ///copy global properties from initiation class
   box_size = ini.box_size;
   x_clls = particles.x_clls; y_clls = particles.y_clls;
-  number_of_materials = ini.number_of_materials;
 
   //check if inputfile exist
-  inputfile = ini.inputfile;
-  ifstream fin(inputfile.c_str(), ios::in);
-  if (!fin) {
-    cout<<"Boundary: Cannot open "<< inputfile <<" \n";
-    std::cout << __FILE__ << ':' << __LINE__ << std::endl;
-    exit(EXIT_FAILURE);
-  }
-  else cout<<"\nBoundary: read left, right, upper and lower boundary conditions from "<< inputfile <<" \n"; 
-
   ///- reading key words and configuration data from input file
 
-xBr = ini.interp.eval("[return $xBr]");
-UxBr[0] = ini.interp.eval("[return $UxBr(0)]");
-UxBr[1] = ini.interp.eval("[return $UxBr(1)]");
+  xBr = ini.interp.eval("[return $xBr]");
+  UxBr[0] = ini.interp.eval("[return $UxBr(0)]");
+  UxBr[1] = ini.interp.eval("[return $UxBr(1)]");
 
-xBl = ini.interp.eval("[return $xBl]");
-UxBl[0] = ini.interp.eval("[return $UxBl(0)]");
-UxBl[1] = ini.interp.eval("[return $UxBl(1)]");
+  xBl = ini.interp.eval("[return $xBl]");
+  UxBl[0] = ini.interp.eval("[return $UxBl(0)]");
+  UxBl[1] = ini.interp.eval("[return $UxBl(1)]");
 
-yBd = ini.interp.eval("[return $yBd]");
-UyBd[0] = ini.interp.eval("[return $UyBd(0)]");
-UyBd[1] = ini.interp.eval("[return $UyBd(1)]");
+  yBd = ini.interp.eval("[return $yBd]");
+  UyBd[0] = ini.interp.eval("[return $UyBd(0)]");
+  UyBd[1] = ini.interp.eval("[return $UyBd(1)]");
 
-yBu = ini.interp.eval("[return $yBu]");
-UyBu[0] = ini.interp.eval("[return $UyBu(0)]");
-UyBu[1] = ini.interp.eval("[return $UyBu(1)]");
+  yBu = ini.interp.eval("[return $yBu]");
+  UyBu[0] = ini.interp.eval("[return $UyBu(0)]");
+  UyBu[1] = ini.interp.eval("[return $UyBu(1)]");
 
 
   show_information(ini);

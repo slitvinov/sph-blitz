@@ -103,7 +103,6 @@ int main(int argc, char *argv[]) {
   /// a constructor
 
   Interaction::supportlength = ini.supportlength;
-  Interaction::art_vis = ini.art_vis;
   Interaction::delta = ini.delta;
   Interaction::simu_mode = ini.simu_mode;
   Interaction::alpha_artVis=1.0;

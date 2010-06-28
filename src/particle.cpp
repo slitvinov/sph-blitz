@@ -65,7 +65,7 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
 Particle::Particle (double x, double y, double u, double v, 
 		   double distance, double normal_x, double normal_y, 
 		   spMaterial material) : 
-  bd(1), bd_type(0),
+  bd(1),
   mtl(material)
 {
 
@@ -80,10 +80,6 @@ Particle::Particle (double x, double y, double u, double v,
 	
   ///- set states
   U[0] = u; U[1] = v;
-	
-  ///- set distance and normal directions to boundary
-  bd_dst = distance;
-  nrml[0] = normal_x; nrml[1] = normal_y;
 
   ///- set states value to avoid error
   rho = 0.0, p = 0.0, T = 0.0;
@@ -92,7 +88,7 @@ Particle::Particle (double x, double y, double u, double v,
 //						creat a ghost particle 
 //----------------------------------------------------------------------------------------
 Particle::Particle (spParticle RealParticle ) : 
-  bd(1), bd_type(1),
+  bd(1), 
   mtl(RealParticle->mtl)
 {
   ///- give a new ID number
@@ -121,7 +117,6 @@ Particle::Particle (spParticle RealParticle ) :
 //----------------------------------------------------------------------------------------
 Particle::Particle (spParticle RealParticle , spMaterial material): 
   bd(1), 
-  bd_type(0),
   mtl(material),
   rl_prtl(RealParticle)
 {
