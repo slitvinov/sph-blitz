@@ -42,14 +42,14 @@ Initiation::Initiation(const std::string& project_name) {
 
 	initial_condition = interp.eval("[return $INITIAL_CONDITION]");
 	simu_mode = interp.eval("[return $SIMULATION_MODE]");
-	x_cells = interp.eval ("[return $CELLS(1)]");
-	y_cells = interp.eval ("[return $CELLS(2)]");
+	x_cells = interp.eval ("[return $CELLS(0)]");
+	y_cells = interp.eval ("[return $CELLS(1)]");
 	cell_size = interp.eval("[return $CELL_SIZE]");
 	supportlength = interp.eval("[return $SUPPORT_LENGTH]");
 	hdelta = interp.eval("[return $CELL_RATIO]");
 
-	g_force[0] = interp.eval ("[return $G_FORCE(1)]");
-	g_force[1] = interp.eval ("[return $G_FORCE(2)]");
+	g_force[0] = interp.eval ("[return $G_FORCE(0)]");
+	g_force[1] = interp.eval ("[return $G_FORCE(1)]");
 
 	number_of_materials = interp.eval("[return $NUMBER_OF_MATERIALS]");
 	Start_time = interp.eval("[return $Start_time]");
@@ -60,8 +60,8 @@ Initiation::Initiation(const std::string& project_name) {
 	  rho0 = interp.eval("[return $rho0]");
 	  p0 = interp.eval("[return $p0]");
 	  T0 = interp.eval("[return $T0]");
-	  U0[0] = interp.eval ("[return $U0(1)]");
-	  U0[1] = interp.eval ("[return $U0(2)]");
+	  U0[0] = interp.eval ("[return $U0(0)]");
+	  U0[1] = interp.eval ("[return $U0(1)]");
 	}
 
 	///<li>create outdata directory

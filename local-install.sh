@@ -2,7 +2,11 @@
 
 set -e
 set -u
+
+# directory where third party libraries will be installed
 PREFIX=$(pwd)/prefix-thirdparty
+
+# working directory 
 WRKDIR=$(pwd)
 
 # compile and install tcl

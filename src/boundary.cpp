@@ -51,7 +51,6 @@ Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &parti
   else cout<<"\nBoundary: read left, right, upper and lower boundary conditions from "<< inputfile <<" \n"; 
 
   ///- reading key words and configuration data from input file
-  wall_file = ini.interp.eval("[reading $wall_file]");
 
 xBr = ini.interp.eval("[return $xBr]");
 UxBr[0] = ini.interp.eval("[return $UxBr(0)]");
@@ -84,8 +83,6 @@ UyBu[1] = ini.interp.eval("[return $UyBu(1)]");
 //----------------------------------------------------------------------------------------
 void Boundary::show_information(const Initiation &ini)
 {
-  ///- output the property parameters to the screen
-  if(wall_file == 1) cout<<"We read wall particle data from " <<ini.Project_name<<".wll \n";
   cout<<"The left, right, lower and upper boundary conditions are "
       <<xBl<<", "<<xBr<<", "<<yBd<<", "<<yBu<<" \n";
   cout<<"0: wall boundary condition\n";

@@ -19,7 +19,6 @@ class Material {
 public:
 	///material name string
 	std::string material_name;
-	int number; ///<the material NO.
 
 	///\brief material type
 	///

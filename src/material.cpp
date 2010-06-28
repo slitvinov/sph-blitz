@@ -19,6 +19,7 @@
 #include "glbfunc.h"
 #include "material.h"
 #include "initiation.h"
+#include <boost/format.hpp>
 
 using namespace std;
 
@@ -28,16 +29,19 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //					constructors
 //----------------------------------------------------------------------------------------
-Material::Material(Initiation &ini, const int number):
-  number(number)
+Material::Material(Initiation &ini, const int number)
 {
-  material_name = std::string(ini.interp.eval("[return $material_name]"));
-  material_type = ini.interp.eval("[return $material_type]");
-  cv = ini.interp.eval("[return $material_cv]");
-  gamma = ini.interp.eval("[return $material_gamma]");
-  b0 = ini.interp.eval("[return $material_b0]");
-  rho0 = ini.interp.eval("[return $material_rho0]");
-  a0 = ini.interp.eval("[return $material_a0]");
+  // to have array in the return string for tcl
+  // example [return A(1)]
+  const std::string index = boost::str(boost::format("(%i)]") % number);
+
+  material_name = std::string(ini.interp.eval("[return $material_name" + index));
+  material_type = ini.interp.eval("[return $material_type"  + index);
+  cv = ini.interp.eval("[return $material_cv"  + index);
+  gamma = ini.interp.eval("[return $material_gamma"  + index);
+  b0 = ini.interp.eval("[return $material_b0"  + index);
+  rho0 = ini.interp.eval("[return $material_rho0"  + index);
+  a0 = ini.interp.eval("[return $material_a0"  + index);
 }
 
 //----------------------------------------------------------------------------------------

@@ -8,8 +8,6 @@
 /// Boundary conditions
 class Boundary
 {
-	///if read wall particle from file .wll
-	int wall_file;
 	///computational domain size
 	Vec2d box_size;
 	///cell matrix size

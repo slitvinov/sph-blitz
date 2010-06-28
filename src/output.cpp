@@ -43,7 +43,7 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
   const double Itime = Time*1.0e6;
 
   /// TODO: add zeros
-  const std::string file_list = boost::str(boost::format("%.8d") % (int)Itime);
+  const std::string file_list = boost::str(boost::format("%08d") % (int)Itime);
   const std::string file_name = "./outdata/prtl" + file_list + ".dat";
 
   ofstream out(file_name.c_str());
