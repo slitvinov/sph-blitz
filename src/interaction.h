@@ -25,7 +25,6 @@ class Interaction {
         double rrij;///< reciprocal value of distance between 2 particles
         double Wij;///<<b>!!!question!!!<b>
         double Fij;///<<b>!!!question!!!<b>
-        double Wij2;///<<b>!!!question!!!<b>
 	Vec2d gradWij;///kernel gradient
 	Vec2d eij; ///<pair direction from orginal particle to destination particle 
   

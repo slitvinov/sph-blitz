@@ -68,7 +68,7 @@ Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &parti
 //----------------------------------------------------------------------------------------
 //								show information on screen
 //----------------------------------------------------------------------------------------
-void Boundary::show_information(const Initiation &ini)
+void Boundary::show_information(const Initiation &ini) const
 {
   cout<<"The left, right, lower and upper boundary conditions are "
       <<xBl<<", "<<xBr<<", "<<yBd<<", "<<yBu<<" \n";
