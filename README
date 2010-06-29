@@ -85,6 +85,6 @@ rm -rf outdata/
 Valgrind 
 valgrind ./sph ../cases/1Dshock-memory 1> hm.log 2> val.log 
 
-Static analysis (see sph-blitz/static
-cccc 
+Static analysis (see sph-blitz/static)
+cccc (creates directory .cccc with metrics)
 cppcheck
