@@ -17,11 +17,10 @@ class Kernel;
 namespace blast = boost::numeric::ublas;
 
 /// spParticle manager class 
-class ParticleManager
-{
+class ParticleManager {
   //parameters copied from initiation
   double supportlength; ///<smoothinglenth
-  double supportlengthsquare; ///<smoothinglenth
+  double supportlengthsquare; ///<smoothinglenth square
   Vec2d box_size; ///<computational domain size
   int initial_condition; ///<initial condition marker
   double cll_sz; ///<cell size
@@ -30,7 +29,7 @@ class ParticleManager
   double delta; ///<the inital particle distance
   int hdelta; ///<the ration between smoothing length and inital particle distance
   Vec2d U0; ///<inital flow speed
-  double rho0, p0, T0; ///<initial particle mass and density, pressure and temperature
+  double p0; ///<initial particle mass and density, pressure and temperature
 
 
   ///private init class to create Lists
@@ -52,9 +51,8 @@ public:
 		  const double cell_size, 
 		  const int x_clls, const int y_cells,
 		  const int initial_condition, const int hdelta,
-		  const double delta, 
-		  const Vec2d& U0_in, const double rho0_in, const double p0_in, 
-		  const double T0_in);
+		  const double delta);
+
 
 
   ///buid the initial particles and the linked lists

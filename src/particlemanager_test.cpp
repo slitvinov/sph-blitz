@@ -18,20 +18,14 @@ int test_main( int, char *[] )     {
 
   /// gas dynamics
   const int simu_mode = 2;
-
   const Vec2d U0_in(0.0, 0.0);
-  const double rho0_in = 0.0;
-  const double p0_in = 0.0;
-  const double T0_in = 0.0;
 
   ParticleManager prtl_mng = ParticleManager(
 					     supportlength, box_size, 
 					     cell_size, 
 					     x_cells, y_cells,
 					     initial_condition, hdelta,
-					     delta, 
-					     U0_in, rho0_in, p0_in, 
-					     T0_in
+					     delta
 					     );
   
   

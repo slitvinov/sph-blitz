@@ -45,10 +45,7 @@ ParticleManager::ParticleManager(const Initiation &ini)
   hdelta = ini.hdelta; delta = ini.delta;
 	
   if(initial_condition == 0) {
-    U0 = ini.U0;
-    rho0 = ini.rho0;
-    p0 = ini.p0;
-    T0 = ini.T0;
+
   }
 
   ParticleManager::Init();
@@ -60,9 +57,7 @@ ParticleManager::ParticleManager(
 				 const double cell_size, 
 				 const int x_cells, const int y_cells,
 				 const int initial_condition, const int hdelta,
-				 const double delta, 
-				 const Vec2d& U0_in, const double rho0_in, 
-				 const double p0_in, const double T0_in
+				 const double delta
 				 ):
   supportlength(supportlength), 
   supportlengthsquare(supportlength*supportlength),
@@ -284,8 +279,8 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 		position[1] = (j - 1)*cll_sz + (m + 0.5)*delta;
 
 		material_no = 1;
-		velocity = U0;
-		Temperature = T0;
+		velocity = ini.U0;
+		Temperature = ini.T0;
 		density = materials[material_no]->rho0;
 		pressure = materials[material_no]->get_p(density);
 						
@@ -294,7 +289,7 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 		if(v_abs(position - c_cntr) <= 1.0) {
 		  //						if(position[1] < 0.2 && position[0] < 0.2) {
 		  material_no = 2;
-		  pressure += p0;
+		  pressure += ini.p0;
 		  density = materials[material_no]->get_rho(pressure);
 		}
 
