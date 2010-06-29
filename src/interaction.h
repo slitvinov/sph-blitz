@@ -33,18 +33,6 @@ class Interaction {
   /// a 
   const Initiation& ini;
 public:
-	///total number of materials
-	//static double supportlength;
-        ///particle distance
-	//static double delta;
-	///artificial viscosity
-  //	static double art_vis;
-	///simulation mode
-  //static int simu_mode;
-  //   static double alpha_artVis;///<factor for Monaghan Artificial viscosity
-  //   static double beta_artVis;///<factor for Monaghan Artificial viscosity
-  //   static double epsilon_artVis;///<factor for Monaghan Artificial viscosity
-
 	///constructor
 	Interaction(const spParticle prtl_org, const spParticle prtl_dest, 
 		    const Kernel &weight_function, const double dstc,
