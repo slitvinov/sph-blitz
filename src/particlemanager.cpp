@@ -69,14 +69,7 @@ ParticleManager::ParticleManager(
   hdelta(hdelta), 
   delta(delta)
 {
-  if(initial_condition == 0) {
-    U0 = U0_in;
-    rho0 = rho0_in;
-    p0 = p0_in;
-    T0 = T0_in;
-  }
   ParticleManager::Init();
-
 }
 
 

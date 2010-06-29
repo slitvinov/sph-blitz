@@ -24,17 +24,10 @@ class ParticleManager {
   Vec2d box_size; ///<computational domain size
   int initial_condition; ///<initial condition marker
   double cll_sz; ///<cell size
-
-
   double delta; ///<the inital particle distance
   int hdelta; ///<the ration between smoothing length and inital particle distance
-  Vec2d U0; ///<inital flow speed
-  double p0; ///<initial particle mass and density, pressure and temperature
-
-
   ///private init class to create Lists
   void Init();
-
 public:
   //linked cell matrix size
   int x_clls;///<linked cell matrix size x-direction
