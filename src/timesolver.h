@@ -19,16 +19,11 @@ class TimeSolver{
 	int ite; ///<number of iteration
 
 public:
-	
-	///constructor
+  /// constructor
   TimeSolver();
-	
-
-	///advance time interval D_time with summation for density
-	void TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 
-				    Boundary &boundary, double &Time, double D_time, 
-				    const Initiation &ini, const Kernel &weight_function);
-
+  /// advance time interval D_time with summation for density
+  void TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 
+                              Boundary &boundary, double &Time, double D_time, 
+                              const Initiation &ini, const Kernel &weight_function);
 };
-
 #endif //TIMESOLVER_H

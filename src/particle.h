@@ -5,6 +5,7 @@
 #define PARTICLE_H
 #include "vec2d.h"
 #include "glbtype.h"
+#include <stdint.h>
 
 /// Particle class 
 class Particle {
@@ -80,10 +81,10 @@ class Particle {
 	///- a wall particle has zero ID
 	///- an ghost particle (for perodic boundary condition)
 	///has a negtive ID of its corresponding real particle
-	long ID; 
+	int64_t ID;
 	
 	///maximum ID number for non-ghost particles (real or wall particles) in the simulation
-	static long ID_max;
+	static int64_t ID_max;
 };
 
 #endif //PARTICLE_H

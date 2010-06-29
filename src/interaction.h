@@ -13,12 +13,14 @@ class Interaction {
 	spParticle Org;	///<pointer to particle with larger ID (of particle pair)
 	spParticle Dest;	///<pointer to particle with smaller ID (of particle pair)
 
-	double mi;///<mass particle i
-	double rmi;///<reciprocal value of mass particle i
-	double etai;///<viscosity for particle i
-	double mj;///<mass particle j
-	double rmj;///<reciprocal value of mass particle j
-	double etaj;///<viscosity for particle j
+	const double mi;///<mass particle i
+	const double mj;///<mass particle j
+
+	const double rmi;///<reciprocal value of mass particle i
+	const double rmj;///<reciprocal value of mass particle j
+
+	const double etai;///<viscosity for particle i
+	const double etaj;///<viscosity for particle j
 
 	//distance between the two particles, weight and derivatives
 	double rij;///<distance between 2 particles
@@ -48,9 +50,6 @@ public:
 		    const Kernel &weight_function, const double dstc,
 		    const Initiation& ini);
 	
-	///use old interaction object for new interaction
-	void NewInteraction(const spParticle prtl_org, const spParticle prtl_dest, 
-			    const Kernel &weight_function, const double dstc);
 
 	///\brief renew pair parameters and changing pair values
 	///

@@ -31,13 +31,14 @@ const double pi = 3.141592653589793238462643383279502884197;
 
 QuinticSpline::QuinticSpline(const double supportlength)
   : Kernel(supportlength), 
-    norm(63.0 / 478.0 / pi)
+    norm(63.0 / 478.0 / pi),
+    reciprocH(1.0 / supportlength),
+    factorW(norm * pow(reciprocH, 2)),
+    factorGradW(15.0*norm * pow(reciprocH, 3))
 {
   // initialize the auxiliary factors
-    reciprocH = 1.0 / supportlength;
-      
-    factorW     = norm * pow(reciprocH, 2);
-    factorGradW = 15.0*norm * pow(reciprocH, 3);
+    
+
 
     // a comment on the gradW sign:
     // The gradW has a minus in front!

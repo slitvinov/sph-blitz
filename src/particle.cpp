@@ -14,7 +14,7 @@
 
 #include "particle.h"
 
-long Particle ::ID_max = 0;
+int64_t Particle ::ID_max = 0;
 
 //----------------------------------------------------------------------------------------
 //	deconstructor particle

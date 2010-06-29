@@ -22,9 +22,11 @@ class ParticleManager
   //parameters copied from initiation
   double supportlength; ///<smoothinglenth
   double supportlengthsquare; ///<smoothinglenth
-  double cll_sz; ///<cell size
   Vec2d box_size; ///<computational domain size
   int initial_condition; ///<initial condition marker
+  double cll_sz; ///<cell size
+
+
   double delta; ///<the inital particle distance
   int hdelta; ///<the ration between smoothing length and inital particle distance
   Vec2d U0; ///<inital flow speed
@@ -35,7 +37,6 @@ class ParticleManager
   void Init();
 
 public:
-
   //linked cell matrix size
   int x_clls;///<linked cell matrix size x-direction
   int y_clls;///<linked cell matrix size y-direction
@@ -47,8 +48,7 @@ public:
 
   /// constructor to create ParticleManager without help of Initiation object.
   /// This constructor is used only for testing 
-  ParticleManager(
-		  const double supportlength, const Vec2d& box_size, 
+  ParticleManager(const double supportlength, const Vec2d& box_size, 
 		  const double cell_size, 
 		  const int x_clls, const int y_cells,
 		  const int initial_condition, const int hdelta,

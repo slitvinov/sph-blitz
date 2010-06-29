@@ -35,12 +35,31 @@ Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest,
 			 const Kernel &weight_function, 
 			 const double dstc,
 			 const Initiation& ini):
-  ini(ini)
+  ini(ini),
+  Org(prtl_org), Dest(prtl_dest),
+  mi(Org->m), mj(Org->m), 
+  rmi(1.0/mi), rmj(1.0/mj),
+  etai(Org->eta), etaj(Org->eta),
+  rij(dstc)
+  
 {
   assert(prtl_dest != NULL);
   assert(prtl_org != NULL);
   /// reuse the code 
-  NewInteraction(prtl_org, prtl_dest, weight_function, dstc);
+  assert(prtl_dest != NULL);
+  assert(prtl_org != NULL);
+
+  /// particle distance should be in this range
+  assert(rij>0.0);
+	
+  /// particle must not be that far 
+  assert(rij<=2.0*ini.supportlength);
+	
+  rrij = 1.0/rij;
+  eij = (Org->R - Dest->R)*rrij;
+  Wij = weight_function.w(rij);
+  gradWij=weight_function.gradW(rij,Dest->R-Org->R);
+  Fij = weight_function.F(rij)*rrij; //for Kernel wight fuction
 }
 
 //-------------------getter for origin-----------------
@@ -65,43 +84,6 @@ double Interaction::getWij() const
  
  { 
    return gradWij;
-}
-
-//----------------------------------------------------------------------------------------
-//	use old interaction object for new interaction
-//----------------------------------------------------------------------------------------
-void Interaction::NewInteraction(const spParticle prtl_org, const spParticle prtl_dest, 
-				 const Kernel &weight_function, const double dstc)
-{
-  assert(prtl_dest != NULL);
-  assert(prtl_org != NULL);
-
-	///- assign the original and the destinate particle in the reaction pair
-	Org = prtl_org;
-	Dest = prtl_dest;
-	
-
-	///- define pair values(mass, viscosity), do not change in sub time steps
-	mi = Org->m; mj = Dest->m;
-	rmi = 1.0/mi; rmj =1.0/mj;
-	etai = Org->eta; etaj = Dest->eta; 
-
-	///- calculate pair parameters (weight functions, shear- and bulk-)
-	rij = dstc;
-	
-	/// particle distance should be in this range
-	assert(rij>0.0);
-	const double supportlength  = ini.supportlength;
-	assert(supportlength>0.0);
-	
-	/// particle must not be that far 
-	assert(rij<=2.0*supportlength);
-	
-	rrij = 1.0/rij;
-	eij = (Org->R - Dest->R)*rrij;
-	Wij = weight_function.w(rij);
-	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
-	Fij = weight_function.F(rij)*rrij; //for Kernel wight fuction
 }
 
 

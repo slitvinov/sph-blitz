@@ -36,16 +36,14 @@ private:
     const double norm;
 
     ///Auxiliary factors for intermediate results: The inverse smoothing length
-    double reciprocH;
+    const double reciprocH;
 
-    ///smoothing length
-    double h;
    
     ///Auxiliary factors for intermediate results: A pre-factor for w 
-    double factorW;
+    const double factorW;
 
     ///Auxiliary factors for intermediate results: A pre-factor for grad w
-    double factorGradW;
+    const double factorGradW;
 
 };
 

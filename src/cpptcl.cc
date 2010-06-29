@@ -279,8 +279,8 @@ int callback_handler(ClientData, Tcl_Interp *interp,
      if (it == callbacks.end())
      {
           Tcl_SetResult(interp,
-               "Trying to invoke non-existent callback (wrong interpreter?)",
-               TCL_STATIC);
+			"Trying to invoke non-existent callback (wrong interpreter?)",
+			TCL_STATIC);
           return TCL_ERROR;
      }
      
