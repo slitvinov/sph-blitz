@@ -63,15 +63,17 @@
 #include "glbfunc.h"
 #include "particlemanager.h"
 #include "hydrodynamics.h"
+#include "TimeSolver/gastimesolver.h"
 #include "vec2d.h"
 #include "interaction.h"
-#include "TimeSolver/timesolver.h"
+#include "TimeSolver/hydrotimesolver.h"
 #include "initiation.h"
 #include "output.h"
 #include "boundary.h"
 #include "Kernel/quinticspline.h"
 #include "Kernel/cubicspline.h"
 #include "Kernel/betaspline.h"
+#include <boost/smart_ptr/make_shared.hpp>
 
 using namespace std;
 
@@ -108,7 +110,26 @@ int main(int argc, char *argv[]) {
   Hydrodynamics hydro(particles, ini); ///- create materials, forces and real particles
       
   Boundary boundary(ini, hydro, particles); ///- initiate boundary conditions and boundary particles
-  TimeSolver timesolver; ///- initialize the time solver
+
+  /// a smart pinter to timesolver
+  
+  spTimeSolver timesolver;
+  switch (ini.simu_mode) {
+    case 1: 
+      /// call a HydroTimeSolver constructor and get a shared_ptr 
+      timesolver = boost::make_shared<HydroTimeSolver>();
+      break;
+    case 2:
+      /// call a GasTimeSolver constructor and get a shared_ptr 
+      timesolver = boost::make_shared<GasTimeSolver>();
+      break;
+    default:
+      std::cerr << __FILE__ << ':' << __LINE__ << " unknown simulation mode (SIMULATION_MODE in configuration file)\n" ;
+      exit(EXIT_FAILURE);
+  }
+  /// make sure the pointer is created
+  assert(timesolver != NULL);
+
   Output output; ///- initialize output class (should be the last to be initialized)
   ini.VolumeMass(hydro, particles, weight_function); //predict particle volume and mass
   if(ini.simu_mode==1)	{
@@ -134,7 +155,7 @@ int main(int argc, char *argv[]) {
     cout<<"\n--------new output intervall beginns:output interval time:"<<ini.D_time<<"\n";
 		  
     ///- call the time slover (who iterates over one output time interval)
-    timesolver.TimeIntegral_summation(hydro, particles, boundary, Time, 
+    timesolver->TimeIntegral_summation(hydro, particles, boundary, Time, 
 				      ini.D_time, ini, weight_function);
 		
     hydro.UpdateState(ini);///to update p,T,Cs to new values before output 

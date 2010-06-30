@@ -3,26 +3,25 @@
 /// \file timesolver.h 
 /// \brief Time solver class
 ///
-///provides methods that iterate over one output time interval (D_time) either with the summation density approach or with the continuity density approach
+/// provides methods that iterate over one output time interval (D_time) 
+/// either with the summation density approach or with the continuity density approach
 //-----------------------------------------------------------------------
 
+#include <boost/utility.hpp>
 
-/// Time solver class 
-class TimeSolver{
+/// Time solver abstract base class 
+class TimeSolver : boost::noncopyable {
+ public:
+  /// advance time interval D_time with summation for density
+  virtual void TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 
+                                      Boundary &boundary, double &Time, double D_time, 
+                                      const Initiation &ini, const Kernel &weight_function) = 0;
 
-	//parameters copied from initiation
-  //	double cell_size;///<will be copied from initiation
-  //	Vec2d box_size;///<will be copied from initiation
-  //	double supportlength;///<will be copied from initiation
+  virtual void show_information() const = 0;
 
-	int ite; ///<number of iteration
-
-public:
+ protected:
   /// constructor
   TimeSolver();
-  /// advance time interval D_time with summation for density
-  void TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 
-                              Boundary &boundary, double &Time, double D_time, 
-                              const Initiation &ini, const Kernel &weight_function);
+  virtual ~TimeSolver();
 };
 #endif //TIMESOLVER_H

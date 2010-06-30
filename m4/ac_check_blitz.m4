@@ -72,6 +72,7 @@ x = blitz::tensor::i;
 		if test -n "$blitz_incdir"; then BLITZ_CPPFLAGS="-I$blitz_incdir"; fi
 		if test -n "$blitz_libdir"; then BLITZ_LDFLAGS="-L$blitz_libdir" ; fi
 		BLITZ_LIBS="-lblitz"
+		BLITZ_INCDIR="$blitz_incdir"
 	fi
 
 else dnl $withval = no
@@ -80,6 +81,7 @@ else dnl $withval = no
 
 fi
 
+AC_SUBST(BLITZ_INCDIR)
 AC_SUBST(BLITZ_CPPFLAGS)
 AC_SUBST(BLITZ_LDFLAGS)
 AC_SUBST(BLITZ_LIBS)

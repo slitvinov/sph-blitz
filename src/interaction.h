@@ -33,6 +33,7 @@ class Interaction {
   /// a 
   const Initiation& ini;
 public:
+
 	///constructor
 	Interaction(const spParticle prtl_org, const spParticle prtl_dest, 
 		    const Kernel &weight_function, const double dstc,

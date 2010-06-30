@@ -46,7 +46,7 @@ Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &parti
   UyBu[1] = ini.interp.eval("[return $UyBu(1)]");
 
 
-  show_information(ini);
+  show_information();
 
   if (ini.simu_mode == 1) {
     /// build boundary particles
@@ -56,7 +56,7 @@ Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &parti
 }
 
 // show information on screen
-void Boundary::show_information(const Initiation &ini) const {
+void Boundary::show_information() const {
   std::cerr << "The left, right, lower and upper boundary conditions are "
       << xBl << ", "<< xBr << ", " << yBd << ", " << yBu << " \n";
   std::cerr << "0: wall boundary condition\n";

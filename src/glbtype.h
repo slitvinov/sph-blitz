@@ -10,6 +10,8 @@
 class Material;
 class Particle;
 class Interaction;
+class TimeSolver;
+
 ///a shared pointer to Material
 typedef boost::shared_ptr<Material> spMaterial;
 
@@ -18,6 +20,10 @@ typedef boost::shared_ptr<Particle> spParticle;
 
 ///a shared pointer to Interaction
 typedef boost::shared_ptr<Interaction> spInteraction;
+
+///a shared pointer to time solver
+typedef boost::shared_ptr<TimeSolver> spTimeSolver;
+
 
 namespace blast = boost::numeric::ublas;
 //a vector of shared_ptr to material
