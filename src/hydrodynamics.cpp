@@ -88,12 +88,7 @@ void Hydrodynamics::BuildInteractions(ParticleManager &particles,
 void Hydrodynamics::UpdateInteractions(const Kernel &weight_function)
 {
   ///- iterate the interaction list
-  for (std::list<spInteraction>::const_iterator p = interaction_list.begin();
-       p != interaction_list.end(); 
-       p++) {
-    ///- and for each interactionpair call RenewInteraction method
-    //a interaction pair
-    spInteraction pair = *p;
+  BOOST_FOREACH(spInteraction pair, interaction_list) {
     //renew pair parameters
     pair->RenewInteraction(weight_function);
   }
@@ -111,13 +106,7 @@ void Hydrodynamics::UpdateDensity(ParticleManager &particles, const Kernel &weig
   ///- initiate by calling Zero_density method
   Self_density(weight_function);
   ///- iterate the interaction list
-  for (std::list<spInteraction>::const_iterator p1 = interaction_list.begin(); 
-       p1 != interaction_list.end(); 
-       p1++) {
-		
-    //a interaction pair
-    spInteraction pair = *p1;
-    ///- calculate for each pair the pair forces or change rate by calling SummationDensity() method
+  BOOST_FOREACH(spInteraction pair, interaction_list) {
     pair->SummationDensity();	
   }
 		
@@ -134,12 +123,7 @@ void Hydrodynamics::UpdateDensity(const Initiation &ini, const Kernel& weight_fu
   cout<<"\n AM in update density\n ";
   Self_density(weight_function);
   ///- iterate the interaction list
-  for (std::list<spInteraction>::const_iterator p1 = interaction_list.begin(); 
-       p1 != interaction_list.end(); 
-       p1++) {
-    //a interaction pair
-    spInteraction pair = *p1;
-    ///- calculate for each pair the pair forces or change rate
+  BOOST_FOREACH(spInteraction pair, interaction_list) {
     pair->SummationDensity();	
   }
 
@@ -160,15 +144,9 @@ void Hydrodynamics::UpdateChangeRate(ParticleManager &particles,
   particles.BuildInteraction(interaction_list, particle_list, weight_function, ini);
 
   ///- iterate the interaction list
-  for (std::list<spInteraction>::const_iterator p = interaction_list.begin(); 
-       p != interaction_list.end(); 
-       p++) {
-		
-    //a interaction pair
-    spInteraction pair = *p;
+  BOOST_FOREACH(spInteraction pair, interaction_list) {
     ///- calculate for eahc pair the pair forces or change rate
     pair->UpdateForces();
-
   }
   
   ///- include the gravity effects by calling AddGravity()
@@ -183,27 +161,16 @@ void Hydrodynamics::UpdateChangeRate(const Initiation& ini)
   ZeroChangeRate();	
 
     ///- iterate the interaction list
-  for (std::list<spInteraction>::const_iterator p = interaction_list.begin(); 
-	 p != interaction_list.end(); 
-	 p++) {
-	//a interaction pair
-	///- calculate for each pair the pair forces or change rate
-      spInteraction aux_interaction = *p;
+  BOOST_FOREACH(spInteraction aux_interaction, interaction_list) {
       aux_interaction->UpdateForces();
-    }
+  }
   //control output
   int q=0;
-  for (std::list<spParticle>::const_iterator p = particle_list.begin(); 
-       p != particle_list.end(); 
-       p++) {
 
-					
-    //particle
-    spParticle prtl = *p;
+  BOOST_FOREACH(spParticle prtl, particle_list) {
     if(q%30==0)  
-      cout<<"\n dUdt0"<<prtl->dUdt[0]<<"dUdt1"<<prtl->dUdt[1];
+      cout<<"\n dUdt0: "<<prtl->dUdt[0]<<"dUdt1: "<<prtl->dUdt[1];
     q++;
-   
   }
   ///- include the gravity effects
   AddGravity(ini);
@@ -214,13 +181,7 @@ void Hydrodynamics::UpdateChangeRate(const Initiation& ini)
 void Hydrodynamics::ZeroChangeRate()
 {
   ///- iterate particles on the real particle list
-  for (std::list<spParticle>::const_iterator  p = particle_list.begin(); 
-       p != particle_list.end(); 
-       p++) {
-					
-    //particle
-    spParticle prtl = *p;
-
+  BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- set for each particle change rates to zero
     prtl->dedt = 0.0;
     prtl->drhodt = 0.0;
@@ -234,13 +195,7 @@ void Hydrodynamics::ZeroChangeRate()
 void Hydrodynamics::Zero_density()
 {
   ///- iterate particles on the real particle list
-  for (std::list<spParticle>::const_iterator p = particle_list.begin(); 
-       p != particle_list.end(); 
-       p++) {
-					
-    //particle
-    spParticle prtl = *p;
-
+  BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- set for each particle density to zero
     prtl->rho = 0.0;
   }
@@ -251,10 +206,7 @@ void Hydrodynamics::Zero_density()
 void Hydrodynamics::Self_density(const Kernel& weight_function)
 {
   ///- iterate particles on the real particle list
-  for (std::list<spParticle>::const_iterator p = particle_list.begin(); 
-       p != particle_list.end(); 
-       p++) {
-    spParticle prtl = *p;
+  BOOST_FOREACH(spParticle prtl, particle_list) {
     prtl->rho = weight_function.w(0.0) * prtl->m;
   }
 }
@@ -266,15 +218,9 @@ void Hydrodynamics::Self_density(const Kernel& weight_function)
 void Hydrodynamics::Zero_Velocity()
 {
   ///- iterate particles on the real particle list
-  for (std::list<spParticle>::const_iterator  p = particle_list.begin(); 
-       p != particle_list.end(); 
-       p++) {
-					
-    //particle
-    spParticle prtl = *p;
-
+  BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- all velocities to zero
-    (prtl->U) = 0.0;
+    prtl->U = 0.0;
   }
 }
 //----------------------------------------------------------------------------------------
@@ -283,11 +229,7 @@ void Hydrodynamics::Zero_Velocity()
 void Hydrodynamics::AddGravity(const Initiation &ini)
 {
   ///- iterate particles on the real particle list
-  for (std::list<spParticle>::const_iterator  p = particle_list.begin(); 
-       p != particle_list.end(); 
-       p++) {
-    //a particle
-    spParticle prtl = *p;
+  BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- to each particles dUdt: add the gravity effects
     prtl->dUdt = prtl->dUdt + ini.g_force;
   }
@@ -298,13 +240,7 @@ void Hydrodynamics::AddGravity(const Initiation &ini)
 void Hydrodynamics::UpdateState(const Initiation &ini)
 {
   ///- iterate particles on the real particle list
-  for (std::list<spParticle>::const_iterator  p = particle_list.begin(); 
-       p != particle_list.end(); 
-       p++) {
-					
-    //a particle
-    spParticle prtl = *p;
-
+  BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- calculate pressure for each particle
     if(ini.simu_mode==1)  //liquid mode equation of state
       prtl->p = prtl->mtl->get_p(prtl->rho);
@@ -326,24 +262,13 @@ void Hydrodynamics::UpdateVolume(ParticleManager &particles, const Kernel &weigh
   double reciprocV; //the inverse of volume or volume
 
   ///<ul><li> iterate particles on the particle list
-  for (std::list<spParticle>::const_iterator  p = particle_list.begin(); 
-       p != particle_list.end(); 
-       p++) {
-					
-    ///<ul><li>take origin particle
-    spParticle prtl_org = *p;
+  BOOST_FOREACH(spParticle prtl_org, particle_list) {
     //<li>build the nearest particle list
     const std::list<spParticle> NNP_list = particles.BuildNNP(prtl_org->R);
 
     reciprocV = 0.0; 
     //<li>iterate this Nearest Neighbor spParticle list
-    for (std::list<spParticle >::const_iterator  p1 = NNP_list.begin(); 
-	 p1 != NNP_list.end(); 
-	 p1++) {
-			
-      //get a particle
-      spParticle prtl_dest = *p1;
-				
+    BOOST_FOREACH(spParticle prtl_dest ,NNP_list) {
       ///<ul><li>sum the weights for all of these particles (because they are the inverse of a volume!?!)</ul>
       reciprocV += weight_function.w(v_distance(prtl_org->R, prtl_dest->R));
     }
@@ -385,12 +310,7 @@ double Hydrodynamics::GetTimestep(const Initiation& ini) const
 void Hydrodynamics::Predictor(double dt)
 {
   ///<ul><li> iterate the real partilce list
-  for (std::list<spParticle>::const_iterator p = particle_list.begin(); 
-       p != particle_list.end(); 
-       p++) {
-		
-    spParticle prtl = *p;
-	
+  BOOST_FOREACH(spParticle prtl, particle_list) {
     ///<ul><li>save values at step n
     prtl->R_I = prtl->R;
     prtl->rho_I = prtl->rho;
@@ -416,12 +336,7 @@ void Hydrodynamics::Predictor(double dt)
 void Hydrodynamics::Corrector(double dt)
 {
   ///- iterate the real partilce list
-  for (std::list<spParticle>::const_iterator p = particle_list.begin(); 
-       p != particle_list.end(); 
-       p++) {
-	
-    spParticle prtl = *p;
-			
+  BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- for each particle: correction based on values on n step and change rate at n+1/2
     prtl->R = prtl->R_I + prtl->U*dt;
     prtl->rho = prtl->rho + prtl->drhodt*dt;
@@ -435,12 +350,7 @@ void Hydrodynamics::Corrector(double dt)
 void Hydrodynamics::Predictor_summation(double dt)
 {
   ///<ul><li>iterate the real partilce list
-  for (std::list<spParticle>::const_iterator  p = particle_list.begin(); 
-       p != particle_list.end(); 
-       p++) {
-		
-    spParticle prtl = *p;
-	
+  BOOST_FOREACH(spParticle prtl, particle_list) {
     ///<ul><li>save values (R,U)  at step n in intermediate variables ._I
     prtl->R_I = prtl->R;
     prtl->U_I = prtl->U;
@@ -463,36 +373,19 @@ void Hydrodynamics::Predictor_summation(double dt)
 void Hydrodynamics::Corrector_summation(double dt)
 {
   ///- iterate the real partilce list
-  for (std::list<spParticle>::const_iterator p = particle_list.begin(); 
-       p != particle_list.end(); 
-       p++) {
-	
-    spParticle prtl = *p;
-			
+  BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- for each particle: correction (advances R,U) based on values on n step and change rate at n+1/2
     prtl->R = prtl->R_I + prtl->U*dt;
     prtl->U = prtl->U_I + prtl->dUdt*dt;
     prtl->e = prtl->e_I + prtl->dedt*dt;
-
-   
   }
   //control output
   ofstream tx2tFile("changeRatesN1");
   if (tx2tFile.is_open())
     {
-
-		
-      for (std::list<spParticle>::const_iterator p = particle_list.begin(); 
-	   p != particle_list.end(); 
-	   p++) {
-	
-	spParticle prtl = *p;
-  
+      BOOST_FOREACH(spParticle prtl, particle_list) {
 	tx2tFile<<"\n R_x: "<<prtl->R[0]<<"  U_x: "<<prtl->U[0]<<"  e: "<<prtl->e<<"  dUdt: "<<prtl->dUdt[0]<<" dedt "<<prtl->dedt<<"  ID  "<<prtl->ID<<"\n";
-    
       } 
-
       tx2tFile.close();
     }
 }
-

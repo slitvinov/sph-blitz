@@ -37,7 +37,7 @@ Output::Output()
 //				output particle positions respected different materials
 //--------------------------------------------------------------------------------------------
 void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary, 
-			     double Time, const Initiation &ini)
+                            double Time, const Initiation &ini)
 {
   ///<ul><li>produce output file name
   const double Itime = Time*1.0e6;
@@ -64,18 +64,18 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
 	 p++) {
       f++;
       spParticle prtl = *p;
-       assert(prtl != NULL);
-       assert(prtl->mtl != NULL);
-       if(hydro.materials[i]->material_name == prtl->mtl->material_name) {
-	 j ++;
-	 a++;
-	 if( ini.simu_mode == 1) {
-	   if(j == 1)  {
-	     out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
-	   }
-	   out<<prtl->R[0]<<"  "<<prtl->R[1]
-	      <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
-	 }
+      assert(prtl != NULL);
+      assert(prtl->mtl != NULL);
+      if(hydro.materials[i]->material_name == prtl->mtl->material_name) {
+        j ++;
+        a++;
+        if( ini.simu_mode == 1) {
+          if(j == 1)  {
+            out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
+          }
+          out<<prtl->R[0]<<"  "<<prtl->R[1]
+             <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
+        }
 	if (ini.simu_mode == 2)
 	  out<<setprecision(6)
 	     << ::setw(16)<<prtl->R[0] 
@@ -104,10 +104,10 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
     }
   }
   cout<<"\n output particle method successfully executed for time"<<Time<<"\n";
- cout<<"\n particles on real  particle list\n "<<f;
- cout<<"\n particles on real  particle list with same mat name\n "<<a;
- cout<<"\n particles on boundary  particle list\n "<<g;
- cout<<"\n particles on boundary  particle list with same mat name\n "<<b;
+  cout<<"\n particles on real  particle list\n "<<f;
+  cout<<"\n particles on real  particle list with same mat name\n "<<a;
+  cout<<"\n particles on boundary  particle list\n "<<g;
+  cout<<"\n particles on boundary  particle list with same mat name\n "<<b;
 }
 
 //--------------------------------------------------------------------------------------------

@@ -51,13 +51,7 @@ void GasTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager
   double integeral_time = 0.0;
 	
   while(integeral_time < D_time) {
-    double dt;
-    if (ini.simu_mode == 2) {
-      dt =0.0025;
-    } else {
-      dt = hydro.GetTimestep(ini);
-    }
-    assert(dt>0.0);
+    const double dt =0.0025;
     //control output
     cout<<"\n current timestep:"<<dt<<"\n";
     cout<<"\n current absolute integraltime:"<<Time<<"\n";	
@@ -77,11 +71,6 @@ void GasTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager
     ///<li>the prediction step
     hydro.BuildInteractions(particles, weight_function, ini);///<ol><li> rebuild interactions
     hydro.UpdateDensity(ini, weight_function);///<li> hydro.UpdateDensity
-    if(ini.simu_mode==1)
-      {
-	boundary.BoundaryCondition(particles);///<li> boundary.BoundaryCondition
-	boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
-      };
     //control output
     //	cout<<"\n     --- change rate for predictor:";	
     hydro.UpdateChangeRate(ini);///<li> hydro.UpdateChangeRate
@@ -89,28 +78,13 @@ void GasTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager
     hydro.Predictor_summation(dt);///<li>hydro.Predictor_summation</ol>
 	  
     ///<li> the correction step without update the interaction list
-    if(ini.simu_mode==1)
-      boundary.BoundaryCondition(particles);///<ol><li>boundary.BoundaryCondition
-
-    
     hydro.UpdateInteractions(weight_function);///<li> update interactions
     hydro.UpdateDensity(ini, weight_function);///<li>hydro.UpdateDensity
 
-    if(ini.simu_mode==1)
-      {
-	boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
-	boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
-      }
     //control output
     cout<<"\n     --- change rate for corrector:";
     hydro.UpdateChangeRate(ini); ///<li>hydro.UpdateChangeRate
     hydro.Corrector_summation(dt);///<li>hydro.Corrector_summation</ol>
-
-    ///<li> renew boundary particles
-    if(ini.simu_mode==1)
-      boundary.RunAwayCheck(hydro);///<ol><li>boundary.RunAwayCheck
     particles.UpdateCellLinkedLists();///<li>particles.UpdateCellLinkedLists
-    if(ini.simu_mode==1)
-      boundary.BuildBoundaryParticle(particles, hydro);///<li>boundary.BuildBoundaryspParticle</ol></ul>
   }
 }
