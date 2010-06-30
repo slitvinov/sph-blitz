@@ -10,7 +10,7 @@ nomain=	 boundary.cpp boundary.h \
 	material.h \
 	output.cpp output.h particle.cpp \
 	particle.h particlemanager.cpp particlemanager.h \
-	timesolver.cpp timesolver.h vec2d.cpp \
+	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
 	vec2d.h \
 	Kernel/kernel.cpp Kernel/kernel.h \
 	Kernel/quinticspline.cpp Kernel/quinticspline.h \

@@ -100,7 +100,6 @@ void Interaction::RenewInteraction(const Kernel &weight_function)
 	eij = (Org->R - Dest->R)*rrij;
 	Wij = weight_function.w(rij);
 	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
-//	Fij = weight_function.F(rij); //for BetaSpline wight fuction
 	Fij = weight_function.F(rij)*rrij; //for Kernel fuction
 
 }
@@ -131,10 +130,10 @@ void Interaction::UpdateForces()
 {	
   //contol output
   //   cout<<"\n am in update forces and simu_mode is:"<<simu_mode<<"\n";
-  	//pressure, density and inverse density and middle point pressure
-  double pi, rVi, pj, rVj;
-	//velocity and velocity difference
-	Vec2d Ui, Uj, Uij; 
+  //pressure, density and inverse density and middle point pressure
+
+  //velocity and velocity difference
+  //  Vec2d Ui, Uj, Uij; 
 
 	//define pair values change in sub time steps
 	const double rhoi = Org->rho; 
@@ -150,20 +149,23 @@ void Interaction::UpdateForces()
 	/// make sure masses are OK
 	assert(Vi>0.0);
 	assert(Vj>0.0);
-	rVi = 1.0/Vi; rVj = 1.0/Vj;
+	const double rVi = 1.0/Vi; 
+	const double rVj = 1.0/Vj;
 
-	pi = Org->p; pj = Dest->p;
+	const double pi = Org->p; 
+	const double pj = Dest->p;
 
 	/// make sure pressure is OK
 	assert(pi>0.0);
 	assert(pj>0.0);
 	
-	Ui = Org->U; Uj = Dest->U;
-	Uij = Ui - Uj;
+	const Vec2d Ui = Org->U; 
+	const Vec2d Uj = Dest->U;
+	const Vec2d Uij = Ui - Uj;
 	const double UijdotRij=dot(Uij,(Org->R - Dest->R));
 
 	//pair focres or change rate
-	Vec2d dPdti, dUdti, dUdtj; //mometum&velocity change rate
+	//Vec2d dPdti, dUdti, dUdtj; //mometum&velocity change rate
 
 	if(ini.simu_mode==2) {
 	  const double supportlength = ini.supportlength;
@@ -183,17 +185,19 @@ void Interaction::UpdateForces()
 	  double piij = 0.0;
 	
           if (UijdotRij<0)//that means: whenever in compression (as only then artificial viscosity applies for a shock tube problem)
-          {
-            const double phiij=(hij*UijdotRij)/(pow(rij,2)+ini.epsilon_artVis*pow(hij,2)); //according to formula monaghan artificial viscosity
-	    piij=(-1*ini.alpha_artVis*cij*phiij+ini.beta_artVis*pow(phiij,2))/rhoij; //according to formula monaghan artificial viscosity
+	    {
+	      //according to formula monaghan artificial viscosity
+	      const double phiij=(hij*UijdotRij)/(pow(rij,2)+ini.epsilon_artVis*pow(hij,2)); 
+	      //according to formula monaghan artificial viscosity
+	    piij=(-1*ini.alpha_artVis*cij*phiij+ini.beta_artVis*pow(phiij,2))/rhoij; 
           }
 	  else //if no compression: artificial viscosity is zero
 	  {
 	    piij=0;
 	  };
 	  // cout<<"\n art v0isc Piij"<<piij;
-	  dUdti=-mj*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij;
-          dUdtj=mi*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij;
+	  const Vec2d dUdti=-mj*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij;
+          const Vec2d dUdtj=mi*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij;
 
 	  const double dedti=0.5*dot(dUdti,(Uj-Ui));//could also be the other way round: (Ui-Uj)has to be tried out
           const double dedtj=0.5*dot(dUdtj,(Ui-Uj));

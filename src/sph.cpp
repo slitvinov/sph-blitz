@@ -65,7 +65,7 @@
 #include "hydrodynamics.h"
 #include "vec2d.h"
 #include "interaction.h"
-#include "timesolver.h"
+#include "TimeSolver/timesolver.h"
 #include "initiation.h"
 #include "output.h"
 #include "boundary.h"
@@ -111,8 +111,9 @@ int main(int argc, char *argv[]) {
   TimeSolver timesolver; ///- initialize the time solver
   Output output; ///- initialize output class (should be the last to be initialized)
   ini.VolumeMass(hydro, particles, weight_function); //predict particle volume and mass
-  if(ini.simu_mode==1)	
+  if(ini.simu_mode==1)	{
     boundary.BoundaryCondition(particles); //repose the boundary condition
+  }
 
   //start time
   double Time = ini.Start_time;

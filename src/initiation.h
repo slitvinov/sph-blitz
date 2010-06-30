@@ -7,7 +7,6 @@
 #include "vec2d.h"
 #include <boost/utility.hpp>
 
-
 class Hydrodynamics;
 class ParticleManager;
 class Kernel;

@@ -6,7 +6,6 @@
 ///provides methods that iterate over one output time interval (D_time) either with the summation density approach or with the continuity density approach
 //-----------------------------------------------------------------------
 
-#include "timesolver.h"
 
 /// Time solver class 
 class TimeSolver{
