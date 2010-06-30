@@ -127,4 +127,6 @@ double BetaSpline::F(double distance) const
 }
 
 
-
+void BetaSpline::show_information() const {
+  std::cerr << "(kernel) BetaSpline\n";
+}

@@ -24,11 +24,15 @@ public:
     /// Calculates the kernel value for the given distance of two particles
   virtual double w(double distance) const = 0;
 
-  /// Calculates the kernel derivation for the given distance of two particles 
+  /// Calculates the kernel vector derivation for the given distance of two particles 
   virtual Vec2d gradW(double distance, const Vec2d& distanceVector) const = 0;
 
+  /// Calculates the kernel scalar derivation for the given distance of two particles 
   virtual double F(const double distance) const = 0;
 
+  virtual void show_information() const = 0;
+
+  /// we need it only for testing
   BZ_DECLARE_MEMBER_FUNCTION(Kernel, w);
   BZ_DECLARE_MEMBER_FUNCTION(Kernel, F);
 

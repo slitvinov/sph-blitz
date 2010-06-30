@@ -152,3 +152,7 @@ double QuinticSpline::F(const double distance) const
     }
 }
 
+
+void QuinticSpline::show_information() const {
+  std::cerr << "(kernel) QuinticSpline\n";
+}

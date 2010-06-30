@@ -32,7 +32,7 @@ GasTimeSolver::GasTimeSolver():
   ite(0)
 {
   ///- initialize the iteration
-  cout<<"\n initiation of hydrotimesolver succeeded\n ";
+  std::cerr << "\n initiation of hydrotimesolver succeeded\n ";
 }
 
 void GasTimeSolver::show_information() const {
@@ -44,14 +44,16 @@ void GasTimeSolver::show_information() const {
 //					predictor and corrector method used
 //----------------------------------------------------------------------------------------
 void GasTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 
-					Boundary &boundary,
-					double &Time, double D_time,
-					const Initiation &ini, const Kernel &weight_function)
+                                           Boundary &boundary,
+                                           double &Time, double D_time,
+                                           const Initiation &ini, spKernel weight_function)
 {
   double integeral_time = 0.0;
 	
   while(integeral_time < D_time) {
-    const double dt =0.0025;
+
+    // TODO: move into Initiation?
+    const double dt = 0.0025;
     //control output
     cout<<"\n current timestep:"<<dt<<"\n";
     cout<<"\n current absolute integraltime:"<<Time<<"\n";	

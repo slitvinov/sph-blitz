@@ -16,18 +16,15 @@ class Kernel;
 
 namespace blast = boost::numeric::ublas;
 
-/// spParticle manager class
+/// Particle manager class
 class ParticleManager {
-  //parameters copied from initiation
-  double supportlength;  ///  <smoothinglenth
+  double supportlength;  ///<smoothinglenth
   double supportlengthsquare; ///<smoothinglenth square
   Vec2d box_size; ///<computational domain size
   int initial_condition; ///<initial condition marker
   double cll_sz; ///<cell size
   double delta; ///<the inital particle distance
   int hdelta; ///<the ration between smoothing length and inital particle distance
-  ///private init class to create Lists
-  void Init();
 public:
   //linked cell matrix size
   int x_clls;  ///<linked cell matrix size x-direction
@@ -66,7 +63,7 @@ public:
   ///build the interaction (particle pair) list
   void BuildInteraction(std::list<spInteraction> &interactions, 
 			std::list<spParticle > &particle_list, 
-			const Kernel &weight_function,
+			spKernel weight_function,
 			const Initiation& ini);
 };
 

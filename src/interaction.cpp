@@ -32,7 +32,7 @@ using namespace std;
 //					constructor
 //----------------------------------------------------------------------------------------
 Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest, 
-			 const Kernel &weight_function, 
+			 spKernel weight_function, 
 			 const double dstc,
 			 const Initiation& ini):
   ini(ini),
@@ -57,9 +57,9 @@ Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest,
 	
   rrij = 1.0/rij;
   eij = (Org->R - Dest->R)*rrij;
-  Wij = weight_function.w(rij);
-  gradWij=weight_function.gradW(rij,Dest->R-Org->R);
-  Fij = weight_function.F(rij)*rrij; //for Kernel wight fuction
+  Wij = weight_function->w(rij);
+  gradWij=weight_function->gradW(rij,Dest->R-Org->R);
+  Fij = weight_function->F(rij)*rrij; //for Kernel wight fuction
 }
 
 //-------------------getter for origin-----------------
@@ -92,15 +92,15 @@ double Interaction::getWij() const
 //----------------------------------------------------------------------------------------
 // Changes: Interaction object
 // Depends on: Interaction Object, Org, Dest
-void Interaction::RenewInteraction(const Kernel &weight_function)
+void Interaction::RenewInteraction(spKernel weight_function)
 {
 	///- calculate pair parameters (weight functions, shear- and bulk-)
 	rij = v_abs(Org->R - Dest->R);
 	rrij = 1.0/(rij + 1.0e-30);
 	eij = (Org->R - Dest->R)*rrij;
-	Wij = weight_function.w(rij);
-	gradWij=weight_function.gradW(rij,Dest->R-Org->R);
-	Fij = weight_function.F(rij)*rrij; //for Kernel fuction
+	Wij = weight_function->w(rij);
+	gradWij=weight_function->gradW(rij,Dest->R-Org->R);
+	Fij = weight_function->F(rij)*rrij; //for Kernel fuction
 
 }
 //----------------------------------------------------------------------------------------
@@ -109,13 +109,11 @@ void Interaction::RenewInteraction(const Kernel &weight_function)
 //----------------------------------------------------------------------------------------
 // Changes: Org(rho:summation), Dest(rho:summation)
 // Depends on: Interaction Object, Org(rho), Dest(rho)
-void Interaction::SummationDensity()
-{
-	//summation according to: rho_i=sum{m_j*W_ij} (here only the contribution of the pair in questiion)
-
+void Interaction::SummationDensity() {
+  //summation according to: rho_i=sum{m_j*W_ij} (here only the contribution of the pair in questiion)
   /// shel not be called with interaction of the particle
   /// with itself
-  assert(Org->ID != Dest->ID);
+  assert(Org->ID >= Dest->ID);
 
   Org->rho += mi*Wij;
   Dest->rho += mj*Wij; 

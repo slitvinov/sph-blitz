@@ -33,6 +33,9 @@ public:
   ///Calculates the kernel Laplacian
   double LapW(const double distance) const;
 
+  /// show the kernel type
+  void show_information() const;
+
 private:
     ///smoothing length
     double h;

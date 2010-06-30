@@ -33,8 +33,6 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 ParticleManager::ParticleManager(const Initiation &ini)
 {
-  
-
   ///- copy properties from class Initiation
   supportlength = ini.supportlength;
   supportlengthsquare = supportlength*supportlength;
@@ -43,13 +41,6 @@ ParticleManager::ParticleManager(const Initiation &ini)
   x_clls = ini.x_cells + 2; y_clls = ini.y_cells + 2;
   initial_condition = ini.initial_condition;
   hdelta = ini.hdelta; delta = ini.delta;
-	
-  if(initial_condition == 0) {
-
-  }
-
-  ParticleManager::Init();
-
 }
 
 ParticleManager::ParticleManager(
@@ -69,24 +60,8 @@ ParticleManager::ParticleManager(
   hdelta(hdelta), 
   delta(delta)
 {
-  ParticleManager::Init();
-}
-
-
-
-void ParticleManager::Init() {
-  ///- strore the cell linked lists in a 2-d array
   cell_lists.resize(x_clls, y_clls);
-  for (int i=0; i < x_clls; i++) {
-    for(int j = 0; j < y_clls; j++) {
-      /// TODO: probably the lists are already cleared 
-      /// on creation (check C++ book)
-      cell_lists(i, j).clear();
-    }
-  }
 }
-
-
 
 //----------------------------------------------------------------------------------------
 //				update the cell linked lists for real particles
@@ -100,7 +75,6 @@ void ParticleManager::UpdateCellLinkedLists()
   ///<ul><li>(double) loop (as indices i, j) on all cells
   for(int i = 0; i < x_clls; i++) {
     for(int j = 0; j < y_clls; j++) { 
-
       ///<ul><li>iterate this cell list
       std::list<spParticle >::iterator p = cell_lists(i,j).begin();
       ///<li>if the list is empty or the node position is at the end <b>!!!Question!!! is this comment right? would it not rather be...if list NOT empty and NOT at the end </b>
@@ -123,7 +97,6 @@ void ParticleManager::UpdateCellLinkedLists()
 	} 
 	p++;
       }
-
     }
   }
 }
@@ -140,9 +113,7 @@ std::list<spParticle> ParticleManager::BuildNNP(Vec2d &point)
   const int k = int ((point[0] + cll_sz)/ cll_sz);
   const int m = int ((point[1] + cll_sz)/ cll_sz);
 
-
   // if ( point[0]>=0.0 && point[0]<=2.0)//this if- condition has been added for the 1D shock case (as there are no boundary conditions and particles who left the domains should not be considered any more) 
-
   {
     ///<li>loop on this and all surrounding cells
     for(int i = k - 1; i <= k + 1; i++) {
@@ -173,12 +144,11 @@ std::list<spParticle> ParticleManager::BuildNNP(Vec2d &point)
 //----------------------------------------------------------------------------------------
 void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions, 
 				       std::list<spParticle > &particle_list, 
-				       const Kernel &weight_function, 
+				       spKernel weight_function, 
 				       const Initiation& ini)
 {
   //clear the list first
   interactions.clear();
-  
   cout<<"\n Am in build interaction control point 2 \n";
   ///<ul><li>iterate particles on the particle list
   for (std::list<spParticle >::const_iterator p = particle_list.begin(); 

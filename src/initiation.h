@@ -6,7 +6,7 @@
 #include "cpptcl.h"
 #include "vec2d.h"
 #include <boost/utility.hpp>
-
+#include "glbtype.h"
 class Hydrodynamics;
 class ParticleManager;
 class Kernel;
@@ -19,6 +19,11 @@ public:
 	
   ///the project name
   std::string Project_name;
+
+  ///kernel type
+  /// possible values are
+  /// QuinticSpline, BetaSpline, CubicSpline
+  std::string kernel_type;
 
   ///\brief number of materials
   ///
@@ -74,6 +79,6 @@ public:
   void show_information() const;
   ///predict the particle volume and mass
   void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, 
-		  const Kernel &weight_function);
+		  spKernel weight_function);
 };
 #endif

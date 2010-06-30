@@ -29,7 +29,6 @@
 
 #include <boost/smart_ptr/make_shared.hpp>
 
-
 using namespace std;
 
 //----------------------------------------------------------------------------------------
@@ -39,7 +38,6 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   ///<ul><li>copy properties from initiation class
 
   ///<li>create material matrix
-  //Material sample_material(ini);  //set satatic numbers
   materials.resize(ini.number_of_materials);
 
   ///<li>if  key word material: read all materials (from .cfg file)
@@ -75,9 +73,8 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
 //						Build new interactions
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::BuildInteractions(ParticleManager &particles, 
-				      const Kernel &weight_function, 
-				      const Initiation& ini)
-{
+				      spKernel weight_function, 
+				      const Initiation& ini) {
   ///- obtain the interaction pairs by just calling the particles BuildInteraction method
   particles.BuildInteraction(interaction_list, particle_list, weight_function, ini);
   cout<<"\n BuildInteraction done\n";
@@ -85,8 +82,7 @@ void Hydrodynamics::BuildInteractions(ParticleManager &particles,
 //----------------------------------------------------------------------------------------
 // update new parameters in pairs interaction_list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateInteractions(const Kernel &weight_function)
-{
+void Hydrodynamics::UpdateInteractions(spKernel weight_function) {
   ///- iterate the interaction list
   BOOST_FOREACH(spInteraction pair, interaction_list) {
     //renew pair parameters
@@ -97,9 +93,7 @@ void Hydrodynamics::UpdateInteractions(const Kernel &weight_function)
 //----------------------------------------------------------------------------------------
 //		summation for particles density with updating interaction list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateDensity(ParticleManager &particles, const Kernel &weight_function, const Initiation &ini)
-{	
-
+void Hydrodynamics::UpdateDensity(ParticleManager &particles, spKernel weight_function, const Initiation &ini) {
   ///- obtain the interaction pairs
   particles.BuildInteraction(interaction_list, particle_list, weight_function, ini);
 	
@@ -117,8 +111,7 @@ void Hydrodynamics::UpdateDensity(ParticleManager &particles, const Kernel &weig
 //----------------------------------------------------------------------------------------
 //		summation for particles density without updating interaction list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateDensity(const Initiation &ini, const Kernel& weight_function)
-{	
+void Hydrodynamics::UpdateDensity(const Initiation &ini, spKernel  weight_function) {
   ///- initiate zero density
   cout<<"\n AM in update density\n ";
   Self_density(weight_function);
@@ -134,9 +127,8 @@ void Hydrodynamics::UpdateDensity(const Initiation &ini, const Kernel& weight_fu
 //				calculate interaction with updating interaction list
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, 
-				     const Kernel &weight_function, 
-				     const Initiation& ini)
-{
+				     spKernel weight_function, 
+				     const Initiation& ini) {
   ///- initiate change rate of each real particle by calling ZerpChangeRate()
   ZeroChangeRate();
 
@@ -155,8 +147,7 @@ void Hydrodynamics::UpdateChangeRate(ParticleManager &particles,
 //----------------------------------------------------------------------------------------
 //				calculate interaction without updating interaction list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateChangeRate(const Initiation& ini)
-{
+void Hydrodynamics::UpdateChangeRate(const Initiation& ini) {
   ///- initiate the change rate of each real particle by calling ZeroChangeRate()
   ZeroChangeRate();	
 
@@ -168,8 +159,9 @@ void Hydrodynamics::UpdateChangeRate(const Initiation& ini)
   int q=0;
 
   BOOST_FOREACH(spParticle prtl, particle_list) {
-    if(q%30==0)  
-      cout<<"\n dUdt0: "<<prtl->dUdt[0]<<"dUdt1: "<<prtl->dUdt[1];
+    if(q%30==0)  {
+      cout<<"\ndUdt0: "<<prtl->dUdt[0] << " dUdt1: " << prtl->dUdt[1];
+    }
     q++;
   }
   ///- include the gravity effects
@@ -178,8 +170,7 @@ void Hydrodynamics::UpdateChangeRate(const Initiation& ini)
 //----------------------------------------------------------------------------------------
 //						initiate particle change rate
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::ZeroChangeRate()
-{
+void Hydrodynamics::ZeroChangeRate() {
   ///- iterate particles on the real particle list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- set for each particle change rates to zero
@@ -192,8 +183,7 @@ void Hydrodynamics::ZeroChangeRate()
 //----------------------------------------------------------------------------------------
 //							initiate particle density to zero
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::Zero_density()
-{
+void Hydrodynamics::Zero_density() {
   ///- iterate particles on the real particle list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- set for each particle density to zero
@@ -203,11 +193,10 @@ void Hydrodynamics::Zero_density()
 
 /// initiate particle density to the contributions of the 
 /// particle itself
-void Hydrodynamics::Self_density(const Kernel& weight_function)
-{
+void Hydrodynamics::Self_density(spKernel  weight_function) {
   ///- iterate particles on the real particle list
   BOOST_FOREACH(spParticle prtl, particle_list) {
-    prtl->rho = weight_function.w(0.0) * prtl->m;
+    prtl->rho = weight_function->w(0.0) * prtl->m;
   }
 }
 
@@ -215,8 +204,7 @@ void Hydrodynamics::Self_density(const Kernel& weight_function)
 //----------------------------------------------------------------------------------------
 //					static solution: set velocity to zero
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::Zero_Velocity()
-{
+void Hydrodynamics::Zero_Velocity() {
   ///- iterate particles on the real particle list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- all velocities to zero
@@ -226,8 +214,7 @@ void Hydrodynamics::Zero_Velocity()
 //----------------------------------------------------------------------------------------
 //							add the gravity effects
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::AddGravity(const Initiation &ini)
-{
+void Hydrodynamics::AddGravity(const Initiation &ini) {
   ///- iterate particles on the real particle list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- to each particles dUdt: add the gravity effects
@@ -237,8 +224,7 @@ void Hydrodynamics::AddGravity(const Initiation &ini)
 //----------------------------------------------------------------------------------------
 //							calculate states from conservatives
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateState(const Initiation &ini)
-{
+void Hydrodynamics::UpdateState(const Initiation &ini) {
   ///- iterate particles on the real particle list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- calculate pressure for each particle
@@ -257,10 +243,8 @@ void Hydrodynamics::UpdateState(const Initiation &ini)
 //----------------------------------------------------------------------------------------
 //								calculate partilce volume
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateVolume(ParticleManager &particles, const Kernel &weight_function)
-{
+void Hydrodynamics::UpdateVolume(ParticleManager &particles, spKernel weight_function) {
   double reciprocV; //the inverse of volume or volume
-
   ///<ul><li> iterate particles on the particle list
   BOOST_FOREACH(spParticle prtl_org, particle_list) {
     //<li>build the nearest particle list
@@ -270,7 +254,7 @@ void Hydrodynamics::UpdateVolume(ParticleManager &particles, const Kernel &weigh
     //<li>iterate this Nearest Neighbor spParticle list
     BOOST_FOREACH(spParticle prtl_dest ,NNP_list) {
       ///<ul><li>sum the weights for all of these particles (because they are the inverse of a volume!?!)</ul>
-      reciprocV += weight_function.w(v_distance(prtl_org->R, prtl_dest->R));
+      reciprocV += weight_function->w(v_distance(prtl_org->R, prtl_dest->R));
     }
     ///<li>calculate volume
     prtl_org->V = 1.0/reciprocV;
@@ -282,8 +266,7 @@ void Hydrodynamics::UpdateVolume(ParticleManager &particles, const Kernel &weigh
 //----------------------------------------------------------------------------------------
 //							get the time step
 //----------------------------------------------------------------------------------------
-double Hydrodynamics::GetTimestep(const Initiation& ini) const
-{
+double Hydrodynamics::GetTimestep(const Initiation& ini) const {
   //maximum sound speed, particle velocity and density
   double Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = -1.0;
 
@@ -307,8 +290,7 @@ double Hydrodynamics::GetTimestep(const Initiation& ini) const
 //----------------------------------------------------------------------------------------
 //						the redictor and corrector method: predictor
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::Predictor(double dt)
-{
+void Hydrodynamics::Predictor(double dt) {
   ///<ul><li> iterate the real partilce list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///<ul><li>save values at step n
@@ -333,8 +315,7 @@ void Hydrodynamics::Predictor(double dt)
 //----------------------------------------------------------------------------------------
 //							the redictor and corrector method: predictor
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::Corrector(double dt)
-{
+void Hydrodynamics::Corrector(double dt) {
   ///- iterate the real partilce list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- for each particle: correction based on values on n step and change rate at n+1/2
@@ -347,8 +328,7 @@ void Hydrodynamics::Corrector(double dt)
 //----------------------------------------------------------------------------------------
 //					the predictor and corrector method: predictor, no density updating
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::Predictor_summation(double dt)
-{
+void Hydrodynamics::Predictor_summation(double dt) {
   ///<ul><li>iterate the real partilce list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///<ul><li>save values (R,U)  at step n in intermediate variables ._I
@@ -370,8 +350,7 @@ void Hydrodynamics::Predictor_summation(double dt)
 //----------------------------------------------------------------------------------------
 //			the predictor and corrector method: predictor, no density updating
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::Corrector_summation(double dt)
-{
+void Hydrodynamics::Corrector_summation(double dt) {
   ///- iterate the real partilce list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- for each particle: correction (advances R,U) based on values on n step and change rate at n+1/2

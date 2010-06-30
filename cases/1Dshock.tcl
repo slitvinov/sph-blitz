@@ -1,6 +1,10 @@
 # 1D shock configuration file
 set SIMULATION_MODE 2
 
+# possible values are 
+# QuinticSpline, BetaSpline, CubicSpline
+set KERNEL_TYPE CubicSpline
+
 # initial conditions flag 
 # 0: use initial 
 # 1: use restart file

@@ -65,7 +65,7 @@ void Boundary::show_information() const {
   std::cerr << "3: symmetry boundary condition\n";
 }
 
-//check particle if the real particles run out of the computational domain
+// check particle if the real particles run out of the computational domain
 void Boundary::RunAwayCheck(Hydrodynamics &hydro) {
   /// - iterate the partilce list
   for (std::list<spParticle>::const_iterator  p = hydro.particle_list.begin(); 

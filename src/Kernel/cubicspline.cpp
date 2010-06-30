@@ -86,3 +86,7 @@ double CubicSpline::F(const double distance) const
     return  -factorGradW * ( 12.0 * s1*s1 - 3.0 * s2 * s2 );
   }
 }
+
+void CubicSpline::show_information() const {
+  std::cerr << "(kernel) QubicSpline\n";
+}

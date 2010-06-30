@@ -95,24 +95,39 @@ int main(int argc, char *argv[]) {
       " No Project Name Specified!!\n";
     exit(EXIT_FAILURE);
   }
-	
   /// initializations
   std::string aux_string  = std::string(argv[1]);
-  Initiation ini(aux_string); ///- global initialization (by defining an object of class Initiation (initialization "automatically" done at this moment (from .cfg or .rst file) by constructor method of Initiation class. That is by the way the reason why the initiation::initiation method does not figure in the call graph of the main function (constructors are not shwon there)
+  ///- global initialization 
+  /// (by defining an object of class Initiation (initialization "automatically" done at this moment 
+  /// (from .cfg or .rst file) by constructor method of Initiation class. 
+  /// That is by the way the reason why the initiation::initiation method does not figure 
+  /// in the call graph of the main function (constructors are not shwon there)
+  Initiation ini(aux_string); 
 
+  /// choost a kernel
+  spKernel weight_function;
+  if  (ini.kernel_type == "CubicSpline")   {
+      weight_function = boost::make_shared<CubicSpline>(ini.supportlength); 
+  } 
+  else if (ini.kernel_type == "BetaSpline")   {
+      weight_function = boost::make_shared<BetaSpline>(ini.supportlength); 
+  } 
+  else if (ini.kernel_type == "QuinticSpline")   {
+      weight_function = boost::make_shared<QuinticSpline>(ini.supportlength); 
+  } else {
+      std::cerr << __FILE__ << ':' << __LINE__ << " unknown kerenel type (KERNEL_TYPE in configuration file)\n" ;
+      std::cerr << __FILE__ << ':' << __LINE__ << " KERNEL_TYPE: " << ini.kernel_type;
+      exit(EXIT_FAILURE);
+  }
+  assert(weight_function != NULL);
+  weight_function->show_information();
 
-  /// here one can choose which Kernel function to use 
-  //QuinticSpline weight_function (ini.supportlength); 
-  // (not in runtime)
-  CubicSpline weight_function (ini.supportlength); 
 
   ParticleManager particles(ini); ///- initiate the particle manager
   Hydrodynamics hydro(particles, ini); ///- create materials, forces and real particles
-      
   Boundary boundary(ini, hydro, particles); ///- initiate boundary conditions and boundary particles
-
-  /// a smart pinter to timesolver
   
+  /// a smart pinter to timesolver
   spTimeSolver timesolver;
   switch (ini.simu_mode) {
     case 1: 
@@ -129,6 +144,7 @@ int main(int argc, char *argv[]) {
   }
   /// make sure the pointer is created
   assert(timesolver != NULL);
+  timesolver->show_information();
 
   Output output; ///- initialize output class (should be the last to be initialized)
   ini.VolumeMass(hydro, particles, weight_function); //predict particle volume and mass

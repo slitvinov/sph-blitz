@@ -27,9 +27,6 @@ using namespace std;
 //							constructor
 //----------------------------------------------------------------------------------------
 Initiation::Initiation(const std::string& project_name) {
-	
-  std::string  Key_word;
-
 	//the project name
 	Project_name = project_name;
 
@@ -43,6 +40,7 @@ Initiation::Initiation(const std::string& project_name) {
 
 	initial_condition = interp.eval("[return $INITIAL_CONDITION]");
 	simu_mode = interp.eval("[return $SIMULATION_MODE]");
+	kernel_type = static_cast<std::string>(interp.eval("[return $KERNEL_TYPE]"));
 
 	/// if gas dynamics
 	if (simu_mode == 2) {
@@ -130,7 +128,7 @@ void Initiation::show_information() const
 //					predict the particle volume and mass
 //----------------------------------------------------------------------------------------
 void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, 
-			    const Kernel &weight_function)
+			    spKernel weight_function)
 {
   ///mass initiation is different of 1DSPH code: 
   ///here: mass is calculated by summing up the kernel function contributions for easch particle, which gives a kind of the inverse volume taken by each particle (not perfectly true at the discontinuity). together with rho (from initialization) a mass for each particle can be obtained.
@@ -155,10 +153,10 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
 	const double dstc = v_distance(prtl_org->R, prtl_dest->R);
 	assert(dstc>0.0);
 	/// <li> calculate weight function for given distance (w=0, if dist>supportlengtg) an summ it up </ul> 
-	reciprocV += weight_function.w(dstc);
+	reciprocV += weight_function->w(dstc);
       } else {
 	/// particle with itself
-	reciprocV += weight_function.w(0.0);
+	reciprocV += weight_function->w(0.0);
       }
     }
     /// <li> calculate volume as reciprocal value of weight function

@@ -30,6 +30,9 @@ public:
   ///Calculates the kernel derivation (a double, not a vector) to distance
   double F(const double distance) const;
 
+  /// show the kernel type
+  void show_information() const;
+
 
 private:
     ///Normalization factor

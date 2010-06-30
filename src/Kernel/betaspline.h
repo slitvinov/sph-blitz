@@ -29,7 +29,10 @@ public:
     virtual Vec2d gradW(double distance, const Vec2d& distanceVector) const;
 	
     ///Calculates the kernel derivation to distance. 
-	double F(double distance) const;
+  double F(double distance) const;
+
+  /// show the kernel type
+  void show_information() const;
 
 private:
     ///Normalization factor

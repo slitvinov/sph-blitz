@@ -1,5 +1,9 @@
 set SIMULATION_MODE 1
 
+# possible values are 
+# QuinticSpline, BetaSpline, CubicSpline
+set KERNEL_TYPE QuinticSpline
+
 set INITIAL_CONDITION	0
 
 set DIAGNOSE			2

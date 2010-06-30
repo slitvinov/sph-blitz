@@ -47,7 +47,7 @@ void HydroTimeSolver::show_information() const {
 void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 
 					Boundary &boundary,
 					double &Time, double D_time,
-					const Initiation &ini, const Kernel &weight_function)
+					const Initiation &ini, spKernel weight_function)
 {
   double integeral_time = 0.0;
 	

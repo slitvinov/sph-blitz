@@ -38,10 +38,10 @@ public:
 	double GetTimestep(const Initiation& ini) const;
 
 	///build new pairs
-  void BuildInteractions(ParticleManager &particles, const Kernel &weight_function,
+  void BuildInteractions(ParticleManager &particles, spKernel weight_function,
 			 const Initiation& ini);
 	///update new parameters in pairs
-	void UpdateInteractions(const Kernel &weight_function);
+	void UpdateInteractions(spKernel weight_function);
 
 	//manupilate the particle physics
 	///initiate particle change rate
@@ -50,7 +50,7 @@ public:
 	void AddGravity(const Initiation& ini);
 	///calculate interaction with updating interaction list
 	void UpdateChangeRate(ParticleManager &particles, 
-			      const Kernel &weight_function,
+			      spKernel weight_function,
 			      const Initiation& ini);
 	///calculate interaction without updating interaction list
 	void UpdateChangeRate(const Initiation& ini);
@@ -58,17 +58,17 @@ public:
 	void Zero_density();
 	/// initiate particle density to the contributions of the 
 	/// particle itself
-	void Self_density(const Kernel& weight_function);
+	void Self_density(spKernel  weight_function);
 	///summation for particles density (with updating interaction list)
-	void UpdateDensity(ParticleManager &particles, const Kernel &weight_function,
+	void UpdateDensity(ParticleManager &particles, spKernel weight_function,
 			   const Initiation &ini);
 	///currently no shear rate calculated  without updating interaction list
-	void UpdateDensity(const Initiation &ini, const Kernel &weight_function);///???
+	void UpdateDensity(const Initiation &ini, spKernel weight_function);///???
 
 	///calculate states from conservatives
 	void UpdateState(const Initiation &ini);
 	///calculate partilce volume
-	void UpdateVolume(ParticleManager &particles, const Kernel &weight_function);
+	void UpdateVolume(ParticleManager &particles, spKernel weight_function);
 
 	/// predictor method, density evaluated directly
 	void Predictor(double dt);
