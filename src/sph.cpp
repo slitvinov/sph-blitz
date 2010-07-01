@@ -89,7 +89,8 @@ int main(int argc, char *argv[]) {
 
   /// inizialize google logger
   google::InitGoogleLogging(argv[0]);
-  LOG(INFO) << "sph starts\n";
+
+  LOG(INFO) << "sph program starts";
 
 
   time_t bm_start_time = time(NULL);
@@ -150,5 +151,7 @@ int main(int argc, char *argv[]) {
     output.OutputParticle(hydro, boundary, Time, ini); //particle positions and velocites
     output.OutRestart(hydro, Time, ini); //restarting file
   }
+  
+  LOG(WARNING) << "sph program successfully ends";
   return EXIT_SUCCESS; //end the program
 }

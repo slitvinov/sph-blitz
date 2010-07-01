@@ -89,6 +89,7 @@ static bool BoolFromEnv(const char *varname, bool defval) {
   return memchr("tTyY1\0", valstr[0], 6) != NULL;
 }
 
+
 GLOG_DEFINE_bool(logtostderr, BoolFromEnv("GOOGLE_LOGTOSTDERR", false),
                  "log messages go to stderr instead of logfiles");
 GLOG_DEFINE_bool(alsologtostderr, BoolFromEnv("GOOGLE_ALSOLOGTOSTDERR", false),
