@@ -651,6 +651,7 @@ CC
 BLITZ_LIBS
 BLITZ_LDFLAGS
 BLITZ_CPPFLAGS
+BLITZ_INCDIR
 TCL_BIN_DIR
 am__fastdepCXX_FALSE
 am__fastdepCXX_TRUE
@@ -3392,12 +3393,14 @@ _ACEOF
 		if test -n "$blitz_incdir"; then BLITZ_CPPFLAGS="-I$blitz_incdir"; fi
 		if test -n "$blitz_libdir"; then BLITZ_LDFLAGS="-L$blitz_libdir" ; fi
 		BLITZ_LIBS="-lblitz"
+		BLITZ_INCDIR="$blitz_incdir"
 	fi
 
 else
   ac_cxx_lib_blitz='no'
 
 fi
+
 
 
 

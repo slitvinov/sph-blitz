@@ -14,12 +14,12 @@ nomain=	 boundary.cpp boundary.h \
 	material.h \
 	output.cpp output.h particle.cpp \
 	particle.h particlemanager.cpp particlemanager.h \
-	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
 	vec2d.h \
 	Kernel/kernel.cpp Kernel/kernel.h \
 	Kernel/quinticspline.cpp Kernel/quinticspline.h \
 	Kernel/cubicspline.cpp Kernel/cubicspline.h \
 	Kernel/betaspline.h Kernel/betaspline.cpp \
+	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
 	cpptcl.cc cpptcl.h
 
 sph_SOURCES= sph.cpp $(nomain) 

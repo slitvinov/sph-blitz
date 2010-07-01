@@ -47,9 +47,9 @@ PROGRAMS = $(bin_PROGRAMS)
 am__objects_1 = boundary.$(OBJEXT) glbfunc.$(OBJEXT) \
 	hydrodynamics.$(OBJEXT) initiation.$(OBJEXT) \
 	interaction.$(OBJEXT) material.$(OBJEXT) output.$(OBJEXT) \
-	particle.$(OBJEXT) particlemanager.$(OBJEXT) \
-	timesolver.$(OBJEXT) kernel.$(OBJEXT) quinticspline.$(OBJEXT) \
-	cubicspline.$(OBJEXT) betaspline.$(OBJEXT) cpptcl.$(OBJEXT)
+	particle.$(OBJEXT) particlemanager.$(OBJEXT) kernel.$(OBJEXT) \
+	quinticspline.$(OBJEXT) cubicspline.$(OBJEXT) \
+	betaspline.$(OBJEXT) timesolver.$(OBJEXT) cpptcl.$(OBJEXT)
 am_kernel_test_OBJECTS = $(am__objects_1) kernel_test.$(OBJEXT)
 kernel_test_OBJECTS = $(am_kernel_test_OBJECTS)
 kernel_test_LDADD = $(LDADD)
@@ -86,6 +86,7 @@ AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
 BLITZ_CPPFLAGS = @BLITZ_CPPFLAGS@
+BLITZ_INCDIR = @BLITZ_INCDIR@
 BLITZ_LDFLAGS = @BLITZ_LDFLAGS@
 BLITZ_LIBS = @BLITZ_LIBS@
 CC = @CC@
@@ -184,12 +185,12 @@ nomain = boundary.cpp boundary.h \
 	material.h \
 	output.cpp output.h particle.cpp \
 	particle.h particlemanager.cpp particlemanager.h \
-	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
 	vec2d.h \
 	Kernel/kernel.cpp Kernel/kernel.h \
 	Kernel/quinticspline.cpp Kernel/quinticspline.h \
 	Kernel/cubicspline.cpp Kernel/cubicspline.h \
 	Kernel/betaspline.h Kernel/betaspline.cpp \
+	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
 	cpptcl.cc cpptcl.h
 
 sph_SOURCES = sph.cpp $(nomain) 
@@ -301,20 +302,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
-timesolver.o: TimeSolver/timesolver.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT timesolver.o -MD -MP -MF $(DEPDIR)/timesolver.Tpo -c -o timesolver.o `test -f 'TimeSolver/timesolver.cpp' || echo '$(srcdir)/'`TimeSolver/timesolver.cpp
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/timesolver.Tpo $(DEPDIR)/timesolver.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TimeSolver/timesolver.cpp' object='timesolver.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o timesolver.o `test -f 'TimeSolver/timesolver.cpp' || echo '$(srcdir)/'`TimeSolver/timesolver.cpp
-
-timesolver.obj: TimeSolver/timesolver.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT timesolver.obj -MD -MP -MF $(DEPDIR)/timesolver.Tpo -c -o timesolver.obj `if test -f 'TimeSolver/timesolver.cpp'; then $(CYGPATH_W) 'TimeSolver/timesolver.cpp'; else $(CYGPATH_W) '$(srcdir)/TimeSolver/timesolver.cpp'; fi`
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/timesolver.Tpo $(DEPDIR)/timesolver.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TimeSolver/timesolver.cpp' object='timesolver.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o timesolver.obj `if test -f 'TimeSolver/timesolver.cpp'; then $(CYGPATH_W) 'TimeSolver/timesolver.cpp'; else $(CYGPATH_W) '$(srcdir)/TimeSolver/timesolver.cpp'; fi`
-
 kernel.o: Kernel/kernel.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT kernel.o -MD -MP -MF $(DEPDIR)/kernel.Tpo -c -o kernel.o `test -f 'Kernel/kernel.cpp' || echo '$(srcdir)/'`Kernel/kernel.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/kernel.Tpo $(DEPDIR)/kernel.Po
@@ -370,6 +357,20 @@ betaspline.obj: Kernel/betaspline.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kernel/betaspline.cpp' object='betaspline.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o betaspline.obj `if test -f 'Kernel/betaspline.cpp'; then $(CYGPATH_W) 'Kernel/betaspline.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/betaspline.cpp'; fi`
+
+timesolver.o: TimeSolver/timesolver.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT timesolver.o -MD -MP -MF $(DEPDIR)/timesolver.Tpo -c -o timesolver.o `test -f 'TimeSolver/timesolver.cpp' || echo '$(srcdir)/'`TimeSolver/timesolver.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/timesolver.Tpo $(DEPDIR)/timesolver.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TimeSolver/timesolver.cpp' object='timesolver.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o timesolver.o `test -f 'TimeSolver/timesolver.cpp' || echo '$(srcdir)/'`TimeSolver/timesolver.cpp
+
+timesolver.obj: TimeSolver/timesolver.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT timesolver.obj -MD -MP -MF $(DEPDIR)/timesolver.Tpo -c -o timesolver.obj `if test -f 'TimeSolver/timesolver.cpp'; then $(CYGPATH_W) 'TimeSolver/timesolver.cpp'; else $(CYGPATH_W) '$(srcdir)/TimeSolver/timesolver.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/timesolver.Tpo $(DEPDIR)/timesolver.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TimeSolver/timesolver.cpp' object='timesolver.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o timesolver.obj `if test -f 'TimeSolver/timesolver.cpp'; then $(CYGPATH_W) 'TimeSolver/timesolver.cpp'; else $(CYGPATH_W) '$(srcdir)/TimeSolver/timesolver.cpp'; fi`
 
 kernel_test.o: Kernel/kernel_test.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT kernel_test.o -MD -MP -MF $(DEPDIR)/kernel_test.Tpo -c -o kernel_test.o `test -f 'Kernel/kernel_test.cpp' || echo '$(srcdir)/'`Kernel/kernel_test.cpp
