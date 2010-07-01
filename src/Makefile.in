@@ -49,7 +49,9 @@ am__objects_1 = boundary.$(OBJEXT) glbfunc.$(OBJEXT) \
 	interaction.$(OBJEXT) material.$(OBJEXT) output.$(OBJEXT) \
 	particle.$(OBJEXT) particlemanager.$(OBJEXT) kernel.$(OBJEXT) \
 	quinticspline.$(OBJEXT) cubicspline.$(OBJEXT) \
-	betaspline.$(OBJEXT) timesolver.$(OBJEXT) cpptcl.$(OBJEXT)
+	betaspline.$(OBJEXT) timesolver.$(OBJEXT) \
+	hydrotimesolver.$(OBJEXT) gastimesolver.$(OBJEXT) \
+	cpptcl.$(OBJEXT)
 am_kernel_test_OBJECTS = $(am__objects_1) kernel_test.$(OBJEXT)
 kernel_test_OBJECTS = $(am_kernel_test_OBJECTS)
 kernel_test_LDADD = $(LDADD)
@@ -189,6 +191,8 @@ nomain = boundary.cpp boundary.h \
 	Kernel/cubicspline.cpp Kernel/cubicspline.h \
 	Kernel/betaspline.h Kernel/betaspline.cpp \
 	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
+	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
+	TimeSolver/gastimesolver.cpp TimeSolver/gastimesolver.h \
 	cpptcl.cc cpptcl.h
 
 sph_SOURCES = sph.cpp $(nomain) 
@@ -271,8 +275,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boundary.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cpptcl.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cubicspline.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gastimesolver.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/glbfunc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hydrodynamics.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hydrotimesolver.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/initiation.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interaction.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kernel.Po@am__quote@
@@ -369,6 +375,34 @@ timesolver.obj: TimeSolver/timesolver.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TimeSolver/timesolver.cpp' object='timesolver.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o timesolver.obj `if test -f 'TimeSolver/timesolver.cpp'; then $(CYGPATH_W) 'TimeSolver/timesolver.cpp'; else $(CYGPATH_W) '$(srcdir)/TimeSolver/timesolver.cpp'; fi`
+
+hydrotimesolver.o: TimeSolver/hydrotimesolver.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT hydrotimesolver.o -MD -MP -MF $(DEPDIR)/hydrotimesolver.Tpo -c -o hydrotimesolver.o `test -f 'TimeSolver/hydrotimesolver.cpp' || echo '$(srcdir)/'`TimeSolver/hydrotimesolver.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/hydrotimesolver.Tpo $(DEPDIR)/hydrotimesolver.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TimeSolver/hydrotimesolver.cpp' object='hydrotimesolver.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o hydrotimesolver.o `test -f 'TimeSolver/hydrotimesolver.cpp' || echo '$(srcdir)/'`TimeSolver/hydrotimesolver.cpp
+
+hydrotimesolver.obj: TimeSolver/hydrotimesolver.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT hydrotimesolver.obj -MD -MP -MF $(DEPDIR)/hydrotimesolver.Tpo -c -o hydrotimesolver.obj `if test -f 'TimeSolver/hydrotimesolver.cpp'; then $(CYGPATH_W) 'TimeSolver/hydrotimesolver.cpp'; else $(CYGPATH_W) '$(srcdir)/TimeSolver/hydrotimesolver.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/hydrotimesolver.Tpo $(DEPDIR)/hydrotimesolver.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TimeSolver/hydrotimesolver.cpp' object='hydrotimesolver.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o hydrotimesolver.obj `if test -f 'TimeSolver/hydrotimesolver.cpp'; then $(CYGPATH_W) 'TimeSolver/hydrotimesolver.cpp'; else $(CYGPATH_W) '$(srcdir)/TimeSolver/hydrotimesolver.cpp'; fi`
+
+gastimesolver.o: TimeSolver/gastimesolver.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT gastimesolver.o -MD -MP -MF $(DEPDIR)/gastimesolver.Tpo -c -o gastimesolver.o `test -f 'TimeSolver/gastimesolver.cpp' || echo '$(srcdir)/'`TimeSolver/gastimesolver.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/gastimesolver.Tpo $(DEPDIR)/gastimesolver.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TimeSolver/gastimesolver.cpp' object='gastimesolver.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o gastimesolver.o `test -f 'TimeSolver/gastimesolver.cpp' || echo '$(srcdir)/'`TimeSolver/gastimesolver.cpp
+
+gastimesolver.obj: TimeSolver/gastimesolver.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT gastimesolver.obj -MD -MP -MF $(DEPDIR)/gastimesolver.Tpo -c -o gastimesolver.obj `if test -f 'TimeSolver/gastimesolver.cpp'; then $(CYGPATH_W) 'TimeSolver/gastimesolver.cpp'; else $(CYGPATH_W) '$(srcdir)/TimeSolver/gastimesolver.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/gastimesolver.Tpo $(DEPDIR)/gastimesolver.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TimeSolver/gastimesolver.cpp' object='gastimesolver.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o gastimesolver.obj `if test -f 'TimeSolver/gastimesolver.cpp'; then $(CYGPATH_W) 'TimeSolver/gastimesolver.cpp'; else $(CYGPATH_W) '$(srcdir)/TimeSolver/gastimesolver.cpp'; fi`
 
 kernel_test.o: Kernel/kernel_test.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT kernel_test.o -MD -MP -MF $(DEPDIR)/kernel_test.Tpo -c -o kernel_test.o `test -f 'Kernel/kernel_test.cpp' || echo '$(srcdir)/'`Kernel/kernel_test.cpp

@@ -28,6 +28,8 @@ using namespace std;
 //							constructor
 //----------------------------------------------------------------------------------------
 Initiation::Initiation(const std::string& project_name) {
+        LOG(INFO) << "Run constructor of Initiation class";
+
 	//the project name
 	Project_name = project_name;
 
@@ -40,7 +42,9 @@ Initiation::Initiation(const std::string& project_name) {
 	///<li>reading key words and configuration data from configuration file and assign them to the appropriate variable
 
 	initial_condition = interp.eval("[return $INITIAL_CONDITION]");
+        assert( (initial_condition == 0) || (initial_condition == 1));
 	simu_mode = interp.eval("[return $SIMULATION_MODE]");
+        assert(simu_mode == 1 || simu_mode == 2);
 	kernel_type = static_cast<std::string>(interp.eval("[return $KERNEL_TYPE]"));
 
 	/// if gas dynamics
@@ -51,18 +55,30 @@ Initiation::Initiation(const std::string& project_name) {
 	  epsilon_artVis = interp.eval("[return $epsilon_artVis]");
 	} 
 	x_cells = interp.eval ("[return $CELLS(0)]");
+        assert(x_cells > 0);
 	y_cells = interp.eval ("[return $CELLS(1)]");
-	cell_size = interp.eval("[return $CELL_SIZE]");
+        assert(y_cells > 0);
+
+        cell_size = interp.eval("[return $CELL_SIZE]");
+        assert(cell_size>0.0);
+
 	supportlength = interp.eval("[return $SUPPORT_LENGTH]");
+        assert(supportlength > 0.0);
+        
 	hdelta = interp.eval("[return $CELL_RATIO]");
+        assert(hdelta > 0.0);
 
 	g_force[0] = interp.eval ("[return $G_FORCE(0)]");
 	g_force[1] = interp.eval ("[return $G_FORCE(1)]");
 
 	number_of_materials = interp.eval("[return $NUMBER_OF_MATERIALS]");
+        assert(number_of_materials > 0);
+        
 	Start_time = interp.eval("[return $Start_time]");
 	End_time = interp.eval("[return $End_time]");
 	D_time = interp.eval("[return $D_time]");
+        // can be zero for debugging
+        assert(D_time>0.0);
 
 	if (initial_condition == 0) {
 	  rho0 = interp.eval("[return $rho0]");
@@ -71,8 +87,6 @@ Initiation::Initiation(const std::string& project_name) {
 	  U0[0] = interp.eval ("[return $U0(0)]");
 	  U0[1] = interp.eval ("[return $U0(1)]");
 	}
-
-	
 
 	///<li>create outdata directory
 	const int sys_return = system("mkdir -p outdata");
@@ -84,12 +98,13 @@ Initiation::Initiation(const std::string& project_name) {
 	
 	///<li>process the data <b>!!!Question!!!</b>
 	box_size[0] = x_cells*cell_size; box_size[1] = y_cells*cell_size;
-	delta = cell_size/hdelta;///(line 104) this is only true if h=cell_size (which is not necessarily given, as h, cell_size can be initiated independently in configuration file)
+	delta = cell_size/hdelta;///(line 104) this is only 
+        /// true if h=cell_size (which is not necessarily given, as h, cell_size can be initiated independently in configuration file)
 	
 	///<li>output information to screen
 	show_information();
         
-        LOG(INFO)<<"Initiation object is created";
+        LOG(INFO) << "Initiation object is created";
 }
 //----------------------------------------------------------------------------------------
 //					show information to screen
@@ -106,10 +121,12 @@ void Initiation::show_information() const
   LOG(INFO)<<"The ratio between cell size and initial particle width is "<<hdelta<<"\n";
   LOG(INFO)<<"The initial particle width is "<<delta<<" micrometers\n";
   LOG(INFO)<<"The g force is "<<g_force[0]<<" m/s^2 x "<<g_force[1]<<" m/s^2 \n";
-
 	///- output the timing information on screen
   LOG(INFO)<<"Ending time is "<<End_time<<" \n";
   LOG(INFO)<<"Output time interval is "<<D_time<<" \n";
+  
+  LOG(INFO)<<"initial_condition "<< initial_condition <<" \n";
+  LOG(INFO)<<" simu_mode "<< simu_mode <<" \n";
 
   ///- output iniformation on initialization mode (.cfg file or .rst file)
   //Initialize the initial conditions from .cfg file
@@ -132,6 +149,7 @@ void Initiation::show_information() const
 void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, 
 			    spKernel weight_function)
 {
+  LOG(INFO)<<"Initiation::VolumeMass starts";
   ///mass initiation is different of 1DSPH code: 
   ///here: mass is calculated by summing up the kernel function contributions for easch particle, which gives a kind of the inverse volume taken by each particle (not perfectly true at the discontinuity). together with rho (from initialization) a mass for each particle can be obtained.
   ///within the discontinuity zone, this mass varies because of the smoothing effect of the kernel summation.
@@ -167,5 +185,5 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
     prtl_org->V = reciprocV;
     prtl_org->m = prtl_org->rho*reciprocV;
   }
-  LOG(INFO)<<"\n Volume and Mass successfully calculated\n ";
+  LOG(INFO)<<"Initiation::VolumeMass ends";
 }

@@ -71,14 +71,14 @@ public:
 	void UpdateVolume(ParticleManager &particles, spKernel weight_function);
 
 	/// predictor method, density evaluated directly
-	void Predictor(double dt);
+	void Predictor(const double dt);
 	/// corrector method, density evaluated directly:<b> corrector advances p, rho, U</b>
-	void Corrector(double dt);
+	void Corrector(const double dt);
 
 	///for predictor method, density evaluated with summation (that means: no density update within this method)
-	void Predictor_summation(double dt);
+	void Predictor_summation(const double dt);
         ///for corrector method, density evaluated with summation (that means: no density update within this method)
-	void Corrector_summation(double dt);
+	void Corrector_summation(const double dt);
 
 	///special uitilities
 	void Zero_Velocity();

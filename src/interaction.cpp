@@ -15,6 +15,8 @@
 #include <cstdio>
 #include <cstdlib>
 
+#include <glog/logging.h>
+
 // ***** localincludes *****
 #include "glbfunc.h"
 #include "material.h"
@@ -41,7 +43,6 @@ Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest,
   rmi(1.0/mi), rmj(1.0/mj),
   etai(Org->eta), etaj(Org->eta),
   rij(dstc)
-  
 {
   assert(prtl_dest != NULL);
   assert(prtl_org != NULL);
@@ -60,6 +61,8 @@ Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest,
   Wij = weight_function->w(rij);
   gradWij=weight_function->gradW(rij,Dest->R-Org->R);
   Fij = weight_function->F(rij)*rrij; //for Kernel wight fuction
+
+  LOG_EVERY_N(INFO, 1000) << "Interaction created" ;
 }
 
 //-------------------getter for origin-----------------
@@ -94,14 +97,14 @@ double Interaction::getWij() const
 // Depends on: Interaction Object, Org, Dest
 void Interaction::RenewInteraction(spKernel weight_function)
 {
-	///- calculate pair parameters (weight functions, shear- and bulk-)
-	rij = v_abs(Org->R - Dest->R);
-	rrij = 1.0/(rij + 1.0e-30);
-	eij = (Org->R - Dest->R)*rrij;
-	Wij = weight_function->w(rij);
-	gradWij=weight_function->gradW(rij,Dest->R-Org->R);
-	Fij = weight_function->F(rij)*rrij; //for Kernel fuction
-
+  LOG_EVERY_N(INFO, 1000) << "call Interaction::RenewInteraction()";
+  ///- calculate pair parameters (weight functions, shear- and bulk-)
+  rij = v_abs(Org->R - Dest->R);
+  rrij = 1.0/(rij + 1.0e-30);
+  eij = (Org->R - Dest->R)*rrij;
+  Wij = weight_function->w(rij);
+  gradWij=weight_function->gradW(rij,Dest->R-Org->R);
+  Fij = weight_function->F(rij)*rrij; //for Kernel fuction
 }
 //----------------------------------------------------------------------------------------
 //					summation of the density
@@ -126,6 +129,7 @@ void Interaction::SummationDensity() {
 //----------------------------------------------------------------------------------------
 void Interaction::UpdateForces()
 {	
+  LOG_EVERY_N(INFO, 1000) << "Interaction::UpdateForces()";
   
 	//define pair values change in sub time steps
 	const double rhoi = Org->rho; 
@@ -141,8 +145,8 @@ void Interaction::UpdateForces()
 	/// make sure masses are OK
 	assert(Vi>0.0);
 	assert(Vj>0.0);
-	const double rVi = 1.0/Vi; 
-	const double rVj = 1.0/Vj;
+	//const double rVi = 1.0/Vi; 
+	//const double rVj = 1.0/Vj;
 
 	const double pi = Org->p; 
 	const double pj = Dest->p;
@@ -166,8 +170,8 @@ void Interaction::UpdateForces()
 	  /// particle must not be that far 
 	  assert(rij<=2.0*supportlength);
 
-	  const double drhodti=mj*dot((Ui-Uj),gradWij);
-	  const double drhodtj=mi*dot((Uj-Ui),((-1)*gradWij));
+	  //const double drhodti=mj*dot((Ui-Uj),gradWij);
+	  //const double drhodtj=mi*dot((Uj-Ui),((-1)*gradWij));
 	  
 	  const double hij=supportlength/2.0;//=0.5*(hi+hj)for later (variable smoothing length);
 	  const double cij=0.5*(Org->Cs+Dest->Cs);
@@ -194,8 +198,6 @@ void Interaction::UpdateForces()
           const double dedtj=0.5*dot(dUdtj,(Ui-Uj));
 
 	  //control output
-          Org->drhodt +=drhodti;
-          Dest->drhodt += drhodtj;
           Org->dUdt += dUdti;
           Dest->dUdt += dUdtj;
 	  Org->dedt+=dedti;
@@ -204,25 +206,28 @@ void Interaction::UpdateForces()
 
       	if(ini.simu_mode==1)
 	{
-	  // LOG(INFO)<<"am in simu_mode=1 section of update forces";
-	  double Vi2 = Vi*Vi, Vj2 = Vj*Vj;
+	  LOG(INFO) << "Interaction::UpdateForces(), simu_mode=1";
+          assert(Vi>0.0);
+          assert(Vj>0.0);
+	  const double Vi2 = Vi*Vi; 
+          const double Vj2 = Vj*Vj;
 
 	  ///- calculate density change rate
-	  const double drhodti = - Fij*rij*dot((Ui*Vi2 - Uj*Vj2), eij);
-	
 	  const double shear_rij = 2.0*etai*etaj/(etai + etaj);
 
 	  ///- calculate momentum change rate 	  
-	  /// viscouse and pressure parts
-	  const Vec2d dPdti = shear_rij*Fij*(Vi2 + Vj2) * Uij +
-	    eij*Fij*rij*(pi*Vi2 + pj*Vj2);
-		
-	Org->drhodt += drhodti*rhoi*rVi;
-	Dest->drhodt += drhodti*rhoj*rVj;
-	Org->dUdt += dPdti*rmi;
-	Dest->dUdt -= dPdti*rmj;
+	  
+          /// viscouse and pressure parts          
+          const Vec2d dPdti_visc = shear_rij*Fij*(Vi2 + Vj2) * Uij;
+          const Vec2d dPdti_pre = eij*Fij*rij*(pi*Vi2 + pj*Vj2);
+	  const Vec2d dPdti = dPdti_visc  + dPdti_pre;
+
+          Org->dUdt += dPdti*rmi;
+          Dest->dUdt -= dPdti*rmj;
 	}
-	
-	
+}
+
+Interaction::~Interaction() {
+  LOG_EVERY_N(INFO, 1000) << "Interaction destroyed" ;
 }
 

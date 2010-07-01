@@ -41,6 +41,7 @@ Output::Output()
 void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary, 
                             double Time, const Initiation &ini)
 {
+  LOG(INFO) << "Output::OutputParticle";
   ///<ul><li>produce output file name
   const double Itime = Time*1.0e6;
 

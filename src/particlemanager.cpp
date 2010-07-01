@@ -36,6 +36,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 ParticleManager::ParticleManager(const Initiation &ini)
 {
+  
   ///- copy properties from class Initiation
   supportlength = ini.supportlength;
   supportlengthsquare = supportlength*supportlength;
@@ -44,6 +45,11 @@ ParticleManager::ParticleManager(const Initiation &ini)
   x_clls = ini.x_cells + 2; y_clls = ini.y_cells + 2;
   initial_condition = ini.initial_condition;
   hdelta = ini.hdelta; delta = ini.delta;
+
+  assert(x_clls > 0);
+  assert(y_clls > 0);
+  cell_lists.resize(x_clls, y_clls);
+  LOG(INFO) << "cell_lists is resized to (" << x_clls << ", " << y_clls << ")";
   LOG(INFO) << "ParticleManager object is created";
 }
 
@@ -153,12 +159,6 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
 {
   //clear the list first
   interactions.clear();
-<<<<<<< HEAD
-  cout<<"\n Am in build interaction control point 2 \n";
-=======
-  
-  LOG(INFO)<<"Am in build interaction control point 2 \n";
->>>>>>> add_glog
   ///<ul><li>iterate particles on the particle list
   for (std::list<spParticle >::const_iterator p = particle_list.begin(); 
        p != particle_list.end();
@@ -230,96 +230,90 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 					Initiation &ini)
 {
 	
-  Vec2d position, velocity;
+  LOG(INFO) << "Start BuildRealParticle\n";
+
   double density, pressure, Temperature;
   int material_no;
 
   ///initial particles either from .cfg file or from .rst file or from .ivs (Initial Values Shock tube)file
   if(ini.simu_mode==1)//for liquids
-    {
+  {
       //initialize particles from the file .cfg
       if(initial_condition==0) {	
 	//initialize the real particles inside the boundary
+        LOG(INFO) << "Run simu_mode = 1, initial_condition = 0 version of BuildRealParticle";
 	for(int i = 1; i < x_clls - 1; i++) {
 	  for(int j = 1; j < y_clls - 1; j++) {
+            LOG(INFO) << "cell (" << i << ", " << j << ")";
 	    //creat a new real particle
 	    for(int k = 0; k < hdelta; k++) {
 	      for(int m = 0; m < hdelta; m++) {
-
-		position[0] = (i - 1)*cll_sz + (k + 0.5)*delta;
-		position[1] = (j - 1)*cll_sz + (m + 0.5)*delta;
-
+                const Vec2d position((i - 1)*cll_sz + (k + 0.5)*delta, 
+                                     (j - 1)*cll_sz + (m + 0.5)*delta);
 		material_no = 1;
-		velocity = ini.U0;
+		const Vec2d velocity = ini.U0;
 		Temperature = ini.T0;
 		density = materials[material_no]->rho0;
 		pressure = materials[material_no]->get_p(density);
-						
-		Vec2d c_cntr;
-		c_cntr[0] = 4.0; c_cntr[1] = 4.0;
+		const Vec2d c_cntr(4.0, 4.0);
 		if(v_abs(position - c_cntr) <= 1.0) {
-		  //						if(position[1] < 0.2 && position[0] < 0.2) {
 		  material_no = 2;
 		  pressure += ini.p0;
 		  density = materials[material_no]->get_rho(pressure);
 		}
-
 		//creat a new real particle
+                LOG_EVERY_N(INFO, 100) << "Create a particle with position: " << position;
 		spParticle prtl = boost::make_shared<Particle>(position, velocity, 
 							       density, pressure, 
 							       Temperature, 
 							       materials[material_no]);
 		prtl->cell_i = i; prtl->cell_j = j; 
-						
 		//insert its poistion on the particle list
-		particle_list.insert(particle_list.begin(), prtl);
-
+		particle_list.push_back(prtl);
+                LOG_EVERY_N(INFO, 100) << "The particle is insertet into the particle list";
 		//insert the position into corresponding cell list
-		cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
-
-	      }
-	    }
-	  }
-	}
-      }
+		cell_lists(i,j).push_back(prtl);
+                LOG_EVERY_N(INFO, 100) << "The particle is inserted into the cell list";
+	      } // m loop
+	    } // k loop
+	  } // j loop
+	} // i loop
+        LOG(INFO) << "End of  simu_mode = 1, initial_condition = 0 version of BuildRealParticle";
+      } /// initial_condition==0 condition
 	
       //initialize real particles from the non-dimensional restart file .rst
       if(initial_condition==1) {	
-
-	int n, N;
-	std::string inputfile;
-	std::string material_name;
-		
 	//the restart file name
-	inputfile = ini.Project_name + ".rst";
-	
+	const std::string inputfile = ini.Project_name + ".rst";
 	//check if the restart exist
 	ifstream fin(inputfile.c_str(), ios::in);
-	if (!fin) {
+	if (!fin.good()) {
 	  LOG(INFO) <<"Initialtion: Cannot open "<< inputfile <<" \n";
 	  exit(EXIT_FAILURE);
 	}
-	else LOG(INFO)<<"Initialtion: Read real particle data from "<< inputfile <<" \n"; 
+        
+	LOG(INFO) << "Initialtion: Read real particle data from "<< inputfile <<" \n"; 
 
 	//reading the new starting time
 	fin>>ini.Start_time;
 	//change the starting and ending time
 	ini.End_time += ini.Start_time;
 	//read the real particle number
+        int N;
 	fin>>N;
-
 	//read the particle data
-	for(n = 0; n < N; n++) { 
-			
+	for(int n = 0; n < N; n++) { 
+          Vec2d position;
+          Vec2d velocity;
+          std::string material_name;
 	  fin>>material_name>>position[0]>>position[1]>>velocity[0]>>velocity[1]
 	     >>density>>pressure>>Temperature;
-			
+          assert(density > 0.0);
 	  //find the right material number
 	  material_no = -1;
 	  for(int k = 0;  k <= ini.number_of_materials; k++) 
 	    if(material_name == materials[k]->material_name) material_no = k;
 	  if(material_no != -1) {	
-					
 	    pressure = materials[material_no]->get_p(density);
 	    spParticle prtl = boost::make_shared<Particle> ( position, velocity, density, pressure, Temperature, 
 					   materials[material_no]);
@@ -361,7 +355,8 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
       //read the particle data
       for(int n = 0; n < N; n++)
 	{ 
-			
+          Vec2d position;
+          Vec2d velocity;
 	  fin>>position[0]>>position[1]>>velocity[0]>>velocity[1]
 	     >>density>>pressure;
 	  Temperature=materials[material_no]->get_T(pressure,density);
@@ -381,7 +376,7 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 	};
       fin.close();
     }
-
+  LOG(INFO) << "ParticleManager::BuildRealParticle ends";
 }
 //----------------------------------------------------------------------------------------
 //				buid the initial wall particles and the linked lists

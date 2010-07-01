@@ -15,6 +15,8 @@
 #include <cstdlib>
 #include <cmath>
 
+#include <glog/logging.h>
+
 // ***** localincludes *****
 #include "glbfunc.h"
 #include "hydrodynamics.h"
@@ -36,7 +38,7 @@ GasTimeSolver::GasTimeSolver():
 }
 
 void GasTimeSolver::show_information() const {
-  std::cerr << "(timesolver) Gas dynamics time solver\n" ;
+
 }
 
 //----------------------------------------------------------------------------------------
@@ -55,10 +57,10 @@ void GasTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager
     // TODO: move into Initiation?
     const double dt = 0.0025;
     //control output
-    cout<<"\n current timestep:"<<dt<<"\n";
-    cout<<"\n current absolute integraltime:"<<Time<<"\n";	
-    cout<<"\n current (relative) integraltime:"<<integeral_time<<"\n";
-    cout<<"\n current (absolute) iterations:"<<ite<<"\n";
+    LOG(INFO)<<"\n current timestep:"<<dt;
+    LOG(INFO)<<"\n current absolute integraltime:"<<Time;
+    LOG(INFO)<<"\n current (relative) integraltime:"<<integeral_time;
+    LOG(INFO)<<"\n current (absolute) iterations:"<<ite;
     ite ++;
     integeral_time =integeral_time+ dt;
     Time += dt;
@@ -84,7 +86,7 @@ void GasTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager
     hydro.UpdateDensity(ini, weight_function);///<li>hydro.UpdateDensity
 
     //control output
-    cout<<"\n     --- change rate for corrector:";
+    LOG(INFO)<<"change rate for corrector:";
     hydro.UpdateChangeRate(ini); ///<li>hydro.UpdateChangeRate
     hydro.Corrector_summation(dt);///<li>hydro.Corrector_summation</ol>
     particles.UpdateCellLinkedLists();///<li>particles.UpdateCellLinkedLists

@@ -6,8 +6,6 @@ set KERNEL_TYPE QuinticSpline
 
 set INITIAL_CONDITION	0
 
-set DIAGNOSE			2
-
 set CELLS(0) 8
 set CELLS(1) 8
 

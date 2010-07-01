@@ -33,6 +33,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 Material::Material(Initiation &ini, const int number)
 {
+  LOG(INFO) << "Run constructor of Material class";
   // to have array in the return string for tcl
   // example [return A(1)]
   const std::string index = boost::str(boost::format("(%i)]") % number);

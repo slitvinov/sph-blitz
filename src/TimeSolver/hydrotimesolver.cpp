@@ -15,6 +15,8 @@
 #include <cstdlib>
 #include <cmath>
 
+#include <glog/logging.h>
+
 // ***** localincludes *****
 #include "glbfunc.h"
 #include "hydrodynamics.h"
@@ -32,11 +34,11 @@ HydroTimeSolver::HydroTimeSolver():
   ite(0)
 {
   ///- initialize the iteration
-  cout<<"\n initiation of hydrotimesolver succeeded\n ";
+  LOG(INFO) <<"Creating HydroTimeSolver object";
 }
 
 void HydroTimeSolver::show_information() const {
-  std::cerr << "(timesolver) Gas dynamics time solver\n" ;
+
 }
 
 
@@ -49,16 +51,17 @@ void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManag
 					double &Time, double D_time,
 					const Initiation &ini, spKernel weight_function)
 {
+  LOG(INFO) << "Start TimeIntegral_summation";
   double integeral_time = 0.0;
 	
   while(integeral_time < D_time) {
     const double dt = hydro.GetTimestep(ini);
     assert(dt>0.0);
     //control output
-    cout<<"\n current timestep:"<<dt<<"\n";
-    cout<<"\n current absolute integraltime:"<<Time<<"\n";	
-    cout<<"\n current (relative) integraltime:"<<integeral_time<<"\n";
-    cout<<"\n current (absolute) iterations:"<<ite<<"\n";
+    LOG(INFO)<<"\n current timestep:"<<dt<<
+        "\n current absolute integraltime:"<<Time<<
+        "\n current (relative) integraltime:"<<integeral_time<<
+        "\n current (absolute) iterations:"<<ite;
     ite ++;
     integeral_time =integeral_time+ dt;
     Time += dt;
@@ -67,33 +70,25 @@ void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManag
     if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
 			  <<Time<<"	dt: "<<dt<<"\n";
 	  
-    //control output
-    // cout<<"\n just before build pair\n";
     //predictor and corrector method used
     ///<li>the prediction step
     hydro.BuildInteractions(particles, weight_function, ini);///<ol><li> rebuild interactions
     hydro.UpdateDensity(ini, weight_function);///<li> hydro.UpdateDensity
     
     boundary.BoundaryCondition(particles);///<li> boundary.BoundaryCondition
-    boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
     //control output
-    //	cout<<"\n     --- change rate for predictor:";	
     hydro.UpdateChangeRate(ini);///<li> hydro.UpdateChangeRate
 	  
     hydro.Predictor_summation(dt);///<li>hydro.Predictor_summation</ol>
-	  
     ///<li> the correction step without update the interaction list
     boundary.BoundaryCondition(particles);///<ol><li>boundary.BoundaryCondition
 
-    
     hydro.UpdateInteractions(weight_function);///<li> update interactions
     hydro.UpdateDensity(ini, weight_function);///<li>hydro.UpdateDensity
-
     
     boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
-    boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
     //control output
-    cout<<"\n     --- change rate for corrector:";
+    LOG(INFO)<<"change rate for corrector:";
     hydro.UpdateChangeRate(ini); ///<li>hydro.UpdateChangeRate
     hydro.Corrector_summation(dt);///<li>hydro.Corrector_summation</ol>
 
@@ -102,4 +97,8 @@ void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManag
     particles.UpdateCellLinkedLists();///<li>particles.UpdateCellLinkedLists
     boundary.BuildBoundaryParticle(particles, hydro);///<li>boundary.BuildBoundaryspParticle</ol></ul>
   }
+}
+
+HydroTimeSolver::~HydroTimeSolver() {
+  LOG(INFO) << "destructor of HydroTimeSolver is called";
 }

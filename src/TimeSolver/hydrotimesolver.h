@@ -18,6 +18,11 @@ public:
   void TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 
                               Boundary &boundary, double &Time, double D_time, 
                               const Initiation &ini, spKernel weight_function);
+
+  /// show some information about the solver
   void show_information() const;
+
+  /// HydroTimeSolver destructor
+  ~HydroTimeSolver();
 };
 #endif //HYDRO_TIMESOLVER_H

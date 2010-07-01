@@ -47,9 +47,6 @@
  *
  *  
  */
-
-
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -98,8 +95,7 @@ int main(int argc, char *argv[]) {
             << "==GLOG_logtostderr=1 ./sph <project name>==\n";
 
   LOG(INFO) << "sph program starts";
-  time_t bm_start_time = time(NULL);
-
+ 
   //check if project name specified
   if (argc<2)  {
     LOG(INFO) << " No Project Name Specified!!\n";
@@ -191,7 +187,7 @@ int main(int argc, char *argv[]) {
     output.OutputParticle(hydro, boundary, Time, ini); //particle positions and velocites
     output.OutRestart(hydro, Time, ini); //restarting file
   }
-  
-  LOG(WARNING) << "sph program successfully ends";
+
+  LOG(INFO) << "sph program successfully ends";
   return EXIT_SUCCESS; //end the program
 }

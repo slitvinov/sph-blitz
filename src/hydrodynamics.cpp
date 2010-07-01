@@ -36,9 +36,11 @@ using namespace std;
 //						constructor
 //----------------------------------------------------------------------------------------
 Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
+  LOG(INFO) << "Run constructor of Hydrodynamics class";
   ///<ul><li>copy properties from initiation class
 
   ///<li>create material matrix
+  assert(ini.number_of_materials > 0);
   materials.resize(ini.number_of_materials);
 
   ///<li>if  key word material: read all materials (from .cfg file)
@@ -49,22 +51,28 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
     ///create a new Material object
     materials[k] = spMaterial(new Material(ini, k));
     materials[k]->show_properties();
-    ///<li>non-dimensionalize</ul>
   }
+  LOG(INFO) << "Materials are ready";
  	
   ///<li>initialize parameters for time step and the artificial compressiblity
   double viscosity_max = 0.0; 
   for(int k = 0; k < ini.number_of_materials; k++) {
     viscosity_max = AMAX1(viscosity_max, materials[k]->nu);
   }
+  LOG(INFO) << "viscosity_max is ready";
 
   const Vec2d gravity = ini.g_force;
   const double delta = ini.delta; 
   dt_g_vis = AMIN1(sqrt(delta/v_abs(gravity)), 0.5*delta*delta/viscosity_max);
+  LOG(INFO) << "dt_g_vis is ready";
 
   ///<li>determine the artificial compressiblity
   const double sound = AMAX1(v_abs(ini.g_force), viscosity_max);
-  for(int k = 0; k < ini.number_of_materials; k++) materials[k]->Set_b0(sound);
+  LOG(INFO) << "sound speed is ready: " << sound;
+  for(int k = 0; k < ini.number_of_materials; k++) {
+    materials[k]->Set_b0(sound);
+  }
+  LOG(INFO) << "update of b0 is finished";
 
   ///<li>biuld the real particles
   particles.BuildRealParticle(materials, particle_list, ini);
@@ -80,12 +88,14 @@ void Hydrodynamics::BuildInteractions(ParticleManager &particles,
 				      const Initiation& ini) {
   ///- obtain the interaction pairs by just calling the particles BuildInteraction method
   particles.BuildInteraction(interaction_list, particle_list, weight_function, ini);
-  LOG(INFO)<<" BuildInteraction done\n";
+  LOG(INFO) << " BuildInteraction done";
+  LOG(INFO) << "size of interaction_list: " << interaction_list.size();
 }
 //----------------------------------------------------------------------------------------
 // update new parameters in pairs interaction_list
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::UpdateInteractions(spKernel weight_function) {
+  LOG(INFO) << "Hydrodynamics::UpdateInteractions";
   ///- iterate the interaction list
   BOOST_FOREACH(spInteraction pair, interaction_list) {
     //renew pair parameters
@@ -116,7 +126,7 @@ void Hydrodynamics::UpdateDensity(ParticleManager &particles, spKernel weight_fu
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::UpdateDensity(const Initiation &ini, spKernel  weight_function) {
   ///- initiate zero density
-  LOG(INFO)<<" AM in update density";
+  LOG(INFO)<<"Hydrodynamics::UpdateDensity";
   Self_density(weight_function);
   ///- iterate the interaction list
   BOOST_FOREACH(spInteraction pair, interaction_list) {
@@ -129,9 +139,9 @@ void Hydrodynamics::UpdateDensity(const Initiation &ini, spKernel  weight_functi
 //----------------------------------------------------------------------------------------
 //				calculate interaction with updating interaction list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, 
-				     spKernel weight_function, 
+void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, spKernel weight_function, 
 				     const Initiation& ini) {
+  LOG(INFO) << " Hydrodynamics::UpdateChangeRate(particles, weight_function, ini)";
   ///- initiate change rate of each real particle by calling ZerpChangeRate()
   ZeroChangeRate();
 
@@ -151,6 +161,7 @@ void Hydrodynamics::UpdateChangeRate(ParticleManager &particles,
 //				calculate interaction without updating interaction list
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::UpdateChangeRate(const Initiation& ini) {
+  LOG(INFO) << " Hydrodynamics::UpdateChangeRate(ini)";
   ///- initiate the change rate of each real particle by calling ZeroChangeRate()
   ZeroChangeRate();	
 
@@ -213,6 +224,8 @@ void Hydrodynamics::Zero_Velocity() {
 //							add the gravity effects
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::AddGravity(const Initiation &ini) {
+  LOG(INFO) << "Hydrodynamics::AddGravity starts";
+  LOG(INFO) << "ini.gravity = " << ini.g_force;
   ///- iterate particles on the real particle list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- to each particles dUdt: add the gravity effects
@@ -223,6 +236,7 @@ void Hydrodynamics::AddGravity(const Initiation &ini) {
 //							calculate states from conservatives
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::UpdateState(const Initiation &ini) {
+  LOG(INFO) << "Hydrodynamics::UpdateState()";
   ///- iterate particles on the real particle list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- calculate pressure for each particle
@@ -288,7 +302,7 @@ double Hydrodynamics::GetTimestep(const Initiation& ini) const {
 //----------------------------------------------------------------------------------------
 //						the redictor and corrector method: predictor
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::Predictor(double dt) {
+void Hydrodynamics::Predictor(const double dt) {
   ///<ul><li> iterate the real partilce list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///<ul><li>save values at step n
@@ -313,7 +327,7 @@ void Hydrodynamics::Predictor(double dt) {
 //----------------------------------------------------------------------------------------
 //							the redictor and corrector method: predictor
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::Corrector(double dt) {
+void Hydrodynamics::Corrector(const double dt) {
   ///- iterate the real partilce list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- for each particle: correction based on values on n step and change rate at n+1/2
@@ -326,7 +340,7 @@ void Hydrodynamics::Corrector(double dt) {
 //----------------------------------------------------------------------------------------
 //					the predictor and corrector method: predictor, no density updating
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::Predictor_summation(double dt) {
+void Hydrodynamics::Predictor_summation(const double dt) {
   ///<ul><li>iterate the real partilce list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///<ul><li>save values (R,U)  at step n in intermediate variables ._I
@@ -348,7 +362,9 @@ void Hydrodynamics::Predictor_summation(double dt) {
 //----------------------------------------------------------------------------------------
 //			the predictor and corrector method: predictor, no density updating
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::Corrector_summation(double dt) {
+void Hydrodynamics::Corrector_summation(const double dt) {
+  LOG(INFO) << " Hydrodynamics::Corrector_summation()";
+  LOG(INFO) << " moving particles";
   ///- iterate the real partilce list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- for each particle: correction (advances R,U) based on values on n step and change rate at n+1/2
@@ -359,10 +375,11 @@ void Hydrodynamics::Corrector_summation(double dt) {
   //control output
   ofstream tx2tFile("changeRatesN1");
   if (tx2tFile.is_open())
-    {
-      BOOST_FOREACH(spParticle prtl, particle_list) {
-	tx2tFile<<"\n R_x: "<<prtl->R[0]<<"  U_x: "<<prtl->U[0]<<"  e: "<<prtl->e<<"  dUdt: "<<prtl->dUdt[0]<<" dedt "<<prtl->dedt<<"  ID  "<<prtl->ID<<"\n";
-      } 
-      tx2tFile.close();
-    }
+  {
+    BOOST_FOREACH(spParticle prtl, particle_list) {
+      tx2tFile<<"\n R_x: "<<prtl->R[0]<<"  U_x: "<<prtl->U[0]<<"  e: "<<prtl->e<<"  dUdt: "<<prtl->dUdt[0]<<" dedt "<<prtl->dedt<<"  ID  "<<prtl->ID<<"\n";
+    } 
+    
+  }
+  tx2tFile.close();
 }

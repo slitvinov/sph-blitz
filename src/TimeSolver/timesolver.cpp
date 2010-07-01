@@ -30,12 +30,10 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //							constructor
 //----------------------------------------------------------------------------------------
-TimeSolver::TimeSolver()
-{
-  cout<<"\n initiation of abstract based time solver is called\n ";
+TimeSolver::TimeSolver() {
+  LOG(INFO) << "\n constructor of base TimeSolver";
 }
 
 TimeSolver::~TimeSolver() {
-}
-  LOG(INFO)<< "destructor of base TimeSolver is called";
+  LOG(INFO) << "destructor of base TimeSolver is called";
 }

@@ -65,6 +65,9 @@ class Interaction {
   double getWij() const;
   Vec2d getGradWij() const;
 
+  /// destructor 
+  ~Interaction();
+
 };
 
 #endif //INTERACTION_H

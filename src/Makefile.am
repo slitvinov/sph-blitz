@@ -16,6 +16,8 @@ nomain=	 boundary.cpp boundary.h \
 	Kernel/cubicspline.cpp Kernel/cubicspline.h \
 	Kernel/betaspline.h Kernel/betaspline.cpp \
 	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
+	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
+	TimeSolver/gastimesolver.cpp TimeSolver/gastimesolver.h \
 	cpptcl.cc cpptcl.h
 
 sph_SOURCES= sph.cpp $(nomain) 
