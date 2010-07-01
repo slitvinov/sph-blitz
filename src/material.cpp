@@ -48,6 +48,7 @@ Material::Material(Initiation &ini, const int number)
   if (ini.simu_mode == 1) {
     eta = ini.interp.eval("[return $material_eta"  + index);
   }
+  LOG(INFO) << "Material object is created";
 }
 
 //----------------------------------------------------------------------------------------
@@ -57,7 +58,6 @@ void Material::show_properties()
 {
 	//kinetic viscosity
 	nu = eta/rho0;
-	
 	LOG(INFO)<<"Material: "<<material_name<<"\n";		
 	LOG(INFO)<<"The heat capacity is  "<<cv<<" J/kg/K\n";
 	LOG(INFO)<<"The viscosity is "<<eta<<" Pa.s \n";

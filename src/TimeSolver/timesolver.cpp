@@ -33,13 +33,8 @@ using namespace std;
 TimeSolver::TimeSolver():
   ite(0)
 {
-  ///- copy properties from class Initiation
-  //  cell_size = ini.cell_size;
-  // box_size = ini.box_size;
-  //supportlength = ini.supportlength;
-	
   ///- initialize the iteration
-  LOG(INFO)<<"\n initiation of time solver succeeded\n ";
+  LOG(INFO)<< "Constructor of base TimeSolver is called";
 }
 
 //----------------------------------------------------------------------------------------

@@ -90,6 +90,8 @@ Initiation::Initiation(const std::string& project_name) {
 	
 	///<li>output information to screen
 	show_information();
+        
+        LOG(INFO)<<"Initiation object is created";
 }
 //----------------------------------------------------------------------------------------
 //					show information to screen

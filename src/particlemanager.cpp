@@ -46,13 +46,9 @@ ParticleManager::ParticleManager(const Initiation &ini)
   x_clls = ini.x_cells + 2; y_clls = ini.y_cells + 2;
   initial_condition = ini.initial_condition;
   hdelta = ini.hdelta; delta = ini.delta;
-	
-  if(initial_condition == 0) {
-
-  }
-
   ParticleManager::Init();
 
+  LOG(INFO) << "ParticleManager object is created";
 }
 
 ParticleManager::ParticleManager(

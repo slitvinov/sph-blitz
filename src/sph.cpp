@@ -90,9 +90,12 @@ int main(int argc, char *argv[]) {
   /// inizialize google logger
   google::InitGoogleLogging(argv[0]);
 
+  std::cerr << "Check files /tmp/sph.ERROR /tmp/sph.WAY /tmp/seph.WARNING /tmp/sph.INFO for the last log messages\n"  
+            << "Use ==tail -f /tmp/sph.INFO== to follow the output\n" 
+            << "To print log mesags to the stderr use \n"  
+            << "==GLOG_logtostderr=1 ./sph <project name>==\n";
+
   LOG(INFO) << "sph program starts";
-
-
   time_t bm_start_time = time(NULL);
 
   //check if project name specified
