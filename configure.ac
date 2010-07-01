@@ -31,6 +31,13 @@ AC_CHECK_BLITZ(
   ]	
 )
 
+# if using the  GNU C++, mark BLITZ_INCDIR as system 
+# to avoid warnings
+if test "$GXX" = yes; then
+  CPPFLAGS="$CPPFLAGS -isystem$BLITZ_INCDIR"
+fi
+
+
 
 # Checks for header files.
 
