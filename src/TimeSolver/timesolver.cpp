@@ -15,6 +15,8 @@
 #include <cstdlib>
 #include <cmath>
 
+#include <glog/logging.h>
+
 // ***** localincludes *****
 #include "glbfunc.h"
 #include "hydrodynamics.h"
@@ -37,7 +39,7 @@ TimeSolver::TimeSolver():
   //supportlength = ini.supportlength;
 	
   ///- initialize the iteration
-  cout<<"\n initiation of time solver succeeded\n ";
+  LOG(INFO)<<"\n initiation of time solver succeeded\n ";
 }
 
 //----------------------------------------------------------------------------------------
@@ -61,20 +63,20 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
     }
     assert(dt>0.0);
     //control output
-    cout<<"\n current timestep:"<<dt<<"\n";
-    cout<<"\n current absolute integraltime:"<<Time<<"\n";	
-    cout<<"\n current (relative) integraltime:"<<integeral_time<<"\n";
-    cout<<"\n current (absolute) iterations:"<<ite<<"\n";
+    LOG(INFO)<<"current timestep:"<<dt<<"\n";
+    LOG(INFO)<<"current absolute integraltime:"<<Time<<"\n";	
+    LOG(INFO)<<"current (relative) integraltime:"<<integeral_time<<"\n";
+    LOG(INFO)<<"current (absolute) iterations:"<<ite<<"\n";
     ite ++;
     integeral_time =integeral_time+ dt;
     Time += dt;
 	  
     ///<ul><li>screen information for the iteration
-    if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
+    if(ite % 10 == 0) LOG(INFO)<<"N="<<ite<<" Time: "
 			  <<Time<<"	dt: "<<dt<<"\n";
 	  
     //control output
-    // cout<<"\n just before build pair\n";
+    // LOG(INFO)<<"\n just before build pair\n";
     //predictor and corrector method used
     ///<li>the prediction step
     hydro.BuildInteractions(particles, weight_function, ini);///<ol><li> rebuild interactions
@@ -85,7 +87,7 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
 	boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
       };
     //control output
-    //	cout<<"\n     --- change rate for predictor:";	
+    //	LOG(INFO)<<"\n     --- change rate for predictor:";	
     hydro.UpdateChangeRate(ini);///<li> hydro.UpdateChangeRate
 	  
     hydro.Predictor_summation(dt);///<li>hydro.Predictor_summation</ol>
@@ -104,7 +106,7 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
 	boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
       }
     //control output
-    cout<<"\n     --- change rate for corrector:";
+    LOG(INFO)<<"change rate for corrector";
     hydro.UpdateChangeRate(ini); ///<li>hydro.UpdateChangeRate
     hydro.Corrector_summation(dt);///<li>hydro.Corrector_summation</ol>
 

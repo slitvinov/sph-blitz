@@ -14,6 +14,8 @@
 #include <cstdio>
 #include <cstdlib>
 
+#include <glog/logging.h>
+
 // ***** localincludes *****
 #include "glbfunc.h"
 #include "material.h"
@@ -103,11 +105,11 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
       }
     }
   }
-  cout<<"\n output particle method successfully executed for time"<<Time<<"\n";
- cout<<"\n particles on real  particle list\n "<<f;
- cout<<"\n particles on real  particle list with same mat name\n "<<a;
- cout<<"\n particles on boundary  particle list\n "<<g;
- cout<<"\n particles on boundary  particle list with same mat name\n "<<b;
+  LOG(INFO)<<"output particle method successfully executed for time"<<Time;
+  LOG(INFO)<<"particles on real  particle list  "<<f;
+  LOG(INFO)<<"particles on real  particle list with same mat name "<<a;
+  LOG(INFO)<<"particles on boundary  particle list "<<g;
+  LOG(INFO)<<"particles on boundary  particle list with same mat name "<<b;
 }
 
 //--------------------------------------------------------------------------------------------

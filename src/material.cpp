@@ -15,6 +15,8 @@
 #include <cstdlib>
 #include <cmath>
 
+#include <glog/logging.h>
+
 // ***** localincludes *****
 #include "glbfunc.h"
 #include "material.h"
@@ -56,12 +58,12 @@ void Material::show_properties()
 	//kinetic viscosity
 	nu = eta/rho0;
 	
-	cout<<"Material: "<<material_name<<"\n";		
-	cout<<"The heat capacity is  "<<cv<<" J/kg/K\n";
-	cout<<"The viscosity is "<<eta<<" Pa.s \n";
-	cout<<"The heat ratio is "<<gamma<<"\n";
-	cout<<"The reference pressure b0 is "<<b0<<" Pa\n";
-	cout<<"The reference density is "<<rho0<<" kg/m^3 \n";
+	LOG(INFO)<<"Material: "<<material_name<<"\n";		
+	LOG(INFO)<<"The heat capacity is  "<<cv<<" J/kg/K\n";
+	LOG(INFO)<<"The viscosity is "<<eta<<" Pa.s \n";
+	LOG(INFO)<<"The heat ratio is "<<gamma<<"\n";
+	LOG(INFO)<<"The reference pressure b0 is "<<b0<<" Pa\n";
+	LOG(INFO)<<"The reference density is "<<rho0<<" kg/m^3 \n";
 }
 //----------------------------------------------------------------------------------------
 //			obtain parameter b0

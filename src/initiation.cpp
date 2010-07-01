@@ -10,9 +10,10 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-
 #include <cstdio>
 #include <cstdlib>
+
+#include <glog/logging.h>
 
 // ***** localincludes *****
 #include "glbfunc.h"
@@ -96,33 +97,32 @@ Initiation::Initiation(const std::string& project_name) {
 void Initiation::show_information() const 
 {
 	///- output general information on screen
-  cout<<"The simulation mode is"<<simu_mode<<"! (1=liquids, 2=gas dynamics)\n";
-  cout<<"The number of materials in the simulation is  "<<number_of_materials<<"\n";
-  cout<<"The computational domain size is  "<<box_size[0]<<" micrometers x "<<box_size[1]<<" micrometers\n";
-  cout<<"The cell size is "<<cell_size<<" micrometers \n";
-  cout<<"The support length is "<<supportlength<<" micrometers \n";
-  cout<<"The cell matrix size is "<<x_cells<<" x "<<y_cells<<"\n";
-  cout<<"The ratio between cell size and initial particle width is "<<hdelta<<"\n";
-  cout<<"The initial particle width is "<<delta<<" micrometers\n";
-  cout<<"The g force is "<<g_force[0]<<" m/s^2 x "<<g_force[1]<<" m/s^2 \n";
+  LOG(INFO)<<"The simulation mode is"<<simu_mode<<"! (1=liquids, 2=gas dynamics)\n";
+  LOG(INFO)<<"The number of materials in the simulation is  "<<number_of_materials<<"\n";
+  LOG(INFO)<<"The computational domain size is  "<<box_size[0]<<" micrometers x "<<box_size[1]<<" micrometers\n";
+  LOG(INFO)<<"The cell size is "<<cell_size<<" micrometers \n";
+  LOG(INFO)<<"The support length is "<<supportlength<<" micrometers \n";
+  LOG(INFO)<<"The cell matrix size is "<<x_cells<<" x "<<y_cells<<"\n";
+  LOG(INFO)<<"The ratio between cell size and initial particle width is "<<hdelta<<"\n";
+  LOG(INFO)<<"The initial particle width is "<<delta<<" micrometers\n";
+  LOG(INFO)<<"The g force is "<<g_force[0]<<" m/s^2 x "<<g_force[1]<<" m/s^2 \n";
 
 	///- output the timing information on screen
-  cout<<"\nInitialtion: Time controlling:\nStarting time is "<<Start_time<<" \n";
-  cout<<"Ending time is "<<End_time<<" \n";
-  cout<<"Output time interval is "<<D_time<<" \n";
+  LOG(INFO)<<"Ending time is "<<End_time<<" \n";
+  LOG(INFO)<<"Output time interval is "<<D_time<<" \n";
 
   ///- output iniformation on initialization mode (.cfg file or .rst file)
   //Initialize the initial conditions from .cfg file
   if (initial_condition==0) {
-    cout<<"The initial flow speed is "<<U0[0]<<" m/s x "<<U0[1]<<" m/s\n";
-    cout<<"The initial density is "<<rho0<<" kg/m^3\n";
-    cout<<"The initial pressure is "<<p0<<" Pa\n";
-    cout<<"The initial temperature is "<<T0<<" K\n";
+    LOG(INFO)<<"The initial flow speed is "<<U0[0]<<" m/s x "<<U0[1]<<" m/s\n";
+    LOG(INFO)<<"The initial density is "<<rho0<<" kg/m^3\n";
+    LOG(INFO)<<"The initial pressure is "<<p0<<" Pa\n";
+    LOG(INFO)<<"The initial temperature is "<<T0<<" K\n";
   }
 	
   //Initialize the initial conditions from .rst file
   if (initial_condition == 1)
-    cout<<"Read the initial conditions from separated restat file "
+    LOG(INFO)<<"Read the initial conditions from separated restat file "
 	<<Project_name<<".rst \n";
 }
 
@@ -167,5 +167,5 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
     prtl_org->V = reciprocV;
     prtl_org->m = prtl_org->rho*reciprocV;
   }
-  cout<<"\n Volume and Mass successfully calculated\n ";
+  LOG(INFO)<<"\n Volume and Mass successfully calculated\n ";
 }
