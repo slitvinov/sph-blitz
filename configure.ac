@@ -37,8 +37,6 @@ if test "$GXX" = yes; then
   CPPFLAGS="$CPPFLAGS -isystem$BLITZ_INCDIR"
 fi
 
-
-
 # Checks for header files.
 
 # Checks for typedefs, structures, and compiler characteristics.
@@ -53,4 +51,5 @@ AC_OUTPUT(Makefile src/Makefile)
 AC_MSG_NOTICE([================================================])
 AC_MSG_NOTICE([CXX=$CXX])
 AC_MSG_NOTICE([CXXFLAGS=$CXXFLAGS])
+AC_MSG_NOTICE([CPPFLAGS=$CPPFLAGS])
 AC_MSG_NOTICE([LIBS=$LIBS])
