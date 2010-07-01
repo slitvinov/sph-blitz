@@ -15,6 +15,8 @@
 #include <cstdlib>
 #include <cmath>
 
+#include <glog/logging.h>
+
 // ***** localincludes *****
 #include "glbfunc.h"
 #include "hydrodynamics.h"
@@ -35,6 +37,5 @@ TimeSolver::TimeSolver()
 
 TimeSolver::~TimeSolver() {
 }
-
-
-
+  LOG(INFO)<< "destructor of base TimeSolver is called";
+}

@@ -126,13 +126,7 @@ void Interaction::SummationDensity() {
 //----------------------------------------------------------------------------------------
 void Interaction::UpdateForces()
 {	
-  //contol output
-  //   cout<<"\n am in update forces and simu_mode is:"<<simu_mode<<"\n";
-  //pressure, density and inverse density and middle point pressure
-
-  //velocity and velocity difference
-  //  Vec2d Ui, Uj, Uij; 
-
+  
 	//define pair values change in sub time steps
 	const double rhoi = Org->rho; 
 	const double rhoj = Dest->rho;
@@ -193,7 +187,6 @@ void Interaction::UpdateForces()
 	  {
 	    piij=0;
 	  };
-	  // cout<<"\n art v0isc Piij"<<piij;
 	  const Vec2d dUdti=-mj*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij;
           const Vec2d dUdtj=mi*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij;
 
@@ -201,8 +194,6 @@ void Interaction::UpdateForces()
           const double dedtj=0.5*dot(dUdtj,(Ui-Uj));
 
 	  //control output
-	  //cout<<"\n dUdti:\n"<<dUdti[0];
-
           Org->drhodt +=drhodti;
           Dest->drhodt += drhodtj;
           Org->dUdt += dUdti;
@@ -213,7 +204,7 @@ void Interaction::UpdateForces()
 
       	if(ini.simu_mode==1)
 	{
-	  // cout<<"am in simu_mode=1 section of update forces";
+	  // LOG(INFO)<<"am in simu_mode=1 section of update forces";
 	  double Vi2 = Vi*Vi, Vj2 = Vj*Vj;
 
 	  ///- calculate density change rate

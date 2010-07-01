@@ -15,6 +15,9 @@
 #include <cstdlib>
 #include <cmath>
 
+
+#include <glog/logging.h>
+
 // ***** local includes *****
 #include "glbfunc.h"
 #include "material.h"
@@ -41,6 +44,7 @@ ParticleManager::ParticleManager(const Initiation &ini)
   x_clls = ini.x_cells + 2; y_clls = ini.y_cells + 2;
   initial_condition = ini.initial_condition;
   hdelta = ini.hdelta; delta = ini.delta;
+  LOG(INFO) << "ParticleManager object is created";
 }
 
 ParticleManager::ParticleManager(
@@ -149,7 +153,12 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
 {
   //clear the list first
   interactions.clear();
+<<<<<<< HEAD
   cout<<"\n Am in build interaction control point 2 \n";
+=======
+  
+  LOG(INFO)<<"Am in build interaction control point 2 \n";
+>>>>>>> add_glog
   ///<ul><li>iterate particles on the particle list
   for (std::list<spParticle >::const_iterator p = particle_list.begin(); 
        p != particle_list.end();
@@ -182,7 +191,6 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
 		const double dstc = v_sq(prtl_org->R - prtl_dest->R);
 		assert(supportlengthsquare>0.0);
 		if( (dstc < supportlengthsquare) && (prtl_org->ID > prtl_dest->ID)) {
-		  //	cout<<"\n distances for BuildInteractions positif:"<<dstc<<"\n";
 		  spInteraction pair = 
 		    boost::make_shared<Interaction>(prtl_org, prtl_dest, 
 						    weight_function, sqrt(dstc),
@@ -196,7 +204,7 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
   }
 
   //control output
-  cout<<"\n   build interaction (within build pair) done \n";
+  LOG(INFO)<<"build interaction (within build pair) done \n";
   ofstream txtFile("BuddiesDataN1");
   if (txtFile.is_open())
     {
@@ -288,11 +296,10 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 	//check if the restart exist
 	ifstream fin(inputfile.c_str(), ios::in);
 	if (!fin) {
-	  cout<<"Initialtion: Cannot open "<< inputfile <<" \n";
-	  std::cout << __FILE__ << ':' << __LINE__ << std::endl;
+	  LOG(INFO) <<"Initialtion: Cannot open "<< inputfile <<" \n";
 	  exit(EXIT_FAILURE);
 	}
-	else cout<<"Initialtion: Read real particle data from "<< inputfile <<" \n"; 
+	else LOG(INFO)<<"Initialtion: Read real particle data from "<< inputfile <<" \n"; 
 
 	//reading the new starting time
 	fin>>ini.Start_time;
@@ -328,13 +335,12 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 	    cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
 
 	  } else {
-	    cout<<"The material in the restart file is not used by the program! \n";
-	    std::cout << __FILE__ << ':' << __LINE__ << std::endl;
+	    LOG(INFO)<<"The material in the restart file is not used by the program! \n";
 	    exit(EXIT_FAILURE);
 	  }
 	}
 	fin.close();
-	cout<<"Initialtion of Read real particle data from "<< inputfile <<"done! \n"; 
+	LOG(INFO)<<"Initialtion of Read real particle data from "<< inputfile <<"done! \n"; 
       }
     }
   if(ini.simu_mode==2)//gas dynamics
@@ -344,11 +350,11 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
       //check if the .ivs file exists
       ifstream fin(inputfile.c_str(), ios::in);
       if (!fin) {
-	cout<<"Initialtion: Cannot open "<< inputfile <<" \n";
-	std::cout << __FILE__ << ':' << __LINE__ << std::endl;
+	LOG(INFO)<<"Initialtion: Cannot open "<< inputfile <<" \n";
+	LOG(INFO) << __FILE__ << ':' << __LINE__ << std::endl;
 	exit(EXIT_FAILURE);
       }
-      else cout<<"Initialtion: Read real particle data from "<< inputfile <<" \n"; 
+      else LOG(INFO)<<"Initialtion: Read real particle data from "<< inputfile <<" \n"; 
       //read the real particle number
       int N;
       fin>>N;

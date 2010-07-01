@@ -648,6 +648,7 @@ CCDEPMODE
 ac_ct_CC
 CFLAGS
 CC
+BLITZ_LIBDIR
 BLITZ_LIBS
 BLITZ_LDFLAGS
 BLITZ_CPPFLAGS
@@ -3394,12 +3395,14 @@ _ACEOF
 		if test -n "$blitz_libdir"; then BLITZ_LDFLAGS="-L$blitz_libdir" ; fi
 		BLITZ_LIBS="-lblitz"
 		BLITZ_INCDIR="$blitz_incdir"
+		BLITZ_LIBDIR="$blitz_libdir"
 	fi
 
 else
   ac_cxx_lib_blitz='no'
 
 fi
+
 
 
 
@@ -3428,6 +3431,12 @@ fi
 if test "$GXX" = yes; then
   CPPFLAGS="$CPPFLAGS -isystem$BLITZ_INCDIR"
 fi
+
+
+# TODO:
+# link to  google log
+# assuming it is in the same directory as blitz++
+LIBS="$LIBS $BLITZ_LIBDIR/libglog.a -pthread"
 
 
 # Checks for typedefs, structures, and compiler characteristics.

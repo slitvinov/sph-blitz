@@ -10,6 +10,8 @@
 #include <cstdlib>
 #include <cmath>
 
+#include <glog/logging.h>
+
 // ***** localincludes *****
 #include "hydrodynamics.h"
 #include "particlemanager.h"
@@ -52,7 +54,7 @@ Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &parti
     /// build boundary particles
     BuildBoundaryParticle(particles, hydro);
   };
-  std::cerr << "\n boundary condition constructor successfully executed \n";
+  LOG(INFO) << "boundary condition constructor successfully executed";
 }
 
 // show information on screen

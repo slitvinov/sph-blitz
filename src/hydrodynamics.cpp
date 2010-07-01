@@ -13,9 +13,10 @@
 #include <iostream>
 #include <boost/foreach.hpp>
 
-
 #include <cstdio>
 #include <cstdlib>
+
+#include <glog/logging.h>
 
 // ***** localincludes *****
 #include "glbfunc.h"
@@ -67,6 +68,8 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
 
   ///<li>biuld the real particles
   particles.BuildRealParticle(materials, particle_list, ini);
+
+  LOG(INFO) << "Hydrodynamics object is created";
 }
 
 //----------------------------------------------------------------------------------------
@@ -77,7 +80,7 @@ void Hydrodynamics::BuildInteractions(ParticleManager &particles,
 				      const Initiation& ini) {
   ///- obtain the interaction pairs by just calling the particles BuildInteraction method
   particles.BuildInteraction(interaction_list, particle_list, weight_function, ini);
-  cout<<"\n BuildInteraction done\n";
+  LOG(INFO)<<" BuildInteraction done\n";
 }
 //----------------------------------------------------------------------------------------
 // update new parameters in pairs interaction_list
@@ -113,7 +116,7 @@ void Hydrodynamics::UpdateDensity(ParticleManager &particles, spKernel weight_fu
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::UpdateDensity(const Initiation &ini, spKernel  weight_function) {
   ///- initiate zero density
-  cout<<"\n AM in update density\n ";
+  LOG(INFO)<<" AM in update density";
   Self_density(weight_function);
   ///- iterate the interaction list
   BOOST_FOREACH(spInteraction pair, interaction_list) {
@@ -156,13 +159,8 @@ void Hydrodynamics::UpdateChangeRate(const Initiation& ini) {
       aux_interaction->UpdateForces();
   }
   //control output
-  int q=0;
-
   BOOST_FOREACH(spParticle prtl, particle_list) {
-    if(q%30==0)  {
-      cout<<"\ndUdt0: "<<prtl->dUdt[0] << " dUdt1: " << prtl->dUdt[1];
-    }
-    q++;
+    LOG_EVERY_N(INFO, 100) <<"dUdt: "<<prtl->dUdt[0] << " dUdt1: "<<prtl->dUdt[1];
   }
   ///- include the gravity effects
   AddGravity(ini);

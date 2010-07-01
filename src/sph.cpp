@@ -59,6 +59,8 @@
 #include <ctime>
 #include <cmath>
 
+#include <glog/logging.h>
+
 // ***** local includes *****
 #include "glbfunc.h"
 #include "particlemanager.h"
@@ -87,12 +89,20 @@ int main(int argc, char *argv[]) {
   //the following line of comment is for doxygen only
   ///\n <b>below  the rough structure of the main function:</b> 
 
+  /// inizialize google logger
+  google::InitGoogleLogging(argv[0]);
+
+  std::cerr << "Check files /tmp/sph.ERROR /tmp/sph.WAY /tmp/seph.WARNING /tmp/sph.INFO for the last log messages\n"  
+            << "Use ==tail -f /tmp/sph.INFO== to follow the output\n" 
+            << "To print log mesags to the stderr use \n"  
+            << "==GLOG_logtostderr=1 ./sph <project name>==\n";
+
+  LOG(INFO) << "sph program starts";
   time_t bm_start_time = time(NULL);
 
   //check if project name specified
   if (argc<2)  {
-    std::cout << __FILE__ << ':' << __LINE__ << 
-      " No Project Name Specified!!\n";
+    LOG(INFO) << " No Project Name Specified!!\n";
     exit(EXIT_FAILURE);
   }
   /// initializations
@@ -165,10 +175,10 @@ int main(int argc, char *argv[]) {
     if(Time + ini.D_time >=  ini.End_time) ini.D_time = ini.End_time - Time; 
 		
     //set the machine random seed
-    srand( (unsigned)time( NULL ) );
+    srand( static_cast<unsigned int>(time( NULL ) ));
 		
     //control output
-    cout<<"\n--------new output intervall beginns:output interval time:"<<ini.D_time<<"\n";
+    LOG(INFO)<< "new output intervall beginns:output interval time:" << ini.D_time;
 		  
     ///- call the time slover (who iterates over one output time interval)
     timesolver->TimeIntegral_summation(hydro, particles, boundary, Time, 
@@ -176,14 +186,12 @@ int main(int argc, char *argv[]) {
 		
     hydro.UpdateState(ini);///to update p,T,Cs to new values before output 
     //control output
-    cout<<"\n time is"<<Time<<"\n";
+    LOG(INFO)<<"time is "<<Time<<"\n";
     ///- output results after a time interval\n\n
     output.OutputParticle(hydro, boundary, Time, ini); //particle positions and velocites
     output.OutRestart(hydro, Time, ini); //restarting file
   }
-
-  cout << time(NULL) - bm_start_time << " seconds.\n";
-
-  cout << __FILE__ << ':' << __LINE__ << " program ends successfully\n" ;
+  
+  LOG(WARNING) << "sph program successfully ends";
   return EXIT_SUCCESS; //end the program
 }

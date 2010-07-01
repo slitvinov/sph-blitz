@@ -38,6 +38,12 @@ if test "$GXX" = yes; then
 fi
 
 
+# TODO: 
+# link to  google log 
+# assuming it is in the same directory as blitz++
+LIBS="$LIBS $BLITZ_LIBDIR/libglog.a -pthread"
+
+
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
 AC_C_INLINE

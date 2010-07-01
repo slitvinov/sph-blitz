@@ -14,6 +14,7 @@
 #include <iostream>
 
 #include <cstdlib>
+#include <glog/logging.h>
 
 // ***** local includes *****
 #include "glbfunc.h"
@@ -25,9 +26,9 @@ Kernel::Kernel(const double supportlength)
 {
     if (supportlength <= 0.0)
     {
-      std::cout << "\n FAILURE: The Kernel gets a non-positive smoothing length \"" 
+      LOG(INFO) << "\n FAILURE: The Kernel gets a non-positive smoothing length \"" 
 		<< supportlength << "\"!\n";
-      std::cout << __FILE__ << ':' << __LINE__ << std::endl;
+      LOG(INFO) << __FILE__ << ':' << __LINE__ << std::endl;
       exit(1);
     }
 }
