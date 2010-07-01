@@ -88,6 +88,7 @@ AWK = @AWK@
 BLITZ_CPPFLAGS = @BLITZ_CPPFLAGS@
 BLITZ_INCDIR = @BLITZ_INCDIR@
 BLITZ_LDFLAGS = @BLITZ_LDFLAGS@
+BLITZ_LIBDIR = @BLITZ_LIBDIR@
 BLITZ_LIBS = @BLITZ_LIBS@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
@@ -174,9 +175,6 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CXXFLAGS = -I${top_srcdir} 
-
-# TODO: change it
-AM_LDFLAGS = -lglog
 nomain = boundary.cpp boundary.h \
 	glbtype.h glbfunc.cpp glbfunc.h \
 	hydrodynamics.cpp hydrodynamics.h initiation.cpp \

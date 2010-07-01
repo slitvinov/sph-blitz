@@ -1,10 +1,6 @@
 bin_PROGRAMS=sph kernel_test particlemanager_test
 AM_CXXFLAGS=-I${top_srcdir} 
 
-# TODO: change it
-AM_LDFLAGS=-lglog
-
-
 
 nomain=	 boundary.cpp boundary.h \
 	glbtype.h glbfunc.cpp glbfunc.h \

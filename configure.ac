@@ -31,6 +31,13 @@ AC_CHECK_BLITZ(
   ]	
 )
 
+
+# TODO: 
+# link to  google log 
+# assuming it is in the same directory as blitz++
+LIBS="$LIBS $BLITZ_LIBDIR/libglog.a -pthread"
+
+
 # if using the  GNU C++, mark BLITZ_INCDIR as system 
 # to avoid warnings
 if test "$GXX" = yes; then

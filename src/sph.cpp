@@ -59,6 +59,10 @@
 #include <ctime>
 #include <cmath>
 
+#include <glog/logging.h>
+
+
+
 // ***** local includes *****
 #include "glbfunc.h"
 #include "particlemanager.h"
@@ -84,6 +88,11 @@ using namespace std;
 int main(int argc, char *argv[]) {
   //the following line of comment is for doxygen only
   ///\n <b>below  the rough structure of the main function:</b> 
+
+  /// inizialize google logger
+  google::InitGoogleLogging(argv[0]);
+  LOG(INFO) << "sph starts\n";
+
 
   time_t bm_start_time = time(NULL);
 

@@ -23,7 +23,7 @@ make install
 cd ${WRKDIR}
 
 # compile and install blitz
-cd google-glog
+cd glog
 CXX=${CXX} ./configure --prefix=$PREFIX
 make install
 cd ${WRKDIR}
