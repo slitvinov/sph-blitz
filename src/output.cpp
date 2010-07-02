@@ -14,6 +14,9 @@
 #include <cstdio>
 #include <cstdlib>
 
+#include <boost/foreach.hpp>
+#include <boost/format.hpp>
+
 #include <glog/logging.h>
 
 // ***** localincludes *****
@@ -25,21 +28,14 @@
 #include "initiation.h"
 #include "boundary.h"
 
-#include <boost/format.hpp>
-
 using namespace std;
 
-//--------------------------------------------------------------------------------------------
-//									constructor
-//--------------------------------------------------------------------------------------------
-Output::Output()
-{
+Output::Output() {
+  LOG(INFO) << "Create Output object\n";
 }
-//--------------------------------------------------------------------------------------------
-//				output particle positions respected different materials
-//--------------------------------------------------------------------------------------------
+
 void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary, 
-                            double Time, const Initiation &ini)
+                            const double Time, const Initiation &ini)
 {
   LOG(INFO) << "Output::OutputParticle";
   ///<ul><li>produce output file name
@@ -53,7 +49,7 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
   ///<li>defining header for tecplot(plot software)
   out<<"title='particle position' \n";
   if( ini.simu_mode==1)
-    out<<"variables=x, y, Ux, Uy \n";
+    out<<"variables=x, y, Ux, Uy rho\n";
   if (ini.simu_mode==2)
     out<<"variables=x, y, rho, p, U, e \n";
   int f=0, g=0, a=0, b=0; 	
@@ -62,11 +58,8 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
     f=0; g=0; a=0; b=0;	
     int j = 0; //if there is such material or not
     ///<ul><li>iterate the real partilce list
-    for (std::list<spParticle >::const_iterator p = hydro.particle_list.begin(); 
-	 p != hydro.particle_list.end(); 
-	 p++) {
+    BOOST_FOREACH(spParticle prtl, hydro.particle_list) {
       f++;
-      spParticle prtl = *p;
       assert(prtl != NULL);
       assert(prtl->mtl != NULL);
       if(hydro.materials[i]->material_name == prtl->mtl->material_name) {
@@ -76,8 +69,9 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
           if(j == 1)  {
             out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
           }
-          out<<prtl->R[0]<<"  "<<prtl->R[1]
-             <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
+          out << prtl->R[0] << "  " << prtl->R[1]
+	      << "  " << prtl->U[0] << "  " << prtl->U[1]
+	      << "  " << prtl->rho << '\n';
         }
 	if (ini.simu_mode == 2)
 	  out<<setprecision(6)

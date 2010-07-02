@@ -17,7 +17,7 @@ namespace blast = boost::numeric::ublas;
 /// Definition of  materials and their hydrodynamical interactions
 class Hydrodynamics
 {	
-  double dt_g_vis;
+  //  double dt_g_vis;
 
   ///the interaction (particle pair) list
   std::list<spInteraction> interaction_list;

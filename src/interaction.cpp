@@ -62,7 +62,7 @@ Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest,
   gradWij=weight_function->gradW(rij,Dest->R-Org->R);
   Fij = weight_function->F(rij)*rrij; //for Kernel wight fuction
 
-  LOG_EVERY_N(INFO, 1000) << "Interaction created" ;
+  LOG_EVERY_N(INFO, 10000) << "Interaction created" ;
 }
 
 //-------------------getter for origin-----------------
@@ -97,7 +97,7 @@ double Interaction::getWij() const
 // Depends on: Interaction Object, Org, Dest
 void Interaction::RenewInteraction(spKernel weight_function)
 {
-  LOG_EVERY_N(INFO, 1000) << "call Interaction::RenewInteraction()";
+  LOG_EVERY_N(INFO, 10000) << "call Interaction::RenewInteraction()";
   ///- calculate pair parameters (weight functions, shear- and bulk-)
   rij = v_abs(Org->R - Dest->R);
   rrij = 1.0/(rij + 1.0e-30);
@@ -206,7 +206,7 @@ void Interaction::UpdateForces()
 
       	if(ini.simu_mode==1)
 	{
-	  LOG(INFO) << "Interaction::UpdateForces(), simu_mode=1";
+	  LOG_EVERY_N(INFO, 10000) << "Interaction::UpdateForces(), simu_mode=1";
           assert(Vi>0.0);
           assert(Vj>0.0);
 	  const double Vi2 = Vi*Vi; 
@@ -214,13 +214,18 @@ void Interaction::UpdateForces()
 
 	  ///- calculate density change rate
 	  const double shear_rij = 2.0*etai*etaj/(etai + etaj);
-
-	  ///- calculate momentum change rate 	  
+	  LOG_EVERY_N(INFO, 10000) << "etai = " << etai;
+	  LOG_EVERY_N(INFO, 10000) << "shear_rij = " << shear_rij;
 	  
-          /// viscouse and pressure parts          
+          /// viscous and pressure parts
           const Vec2d dPdti_visc = shear_rij*Fij*(Vi2 + Vj2) * Uij;
           const Vec2d dPdti_pre = eij*Fij*rij*(pi*Vi2 + pj*Vj2);
-	  const Vec2d dPdti = dPdti_visc  + dPdti_pre;
+	  
+	  //const Vec2d dPdti = dPdti_visc  + dPdti_pre;
+	  const Vec2d dPdti = - dPdti_visc;
+	  LOG_EVERY_N(INFO, 10000) << "Ui = " << Ui;
+	  LOG_EVERY_N(INFO, 10000) << "Uj = " << Uj;
+	  LOG_EVERY_N(INFO, 10000) << "dPdti = " << dPdti;
 
           Org->dUdt += dPdti*rmi;
           Dest->dUdt -= dPdti*rmj;

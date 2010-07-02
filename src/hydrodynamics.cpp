@@ -54,17 +54,12 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   }
   LOG(INFO) << "Materials are ready";
  	
+
   ///<li>initialize parameters for time step and the artificial compressiblity
   double viscosity_max = 0.0; 
   for(int k = 0; k < ini.number_of_materials; k++) {
     viscosity_max = AMAX1(viscosity_max, materials[k]->nu);
   }
-  LOG(INFO) << "viscosity_max is ready";
-
-  const Vec2d gravity = ini.g_force;
-  const double delta = ini.delta; 
-  dt_g_vis = AMIN1(sqrt(delta/v_abs(gravity)), 0.5*delta*delta/viscosity_max);
-  LOG(INFO) << "dt_g_vis is ready";
 
   ///<li>determine the artificial compressiblity
   const double sound = AMAX1(v_abs(ini.g_force), viscosity_max);
@@ -292,11 +287,24 @@ double Hydrodynamics::GetTimestep(const Initiation& ini) const {
     rho_max = AMAX1(rho_max, prtl->rho);
   }
 
-  assert(ini.delta>0.0);
+  ///<li>initialize parameters for time step and the artificial compressiblity
+  double viscosity_max = 0.0; 
+  for(int k = 0; k < ini.number_of_materials; k++) {
+    viscosity_max = AMAX1(viscosity_max, materials[k]->nu);
+  }
+  LOG(INFO) << "viscosity_max is ready";
+
+  const Vec2d gravity = ini.g_force;
+  const double dt_g_vis = 
+    AMIN1(sqrt(ini.delta/v_abs(gravity)), 0.5*ini.delta*ini.delta/viscosity_max);
+
   assert(dt_g_vis>0.0);
+  LOG(INFO) << "dt_g_vis: " << dt_g_vis;
+
   const double dt = 0.25*AMIN1(dt_g_vis, ini.delta/(Cs_max + V_max));
   assert(dt>0.0);
-  return dt;
+  /// TODO: 
+  return 1e-2*dt;
   
 }
 //----------------------------------------------------------------------------------------

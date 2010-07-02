@@ -35,7 +35,7 @@ set NUMBER_OF_MATERIALS 2
 set Start_time 0.0
 set End_time 1e-1
 # time between output
-set D_time 1e-7
+set D_time 1e-4
 
 # boundary conditions
 set wall 0 
@@ -69,11 +69,11 @@ set material_b0(0) 1.0e2
 set material_rho0(0) 1.0e3
 set material_a0(0) 1.0e2
 
-set material_name(1) Wall
-set material_type(1) 1
-set material_cv(1) 1.0e3
-set material_eta(1) 2.0e-2
-set material_gamma(1) 7.0
-set material_b0(1) 1.0e2
-set material_rho0(1) 1.0e3
-set material_a0(1) 1.0e2
+set material_name(1) $material_name(0)
+set material_type(1) $material_type(0)
+set material_cv(1) $material_cv(0)
+set material_eta(1) $material_eta(0)
+set material_gamma(1) $material_gamma(0)
+set material_b0(1) $material_b0(0)
+set material_rho0(1) $material_rho0(0)
+set material_a0(1) $material_a0(0)
