@@ -33,9 +33,9 @@ set G_FORCE(1) 0.0
 
 set NUMBER_OF_MATERIALS 2
 set Start_time 0.0
-set End_time 1e-1
+set End_time 1.0
 # time between output
-set D_time 1e-4
+set D_time 1e-2
 
 # boundary conditions
 set wall 0 

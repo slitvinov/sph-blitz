@@ -55,7 +55,6 @@ Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest,
 	
   /// particle must not be that far 
   assert(rij<=2.0*ini.supportlength);
-	
   rrij = 1.0/rij;
   eij = (Org->R - Dest->R)*rrij;
   Wij = weight_function->w(rij);
@@ -100,7 +99,8 @@ void Interaction::RenewInteraction(spKernel weight_function)
   LOG_EVERY_N(INFO, 10000) << "call Interaction::RenewInteraction()";
   ///- calculate pair parameters (weight functions, shear- and bulk-)
   rij = v_abs(Org->R - Dest->R);
-  rrij = 1.0/(rij + 1.0e-30);
+  assert(rrij>0.0);
+  rrij = 1.0/rij;
   eij = (Org->R - Dest->R)*rrij;
   Wij = weight_function->w(rij);
   gradWij=weight_function->gradW(rij,Dest->R-Org->R);
@@ -139,12 +139,6 @@ void Interaction::UpdateForces()
 	assert(rhoi>0.0);
 	assert(rhoj>0.0);
 	
-	const double Vi = mi/rhoi; 
-	const double Vj = mj/rhoj;
-
-	/// make sure masses are OK
-	assert(Vi>0.0);
-	assert(Vj>0.0);
 	//const double rVi = 1.0/Vi; 
 	//const double rVj = 1.0/Vj;
 
@@ -207,6 +201,9 @@ void Interaction::UpdateForces()
       	if(ini.simu_mode==1)
 	{
 	  LOG_EVERY_N(INFO, 10000) << "Interaction::UpdateForces(), simu_mode=1";
+          const double Vi = mi/rhoi; 
+          const double Vj = mj/rhoj;
+
           assert(Vi>0.0);
           assert(Vj>0.0);
 	  const double Vi2 = Vi*Vi; 
@@ -218,11 +215,10 @@ void Interaction::UpdateForces()
 	  LOG_EVERY_N(INFO, 10000) << "shear_rij = " << shear_rij;
 	  
           /// viscous and pressure parts
-          const Vec2d dPdti_visc = shear_rij*Fij*(Vi2 + Vj2) * Uij;
-          const Vec2d dPdti_pre = eij*Fij*rij*(pi*Vi2 + pj*Vj2);
+          const Vec2d dPdti_visc = -shear_rij*Fij*(Vi2 + Vj2) * Uij;
+          const Vec2d dPdti_pre = -eij*Fij*rij*(pi*Vi2 + pj*Vj2);
 	  
-	  //const Vec2d dPdti = dPdti_visc  + dPdti_pre;
-	  const Vec2d dPdti = - dPdti_visc;
+	  const Vec2d dPdti = dPdti_visc  + dPdti_pre;
 	  LOG_EVERY_N(INFO, 10000) << "Ui = " << Ui;
 	  LOG_EVERY_N(INFO, 10000) << "Uj = " << Uj;
 	  LOG_EVERY_N(INFO, 10000) << "dPdti = " << dPdti;
