@@ -94,9 +94,12 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
       if(hydro.materials[i]->material_name == prtl->mtl->material_name) { 
 	j ++;
 	b++;
-	if(j == 1) 	out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
-	out<<prtl->R[0]<<"  "<<prtl->R[1]
-	   <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
+	if (j == 1) {
+          out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
+        }
+          out << prtl->R[0] << "  " << prtl->R[1]
+	      << "  " << prtl->U[0] << "  " << prtl->U[1]
+	      << "  " << prtl->rho << '\n';
       }
     }
   }

@@ -18,7 +18,8 @@ nomain=	 boundary.cpp boundary.h \
 	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
 	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
 	TimeSolver/gastimesolver.cpp TimeSolver/gastimesolver.h \
-	cpptcl.cc cpptcl.h
+	cpptcl.cc cpptcl.h \
+	main.doxygen
 
 sph_SOURCES= sph.cpp $(nomain) 
 

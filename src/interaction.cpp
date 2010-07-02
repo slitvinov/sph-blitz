@@ -216,7 +216,7 @@ void Interaction::UpdateForces()
 	  
           /// viscous and pressure parts
           const Vec2d dPdti_visc = -shear_rij*Fij*(Vi2 + Vj2) * Uij;
-          const Vec2d dPdti_pre = -eij*Fij*rij*(pi*Vi2 + pj*Vj2);
+          const Vec2d dPdti_pre = - eij*Fij*rij*(pi*Vi2 + pj*Vj2);
 	  
 	  const Vec2d dPdti = dPdti_visc  + dPdti_pre;
 	  LOG_EVERY_N(INFO, 10000) << "Ui = " << Ui;
