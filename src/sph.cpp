@@ -15,7 +15,7 @@
 
 #include <glog/logging.h>
 
-// main page for doxygen in a separate file
+// main page for doxygen is in a separate file
 #include "main.doxygen"
 
 // ***** local includes *****

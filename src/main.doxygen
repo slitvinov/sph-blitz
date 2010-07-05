@@ -1,4 +1,6 @@
 /*! \mainpage Smoothed-particle hydrodynamics (SPH) code 
+
+  \subpage developer_guide
  
   \section intro_sec Introduction
  
@@ -10,6 +12,10 @@
  git clone git://github.com/slitvinov/sph-blitz
  cd sph-blitz
  ./local-install.sh  \endverbatim
+ The script configures and compiles the following third party libraries
+ - tcl http://www.tcl.tk/
+ - blitz++ http://www.oonumerics.org/blitz/
+ - glog http://code.google.com/p/google-glog/
  
   \section restart_file Restart file format 
   
@@ -40,13 +46,37 @@
  punto -D 2 -c 4 -B 0:0:0.04:0.04 -G -0.6:0.6 -s 8 -lc black -bg white  punto.dat \endverbatim
   \image html couette.png "Couette flow: particle visualization with punto"
   \image html poiseuille.png "Poiseuille flow: particle visualization with punto"
-
-- \subpage developer_guide
 */
 
 
 //-----------------------------------------------------------
+
 /*! \page developer_guide Developer Guide
-  - Use boost smart pointers
-  - Use BOOST_FOREACH for iterations
+  - boost smart pointers
+  http://www.boost.org/doc/libs/1_43_0/libs/smart_ptr/shared_ptr.htm
+
+  - BOOST_FOREACH for iterations 
+  http://www.boost.org/doc/libs/1_43_0/doc/html/foreach.html  
+
+  - TCL for configuration files (see sph-blitz/cases/) 
+  http://www.tcl.tk/man/tcl/tutorial/tcltutorial.html
+
+  - google logging 
+  http://google-glog.googlecode.com/svn/trunk/doc/glog.html
+  Log files are stored in /tmp/ directory. The symbolic 
+  links /tmp/sph.WARNING /tmp/sph.INFO point to the 
+  last log files. Use 
+  \verbatim
+  tail -f /tmp/sph.INFO\endverbatim
+  to follow the output
+  \verbatim
+  GLOG_logtostderr=1 ./sph <project name>\endverbatim
+  sends all logging messages to stderr and they can be seen in 
+  the text terminal.
+
+  - To add a new file: add the name to the list in sph-blitz/src/Makefile.am 
+  Run 
+  \verbatim 
+  ./bootstrap.sh\endverbatim
+  in sph-blitz directory
 */
