@@ -1,4 +1,4 @@
-bin_PROGRAMS=sph kernel_test particlemanager_test
+bin_PROGRAMS=sph kernel_test particlemanager_test spParticle
 AM_CXXFLAGS=-I${top_srcdir} 
 
 
@@ -21,8 +21,12 @@ nomain=	 boundary.cpp boundary.h \
 	cpptcl.cc cpptcl.h \
 	main.doxygen
 
-sph_SOURCES= sph.cpp $(nomain) 
+sph_SOURCES= sph.cpp $(nomain)
 
+# examples
+spParticle_SOURCES = sandbox/spParticle.cpp
+
+# tests 
 kernel_test_SOURCES= $(nomain) Kernel/kernel_test.cpp
 particlemanager_test_SOURCES= $(nomain) particlemanager_test.cpp
 

@@ -53,7 +53,8 @@
 
 /*! \page developer_guide Developer Guide
   - boost smart pointers
-  http://www.boost.org/doc/libs/1_43_0/libs/smart_ptr/shared_ptr.htm
+  http://www.boost.org/doc/libs/1_43_0/libs/smart_ptr/shared_ptr.html \n
+  \include sandbox/spParticle.cpp
 
   - BOOST_FOREACH for iterations 
   http://www.boost.org/doc/libs/1_43_0/doc/html/foreach.html  
