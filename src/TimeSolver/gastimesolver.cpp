@@ -54,7 +54,7 @@ void GasTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager
 	
   while(integeral_time < D_time) {
 
-    // TODO: move into Initiation?
+    ///\todo{ move into Initiation?...and/or make time step calculation automatically (constant time step was only for testing purposes)}
     const double dt = 0.0025;
     //control output
     LOG(INFO)<<"\n current timestep:"<<dt;
