@@ -1,0 +1,37 @@
+Trouble Shooting log book
+
+incorrect behaviors discovered:
+
+  -particle movement:
+    --particle at LHS (high pressure) edge moves slower (only from n~20 on) than neighboring particles (is passed after n=40 time steps (corresponds to 0.0575s))
+    --particle at RHS (low pressure) edge moves only slightly! AND in the wrong direction!!! (to the left instead of to the right)correction: Attention, the particle observed, was not the very last particle(x=1.99) but the second last particle (x=1.975) as it was not shown in the diagramm (==>CORRECTION IMPLEMENTED 20100713,particle movement examined again, observations: last particle moves in the right direction, but neighbors remain almost without movement)
+
+    --particle at interface (x=1) does (almost) not move at all (and is passed at n=23), besides 11th last particle on high pressure side before interface (x=0.981...) seems to be the center of a divergent particle movement pattern!?!?
+
+  -other particle properties
+    --there is no formation (at least: no propagation) of a shock front and of a rarefaction wave. Instead the discontinuity in pressure remains at around x=1 and errors are produced...
+
+possible causes, errors in the code:
+
+  -particle mass is initiated by smoothing (and not directly assigned at the beginning like in 1DSPH code)
+  Rem: exact value of mass is wrong, should be 1.875e-03. But this is only because the kernel with 2d normation factor is used (instead of 1D)
+(LHS edge)4.94801e-05	(LHS)4.12334e-0	(IF)9.16298e-06	(IF)6.47179e-05	(RHS)4.12334e-05  (RHS edge)7.61232e-05
+  -->could this not uniform mass distribution contribute to the mess??? Probably not, but I will try constant mass anyway.
+
+    CONSTANT MASS  (m=0.00185 (1D value), leads to different values in rho, p, but those are still initialized with 1D values, to get rid of this influence 1D kernel factors have to be implemented!!!) IMPLEMENTED 20100713:
+    
+      RESULTS:
+	==>LHS: edge particle is also passed around @ n=37
+	==>IF: 	particle at the very interface is only passed after n=71 (instead of n=23)
+		divergent particle movement around 11th particle has disappeared
+	==>RHS: no big difference, neighbor particle begins to move in the right direction @ around n=70...
+
+  
+
+  -particle manager could  "forget" particles when transferring it from one cell to another!?!
+    --therefore: detecting cell interface locations and look for link between them and the places where strange particle behaviour occurrs
+    --
+
+  -no boundary condition (free edge) is implemented, see how particle manager handles particles at the very edge
+
+  -
