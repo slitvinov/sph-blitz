@@ -18,7 +18,7 @@ int main ()
   double delta_l=0.001875;
   double delta_r=0.001875*8;
   int N_r;
-  N_r=domain_size/2/delta_r;
+  N_r=domain_size/2/delta_r+1;
   int  N_l;
   N_l=domain_size/2/delta_l;
   int N;

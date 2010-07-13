@@ -238,14 +238,14 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
   ///initial particles either from .cfg file or from .rst file or from .ivs (Initial Values Shock tube)file
   if(ini.simu_mode==1)//for liquids
   {
-      //initialize particles from the file .cfg
+      //initialize particles from the file .tlc
       if(initial_condition==0) {	
 	//initialize the real particles inside the boundary
         LOG(INFO) << "Run simu_mode = 1, initial_condition = 0 version of BuildRealParticle";
 	for(int i = 1; i < x_clls - 1; i++) {
 	  for(int j = 1; j < y_clls - 1; j++) {
             LOG(INFO) << "cell (" << i << ", " << j << ")";
-	    //creat a new real particle
+	    //create a new real particle
 	    for(int k = 0; k < hdelta; k++) {
 	      for(int m = 0; m < hdelta; m++) {
                 const Vec2d position((i - 1)*cll_sz + (k + 0.5)*delta, 

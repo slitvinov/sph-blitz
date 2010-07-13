@@ -1,4 +1,4 @@
-///\file quinticspline.cpp
+///\file cubicspline.cpp
 ///\author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 ///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
 

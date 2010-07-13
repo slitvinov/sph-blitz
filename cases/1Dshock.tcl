@@ -79,7 +79,7 @@ set material_name(1) Air
 set material_type(1) 1
 set material_cv(1) 1.0e3
 set material_eta(1) 0.0
-set material_gamma(1) 0.0
-set material_b0(1) 1.4
+set material_gamma(1) 1.4
+set material_b0(1) 0.0
 set material_rho0(1) 0.0
 set material_a0(1) 0.0

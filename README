@@ -22,13 +22,13 @@ number of cells in x and y direction
 CELLS 
 
 size of one cell
-CELL_SIZE			5.0e-3
+CELL_SIZE
 
 support length
-SMOOTHING_LENGTH	5.0e-3
+SMOOTHING_LENGTH
 
 the number of particle in one direction in a cell
-CELL_RATIO			3
+CELL_RATIO
 
 the basic of dimensions
 DIMENSION
@@ -40,7 +40,7 @@ G_FORCE
 
 DIMENSION
 
-type code of coundary
+type code of boundary
 1: periodic
 0: wall coundary
 BOUNDARY <use or not wall file, must be 0> <type codes of boundry X0, X1, Y0,

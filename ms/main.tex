@@ -38,7 +38,7 @@ NEEDED (Prof Hornung) has discovered porous surfaces to inhibit/block a
 certain form of instabilities in hypersonic flows over a body/cone. A numerical
 simulation of this configuration is desired to furnish data for a detailed
 analysis of the acting phenomena. The simulation method of choice for the first approach
-to this configuration is called Smoothed Particle Hydrodynamics (SPH).Although
+to this configuration is called Smoothed Particle Hydrodynamics (SPH). Although
 there has been no known application of SPH to this precise/concrete case yet/before,
 SPH is adopted, as it promises a crucial advantage in the way boundary
 conditions are implemented. And for the treatment of porosities,
@@ -53,7 +53,7 @@ fact nowadays SPH is employed to simulate problems in different fields,
 such as body elasticity and fracture,liquid flows and gas
 dynamics~\cite{Monaghan2005}.
 The initial developement of the method dates back to 1977, where Gingold and
-Monaghan tempted to compute an astrophysical problem with a new, more
+Monaghan tempted to compute an astrophysical gas dynamics problem with a new, more
 efficient method~\cite{Gingold1977}. Independently and simultaneously, work in
 this field was also carried out by Lucy who came up with the same
 idea~\cite{Lucy1977}.
@@ -63,7 +63,7 @@ PREVIOUS APPLICATIONS IN GAS DYNAMICS (citing different relevant papers)
 
 OTHER APPROACHES FOR CAVITY/POROSITY SIMULATION (look up in literature)
 
-INTRODUCE THE TWO CODES AND MENTION THAT THEY ARE WRITTEN IN C/C++...
+INTRODUCE THE TWO CODES AND MENTION THAT THEY ARE CODED IN C/C++...
 
 
 
@@ -73,8 +73,8 @@ INTRODUCE THE TWO CODES AND MENTION THAT THEY ARE WRITTEN IN C/C++...
 \label{sec:BasicsSPH}
 
 To illustrate the basic idea of SPH, it is helpful to first have a look at the
-ruling equations of fluid dynamics, here represented by the SPH equations in
-lagrangian form. The use of the lagrangian form seems logical as SPH is a
+ruling equations of fluid dynamics, here represented by the Navier stokes equations in
+lagrangian form (using the substantive derivative). The use of the lagrangian form seems logical as SPH is a
 particle method.
 
 \begin {equation}
@@ -91,6 +91,7 @@ where
 \begin {equation}
 {\frac{d(.)}{dt}}={\frac{\partial(.)}{ \partial t}}+v\nabla(.)
 \end{equation}
+is the substantive derivative.
 
 Thus the rates of change of  physical quantity depend on its spatial
 derivatives. The goal of any method for numerical simulation is to approximate
@@ -124,12 +125,11 @@ finally allows a treatment of the problem by a numerical machine. In SPH
 literature, this second approximation is commonly called particle
 approximation~\cite{Liu2003}
 
-Applying the particle approximation on \ref{eq:int_interpolant} leads with the
-relation between mass, density and volume for each discretized particle
+With the relation between mass, density and volume for each discretized particle
 \begin{equation}
 m_i=\rho_i V_i
-\end{equation}
- to the following expression
+\end{equation},
+applying the particle approximation on \ref{eq:int_interpolant} leads to the following expression
 
 \begin{equation}
 \label{eq:intInter}
@@ -137,7 +137,7 @@ A_S(r)=\sum_b m_b \frac{A_b}{\rho_b}W(r-r_b,h)
 \end{equation}
 
 
-In the same way, the derivative of the fieldfunction $frac{dA(x)}{dx}$ can be
+In the same way, the derivative of the field function $frac{dA(x)}{dx}$ can be
 approximated to give\cite{Monaghan2005}or\cite{Liu2003}(in Liu with gradient,
 im Monaghan for 1 direction)
 
@@ -155,18 +155,18 @@ Monaghan the equation figures not with gradient but only in 1 direction!?!)
 \end{equation}
 where $\Phi$ is any differentiable function, this problem can be resolved. In its
 SPH form  equation \ref{eq:derivativeIdentity} reads as follows:
+
 \begin{equation}
 \nabla_a A = \frac{1}{\Phi_a}\sum_b \frac{m_b}{\rho_b}(A_b-A_a)\nabla_a W_{ab}
 \end{equation}
 
 
 It can be seen, that the (approximation of the) derivative of the
-field function $A$ is now expressed by a summation over the fieldfunction itself
+field function $A$ is now expressed by a summation over the field function itself
 and the derivative of the kernel function - which can be determined exactly.
 
 Now the basic formulations are introduced in principle: Both the fieldfunction
-itself and its spacial derivatives can be approximated using only information
-(=the states) of a discrete number of particles. Hence, the change rates of
+itself and its spacial derivatives can be approximated using only information of a discrete number of particles. Hence, the change rates of
 the states described by the equations of fluid dynamics, which have a form
 according to \ref{eq:EFD_form} can be rewritten using this information. Doing
 this one obtains the SPH formulation of the equations of fluid dynamics.
@@ -179,8 +179,8 @@ function (which has to be chosen in an appropriate way). A further
 approximation consists in transforming the integral over the domain into a
 summation over the discrete elements constituing this domain (the particles). This allows to express both
 the field function and its spacial derivatives dependent exclusively on discrete values
-of the fieldfunction itself (and the kernel function, which is known as well as
-its derivatvies).By finally choosing an appropriate kernel function with
+of the fieldfunction itself (and of the kernel function, which is known as well as
+its derivatvies). By finally choosing an appropriate kernel function with
 compact support, the summation over all particles in the domain can be reduced
 to a summation over those particles within the support domain of the particle
 in question.
@@ -191,7 +191,7 @@ transformations to the original (exact) equations. Depending on the
 transformations used, the final SPH equations can assume a different form. In
 the following, a common form for the change rates of density, velocity and
 internal energy based on the EULER EQUATIONS (i.e. without viscosity) is
-listed\cite{Monaghan2005}\cite{Liu2003} (perhaps also list NSG-form, and
+listed\cite{Monaghan2005,Liu2003} (perhaps also list NSG-form, and
 explain why Euler is of interest as well (for 1DSPH code, perhaps later real
 code including viscosity???)
 
@@ -210,8 +210,6 @@ code including viscosity???)
 \label{eq:ECR_Euler}
 \frac{de_{a}}{\mathit{dt}}=-\mathit{}\frac{1}{2}\sum{m_{b}\left(\frac{P_{a}}{\rho _{a}^{2}}+\frac{P_{b}}{\rho _{b}^{2}}\right)v_{\mathit{ab}}\nabla _{a}W_{\mathit{ab}}}
 \end{equation}
-
-
 
 For the detailed procedure of derivation and for alternative formulations of
 these equations refer to \cite{Monaghan2005, Liu2003}
@@ -276,15 +274,12 @@ Including artificial viscosity, the SPH form of the Euler momentum equation beco
 
 The introduced artificial viscosity must also be reflected in the energy equation, as viscosity transfers energy from kinetic to thermal\cite{Monaghan2005}. One formulation of the energy equation which is convenient for implementation in the 1D SPH code (as a big part of the needed expression has already been calculated for \ref{eq:VCR_EulerInclArtVis}) can be found in\cite{Liu2003}
 
-
 \begin{equation}
 \label{eq:ECR_EulerInclArtVis}
 \frac{de_{a}}{\mathit{dt}}=-\mathit{}\frac{1}{2}\sum{m_{b}\left(\frac{P_{a}}{\rho _{a}^{2}}+\frac{P_{b}}{\rho _{b}^{2}}\right)v_{\mathit{ab}}\nabla _{a}W_{\mathit{ab}}}
 \end{equation}
 
-
- 
-mention somewhere that kernel unity is inverse of volume?!?!?
+...mention somewhere that kernel unity is inverse of volume?!?!?
 
 \section{Implementation of an SPH code}
 This section presents some particular features of an SPH code. Emphasis is
@@ -334,7 +329,7 @@ free slip velocity boundary condition
 v_{virtual}^{tangential}=v_{real}^{tangential}
 \end{equation}
 
-ILLUSTRATION OF VELOCITY ASSIGNMENT FOR VIRTUAL BOUNDARY PARTICLES
+FIGURE: ILLUSTRATION OF VELOCITY ASSIGNMENT FOR VIRTUAL BOUNDARY PARTICLES
 
 For the treatment of periodic boundary conditions, no ghost particles are
 needed. Particles leaving the calculation domain on one side are simple
@@ -445,7 +440,7 @@ to be considered but only those particles in the adjoining cells. Hence, the
 complexity of the original problem which is of order $O(N^2)$ can be reduced
 largely and tends even to $O(N)$ if the particles in one cell are few. 
 
-DIAGRAM WITH CELLS /PARTICLES /DOMAIN!?!
+FIGURE: DIAGRAM WITH CELLS /PARTICLES /DOMAIN!?!
 
 Technically the cells are managed by the implementation of a linked list
 structure in a computational code. More details on this are given in section
@@ -462,18 +457,16 @@ length\cite{Liu2003}.
 
 
 
-
-
 \subsection{equation of state}
 
 
 The equation of state allows for the computation of the pressure $p$ based on
 information about the density $\rho$ and the internal energy $e$ (or equivalent...). For the application of SPH for gas dynamics, the assumption of an ideal gas is appropriate (citation and conditions). In this case the (ideal gas) equation of state is
 
-...equation of state in the original form...
+%...equation of state in the original form...
 
-...
-transformation steps (or at least realations needed)...
+%...
+%transformation steps (or at least realations needed)...
 
 \begin{equation}
  p=(\gamma-1)\rho e
@@ -590,10 +583,6 @@ Once all necessary change rates are known, the values can be updated to the next
   \label{fig:BasicSphCode}
 \end{figure}
 
-
-
-
-
 \section{1D SPH code}
 
 \subsection{short overview}
@@ -625,10 +614,10 @@ Most of the variables contained in the simulation data structure are needed one 
 
 \subsubsection{The Functions}
 
-As the size of the 1D SPH program is not too big, it admits of the introduction/description of every single function used. The textual description is not complete but only comprises particularities and features that are considered worth mentionning. A Nassi-Schneidermann-Diagram (NSD)~\cite{Nassi???} complements each description and shows the control flow for each function as well as the interdependence of the individual functions. For the sake of a clear illustration , the NSD does not display every loop of the program; frequently, loops over all particles and the interaction list are ommitted (the instruction 'calculate ... for each particle' for example means the implementation of a loop over all particles i.e. all components of the corresponding variable's vector).  Consulting the comments in the source code is recommended if an even more detailed understanding is necessary or desired.
+As the size of the 1D SPH program is not too big, it admits of the introduction/description of every single function used. The textual description is not complete but only comprises particularities and features that are considered worth mentionning. A Nassi-Schneidermann-Diagram (NSD)~\cite{Nassi1973} complements each description and shows the control flow for each function as well as the interdependence of the individual functions. For the sake of a clear illustration , the NSD does not display every loop of the program; frequently, loops over all particles and the interaction list are ommitted (the instruction 'calculate ... for each particle' for example means the implementation of a loop over all particles i.e. all components of the corresponding variable's vector).  Consulting the comments in the source code is recommended if an even more detailed understanding is necessary or desired.
 
 \paragraph{Explanation of a Nassi-Schneidermann-Diagram}
-A NSD Diagram is employed in this section as it allows for a more compact description of the code structure within limited space than a conventional flow diagram and, in addition, offers a range of further advantages~\cite{Nassi???}. It is read from top to bottom, with different box symbols representing different kinds of instructions or control elements. The symbols used during the description of the functions below are the following ones:
+A NSD Diagram is employed in this section as it allows for a more compact description of the code structure within limited space than a conventional flow diagram and, in addition, offers a range of further advantages~\cite{Nassi1973}. It is read from top to bottom, with different box symbols representing different kinds of instructions or control elements. The symbols used during the description of the functions below are the following ones:
 
 \subparagraph{The process symbol}
 there has to be some text, otherwise the parcolumns environment will delete the subparagraph heading!?!
