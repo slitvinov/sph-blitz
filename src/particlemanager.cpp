@@ -348,103 +348,39 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
   if(ini.simu_mode==2)//gas dynamics
     {
      
- double qvl=0,qvr=0,qpl=0,qpr=0,qrhol=0,qrhor=0;
-  double qx=0;
-  double qdomain_size=2.0;
-  double qdelta_l=0.001875;
-  double qdelta_r=0.001875*8;
-  int qN_r;
-  qN_r=qdomain_size/2.0/qdelta_r+1;
-  int qN_l;
-  qN_l=qdomain_size/2.0/qdelta_l;
-  int qN;
-  qN=qN_l+qN_r;
-  double qx_array[qN];
-  double qy_array[qN];
-  double qvx_array[qN];
-  double qvy_array[qN];
-  double qp_array[qN];
-  double qrho_array[qN];
+ double vl=0,vr=0,pl=0,pr=0,rhol=0,rhor=0;
+  double x=0;
+  double domain_size=2.0;
+  double delta_l=0.001875;
+  double delta_r=0.001875*8;
  
-
-    //left hand side values
-    qpl= 1.0;
-    qrhol= 1.0;
-    qvl= 0.0;
-
-  //right hand side values
-    qpr= 0.1;
-    qrhor= 0.125;
-    qvr= 0.0;
-
-
- qx=2.0-qN_l*qdelta_l;
-
-  for(int qi=0;qi<qN_l;qi++)
-  {
-       qx_array[qi]=qx;
-       qx=qx+qdelta_l;
-       qy_array[qi]=0.0;
-       qvx_array[qi]=qvl;
-       qvy_array[qi]=0.0;
-       qp_array[qi]=qpl;
-       qrho_array[qi]=qrhol;
-      
-  };
-  qx=2.0;
- for(int qi=qN_l;qi<qN;qi++)
- {
-       qx_array[qi]=qx;
-       qx=qx+qdelta_r;
-       qy_array[qi]=0.0;
-       qvx_array[qi]=qvr;
-       qvy_array[qi]=0.0;
-       qp_array[qi]=qpr;
-       qrho_array[qi]=qrhor;
- };  
+  
 
 
 
-
-
-
-
-
-      //I commented out the section where initial data are read frominput file (below) and instead create my initial conditions directly here (above)
-
-
-      // const std::string inputfile ="../cases/1Dshock.ivs";
+       const std::string inputfile ="../cases/1Dshock.ivs";
        int material_no = 1; //number for Air (second line in cfg file (->index 1)
-      // //check if the .ivs file exists
-      // ifstream fin(inputfile.c_str(), ios::in);
-      // if (!fin) {
-      // 	LOG(INFO)<<"Initialtion: Cannot open "<< inputfile <<" \n";
-      // 	LOG(INFO) << __FILE__ << ':' << __LINE__ << std::endl;
-      // 	exit(EXIT_FAILURE);
-      // }
-      // else LOG(INFO)<<"Initialtion: Read real particle data from "<< inputfile <<" \n"; 
-      // //read the real particle number
-      // int N;
-      // fin>>N;
-      //read the particle data
+      //check if the .ivs file exists
+      ifstream fin(inputfile.c_str(), ios::in);
+      if (!fin) {
+      	LOG(INFO)<<"Initialtion: Cannot open "<< inputfile <<" \n";
+      	LOG(INFO) << __FILE__ << ':' << __LINE__ << std::endl;
+      	exit(EXIT_FAILURE);
+      }
+      else LOG(INFO)<<"Initialtion: Read real particle data from "<< inputfile <<" \n"; 
+      //read the real particle number
+      int N;
+      fin>>N;
 
- //end of commented out section
-
-
-      for(int qn = 0; qn < qN; qn++)
+      // read the particle data
+      for(int n = 0; n < N; n++)
 	{ 
           Vec2d position;
           Vec2d velocity;
 	 
-	  //begin of commented out section
-	  // fin>>::setprecision (35)>>position[0]>>position[1]>>velocity[0]>>velocity[1]>>density>>pressure;
-	  //end of commented out section
-	  position[0]=qx_array[qn];
-	  position[1]=qy_array[qn];
-	  velocity[0]=qvx_array[qn];
-	  velocity[1]=qvy_array[qn];
-	  pressure=qp_array[qn];
-	  density=qrho_array[qn];
+	 
+	   fin>>::setprecision (35)>>position[0]>>position[1]>>velocity[0]>>velocity[1]>>density>>pressure;
+	  
 
 
 	  Temperature=materials[material_no]->get_T(pressure,density);
@@ -463,9 +399,9 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 	  cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
 	  LOG_EVERY_N(INFO,100) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no: "<<prtl->cell_i;
 	};
-      //begin of commented out section
-      //fin.close();
-      //end of commented out section
+      
+      fin.close();
+      
     }
   LOG(INFO) << "ParticleManager::BuildRealParticle ends";
 }
