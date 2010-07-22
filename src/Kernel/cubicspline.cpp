@@ -30,7 +30,7 @@ const double pi = 3.141592653589793238462643383279502884197;
 /// Cubic spline kernel (see Liu eq. (3.6)
 CubicSpline::CubicSpline(const double supportlength)
   : Kernel(supportlength),
-    norm( 10.0 / (7.0*pi)  / (supportlength*supportlength) ) ,
+    norm( /*10.0 / (7.0*pi)*/1.0/3.0  / (supportlength/**supportlength*/) ) ,
     factorGradW( 2.0*norm /supportlength )
 {
   // initialize the auxiliary factors
@@ -44,7 +44,7 @@ double CubicSpline::w(const double distance) const
   const double R= 2.0 * distance/ supportlength;
   if(R>2.0)
     {
-      //support of 4h, everything beyond is zero
+      //support of 4h (supportlength =2h, h=0.015), everything beyond is zero
       return 0.0;
     }
   else if(R>1.0) {
@@ -79,14 +79,14 @@ double CubicSpline::F(const double distance) const
   }
   else if(R>1.0 ) {
     const double s2 = 2.0 - R;
-    return  factorGradW * ( 3.0 * s2*s2);
+    return/*minus inserted!!! */ - factorGradW * ( 3.0 * s2*s2);
   } else  {
     const double s1 = 1.0 - R;
     const double s2 = 2.0 - R;
-    return  -factorGradW * ( 12.0 * s1*s1 - 3.0 * s2 * s2 );
+    return /* -*/factorGradW * ( 12.0 * s1*s1 - 3.0 * s2 * s2 );
   }
 }
 
 void CubicSpline::show_information() const {
-  std::cerr << "(kernel) QubicSpline\n";
+  std::cerr << "(kernel) CubicSpline\n";
 }

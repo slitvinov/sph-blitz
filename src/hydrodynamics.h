@@ -54,6 +54,7 @@ public:
 			      const Initiation& ini);
 	///calculate interaction without updating interaction list
 	void UpdateChangeRate(const Initiation& ini);
+	void UpdateChangeRateInclRho(const Initiation& ini);
 	///initiate particle density to zero
 	void Zero_density();
 	/// initiate particle density to the contributions of the 
@@ -82,6 +83,14 @@ public:
 
 	///special uitilities
 	void Zero_Velocity();
+
+	//everything that comes below this, is new:
+	void AdvanceFirstStep(const double dt);
+	void AdvanceFirstStepInclRho(const double dt);
+	void AdvanceStandardStep(const double dt);
+	void AdvanceStandardStepInclRho(const double dt);
+	void UpdateUe2Half(const double dt);
+	void UpdateUeRho2Half(const double dt);
 
 };
 

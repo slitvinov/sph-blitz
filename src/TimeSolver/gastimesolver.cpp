@@ -10,6 +10,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <boost/foreach.hpp>
+#include <iomanip>
 
 #include <cstdio>
 #include <cstdlib>
@@ -65,10 +67,32 @@ void GasTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager
     integeral_time =integeral_time+ dt;
     Time += dt;
 	  
-    ///<ul><li>screen information for the iteration
+       ///<ul><li>screen information for the iteration
     if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
 			  <<Time<<"	dt: "<<dt<<"\n";
-	  
+
+    //below is new code
+    if(ite!=1)
+      hydro.UpdateUe2Half(dt);
+
+    //this block corresponds to calcDerivatives
+    hydro.BuildInteractions(particles, weight_function, ini);
+    hydro.UpdateDensity(ini, weight_function);
+    hydro.UpdateChangeRate(ini);
+
+    if(ite==1)  
+      hydro.AdvanceFirstStep(dt);
+    else 
+      hydro.AdvanceStandardStep(dt);
+
+    particles.UpdateCellLinkedLists();
+
+    //end new code
+
+    /*
+
+    //below is good old code:
+ 
     //control output
     // cout<<"\n just before build pair\n";
     //predictor and corrector method used
@@ -82,7 +106,10 @@ void GasTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager
     hydro.Predictor_summation(dt);///<li>hydro.Predictor_summation</ol>
 	  
     ///<li> the correction step without update the interaction list
-    hydro.UpdateInteractions(weight_function);///<li> update interactions
+  
+ hydro.BuildInteractions(particles, weight_function, ini);///<ol><li> rebuild interactions   
+
+ //hydro.UpdateInteractions(weight_function);///<li> update interactions
     hydro.UpdateDensity(ini, weight_function);///<li>hydro.UpdateDensity
 
     //control output
@@ -90,5 +117,55 @@ void GasTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager
     hydro.UpdateChangeRate(ini); ///<li>hydro.UpdateChangeRate
     hydro.Corrector_summation(dt);///<li>hydro.Corrector_summation</ol>
     particles.UpdateCellLinkedLists();///<li>particles.UpdateCellLinkedLists
+
+    //above is good old code
+
+    */
+ }
+}
+
+void GasTimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
+                                           Boundary &boundary,
+                                           double &Time, double D_time,
+                                           const Initiation &ini, spKernel weight_function)
+{
+  double integeral_time = 0.0;
+	
+  while(integeral_time < D_time) {
+
+    ///\todo{ move into Initiation?...and/or make time step calculation automatically (constant time step was only for testing purposes)}
+    const double dt = 0.0025;
+    //control output
+    LOG(INFO)<<"\n current timestep:"<<dt;
+    LOG(INFO)<<"\n current absolute integraltime:"<<Time;
+    LOG(INFO)<<"\n current (relative) integraltime:"<<integeral_time;
+    LOG(INFO)<<"\n current (absolute) iterations:"<<ite;
+    ite ++;
+    integeral_time =integeral_time+ dt;
+    Time += dt;
+	  
+       ///<ul><li>screen information for the iteration
+    if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
+			  <<Time<<"	dt: "<<dt<<"\n";
+
+    //below is new code
+    if(ite!=1)
+      hydro.UpdateUeRho2Half(dt);
+
+    //this block corresponds to calcDerivatives
+    hydro.BuildInteractions(particles, weight_function, ini);
+    if(ite==1) //smooth density (only) at first time step  
+      hydro.UpdateDensity(ini, weight_function);
+    else
+      hydro.UpdateState(ini);
+    hydro.UpdateChangeRateInclRho(ini);
+
+
+    if(ite==1)  
+      hydro.AdvanceFirstStepInclRho(dt);
+    else 
+      hydro.AdvanceStandardStepInclRho(dt);
+
+    particles.UpdateCellLinkedLists();
   }
 }

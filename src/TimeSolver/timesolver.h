@@ -16,6 +16,12 @@ class TimeSolver : boost::noncopyable {
   virtual void TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 
                                       Boundary &boundary, double &Time, double D_time, 
                                       const Initiation &ini, spKernel weight_function) = 0;
+
+ /// advance time interval D_time with integration for density
+  virtual void TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
+                                      Boundary &boundary, double &Time, double D_time, 
+                                      const Initiation &ini, spKernel weight_function) = 0;
+
   /// print kernel type
   virtual void show_information() const = 0;
  protected:

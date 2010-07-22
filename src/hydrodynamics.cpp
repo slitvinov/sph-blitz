@@ -110,6 +110,12 @@ void Hydrodynamics::UpdateDensity(ParticleManager &particles, spKernel weight_fu
   ///- iterate the interaction list
   BOOST_FOREACH(spInteraction pair, interaction_list) {
     pair->SummationDensity();	
+  };
+
+  LOG(INFO)<<"density after smoothing";
+
+  BOOST_FOREACH(spParticle prtl, particle_list){
+    LOG(INFO) << setprecision (20)<<::setw( 7 )<<prtl->ID<< ::setw( 25 )<<prtl->rho<<::setw( 7 )<<endl;
   }
 		
   ///- calulate new pressure by calling UpdateState() Method
@@ -127,6 +133,11 @@ void Hydrodynamics::UpdateDensity(const Initiation &ini, spKernel  weight_functi
   BOOST_FOREACH(spInteraction pair, interaction_list) {
     pair->SummationDensity();	
   }
+ // LOG(INFO)<<"density after smoothing";
+
+ //  BOOST_FOREACH(spParticle prtl, particle_list){
+ //    LOG(INFO) << setprecision (9)<<prtl->ID<<"    "<<prtl->rho<<endl;
+ //  }
 
   ///- calulate new pressure by calling UpdateState()
   UpdateState(ini);
@@ -168,10 +179,52 @@ void Hydrodynamics::UpdateChangeRate(const Initiation& ini) {
   BOOST_FOREACH(spParticle prtl, particle_list) {
     LOG_EVERY_N(INFO, 100) <<"dUdt: "<<prtl->dUdt[0] << " dUdt1: "<<prtl->dUdt[1];
   }
+
+
+ofstream tx2tFile("DerivativesDataN1");
+	if (tx2tFile.is_open())
+        {
+        BOOST_FOREACH(spParticle prtl, particle_list) {
+	  
+	  tx2tFile <<setprecision (9)<< ::setw( 5 )<<prtl->ID<< ::setw(20)<<prtl->dUdt[0]<<::setw(20)<<prtl->dUdt[1]<<::setw(20)<<prtl->dedt<<endl;
+	
+	  }
+	tx2tFile.close();
+	}
+		else cout << "Unable to open/create file";
+
+BOOST_FOREACH(spParticle prtl, particle_list) {
+    LOG_EVERY_N(INFO, 100) <<"dUdt: "<<prtl->dUdt[0] << " dUdt1: "<<prtl->dUdt[1];
+  }
+
+
   ///- include the gravity effects
   AddGravity(ini);
 }
 //----------------------------------------------------------------------------------------
+
+
+
+
+void Hydrodynamics::UpdateChangeRateInclRho(const Initiation& ini) {
+  LOG(INFO) << " Hydrodynamics::UpdateChangeRateInclRho(ini)";
+  ///- initiate the change rate of each real particle by calling ZeroChangeRate()
+  ZeroChangeRate();	
+
+    ///- iterate the interaction list
+  BOOST_FOREACH(spInteraction aux_interaction, interaction_list) {
+      aux_interaction->UpdateForcesAndRho();
+  }
+  //control output
+  BOOST_FOREACH(spParticle prtl, particle_list) {
+    LOG_EVERY_N(INFO, 100) <<"dUdt: "<<prtl->dUdt[0] << " dUdt1: "<<prtl->dUdt[1];
+  }
+
+  ///- include the gravity effects
+  AddGravity(ini);
+}
+
+
 //						initiate particle change rate
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::ZeroChangeRate() {
@@ -390,3 +443,108 @@ void Hydrodynamics::Corrector_summation(const double dt) {
   }
   tx2tFile.close();
 }
+
+
+//everything that comes below is new:
+
+void Hydrodynamics::AdvanceFirstStep(const double dt)
+{
+ ///<ul><li>iterate the real partilce list
+  BOOST_FOREACH(spParticle prtl, particle_list)
+ {
+      
+    prtl->U = prtl->U + prtl->dUdt*0.5*dt;
+    prtl->e = prtl->e + prtl->dedt*0.5*dt;
+    prtl->R = prtl->R + prtl->U*dt;
+  }
+
+ofstream t2x2tFile("PositionsVeloN1");
+	if (t2x2tFile.is_open())
+        {
+        BOOST_FOREACH(spParticle prtl, particle_list) {
+	  
+	  t2x2tFile <<setprecision (9)<< ::setw( 5 )<<prtl->ID<<::setw(15)<<prtl->R[0]<< ::setw(15)<<prtl->U[0]<<::setw(15)<<prtl->U[1]<<::setw(15)<<prtl->e<<endl;
+	
+	  }
+	t2x2tFile.close();
+	}
+		else cout << "Unable to open/create file";
+
+}
+
+
+void Hydrodynamics::AdvanceFirstStepInclRho(const double dt)
+{
+ ///<ul><li>iterate the real partilce list
+  BOOST_FOREACH(spParticle prtl, particle_list)
+ {
+    prtl->rho = prtl->rho + prtl->drhodt*0.5*dt;
+    prtl->U = prtl->U + prtl->dUdt*0.5*dt;
+    prtl->e = prtl->e + prtl->dedt*0.5*dt;
+    prtl->R = prtl->R + prtl->U*dt;
+  }
+}
+
+
+void Hydrodynamics::AdvanceStandardStep(const double dt)
+{
+ ///<ul><li>iterate the real partilce list
+  BOOST_FOREACH(spParticle prtl, particle_list)
+ {
+      
+    prtl->U = prtl->U_I + prtl->dUdt*dt;
+    prtl->e = prtl->e_I + prtl->dedt*dt;
+    prtl->R = prtl->R + prtl->U*dt;
+ }
+}
+
+
+void Hydrodynamics::AdvanceStandardStepInclRho(const double dt)
+{
+ ///<ul><li>iterate the real partilce list
+  BOOST_FOREACH(spParticle prtl, particle_list)
+ {
+    prtl->rho = prtl->rho_I + prtl->drhodt*dt; 
+    prtl->U = prtl->U_I + prtl->dUdt*dt;
+    prtl->e = prtl->e_I + prtl->dedt*dt;
+    prtl->R = prtl->R + prtl->U*dt;
+ }
+}
+
+
+
+
+void Hydrodynamics::UpdateUe2Half(const double dt)
+{
+
+///<ul><li>iterate the real partilce list
+  BOOST_FOREACH(spParticle prtl, particle_list)
+ {
+   
+    prtl->U_I=prtl->U;
+    prtl->e_I=prtl->e;
+   
+    prtl->U = prtl->U + prtl->dUdt*0.5*dt;
+    prtl->e = prtl->e + prtl->dedt*0.5*dt;
+ }
+}
+
+
+void Hydrodynamics::UpdateUeRho2Half(const double dt)
+{
+
+///<ul><li>iterate the real partilce list
+  BOOST_FOREACH(spParticle prtl, particle_list)
+ {
+   
+    prtl->U_I=prtl->U;
+    prtl->e_I=prtl->e;
+    prtl->rho_I=prtl->rho;
+   
+    prtl->U = prtl->U + prtl->dUdt*0.5*dt;
+    prtl->e = prtl->e + prtl->dedt*0.5*dt;
+    prtl->rho=prtl->rho + prtl->drhodt*0.5*dt;
+ }
+}
+
+

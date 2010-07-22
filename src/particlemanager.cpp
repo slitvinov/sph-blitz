@@ -10,11 +10,14 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <boost/foreach.hpp>
+
 
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
-
+#include <iomanip>
+#include <sstream>
 
 #include <glog/logging.h>
 
@@ -101,7 +104,7 @@ void ParticleManager::UpdateCellLinkedLists()
 	    ///<ul><li>delete the current node
 	      p = cell_lists(i,j).erase(p);
 	    ///<li>insert it to the new cell linked list</ul></ul></ul></ul>
-	    if(prtl->R[0]>=0.0 &&prtl->R[0]<=2.0)
+	    if(prtl->R[0]>=0.0 &&prtl->R[0]<=cll_sz*x_clls)
 	      cell_lists(k,m).insert(cell_lists(k,m).begin(), prtl);
 	  } 
 	} 
@@ -118,13 +121,14 @@ std::list<spParticle> ParticleManager::BuildNNP(Vec2d &point)
   ///<ul><li>clear the list first
   std::list<spParticle> NNP_list;
   NNP_list.clear();
-
+  
+  LOG(INFO) << "NPP list should now be empty: Size: "<<NNP_list.size() ;
   //where is the point
   const int k = int ((point[0] + cll_sz)/ cll_sz);
   const int m = int ((point[1] + cll_sz)/ cll_sz);
 
   // if ( point[0]>=0.0 && point[0]<=2.0)//this if- condition has been added for the 1D shock case (as there are no boundary conditions and particles who left the domains should not be considered any more) 
-  {
+  // {
     ///<li>loop on this and all surrounding cells
     for(int i = k - 1; i <= k + 1; i++) {
       for(int j = m - 1; j <= m + 1; j++) { 
@@ -145,7 +149,11 @@ std::list<spParticle> ParticleManager::BuildNNP(Vec2d &point)
 	}
       }
     }
-  }
+    //  }
+    LOG(INFO) << "NPP_list for particle at pos x: "<<point[0];
+BOOST_FOREACH(spParticle prtl_dest ,NNP_list) {
+  LOG(INFO) << "ParticleManager object is createparticle x:"<<prtl_dest->R[0];
+ }
   return NNP_list;
 }
 
@@ -165,7 +173,7 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
        p++) {
       /// <ul><li> choose origin particle 
       spParticle prtl_org = *p;
-      if(prtl_org->bd == 0 && prtl_org->R[0]>=0 && prtl_org->R[0]<=2)//the second 
+      if(prtl_org->bd == 0/* && prtl_org->R[0]>=0 && prtl_org->R[0]<=2*/)//the second 
 	// and the third condition have been added for the 1D shock case 
 	// (as there are no boundary conditions and particles who 
 	// left the domains should not be considered any more) 
@@ -215,7 +223,7 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
 	{
 	  spInteraction inte= *p;
 
-	  txtFile <<setprecision (3)<< ::setw( 7 )<<inte->getOrigin()->ID<<::setw( 7 )<<inte->getDest()->ID<<::setw(17 )<<inte->getWij()<<"  "<<inte->getGradWij()[0]<<endl;
+	  txtFile <<setprecision (9)<< ::setw( 7 )<<inte->getOrigin()->ID<<::setw( 7 )<<inte->getDest()->ID<<::setw( 17 )<<inte->get_rij()<<::setw(17 )<<inte->getWij()<<"  "<<inte->getGradWij()[0]<<endl;
 	}
 
       txtFile.close();
@@ -339,26 +347,106 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
     }
   if(ini.simu_mode==2)//gas dynamics
     {
-      const std::string inputfile ="../cases/1Dshock.ivs";
-      int material_no = 1; //number for Air (second line in cfg file (->index 1)
-      //check if the .ivs file exists
-      ifstream fin(inputfile.c_str(), ios::in);
-      if (!fin) {
-	LOG(INFO)<<"Initialtion: Cannot open "<< inputfile <<" \n";
-	LOG(INFO) << __FILE__ << ':' << __LINE__ << std::endl;
-	exit(EXIT_FAILURE);
-      }
-      else LOG(INFO)<<"Initialtion: Read real particle data from "<< inputfile <<" \n"; 
-      //read the real particle number
-      int N;
-      fin>>N;
+     
+ double qvl=0,qvr=0,qpl=0,qpr=0,qrhol=0,qrhor=0;
+  double qx=0;
+  double qdomain_size=2.0;
+  double qdelta_l=0.001875;
+  double qdelta_r=0.001875*8;
+  int qN_r;
+  qN_r=qdomain_size/2.0/qdelta_r+1;
+  int qN_l;
+  qN_l=qdomain_size/2.0/qdelta_l;
+  int qN;
+  qN=qN_l+qN_r;
+  double qx_array[qN];
+  double qy_array[qN];
+  double qvx_array[qN];
+  double qvy_array[qN];
+  double qp_array[qN];
+  double qrho_array[qN];
+ 
+
+    //left hand side values
+    qpl= 1.0;
+    qrhol= 1.0;
+    qvl= 0.0;
+
+  //right hand side values
+    qpr= 0.1;
+    qrhor= 0.125;
+    qvr= 0.0;
+
+
+ qx=2.0-qN_l*qdelta_l;
+
+  for(int qi=0;qi<qN_l;qi++)
+  {
+       qx_array[qi]=qx;
+       qx=qx+qdelta_l;
+       qy_array[qi]=0.0;
+       qvx_array[qi]=qvl;
+       qvy_array[qi]=0.0;
+       qp_array[qi]=qpl;
+       qrho_array[qi]=qrhol;
+      
+  };
+  qx=2.0;
+ for(int qi=qN_l;qi<qN;qi++)
+ {
+       qx_array[qi]=qx;
+       qx=qx+qdelta_r;
+       qy_array[qi]=0.0;
+       qvx_array[qi]=qvr;
+       qvy_array[qi]=0.0;
+       qp_array[qi]=qpr;
+       qrho_array[qi]=qrhor;
+ };  
+
+
+
+
+
+
+
+
+      //I commented out the section where initial data are read frominput file (below) and instead create my initial conditions directly here (above)
+
+
+      // const std::string inputfile ="../cases/1Dshock.ivs";
+       int material_no = 1; //number for Air (second line in cfg file (->index 1)
+      // //check if the .ivs file exists
+      // ifstream fin(inputfile.c_str(), ios::in);
+      // if (!fin) {
+      // 	LOG(INFO)<<"Initialtion: Cannot open "<< inputfile <<" \n";
+      // 	LOG(INFO) << __FILE__ << ':' << __LINE__ << std::endl;
+      // 	exit(EXIT_FAILURE);
+      // }
+      // else LOG(INFO)<<"Initialtion: Read real particle data from "<< inputfile <<" \n"; 
+      // //read the real particle number
+      // int N;
+      // fin>>N;
       //read the particle data
-      for(int n = 0; n < N; n++)
+
+ //end of commented out section
+
+
+      for(int qn = 0; qn < qN; qn++)
 	{ 
           Vec2d position;
           Vec2d velocity;
-	  fin>>position[0]>>position[1]>>velocity[0]>>velocity[1]
-	     >>density>>pressure;
+	 
+	  //begin of commented out section
+	  // fin>>::setprecision (35)>>position[0]>>position[1]>>velocity[0]>>velocity[1]>>density>>pressure;
+	  //end of commented out section
+	  position[0]=qx_array[qn];
+	  position[1]=qy_array[qn];
+	  velocity[0]=qvx_array[qn];
+	  velocity[1]=qvy_array[qn];
+	  pressure=qp_array[qn];
+	  density=qrho_array[qn];
+
+
 	  Temperature=materials[material_no]->get_T(pressure,density);
 	  spParticle prtl = boost::make_shared<Particle> ( position, velocity, density, 
 					 pressure, Temperature, 
@@ -373,8 +461,11 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 	  prtl->cell_i = i; prtl->cell_j = j; 
 	  //insert the position into corresponding cell list
 	  cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
+	  LOG_EVERY_N(INFO,100) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no: "<<prtl->cell_i;
 	};
-      fin.close();
+      //begin of commented out section
+      //fin.close();
+      //end of commented out section
     }
   LOG(INFO) << "ParticleManager::BuildRealParticle ends";
 }

@@ -59,11 +59,13 @@ class Interaction {
 
   ///update forces
   void UpdateForces();
+  void UpdateForcesAndRho();
 
   spParticle  getOrigin() const;
   spParticle  getDest() const;
   double getWij() const;
   Vec2d getGradWij() const;
+  double get_rij() const;
 
   /// destructor 
   ~Interaction();

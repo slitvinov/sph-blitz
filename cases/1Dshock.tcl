@@ -5,23 +5,33 @@ set SIMULATION_MODE 2
 # QuinticSpline, BetaSpline, CubicSpline
 set KERNEL_TYPE CubicSpline
 
+#possible integration schemes
+#1: leap frog
+#2: predictor corrector
+set INTEGRATION_SCHEME 1
+
+#possible density treatments
+#1: summation density (density obtained by smoothing)
+#2: continuity density (density is integrated)
+set DENSITY_MODE 2
+
 # initial conditions flag 
 # 0: use initial 
 # 1: use restart file
 set INITIAL_CONDITION 0
 
 # number of cells in X and Y directions
-set CELLS(0) 40
+set CELLS(0) 130
 set CELLS(1) 1
 
 # size of one cell
-set CELL_SIZE 0.05
+set CELL_SIZE 0.03
 
 # support length of the kernel
 set SUPPORT_LENGTH 0.03
 
 # number of particles in one cell size
-# not use in 1D shock 
+# not used in 1D shock 
 set CELL_RATIO 1
 
 # initial particles velocity
@@ -39,8 +49,8 @@ set G_FORCE(1) 0.0
 
 # parameters of artificial viscosity
 set alpha_artVis 1.0
-set beta_artVis 1.0
-set epsilon_artVis 1.0
+set beta_artVis 2.0
+set epsilon_artVis 0.1
 
 # boundary conditions
 # type and velocity
@@ -62,7 +72,7 @@ set UyBu(1) 0.0
 
 # time step
 set Start_time 0.0		
-set End_time 0.25	
+set End_time 0.2	
 set D_time 0.0025
 
 set NUMBER_OF_MATERIALS 2

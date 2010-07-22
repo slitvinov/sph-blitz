@@ -30,33 +30,43 @@ int main ()
   double p_array[N];
   double rho_array[N];
 
-  //reading characteristic data for shock tube problem from file 1DST.dat
-  ifstream fin(inputfile, ios::in);
-  if (!fin)
-  {
-    cout<<"Initialtion: Cannot open "<< inputfile <<" \n";
-    exit(1);
-  }
-  else cout<<"Creating initial condition file 1DShock.ivs"<< inputfile <<" \n"; 
+  // //reading characteristic data for shock tube problem from file 1DST.dat
+  // ifstream fin(inputfile, ios::in);
+  // if (!fin)
+  // {
+  //   cout<<"Initialtion: Cannot open "<< inputfile <<" \n";
+  //   exit(1);
+  // }
+  // else cout<<"Creating initial condition file 1DShock.ivs"<< inputfile <<" \n"; 
 
   //reading key words and configuration data from configuration file and assign them to the appropriate variable
-  while(!fin.eof())
-  {
-    //read a string block
-    fin>>Key_word;
+  // while(!fin.eof())
+  // {
+  //   //read a string block
+  //   fin>>Key_word;
 		
-    //comparing the key words and assigning value to corresponding variable
-    if(!strcmp(Key_word, "pl")) fin>>pl;
-    if(!strcmp(Key_word, "pr")) fin>>pr;
-    if(!strcmp(Key_word, "vl")) fin>>vl;
-    if(!strcmp(Key_word, "vr")) fin>>vr;  
-    if(!strcmp(Key_word, "rhol")) fin>>rhol;
-    if(!strcmp(Key_word, "rhor")) fin>>rhor;  
+    // //comparing the key words and assigning value to corresponding variable
+    // if(!strcmp(Key_word, "pl")) fin>>pl;
+    // if(!strcmp(Key_word, "pr")) fin>>pr;
+    // if(!strcmp(Key_word, "vl")) fin>>vl;
+    // if(!strcmp(Key_word, "vr")) fin>>vr;  
+    // if(!strcmp(Key_word, "rhol")) fin>>rhol;
+    // if(!strcmp(Key_word, "rhor")) fin>>rhor;  
 
-  }  
-  fin.close();
+    //left hand side values
+    pl= 1.0;
+    rhol= 1.0;
+    vl= 0.0;
 
-  x=1-N_l*delta_l;
+  //right hand side values
+    pr= 0.1;
+    rhor= 0.125;
+    vr= 0.0;
+
+  // }  
+  // fin.close();
+
+  x=2-N_l*delta_l;
 
   for(int i=0;i<N_l;i++)
   {
@@ -69,7 +79,7 @@ int main ()
        rho_array[i]=rhol;
       
   };
-  x=1;
+  x=2;
  for(int i=N_l;i<N;i++)
  {
        x_array[i]=x;
@@ -87,7 +97,7 @@ ofstream out("1Dshock.ivs");
 
 for(int i=0;i<N;i++)
    {
-      out <<setprecision (7)<< ::setw( 12 )<<x_array[i]<<::setw( 12 )<<y_array[i]<<::setw( 12 )<<vx_array[i]<<::setw( 12 )<<vy_array[i]<<::setw( 12 )<<rho_array[i]<<::setw( 12 )<<p_array[i]<<endl;
+      out <<setprecision (27)<<"  "<<x_array[i]<<"  "<<y_array[i]<<"   "<<vx_array[i]<<"   "<<vy_array[i]<<"   "<<rho_array[i]<<"   "<<p_array[i]<<endl;
    };
 
  out.close();

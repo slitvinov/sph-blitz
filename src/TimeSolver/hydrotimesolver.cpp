@@ -99,6 +99,14 @@ void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManag
   }
 }
 
+
+void HydroTimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
+					Boundary &boundary,
+					double &Time, double D_time,
+					const Initiation &ini, spKernel weight_function)
+{int g=0;
+}
+
 HydroTimeSolver::~HydroTimeSolver() {
   LOG(INFO) << "destructor of HydroTimeSolver is called";
 }

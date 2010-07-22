@@ -44,7 +44,8 @@ Initiation::Initiation(const std::string& project_name) {
 	initial_condition = interp.eval("[return $INITIAL_CONDITION]");
         assert( (initial_condition == 0) || (initial_condition == 1));
 	simu_mode = interp.eval("[return $SIMULATION_MODE]");
-        assert(simu_mode == 1 || simu_mode == 2);
+	density_mode = interp.eval("[return $DENSITY_MODE]");
+        assert(density_mode == 1 || density_mode == 2);
 	kernel_type = static_cast<std::string>(interp.eval("[return $KERNEL_TYPE]"));
 
 	/// if gas dynamics
@@ -179,7 +180,7 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
     // /// <li> save volume and mass in the respective particle list node (whih is each a spParticle object with all the particle properties) 
     // prtl_org->V = reciprocV;
     // prtl_org->m = prtl_org->rho*reciprocV;
-     LOG_EVERY_N(INFO, 1) << "prtl_org->m  = " << prtl_org->m;
+    LOG_EVERY_N(INFO, 100) << "prtl ID"<<prtl_org->ID<<"prtl m  = " << prtl_org->m;
 
   }
   LOG(INFO)<<"Initiation::VolumeMass ends";

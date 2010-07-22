@@ -65,12 +65,12 @@ int main(int argc, char *argv[]) {
   std::string aux_string  = std::string(argv[1]);
   ///- global initialization 
   /// (by defining an object of class Initiation (initialization "automatically" done at this moment 
-  /// (from .cfg or .rst file) by constructor method of Initiation class. 
+  /// (from .tcl or .rst file) by constructor method of Initiation class. 
   /// That is by the way the reason why the initiation::initiation method does not figure 
   /// in the call graph of the main function (constructors are not shwon there)
   Initiation ini(aux_string); 
 
-  /// choost a kernel
+  /// choose a kernel
   spKernel weight_function;
   if  (ini.kernel_type == "CubicSpline")   {
       weight_function = boost::make_shared<CubicSpline>(ini.supportlength); 
@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
   else if (ini.kernel_type == "QuinticSpline")   {
       weight_function = boost::make_shared<QuinticSpline>(ini.supportlength); 
   } else {
-      std::cerr << __FILE__ << ':' << __LINE__ << " unknown kerenel type (KERNEL_TYPE in configuration file)\n" ;
+      std::cerr << __FILE__ << ':' << __LINE__ << " unknown kernel type (KERNEL_TYPE in configuration file)\n" ;
       std::cerr << __FILE__ << ':' << __LINE__ << " KERNEL_TYPE: " << ini.kernel_type;
       exit(EXIT_FAILURE);
   }
@@ -93,7 +93,7 @@ int main(int argc, char *argv[]) {
   Hydrodynamics hydro(particles, ini); ///- create materials, forces and real particles
   Boundary boundary(ini, hydro, particles); ///- initiate boundary conditions and boundary particles
   
-  /// a smart pinter to timesolver
+  /// a smart pointer to timesolver
   spTimeSolver timesolver;
   switch (ini.simu_mode) {
     case 1: 
@@ -134,13 +134,17 @@ int main(int argc, char *argv[]) {
     srand( static_cast<unsigned int>(time( NULL ) ));
 		
     //control output
-    LOG(INFO)<< "new output intervall beginns:output interval time:" << ini.D_time;
+    LOG(INFO)<< "new output intervall begins:output interval time:" << ini.D_time;
 		  
     ///- call the time slover (who iterates over one output time interval)
-    timesolver->TimeIntegral_summation(hydro, particles, boundary, Time, 
+    if(ini.density_mode==1)  //summation density
+      timesolver->TimeIntegral_summation(hydro, particles, boundary, Time, 
+				      ini.D_time, ini, weight_function);
+    else//continuity density (density integrated)
+      timesolver->TimeIntegral(hydro, particles, boundary, Time, 
 				      ini.D_time, ini, weight_function);
 		
-    hydro.UpdateState(ini);///to update p,T,Cs to new values before output 
+    // hydro.UpdateState(ini);///to update p,T,Cs to new values before output 
     //control output
     LOG(INFO)<<"time is "<<Time<<"\n";
     ///- output results after a time interval\n\n

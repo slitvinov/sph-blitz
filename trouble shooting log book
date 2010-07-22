@@ -28,10 +28,55 @@ possible causes, errors in the code:
 
   
 
-  -particle manager could  "forget" particles when transferring it from one cell to another!?!
+  -PARTICLE MANAGER could  "forget" particles when transfering it from one cell to another!?!
     --therefore: detecting cell interface locations and look for link between them and the places where strange particle behaviour occurrs
-    --
-
   -no boundary condition (free edge) is implemented, see how particle manager handles particles at the very edge
+    ==>cell linked list created by particle manager: "cell_lists" with size of cell size from initiation file +2 (because of boundary particles in general)
+    
+
+    the following methods for PARTICLE MANAGER are TESTED
+
+	*BuildRealParticle:
+	  + particles are all read from initiation file, created in the program and have the right initial values
+	  + check where particles are inserted in particle list (cell size 0.05, final nb of cells in x: 42, y:3)
+	      -test particle 1: (x=0,y=0) -->i=1,j=1 (where i is the cell number in x direction (0-41), j in y direction (0-2);
+	      -test particle 2: (x=0.07,y=0) -->i=2,j=1 (where i is the cell number in x direction (0-41), j in y direction (0-2);
+	      -test particle 3: (x=1.99,y=0) -->i=40,j=1 (where i is the cell number in x direction (0-41), j in y direction (0-2);
+	  OKAY!
+
+
+	*BuildNPP:
+	  *NPP_list for the particle in question is created
+	  method not used in the program->NO INFLUENCE!
+
+	*constructor:
+	*UpdateCellLinkedLists:
+      
+	*BuildInteraction:
+	  in line 174 the conditions 0<position<2: they lead to the fact that particles leaving this domain are not taken intoaccount any more for interactions. This makes the neighboring particles move faster (as for them, they don't exist any more-->they pass the edge particle.)
+
+	    Problem: if I want to remove this restriction and let the particles flow out of the domain 0<pos<2, there is an error in line 183 as soon as the particles position becomes <0 as the indx i of the list would become negative!!
+	    (for the case with boundary conditions, this is not a problem as a negative position will never occurr (particles are copied and reinserted according to their boundary condition once they leave the domain ).
+
+	    -->one possible SOLUTION: move the calculation domain from 0---2 to 1---3!
+	    Attention: cell numeration starts at 0 for the first cell which mandatory is in position x=0. To cover the whole domain we need at least until x=3.
+	    With this solution implemented, the particles at the edge of the domain move as phsyically predicted and there is no passing of particles any more.
+	    The simulation will report an error as soon as the first particle has moved out of the domain covered by cells (in the current form I have used 7 cells with a size of 0.5 each and thus ranging from 0 - 3.5) NOW: LATER VERSION: 130 cells with size 0.03 covers 0 - 3.9) (0.03 is the optimum cell size, as size = supportlength)
+	    
+	    HOWEVER the particle movement at the interface still is not as it should. One possible reason for this can be due to an erroneous ARTIFICIAL VISCOSITY implementation/calculation.
+	    
+
+	  + neighboring particle search:
+	    results of interaction list for first time step compared to 1DSPH code...OKAY!
+	    at this occasion the smoothing function and derivative calculation in CUBICSPLINE.cpp has been verified by comparing to the 1DSPH values. As a first step a 1D kernel is implemented and I adapted the factors. I have detected an (probable) error at the call of the dW method: instead of the normalized vector eij, the normal distance vecetor rij was given as an argument. The correction of this error leads to new dW results which on the other hand lead to higher change rates and a more realistic (as faster, in accordance to 1DSPH) particle movement....now OKAY!
+
+	    
+	(*BuildWallParticle:)
+
+The comparison of the Art. Visc. between 1DSPH and the big code results in small differences. As the actual formula for the art.vis. calculation is good, there must probably be an error with the values used in this equation. one possible source of error might be the integration scheme!?!(1DSPH uses leapfrog, the big code predictor corrector). Anyway, to allow for better comparison of the two (even if the error does not lie in the integrator) I will try to implement the leap frog scheme in the big code.
+
+As particle manager seems to be OKAY, the hext method examined will be the time integration method. (perhaps the predictor/corrector step does not work for discontinuities/shocks? and a leap frog scheme would work better!?!
+
+  
 
   -

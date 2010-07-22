@@ -42,6 +42,8 @@ public:
 
   ///simulation mode (1:liquids, 2: gas dynamics)
   int simu_mode;
+  ///density mode (1:#1: summation density (density obtained by smoothing),#2: continuity density (density is integrated)
+  int density_mode;
   ///supportlength
   double supportlength;
   ///the compuational domain size

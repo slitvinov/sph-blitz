@@ -58,16 +58,21 @@ Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest,
   rrij = 1.0/rij;
   eij = (Org->R - Dest->R)*rrij;
   Wij = weight_function->w(rij);
-  gradWij=weight_function->gradW(rij,Dest->R-Org->R);
+  gradWij=weight_function->gradW(rij,/*Dest->R-Org->R*/eij);
   Fij = weight_function->F(rij)*rrij; //for Kernel wight fuction
 
-  LOG_EVERY_N(INFO, 10000) << "Interaction created" ;
+  LOG_EVERY_N(INFO, 10000) << "Interaction created, parameters for artvis: a:"<<ini.alpha_artVis<<" b:"<<ini.beta_artVis<<" e:"<<ini.epsilon_artVis;
 }
 
 //-------------------getter for origin-----------------
 spParticle  Interaction::getOrigin() const
 {
   return Org;
+}
+//-------------------getter for distance-----------------
+double Interaction::get_rij() const
+{
+  return rij;
 }
 //--------------------getter for destination---------------------
 spParticle  Interaction::getDest() const
@@ -103,7 +108,7 @@ void Interaction::RenewInteraction(spKernel weight_function)
   rrij = 1.0/rij;
   eij = (Org->R - Dest->R)*rrij;
   Wij = weight_function->w(rij);
-  gradWij=weight_function->gradW(rij,Dest->R-Org->R);
+  gradWij=weight_function->gradW(rij,/*Dest->R-Org->R*/eij);
   Fij = weight_function->F(rij)*rrij; //for Kernel fuction
 }
 //----------------------------------------------------------------------------------------
@@ -118,8 +123,9 @@ void Interaction::SummationDensity() {
   /// with itself
   assert(Org->ID >= Dest->ID);
 
-  Org->rho += mi*Wij;
-  Dest->rho += mj*Wij; 
+
+  Org->rho += mj*Wij;//changed from mi to mj (07/19/10)
+  Dest->rho += mi*Wij; //changed from mj to mi (07/19/10)
 
 }
 
@@ -185,6 +191,7 @@ void Interaction::UpdateForces()
 	  {
 	    piij=0;
 	  };
+	  //LOG_EVERY_N(INFO, 1)<<Org->ID<<"  "<<Dest->ID<<" artvis: "<<piij;
 	  const Vec2d dUdti=-mj*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij;
           const Vec2d dUdtj=mi*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij;
 
@@ -227,6 +234,83 @@ void Interaction::UpdateForces()
           Dest->dUdt -= dPdti*rmj;
 	}
 }
+
+void Interaction::UpdateForcesAndRho()
+{	
+  LOG_EVERY_N(INFO, 1000) << "Interaction::UpdateForces()";
+  
+	//define pair values change in sub time steps
+	const double rhoi = Org->rho; 
+	const double rhoj = Dest->rho;
+
+	/// make sure density is OK
+	assert(rhoi>0.0);
+	assert(rhoj>0.0);
+	
+	//const double rVi = 1.0/Vi; 
+	//const double rVj = 1.0/Vj;
+
+	const double pi = Org->p; 
+	const double pj = Dest->p;
+
+	/// make sure pressure is OK
+	assert(pi>0.0);
+	assert(pj>0.0);
+	
+	const Vec2d Ui = Org->U; 
+	const Vec2d Uj = Dest->U;
+	const Vec2d Uij = Ui - Uj;
+	const double UijdotRij=dot(Uij,(Org->R - Dest->R));
+
+	//pair focres or change rate
+	//Vec2d dPdti, dUdti, dUdtj; //mometum&velocity change rate
+
+	if(ini.simu_mode==2) {
+	  const double supportlength = ini.supportlength;
+	  assert(supportlength>0.0);
+	  assert(rij>0.0);
+	  /// particle must not be that far 
+	  assert(rij<=2.0*supportlength);
+
+	  const double drhodti=mj*dot((Ui-Uj),gradWij);
+	  const double drhodtj=mi*dot((Uj-Ui),((-1)*gradWij));
+	  
+	  const double hij=supportlength/2.0;//=0.5*(hi+hj)for later (variable smoothing length);
+	  const double cij=0.5*(Org->Cs+Dest->Cs);
+          const double rhoij=0.5*(rhoi+rhoj);
+
+	  ///Monaghan artificial viscosity
+	  double piij = 0.0;
+	
+          if (UijdotRij<0)//that means: whenever in compression (as only then artificial viscosity applies for a shock tube problem)
+	    {
+	      //according to formula monaghan artificial viscosity
+	      const double phiij=(hij*UijdotRij)/(pow(rij,2)+ini.epsilon_artVis*pow(hij,2)); 
+	      //according to formula monaghan artificial viscosity
+	    piij=(-1*ini.alpha_artVis*cij*phiij+ini.beta_artVis*pow(phiij,2))/rhoij; 
+          }
+	  else //if no compression: artificial viscosity is zero
+	  {
+	    piij=0;
+	  };
+	  LOG_EVERY_N(INFO, 100)<<Org->ID<<"  "<<Dest->ID<<" artvis: "<<piij;
+	  const Vec2d dUdti=-mj*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij;
+          const Vec2d dUdtj=mi*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij;
+
+	  const double dedti=0.5*dot(dUdti,(Uj-Ui));//could also be the other way round: (Ui-Uj)has to be tried out
+          const double dedtj=0.5*dot(dUdtj,(Ui-Uj));
+
+	  //control output
+          Org->dUdt += dUdti;
+          Dest->dUdt += dUdtj;
+	  Org->dedt+=dedti;
+	  Dest->dedt+=dedtj;
+	  Org->drhodt += drhodti;
+          Dest->drhodt += drhodtj;
+	  
+	};
+}
+
 
 Interaction::~Interaction() {
   LOG_EVERY_N(INFO, 1000) << "Interaction destroyed" ;

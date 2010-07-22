@@ -74,13 +74,13 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
 	      << "  " << prtl->rho << '\n';
         }
 	if (ini.simu_mode == 2)
-	  out<<setprecision(6)
-	     << ::setw(16)<<prtl->R[0] 
-	     << ::setw(16)<<prtl->R[1] 
-	     << ::setw(16) <<prtl->rho 
-	     << ::setw(16)<<prtl->p
-	     << ::setw(16)<<prtl->U[0]
-	     << ::setw(16)<<prtl->e
+	  out<<setprecision(9)
+	     << ::setw(19)<<prtl->R[0] 
+	     << ::setw(19)<<prtl->R[1] 
+	     << ::setw(19) <<prtl->rho 
+	     << ::setw(19)<<prtl->p
+	     << ::setw(19)<<prtl->U[0]
+	     << ::setw(19)<<prtl->e
 	     <<"  "<<prtl->ID<<"\n";
       }
     }
