@@ -74,8 +74,9 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
       {
 	hydro.UpdateUe2Half(dt);
 
-    ///build the boundary particles
-	boundary.BuildBoundaryParticle(particles,hydro);
+	if  (ini.kernel_type != "CubicSpline1D")//if not 1d (as in 1D now BC needed)
+	  ///build the boundary particles
+	  boundary.BuildBoundaryParticle(particles,hydro);
       }
 
     ///build interactions
@@ -83,7 +84,8 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     ///calculate density (by summation)
     hydro.UpdateDensity(ini, weight_function);
     ///update the state of the boundary particles (by copying the real particles' state)
-    boundary.BoundaryCondition(particles);
+    if  (ini.kernel_type != "CubicSpline1D")   
+      boundary.BoundaryCondition(particles);
     ///calculate change rate
     hydro.UpdateChangeRate(ini);
 
@@ -92,8 +94,9 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     else 
       hydro.AdvanceStandardStep(dt);
 
-    ///run away check before cell link lists are updated (due to index purposes)
-    boundary.RunAwayCheck(hydro);  
+    if  (ini.kernel_type != "CubicSpline1D")
+      ///run away check before cell link lists are updated (due to index purposes)
+      boundary.RunAwayCheck(hydro);  
     ///update of cell linked lists
     particles.UpdateCellLinkedLists();
 
@@ -157,7 +160,12 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
 			  <<Time<<"	dt: "<<dt<<"\n";
 
     if(ite!=1)
+      {
       hydro.UpdateUeRho2Half(dt);
+      if  (ini.kernel_type != "CubicSpline1D")//if not 1d (as in 1D now BC needed)
+	  ///build the boundary particles
+	  boundary.BuildBoundaryParticle(particles,hydro);
+      }
 
     ///\todo{change comments to doxygen format, best would probably be to make a list with all if/else statements)}
     //build interactions
@@ -166,6 +174,9 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
       hydro.UpdateDensity(ini, weight_function);
     else//update state without smoothing (p,c,...)
       hydro.UpdateState(ini);
+    //if boundary condition applicable: update boundary particle states
+    if  (ini.kernel_type != "CubicSpline1D")   
+      boundary.BoundaryCondition(particles);
     //update change rates for U, e AND rho
     hydro.UpdateChangeRateInclRho(ini);
 

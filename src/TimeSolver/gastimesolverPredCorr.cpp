@@ -74,8 +74,11 @@ void GasTimeSolverPredCorr::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     ///<li>the prediction step
     hydro.BuildInteractions(particles, weight_function, ini);///<ol><li> rebuild interactions
     hydro.UpdateDensity(ini, weight_function);///<li> hydro.UpdateDensity
-    //control output
-    //	cout<<"\n     --- change rate for predictor:";	
+ 
+    ///<li>update the state of the boundary particles (by copying the real particles' state)
+    if  (ini.kernel_type != "CubicSpline1D")   
+      boundary.BoundaryCondition(particles);
+	
     hydro.UpdateChangeRate(ini);///<li> hydro.UpdateChangeRate
 	  
     hydro.Predictor_summation(dt);///<li>hydro.Predictor_summation</ol>
@@ -84,14 +87,23 @@ void GasTimeSolverPredCorr::TimeIntegral_summation(Hydrodynamics &hydro, Particl
   
     // hydro.BuildInteractions(particles, weight_function, ini);///<ol><li> rebuild interactions (just a test to see, if results are different from UpdateInteractions where only interactiondata (rij, Wij,...) are renewed, but no new interaction search is performed...)
 
+    ///update the state of the boundary particles (by copying the real particles' state)
+    if  (ini.kernel_type != "CubicSpline1D")   
+      boundary.BoundaryCondition(particles);
     hydro.UpdateInteractions(weight_function);///<li> update interactions
     hydro.UpdateDensity(ini, weight_function);///<li>hydro.UpdateDensity
-
+    ///update the state of the boundary particles (by copying the real particles' state)
+    if  (ini.kernel_type != "CubicSpline1D")   
+      boundary.BoundaryCondition(particles);
     //control output
     LOG(INFO)<<"change rate for corrector:";
     hydro.UpdateChangeRate(ini); ///<li>hydro.UpdateChangeRate
     hydro.Corrector_summation(dt);///<li>hydro.Corrector_summation</ol>
     particles.UpdateCellLinkedLists();///<li>particles.UpdateCellLinkedLists  
+    ///update the state of the boundary particles (by copying the real particles' state)
+    if  (ini.kernel_type != "CubicSpline1D")   
+      boundary.BuildBoundaryParticle(particles, hydro);
+
  }
 }
 
@@ -123,15 +135,18 @@ void GasTimeSolverPredCorr::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
     hydro.UpdateChangeRate(ini);///<li>hydro.UpdateChangeRate
     hydro.Predictor(dt);///<li>hydro.Predictor
     hydro.UpdateState(ini);///<li>hydro.UpdateState</ol>
-    ///<li> the correction step without update the interaction list
+     ///<li> the correction step without update the interaction list
     hydro.UpdateInteractions(weight_function);///<ol><li>hydro.UpdatePair
-    boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
+    ///update the state of the boundary particles (by copying the real particles' state)
+    if  (ini.kernel_type != "CubicSpline1D")   
+       boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
     hydro.UpdateChangeRate(ini);///<li>hydro.UpdateChangeRate
     hydro.Corrector(dt);///<li>hydro.Corrector
     hydro.UpdateState(ini);///<li>hydro.UpdateState</ol>
-    ///<li> renew boundary particles
+    if  (ini.kernel_type != "CubicSpline1D")
     boundary.RunAwayCheck(hydro);///<ol><li>boundary.RunAwayCheck
     particles.UpdateCellLinkedLists();///<li>particles.UpdateCellLinkedLists
-    boundary.BuildBoundaryParticle(particles, hydro);
+    if  (ini.kernel_type != "CubicSpline1D")
+      boundary.BuildBoundaryParticle(particles, hydro);///<li> rebuild boundary particles
   }
 }

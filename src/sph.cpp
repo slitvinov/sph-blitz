@@ -162,10 +162,10 @@ int main(int argc, char *argv[]) {
   ini.VolumeMass(hydro, particles, weight_function); //predict particle volume and mass
 
   //for 2D particle distribution BC is needed
-  ///\todo{define a variable which controls the use of boundary conditions}
-  // if(ini.simu_mode==1)	{
+  ///\todo{define a variable which controls the use of boundary conditions and solve it smarter than just testing  if  (ini.kernel_type != "CubicSpline1D") }
+   if  (ini.kernel_type != "CubicSpline1D")
     boundary.BoundaryCondition(particles); //repose the boundary condition
-  //  }
+  
 
   //start time
   double Time = ini.Start_time;
