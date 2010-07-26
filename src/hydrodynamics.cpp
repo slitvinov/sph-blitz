@@ -70,8 +70,8 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   LOG(INFO) << "update of b0 is finished";
 
   ///<li>biuld the real particles
-  particles.BuildRealParticle(materials, particle_list, ini);
-
+  // particles.BuildRealParticle(materials, particle_list, ini);
+particles.BuildRealParticleGasDyn(materials, particle_list, ini);
   LOG(INFO) << "Hydrodynamics object is created";
 }
 
@@ -133,11 +133,11 @@ void Hydrodynamics::UpdateDensity(const Initiation &ini, spKernel  weight_functi
   BOOST_FOREACH(spInteraction pair, interaction_list) {
     pair->SummationDensity();	
   }
- // LOG(INFO)<<"density after smoothing";
+  LOG(INFO)<<"density after smoothing";
 
- //  BOOST_FOREACH(spParticle prtl, particle_list){
- //    LOG(INFO) << setprecision (9)<<prtl->ID<<"    "<<prtl->rho<<endl;
- //  }
+  BOOST_FOREACH(spParticle prtl, particle_list){
+ LOG_EVERY_N(INFO,50) << setprecision (9)<<prtl->ID<<"    "<<prtl->rho<<endl;
+  }
 
   ///- calulate new pressure by calling UpdateState()
   UpdateState(ini);

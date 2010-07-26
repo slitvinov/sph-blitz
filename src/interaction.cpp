@@ -61,7 +61,8 @@ Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest,
   gradWij=weight_function->gradW(rij,/*Dest->R-Org->R*/eij);
   Fij = weight_function->F(rij)*rrij; //for Kernel wight fuction
 
-  LOG_EVERY_N(INFO, 10000) << "Interaction created, parameters for artvis: a:"<<ini.alpha_artVis<<" b:"<<ini.beta_artVis<<" e:"<<ini.epsilon_artVis;
+  LOG_EVERY_N(INFO, 100000) << "Interaction created,interaction pair: "<<Org->ID<<"  "<<Dest->ID<<"org_x: "<<Org->R[0]<<"  Dest_x: "<<Dest->R[0]<<"  org_y: "<<Org->R[1]<<"Dest_y: "<<Dest->R[1];
+
 }
 
 //-------------------getter for origin-----------------

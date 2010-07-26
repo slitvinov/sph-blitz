@@ -1,7 +1,7 @@
 #ifndef INITIATION_H
 #define INITIATION_H
 /// \file initiation.h 
-/// \brief Initiates the simulation
+/// \brief initializes the simulation data
 
 #include "cpptcl.h"
 #include "vec2d.h"
@@ -13,16 +13,18 @@ class Kernel;
 
 ///\brief Initiates the simulation
 /// It must be a one copy of Initiation object
-/// and copy is prevented
+/// and copying is prevented
 class Initiation : boost::noncopyable {
 public:
 	
   ///the project name
   std::string Project_name;
+  //the ivs file name
+  std::string Ivs_file_name;
 
   ///kernel type
   /// possible values are
-  /// QuinticSpline, BetaSpline, CubicSpline
+  /// QuinticSpline, BetaSpline, CubicSpline, CubicSpline1D
   std::string kernel_type;
 
   ///\brief number of materials
@@ -34,15 +36,27 @@ public:
   ///tcl interpreter to read configuration data
   Tcl::interpreter interp; 
 
+  ///\brief integation scheme selection
+  ///
+  ///possible integration schemes
+  ///- 1: leap frog
+  ///- 2: predictor corrector
+  int integration_scheme;
+
+
   /// \brief initial condition marker:
   ///
-  ///- 0 initialize from the .cfg file; 
+  ///- 0 initialize from the .tcl file (+.ivs file for gas dynamics); 
   ///- 1 read from the .rst file particle by particle with non-dimensional data
   int initial_condition;
 
-  ///simulation mode (1:liquids, 2: gas dynamics)
+  ///simulation mode (1: liquids, 2: gas dynamics)
   int simu_mode;
-  ///density mode (1:#1: summation density (density obtained by smoothing),#2: continuity density (density is integrated)
+
+  ///\brief density mode marker
+  ///
+  ///- 1: summation density (density obtained by smoothing),
+  ///- 2: continuity density (density is integrated)
   int density_mode;
   ///supportlength
   double supportlength;
@@ -74,9 +88,11 @@ public:
   double beta_artVis;
   double epsilon_artVis;
 
-  ///constructor
-  ///\param *project_name: a pointer to the project name array (the project name is defined as a main-function argument and therefore given as an additional command line element when running the progam) 
-  explicit Initiation(const std::string& project_name);
+  
+ ///constructor 
+  ///\param *project_name: a pointer to the project name array (the project name is defined as a main-function argument and therefore given as an additional command line element when running the progam)
+///\param *ivs_file_name: a pointer to the project ivs file name array (the ivs file name is defined as the second main-function argument)or to NULL in case no ivs file is needed (liquids simulation)
+  explicit Initiation(const std::string& project_name, const std::string& ivs_file_name);
   ///show information on screen
   void show_information() const;
   ///predict the particle volume and mass

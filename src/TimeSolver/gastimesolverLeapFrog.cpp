@@ -1,4 +1,4 @@
-/// \file gastimesolver.cpp
+/// \file gastimesolverLeapFrog.cpp
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 /// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
 
@@ -23,7 +23,7 @@
 #include "glbfunc.h"
 #include "hydrodynamics.h"
 #include "particlemanager.h"
-#include "TimeSolver/gastimesolver.h"
+#include "TimeSolver/gastimesolverLeapFrog.h"
 #include "initiation.h"
 #include "boundary.h"
 
@@ -32,14 +32,14 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //							constructor
 //----------------------------------------------------------------------------------------
-GasTimeSolver::GasTimeSolver():
+GasTimeSolverLeapFrog::GasTimeSolverLeapFrog():
   ite(0)
 {
   ///- initialize the iteration
-  std::cerr << "\n initiation of hydrotimesolver succeeded\n ";
+  std::cerr << "\n initiation gas timesolver leap frog succeeded\n ";
 }
 
-void GasTimeSolver::show_information() const {
+void GasTimeSolverLeapFrog::show_information() const {
 
 }
 
@@ -48,7 +48,7 @@ void GasTimeSolver::show_information() const {
 //					predictor and corrector method used
 //----------------------------------------------------------------------------------------
 ///time integration without density (summation density approach)
-void GasTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 
+void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 
                                            Boundary &boundary,
                                            double &Time, double D_time,
                                            const Initiation &ini, spKernel weight_function)
@@ -69,25 +69,22 @@ void GasTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager
     Time += dt;
 	  
        ///<ul><li>screen information for the iteration
-    if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
-			  <<Time<<"	dt: "<<dt<<"\n";
-
-    //below is new code
+    if(ite % 10 == 0) cout<<"N="<<ite<<" Time: " <<Time<<"	dt: "<<dt<<"\n";
     if(ite!=1)
       {
 	hydro.UpdateUe2Half(dt);
 
-    ///hiernach (noch in deer if schleife) würde ich das BuildBoundaryParticles machen, da es ja für Schritt 1 schon in sph gemacht wird
+    ///build the boundary particles
 	boundary.BuildBoundaryParticle(particles,hydro);
       }
 
-    //this block corresponds to calcDerivatives
+    ///build interactions
     hydro.BuildInteractions(particles, weight_function, ini);
+    ///calculate density (by summation)
     hydro.UpdateDensity(ini, weight_function);
-
-    //hierzwischen muss glaub ich ein boundaryCondition aufruf, um die daten zu aktualisieren, da in updateChangeRate die Particles  benutzt werden (die ja schon auf der interaktion list stehen)
+    ///update the state of the boundary particles (by copying the real particles' state)
     boundary.BoundaryCondition(particles);
-
+    ///calculate change rate
     hydro.UpdateChangeRate(ini);
 
     if(ite==1)  
@@ -95,12 +92,10 @@ void GasTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager
     else 
       hydro.AdvanceStandardStep(dt);
 
-    //hier würde ich den runaway check (für real particles) einfügen, damit wenn die Zellliste aktualisiert wird, es keine probleme mit den indizes gibt, wenn partikel negatives R kriegen, bzw, damit sie immer in domain bleiben...
+    ///run away check before cell link lists are updated (due to index purposes)
     boundary.RunAwayCheck(hydro);  
-
+    ///update of cell linked lists
     particles.UpdateCellLinkedLists();
-
-    //end new code
 
     /*
 
@@ -137,7 +132,7 @@ void GasTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager
  }
 }
 ///time integration including density (continuity density approach)
-void GasTimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
+void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
                                            Boundary &boundary,
                                            double &Time, double D_time,
                                            const Initiation &ini, spKernel weight_function)
@@ -161,16 +156,17 @@ void GasTimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particle
     if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
 			  <<Time<<"	dt: "<<dt<<"\n";
 
-    //below is new code
     if(ite!=1)
       hydro.UpdateUeRho2Half(dt);
 
-    //this block corresponds to calcDerivatives
+    ///\todo{change comments to doxygen format, best would probably be to make a list with all if/else statements)}
+    //build interactions
     hydro.BuildInteractions(particles, weight_function, ini);
     if(ite==1) //smooth density (only) at first time step  
       hydro.UpdateDensity(ini, weight_function);
-    else
+    else//update state without smoothing (p,c,...)
       hydro.UpdateState(ini);
+    //update change rates for U, e AND rho
     hydro.UpdateChangeRateInclRho(ini);
 
 
@@ -178,7 +174,9 @@ void GasTimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particle
       hydro.AdvanceFirstStepInclRho(dt);
     else 
       hydro.AdvanceStandardStepInclRho(dt);
-
+    //perform run away check before updating linked lists (due to index purposes)
+    boundary.RunAwayCheck(hydro); 
+    //update cell linked list
     particles.UpdateCellLinkedLists();
   }
 }

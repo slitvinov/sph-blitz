@@ -44,10 +44,15 @@ public:
 
 
 
-  ///buid the initial particles and the linked lists
+  ///buid the initial particles and the linked lists for liquids (incompressible)
   void BuildRealParticle(vecMaterial materials,
 			 std::list<spParticle >& particle_list,
 			 Initiation &ini);
+  ///build the initial particles and the linked lists for gas dynamcis
+  void BuildRealParticleGasDyn(vecMaterial materials, 
+					std::list<spParticle >& particle_list, 
+			       Initiation &ini);
+
   ///buid the initial wall particles and the linked lists
   void BuildWallParticle(Hydrodynamics &hydro, Boundary &boundary);
 

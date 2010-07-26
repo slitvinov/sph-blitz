@@ -24,7 +24,7 @@ Particle::~Particle ()
 
 }
 //----------------------------------------------------------------------------------------
-//							real particle
+//							real particle (constructor for liquids mode (as mass calculated afterwards)
 //		NOTE the particle mass and volume will be specified initiation::VolumeMass(w)
 //----------------------------------------------------------------------------------------
 Particle::Particle (Vec2d position, Vec2d velocity, double density, 
@@ -54,11 +54,57 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
   U = velocity; U_I = U;
 	
   ///- set conservative values (mass and volume determined lateron) and their  intermediate values
-  m = 0.0; V = 0.0; e = mtl->get_e(T); e_I = e;
+  // m = 0.0; // for 2D shock tube mass is initialized from the external
+ V = 0.0; e = mtl->get_e(T); e_I = e;
   R_I = R; P_I = P; rho_I = rho;
   P_n = P; U_n = U; rho_n = rho; e_n = e; 
 
 }
+
+
+
+//----------------------------------------------------------------------------------------
+//							real particle (constructor for gas dynamicss mode (as mass initilaized from external file and so hs to be assigned in within the construtor)
+//	
+//----------------------------------------------------------------------------------------
+Particle::Particle (Vec2d position, Vec2d velocity, double density, 
+		    double pressure, double mass,double temperature, 
+		   spMaterial material) 
+  : bd(0),
+    mtl(material)
+{
+
+  ///- increase the total particle number
+  ID_max++;
+	
+  ///- give a new ID number
+  ID = ID_max;
+
+  ///- point to the material properties
+
+
+  ///- set viscosity
+  eta = mtl->eta;
+
+  ///- set particle position
+  R = position; 
+	
+  ///- set states
+  rho = density; m=mass; p = pressure; T = temperature; Cs = mtl->get_Cs(p, rho);  U = velocity; U_I = U;
+	
+  ///- set conservative values (mass and volume determined lateron) and their  intermediate values
+  // m = 0.0; // for 2D shock tube mass is initialized from the external
+ V = 0.0; e = mtl->get_e(T); e_I = e;
+  R_I = R; P_I = P; rho_I = rho;
+  P_n = P; U_n = U; rho_n = rho; e_n = e; 
+
+}
+
+
+
+
+
+
 //----------------------------------------------------------------------------------------
 //								construct a wall particle
 //----------------------------------------------------------------------------------------
@@ -151,7 +197,7 @@ void Particle ::StatesCopier(spParticle RealParticle , int type)
   R = RealParticle->R; m = RealParticle->m;
   rho = RealParticle->rho; V = RealParticle->V;
   p = RealParticle->p; T = RealParticle->T;
-  e = RealParticle->e;
+  e = RealParticle->e; e_I=RealParticle->e_I;
   rho_I = RealParticle->rho_I;
   Cs =RealParticle->Cs; U = RealParticle->U; U_I = RealParticle->U_I;
 }

@@ -75,12 +75,12 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
         }
 	if (ini.simu_mode == 2)
 	  out<<setprecision(9)
-	     << ::setw(19)<<prtl->R[0] 
-	     << ::setw(19)<<prtl->R[1] 
-	     << ::setw(19) <<prtl->rho 
-	     << ::setw(19)<<prtl->p
-	     << ::setw(19)<<prtl->U[0]
-	     << ::setw(19)<<prtl->e
+	     << ::setw(15)<<prtl->R[0] 
+	     << ::setw(15)<<prtl->R[1] 
+	     << ::setw(15) <<prtl->rho 
+	     << ::setw(15)<<prtl->p
+	     << ::setw(15)<<prtl->U[0]
+	     << ::setw(15)<<prtl->e
 	     <<"  "<<prtl->ID<<"\n";
       }
     }
@@ -97,9 +97,15 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
 	if (j == 1) {
           out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
         }
-          out << prtl->R[0] << "  " << prtl->R[1]
-	      << "  " << prtl->U[0] << "  " << prtl->U[1]
-	      << "  " << prtl->rho << '\n';
+out<<setprecision(9)
+	     << ::setw(15)<<prtl->R[0] 
+	     << ::setw(15)<<prtl->R[1] 
+	     << ::setw(15) <<prtl->rho 
+	     << ::setw(15)<<prtl->p
+	     << ::setw(15)<<prtl->U[0]
+	     << ::setw(15)<<prtl->e
+	     <<"  "<<prtl->ID<<"\n";
+          
       }
     }
   }

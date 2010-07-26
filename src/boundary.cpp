@@ -31,6 +31,7 @@ Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &parti
   y_clls = particles.y_clls;
   // check if inputfile exist
   /// - reading key words and configuration data from input file
+  ///\todo{prehaps also implement an open boundary condition. at the moment shock tube simulations are done with "artificial" open edge by defining the domain from 0 til 3.9 and only placing particles from 1-3, so whatever boundary condition is precised for xbl and xbr in the initiation file (tcl) it practically has no effect.}
   xBr = ini.interp.eval("[return $xBr]");
   UxBr[0] = ini.interp.eval("[return $UxBr(0)]");
   UxBr[1] = ini.interp.eval("[return $UxBr(1)]");
@@ -50,10 +51,10 @@ Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &parti
 
   show_information();
 
-  if (ini.simu_mode == 1) {
+  // if (ini.simu_mode == 1) {
     /// build boundary particles
     BuildBoundaryParticle(particles, hydro);
-  };
+    // };
   LOG(INFO) << "boundary condition constructor successfully executed";
 }
 
@@ -252,9 +253,10 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
                     
         //the original real particle
         spParticle prtl_old = *p11;
+	///create a new particle identical to old particle ("copy")(boost creats smart pointer and the corresponding object)
         spParticle prtl = boost::make_shared<Particle>(prtl_old);
 
-        //boundary condition
+        ///boundary condition (modify properties of copied particle accroding to boundary condition)
         Boundary_W(prtl);
                 
         //in which cell

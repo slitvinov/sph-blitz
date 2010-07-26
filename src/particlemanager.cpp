@@ -173,10 +173,7 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
        p++) {
       /// <ul><li> choose origin particle 
       spParticle prtl_org = *p;
-      if(prtl_org->bd == 0/* && prtl_org->R[0]>=0 && prtl_org->R[0]<=2*/)//the second 
-	// and the third condition have been added for the 1D shock case 
-	// (as there are no boundary conditions and particles who 
-	// left the domains should not be considered any more) 
+      if(prtl_org->bd == 0)
 	{
 	  ///<li>find out where(in which cell) the particle is
 	  const int i = int ((prtl_org->R[0] + cll_sz)/ cll_sz);
@@ -232,6 +229,7 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
 }
 //----------------------------------------------------------------------------------------
 //					build the initial particles and the linked lists
+//                                      FOR INCOMPRESSIBLE SIMULATION
 //----------------------------------------------------------------------------------------
 void ParticleManager::BuildRealParticle(vecMaterial materials, 
 					std::list<spParticle >& particle_list, 
@@ -243,9 +241,8 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
   double density, pressure, Temperature;
   int material_no;
 
-  ///initial particles either from .cfg file or from .rst file or from .ivs (Initial Values Shock tube)file
-  if(ini.simu_mode==1)//for liquids
-  {
+  ///initial particles either from .tlc file or from .rst file 
+ 
       //initialize particles from the file .tlc
       if(initial_condition==0) {	
 	//initialize the real particles inside the boundary
@@ -269,14 +266,14 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 		  pressure += ini.p0;
 		  density = materials[material_no]->get_rho(pressure);
 		}
-		//creat a new real particle
+		//create a new real particle
                 LOG_EVERY_N(INFO, 100) << "Create a particle with position: " << position;
 		spParticle prtl = boost::make_shared<Particle>(position, velocity, 
 							       density, pressure, 
 							       Temperature, 
 							       materials[material_no]);
 		prtl->cell_i = i; prtl->cell_j = j; 
-		//insert its poistion on the particle list
+		//insert particle in the particle list
 		particle_list.push_back(prtl);
                 LOG_EVERY_N(INFO, 100) << "The particle is insertet into the particle list";
 		//insert the position into corresponding cell list
@@ -344,22 +341,29 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 	fin.close();
 	LOG(INFO)<<"Initialtion of Read real particle data from "<< inputfile <<"done! \n"; 
       }
-    }
-  if(ini.simu_mode==2)//gas dynamics
-    {
-     
- double vl=0,vr=0,pl=0,pr=0,rhol=0,rhor=0;
-  double x=0;
-  double domain_size=2.0;
-  double delta_l=0.001875;
-  double delta_r=0.001875*8;
+          
+  LOG(INFO) << "ParticleManager::BuildRealParticle ends";
+}
+
+
+//----------------------------------------------------------------------------------------
+//					build the initial particles and the linked lists
+//                                      FOR COMPRESSIBLE SIMULATION
+//----------------------------------------------------------------------------------------
+void ParticleManager::BuildRealParticleGasDyn(vecMaterial materials, 
+					std::list<spParticle >& particle_list, 
+					Initiation &ini)
+{
+	
+  LOG(INFO) << "Start BuildRealParticleGasDyn\n";
+
+  double density, pressure, Temperature, mass;
+  int material_no;
+
+  ///initial particles either  from .rst file or from .ivs (Initial Values Shock tube)file
  
-  
-
-
-
-       const std::string inputfile ="../cases/1Dshock.ivs";
-       int material_no = 1; //number for Air (second line in cfg file (->index 1)
+  const std::string inputfile =std::string(ini.Ivs_file_name);
+       material_no = 1; //number for Air (second line in cfg file (->index 1)
       //check if the .ivs file exists
       ifstream fin(inputfile.c_str(), ios::in);
       if (!fin) {
@@ -377,37 +381,35 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 	{ 
           Vec2d position;
           Vec2d velocity;
-	 
-	 
-	   fin>>::setprecision (35)>>position[0]>>position[1]>>velocity[0]>>velocity[1]>>density>>pressure;
+ 	 
+	  fin>>position[0]>>position[1]>>velocity[0]>>velocity[1]>>density>>pressure>>mass;
 	  
-
-
 	  Temperature=materials[material_no]->get_T(pressure,density);
-	  spParticle prtl = boost::make_shared<Particle> ( position, velocity, density, 
-					 pressure, Temperature, 
-					 materials[material_no]);
-	  //insert its poistion on the particle list
+	  spParticle prtl = boost::make_shared<Particle> ( position, velocity, density, pressure, mass, Temperature, materials[material_no]);
+	  //insert its position on the particle list
 	  particle_list.insert(particle_list.begin(), prtl);
 					
 	  //where is the particle
-	  const int i = int (prtl->R[0] / cll_sz)+1;//I had to remove the "+1" because there is no boundary particle cells
-	  const int j = int (prtl->R[1] / cll_sz)+1;//but works better with it!!!???!!!
+	  const int i = int (prtl->R[0] / cll_sz)+1;//so, a particle at position x=0 is insertet in cell nr. 1 (second cell), as cell nr 0 (first cell reserved forboundary particles)
+	  const int j = int (prtl->R[1] / cll_sz)+1;
 					
 	  prtl->cell_i = i; prtl->cell_j = j; 
 	  //insert the position into corresponding cell list
 	  cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
-	  LOG_EVERY_N(INFO,100) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no: "<<prtl->cell_i;
+	  LOG_EVERY_N(INFO,100) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no (starts at 0 (for boundary particle, 1 is first real particle cell)): "<<prtl->cell_i;
 	};
       
       fin.close();
       
-    }
-  LOG(INFO) << "ParticleManager::BuildRealParticle ends";
+   LOG(INFO) << "ParticleManager::BuildRealParticleGasDyn ends";
 }
+
+
+
 //----------------------------------------------------------------------------------------
-//				buid the initial wall particles and the linked lists
+//				build the initial wall particles and the linked lists (NOT USED in current code version (method with similar function in boundary class)
 //----------------------------------------------------------------------------------------
+///\todo{ParticleManager::BuildWallParticle NOT USED in current code version (method with similar function in boundary class, can therefore perhaps be removed!?!}
 void ParticleManager::BuildWallParticle(Hydrodynamics &hydro, Boundary &boundary)
 {
   ///left hand border (corresponds to the first column)

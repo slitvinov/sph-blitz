@@ -22,7 +22,8 @@
 #include "glbfunc.h"
 #include "particlemanager.h"
 #include "hydrodynamics.h"
-#include "TimeSolver/gastimesolver.h"
+#include "TimeSolver/gastimesolverLeapFrog.h"
+#include "TimeSolver/gastimesolverPredCorr.h"
 #include "vec2d.h"
 #include "interaction.h"
 #include "TimeSolver/hydrotimesolver.h"
@@ -31,6 +32,7 @@
 #include "boundary.h"
 #include "Kernel/quinticspline.h"
 #include "Kernel/cubicspline.h"
+#include "Kernel/cubicspline1D.h"
 #include "Kernel/betaspline.h"
 #include <boost/smart_ptr/make_shared.hpp>
 
@@ -61,14 +63,34 @@ int main(int argc, char *argv[]) {
     LOG(INFO) << " No Project Name Specified!!\n";
     exit(EXIT_FAILURE);
   }
+
+ 
   /// initializations
+
   std::string aux_string  = std::string(argv[1]);
+  std::string aux_string2 = std::string();
+
+  ///if second input parameter exists, write it in auxiliary varaible
+  if (argc==3)  {
+    //call compressible initiation constructor
+     aux_string2  = argv[2];
+  }
+  if (argc>3)
+    {
+      LOG(INFO) << "too many input parameters to main function specified!n";
+      exit(EXIT_FAILURE);
+    };
   ///- global initialization 
-  /// (by defining an object of class Initiation (initialization "automatically" done at this moment 
-  /// (from .tcl or .rst file) by constructor method of Initiation class. 
-  /// That is by the way the reason why the initiation::initiation method does not figure 
-  /// in the call graph of the main function (constructors are not shwon there)
-  Initiation ini(aux_string); 
+  /// (by defining an object of class Initiation (initialization "automatically" done at this moment (from .tcl or .rst file) by constructor method of Initiation class. 
+  /// That is by the way the reason why the initiation::initiation method does not figure in the call graph of the main function (constructors are not shwon there)
+  Initiation ini(aux_string, aux_string2);
+
+
+//for gas dynamics (simu_mode=2) check if second input parameter to main (initial condition file .ivs) exists
+   if (argc<3 && ini.simu_mode==2)  {
+    LOG(INFO) << " No Initiation File Specified (program runs in gas dynamics mode)!!\n";
+    exit(EXIT_FAILURE);
+  }
 
   /// choose a kernel
   spKernel weight_function;
@@ -79,8 +101,12 @@ int main(int argc, char *argv[]) {
       weight_function = boost::make_shared<BetaSpline>(ini.supportlength); 
   } 
   else if (ini.kernel_type == "QuinticSpline")   {
-      weight_function = boost::make_shared<QuinticSpline>(ini.supportlength); 
-  } else {
+      weight_function = boost::make_shared<QuinticSpline>(ini.supportlength);
+  } 
+  else if (ini.kernel_type == "CubicSpline1D")   {
+      weight_function = boost::make_shared<CubicSpline1D>(ini.supportlength);
+  }
+ else {
       std::cerr << __FILE__ << ':' << __LINE__ << " unknown kernel type (KERNEL_TYPE in configuration file)\n" ;
       std::cerr << __FILE__ << ':' << __LINE__ << " KERNEL_TYPE: " << ini.kernel_type;
       exit(EXIT_FAILURE);
@@ -89,22 +115,42 @@ int main(int argc, char *argv[]) {
   weight_function->show_information();
 
 
-  ParticleManager particles(ini); ///- initiate the particle manager
-  Hydrodynamics hydro(particles, ini); ///- create materials, forces and real particles
-  Boundary boundary(ini, hydro, particles); ///- initiate boundary conditions and boundary particles
+  ParticleManager particles(ini); ///< - initiate the particle manager
+  Hydrodynamics hydro(particles, ini); ///< - create materials, forces and real particles
+
+  //define variable which indicates if the particle distribution for 1D simulation is purely 1D (where no bounady conditions are needed) or 2D (need to implement periodic BC in y-direction) 
+  ///\todo{this is only a temporary solution, when code works, the variable can either be moved into external initiation file, or the purely 1D case can be  removed completely (but not as long as the 2D particle distribution does not work!!!)} 
+  //0 means: no BC (for 1D particle distribution)
+  //1 means: with BC (for 2D particle distribution)
+  // int boundCond=0;
+  // if (boundCond!=0) 
+  //--> does not work, as instance of boundary class is needed for many methods...
+    Boundary boundary(ini, hydro, particles); ///< - initiate boundary conditions and boundary particles
   
   /// a smart pointer to timesolver
   spTimeSolver timesolver;
-  switch (ini.simu_mode) {
+  switch (ini.simu_mode) 
+  {
     case 1: 
       /// call a HydroTimeSolver constructor and get a shared_ptr 
       timesolver = boost::make_shared<HydroTimeSolver>();
       break;
     case 2:
-      /// call a GasTimeSolver constructor and get a shared_ptr 
-      timesolver = boost::make_shared<GasTimeSolver>();
-      break;
-    default:
+       switch (ini.integration_scheme)
+       {
+         case 1: 
+	   /// call a GasTimeSolverLeapFrog constructor and get a shared_ptr 
+	   timesolver = boost::make_shared<GasTimeSolverLeapFrog>();
+	   break;
+         case 2:
+	   /// call a GasTimeSolverPredCorr constructor and get a shared_ptr 
+	   timesolver = boost::make_shared<GasTimeSolverPredCorr>();
+	   break;
+         default:
+	  std::cerr << __FILE__ << ':' << __LINE__ << " unknown time solver scheme, must be 1: leap frog, or 2: Predictor Corrector (INTEGRATION_SCHEME parameter in configuration file)\n" ;
+	  exit(EXIT_FAILURE);
+       }
+      default:
       std::cerr << __FILE__ << ':' << __LINE__ << " unknown simulation mode (SIMULATION_MODE in configuration file)\n" ;
       exit(EXIT_FAILURE);
   }
@@ -114,9 +160,12 @@ int main(int argc, char *argv[]) {
 
   Output output; ///- initialize output class (should be the last to be initialized)
   ini.VolumeMass(hydro, particles, weight_function); //predict particle volume and mass
-  if(ini.simu_mode==1)	{
+
+  //for 2D particle distribution BC is needed
+  ///\todo{define a variable which controls the use of boundary conditions}
+  // if(ini.simu_mode==1)	{
     boundary.BoundaryCondition(particles); //repose the boundary condition
-  }
+  //  }
 
   //start time
   double Time = ini.Start_time;

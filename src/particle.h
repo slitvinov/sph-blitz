@@ -1,4 +1,4 @@
-/// \file partilce.h 
+/// \file particle.h 
 /// \brief a sph particle
 
 #ifndef PARTICLE_H
@@ -14,6 +14,13 @@ class Particle {
 	///NOTE the particle mass and volume will be specified in initiation::VolumeMass(w)
 	Particle (Vec2d position, Vec2d velocity, double density, 
 		  double pressure, double temperature, spMaterial material);
+
+	///construct a real particle including mass (used forgasdynamcis where mass 
+	Particle (Vec2d position, Vec2d velocity, double density, 
+		    double pressure, double mass,double temperature, 
+		  spMaterial material);
+
+
 	///construct a wall particle
 	Particle (double x, double y, double u, double v, 
 		  spMaterial material);

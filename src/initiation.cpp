@@ -24,14 +24,17 @@
 #include <boost/foreach.hpp>
 using namespace std;
 
+
 //----------------------------------------------------------------------------------------
-//							constructor
+//							constructor 
 //----------------------------------------------------------------------------------------
-Initiation::Initiation(const std::string& project_name) {
+Initiation::Initiation(const std::string& project_name,const std::string& ivs_file_name) {
         LOG(INFO) << "Run constructor of Initiation class";
 
 	//the project name
 	Project_name = project_name;
+	//the ivs file name
+	Ivs_file_name=ivs_file_name;
 
 	//the input file name
 	const std::string inputfile = Project_name + ".tcl";
@@ -44,8 +47,12 @@ Initiation::Initiation(const std::string& project_name) {
 	initial_condition = interp.eval("[return $INITIAL_CONDITION]");
         assert( (initial_condition == 0) || (initial_condition == 1));
 	simu_mode = interp.eval("[return $SIMULATION_MODE]");
+	//	assert(simu_mode==1||simu_mode==2); (already tested in sph.cpp)
 	density_mode = interp.eval("[return $DENSITY_MODE]");
-        assert(density_mode == 1 || density_mode == 2);
+	assert(density_mode == 1 || density_mode == 2);
+	//integration_scheme = interp.eval("[return $INTEGRATION_SCHEME]");(already tested in sph.cpp)
+        assert(integration_scheme == 1 || integration_scheme == 2);
+
 	kernel_type = static_cast<std::string>(interp.eval("[return $KERNEL_TYPE]"));
 
 	/// if gas dynamics
@@ -107,6 +114,9 @@ Initiation::Initiation(const std::string& project_name) {
         
         LOG(INFO) << "Initiation object is created";
 }
+
+
+
 //----------------------------------------------------------------------------------------
 //					show information to screen
 //----------------------------------------------------------------------------------------
@@ -159,7 +169,7 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
   /// <ul><li>iterate particles on the particle list
   BOOST_FOREACH(spParticle prtl_org, hydro.particle_list) {
     ///\todo{initialize particle mass via initiation file...}
-    prtl_org->m=0.001875;
+    // prtl_org->m=0.001875;
     // /// <ul><li> pick an origin particle
     // assert(prtl_org != NULL);
     // const std::list<spParticle> NNP_list = particles.BuildNNP(prtl_org->R);
@@ -180,7 +190,7 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
     // /// <li> save volume and mass in the respective particle list node (whih is each a spParticle object with all the particle properties) 
     // prtl_org->V = reciprocV;
     // prtl_org->m = prtl_org->rho*reciprocV;
-    LOG_EVERY_N(INFO, 100) << "prtl ID"<<prtl_org->ID<<"prtl m  = " << prtl_org->m;
+    LOG_EVERY_N(INFO, 100) <<::setprecision(10)<< "prtl ID"<<prtl_org->ID<<"prtl m  = " << prtl_org->m;
 
   }
   LOG(INFO)<<"Initiation::VolumeMass ends";

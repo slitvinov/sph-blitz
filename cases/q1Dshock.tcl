@@ -2,8 +2,8 @@
 set SIMULATION_MODE 2
 
 # possible values are 
-# QuinticSpline, BetaSpline, CubicSpline, CubicSpline1D
-set KERNEL_TYPE CubicSpline1D
+# QuinticSpline, BetaSpline, CubicSpline
+set KERNEL_TYPE CubicSpline
 
 #possible integration schemes
 #1: leap frog
@@ -13,7 +13,7 @@ set INTEGRATION_SCHEME 1
 #possible density treatments
 #1: summation density (density obtained by smoothing)
 #2: continuity density (density is integrated)
-set DENSITY_MODE 2
+set DENSITY_MODE 1
 
 # initial conditions flag 
 # 0: use initial 
@@ -31,14 +31,14 @@ set CELL_SIZE 0.03
 set SUPPORT_LENGTH 0.03
 
 # number of particles in one cell size
-# not used in 1D shock 
+# not used in q1D shock 
 set CELL_RATIO 1
 
 # initial particles velocity
 set U0(0) 0.0
 set U0(1) 0.0
 
-# initial propeties of the particles
+# initial propeties of the particles (noz used either)
 set rho0 0.0
 set p0 0.5
 set T0 1.0
@@ -53,20 +53,32 @@ set beta_artVis 2.0
 set epsilon_artVis 0.1
 
 # boundary conditions
+#
 # type and velocity
+# 0: wall
+# 1: periodic
+# 2: freeslip
+# 3: symmetry
+#
+
+
+# left hand boundary
 set xBl 0
 set UxBl(0) 0.0
 set UxBl(1) 0.0
 
+# right hand boundary
 set xBr 0
 set UxBr(0) 0.0
 set UxBr(1) 0.0
 
-set yBd 0
+# lower boundary
+set yBd 3
 set UyBd(0) 0.0
 set UyBd(1) 0.0
 
-set yBu 0
+# upper boundary
+set yBu 3
 set UyBu(0) 0.0
 set UyBu(1) 0.0
 

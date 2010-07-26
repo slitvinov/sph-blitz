@@ -37,7 +37,7 @@ int main ()
     cout<<"Initialtion: Cannot open "<< inputfile <<" \n";
     exit(1);
   }
-  else cout<<"Creating initial condition file 1DShock.ivs"<< inputfile <<" \n"; 
+  else cout<<"Creating initial condition file 1DShock.ivs ( purely 1D particle distribution with constant particle mass) from initial conditions specified in "<< inputfile <<" \n"; 
 
   //reading key words and configuration data from configuration file and assign them to the appropriate variable
   while(!fin.eof())
@@ -82,14 +82,15 @@ int main ()
        rho_array[i]=rhor;
  };  
 
-ofstream out("1Dshock.ivs");
+ ofstream out("../cases/1Dshock.ivs");
 
  out<<N<<endl;
 
 for(int i=0;i<N;i++)
    {
-      out <<setprecision (6)<<"  "<<x_array[i]<<"  "<<y_array[i]<<"   "<<vx_array[i]<<"   "<<vy_array[i]<<"   "<<rho_array[i]<<"   "<<p_array[i]<<endl;
+      out <<setprecision (8)<<"  "<<x_array[i]<<"  "<<y_array[i]<<"   "<<vx_array[i]<<"   "<<vy_array[i]<<"   "<<rho_array[i]<<"   "<<p_array[i]<<endl;
    };
 
  out.close();
+ cout<<"1Dshock.ivs successfully written in <<sph-blitz/cases>>";
 }

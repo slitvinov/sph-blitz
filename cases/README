@@ -1,1 +1,78 @@
-Configuration files
+Configuration files (.tlc)
+----------------------------------------------------------------
+----------------------------------------------------------------
+
+Incompressible
+----------------------------------------------------------------
+- <<couette.tcl>>
+
+- <<poiseuille.tcl>>
+
+Note: the initial particle distribution for incompressible simulations is
+created within the program. Therefore there is no need to pass a second argument
+to the main function specifying an external file for initial conditons (.ivs)
+
+
+Compressible
+----------------------------------------------------------------
+- <<1Dshock.tcl>>
+  for a 1 D shock tube calculation with a purely 1D particle distribution. The
+  initial condition files which can be passed to the main function in this
+  case are
+  *  <<1Dshock.ivs>>
+
+- <<q1Dshock.tcl>>
+  for a 1D shock tube calculation with a 2D particle distribution and
+  periodical boundary condition in the second direction. In this
+  case the possible initial condition files are:
+  *  <<q1DshockSpaceConst.ivs>>
+  *  <<q1DshockMConst.ivs>>
+  
+#################################################################  
+
+
+Initial condition files (.ivs)
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+
+Incompressible
+-----------------------------------------------------------------
+
+No external initial condition file (.ivs)
+
+
+Compressible
+-----------------------------------------------------------------
+
+For the compressible shock tube case there are different possibilities
+to initilaize the particle field. Therefore initial conditions are created by
+the user prior to the actual simulation and are then passed to the main
+function. The following initial particle distributions are available
+
+Purely 1D distribution:
+- constant particle mass, different left hand side and right hand side
+  spacing. The file is called <<1Dshock.ivs>> and created by <<createIC.cpp>>
+
+2D distribution
+- constant particle mass for all the domain, different left hand side and 
+  right hand side spacing. The file is called <<q1DshockMConst.ivs>> and created by
+  <<createICq1D_mConst.cpp>>
+
+- constant particle spacing for all the domain, different left hand side and 
+  right hand side particle mass. The file is called <<q1DshockSpaceConst.ivs>> and
+  created by <<createICq1D_SpaceConst.cpp>>
+
+
+1. Creating the initial condition file (.ivs)
+   To create the desired initial condition file, one has to go into the
+   <<sph-blitz/scripts>> folder, compile (<<make>>) and run the corresponding
+   <<createICxxxx.cpp>> program.
+   The .ivs file is then created in the <<sph-blitz/cases>> folder
+
+2. Handing the .ivs fail over to the main function
+   This is done by adding the .ivs file name as second argument during main function call
+   for example:
+    ./sph <<project_name>> << xxxxx.ivs>>
+    ./sph ../cases/q1Dshock ../cases q1DshockSpace.ivs
+
+	

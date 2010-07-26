@@ -1,4 +1,4 @@
-/// \file timesolver.cpp
+/// \file gastimesolverPredCorr.cpp
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 /// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
 
@@ -10,6 +10,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <boost/foreach.hpp>
+#include <iomanip>
 
 #include <cstdio>
 #include <cstdlib>
@@ -21,7 +23,7 @@
 #include "glbfunc.h"
 #include "hydrodynamics.h"
 #include "particlemanager.h"
-#include "TimeSolver/hydrotimesolver.h"
+#include "TimeSolver/gastimesolverPredCorr.h"
 #include "initiation.h"
 #include "boundary.h"
 
@@ -30,104 +32,97 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //							constructor
 //----------------------------------------------------------------------------------------
-HydroTimeSolver::HydroTimeSolver():
+GasTimeSolverPredCorr::GasTimeSolverPredCorr():
   ite(0)
 {
   ///- initialize the iteration
-  LOG(INFO) <<"Creating HydroTimeSolver object";
+  std::cerr << "\n initiation gas timesolver leap frog succeeded\n ";
 }
 
-void HydroTimeSolver::show_information() const {
+void GasTimeSolverPredCorr::show_information() const {
 
 }
-
 
 //----------------------------------------------------------------------------------------
 //					advance time interval D_time with summation for density
 //					predictor and corrector method used
 //----------------------------------------------------------------------------------------
-void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary, double &Time, double D_time,	const Initiation &ini, spKernel weight_function)
+///time integration without density (summation density approach)
+void GasTimeSolverPredCorr::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 
+                                           Boundary &boundary,
+                                           double &Time, double D_time,
+                                           const Initiation &ini, spKernel weight_function)
 {
-  LOG(INFO) << "Start TimeIntegral_summation";
   double integeral_time = 0.0;
 	
-  while(integeral_time < D_time)
- {
-    const double dt = hydro.GetTimestep(ini);
-    assert(dt>0.0);
+  while(integeral_time < D_time) {
+
+    ///\todo{ move into Initiation?...and/or make time step calculation automatically (constant time step was only for testing purposes)}
+    const double dt = 0.0025;
     //control output
-    LOG(INFO)<<"\n current timestep:"<<dt<<
-        "\n current absolute integraltime:"<<Time<<
-        "\n current (relative) integraltime:"<<integeral_time<<
-        "\n current (absolute) iterations:"<<ite;
+    LOG(INFO)<<"\n current timestep:"<<dt;
+    LOG(INFO)<<"\n current absolute integraltime:"<<Time;
+    LOG(INFO)<<"\n current (relative) integraltime:"<<integeral_time;
+    LOG(INFO)<<"\n current (absolute) iterations:"<<ite;
     ite ++;
     integeral_time =integeral_time+ dt;
     Time += dt;
 	  
     ///<ul><li>screen information for the iteration
-    if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
-			  <<Time<<"	dt: "<<dt<<"\n";
-	  
-    //predictor and corrector method used
+    if(ite % 10 == 0) cout<<"N="<<ite<<" Time: " <<Time<<"	dt: "<<dt<<"\n";
+     
     ///<li>the prediction step
     hydro.BuildInteractions(particles, weight_function, ini);///<ol><li> rebuild interactions
     hydro.UpdateDensity(ini, weight_function);///<li> hydro.UpdateDensity
-    
-    boundary.BoundaryCondition(particles);///<li> boundary.BoundaryCondition
     //control output
+    //	cout<<"\n     --- change rate for predictor:";	
     hydro.UpdateChangeRate(ini);///<li> hydro.UpdateChangeRate
 	  
     hydro.Predictor_summation(dt);///<li>hydro.Predictor_summation</ol>
-    ///<li> the correction step without update the interaction list
-    boundary.BoundaryCondition(particles);///<ol><li>boundary.BoundaryCondition
+	  
+    ///<li> the correction step without updating the interaction list
+  
+    // hydro.BuildInteractions(particles, weight_function, ini);///<ol><li> rebuild interactions (just a test to see, if results are different from UpdateInteractions where only interactiondata (rij, Wij,...) are renewed, but no new interaction search is performed...)
 
     hydro.UpdateInteractions(weight_function);///<li> update interactions
     hydro.UpdateDensity(ini, weight_function);///<li>hydro.UpdateDensity
-    
-    boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
+
     //control output
     LOG(INFO)<<"change rate for corrector:";
     hydro.UpdateChangeRate(ini); ///<li>hydro.UpdateChangeRate
     hydro.Corrector_summation(dt);///<li>hydro.Corrector_summation</ol>
-
-    ///<li> renew boundary particles
-    boundary.RunAwayCheck(hydro);///<ol><li>boundary.RunAwayCheck
-    particles.UpdateCellLinkedLists();///<li>particles.UpdateCellLinkedLists
-    boundary.BuildBoundaryParticle(particles, hydro);///<li>boundary.BuildBoundaryspParticle</ol></ul>
-  }
+    particles.UpdateCellLinkedLists();///<li>particles.UpdateCellLinkedLists  
+ }
 }
 
-
-void HydroTimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary, double &Time, double D_time, const Initiation &ini, spKernel weight_function)
+///time integration including density (continuity density approach)
+void GasTimeSolverPredCorr::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
+                                           Boundary &boundary,
+                                           double &Time, double D_time,
+                                           const Initiation &ini, spKernel weight_function)
 {
-  LOG(INFO) << "Start TimeIntegral_summation";
   double integeral_time = 0.0;
 	
-  while(integeral_time < D_time)
-  {
-    const double dt = hydro.GetTimestep(ini);
-    assert(dt>0.0);
+  while(integeral_time < D_time) {
+
+    ///\todo{ move into Initiation?...and/or make time step calculation automatically (constant time step was only for testing purposes)}
+    const double dt = 0.0025;
     //control output
-    LOG(INFO)<<"\n current timestep:"<<dt<<
-        "\n current absolute integraltime:"<<Time<<
-        "\n current (relative) integraltime:"<<integeral_time<<
-        "\n current (absolute) iterations:"<<ite;
+    LOG(INFO)<<"\n current timestep:"<<dt;
+    LOG(INFO)<<"\n current absolute integraltime:"<<Time;
+    LOG(INFO)<<"\n current (relative) integraltime:"<<integeral_time;
+    LOG(INFO)<<"\n current (absolute) iterations:"<<ite;
     ite ++;
     integeral_time =integeral_time+ dt;
     Time += dt;
 	  
-    ///<ul><li>screen information for the iteration
-    if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
-			  <<Time<<"	dt: "<<dt<<"\n";
+       ///<ul><li>screen information for the iteration
+    if(ite % 10 == 0) cout<<"N= "<<ite<<" Time: " <<Time<<"  dt: "<<dt<<"\n";
 
-	
-    //predictor and corrector method used
-    ///<li> the prediction step
-    hydro.BuildInteractions(particles, weight_function, ini);///<ol><li>hydro.BuildInteractions
+    hydro.BuildInteractions(particles, weight_function,ini);///<ol><li>hydro.BuildPair
     hydro.UpdateChangeRate(ini);///<li>hydro.UpdateChangeRate
     hydro.Predictor(dt);///<li>hydro.Predictor
     hydro.UpdateState(ini);///<li>hydro.UpdateState</ol>
-
     ///<li> the correction step without update the interaction list
     hydro.UpdateInteractions(weight_function);///<ol><li>hydro.UpdatePair
     boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
@@ -137,10 +132,6 @@ void HydroTimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &partic
     ///<li> renew boundary particles
     boundary.RunAwayCheck(hydro);///<ol><li>boundary.RunAwayCheck
     particles.UpdateCellLinkedLists();///<li>particles.UpdateCellLinkedLists
-    boundary.BuildBoundaryParticle(particles, hydro);///<li>boundary.BuildBoundaryParticles</ol></ul>
+    boundary.BuildBoundaryParticle(particles, hydro);
   }
-}
-
-HydroTimeSolver::~HydroTimeSolver() {
-  LOG(INFO) << "destructor of HydroTimeSolver is called";
 }

@@ -1,6 +1,6 @@
 #ifndef HYDRO_TIMESOLVER_H
 #define HYDRO_TIMESOLVER_H
-/// \file timesolver.h 
+/// \file hydrotimesolver.h 
 /// \brief Time solver class
 ///
 ///provides methods that iterate over one output time interval (D_time) either with the summation density approach or with the continuity density approach

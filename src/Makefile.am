@@ -14,10 +14,12 @@ nomain=	 boundary.cpp boundary.h \
 	Kernel/kernel.cpp Kernel/kernel.h \
 	Kernel/quinticspline.cpp Kernel/quinticspline.h \
 	Kernel/cubicspline.cpp Kernel/cubicspline.h \
+	Kernel/cubicspline1D.cpp Kernel/cubicspline1D.h \
 	Kernel/betaspline.h Kernel/betaspline.cpp \
 	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
 	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
-	TimeSolver/gastimesolver.cpp TimeSolver/gastimesolver.h \
+	TimeSolver/gastimesolverLeapFrog.cpp TimeSolver/gastimesolverLeapFrog.h \
+	TimeSolver/gastimesolverPredCorr.cpp TimeSolver/gastimesolverPredCorr.h \
 	cpptcl.cc cpptcl.h \
 	main.doxygen
 
