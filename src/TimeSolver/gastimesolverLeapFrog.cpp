@@ -180,13 +180,13 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
     //update change rates for U, e AND rho
     hydro.UpdateChangeRateInclRho(ini);
 
-
     if(ite==1)  
       hydro.AdvanceFirstStepInclRho(dt);
     else 
       hydro.AdvanceStandardStepInclRho(dt);
     //perform run away check before updating linked lists (due to index purposes)
-    boundary.RunAwayCheck(hydro); 
+    if  (ini.kernel_type != "CubicSpline1D")   
+      boundary.RunAwayCheck(hydro); 
     //update cell linked list
     particles.UpdateCellLinkedLists();
   }

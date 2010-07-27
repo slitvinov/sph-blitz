@@ -150,6 +150,7 @@ int main(int argc, char *argv[]) {
 	  std::cerr << __FILE__ << ':' << __LINE__ << " unknown time solver scheme, must be 1: leap frog, or 2: Predictor Corrector (INTEGRATION_SCHEME parameter in configuration file)\n" ;
 	  exit(EXIT_FAILURE);
        }
+       break;
       default:
       std::cerr << __FILE__ << ':' << __LINE__ << " unknown simulation mode (SIMULATION_MODE in configuration file)\n" ;
       exit(EXIT_FAILURE);
@@ -158,15 +159,18 @@ int main(int argc, char *argv[]) {
   assert(timesolver != NULL);
   timesolver->show_information();
 
+  //BuildBoundaryParticle moved here from boundary constructor in order to be able to switch it of for the 1D case
+  if  (ini.kernel_type != "CubicSpline1D")
+    boundary.BuildBoundaryParticle(particles, hydro);
+
   Output output; ///- initialize output class (should be the last to be initialized)
   ini.VolumeMass(hydro, particles, weight_function); //predict particle volume and mass
 
   //for 2D particle distribution BC is needed
   ///\todo{define a variable which controls the use of boundary conditions and solve it smarter than just testing  if  (ini.kernel_type != "CubicSpline1D") }
-   if  (ini.kernel_type != "CubicSpline1D")
+  if  (ini.kernel_type != "CubicSpline1D")
     boundary.BoundaryCondition(particles); //repose the boundary condition
-  
-
+     
   //start time
   double Time = ini.Start_time;
 

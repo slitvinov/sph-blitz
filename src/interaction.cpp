@@ -39,9 +39,9 @@ Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest,
 			 const Initiation& ini):
   ini(ini),
   Org(prtl_org), Dest(prtl_dest),
-  mi(Org->m), mj(Org->m), 
+  mi(Org->m), mj(Dest->m), 
   rmi(1.0/mi), rmj(1.0/mj),
-  etai(Org->eta), etaj(Org->eta),
+  etai(Org->eta), etaj(Dest->eta),
   rij(dstc)
 {
   assert(prtl_dest != NULL);
@@ -119,8 +119,8 @@ void Interaction::RenewInteraction(spKernel weight_function)
 // Changes: Org(rho:summation), Dest(rho:summation)
 // Depends on: Interaction Object, Org(rho), Dest(rho)
 void Interaction::SummationDensity() {
-  //summation according to: rho_i=sum{m_j*W_ij} (here only the contribution of the pair in questiion)
-  /// shel not be called with interaction of the particle
+  //summation according to: rho_i=sum{m_j*W_ij} (here only the contribution of the pair in question)
+  /// shell note be called with interaction of the particle
   /// with itself
   assert(Org->ID >= Dest->ID);
 

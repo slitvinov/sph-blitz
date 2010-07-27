@@ -51,10 +51,9 @@ Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &parti
 
   show_information();
 
-  // if (ini.simu_mode == 1) {
-    /// build boundary particles
-    BuildBoundaryParticle(particles, hydro);
-    // };
+  //BuildBoundaryParticles is removed from the constructor and moved to the sph.cpp as an individual method call. In this way it can be switched of for 1D simulation
+  //BuildBoundaryParticle(particles, hydro);
+   
   LOG(INFO) << "boundary condition constructor successfully executed";
 }
 

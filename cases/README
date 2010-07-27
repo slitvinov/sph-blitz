@@ -19,7 +19,8 @@ Compressible
   for a 1 D shock tube calculation with a purely 1D particle distribution. The
   initial condition files which can be passed to the main function in this
   case are
-  *  <<1Dshock.ivs>>
+  *  <<1DshockMConst.ivs>>
+  *  <<1DshockSpaceConst.ivs>>
 
 - <<q1Dshock.tcl>>
   for a 1D shock tube calculation with a 2D particle distribution and
@@ -51,7 +52,12 @@ function. The following initial particle distributions are available
 
 Purely 1D distribution:
 - constant particle mass, different left hand side and right hand side
-  spacing. The file is called <<1Dshock.ivs>> and created by <<createIC.cpp>>
+  spacing. The file is called <<1DshockMConst.ivs>> and is created by
+   <<createIC1D_mConst.cpp>>
+
+- constant particle spacing, different left hand side and right hand side
+  particle masses. The file is called <<1DshockSpaceConst.ivs>> and is created by
+   <<createIC1D_SpaceConst.cpp>>
 
 2D distribution
 - constant particle mass for all the domain, different left hand side and 
@@ -63,6 +69,8 @@ Purely 1D distribution:
   created by <<createICq1D_SpaceConst.cpp>>
 
 
+Porcedure to follow for a simulation with. ivs files
+-----------------------------------------------------------------
 1. Creating the initial condition file (.ivs)
    To create the desired initial condition file, one has to go into the
    <<sph-blitz/scripts>> folder, compile (<<make>>) and run the corresponding
@@ -70,7 +78,8 @@ Purely 1D distribution:
    The .ivs file is then created in the <<sph-blitz/cases>> folder
 
 2. Handing the .ivs fail over to the main function
-   This is done by adding the .ivs file name as second argument during main function call
+   This is done by adding the .ivs file name as the second argument during the
+    main function call
    for example:
     ./sph <<project_name>> << xxxxx.ivs>>
     ./sph ../cases/q1Dshock ../cases q1DshockSpace.ivs
