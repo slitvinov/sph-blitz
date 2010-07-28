@@ -51,7 +51,7 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
   if( ini.simu_mode==1)
     out<<"variables=x, y, Ux, Uy rho\n";
   if (ini.simu_mode==2)
-    out<<"variables=x, y, rho, p, U, e \n";
+    out<<"variables=x, y, rho, p, U, e, ID, m \n";
   int f=0, g=0, a=0, b=0; 	
   ///<li>output real and soild particles
   for(int i = 0; i < ini.number_of_materials; i++) {
