@@ -1,0 +1,16 @@
+#! /bin/bash
+#this script processes the file prtl00000000.dat which consists of the initial particle values. It aimes to find out particle IDs of particles initially being located at the same x. The particles values after a certain simulation time will then be averaged for each particle ensemble initially having the sa,e x position
+
+# remove first to lines from file and save under new file name
+sed '1,2d' ~/sph-blitz/src/outdata/prtl00000000.dat >test2lines.dat
+if [ -d ~/sph-blitz/results/ResultsInProges ]
+then
+echo "directory sph-blitz/results/ResultsInProgess already exists. Its former content has been deleted"
+rm -rf  ~/sph-blitz/results/ResultsInProges
+mkdir ~/sph-blitz/results/ResultsInProges
+else
+echo "creating directory sph-blitz/results/ResultsInProgess where all the processed files are written into "
+mkdir ~/sph-blitz/results/ResultsInProges
+fi 
+# sort particles on the y-position
+sort -t: +1 -2 test2lines.dat >~/sph-blitz/results/ResultsInProgress/sorted00000000.dat
