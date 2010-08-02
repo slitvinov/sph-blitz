@@ -91,6 +91,7 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
 	D_time = interp.eval("[return $D_time]");
         // can be zero for debugging
         assert(D_time>0.0);
+	assert(End_time >= Start_time);
 
 	if (initial_condition == 0) {
 	  rho0 = interp.eval("[return $rho0]");
@@ -103,8 +104,7 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
 	///<li>create outdata directory
 	const int sys_return = system("mkdir -p outdata");
 	if (sys_return) {
-	  std::cerr<<"system command faild"<< inputfile <<" \n";
-	  std::cerr << __FILE__ << ':' << __LINE__ << std::endl;
+	  LOG(ERROR) << "system command faild" << inputfile;
 	  exit(EXIT_FAILURE);
 	}
 	
@@ -115,7 +115,6 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
 	
 	///<li>output information to screen
 	show_information();
-        
         LOG(INFO) << "Initiation object is created";
 }
 
