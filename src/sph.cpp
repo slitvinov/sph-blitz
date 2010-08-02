@@ -32,7 +32,6 @@
 #include "boundary.h"
 #include "Kernel/quinticspline.h"
 #include "Kernel/cubicspline.h"
-#include "Kernel/cubicspline1D.h"
 #include "Kernel/betaspline.h"
 #include <boost/smart_ptr/make_shared.hpp>
 
@@ -104,7 +103,7 @@ int main(int argc, char *argv[]) {
       weight_function = boost::make_shared<QuinticSpline>(ini.supportlength);
   } 
   else if (ini.kernel_type == "CubicSpline1D")   {
-      weight_function = boost::make_shared<CubicSpline1D>(ini.supportlength);
+      weight_function = boost::make_shared<CubicSpline>(ini.supportlength);
   }
  else {
       std::cerr << __FILE__ << ':' << __LINE__ << " unknown kernel type (KERNEL_TYPE in configuration file)\n" ;
