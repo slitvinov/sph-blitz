@@ -29,7 +29,7 @@ public:
   //linked cell matrix size
   int x_clls;  ///<linked cell matrix size x-direction
   int y_clls;  ///<linked cell matrix size y-direction
-  ///<cell linked list in 2-d array
+  /// cell linked list in 2-d array
   blast::matrix<std::list<spParticle > > cell_lists;
   /// default constructor
   explicit ParticleManager(const Initiation &ini);

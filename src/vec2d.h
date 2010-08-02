@@ -13,7 +13,7 @@
 #include <blitz/tinyvec.h>
 #include <blitz/tinyvec-et.h>
 
-
+/// A type for two dimensional vector
 typedef blitz::TinyVector<double,2> Vec2d;
 
 /// Return the absolute value of the vector (the length)

@@ -1,4 +1,4 @@
-/// \file bskernel.cpp
+/// \file betaspline.cpp
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 ///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
 
@@ -24,9 +24,7 @@
 
 using namespace std;
 
-//----------------------------------------------------------------------------------------
-//							constructor
-//----------------------------------------------------------------------------------------
+/// pi
 const double pi = 3.141592653589793238462643383279502884197;
 BetaSpline::BetaSpline(double supportlength)
     : Kernel(supportlength)

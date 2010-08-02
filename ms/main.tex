@@ -32,7 +32,7 @@
 \label{sec:intro}
 
 
-This work aimes at the numerical simluation of high enthalpy flow in
+This work aims at the numerical simulation of high enthalpy flow in
 porosities. The subject is of interest, as CITATION
 NEEDED (Prof Hornung) has discovered porous surfaces to inhibit/block a
 certain form of instabilities in hypersonic flows over a body/cone. A numerical
@@ -52,7 +52,7 @@ to fluids (as the name of the method would suggest) but also to solids. In
 fact nowadays SPH is employed to simulate problems in different fields,
 such as body elasticity and fracture,liquid flows and gas
 dynamics~\cite{Monaghan2005}.
-The initial developement of the method dates back to 1977, where Gingold and
+The initial development of the method dates back to 1977, where Gingold and
 Monaghan tempted to compute an astrophysical gas dynamics problem with a new, more
 efficient method~\cite{Gingold1977}. Independently and simultaneously, work in
 this field was also carried out by Lucy who came up with the same
@@ -177,15 +177,15 @@ method. To resume, this are the following ones: A (field) function can be
 described as an integral interpolation over the function itself and a kernel
 function (which has to be chosen in an appropriate way). A further
 approximation consists in transforming the integral over the domain into a
-summation over the discrete elements constituing this domain (the particles). This allows to express both
+summation over the discrete elements constituting this domain (the particles). This allows to express both
 the field function and its spacial derivatives dependent exclusively on discrete values
 of the fieldfunction itself (and of the kernel function, which is known as well as
-its derivatvies). By finally choosing an appropriate kernel function with
+its derivatives). By finally choosing an appropriate kernel function with
 compact support, the summation over all particles in the domain can be reduced
 to a summation over those particles within the support domain of the particle
 in question.
 
-As already mentionned above, the SPH formulation of the equations of fluid
+As already mentioned above, the SPH formulation of the equations of fluid
 dynamics is obtained by applying the above principles and conducting different
 transformations to the original (exact) equations. Depending on the
 transformations used, the final SPH equations can assume a different form. In
@@ -219,10 +219,10 @@ Artificial Viscosity
 (perhaps I will move this section and make it a subsection of 'Implementation of SPH' (as artificial viscosity is linked to numerics
 
 Another point that has to be taken into account for SPH simulations, especially
-such including shock phenomena, is arificial viscosity\cite{Monaghan2005}. It
+such including shock phenomena, is artificial viscosity\cite{Monaghan2005}. It
 prevents particles from penetrating one into an other in zones with high
 compression rates and also generally stabilizes a numerical
-allgorithm.
+algorithm.
 Artificial viscosity for numerical simulation of shock phenomena
 in general was first introduced by \cite{vonNeumann1950}. They suggested to
 introduce an artificial dissipation to give the shock a thickness which
@@ -232,7 +232,7 @@ The first use of artificial viscosity specifically for the mesh free SPH goes
 back to Lucy\cite{Lucy1977}. He suggested an artificial bulk viscosity to
 prevent a slow buildup of acoustic energy by integration errors in zones with
 low density respectively low particle presence. 
-Finally, the form of artificial viscosity most commomly used in SPH
+Finally, the form of artificial viscosity most commonly used in SPH
 literature\cite{Liu2003} is the one proposed by Monaghan and
 Gingold\cite{Monaghan1983}. They stated that the use of one of the artificial
 viscosities cited above (Neumann Richtmyer (adapted to SPH) or bulk
@@ -263,7 +263,7 @@ HAS TO BE MENTIONED SOMEWHERE (but probably not right here) THAT: the use of
 the averaged smoothing length $h_{ab}$ is a way to symmetrize particle
 interactions when h is spatially variable. In this case a particle $a$ could be
 located in the support domain of a particle $b$ but not vice versa. This would
-lead to an assymetric mutual contribution of forces. To avoid this, using the
+lead to an asymmetric mutual contribution of forces. To avoid this, using the
 averaged smoothing length between two particles is an appropriate remedy\cite{Liu2003}.
 Including artificial viscosity, the SPH form of the Euler momentum equation becomes\cite{Monaghan2005}
 
@@ -286,7 +286,7 @@ This section presents some particular features of an SPH code. Emphasis is
 placed on these features which are finally implemented in one of the
 two SPH codes designed and modified during this work.
 Points of interest are the implementation of different boundary conditions in
-SPH, a closer description of the kernel function, as well as different methods/allgorithms
+SPH, a closer description of the kernel function, as well as different methods/algorithms
 to perform the search for the interacting particles. Furthermore different
 equations of state are introduced, depending on the nature of the flow problem
 to be considered(compressible/incompressible). Finally some words on numerical
@@ -298,7 +298,7 @@ integration schemes that have proven to be reliable for SPH applications.
 For particles at the edge of the calculation domain, the summation interpolation does not
 give exact results, as the integral (or better the sum) is truncated due to
 the simple fact that outside the domain there are no
-particles.\cite{Liu2003}(find better citation...) This efect is called the
+particles.\cite{Liu2003}(find better citation...) This effect is called the
 problem of article deficiencythe particle deficiency
 problem.\cite{Liu2003}. In some cases there is no need to consider this
 problem, as the areas close to the edges are not of interest and due to
@@ -306,7 +306,7 @@ limited simulation time there is no time for the error to propagate into the
 actual zone of interest. The 1D shock tube simulation described further below
 (PERHAPS LINK TO SECTION)is an example for such a case.  
 But for other applications the edges play an important role or the domain has
-to be rendered periodocally. So there is a need to define specific boundary
+to be rendered periodically. So there is a need to define specific boundary
 conditions. This can be accomplished by a special boundary treatment, which
 often includes so called virtual particles or ghost
 particles\cite{Liu2003}. The first ones to come up with this idea were
@@ -344,9 +344,9 @@ perhaps even some properties,...(and perhaps some graphics???)
 
 
 Some properties of Kernel functions (smoothing functions) and notions related
-to them have allready been mentionned in the section
+to them have already been mentioned in the section
 \ref{sec:BasicsSPH}. In principal every function can act as Kernel function
-when it respects a set of criteria complsed by \cite{Liu2003}.
+when it respects a set of criteria composed by \cite{Liu2003}.
 The most important ones are:
 
 The smoothing function should vanish outside of a certain area around its
@@ -387,7 +387,7 @@ O,& \text{for q $>$ 2}
 \end{equation}
 
 
-In the work of \cite{Fulk1996} a mesure of merit for Kernels is developed and
+In the work of \cite{Fulk1996} a measure of merit for Kernels is developed and
 they came to the result, that in 1D no kernel performed significantly better
 than the cubic spline.
 This is why for the 1D SPH code described in section (WHATEVER) the cubic
@@ -396,7 +396,7 @@ spline kernel is employed.
 \subsection{neighboring particle search methods}
 \label{sec:NNPS}
 To calculate the change rates in \ref{eq:DCR_Euler}-\ref{eq:ECR_Euler} a
-summation over all paricles has to be performed. However, as we defined kernel
+summation over all particles has to be performed. However, as we defined kernel
 functions with a compact support, only particles within a certain distance from
 the particle in question (within its support domain) contribute to the
 interpolation of its values, and thus interact. Finding the interacting

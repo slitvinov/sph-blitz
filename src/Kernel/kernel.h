@@ -30,6 +30,7 @@ public:
   /// Calculates the kernel scalar derivation for the given distance of two particles 
   virtual double F(const double distance) const = 0;
 
+  /// Print kernel information
   virtual void show_information() const = 0;
 
   /// we need it only for testing

@@ -28,7 +28,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //							constructor 
 //----------------------------------------------------------------------------------------
-Initiation::Initiation(const std::string& project_name,const std::string& ivs_file_name) {
+Initiation::Initiation(const std::string& project_name, const std::string& ivs_file_name) {
         LOG(INFO) << "Run constructor of Initiation class";
 
 	//the project name
@@ -38,10 +38,14 @@ Initiation::Initiation(const std::string& project_name,const std::string& ivs_fi
 
 	//the input file name
 	const std::string inputfile = Project_name + ".tcl";
-	std::ifstream myfile;
-	myfile.open (inputfile.c_str());
+	std::ifstream tclfilename;
+	tclfilename.open (inputfile.c_str());
+	if (!tclfilename.is_open()) {
+	  LOG(ERROR) << " cannot open project file: " << inputfile;
+	  exit(EXIT_FAILURE);
+	}
 
-	interp.eval(myfile);
+	interp.eval(tclfilename);
 	///<li>reading key words and configuration data from configuration file and assign them to the appropriate variable
 
 	initial_condition = interp.eval("[return $INITIAL_CONDITION]");
@@ -87,6 +91,7 @@ Initiation::Initiation(const std::string& project_name,const std::string& ivs_fi
 	D_time = interp.eval("[return $D_time]");
         // can be zero for debugging
         assert(D_time>0.0);
+	assert(End_time >= Start_time);
 
 	if (initial_condition == 0) {
 	  rho0 = interp.eval("[return $rho0]");
@@ -99,8 +104,7 @@ Initiation::Initiation(const std::string& project_name,const std::string& ivs_fi
 	///<li>create outdata directory
 	const int sys_return = system("mkdir -p outdata");
 	if (sys_return) {
-	  std::cerr<<"system command faild"<< inputfile <<" \n";
-	  std::cerr << __FILE__ << ':' << __LINE__ << std::endl;
+	  LOG(ERROR) << "system command faild" << inputfile;
 	  exit(EXIT_FAILURE);
 	}
 	
@@ -111,7 +115,6 @@ Initiation::Initiation(const std::string& project_name,const std::string& ivs_fi
 	
 	///<li>output information to screen
 	show_information();
-        
         LOG(INFO) << "Initiation object is created";
 }
 
