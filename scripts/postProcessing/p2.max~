@@ -1,0 +1,10 @@
+gamma:1.4;
+ rho4:1;
+ rho1:0.125;
+ p4:1;
+ p1:0.1;
+ a1:sqrt(gamma*p1/rho1);
+ a4:sqrt(gamma*p4/rho4);
+solve(p4/p1=p2/p1*(1-((gamma-1)*(a1/a4)*(p2/p1-1))/sqrt(2*gamma*(2*gamma+(gamma+1)*(p2/p1-1)))^(-2*gamma/(gamma-1)),p2);
+
+
