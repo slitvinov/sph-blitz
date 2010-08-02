@@ -7,10 +7,94 @@ solution
 
 ############################################################################
 
+
 for results obtained with 1D particle distribution
 --------------------------------------------------
 
 
+a rough overview on what has to be done:
+---------------- 
+
+- create directory for results or delete its former content
+
+- calculate exact results for shock tube problem at the particle
+  positions as computed during the simulation
+
+- compare exact and simulation results
+
+
+now in detail
+-------------
+
+after a simulation (with 1D particle distribution) has been conducted and as
+long as the results still are in the directory <<sph-blitz/src/outdata>>:
+
+2. run the shell script <<prepareDirectory.sh>> in a shell placed in this
+(/sph-blitz/scripts/postProcessing) directory
+
+ This will perform the following action:
+ - create a new directory <<ResultsInProgress>> or (if it already exists) 
+   delet its content
+
+
+3. run the c++ program <<exactResAndErr1DST.cpp>> in a shell placed in this
+(/sph-blitz/scripts/postProcessing) directory
+
+ This will perform the following action:
+
+ - ask the user for the inputfile for which the exact results are to be
+   calculated (for the 1D particle distribution, this is a file
+   <<prtlxxxxxxxx.dat>>)
+  
+ - ask the user for the number of columns in the inputfile 
+   (for the 1D particle distribution, the number of columns is 8)
+
+ - ask the user for the support length of the simulation (needed for error
+   calculation)   
+
+ - ask the user for the diaphragm position in the simulation set up 
+   (for the current setup (current .tcl and .ivs files), this is x=2)
+
+ - then the x values from the inputfile ( simulation results) are
+   extracted and the exact shock tube solution (rho, p, u, e) for those values
+   is calculated
+
+ - these results are written into the file
+   <<..results/ResultsInProgress/exactxxxxxxxx.dat>>
+
+ - now the error of the simulation results compared to the exact data is
+   calculated
+   Remark:for the shock tube case there are no boundary conditions implemented
+   in x direction. The simulation results in the two edges' areas are
+   therefore erroneous and the comparison is only made in an area x=+/-0.5
+   around the diaphragm position (the total calculation domain being  x=+/-1.0
+   around the diaphragm). 
+
+ - the calculated error data are written into two separate files:
+
+   * <</results/ResultsInProgress/relErrorxxxxxxxx.dat>>
+     this file contains the relative (NO, the ABSOLUTE error, as relative
+     problematic for 0) error in rho, p, u, e for all particles
+     (in the domain x=+/-0.5 around the diaphragm) (including the exact values
+     of rho, p, u, e again, as gnuplot can only process data from one single
+     file in one plot command (for errorbars) ...pipeing data with linux
+     commands would possibly work but to complicated...)
+
+   * <</results/ResultsInProgress/IntegralAndMeanErrorxxxxxxxx.dat>>
+     this file contains the integral error of the simulation results
+     (in the domain x=+/-0.5 around the diaphragm) measured by the L_1 norm
+     (for more information on the used L_1 norm, see
+     <<../../results/ShockTubeTestCase/README>>)
+ 
+3. use the gnuplot scripts to visualize the results 
+   (see README in <<sph-blitz/gnuplot/shockTube_1D>>)
+   once all figures are generated, it is suggested to rename
+    the ..<<ResultsInProgress>> directory according to the current simulation
+    setup and move it to the corresponding location. 
+
+Finally post processing for another simulation may be begin.
+
+############################################################################
 
 
 for results obtained with 2D particle distribution
@@ -25,18 +109,22 @@ a rough overview on what has to be done:
 
 - average the simulation results in the second (y) direction
 
-- compute exact results for shock tube problem at the (averaged) particle
-  positions
+- calculate exact results for shock tube problem at the (averaged) particle
+  positions as computed during the simulation
 
 - compare exact and simulation results
+
 
 now in detail
 -------------
 
-1. run the shell script <<processAndSort00000000.sh>> in this
+after a simulation (with 2D particle distribution) has been conducted and as
+long as the results still are in the directory <<sph-blitz/src/outdata>>:
+
+1. run the shell script <<processAndSort00000000.sh>> in a shell placed in this
 (/sph-blitz/scripts/postProcessing) directory
 
-This will perform the following actions:
+This will perform the following action:
 
  - create a directory <<ResultsInProgress>> in sph-blitz/results
    !!!ATTENTION!!! by running this script all data possibly already existing
@@ -58,10 +146,11 @@ This will perform the following actions:
    values for 1D comparison. 
    The sorting of particles is needed for the later averaging algorithm.
 
-2. also in this local directory: run the c++ program <<average_q1DResults.cpp>>
-    (possibly need to compile (make) before)
 
- This will perform the following actions:
+2. also in this local directory: run the c++ program <<average_q1DResults.cpp>>
+    (possibly need to compile (<<make>>) before)
+
+ This will perform the following action:
 
  - read the <<sorted00000000.dat>> data from file and delete all boundary
    (virtual) particles (characterized by their ID=0)
@@ -76,3 +165,56 @@ This will perform the following actions:
  - write the averaged results into the file
     <<results/ResultsInProgress/averagedxxxxxxxx.dat>> 
    (where xxxxxxxx represents the corresponding simulation time in ms)
+
+
+3. in the same directory: run the c++ program <<exactResAndErr1DST.cpp>>
+
+ This will perform the following action:
+
+ - ask the user for the inputfile for which the exact results are to be
+   calculated (for the 2D particle distribution, this is the file
+   averagedxxxxxxxx.dat)
+  
+ - ask the user for the number of columns in the inputfile 
+   (for the 2D particle distribution, the number of columns is 8)
+
+ - ask the user for the support length of the simulation (needed for error
+   calculation)  
+
+ - ask the user for the diaphragm position in the simulation set up 
+   (for the current setup (current .tcl and .ivs files), this is x=2)
+
+ - then the x values from the inputfile ( (averaged) simulation results) are
+   extracted and the exact shock tube solution (rho, p, u, e) for those values
+   is calculated
+
+ - these results are written into the file
+   <<..results/ResultsInProgress/exactxxxxxxxx.dat>>
+
+ - now the error of the simulation results compared to the exact data is
+   calculated
+   Remark:for the shock tube case there are no boundary conditions implemented
+   in x direction. The simulation results in the two edges' areas are
+   therefore erroneous and the comparison is only made in an area x=+/-0.5
+   around the diaphragm position (the total calculation domain being  x=+/-1.0
+   around the diaphragm). 
+
+ - the calculated error data are written into two separate files:
+
+   * <</results/ResultsInProgress/relErrorxxxxxxxx.dat>>
+     this file contains the relative(NO, the ABSOLUTE error, as relative
+     problematic for 0) error in rho, p, u, e for all particles
+     (in the domain x=+/-0.5 around the diaphragm) (including the exact values
+     of rho, p, u, e again, as gnuplot can only process data from one single
+     file in one plot command (for errorbars) ...pipeing data with linux
+     commands would possibly work but to complicated...
+
+   * <</results/ResultsInProgress/IntegralAndMeanErrorxxxxxxxx.dat>>
+     this file contains the integral error of the simulation results
+     (in the domain x=+/-0.5 around the diaphragm) measured by the L_1 norm
+     (for more information on the used L_1 norm, see
+     <<../../results/ShockTubeTestCase/README>>)
+ 
+ 4. use the gnuplot scripts to visualize the results 
+    (see README in <<sph-blitz/gnuplot/shockTube_q1D>>)
+

@@ -1,8 +1,8 @@
-all: average_q1DResults exactRes1DST
+all: average_q1DResults exactResAndErr1DST
 
 average_q1DResults: average_q1DResults.cpp
 
-exactRes1DST: exactRes1DST.cpp 
+exactResAndErr1DST: exactResAndErr1DST.cpp 
 
 .PHONY: clean
 
