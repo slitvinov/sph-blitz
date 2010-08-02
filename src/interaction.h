@@ -27,11 +27,11 @@ class Interaction {
   const double etaj;///<viscosity for particle j
 
   //distance between the two particles, weight and derivatives
-  double rij;///<distance between 2 particles
-  double rrij;///< reciprocal value of distance between 2 particles
-  double Wij;///<<b>!!!question!!!<b>
-  double Fij;///<<b>!!!question!!!<b>
-  Vec2d gradWij;///kernel gradient
+  double rij; ///<distance between 2 particles
+  double rrij; ///<reciprocal value of distance between 2 particles
+  double Wij; ///<scalar value of the kernel
+  double Fij; ///<scalar kernel gradient
+  Vec2d gradWij; ///<vector kernel gradient
   Vec2d eij; ///<pair direction from orginal particle to destination particle 
   
  public:

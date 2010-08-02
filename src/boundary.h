@@ -10,8 +10,11 @@ class Boundary
 {
 	///computational domain size
 	Vec2d box_size;
-	///cell matrix size
-	int x_clls, y_clls;
+  ///cell matrix size in x direction
+  int x_clls;
+
+  ///cell matrix size in y direction
+  int y_clls;
 
 	///show information on screen
 	void show_information() const;

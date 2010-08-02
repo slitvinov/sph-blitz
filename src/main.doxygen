@@ -19,9 +19,9 @@
  
   \section restart_file Restart file format 
   
-  \section input_file Input file format 
+  \section input_file Input file format
   Examples of input files are sotred in sph-blitz/case directory.
-  Input files are writen in \b<TCL> language. See comments 
+  Input files are writen in <b>TCL</b> language. See comments 
   in the files for explanation.
   
   \section sim Runnig simulations

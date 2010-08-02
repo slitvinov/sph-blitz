@@ -29,7 +29,8 @@ typedef boost::shared_ptr<TimeSolver> spTimeSolver;
 typedef boost::shared_ptr<Kernel> spKernel;
 
 namespace blast = boost::numeric::ublas;
-//a vector of shared_ptr to material
+
+///a vector of shared_ptr to material
 typedef blast::vector< spMaterial > vecMaterial;
 
 #endif
