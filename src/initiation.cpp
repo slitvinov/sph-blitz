@@ -28,7 +28,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //							constructor 
 //----------------------------------------------------------------------------------------
-Initiation::Initiation(const std::string& project_name,const std::string& ivs_file_name) {
+Initiation::Initiation(const std::string& project_name, const std::string& ivs_file_name) {
         LOG(INFO) << "Run constructor of Initiation class";
 
 	//the project name
@@ -38,10 +38,14 @@ Initiation::Initiation(const std::string& project_name,const std::string& ivs_fi
 
 	//the input file name
 	const std::string inputfile = Project_name + ".tcl";
-	std::ifstream myfile;
-	myfile.open (inputfile.c_str());
+	std::ifstream tclfilename;
+	tclfilename.open (inputfile.c_str());
+	if (!tclfilename.is_open()) {
+	  LOG(ERROR) << " cannot open project file: " << inputfile;
+	  exit(EXIT_FAILURE);
+	}
 
-	interp.eval(myfile);
+	interp.eval(tclfilename);
 	///<li>reading key words and configuration data from configuration file and assign them to the appropriate variable
 
 	initial_condition = interp.eval("[return $INITIAL_CONDITION]");
