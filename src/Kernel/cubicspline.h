@@ -1,6 +1,6 @@
 #ifndef CUBICSPLINE_H
 #define CUBICSPLINE_H
-/// \file CubicSpline.h 
+/// \file cubicspline.h
 /// \brief  cubic spline kernel 1D
 
 /// CubicSpline class

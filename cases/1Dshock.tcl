@@ -6,7 +6,7 @@ set SIMULATION_MODE 2
 
 # possible values are 
 # QuinticSpline, BetaSpline, CubicSpline, CubicSpline1D
-set KERNEL_TYPE CubicSpline1D
+set KERNEL_TYPE CubicSpline
 
 #possible integration schemes
 #1: leap frog

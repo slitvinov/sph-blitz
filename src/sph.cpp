@@ -101,7 +101,10 @@ int main(int argc, char *argv[]) {
   else if (ini.kernel_type == "QuinticSpline")   {
       weight_function = boost::make_shared<QuinticSpline>(ini.supportlength);
   } 
-  else {
+  else if (ini.kernel_type == "CubicSpline1D")   {
+      weight_function = boost::make_shared<CubicSpline>(ini.supportlength);
+  }
+ else {
    LOG(ERROR) << " unknown kernel type (KERNEL_TYPE in configuration file)\n" 
 	      << " KERNEL_TYPE: " << ini.kernel_type;
    exit(EXIT_FAILURE);
