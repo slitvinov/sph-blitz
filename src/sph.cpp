@@ -65,8 +65,7 @@ int main(int argc, char *argv[]) {
 
  
   /// initializations
-
-  std::string aux_string  = std::string(argv[1]);
+  const std::string aux_string  = std::string(argv[1]);
   std::string aux_string2 = std::string();
 
   ///if second input parameter exists, write it in auxiliary varaible
@@ -76,7 +75,7 @@ int main(int argc, char *argv[]) {
   }
   if (argc>3)
     {
-      LOG(INFO) << "too many input parameters to main function specified!n";
+      LOG(INFO) << "too many input parameters to main function specified!";
       exit(EXIT_FAILURE);
     };
   ///- global initialization 
@@ -102,14 +101,12 @@ int main(int argc, char *argv[]) {
   else if (ini.kernel_type == "QuinticSpline")   {
       weight_function = boost::make_shared<QuinticSpline>(ini.supportlength);
   } 
-  else if (ini.kernel_type == "CubicSpline1D")   {
-      weight_function = boost::make_shared<CubicSpline>(ini.supportlength);
-  }
- else {
-      std::cerr << __FILE__ << ':' << __LINE__ << " unknown kernel type (KERNEL_TYPE in configuration file)\n" ;
-      std::cerr << __FILE__ << ':' << __LINE__ << " KERNEL_TYPE: " << ini.kernel_type;
-      exit(EXIT_FAILURE);
-  }
+  else {
+   LOG(ERROR) << " unknown kernel type (KERNEL_TYPE in configuration file)\n" 
+	      << " KERNEL_TYPE: " << ini.kernel_type;
+   exit(EXIT_FAILURE);
+ }
+
   assert(weight_function != NULL);
   weight_function->show_information();
 
