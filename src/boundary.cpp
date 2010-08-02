@@ -24,7 +24,7 @@
 
 
 // construtor
-Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &particles) {
+Boundary::Boundary(Initiation &ini, ParticleManager &particles) {
   /// copy global properties from initiation class
   box_size = ini.box_size;
   x_clls = particles.x_clls;

@@ -124,7 +124,7 @@ int main(int argc, char *argv[]) {
   // int boundCond=0;
   // if (boundCond!=0) 
   //--> does not work, as instance of boundary class is needed for many methods...
-    Boundary boundary(ini, hydro, particles); ///< - initiate boundary conditions and boundary particles
+    Boundary boundary(ini, particles); ///< - initiate boundary conditions and boundary particles
   
   /// a smart pointer to timesolver
   spTimeSolver timesolver;
