@@ -54,8 +54,8 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
 	//	assert(simu_mode==1||simu_mode==2); (already tested in sph.cpp)
 	density_mode = interp.eval("[return $DENSITY_MODE]");
 	assert(density_mode == 1 || density_mode == 2);
-	//integration_scheme = interp.eval("[return $INTEGRATION_SCHEME]");(already tested in sph.cpp)
-        assert(integration_scheme == 1 || integration_scheme == 2);
+	integration_scheme = interp.eval("[return $INTEGRATION_SCHEME]");//(already tested in sph.cpp)
+        //assert(integration_scheme == 1 || integration_scheme == 2);
 
 	kernel_type = static_cast<std::string>(interp.eval("[return $KERNEL_TYPE]"));
 

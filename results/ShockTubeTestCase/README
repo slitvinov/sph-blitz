@@ -10,5 +10,9 @@ Remarks on the evaluation of the simulation results:
   but as for the particular case of an SPH shock tube there is not necessarily a constant particle spacing, 
   a divison by N is preferred)
 
-- furthermore the relative error for each variable (rho,p, u,e) is determined for each particle position 
-  (as well as the average value over all particles)
+- furthermore the relative (NO, THE ABSOLUTE, as relative nonsens for 0) error for each variable (rho,p, u,e) is determined for each particle position 
+  (as well as the average (NO, THE CUMMULATED) value over all particles)
+
+- due to the smoothing effect, the shock resolution is always a bit problematic, Monaghan2005 therefore states
+  that the after shock values are a better benachmark for the precission of the method than the actual shock resolution.
+  To measure the precission on the after shock values, a 
