@@ -16,33 +16,36 @@ const double pi = 3.141592653589793238462643383279502884197;
 /// Cubic spline kernel (see Liu eq. (3.6)
 Harmonic::Harmonic(const double supportlength, const double harmonic_n)
   : Kernel(supportlength),
-    norm( 10.0 / (7.0*pi)/*1.0/3.0*/  / (supportlength/**/*supportlength/**/) ) ,
-    factorGradW( 2.0*norm /supportlength )
-{
-  // initialize the auxiliary factors
+    n(harmonic_n) {
+  /// get normalization parameters for 2D using polynomoms
+  /// J. Comput. Phys., 2008, 227, 8523-8540
+  const double a0 = 7.332473e-2;
+  const double a1 = 1.196425e-1;
+  const double a2 = 3.319287e-3;
+  const double a3 = -5.511885e-4;
+  const double a4 = 4.828286e-5;
+  const double a5 = -1.733766e-6;
 
- }
+  const double Kn = a5*pow(n, 5.0) + a4*pow(n, 4.0) +
+    a3*pow(n, 3.0) + a2*pow(n, 2.0) + a1*n + a0;
+  std::cerr << "Kn = " << Kn << '\n';
+  norm = 2.0*Kn/supportlength;
+}
+
 //----------------------------------------------------------------------------------------
 // Calculates the kernel value for the given distance of two particles
 //----------------------------------------------------------------------------------------
-double Harmonic::w(const double distance) const
-{
+double Harmonic::w(const double distance) const {
   const double R= 2.0 * distance/ supportlength;
-  if(R>2.0)
-    {
-      //support of 4h (supportlength =2h, h=0.015), everything beyond is zero
-      return 0.0;
-    }
-  else if(R>1.0) {
-    const double s2 = 2.0 - R;
-    return norm * s2 * s2 * s2 ;
+  if(R>2.0) {
+    return 0.0;
   }
-  else
-    {
-      const double s2 = 2.0 - R;
-      const double s1 = 1.0 - R;
-      return norm * ( s2*s2*s2 - 4.0*s1*s1*s1 );
-    };
+  else if(R==0.0) {
+    return norm;
+  } else {
+    const double aux  = pi*R/2.0;
+    return norm* pow(sin(aux)/aux, n);
+  }
 }
 //----------------------------------------------------------------------------------------
 // Calculates the kernel derivation for the given distance of two particles

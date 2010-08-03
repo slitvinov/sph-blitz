@@ -33,8 +33,11 @@ private:
     ///smoothing length
     double h;
 
-    ///Normalization factor
-    const double norm;
+  ///harmonic kernel parameter
+  const double n;
+
+  ///Normalization factor
+  double norm;
 
     ///Auxiliary factors for intermediate results: The inverse smoothing length
     double reciprocH;
@@ -47,7 +50,5 @@ private:
 
     ///Auxiliary factors for Laplacian
     double factorLapW;
-
 };
-
 #endif //HARMONIC_H

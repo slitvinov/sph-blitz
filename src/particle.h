@@ -31,7 +31,7 @@ class Particle {
 	///Mirror image particle creator
 	Particle (spParticle RealParticle , spMaterial material);
 
-	///deconstructor particle
+	///destructor particle
 	~Particle ();
 	
 	///particle states copier for boundary particles

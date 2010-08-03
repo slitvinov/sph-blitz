@@ -13,12 +13,8 @@
 
 int64_t Particle ::ID_max = 0;
 
-//----------------------------------------------------------------------------------------
-//	deconstructor particle
-//----------------------------------------------------------------------------------------
-Particle::~Particle ()
-{
-
+// particle destructor
+Particle::~Particle () {
 }
 //----------------------------------------------------------------------------------------
 //							real particle (constructor for liquids mode (as mass calculated afterwards)
