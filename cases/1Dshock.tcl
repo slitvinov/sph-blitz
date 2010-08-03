@@ -1,7 +1,6 @@
 # 1D shock configuration file
 # 1: liquids
 # 2: gas dynamics
-
 set SIMULATION_MODE 2
 
 # possible values are 

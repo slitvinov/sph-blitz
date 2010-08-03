@@ -15,4 +15,6 @@ Remarks on the evaluation of the simulation results:
 
 - due to the smoothing effect, the shock resolution is always a bit problematic, Monaghan2005 therefore states
   that the after shock values are a better benachmark for the precission of the method than the actual shock resolution.
-  To measure the precission on the after shock values, a 
+  To measure the precission of the after shock values, an additional L1 norm calculation is added for both the area
+  behind rarefaction (to discontinuity) (area 3) and the area behind shock (to discontinuity) (area 2) separately. 
+  
