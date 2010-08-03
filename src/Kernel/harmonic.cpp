@@ -11,12 +11,10 @@
 
 //local includes
 #include "Kernel/harmonic.h"
-
-using namespace std;
 const double pi = 3.141592653589793238462643383279502884197;
 
 /// Cubic spline kernel (see Liu eq. (3.6)
-Harmonic::Harmonic(const double supportlength)
+Harmonic::Harmonic(const double supportlength, const double harmonic_n)
   : Kernel(supportlength),
     norm( 10.0 / (7.0*pi)/*1.0/3.0*/  / (supportlength/**/*supportlength/**/) ) ,
     factorGradW( 2.0*norm /supportlength )

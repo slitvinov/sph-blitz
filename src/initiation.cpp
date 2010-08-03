@@ -52,6 +52,10 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
         //assert(integration_scheme == 1 || integration_scheme == 2);
 
 	kernel_type = static_cast<std::string>(interp.eval("[return $KERNEL_TYPE]"));
+	// for harmonic kernel we need a parameter n
+	if (kernel_type == "Harmonic") {
+	  harmonic_n = interp.eval("[return $harmonic_n]");
+	}
 
 	/// if gas dynamics
 	if (simu_mode == 2) {

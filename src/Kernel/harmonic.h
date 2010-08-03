@@ -12,7 +12,7 @@ class Harmonic : public Kernel
 public:
 
   ///constructor to initialize the data members (auxiliary factors for kernel calculation)
-  Harmonic(const double supportlength);
+  Harmonic(const double supportlength, const double harmonic_n);
   
   ///\brief Calculates the kernel value for the given distance of two particles
   virtual double w(const double distance) const;

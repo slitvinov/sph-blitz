@@ -95,7 +95,7 @@ int main(int argc, char *argv[]) {
       weight_function = boost::make_shared<CubicSpline1D>(ini.supportlength);
   }
   else if (ini.kernel_type == "Harmonic")   {
-      weight_function = boost::make_shared<Harmonic>(ini.supportlength);
+    weight_function = boost::make_shared<Harmonic>(ini.supportlength, ini.harmonic_n);
   }
   else {
     LOG(ERROR) << " unknown kernel type (KERNEL_TYPE in configuration file)\n" 

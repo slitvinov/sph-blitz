@@ -60,6 +60,8 @@ public:
   int density_mode;
   ///supportlength
   double supportlength;
+  /// parameter n for harmonic kerenel
+  double harmonic_n;
   ///the compuational domain size
   Vec2d box_size;
   ///cell size
