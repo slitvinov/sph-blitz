@@ -33,8 +33,10 @@ long as the results still are in the directory <<sph-blitz/src/outdata>>:
 (/sph-blitz/scripts/postProcessing) directory
 
  This will perform the following action:
- - create a new directory <<ResultsInProgress>> or (if it already exists) 
-   delet its content
+ - create a new directory <<ResultsInProgress>> in sph-blitz/results
+   !!!ATTENTION!!! by running this script all data possibly already existing
+   in the <<ResultsInProgress>> directory will be deleted. Therefore be sure
+   to save them at a different location before!!!
 
 
 2. run the c++ program <<exactResAndErr1DST.cpp>> in a shell placed in this
