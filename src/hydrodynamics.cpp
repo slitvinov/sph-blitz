@@ -192,10 +192,6 @@ BOOST_FOREACH(spParticle prtl, particle_list) {
   AddGravity(ini);
 }
 //----------------------------------------------------------------------------------------
-
-
-
-
 void Hydrodynamics::UpdateChangeRateInclRho(const Initiation& ini) {
   LOG(INFO) << " Hydrodynamics::UpdateChangeRateInclRho(ini)";
   ///- initiate the change rate of each real particle by calling ZeroChangeRate()
@@ -213,8 +209,6 @@ void Hydrodynamics::UpdateChangeRateInclRho(const Initiation& ini) {
   ///- include the gravity effects
   AddGravity(ini);
 }
-
-
 //						initiate particle change rate
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::ZeroChangeRate() {
