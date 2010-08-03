@@ -56,7 +56,11 @@ The initial developement of the method dates back to 1977, when Gingold and
 Monaghan tempted to compute an astrophysical gas dynamics problem with a new,
 %%%%%%%%%%%%
 % more MORE THAN WHAT
+
+%correction:
 %%%%%%%%%%%%%%%%
+ compared to grid based methods more
+
 efficient method~\cite{Gingold1977}. Independently and simultaneously, work in
 this field was also carried out by Lucy who came up with the same
 idea~\cite{Lucy1977}.
@@ -317,11 +321,15 @@ in the time of interest, there is no need to consider this
 problem. 
 The 1D shock tube simulation described further below
 (PERHAPS LINK TO SECTION)is an example of such a case.  
-But for other applications the edges play an important role.
+But for other applications the edges play an important role,
 %%%%%%%%%%%%%%%%%%%
 % or the domain has to be rendered periodocally. ????
+
+%correction:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-So it is necessary to define specific boundary
+ or the calculation domain has to be continued periodically. In both cases...
+
+(So) ...it is necessary to define specific boundary
 conditions. This can be accomplished by a special boundary treatment which
 often includes so--called virtual particles or ghost
 particles~\cite{Liu2003}. The first ones to come up with this idea were
@@ -364,7 +372,8 @@ to them have already been mentionned in section
 if it respects a set of criteria 
 %%%%%%%%%%%%%%%%%
 %complsed LISTED? 
-$$$$$$$$$$$$$$
+%%%%%%%%%%%%%%%%
+correction: (I had composed, does this work?)
 by \cite{Liu2003}.
 The most important ones are:
 
@@ -374,7 +383,10 @@ is the support domain of the smoothing function. The smoothing length $\kappa h$
 support length $h$ 
 %%%%%%%%%%%%%
 %may not be mixed up. ARE NOT TO BE CONFUSED?
+yes: i meant
 %%%%%%%%%%%%
+are not to be confused.
+ 
 \begin{equation}
 W(x-x')=0,\textit{for}|x-x'|>\kappa h.
 \end{equation}
