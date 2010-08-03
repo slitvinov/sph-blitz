@@ -523,7 +523,5 @@ int main (){
 
   cout<<"\n integral and mean error file successfully written \n";
   
-  
-  
   return 0;
 }
