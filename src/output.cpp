@@ -1,17 +1,10 @@
 /// \file output.cpp
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-/// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
-
-//----------------------------------------------------------------------------------------
-//      Output the computational results
-//		output.cpp
-//----------------------------------------------------------------------------------------
+/// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>,
 #include <fstream>
 #include <boost/foreach.hpp>
 #include <boost/format.hpp>
-
 #include <glog/logging.h>
-
 // ***** localincludes *****
 #include "hydrodynamics.h"
 #include "particlemanager.h"
@@ -25,9 +18,8 @@ Output::Output() {
   LOG(INFO) << "Create Output object\n";
 }
 
-void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary, 
-                            const double Time, const Initiation &ini)
-{
+void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary,
+                            const double Time, const Initiation &ini) {
   LOG(INFO) << "Output::OutputParticle";
   ///<ul><li>produce output file name
   const double Itime = Time*1.0e6;
@@ -112,20 +104,14 @@ out<<setprecision(9)
 //--------------------------------------------------------------------------------------------
 //		Output real particle data for restart the computation
 //--------------------------------------------------------------------------------------------
-void Output::OutRestart(Hydrodynamics &hydro, double Time, const Initiation& ini)
-{
-  std::string outputfile;
-
+void Output::OutRestart(const Hydrodynamics &hydro, const double Time, const Initiation& ini) {
   ///- output non-dimensional data
-  outputfile = ini.Project_name + ".rst";
+  std::string outputfile = ini.Project_name + ".rst";
   ofstream out(outputfile.c_str());
 
   //calculate the real particle number
   int n = 0;
-  for (std::list<spParticle >::const_iterator pp = hydro.particle_list.begin(); 
-       pp != hydro.particle_list.end(); 
-       pp++) {
-    spParticle prtl = *pp;
+  BOOST_FOREACH(spParticle prtl, hydro.particle_list) {
     if(prtl->bd == 0) n ++;
   }
 
