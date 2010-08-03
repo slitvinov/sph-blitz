@@ -70,11 +70,8 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
     }
 
     /// <li>iterate the boundary partilce list
-    for (std::list<spParticle >::const_iterator p1 = boundary.boundary_particle_list.begin(); 
-	 p1 != boundary.boundary_particle_list.end(); 
-	 p1++) {
+    BOOST_FOREACH(spParticle prtl, boundary.boundary_particle_list) {
       g++;		
-      spParticle prtl = *p1;
       if(hydro.materials[i]->material_name == prtl->mtl->material_name) { 
 	j ++;
 	b++;
@@ -120,14 +117,11 @@ void Output::OutRestart(const Hydrodynamics &hydro, const double Time, const Ini
   out<<n<<"\n";
   ///- output real particles (by iterating the particle list)
   //iterate the partilce list
-  for (std::list<spParticle >::const_iterator p = hydro.particle_list.begin(); 
-       p != hydro.particle_list.end(); 
-       p++) {
-				
-    spParticle prtl = *p;
-    if(prtl->bd == 0) 
+  BOOST_FOREACH(spParticle prtl, hydro.particle_list) {
+    if(prtl->bd == 0)  {
       out<<prtl->mtl->material_name<<"  "<<prtl->R[0]<<"  "<<prtl->R[1]<<"  "<<prtl->U[0]<<"  "<<prtl->U[1]
 	 <<"  "<<prtl->rho<<"  "<<prtl->p<<"  "<<prtl->T<<"  \n";
+    }
   }
   out.close();
 }
