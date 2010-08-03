@@ -35,7 +35,7 @@ obtained (according to <<sph-blitz/scripts/postProcessing/README>>):
   (as already done for q1D simulation)...
   But at the moment I will leave it like this, as the numerical errors are not affected by this graphical issue.
 
-  seond remark concerns the discontinuities for teh exact results: 
+  seond remark concerns the discontinuities for the exact results: 
   on the figures it may seem as if the discontinuities were not really discontinuous, even for the exact solution.
   In this case one has to keep in mind, that the exact solution is calculated ony at the particle position, everything
   in between is automatically interpolated by gnuplot. Again the numerical results are exact (as comparison is only 

@@ -320,7 +320,7 @@ int main (){
     }
   }
   
-  // L_1 norm calculation: sum all errors of rho, u, e 
+  // L norm calculation
   
   // norm calculation in the whole domain x=-0.5 til x=0.5
   double deltaRho=0;
@@ -346,7 +346,7 @@ int main (){
       deltaU=fabs(u_array[i]-simulationData[i][4]);
       deltaE=fabs(e_array[i]-simulationData[i][5]);
       // calculate L_1 norm contributions 
-      // for ehact variable separately (not needed for L2, Linf, as the same
+      // for each variable separately (not needed for L2, Linf, as the same
       // respectively nonsense
       L_1NormRho=L_1NormRho+deltaRho;
       L_1NormU=L_1NormU+deltaU;
@@ -424,8 +424,8 @@ int main (){
   L_1NormU3=L_1NormU3/N_part3;
   L_1NormE3=L_1NormE3/N_part3;
   L_1Norm3=L_1NormRho3+L_1NormU3+L_1NormE3;
-  L_2Norm3=L_2Norm3/N_part;
-  L_infNorm3=L_infNorm3/N_part;
+  L_2Norm3=L_2Norm3/N_part3;
+  L_infNorm3=L_infNorm3/N_part3;
   
   // norm calculation in area2 (after contact discontinuity, before shock)
   // to get rid of the smoothing effect and to focus only on the actual
@@ -475,8 +475,8 @@ int main (){
   L_1NormU2=L_1NormU2/N_part2;
   L_1NormE2=L_1NormE2/N_part2;
   L_1Norm2=L_1NormRho2+L_1NormU2+L_1NormE2;
-  L_2Norm2=L_2Norm2/N_part;
-  L_infNorm2=L_infNorm2/N_part;
+  L_2Norm2=L_2Norm2/N_part2;
+  L_infNorm2=L_infNorm2/N_part2;
   
   // output the results in files
   
