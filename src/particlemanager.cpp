@@ -385,7 +385,7 @@ void ParticleManager::BuildRealParticleGasDyn(vecMaterial materials,
 	  prtl->cell_i = i; prtl->cell_j = j; 
 	  //insert the position into corresponding cell list
 	  cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
-	  LOG_EVERY_N(INFO,100) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no (starts at 0 (for boundary particle, 1 is first real particle cell)): "<<prtl->cell_i;
+	  LOG_EVERY_N(INFO,1000) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no (starts at 0 (for boundary particle, 1 is first real particle cell)): "<<prtl->cell_i;
 	};
       
       fin.close();

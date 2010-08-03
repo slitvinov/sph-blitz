@@ -162,7 +162,7 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
 			    spKernel weight_function)
 {
   LOG(INFO)<<"Initiation::VolumeMass starts";
-  ///mass initiation is different of 1DSPH code: 
+  ///mass initiation is different from 1DSPH code: 
   ///here: mass is calculated by summing up the kernel function contributions for easch particle, which gives a kind of the inverse volume taken by each particle (not perfectly true at the discontinuity). together with rho (from initialization) a mass for each particle can be obtained.
   ///within the discontinuity zone, this mass varies because of the smoothing effect of the kernel summation.
   ///The mass for each particle  stays constant during the simuation.
@@ -191,7 +191,7 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
     // /// <li> save volume and mass in the respective particle list node (whih is each a spParticle object with all the particle properties) 
     // prtl_org->V = reciprocV;
     // prtl_org->m = prtl_org->rho*reciprocV;
-    LOG_EVERY_N(INFO, 100) <<std::setprecision(10)<< "prtl ID"<<prtl_org->ID<<"prtl m  = " << prtl_org->m;
+    LOG_EVERY_N(INFO, 1000) <<std::setprecision(10)<< "prtl ID"<<prtl_org->ID<<"prtl m  = " << prtl_org->m;
 
   }
   LOG(INFO)<<"Initiation::VolumeMass ends";

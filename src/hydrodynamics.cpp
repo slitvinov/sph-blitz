@@ -117,7 +117,7 @@ void Hydrodynamics::UpdateDensity(const Initiation &ini, spKernel  weight_functi
   LOG(INFO)<<"density after smoothing";
 
   BOOST_FOREACH(spParticle prtl, particle_list){
-    LOG_EVERY_N(INFO,1) << setprecision (9)<<prtl->ID<<"    "<<prtl->rho<<endl;
+    LOG_EVERY_N(INFO,10000) << setprecision (9)<<prtl->ID<<"    "<<prtl->rho<<endl;
   }
 
   ///- calulate new pressure by calling UpdateState()
@@ -194,7 +194,7 @@ void Hydrodynamics::UpdateChangeRateInclRho(const Initiation& ini) {
   }
   //control output
   BOOST_FOREACH(spParticle prtl, particle_list) {
-    LOG_EVERY_N(INFO, 100) <<"dUdt: "<<prtl->dUdt[0] << " dUdt1: "<<prtl->dUdt[1];
+    LOG_EVERY_N(INFO, 1000) <<"dUdt: "<<prtl->dUdt[0] << " dUdt1: "<<prtl->dUdt[1];
   }
 
   ///- include the gravity effects
