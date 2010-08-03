@@ -13,10 +13,17 @@
 #include "Kernel/harmonic.h"
 const double pi = 3.141592653589793238462643383279502884197;
 
-/// Cubic spline kernel (see Liu eq. (3.6)
+/// Harmonic kernel 
+/// (see J. Comput. Phys., Academic Press Inc Elsevier Science, 2008, 227, 8523-8540)
 Harmonic::Harmonic(const double supportlength, const double harmonic_n)
   : Kernel(supportlength),
     n(harmonic_n) {
+  
+  /// check the range of the parameter
+  assert(n<6.1);
+  assert(n>1.9);
+  assert(supportlength>0.0);
+  
   /// get normalization parameters for 2D using polynomoms
   /// J. Comput. Phys., 2008, 227, 8523-8540
   const double a0 = 7.332473e-2;

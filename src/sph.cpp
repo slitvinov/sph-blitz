@@ -83,16 +83,16 @@ int main(int argc, char *argv[]) {
   /// choose a kernel
   spKernel weight_function;
   if  (ini.kernel_type == "CubicSpline")   {
-      weight_function = boost::make_shared<CubicSpline>(ini.supportlength); 
+    weight_function = boost::make_shared<CubicSpline>(ini.supportlength); 
   } 
   else if (ini.kernel_type == "BetaSpline")   {
-      weight_function = boost::make_shared<BetaSpline>(ini.supportlength); 
+    weight_function = boost::make_shared<BetaSpline>(ini.supportlength); 
   } 
   else if (ini.kernel_type == "QuinticSpline")   {
-      weight_function = boost::make_shared<QuinticSpline>(ini.supportlength);
+    weight_function = boost::make_shared<QuinticSpline>(ini.supportlength);
   } 
   else if (ini.kernel_type == "CubicSpline1D")   {
-      weight_function = boost::make_shared<CubicSpline1D>(ini.supportlength);
+    weight_function = boost::make_shared<CubicSpline1D>(ini.supportlength);
   }
   else if (ini.kernel_type == "Harmonic")   {
     weight_function = boost::make_shared<Harmonic>(ini.supportlength, ini.harmonic_n);
