@@ -35,15 +35,20 @@ class Particle {
 	~Particle ();
 	
 	///particle states copier for boundary particles
-	void StatesCopier(spParticle RealParticle , int type);
+	void StatesCopier(spParticle RealParticle , const int type);
 
+	/// \brief boundary particle or not
+	///
+	///- 0: inside the boundary
+	///- 1: on the boundary
+	const int bd; 
+
+	///a shared pointer  to the material
+	spMaterial mtl; 
 
 	int cell_i;///<i-position in cells
         int cell_j; ///<j-position in cells
 	
-	///a shared pointer  to the material
-	spMaterial mtl; 
-
 	///pointer to a real particle
 	spParticle rl_prtl;
 
@@ -76,11 +81,6 @@ class Particle {
         double dedt; ///<internal energy change rate for real particles
 	Vec2d dUdt;///<acceleration change for real particles <b>or is it the other wa round</b>
 
-	/// \brief boundary particle or not
-	///
-	///- 0: inside the boundary
-	///- 1: on the boundary
-	const int bd; 
 
 	///\brief ID number
 	///

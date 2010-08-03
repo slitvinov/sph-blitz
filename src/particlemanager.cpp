@@ -67,11 +67,11 @@ ParticleManager::ParticleManager(
   supportlengthsquare(supportlength*supportlength),
   box_size(box_size),
   cll_sz(cell_size),
-  x_clls(x_cells+2),
-  y_clls(y_cells+2), 
   initial_condition(initial_condition),
-  hdelta(hdelta), 
-  delta(delta)
+  delta(delta),
+  hdelta(hdelta),
+  x_clls(x_cells+2),
+  y_clls(y_cells+2)
 {
   cell_lists.resize(x_clls, y_clls);
 }
