@@ -68,7 +68,6 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
 	     <<"  "<<prtl->m<<"\n";
       }
     }
-
     /// <li>iterate the boundary partilce list
     BOOST_FOREACH(spParticle prtl, boundary.boundary_particle_list) {
       g++;		
@@ -78,16 +77,15 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
 	if (j == 1) {
           out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
         }
-out<<setprecision(9)
-	     << ::setw(17)<<prtl->R[0] 
-	     << ::setw(17)<<prtl->R[1] 
+	out<<setprecision(9)
+	   << ::setw(17)<<prtl->R[0] 
+	   << ::setw(17)<<prtl->R[1] 
 	     << ::setw(17) <<prtl->rho 
 	     << ::setw(17)<<prtl->p
 	     << ::setw(17)<<prtl->U[0]
 	     << ::setw(17)<<prtl->e
 	     <<"  "<<prtl->ID
              <<"  "<<prtl->m<<"\n";
-          
       }
     }
   }
