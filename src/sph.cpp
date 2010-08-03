@@ -23,6 +23,7 @@
 #include "Kernel/cubicspline.h"
 #include "Kernel/cubicspline1D.h"
 #include "Kernel/betaspline.h"
+#include "Kernel/harmonic.h"
 
 //using namespace std;
 
@@ -93,15 +94,17 @@ int main(int argc, char *argv[]) {
   else if (ini.kernel_type == "CubicSpline1D")   {
       weight_function = boost::make_shared<CubicSpline1D>(ini.supportlength);
   }
- else {
-   LOG(ERROR) << " unknown kernel type (KERNEL_TYPE in configuration file)\n" 
-	      << " KERNEL_TYPE: " << ini.kernel_type;
-   exit(EXIT_FAILURE);
- }
-
+  else if (ini.kernel_type == "Harmonic")   {
+      weight_function = boost::make_shared<Harmonic>(ini.supportlength);
+  }
+  else {
+    LOG(ERROR) << " unknown kernel type (KERNEL_TYPE in configuration file)\n" 
+	       << " KERNEL_TYPE: " << ini.kernel_type;
+    exit(EXIT_FAILURE);
+  }
+  
   assert(weight_function != NULL);
   weight_function->show_information();
-
 
   ParticleManager particles(ini); ///< - initiate the particle manager
   Hydrodynamics hydro(particles, ini); ///< - create materials, forces and real particles

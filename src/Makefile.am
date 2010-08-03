@@ -16,6 +16,7 @@ nomain=	 boundary.cpp boundary.h \
 	Kernel/cubicspline.cpp Kernel/cubicspline.h \
 	Kernel/cubicspline1D.cpp Kernel/cubicspline1D.h \
 	Kernel/betaspline.h Kernel/betaspline.cpp \
+	Kernel/harmonic.h Kernel/harmonic.cpp \
 	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
 	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
 	TimeSolver/gastimesolverLeapFrog.cpp TimeSolver/gastimesolverLeapFrog.h \
