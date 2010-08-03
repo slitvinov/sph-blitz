@@ -82,7 +82,7 @@ public:
 	std::list<spParticle > boundary_particle_list; ///boundary particle list for all boundray particles
 
 	///constructor
-	Boundary(Initiation &ini, ParticleManager &particles);
+	Boundary(Initiation &ini, const ParticleManager &particles);
 
 	///build boundary particles
 	void BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &hydro);

@@ -1,7 +1,6 @@
 // \file boundary.cpp
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 /// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -11,6 +10,7 @@
 #include <cmath>
 
 #include <glog/logging.h>
+#include <boost/smart_ptr/make_shared.hpp>
 
 // ***** localincludes *****
 #include "hydrodynamics.h"
@@ -20,11 +20,9 @@
 #include "initiation.h"
 #include "glbtype.h"
 
-#include <boost/smart_ptr/make_shared.hpp>
-
 
 // construtor
-Boundary::Boundary(Initiation &ini, ParticleManager &particles) {
+Boundary::Boundary(Initiation &ini, const ParticleManager &particles) {
   /// copy global properties from initiation class
   box_size = ini.box_size;
   x_clls = particles.x_clls;
