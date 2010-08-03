@@ -1,30 +1,19 @@
 // \file boundary.cpp
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 /// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>
-
-#include <iostream>
-#include <fstream>
-#include <string>
-
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
-
 #include <glog/logging.h>
+#include <boost/smart_ptr/make_shared.hpp>
 
 // ***** localincludes *****
 #include "hydrodynamics.h"
 #include "particlemanager.h"
-#include "material.h"
 #include "boundary.h"
 #include "initiation.h"
 #include "glbtype.h"
 
-#include <boost/smart_ptr/make_shared.hpp>
-
 
 // construtor
-Boundary::Boundary(Initiation &ini, ParticleManager &particles) {
+Boundary::Boundary(Initiation &ini, const ParticleManager &particles) {
   /// copy global properties from initiation class
   box_size = ini.box_size;
   x_clls = particles.x_clls;
@@ -71,18 +60,18 @@ void Boundary::show_information() const {
 void Boundary::RunAwayCheck(Hydrodynamics &hydro) {
   /// - iterate the partilce list
   for (std::list<spParticle>::const_iterator  p = hydro.particle_list.begin(); 
-       p != hydro.particle_list.end(); 
+       p != hydro.particle_list.end();
        p++) {
     spParticle prtl = *p;
-    if(fabs(prtl->R[0]) >= 2.0*box_size[0] || fabs(prtl->R[1]) >= 2.0*box_size[1]) {
-      std::cerr<<"Boundary: the particles run out too far away from the domain! \n";
+    if (fabs(prtl->R[0]) >= 2.0*box_size[0] || fabs(prtl->R[1]) >= 2.0*box_size[1]) {
+      std::cerr << "Boundary: the particles run out too far away from the domain! \n";
       std::cerr << __FILE__ << ':' << __LINE__ << std::endl;
       exit(EXIT_FAILURE);
     }
     ///- only checking real particles (for all boundaries)
-    if(prtl->bd == 0) {
+    if (prtl->bd == 0) {
       //west boundary
-      if(prtl->R[0] < 0.0) {
+      if (prtl->R[0] < 0.0) {
         switch(xBl) {
           //wall
           case 0: 
@@ -173,15 +162,14 @@ void Boundary::RunAwayCheck(Hydrodynamics &hydro) {
 //----------------------------------------------------------------------------------------
 void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &hydro)
 {
-  int i, j;
-
   /// <ul><li>clear boundary particles list
   boundary_particle_list.clear();
     
-  int kb, ku, mb, mu;
+  int kb = 0;
+  int ku = 0;
   //default: no corner needs to be considered
-  kb = 0; mb = x_clls;
-  ku = 0; mu = x_clls;
+  int mb = x_clls;
+  int mu = x_clls;
     
   //corners to be considered    
   if(xBl == yBd) kb = 1; //south-west corner
@@ -191,7 +179,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
   /// <li>boundary condition for each side
   //x direction
-  for(j = 1; j < y_clls - 1; j++) {
+  for(int j = 1; j < y_clls - 1; j++) {
     /// <ul><li>west side: test boundary parameter for one of the following cases and then build the appropriate boundary particles
     //clear cell linked list data (particles)
     particles.cell_lists(0,j).clear();
@@ -344,7 +332,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
   //y direction
 
   /// <li>south side
-  for(i = kb; i < mb; i++) {
+  for (int i = kb; i < mb; i++) {
     //clear cell linked list data (particles)
     particles.cell_lists(i,0).clear();
 
@@ -419,7 +407,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
   }
 
   /// <li>north side
-  for(i = ku; i < mu; i++) {
+  for (int i = ku; i < mu; i++) {
     //clear the linked list data (particles)
     particles.cell_lists(i,y_clls - 1).clear();
 
@@ -777,7 +765,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     }
   }
 
-  /// <li>the perodic conditions</ul></ul>    
+  /// <li>the perodic conditions</ul></ul>
   if(xBr == 1 && yBd == 1) {
     //clear the linked list data (particles)
     particles.cell_lists(x_clls - 1,0).clear();
@@ -805,10 +793,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 //----------------------------------------------------------------------------------------
 //                            boundary condition
 //----------------------------------------------------------------------------------------
-void Boundary::BoundaryCondition(ParticleManager &particles)
-{
-  int i, j;
-
+void Boundary::BoundaryCondition(ParticleManager &particles) {
   int kb, ku, mb, mu;
   //default: no coner need to be considered
   kb = 0; mb = x_clls;
@@ -821,7 +806,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
   if(xBr == yBu) mu = x_clls - 1; //north-east corner
 
   //x direction
-  for(j = 1; j < y_clls - 1; j++) {
+  for(int j = 1; j < y_clls - 1; j++) {
     
     /// <ul> <li>west side
 
@@ -891,7 +876,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
   //y direction
     
   /// <li>south side
-  for(i = kb; i < mb; i++) {
+  for (int i = kb; i < mb; i++) {
     /// <ul><li>the rigid wall conditions    
     if(yBd == 0 || yBd == 2) {
       //iterate the correspeond cell linked list
@@ -925,7 +910,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
   }
 
   /// <li>north side
-  for(i = ku; i < mu; i++) {
+  for (int i = ku; i < mu; i++) {
     /// <ul><li>the rigid wall conditions    
     if(yBu == 0 || yBu == 2) {
       //iterate the correspeond cell for real and wall partilces

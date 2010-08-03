@@ -8,20 +8,13 @@
 //----------------------------------------------------------------
 
 // ***** local includes *****
-#include "glbfunc.h"
 #include "material.h"
-
-
 #include "particle.h"
 
 int64_t Particle ::ID_max = 0;
 
-//----------------------------------------------------------------------------------------
-//	deconstructor particle
-//----------------------------------------------------------------------------------------
-Particle::~Particle ()
-{
-
+// particle destructor
+Particle::~Particle () {
 }
 //----------------------------------------------------------------------------------------
 //							real particle (constructor for liquids mode (as mass calculated afterwards)
@@ -191,7 +184,7 @@ Particle::Particle (spParticle RealParticle , spMaterial material):
 //----------------------------------------------------------------------------------------
 //					particle states copier for boundary particles
 //----------------------------------------------------------------------------------------
-void Particle ::StatesCopier(spParticle RealParticle , int type)
+void Particle ::StatesCopier(spParticle RealParticle , const int type)
 {
   ///- copy states
   R = RealParticle->R; m = RealParticle->m;

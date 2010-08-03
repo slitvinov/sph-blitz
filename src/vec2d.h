@@ -6,11 +6,6 @@
 
 #ifndef VEC2D_H
 #define VEC2D_H
-
-#include <cmath>
-
-
-#include <blitz/tinyvec.h>
 #include <blitz/tinyvec-et.h>
 
 /// A type for two dimensional vector

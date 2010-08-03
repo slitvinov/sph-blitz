@@ -10,21 +10,16 @@
 //      The abstract kernel base class for the SPH method
 //		kernel.cpp
 //----------------------------------------------------------------------------------------
-
-#include <iostream>
-
-#include <cstdlib>
 #include <glog/logging.h>
 
 // ***** local includes *****
-#include "glbfunc.h"
 #include "Kernel/kernel.h"
 
 //constructor to inizialize the data members
 Kernel::Kernel(const double supportlength)
     : supportlength(supportlength)
 {
-    if (supportlength <= 0.0)
+  if (supportlength <= 0.0)
     {
       LOG(INFO) << "\n FAILURE: The Kernel gets a non-positive smoothing length \"" 
 		<< supportlength << "\"!\n";
@@ -32,10 +27,7 @@ Kernel::Kernel(const double supportlength)
       exit(1);
     }
 }
-//----------------------------------------------------------------------------------------
-//					de-constructor
-//----------------------------------------------------------------------------------------
-///deconstructor
+
 Kernel::~Kernel()
 {
 }

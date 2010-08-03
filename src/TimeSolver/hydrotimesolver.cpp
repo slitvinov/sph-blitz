@@ -6,19 +6,9 @@
 //			Time solver class
 //			timesolver.cpp
 //-----------------------------------------------------------------------
-// ***** system includes *****
-#include <iostream>
-#include <fstream>
-#include <string>
-
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
-
 #include <glog/logging.h>
 
 // ***** localincludes *****
-#include "glbfunc.h"
 #include "hydrodynamics.h"
 #include "particlemanager.h"
 #include "TimeSolver/hydrotimesolver.h"

@@ -1,6 +1,7 @@
 /// Kernels  test program 
 #include "Kernel/quinticspline.h"
 #include "Kernel/cubicspline.h"
+#include "Kernel/harmonic.h"
 #include <boost/test/minimal.hpp>
 #include <blitz/vector.h>
 #include <blitz/array.h>
@@ -34,7 +35,6 @@ void test_kernel(const Kernel& weight_function , const double supportlength) {
  dwOut.close();
  std::cerr << "output kernel to w.dat\n" ;
  std::cerr << "output derivative  to dw.dat\n" ;
- 
 
  // integrate kernel 
  w = blitz::Array<double, 1>(weight_function.w(x)*x);
@@ -43,12 +43,12 @@ void test_kernel(const Kernel& weight_function , const double supportlength) {
  s = 2.0 * pi * dx * s;
  BOOST_REQUIRE( abs(s - 1.0) < eps );
 
-
  // integrate the derivative of the kernel
  w = blitz::Array<double, 1>(weight_function.F(x)*x*x);
  s =  std::accumulate(w.begin(), w.end(), 0.0);
  s = s - 0.5*w(0) - 0.5*w(numSamples);
  s = pi * dx * s;
+ std::cerr << "s = " << s << std::endl;
  BOOST_REQUIRE( abs(s - 1.0) < eps );
 
  // cumulative sum of the derivatives
@@ -65,19 +65,18 @@ void test_kernel(const Kernel& weight_function , const double supportlength) {
  for (int idx=0; idx<numSamples; idx++) {
    BOOST_REQUIRE( abs(cumsum(idx) - w(idx)) < eps*w(0.0) );
  }
-
   /// check integral of the kernel function
   /// use Trapezoidal Rule
 }
 
 int test_main( int, char *[] )     {  
   const double supportlength = 0.8;
-  QuinticSpline q_weight_function(supportlength);
-  //test_kernel(q_weight_function, supportlength);
+  Harmonic q_weight_function(supportlength, 4.0);
+  test_kernel(q_weight_function, supportlength);
 
-  CubicSpline c_weight_function(supportlength);
-  std::cerr << "Testing CubicSpline kernel\n";
-  test_kernel(c_weight_function, supportlength);
+  //  CubicSpline c_weight_function(supportlength);
+  //  std::cerr << "Testing CubicSpline kernel\n";
+  //  test_kernel(c_weight_function, supportlength);
 
   return EXIT_SUCCESS;
 };

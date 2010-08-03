@@ -21,8 +21,10 @@ class ParticleManager {
   double supportlength;  ///<smoothinglenth
   double supportlengthsquare; ///<smoothinglenth square
   Vec2d box_size; ///<computational domain size
-  int initial_condition; ///<initial condition marker
   double cll_sz; ///<cell size
+
+  int initial_condition; ///<initial condition marker
+
   double delta; ///<the inital particle distance
   int hdelta; ///<the ration between smoothing length and inital particle distance
 public:

@@ -6,23 +6,17 @@
 //      initialize the progam
 //		initiation.cpp
 //----------------------------------------------------------------------------------------
-
-#include <iostream>
 #include <fstream>
-#include <string>
-#include <cstdio>
-#include <cstdlib>
-
 #include <glog/logging.h>
+#include <boost/foreach.hpp>
 
 // ***** localincludes *****
-#include "glbfunc.h"
 #include "hydrodynamics.h"
 #include "particlemanager.h"
 #include "Kernel/kernel.h"
 #include "initiation.h"
-#include <boost/foreach.hpp>
-using namespace std;
+
+//using namespace std;
 
 
 //----------------------------------------------------------------------------------------
@@ -58,6 +52,10 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
         //assert(integration_scheme == 1 || integration_scheme == 2);
 
 	kernel_type = static_cast<std::string>(interp.eval("[return $KERNEL_TYPE]"));
+	// for harmonic kernel we need a parameter n
+	if (kernel_type == "Harmonic") {
+	  harmonic_n = interp.eval("[return $harmonic_n]");
+	}
 
 	/// if gas dynamics
 	if (simu_mode == 2) {
@@ -193,7 +191,7 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
     // /// <li> save volume and mass in the respective particle list node (whih is each a spParticle object with all the particle properties) 
     // prtl_org->V = reciprocV;
     // prtl_org->m = prtl_org->rho*reciprocV;
-    LOG_EVERY_N(INFO, 100) <<::setprecision(10)<< "prtl ID"<<prtl_org->ID<<"prtl m  = " << prtl_org->m;
+    LOG_EVERY_N(INFO, 100) <<std::setprecision(10)<< "prtl ID"<<prtl_org->ID<<"prtl m  = " << prtl_org->m;
 
   }
   LOG(INFO)<<"Initiation::VolumeMass ends";

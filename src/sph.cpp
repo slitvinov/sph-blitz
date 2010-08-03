@@ -2,31 +2,20 @@
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 /// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>
 /// \author changes by: Andreas Mattes
-
-
-#include <iostream>
-#include <fstream>
-#include <string>
-
-#include <cstdio>
-#include <cstdlib>
-#include <ctime>
-#include <cmath>
-
 #include <glog/logging.h>
+#include <boost/smart_ptr/make_shared.hpp>
 
 // main page for doxygen is in a separate file
 #include "main.doxygen"
 
 // ***** local includes *****
-#include "glbfunc.h"
 #include "particlemanager.h"
 #include "hydrodynamics.h"
 #include "TimeSolver/gastimesolverLeapFrog.h"
 #include "TimeSolver/gastimesolverPredCorr.h"
+#include "TimeSolver/hydrotimesolver.h"
 #include "vec2d.h"
 #include "interaction.h"
-#include "TimeSolver/hydrotimesolver.h"
 #include "initiation.h"
 #include "output.h"
 #include "boundary.h"
@@ -34,9 +23,9 @@
 #include "Kernel/cubicspline.h"
 #include "Kernel/cubicspline1D.h"
 #include "Kernel/betaspline.h"
-#include <boost/smart_ptr/make_shared.hpp>
+#include "Kernel/harmonic.h"
 
-using namespace std;
+//using namespace std;
 
 ///
 /// \brief The main program
@@ -94,26 +83,28 @@ int main(int argc, char *argv[]) {
   /// choose a kernel
   spKernel weight_function;
   if  (ini.kernel_type == "CubicSpline")   {
-      weight_function = boost::make_shared<CubicSpline>(ini.supportlength); 
+    weight_function = boost::make_shared<CubicSpline>(ini.supportlength); 
   } 
   else if (ini.kernel_type == "BetaSpline")   {
-      weight_function = boost::make_shared<BetaSpline>(ini.supportlength); 
+    weight_function = boost::make_shared<BetaSpline>(ini.supportlength); 
   } 
   else if (ini.kernel_type == "QuinticSpline")   {
-      weight_function = boost::make_shared<QuinticSpline>(ini.supportlength);
+    weight_function = boost::make_shared<QuinticSpline>(ini.supportlength);
   } 
   else if (ini.kernel_type == "CubicSpline1D")   {
-      weight_function = boost::make_shared<CubicSpline1D>(ini.supportlength);
+    weight_function = boost::make_shared<CubicSpline1D>(ini.supportlength);
   }
- else {
-   LOG(ERROR) << " unknown kernel type (KERNEL_TYPE in configuration file)\n" 
-	      << " KERNEL_TYPE: " << ini.kernel_type;
-   exit(EXIT_FAILURE);
- }
-
+  else if (ini.kernel_type == "Harmonic")   {
+    weight_function = boost::make_shared<Harmonic>(ini.supportlength, ini.harmonic_n);
+  }
+  else {
+    LOG(ERROR) << " unknown kernel type (KERNEL_TYPE in configuration file)\n" 
+	       << " KERNEL_TYPE: " << ini.kernel_type;
+    exit(EXIT_FAILURE);
+  }
+  
   assert(weight_function != NULL);
   weight_function->show_information();
-
 
   ParticleManager particles(ini); ///< - initiate the particle manager
   Hydrodynamics hydro(particles, ini); ///< - create materials, forces and real particles

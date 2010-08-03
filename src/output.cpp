@@ -1,27 +1,11 @@
 /// \file output.cpp
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-/// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
-
-//----------------------------------------------------------------------------------------
-//      Output the computational results
-//		output.cpp
-//----------------------------------------------------------------------------------------
-
-#include <iostream>
+/// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>,
 #include <fstream>
-#include <string>
-
-#include <cstdio>
-#include <cstdlib>
-
 #include <boost/foreach.hpp>
 #include <boost/format.hpp>
-
 #include <glog/logging.h>
-
 // ***** localincludes *****
-#include "glbfunc.h"
-#include "material.h"
 #include "hydrodynamics.h"
 #include "particlemanager.h"
 #include "output.h"
@@ -34,9 +18,8 @@ Output::Output() {
   LOG(INFO) << "Create Output object\n";
 }
 
-void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary, 
-                            const double Time, const Initiation &ini)
-{
+void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary,
+                            const double Time, const Initiation &ini) {
   LOG(INFO) << "Output::OutputParticle";
   ///<ul><li>produce output file name
   const double Itime = Time*1.0e6;
@@ -85,29 +68,24 @@ void Output::OutputParticle(Hydrodynamics &hydro, Boundary &boundary,
 	     <<"  "<<prtl->m<<"\n";
       }
     }
-
     /// <li>iterate the boundary partilce list
-    for (std::list<spParticle >::const_iterator p1 = boundary.boundary_particle_list.begin(); 
-	 p1 != boundary.boundary_particle_list.end(); 
-	 p1++) {
+    BOOST_FOREACH(spParticle prtl, boundary.boundary_particle_list) {
       g++;		
-      spParticle prtl = *p1;
       if(hydro.materials[i]->material_name == prtl->mtl->material_name) { 
 	j ++;
 	b++;
 	if (j == 1) {
           out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
         }
-out<<setprecision(9)
-	     << ::setw(17)<<prtl->R[0] 
-	     << ::setw(17)<<prtl->R[1] 
+	out<<setprecision(9)
+	   << ::setw(17)<<prtl->R[0] 
+	   << ::setw(17)<<prtl->R[1] 
 	     << ::setw(17) <<prtl->rho 
 	     << ::setw(17)<<prtl->p
 	     << ::setw(17)<<prtl->U[0]
 	     << ::setw(17)<<prtl->e
 	     <<"  "<<prtl->ID
              <<"  "<<prtl->m<<"\n";
-          
       }
     }
   }
@@ -121,20 +99,14 @@ out<<setprecision(9)
 //--------------------------------------------------------------------------------------------
 //		Output real particle data for restart the computation
 //--------------------------------------------------------------------------------------------
-void Output::OutRestart(Hydrodynamics &hydro, double Time, const Initiation& ini)
-{
-  std::string outputfile;
-
+void Output::OutRestart(const Hydrodynamics &hydro, const double Time, const Initiation& ini) {
   ///- output non-dimensional data
-  outputfile = ini.Project_name + ".rst";
+  std::string outputfile = ini.Project_name + ".rst";
   ofstream out(outputfile.c_str());
 
   //calculate the real particle number
   int n = 0;
-  for (std::list<spParticle >::const_iterator pp = hydro.particle_list.begin(); 
-       pp != hydro.particle_list.end(); 
-       pp++) {
-    spParticle prtl = *pp;
+  BOOST_FOREACH(spParticle prtl, hydro.particle_list) {
     if(prtl->bd == 0) n ++;
   }
 
@@ -143,14 +115,11 @@ void Output::OutRestart(Hydrodynamics &hydro, double Time, const Initiation& ini
   out<<n<<"\n";
   ///- output real particles (by iterating the particle list)
   //iterate the partilce list
-  for (std::list<spParticle >::const_iterator p = hydro.particle_list.begin(); 
-       p != hydro.particle_list.end(); 
-       p++) {
-				
-    spParticle prtl = *p;
-    if(prtl->bd == 0) 
+  BOOST_FOREACH(spParticle prtl, hydro.particle_list) {
+    if(prtl->bd == 0)  {
       out<<prtl->mtl->material_name<<"  "<<prtl->R[0]<<"  "<<prtl->R[1]<<"  "<<prtl->U[0]<<"  "<<prtl->U[1]
 	 <<"  "<<prtl->rho<<"  "<<prtl->p<<"  "<<prtl->T<<"  \n";
+    }
   }
   out.close();
 }

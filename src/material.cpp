@@ -6,19 +6,9 @@
 //				Define material properties
 //				material.cpp
 //----------------------------------------------------------------
-// ***** system includes *****
-#include <iostream>
-#include <fstream>
-#include <string>
-
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
-
 #include <glog/logging.h>
 
 // ***** localincludes *****
-#include "glbfunc.h"
 #include "material.h"
 #include "initiation.h"
 #include <boost/format.hpp>
