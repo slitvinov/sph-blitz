@@ -29,7 +29,7 @@ now in detail
 after a simulation (with 1D particle distribution) has been conducted and as
 long as the results still are in the directory <<sph-blitz/src/outdata>>:
 
-2. run the shell script <<prepareDirectory.sh>> in a shell placed in this
+1. run the shell script <<prepareDirectory.sh>> in a shell placed in this
 (/sph-blitz/scripts/postProcessing) directory
 
  This will perform the following action:
@@ -37,7 +37,7 @@ long as the results still are in the directory <<sph-blitz/src/outdata>>:
    delet its content
 
 
-3. run the c++ program <<exactResAndErr1DST.cpp>> in a shell placed in this
+2. run the c++ program <<exactResAndErr1DST.cpp>> in a shell placed in this
 (/sph-blitz/scripts/postProcessing) directory
 
  This will perform the following action:
