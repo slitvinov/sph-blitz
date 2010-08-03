@@ -9,7 +9,6 @@
 //		bskernel.cpp
 //----------------------------------------------------------------------------------------
 //local includes
-//#include "glbfunc.h"
 #include "Kernel/cubicspline1D.h"
 
 using namespace std;

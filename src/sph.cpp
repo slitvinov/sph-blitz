@@ -9,7 +9,6 @@
 #include "main.doxygen"
 
 // ***** local includes *****
-//#include "glbfunc.h"
 #include "particlemanager.h"
 #include "hydrodynamics.h"
 #include "TimeSolver/gastimesolverLeapFrog.h"

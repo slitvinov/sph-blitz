@@ -13,7 +13,6 @@
 #include <glog/logging.h>
 
 // ***** localincludes *****
-#include "glbfunc.h"
 #include "hydrodynamics.h"
 #include "particlemanager.h"
 #include "output.h"

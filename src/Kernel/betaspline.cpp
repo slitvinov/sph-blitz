@@ -8,14 +8,6 @@
 //		Most often used kernel.
 //		bskernel.cpp
 //----------------------------------------------------------------------------------------
-
-// ***** system includes *****
-#include <iostream>
-#include <fstream>
-#include <string>
-
-//local includes
-#include "glbfunc.h"
 #include "Kernel/betaspline.h"
 
 using namespace std;

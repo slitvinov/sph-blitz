@@ -10,7 +10,6 @@
 //----------------------------------------------------------------------------------------
 
 //local includes
-#include "glbfunc.h"
 #include "Kernel/cubicspline.h"
 
 using namespace std;

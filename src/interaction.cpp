@@ -10,7 +10,6 @@
 #include <assert.h>
 
 // ***** localincludes *****
-#include "glbfunc.h"
 #include "Kernel/kernel.h"
 #include "interaction.h"
 #include "particle.h"

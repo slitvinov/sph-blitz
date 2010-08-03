@@ -9,7 +9,6 @@
 #include <glog/logging.h>
 
 // ***** localincludes *****
-#include "glbfunc.h"
 #include "material.h"
 #include "initiation.h"
 #include <boost/format.hpp>

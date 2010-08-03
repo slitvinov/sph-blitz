@@ -13,7 +13,6 @@
 #include <boost/smart_ptr/make_shared.hpp>
 
 // ***** local includes *****
-#include "glbfunc.h"
 #include "particlemanager.h"
 #include "hydrodynamics.h"
 #include "interaction.h"

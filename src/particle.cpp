@@ -8,7 +8,6 @@
 //----------------------------------------------------------------
 
 // ***** local includes *****
-#include "glbfunc.h"
 #include "material.h"
 #include "particle.h"
 

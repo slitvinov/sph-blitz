@@ -10,14 +10,9 @@
 //      The abstract kernel base class for the SPH method
 //		kernel.cpp
 //----------------------------------------------------------------------------------------
-
-#include <iostream>
-
-#include <cstdlib>
 #include <glog/logging.h>
 
 // ***** local includes *****
-#include "glbfunc.h"
 #include "Kernel/kernel.h"
 
 //constructor to inizialize the data members
