@@ -10,8 +10,6 @@
 // ***** local includes *****
 #include "glbfunc.h"
 #include "material.h"
-
-
 #include "particle.h"
 
 int64_t Particle ::ID_max = 0;

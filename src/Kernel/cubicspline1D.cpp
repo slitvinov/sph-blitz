@@ -8,20 +8,8 @@
 //		Most often used kernel.
 //		bskernel.cpp
 //----------------------------------------------------------------------------------------
-
-// ***** system includes *****
-#include <iostream>
-#include <fstream>
-#include <string>
-
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
-
-#include <math.h>
-
 //local includes
-#include "glbfunc.h"
+//#include "glbfunc.h"
 #include "Kernel/cubicspline1D.h"
 
 using namespace std;

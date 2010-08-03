@@ -6,29 +6,19 @@
 //      Define materials and their hydrodynamical interactions
 //		hydrodynamics.cpp
 //----------------------------------------------------------------------------------------
-
-#include <iostream>
 #include <fstream>
-#include <string>
-#include <iostream>
-#include <boost/foreach.hpp>
-
-#include <cstdio>
-#include <cstdlib>
 
 #include <glog/logging.h>
+#include <boost/foreach.hpp>
+#include <boost/smart_ptr/make_shared.hpp>
 
 // ***** localincludes *****
 #include "glbfunc.h"
-#include "material.h"
-#include "particle.h"
 #include "Kernel/kernel.h"
 #include "hydrodynamics.h"
 #include "particlemanager.h"
 #include "interaction.h"
 #include "initiation.h"
-
-#include <boost/smart_ptr/make_shared.hpp>
 
 using namespace std;
 

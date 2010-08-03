@@ -7,30 +7,20 @@
 //		particlemanager.cpp
 //----------------------------------------------------------------------------------------
 // ***** system includes *****
-#include <iostream>
 #include <fstream>
-#include <string>
-#include <boost/foreach.hpp>
-
-
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
-#include <iomanip>
-#include <sstream>
-
 #include <glog/logging.h>
+#include <boost/foreach.hpp>
+#include <boost/smart_ptr/make_shared.hpp>
 
 // ***** local includes *****
 #include "glbfunc.h"
-#include "material.h"
 #include "particlemanager.h"
 #include "hydrodynamics.h"
 #include "interaction.h"
 #include "initiation.h"
 #include "boundary.h"
 
-#include <boost/smart_ptr/make_shared.hpp>
+
 
 using namespace std;
 

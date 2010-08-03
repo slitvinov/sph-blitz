@@ -6,15 +6,6 @@
 //				Define material properties
 //				material.cpp
 //----------------------------------------------------------------
-// ***** system includes *****
-#include <iostream>
-#include <fstream>
-#include <string>
-
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
-
 #include <glog/logging.h>
 
 // ***** localincludes *****

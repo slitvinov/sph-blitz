@@ -2,31 +2,21 @@
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 /// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>
 /// \author changes by: Andreas Mattes
-
-
-#include <iostream>
-#include <fstream>
-#include <string>
-
-#include <cstdio>
-#include <cstdlib>
-#include <ctime>
-#include <cmath>
-
 #include <glog/logging.h>
+#include <boost/smart_ptr/make_shared.hpp>
 
 // main page for doxygen is in a separate file
 #include "main.doxygen"
 
 // ***** local includes *****
-#include "glbfunc.h"
+//#include "glbfunc.h"
 #include "particlemanager.h"
 #include "hydrodynamics.h"
 #include "TimeSolver/gastimesolverLeapFrog.h"
 #include "TimeSolver/gastimesolverPredCorr.h"
+#include "TimeSolver/hydrotimesolver.h"
 #include "vec2d.h"
 #include "interaction.h"
-#include "TimeSolver/hydrotimesolver.h"
 #include "initiation.h"
 #include "output.h"
 #include "boundary.h"
@@ -34,9 +24,8 @@
 #include "Kernel/cubicspline.h"
 #include "Kernel/cubicspline1D.h"
 #include "Kernel/betaspline.h"
-#include <boost/smart_ptr/make_shared.hpp>
 
-using namespace std;
+//using namespace std;
 
 ///
 /// \brief The main program

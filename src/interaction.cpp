@@ -6,26 +6,17 @@
 //		defines interaction between particles
 //		interaction.cpp
 //----------------------------------------------------------------------------------------
-
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <math.h>
-
-#include <cstdio>
-#include <cstdlib>
-
 #include <glog/logging.h>
+#include <assert.h>
 
 // ***** localincludes *****
 #include "glbfunc.h"
-#include "material.h"
 #include "Kernel/kernel.h"
 #include "interaction.h"
 #include "particle.h"
 #include "initiation.h"
 
-#include <assert.h>
+
 
 using namespace std;
 
@@ -46,10 +37,6 @@ Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest,
 {
   assert(prtl_dest != NULL);
   assert(prtl_org != NULL);
-  /// reuse the code 
-  assert(prtl_dest != NULL);
-  assert(prtl_org != NULL);
-
   /// particle distance should be in this range
   assert(rij>0.0);
 	

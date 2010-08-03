@@ -14,10 +14,6 @@
 #include <fstream>
 #include <string>
 
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
-
 //local includes
 #include "glbfunc.h"
 #include "Kernel/betaspline.h"

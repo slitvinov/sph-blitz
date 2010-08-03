@@ -1,21 +1,12 @@
 // \file boundary.cpp
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 /// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>
-#include <iostream>
-#include <fstream>
-#include <string>
-
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
-
 #include <glog/logging.h>
 #include <boost/smart_ptr/make_shared.hpp>
 
 // ***** localincludes *****
 #include "hydrodynamics.h"
 #include "particlemanager.h"
-#include "material.h"
 #include "boundary.h"
 #include "initiation.h"
 #include "glbtype.h"

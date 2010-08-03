@@ -6,14 +6,7 @@
 //      Output the computational results
 //		output.cpp
 //----------------------------------------------------------------------------------------
-
-#include <iostream>
 #include <fstream>
-#include <string>
-
-#include <cstdio>
-#include <cstdlib>
-
 #include <boost/foreach.hpp>
 #include <boost/format.hpp>
 
@@ -21,7 +14,6 @@
 
 // ***** localincludes *****
 #include "glbfunc.h"
-#include "material.h"
 #include "hydrodynamics.h"
 #include "particlemanager.h"
 #include "output.h"
