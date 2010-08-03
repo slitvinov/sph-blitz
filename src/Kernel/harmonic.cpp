@@ -30,6 +30,7 @@ Harmonic::Harmonic(const double supportlength, const double harmonic_n)
     a3*pow(n, 3.0) + a2*pow(n, 2.0) + a1*n + a0;
   std::cerr << "Kn = " << Kn << '\n';
   norm = 2.0*Kn/supportlength;
+  factorGradW = norm / supportlength;
 }
 
 //----------------------------------------------------------------------------------------
@@ -52,27 +53,22 @@ double Harmonic::w(const double distance) const {
 // We take this from Morris, Fox and Zhu (1997)
 // but used a tripled smoothing length for the definition of the interaction radius.
 //----------------------------------------------------------------------------------------
-Vec2d Harmonic::gradW(const double distance, const Vec2d& distanceVector) const
-{  
+Vec2d Harmonic::gradW(const double distance, const Vec2d& distanceVector) const {
   return Harmonic::F(distance)*distanceVector;
 }
 //----------------------------------------------------------------------------------------
 //		Calculates the kernel derivation (a double not vector) to distance
 //----------------------------------------------------------------------------------------
-double Harmonic::F(const double distance) const
-{
-  double R= 2.0*distance/ supportlength; // 
+double Harmonic::F(const double distance) const {
+  double R= 2.0*distance/ supportlength;
   if (R>2.0) {
-    //support of 4h, everything beyond is zero    
     return 0.0;
   }
-  else if(R>1.0 ) {
-    const double s2 = 2.0 - R;
-    return/*minus inserted!!! */ - factorGradW * ( 3.0 * s2*s2);
-  } else  {
-    const double s1 = 1.0 - R;
-    const double s2 = 2.0 - R;
-    return /* -*/factorGradW * ( 12.0 * s1*s1 - 3.0 * s2 * s2 );
+  else if(R==0.0 ) {
+    return 0.0;
+  } else {
+    const double x  = pi*R/2.0;
+    return - factorGradW * ( n*x*pow(sin(x)/x, n) * (cos(x)/x - sin(x)/(x*x)) ) / sin(x);
   }
 }
 

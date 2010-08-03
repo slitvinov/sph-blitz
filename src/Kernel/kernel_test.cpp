@@ -71,7 +71,7 @@ void test_kernel(const Kernel& weight_function , const double supportlength) {
 
 int test_main( int, char *[] )     {  
   const double supportlength = 0.8;
-  Harmonic q_weight_function(supportlength, 5.0);
+  Harmonic q_weight_function(supportlength, 2.0);
   test_kernel(q_weight_function, supportlength);
 
   //  CubicSpline c_weight_function(supportlength);
