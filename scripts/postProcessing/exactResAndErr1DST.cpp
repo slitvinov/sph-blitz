@@ -573,8 +573,8 @@ int main (){
  out4<<setprecision(6)
      << ::setw(17)<< L_infNorm<<"\n";
 
- // write L_1 norm data for area 3 into file
- out4<<"\n \n L_1 norm errors (in area 3 (after rarefaction before discontinuity))\n\n";
+ // write  norm data for area 3 into file
+ out4<<"\n \n norm errors (in area 3 (after rarefaction before discontinuity))\n\n";
  out4<<" L_1,rho3: ";
   out4<<setprecision(6)
       << ::setw(17)<< L_1NormRho3<<"\n";
@@ -594,8 +594,8 @@ int main (){
  out4<<setprecision(6)
      << ::setw(17)<< L_infNorm3<<"\n";
   
-  // write L_1 norm data for area 2
-  out4<<"\n \n L_1 norm errors (in area 2 (after discontinuity, before shock))\n\n";
+  //  write norm data for area 2
+  out4<<"\n \n norm errors (in area 2 (after discontinuity, before shock))\n\n";
   out4<<" L_1,rho2: ";
   out4<<setprecision(6)
       << ::setw(17)<< L_1NormRho2<<"\n";

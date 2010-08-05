@@ -17,7 +17,7 @@ int main ()
   double domain_size=2.0;
   double m_l=0;
   double m_r=0;
-  double dx=0.005;
+  double dx=0.003;
   int N_r=0;
   int N_l=0;
   int N=0;
