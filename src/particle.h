@@ -49,8 +49,13 @@ class Particle {
 	int cell_i;///<i-position in cells
         int cell_j; ///<j-position in cells
 	
-	///pointer to a real particle
+	///for ghost particles: pointer to their real particle
 	spParticle rl_prtl;
+
+	///for time step control: max value (over all interaction partners) of
+	///mue_ab (paramter for monaghan art. viscosity,
+	/// cf. Monaghan 1992 SPH review
+	double mue_ab_max;
 
 	//Physical data
 	Vec2d R;///<position
@@ -59,7 +64,7 @@ class Particle {
         double rho;///<density
         double p;///<pressure
         double T;///<Temperature
-        double Cs;///<do not know what this is <b>!!!Question!!!</b>
+        double Cs;///<sound speed
         double rho_I;///<intermediate value for density (needed for integration)
         double rho_n; ////<do not know what this is ("conservative value") <b>!!!Question!!!</b>
 	double m;///<mass
@@ -86,8 +91,9 @@ class Particle {
 	///
 	///- a real particle has a unique positive ID
 	///- a wall particle has zero ID
-	///- an ghost particle (for perodic boundary condition)
+	///- an ghost particle (for periodic boundary condition)
 	///has a negtive ID of its corresponding real particle
+	///\todo{at least this is not true for my simulation where all ghost particles have ID=0!!!!}
 	int64_t ID;
 	
 	///maximum ID number for non-ghost particles (real or wall particles) in the simulation

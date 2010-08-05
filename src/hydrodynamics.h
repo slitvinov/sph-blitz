@@ -37,7 +37,7 @@ public:
 
 	///get the time step
 	double GetTimestep(const Initiation& ini) const;
-
+	double GetTimestepGas(const Initiation& ini) const;
 	///build new pairs
   void BuildInteractions(ParticleManager &particles, spKernel weight_function,
 			 const Initiation& ini);
@@ -84,6 +84,8 @@ public:
 
 	///special uitilities
 	void Zero_Velocity();
+	///sets art.vis parameter mue_ab_max (which is needed for time control) to zero 
+	void Zero_mue_ab_max();
 
 	//everything that comes below this, is new:
 	void AdvanceFirstStep(const double dt);

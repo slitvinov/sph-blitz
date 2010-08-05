@@ -41,5 +41,18 @@ the decimal point are indicated, implicitly assuming "0."
 	compressible flows implemented in hydrodynamics.cpp (Hu, Adams). I am going to implement this one tomorrow,
 	in order to get rid of the temporal effect. So for the further resolution study, I can be sure that any occurring
 	instability/divergence is due to spacial resolution (and not temporal...)
+	monaghan1989 (on the problem of penetration in particle methods) uses the same 
+	(but earlier version with slight differences) (in 1992 there seems to be something wrong with the signs of mue_ab
+	  therefore I use monaghan1989 for that)
+	IMPLEMENT MONAGHAN: 
+	*new method GetTemistepGas in hydrodynamics.cpp
+	*new attribute mue_ab_max for particle
+	*mue_ab_max is determined in interaction::updateForces() (for summation density)
+	  (is called there (in new notation of Monaghan 2005 review paper) phiij, only sign has to be inversed)
+	*mue_ab_max is determined in interaction::updateForcesAndRrh() (for continuity density)
+	  (is called there (in new notation of Monaghan 2005 review paper) phiij, only sign has to be inversed)
+	*mue_ab_max is reset to zero (with new method: hydrodynamics::zero_mue_ab_max()) directly after 
+	hydrodynamics:GetTimestepGas(ini) is called in gastimesolver:TimeIntegralSummation
+	ok, compiles. first test with supLen=0.03, dx=0.005 (was good with manual time control and dt=0.0025)
 	
 
