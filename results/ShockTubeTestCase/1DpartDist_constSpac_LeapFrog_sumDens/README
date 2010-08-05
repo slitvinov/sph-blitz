@@ -1,0 +1,45 @@
+#####################################################
+
+Explanation on the resolution study
+
+##################################################### 
+
+perliminary remark on numbers in folder names: 
+as folder names do not support decimals, only the positions after 
+the decimal point are indicated, implicitly assuming "0."
+
+
+1. a temporal resolution study is conducted, which aimes at verifying if
+  the time step dt=0.0025 is suffuciently small for the temporal discretization
+  error to be negligeable. This study is perfomed with a spacing of dx=0.005 and
+  a support length of 0.03 (other simulation settings are as folder name specifies).
+
+  Result: instability is triggered by the area between discontinuity and shock (by oscillations in u)
+  simulation diverges starting at dt>~0.005 and below still has (partly) severe oscillations . 
+  For dt<=0.0025, no (major/instable) oscillations any more-->dt=0.0025 (at least for this spacing dx=0.005)
+  WOULD BE INTERESTING TO SEE IG THE RESULTS DEPEND ON THE PARTICLE SPACING, THEREFORE:
+  later I will make a set of simulations with a considerably different particle spacing and see if the temporal
+  error converges for the same time dt=0.0025!!!
+
+  anyway for further simulations dt=0.0025
+
+2. a spatial resolution study is conducted by varying the supportlength for constant dx=0.005
+
+  Results: globally a support length of 0.025 gives the best results for this spacing. This corresponds to a
+  ratio supLen/dx=5 (8 nearest neighbouring particles (NNP) in 1D, which is very close to the number given in 
+  literature for 1D (around 6); the results are still very good vor a supLen of 0,02 which would exactly 
+  correspond to 6 NNP, but 0.02 is at the edge of instability, therefore 0.025 is kept)
+
+3. for the ratio supLen/dx=5, make a resolution study.
+
+  Results: for supLen0.015,dx0.03, huge oscillations in u (between discontinuity and schock)
+  -->same as in 2, when dt too big
+  some notes on literature search for SPH time stepping:
+  -	there exists a "individual time step method" (ind. time step for each particle), not of interest for us,
+	("A NECESSARY CONDITION FOR INDIVIDUAL TIME STEPS IN SPH SIMULATIONS")
+  -	monaghan 1992 (smoothed particle hydrodynamcis) suggests a time step control similar to the one for weakly 
+	compressible flows implemented in hydrodynamics.cpp (Hu, Adams). I am going to implement this one tomorrow,
+	in order to get rid of the temporal effect. So for the further resolution study, I can be sure that any occurring
+	instability/divergence is due to spacial resolution (and not temporal...)
+	
+
