@@ -46,17 +46,15 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
                                            const Initiation &ini, spKernel weight_function)
 {
   double integeral_time = 0.0;
-	
+  /// loop as long as time < output interval
   while(integeral_time < D_time) {
 
     ///\todo{ move into Initiation?...and/or make time step calculation automatically (constant time step was only for testing purposes)}
     //const double dt = 0.0025;
     
-    //heree call to timesolver GasDyn
+    ///<ul><li> call for automatic time step control GasDyn
     const double dt=hydro.GetTimestepGas(ini);
-    //directly after: reset mue_ab to zero
-    hydro.Zero_mue_ab_max();
-
+    
     //control output
     LOG(INFO)<<"\n current timestep:"<<dt;
     LOG(INFO)<<"\n current absolute integraltime:"<<Time;
@@ -66,7 +64,7 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     integeral_time =integeral_time+ dt;
     Time += dt;
 	  
-       ///<ul><li>screen information for the iteration
+    ///<li>screen information for the iteration
     if(ite % 10 == 0) cout<<"N="<<ite<<" Time: " <<Time<<"	dt: "<<dt<<"\n";
     if(ite!=1)
       {
