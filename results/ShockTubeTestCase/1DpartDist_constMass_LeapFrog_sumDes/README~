@@ -1,0 +1,17 @@
+#########################################################################
+
+Logbook for resolution study with constant mass particle distribution 
+
+#########################################################################
+
+as automatic time control is implemented, the temporar resolution study
+will not be conducted.
+
+remark: in the case of constant Mass particle distribution, the particle distances dx_l, dx_r
+	will be controlled by the particle mass. e.g. a decrease in m by the factor 2 will result in
+	a decrease in dx_l, dx_r by 2 as well.
+
+1. smoothing length variation
+  intended to check if the optimum smoothing length is about the same as for the consSpacing
+
+  Results:

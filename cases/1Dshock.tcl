@@ -15,7 +15,7 @@ set INTEGRATION_SCHEME 1
 #possible density treatments
 #1: summation density (density obtained by smoothing)
 #2: continuity density (density is integrated)
-set DENSITY_MODE 2
+set DENSITY_MODE 1
 
 # initial conditions flag 
 # 0: use initial 
@@ -25,18 +25,18 @@ set INITIAL_CONDITION 0
 # number of cells in X and Y directions
 # 130 cells in x direction are good for supportlength =0.03 (for m=cte=0.001875)
 # xx cells in x direction are good for supportlength =xx (for dx=cte=0.05)
-set CELLS(0) 156
+set CELLS(0) 78
 set CELLS(1) 1
 
 # size of one cell
 # ->make sure that cell size >= support length
-set CELL_SIZE 0.025
+set CELL_SIZE 0.05
 
 # support length of the kernel 
 # -> make sure that support length > particle spacing
 # (0.03 is not bad for m=cte=0.001875)
 # (xx is not bad for dx=cte=0.005)
-set SUPPORT_LENGTH 0.025
+set SUPPORT_LENGTH 0.05
 
 # number of particles in one cell size
 # not used in 1D shock 
