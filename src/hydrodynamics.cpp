@@ -329,11 +329,11 @@ double Hydrodynamics::GetTimestepGas(const Initiation& ini) const {
     
     //dt_f according to Monaghan 1992 ("smoothed particle hydrodynamics") (sec.10.3)
     dt_f=AMIN1(dt_f, sqrt(ini.supportlength/2/(v_abs(prtl->dUdt)+1e-35)));//to prevent singularity
-    LOG(INFO) << "dt_f: after part "<<prtl->ID<<"  " << dt_f; 
+    //LOG(INFO) << "dt_f: after part "<<prtl->ID<<"  " << dt_f; 
     //dt_cv according to Monaghan 1992 ("smoothed particle hydrodynamics") (sec.10.3)
     dt_cv=AMIN1(dt_cv,ini.supportlength/2/(prtl->Cs+0.6*(ini.alpha_artVis*prtl->Cs+ini.beta_artVis*prtl->mue_ab_max)));
     assert(dt_cv>0.0);
-LOG(INFO) << "dt_cv: after part "<<prtl->ID<<"  " << dt_cv; 
+    //LOG(INFO) << "dt_cv: after part "<<prtl->ID<<"  " << dt_cv; 
   }
   
   const double dt = 0.25*AMIN1(dt_f, dt_cv);

@@ -34,6 +34,7 @@ the decimal point are indicated, implicitly assuming "0."
 
   Results: for supLen0.015,dx0.03, huge oscillations in u (between discontinuity and schock)
   -->same as in 2, when dt too big
+  
   some notes on literature search for SPH time stepping:
   -	there exists a "individual time step method" (ind. time step for each particle), not of interest for us,
 	("A NECESSARY CONDITION FOR INDIVIDUAL TIME STEPS IN SPH SIMULATIONS")
@@ -49,7 +50,7 @@ the decimal point are indicated, implicitly assuming "0."
 	*new attribute mue_ab_max for particle
 	*mue_ab_max is determined in interaction::updateForces() (for summation density)
 	  (is called there (in new notation of Monaghan 2005 review paper) phiij, only sign has to be inversed)
-	*mue_ab_max is determined in interaction::updateForcesAndRrh() (for continuity density)
+	*mue_ab_max is determined in interaction::updateForcesAndRho() (for continuity density)
 	  (is called there (in new notation of Monaghan 2005 review paper) phiij, only sign has to be inversed)
 	*mue_ab_max is reset to zero (with new method: hydrodynamics::zero_mue_ab_max()) directly after 
 	hydrodynamics:GetTimestepGas(ini) is called in gastimesolver:TimeIntegralSummation
@@ -58,4 +59,17 @@ the decimal point are indicated, implicitly assuming "0."
 	--> in monaghan1992 there was no sqrt in the equation for d_f, added sqrt as in Monaghan 1989!
 	--> works just fine (dt around 0.0016, good!)
 	
-
+  Resume resolution study, now with automatic timecontrol. 
+  (for automatic time control, the aimed simulation time of 0.2s can not be guaranteed, I always take
+  the closest adjacent time for the resolution study. The error should be minimal as the exact result
+  will be calculated with the precise time value for each simulation.
+   
+  restart with suplen=0.025, dx=0.005.....
+  ...until supLen=0.005, dx=0.001 (then simulation takes already very long, 2000 particles, dt around 2.7e-4.., 
+  about 640 time steps)
+  
+  Results:
+  simulation gets as exact as wanted EXCEPT FOR A LITTLE BUMP IN VELOCITY WITHIN THE RAREFACTION???
+  global error (where this bumb is negligeable) decreases in a linear manner,
+  
+  
