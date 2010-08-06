@@ -103,4 +103,9 @@ public:
   void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, 
 		  spKernel weight_function);
 };
+
+
+/// convert char* to std::string
+const char *CharPtrToStdString(const char *str);
+
 #endif

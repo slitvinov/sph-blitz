@@ -35,12 +35,20 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
 	  exit(EXIT_FAILURE);
 	}
 
+	// get environment variable and run it as a TCL command
+	// to use it run 
+	// SPH_TCL="set isim 10" ./sph <project> 
+	const std::string sph_tcl = CharPtrToStdString(std::getenv("SPH_TCL"));
+	if (sph_tcl.size() > 0) {
+	  interp.eval(sph_tcl);
+	}
+
 	interp.eval(tclfilename);
 	///<li>reading key words and configuration data from configuration file and assign them to the appropriate variable
-
 	initial_condition = interp.getval("INITIAL_CONDITION");
         assert( (initial_condition == 0) || (initial_condition == 1));
 	simu_mode = interp.getval("SIMULATION_MODE");
+
 	//	assert(simu_mode==1||simu_mode==2); (already tested in sph.cpp)
 	density_mode = interp.getval("DENSITY_MODE");
 	assert(density_mode == 1 || density_mode == 2);
@@ -199,3 +207,9 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
   }
   LOG(INFO)<<"Initiation::VolumeMass ends";
 }
+
+
+const char *CharPtrToStdString(const char *str)
+{
+    return (str) ? str : "";
+} 

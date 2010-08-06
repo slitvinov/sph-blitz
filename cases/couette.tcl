@@ -17,7 +17,12 @@ set DENSITY_MODE 1
 set INTEGRATION_SCHEME 2
 
 # output directory
-set OUTDIR "output_co"
+# if isim is not given set OUTDIR to output_co0
+# to set isim variable use
+# SPH_TCL="set isim 42" ./sph ../cases/couette 
+if  [catch {set OUTDIR output_co$isim}] {
+    set OUTDIR output_co0
+} 
 
 # number of cell
 set ncell 8
