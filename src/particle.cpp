@@ -79,6 +79,8 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
   ///- set viscosity
   eta = mtl->eta;
 
+  ///- initialize mue_ab_max to zero
+  mue_ab_max=0;
   ///- set particle position
   R = position; 
 	
