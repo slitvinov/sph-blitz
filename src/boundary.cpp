@@ -12,15 +12,15 @@
 #include "glbtype.h"
 
 
-// construtor
+// constructor
 Boundary::Boundary(Initiation &ini, const ParticleManager &particles) {
   /// copy global properties from initiation class
   box_size = ini.box_size;
   x_clls = particles.x_clls;
   y_clls = particles.y_clls;
-  // check if inputfile exist
+  // check if input-file exist
   /// - reading key words and configuration data from input file
-  ///\todo{prehaps also implement an open boundary condition. at the moment shock tube simulations are done with "artificial" open edge by defining the domain from 0 til 3.9 and only placing particles from 1-3, so whatever boundary condition is precised for xbl and xbr in the initiation file (tcl) it practically has no effect.}
+  ///\todo{perhaps also implement an open boundary condition. at the moment shock tube simulations are done with "artificial" open edge by defining the domain from 0 til 3.9 and only placing particles from 1-3, so whatever boundary condition is  for xbl and xbr in the initiation file (tcl) it practically has no effect.}
   xBr = ini.interp.eval("[return $xBr]");
   UxBr[0] = ini.interp.eval("[return $UxBr(0)]");
   UxBr[1] = ini.interp.eval("[return $UxBr(1)]");
@@ -51,14 +51,14 @@ void Boundary::show_information() const {
   std::cerr << "The left, right, lower and upper boundary conditions are "
       << xBl << ", "<< xBr << ", " << yBd << ", " << yBu << " \n";
   std::cerr << "0: wall boundary condition\n";
-  std::cerr << "1: perodic boundary condition\n";
+  std::cerr << "1: periodic boundary condition\n";
   std::cerr << "2: free slip wall boundary condition\n";
   std::cerr << "3: symmetry boundary condition\n";
 }
 
 // check particle if the real particles run out of the computational domain
 void Boundary::RunAwayCheck(Hydrodynamics &hydro) {
-  /// - iterate the partilce list
+  /// - iterate the particle list
   for (std::list<spParticle>::const_iterator  p = hydro.particle_list.begin(); 
        p != hydro.particle_list.end();
        p++) {
@@ -77,7 +77,7 @@ void Boundary::RunAwayCheck(Hydrodynamics &hydro) {
           case 0: 
             prtl->R[0] = - prtl->R[0]; 
             break;
-            //perodic
+            //periodic
           case 1:
             prtl->R[0] = box_size[0] + prtl->R[0];
             break;
@@ -98,7 +98,7 @@ void Boundary::RunAwayCheck(Hydrodynamics &hydro) {
           case 0: 
             prtl->R[0] = 2.0*box_size[0] - prtl->R[0]; 
             break;
-            //perodic
+            //periodic
           case 1:
             prtl->R[0] = prtl->R[0] - box_size[0];
             break;
@@ -119,7 +119,7 @@ void Boundary::RunAwayCheck(Hydrodynamics &hydro) {
           case 0: 
             prtl->R[1] = - prtl->R[1]; 
             break;
-            //perodic
+            //periodic
           case 1:
             prtl->R[1] = box_size[1] + prtl->R[1];
             break;
@@ -140,7 +140,7 @@ void Boundary::RunAwayCheck(Hydrodynamics &hydro) {
           case 0: 
             prtl->R[1] = 2.0*box_size[1] - prtl->R[1]; 
             break;
-            //perodic
+            //periodic
           case 1:
             prtl->R[1] = prtl->R[1] - box_size[1];
             break;
@@ -187,7 +187,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     /// <ul>
     /// <li>the rigid wall conditions     
     if(xBl == 0 || xBl == 2) {
-      //iterate the correspeond cell linked list
+      //iterate the corresponded cell linked list
       for (std::list<spParticle>::const_iterator  p10 = particles.cell_lists(1,j).begin(); 
            p10!=particles.cell_lists(1,j).end(); 
            p10++) {
@@ -201,7 +201,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
         //in which cell
         prtl->cell_i = 0; prtl->cell_j = j; 
-        //insert its poistion on the particle list
+        //insert its position on the particle list
         boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
         //insert the position into corresponding cell list
         particles.cell_lists(0,j).insert(particles.cell_lists(0,j).begin(), prtl);
@@ -210,7 +210,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
         
     /// <li>the symmetry conditions     
     if(xBl == 3) {
-      //iterate the correspeond cell linked list
+      //iterate the corresponded cell linked list
       for (std::list<spParticle>::const_iterator  p13 = particles.cell_lists(1,j).begin(); 
            p13 != particles.cell_lists(1,j).end(); 
            p13++) {
@@ -224,31 +224,31 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
         //in which cell
         prtl->cell_i = 0; prtl->cell_j = j; 
-        //insert its poistion on the particle list
+        //insert its position on the particle list
         boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
         //insert the position into corresponding cell list
         particles.cell_lists(0,j).insert(particles.cell_lists(0,j).begin(), prtl);
       }
     }
 
-    /// <li>the perodic conditions </ul>    
+    /// <li>the periodic conditions </ul>    
     if(xBl == 1) {
-      //iterate the correspeond cell linked list
+      //iterate the corresponded cell linked list
       for (std::list<spParticle>::const_iterator  p11 = particles.cell_lists(x_clls - 2,j).begin(); 
            p11 != particles.cell_lists(x_clls - 2,j).end(); 
            p11++) {
                     
         //the original real particle
         spParticle prtl_old = *p11;
-	///create a new particle identical to old particle ("copy")(boost creats smart pointer and the corresponding object)
+	///create a new particle identical to old particle ("copy")(boost creates smart pointer and the corresponding object)
         spParticle prtl = boost::make_shared<Particle>(prtl_old);
 
-        ///boundary condition (modify properties of copied particle accroding to boundary condition)
+        ///boundary condition (modify properties of copied particle according to boundary condition)
         Boundary_W(prtl);
                 
         //in which cell
         prtl->cell_i = 0; prtl->cell_j = j; 
-        //insert its poistion on the particle list
+        //insert its position on the particle list
         boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
         //insert the position into corresponding cell list
         particles.cell_lists(0,j).insert(particles.cell_lists(0,j).begin(), prtl);
@@ -261,7 +261,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
     /// <ul><li>the rigid wall conditions     
     if(xBr == 0 || xBr == 2) {
-      //iterate the correspeond cell linked list
+      //iterate the corresponded cell linked list
       for (std::list<spParticle>::const_iterator  p20 = particles.cell_lists(x_clls - 2,j).begin(); 
            p20 != particles.cell_lists(x_clls - 2,j).end(); 
            p20++) {
@@ -275,7 +275,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
         //in which cell
         prtl->cell_i = x_clls - 1; prtl->cell_j = j; 
-        //insert its poistion on the particle list
+        //insert its position on the particle list
         boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
         //insert the position into corresponding cell list
         particles.cell_lists(x_clls- 1,j).insert(particles.cell_lists(x_clls - 1,j).begin(), prtl);
@@ -284,7 +284,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
         
     /// <li>the symmetry conditions     
     if(xBr == 3) {
-      //iterate the correspeond cell linked list
+      //iterate the corresponded cell linked list
       for (std::list<spParticle>::const_iterator  p23 = particles.cell_lists(x_clls - 2,j).begin(); 
            p23 != particles.cell_lists(x_clls - 2,j).end(); 
            p23++) {
@@ -298,7 +298,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
         //in which cell
         prtl->cell_i = x_clls - 1; prtl->cell_j = j; 
-        //insert its poistion on the particle list
+        //insert its position on the particle list
         boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
         //insert the position into corresponding cell list
         particles.cell_lists(x_clls- 1,j).insert(particles.cell_lists(x_clls - 1,j).begin(), prtl);
@@ -321,7 +321,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
         //in which cell
         prtl->cell_i = x_clls - 1; prtl->cell_j = j; 
-        //insert its poistion on the particle list
+        //insert its position on the particle list
         boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
         //insert the position into corresponding cell list
         particles.cell_lists(x_clls- 1,j).insert(particles.cell_lists(x_clls - 1,j).begin(), prtl);
@@ -352,7 +352,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
         //in which cell
         prtl->cell_i = i; prtl->cell_j = 0; 
-        //insert its poistion on the image particle list
+        //insert its position on the image particle list
         boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
         //insert the position into corresponding cell list
         particles.cell_lists(i,0).insert(particles.cell_lists(i,0).begin(), prtl);
@@ -375,7 +375,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
         //in which cell
         prtl->cell_i = i; prtl->cell_j = 0; 
-        //insert its poistion on the image particle list
+        //insert its position on the image particle list
         boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
         //insert the position into corresponding cell list
         particles.cell_lists(i,0).insert(particles.cell_lists(i,0).begin(), prtl);
@@ -398,7 +398,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
         //in which cell
         prtl->cell_i = i; prtl->cell_j = 0; 
-        //insert its poistion on the particle list
+        //insert its position on the particle list
         boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
         //insert the position into corresponding cell list
         particles.cell_lists(i,0).insert(particles.cell_lists(i,0).begin(), prtl);
@@ -427,7 +427,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
         //in which cell
         prtl->cell_i = i; prtl->cell_j = y_clls - 1; 
-        //insert its poistion on the particle list
+        //insert its position on the particle list
         boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
         //insert the position into corresponding cell list
         particles.cell_lists(i,y_clls- 1).insert(particles.cell_lists(i,y_clls - 1).begin(), prtl);
@@ -450,7 +450,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
         //in which cell
         prtl->cell_i = i; prtl->cell_j = y_clls - 1; 
-        //insert its poistion on the particle list
+        //insert its position on the particle list
         boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
         //insert the position into corresponding cell list
         particles.cell_lists(i,y_clls- 1).insert(particles.cell_lists(i,y_clls - 1).begin(), prtl);
@@ -473,7 +473,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
         //in which cell
         prtl->cell_i = i; prtl->cell_j = y_clls - 1; 
-        //insert its poistion on the particle list
+        //insert its position on the particle list
         boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
         //insert the position into corresponding cell list
         particles.cell_lists(i,y_clls- 1).insert(particles.cell_lists(i,y_clls - 1).begin(), prtl);
@@ -502,7 +502,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
       //in which cell
       prtl->cell_i = 0; prtl->cell_j = 0; 
-      //insert its poistion on the image particle list
+      //insert its position on the image particle list
       boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
       particles.cell_lists(0,0).insert(particles.cell_lists(0,0).begin(), prtl);
@@ -527,7 +527,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
       //in which cell
       prtl->cell_i = 0; prtl->cell_j = 0; 
-      //insert its poistion on the image particle list
+      //insert its position on the image particle list
       boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
       particles.cell_lists(0,0).insert(particles.cell_lists(0,0).begin(), prtl);
@@ -552,7 +552,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
       //in which cell
       prtl->cell_i = 0; prtl->cell_j = 0; 
-      //insert its poistion on the particle list
+      //insert its position on the particle list
       boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
       particles.cell_lists(0,0).insert(particles.cell_lists(0,0).begin(), prtl);
@@ -579,7 +579,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
       //in which cell
       prtl->cell_i = 0; prtl->cell_j = y_clls - 1; 
-      //insert its poistion on the particle list
+      //insert its position on the particle list
       boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
       particles.cell_lists(0,y_clls- 1).insert(particles.cell_lists(0,y_clls - 1).begin(), prtl);
@@ -604,7 +604,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
       //in which cell
       prtl->cell_i = 0; prtl->cell_j = y_clls - 1; 
-      //insert its poistion on the particle list
+      //insert its position on the particle list
       boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
       particles.cell_lists(0,y_clls- 1).insert(particles.cell_lists(0,y_clls - 1).begin(), prtl);
@@ -629,7 +629,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
       //in which cell
       prtl->cell_i = 0; prtl->cell_j = y_clls - 1; 
-      //insert its poistion on the particle list
+      //insert its position on the particle list
       boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
       particles.cell_lists(0,y_clls- 1).insert(particles.cell_lists(0,y_clls - 1).begin(), prtl);
@@ -656,7 +656,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
       //in which cell
       prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1; 
-      //insert its poistion on the particle list
+      //insert its position on the particle list
       boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
       particles.cell_lists(x_clls- 1,y_clls - 1).insert(particles.cell_lists(x_clls - 1,y_clls - 1).begin(), prtl);
@@ -681,7 +681,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
       //in which cell
       prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1; 
-      //insert its poistion on the particle list
+      //insert its position on the particle list
       boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
       particles.cell_lists(x_clls- 1,y_clls - 1).insert(particles.cell_lists(x_clls - 1,y_clls - 1).begin(), prtl);
@@ -706,7 +706,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
       //in which cell
       prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1; 
-      //insert its poistion on the particle list
+      //insert its position on the particle list
       boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
       particles.cell_lists(x_clls- 1,y_clls - 1).insert(particles.cell_lists(x_clls - 1,y_clls - 1).begin(), prtl);
@@ -733,7 +733,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
       //in which cell
       prtl->cell_i = x_clls - 1; prtl->cell_j = 0; 
-      //insert its poistion on the image particle list
+      //insert its position on the image particle list
       boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
       particles.cell_lists(x_clls - 1,0).insert(particles.cell_lists(x_clls - 1,0).begin(), prtl);
@@ -758,7 +758,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
       //in which cell
       prtl->cell_i = x_clls - 1; prtl->cell_j = 0; 
-      //insert its poistion on the image particle list
+      //insert its position on the image particle list
       boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
       particles.cell_lists(x_clls - 1,0).insert(particles.cell_lists(x_clls - 1,0).begin(), prtl);
@@ -783,7 +783,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
       //in which cell
       prtl->cell_i = x_clls - 1; prtl->cell_j = 0; 
-      //insert its poistion on the particle list
+      //insert its position on the particle list
       boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
       //insert the position into corresponding cell list
       particles.cell_lists(x_clls - 1,0).insert(particles.cell_lists(x_clls - 1,0).begin(), prtl);
