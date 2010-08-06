@@ -27,7 +27,7 @@ public:
 	double eta;///<viscosity
 	double gamma; ///<???
 
-	double nu; ///<kinetice viscosity
+	double nu; ///<kinetic viscosity
 	double b0;///<reference pressure
 	double rho0;///<reference density
 	double a0; ///<reference <b>sound speed??? was not commented</b>
@@ -48,13 +48,13 @@ public:
 	double get_p(const double rho) const;// equation of state for liquids
 
   	///get pressure
-	double get_p(const double rho, const double e) const;//equation of state for gasdynamics
+	double get_p(const double rho, const double e) const;//equation of state for gas dynamics
 	///get rho from pressure
 	double get_rho(const double p) const ;// equation of state for liquids
 
 	///get rho from pressure
-	double get_rho(const double p, const double e) const;//equation of state for gasdynamics
-	///get interal energy
+	double get_rho(const double p, const double e) const;//equation of state for gas dynamics
+	///get internal energy
 	double get_e(const double T) const;
 	///get temperature 
 	double get_T(const double e) const;//(function is defined nowhere)
