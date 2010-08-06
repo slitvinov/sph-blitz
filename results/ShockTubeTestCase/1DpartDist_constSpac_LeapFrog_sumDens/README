@@ -70,6 +70,8 @@ the decimal point are indicated, implicitly assuming "0."
   
   Results:
   simulation gets as exact as wanted EXCEPT FOR A LITTLE BUMP IN VELOCITY WITHIN THE RAREFACTION???
-  global error (where this bumb is negligeable) decreases in a linear manner,
+  global error (where this bumb is negligeable) decreases in a linear manner,as well as the local errors
+  indicating the after shock/after rarefaction values...
+ 
   
   
