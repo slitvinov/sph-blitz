@@ -21,6 +21,9 @@ public:
   //the ivs file name
   std::string Ivs_file_name;
 
+  /// output directory name (default is outdata)
+  std::string outdir;
+
   ///kernel type
   /// possible values are
   /// QuinticSpline, BetaSpline, CubicSpline, CubicSpline1D

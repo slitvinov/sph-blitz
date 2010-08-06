@@ -47,6 +47,14 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
 	integration_scheme = interp.getval("INTEGRATION_SCHEME");//(already tested in sph.cpp)
         //assert(integration_scheme == 1 || integration_scheme == 2);
 
+	/// check if variable OUTDIR is given
+	if (interp.exist("OUTDIR")) {
+	  outdir = static_cast<std::string>(interp.getval("OUTDIR"));
+	} else {
+	  /// use default value
+	  outdir = "outdata";
+	}
+
 	kernel_type = static_cast<std::string>(interp.getval("KERNEL_TYPE"));
 	// for harmonic kernel we need a parameter n
 	if (kernel_type == "Harmonic") {
@@ -96,7 +104,8 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
 	}
 
 	///<li>create outdata directory
-	const int sys_return = system("mkdir -p outdata");
+	const std::string cmd = "mkdir -p " + outdir;
+	const int sys_return = system( cmd.c_str());
 	if (sys_return) {
 	  LOG(ERROR) << "system command faild" << inputfile;
 	  exit(EXIT_FAILURE);
@@ -121,6 +130,7 @@ void Initiation::show_information() const
 {
 	///- output general information on screen
   LOG(INFO)<<"The simulation mode is"<<simu_mode<<"! (1=liquids, 2=gas dynamics)\n";
+  LOG(INFO)<<"Output directory is "<< outdir;
   LOG(INFO)<<"The number of materials in the simulation is  "<<number_of_materials<<"\n";
   LOG(INFO)<<"The computational domain size is  "<<box_size[0]<<" micrometers x "<<box_size[1]<<" micrometers\n";
   LOG(INFO)<<"The cell size is "<<cell_size<<" micrometers \n";

@@ -919,6 +919,10 @@ result interpreter::getval(const std::string &s) {
   return eval("[return $" + s + "]");
 }
 
+bool interpreter::exist(const std::string &s) {
+  return eval("info exists " + s);
+}
+
 result interpreter::getat(const std::string &s, const int index) {
   return eval("[return $" + s + "(" + convertInt(index) + ")]");
 }

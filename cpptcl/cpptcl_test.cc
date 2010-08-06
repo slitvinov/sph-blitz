@@ -37,5 +37,16 @@ int test_main( int, char *[] )     {
    // do nothing 
    std::cerr << "Exeption captured: correct behavior\n";
  }
+
+ bool ios = interp.exist("not_a_val");
+ BOOST_REQUIRE( !ios) ;
+
+ ios = interp.exist("aux");
+ BOOST_REQUIRE( ios) ;
+
+ ios = interp.exist("s");
+ BOOST_REQUIRE( ios) ;
+
+
  return EXIT_SUCCESS;
 };

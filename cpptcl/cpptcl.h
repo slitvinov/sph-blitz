@@ -640,6 +640,7 @@ public:
 
      details::result getval(std::string const &s);
      details::result getat(const std::string &s, const int index);
+     bool exist(const std::string &s);
 
      // the InputIterator should give object& or Tcl_Obj* when dereferenced
      template <class InputIterator>

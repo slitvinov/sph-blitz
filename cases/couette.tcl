@@ -16,6 +16,9 @@ set DENSITY_MODE 1
 #2: predictor corrector
 set INTEGRATION_SCHEME 2
 
+# output directory
+set OUTDIR "output_co"
+
 # number of cell
 set ncell 8
 set CELLS(0) $ncell
