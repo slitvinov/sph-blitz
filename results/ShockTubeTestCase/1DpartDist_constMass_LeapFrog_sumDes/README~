@@ -11,7 +11,14 @@ remark: in the case of constant Mass particle distribution, the particle distanc
 	will be controlled by the particle mass. e.g. a decrease in m by the factor 2 will result in
 	a decrease in dx_l, dx_r by 2 as well.
 
-1. smoothing length variation
-  intended to check if the optimum smoothing length is about the same as for the consSpacing
+1. support length variation
+  intended to check if the optimum support length is about the same as for the consSpacing
 
   Results:
+  global optimum at supLen around 0.25 (as for constantSpacing) but for 0.025 already very small oscillations
+  in u in areas 2,3 and results get worse very quick if supLen further decreased. Therefore we retain the supLen 0.03 
+  wit mass 0.001875 , which gives ratio supLen/mass=16.
+  There are no major oscillations observed for a medium supLen (as it was the case for constant spacing) and 
+  there is n bump in u for the rarefaction at all
+
+2. constant ratio supLen/m =16 (where mass equivalent to particle spacing)
