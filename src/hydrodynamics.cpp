@@ -50,8 +50,17 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   LOG(INFO) << "update of b0 is finished";
 
   ///<li>biuld the real particles
-  // particles.BuildRealParticle(materials, particle_list, ini);
-particles.BuildRealParticleGasDyn(materials, particle_list, ini);
+  if (ini.simu_mode == 1) {
+    particles.BuildRealParticle(materials, particle_list, ini) ;
+  }  else if (ini.simu_mode == 2) {
+    particles.BuildRealParticleGasDyn(materials, particle_list, ini);    
+  } else {
+    LOG(INFO) << "unknown simulation mode: " << ini.simu_mode;
+    exit(EXIT_FAILURE);
+  }
+
+  /// check if there at least one particle 
+  assert(particle_list.size() > 0);
   LOG(INFO) << "Hydrodynamics object is created";
 }
 
@@ -84,17 +93,17 @@ void Hydrodynamics::UpdateInteractions(spKernel weight_function) {
 void Hydrodynamics::UpdateDensity(ParticleManager &particles, 
 				  spKernel weight_function, 
 				  const Initiation &ini) {
+  LOG(INFO)<<"Hydrodynamics::UpdateDensity(ini, weight_function, ini)";
   ///- obtain the interaction pairs
   particles.BuildInteraction(interaction_list, particle_list, weight_function, ini);
-  ///- initiate by calling Zero_density method
+  assert(interaction_list.size()>0);
+  ///- add density contribution of the particle itself
   Self_density(weight_function);
   ///- iterate the interaction list
   BOOST_FOREACH(spInteraction pair, interaction_list) {
     pair->SummationDensity();	
   };
-
   LOG(INFO)<<"density after smoothing";
-
   BOOST_FOREACH(spParticle prtl, particle_list){
     LOG(INFO) << setprecision (20)<<::setw( 7 )<<prtl->ID<< ::setw( 25 )<<prtl->rho<<::setw( 7 )<<endl;
   }
@@ -108,16 +117,22 @@ void Hydrodynamics::UpdateDensity(ParticleManager &particles,
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::UpdateDensity(const Initiation &ini, spKernel  weight_function) {
   ///- initiate zero density
-  LOG(INFO)<<"Hydrodynamics::UpdateDensity";
+  LOG(INFO)<<"Hydrodynamics::UpdateDensity(ini, weight_function)";
   Self_density(weight_function);
+  BOOST_FOREACH(spParticle prtl, particle_list){
+    LOG_EVERY_N(INFO,100) << setprecision (9)<<prtl->ID<<"    "<<prtl->rho<<endl;
+  }
+
   ///- iterate the interaction list
+  assert(interaction_list.size()>0);
   BOOST_FOREACH(spInteraction pair, interaction_list) {
     pair->SummationDensity();	
   }
   LOG(INFO)<<"density after smoothing";
 
+  assert(particle_list.size()>0);
   BOOST_FOREACH(spParticle prtl, particle_list){
-    LOG_EVERY_N(INFO,10000) << setprecision (9)<<prtl->ID<<"    "<<prtl->rho<<endl;
+    LOG_EVERY_N(INFO,100) << setprecision (9)<<prtl->ID<<"    "<<prtl->rho<<endl;
   }
 
   ///- calulate new pressure by calling UpdateState()
@@ -228,7 +243,8 @@ void Hydrodynamics::Zero_density() {
 void Hydrodynamics::Self_density(spKernel  weight_function) {
   ///- iterate particles on the real particle list
   BOOST_FOREACH(spParticle prtl, particle_list) {
-    prtl->rho = weight_function->w(0.0) * prtl->m;
+    assert(prtl->m>0.0);
+    prtl->rho = weight_function->w(0.0)*prtl->m;
   }
 }
 
@@ -271,17 +287,20 @@ void Hydrodynamics::AddGravity(const Initiation &ini) {
 //							calculate states from conservatives
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::UpdateState(const Initiation &ini) {
-  LOG(INFO) << "Hydrodynamics::UpdateState()";
+  LOG(INFO) << "Hydrodynamics::UpdateState(ini)";
   ///- iterate particles on the real particle list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- calculate pressure for each particle
-    if(ini.simu_mode==1)  //liquid mode equation of state
+    if (ini.simu_mode==1)  { //liquid mode equation of state
+      assert(prtl->rho > 0.0);
       prtl->p = prtl->mtl->get_p(prtl->rho);
-    if(ini.simu_mode==2)//gas dynamics mode equation of state
-      {
+      assert(prtl->p > 0.0);
+    }
+    //gas dynamics mode equation of state
+    if (ini.simu_mode==2) {
 	prtl->p = prtl->mtl->get_p(prtl->rho,prtl->e);
 	prtl->Cs = prtl->mtl->get_Cs(prtl->p, prtl->rho);
-      }
+    }
     //calculate temperature for each particle
     prtl->T = prtl->mtl->get_T(prtl->e);
   }

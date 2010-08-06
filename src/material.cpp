@@ -70,7 +70,7 @@ void Material::Set_b0(const double sound)
 //----------------------------------------------------------------------------------------
 double Material::get_p(const double rho) const
 {
-	return b0*pow(rho/rho0,gamma);
+  return b0*pow(rho/rho0,gamma);
 }
 
 double Material::get_p(const double rho, const double e) const

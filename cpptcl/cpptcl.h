@@ -92,10 +92,10 @@ void set_result(Tcl_Interp *interp, void *p);
 void set_result(Tcl_Interp *interp, object const &o);
 
 // helper functor for converting Tcl objects to the given type
-#include "details/conversions.h"
+#include "cpptcl/details/conversions.h"
 
 // dispatchers able to capture (or ignore) the result
-#include "details/dispatchers.h"
+#include "cpptcl/details/dispatchers.h"
 
 // helper for checking for required number of parameters
 // (throws tcl_error when not met)
@@ -194,16 +194,16 @@ public:
 
 
 // factory functions for creating class objects
-#include "details/constructors.h"
+#include "cpptcl/details/constructors.h"
 
 // actual callback envelopes
-#include "details/callbacks.h"
+#include "cpptcl/details/callbacks.h"
 
 // actual method envelopes
-#include "details/methods.h"
+#include "cpptcl/details/methods.h"
 
 // helper meta function for figuring appropriate constructor callback
-#include "details/metahelpers.h"
+#include "cpptcl/details/metahelpers.h"
 
 
 // this class is used to provide the "def" interface for defining

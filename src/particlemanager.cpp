@@ -339,7 +339,7 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 //					build the initial particles and the linked lists
 //                                      FOR COMPRESSIBLE SIMULATION
 //----------------------------------------------------------------------------------------
-void ParticleManager::BuildRealParticleGasDyn(vecMaterial materials, 
+void ParticleManager::BuildRealParticleGasDyn(vecMaterial materials,
 					std::list<spParticle >& particle_list, 
 					Initiation &ini)
 {

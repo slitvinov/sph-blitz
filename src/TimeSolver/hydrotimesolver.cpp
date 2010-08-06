@@ -40,9 +40,7 @@ void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManag
 {
   LOG(INFO) << "Start TimeIntegral_summation";
   double integeral_time = 0.0;
-	
-  while(integeral_time < D_time)
- {
+  while(integeral_time < D_time) {
     const double dt = hydro.GetTimestep(ini);
     assert(dt>0.0);
     //control output

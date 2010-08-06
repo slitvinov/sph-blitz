@@ -5,10 +5,11 @@ AC_PREREQ([2.63])
 AC_INIT([sph], [0.1], [slitvinov@gmail.com])
 AC_CONFIG_SRCDIR([src/sph.cpp])
 AM_INIT_AUTOMAKE(sph, 0.1)
+AC_CONFIG_MACRO_DIR([m4])
 
 # Checks for programs.
 AC_PROG_CXX
-
+AC_PROG_RANLIB
 
 # check tcl library
 SC_PATH_TCLCONFIG 
@@ -51,7 +52,7 @@ AC_C_INLINE
 # Checks for library functions.
 AC_CHECK_FUNCS([pow sqrt])
 
-AC_OUTPUT(Makefile src/Makefile)
+AC_OUTPUT(Makefile src/Makefile cpptcl/Makefile)
 
 AC_MSG_NOTICE([================================================])
 AC_MSG_NOTICE([CXX=$CXX])

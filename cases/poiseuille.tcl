@@ -6,12 +6,22 @@ set KERNEL_TYPE QuinticSpline
 
 set INITIAL_CONDITION	0
 
+#possible density treatments
+#1: summation density (density obtained by smoothing)
+#2: continuity density (density is integrated)
+set DENSITY_MODE 1
+
 # number of cell
 set ncell 8
 set CELLS(0) $ncell
 set CELLS(1) $ncell
 
-# sizer of the domain
+#possible integration schemes
+#1: leap frog
+#2: predictor corrector
+set INTEGRATION_SCHEME 2
+
+# size of the domain
 set L 1e-3
 set SUPPORT_LENGTH [expr {$L / $ncell}]
 set CELL_SIZE $SUPPORT_LENGTH
