@@ -1,0 +1,6 @@
+<area shape="rect" href="$classKernel.html" title="Kernel abstract base." alt="" coords="5,107,69,133">
+<area shape="rect" href="$classBetaSpline.html" title="A concrete kernel class." alt="" coords="129,5,223,32">
+<area shape="rect" href="$classCubicSpline.html" title="CubicSpline class." alt="" coords="128,56,224,83">
+<area shape="rect" href="$classCubicSpline1D.html" title="CubicSpline class." alt="" coords="119,107,233,133">
+<area shape="rect" href="$classHarmonic.html" title="Harmonic kernel class." alt="" coords="135,157,217,184">
+<area shape="rect" href="$classQuinticSpline.html" title="Quintic spline class." alt="" coords="123,208,229,235">
