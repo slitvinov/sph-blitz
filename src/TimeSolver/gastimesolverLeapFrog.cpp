@@ -69,12 +69,11 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     if(ite!=1)
       {
 	hydro.UpdateUe2Half(dt);
-
+	
 	if  (ini.kernel_type != "CubicSpline1D")//if not 1d (as in 1D now BC needed)
 	  ///build the boundary particles
 	  boundary.BuildBoundaryParticle(particles,hydro);
       }
-
     ///build interactions
     hydro.BuildInteractions(particles, weight_function, ini);
     ///calculate density (by summation)
@@ -84,64 +83,32 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
       boundary.BoundaryCondition(particles);
     ///calculate change rate
     hydro.UpdateChangeRate(ini);
-
+    
     if(ite==1)  
       hydro.AdvanceFirstStep(dt);
     else 
       hydro.AdvanceStandardStep(dt);
-
+    
     if  (ini.kernel_type != "CubicSpline1D")
       ///run away check before cell link lists are updated (due to index purposes)
       boundary.RunAwayCheck(hydro);  
     ///update of cell linked lists
     particles.UpdateCellLinkedLists();
-
-    /*
-
-    //below is good old code:
- 
-    //control output
-    // cout<<"\n just before build pair\n";
-    //predictor and corrector method used
-    ///<li>the prediction step
-    hydro.BuildInteractions(particles, weight_function, ini);///<ol><li> rebuild interactions
-    hydro.UpdateDensity(ini, weight_function);///<li> hydro.UpdateDensity
-    //control output
-    //	cout<<"\n     --- change rate for predictor:";	
-    hydro.UpdateChangeRate(ini);///<li> hydro.UpdateChangeRate
-	  
-    hydro.Predictor_summation(dt);///<li>hydro.Predictor_summation</ol>
-	  
-    ///<li> the correction step without update the interaction list
-  
- hydro.BuildInteractions(particles, weight_function, ini);///<ol><li> rebuild interactions   
-
- //hydro.UpdateInteractions(weight_function);///<li> update interactions
-    hydro.UpdateDensity(ini, weight_function);///<li>hydro.UpdateDensity
-
-    //control output
-    LOG(INFO)<<"change rate for corrector:";
-    hydro.UpdateChangeRate(ini); ///<li>hydro.UpdateChangeRate
-    hydro.Corrector_summation(dt);///<li>hydro.Corrector_summation</ol>
-    particles.UpdateCellLinkedLists();///<li>particles.UpdateCellLinkedLists
-
-    //above is good old code
-
-    */
- }
+  }
 }
 ///time integration including density (continuity density approach)
 void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
-                                           Boundary &boundary,
-                                           double &Time, double D_time,
-                                           const Initiation &ini, spKernel weight_function)
+					 Boundary &boundary,
+					 double &Time, double D_time,
+					 const Initiation &ini, spKernel weight_function)
 {
   double integeral_time = 0.0;
-	
+  
   while(integeral_time < D_time) {
-
-    ///\todo{ move into Initiation?...and/or make time step calculation automatically (constant time step was only for testing purposes)}
-    const double dt = 0.0025;
+    
+    ///<ul><li> call for automatic time step control GasDyn
+    const double dt=hydro.GetTimestepGas(ini);
+    
     //control output
     LOG(INFO)<<"\n current timestep:"<<dt;
     LOG(INFO)<<"\n current absolute integraltime:"<<Time;
@@ -150,19 +117,18 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
     ite ++;
     integeral_time =integeral_time+ dt;
     Time += dt;
-	  
-       ///<ul><li>screen information for the iteration
+    
+    ///<li>screen information for the iteration
     if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
 			  <<Time<<"	dt: "<<dt<<"\n";
-
-    if(ite!=1)
-      {
+    
+    if(ite!=1) {
       hydro.UpdateUeRho2Half(dt);
       if  (ini.kernel_type != "CubicSpline1D")//if not 1d (as in 1D now BC needed)
-	  ///build the boundary particles
-	  boundary.BuildBoundaryParticle(particles,hydro);
-      }
-
+	///build the boundary particles
+	boundary.BuildBoundaryParticle(particles,hydro);
+    }
+    
     ///\todo{change comments to doxygen format, best would probably be to make a list with all if/else statements)}
     //build interactions
     hydro.BuildInteractions(particles, weight_function, ini);
@@ -171,11 +137,11 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
     else//update state without smoothing (p,c,...)
       hydro.UpdateState(ini);
     //if boundary condition applicable: update boundary particle states
-    if  (ini.kernel_type != "CubicSpline1D")   
+    if(ini.kernel_type != "CubicSpline1D")   
       boundary.BoundaryCondition(particles);
     //update change rates for U, e AND rho
     hydro.UpdateChangeRateInclRho(ini);
-
+    
     if(ite==1)  
       hydro.AdvanceFirstStepInclRho(dt);
     else 
