@@ -165,30 +165,27 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
 
   /// <ul><li>iterate particles on the particle list
   BOOST_FOREACH(spParticle prtl_org, hydro.particle_list) {
-    ///\todo{initialize particle mass via initiation file...}
-    // prtl_org->m=0.001875;
-    // /// <ul><li> pick an origin particle
-    // assert(prtl_org != NULL);
-    // const std::list<spParticle> NNP_list = particles.BuildNNP(prtl_org->R);
+    /// <ul><li> pick an origin particle
+    assert(prtl_org != NULL);
+    const std::list<spParticle> NNP_list = particles.BuildNNP(prtl_org->R);
 
-    // /// size of the list can be zero in some circumstances
-    // /// but in 1D (2D) shock it is not expected
-    // assert(NNP_list.size() > 0);
-    // double reciprocV = 0.0; 
-    // /// <li>iterate this Nearest Neighbor spParticle list
-    // BOOST_FOREACH(const spParticle prtl_dest, NNP_list) {
-    //   /// <li> calculate distance (origin<-> neighbor)
-    // 	const double dstc = v_distance(prtl_org->R, prtl_dest->R);
-    // 	/// <li> calculate weight function for given distance (w=0, if dist>supportlengtg) an summ it up </ul> 
-    // 	reciprocV += weight_function->w(dstc);
-    // }
-    // /// <li> calculate volume as reciprocal value of weight function
-    // reciprocV = 1.0/reciprocV;
-    // /// <li> save volume and mass in the respective particle list node (whih is each a spParticle object with all the particle properties) 
-    // prtl_org->V = reciprocV;
-    // prtl_org->m = prtl_org->rho*reciprocV;
+    /// size of the list can be zero in some circumstances
+    /// but in 1D (2D) shock it is not expected
+    assert(NNP_list.size() > 0);
+    double reciprocV = 0.0; 
+    /// <li>iterate this Nearest Neighbor spParticle list
+    BOOST_FOREACH(const spParticle prtl_dest, NNP_list) {
+      /// <li> calculate distance (origin<-> neighbor)
+    	const double dstc = v_distance(prtl_org->R, prtl_dest->R);
+    	/// <li> calculate weight function for given distance (w=0, if dist>supportlengtg) an summ it up </ul> 
+    	reciprocV += weight_function->w(dstc);
+    }
+    /// <li> calculate volume as reciprocal value of weight function
+    reciprocV = 1.0/reciprocV;
+    /// <li> save volume and mass in the respective particle list node (whih is each a spParticle object with all the particle properties) 
+    prtl_org->V = reciprocV;
+    prtl_org->m = prtl_org->rho*reciprocV;
     LOG_EVERY_N(INFO, 1000) <<std::setprecision(10)<< "prtl ID"<<prtl_org->ID<<"prtl m  = " << prtl_org->m;
-
   }
   LOG(INFO)<<"Initiation::VolumeMass ends";
 }
