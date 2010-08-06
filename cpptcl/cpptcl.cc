@@ -915,6 +915,14 @@ result interpreter::eval(object const &o)
      return result(interp_);
 }
 
+result interpreter::getval(const std::string &s) {
+  return eval("[return $" + s + "]");
+}
+
+result interpreter::getat(const std::string &s, const int index) {
+  return eval("[return $" + s + "(" + convertInt(index) + ")]");
+}
+
 void interpreter::pkg_provide(string const &name, string const &version)
 {
      int cc = Tcl_PkgProvide(interp_, name.c_str(), version.c_str());
@@ -1080,4 +1088,11 @@ object tcl_cast<object>::from(Tcl_Interp *interp, Tcl_Obj *obj)
      o.set_interp(interp);
 
      return o;
+}
+
+std::string convertInt(const int number)
+{
+   stringstream ss;
+   ss << number;
+   return ss.str();
 }

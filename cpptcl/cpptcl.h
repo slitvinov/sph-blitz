@@ -638,6 +638,9 @@ public:
 
      details::result eval(object const &o);
 
+     details::result getval(std::string const &s);
+     details::result getat(const std::string &s, const int index);
+
      // the InputIterator should give object& or Tcl_Obj* when dereferenced
      template <class InputIterator>
      details::result eval(InputIterator first, InputIterator last);
@@ -866,5 +869,6 @@ namespace details
      } \
      void name##_cpptcl_Init(Tcl::interpreter &i)
 
+std::string convertInt(const int number);
 
 #endif // CPPTCL_INCLUDED

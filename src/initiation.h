@@ -16,7 +16,6 @@ class Kernel;
 /// and copying is prevented
 class Initiation : boost::noncopyable {
 public:
-	
   ///the project name
   std::string Project_name;
   //the ivs file name
