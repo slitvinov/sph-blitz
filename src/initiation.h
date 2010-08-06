@@ -3,7 +3,7 @@
 /// \file initiation.h 
 /// \brief initializes the simulation data
 
-#include "cpptcl.h"
+#include "cpptcl/cpptcl.h"
 #include "vec2d.h"
 #include <boost/utility.hpp>
 #include "glbtype.h"
