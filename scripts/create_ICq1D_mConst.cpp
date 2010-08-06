@@ -19,7 +19,7 @@ int main ()
   double domain_size_x=2.0;
   double domain_size_y=0.03;//should correspond to suport length
   double dx_l,dx_r,dy_l,dy_r;
-  int N_rx, N_lx, N_x, N_ry,N_ly,N_y,N_l,N_r;
+  int N_rx, N_lx, N_ry,N_ly;
   
   //reading characteristic data for shock tube problem from file 1DST.dat
   ifstream fin(inputfile, ios::in);

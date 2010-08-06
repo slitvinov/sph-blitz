@@ -65,5 +65,4 @@ public:
 	double get_Cs(const double p, const double rho);
 
 };
-
 #endif //MATERIAL_H

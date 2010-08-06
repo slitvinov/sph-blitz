@@ -11,15 +11,15 @@ using namespace std;
 
 int main ()
 {
-  double m=0.00001875;
-  char inputfile[25]="1DST.dat";
+  //double m=0.00001875;
+  const char inputfile[25]="1DST.dat";
   char Key_word[125];
   double vl=0,vr=0,pl=0,pr=0,rhol=0,rhor=0,ml=0,mr=0;
   double x=0;
-  double domain_size_x=2.0;
-  double domain_size_y=0.03;//should correspond to suport length
+  const double domain_size_x=2.0;
+  const double domain_size_y=0.03;//should correspond to suport length
   double dx,dy;
-  int N_rx, N_lx, N_x, N_ry,N_ly,N_y,N_l,N_r;
+  int N_rx, N_lx, N_ry, N_ly;
   
   //reading characteristic data for shock tube problem from file 1DST.dat
   ifstream fin(inputfile, ios::in);
