@@ -30,4 +30,5 @@ remark: in the case of constant Mass particle distribution, the particle distanc
   (as smoothing/supplrt length is constant (both spatially and temporally)
 
    converges to the exact solution with higher resolution. highest simulated resolution is 
-   supLen=0.005, m=0.0003125 (corresponds to dxl=0.0003125, dxr=0.0025)
+   supLen=0.005, m=0.0003125 (corresponds to dxl=0.0003125, dxr=0.0025): There are 3599 particles
+   and 750 time steps (simulation runs for several minutes)
