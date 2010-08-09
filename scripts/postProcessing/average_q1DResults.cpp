@@ -174,6 +174,7 @@ int main (){
     // once all rows for one ID couple are found:
     // add the corresponding components and finally divide them by 
     // the number of rows to obtain the mean value of each component
+    //(the mean values are stored in the first rows place: rowsWithMatchingIDs[0][...])
     for(int l=0;l<rowsWithMatchingIDs.size()-1;l++){
       for(int m=0;m<n_col;m++){
 	rowsWithMatchingIDs[0][m]=rowsWithMatchingIDs[0][m]+rowsWithMatchingIDs[l+1][m];
