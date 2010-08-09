@@ -49,7 +49,7 @@ int main ()
    fin.close();
 
    //here constant spacing !!dx must be chosen in a way that h is multiple of it (here: e.g. dx= 0.005,0.01,...)
-   dx=0.015;
+   dx=0.005;
      dy=dx;
    cout<<"dx=dy="<<dx<<endl;
 

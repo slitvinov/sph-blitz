@@ -1,0 +1,34 @@
+#########################################################################
+
+Logbook for resolution study with constant mass particle distribution 
+
+#########################################################################
+
+as automatic time control is implemented, the temporar resolution study
+will not be conducted.
+
+remark: in the case of constant Mass particle distribution, the particle distances dx_l, dx_r
+	will be controlled by the particle mass. e.g. a decrease in m by the factor 2 will result in
+	a decrease in dx_l, dx_r by 2 as well.
+
+1. support length variation
+  intended to check if the optimum support length is about the same as for the consSpacing
+
+  Results:
+  global optimum at supLen around 0.25 (as for constantSpacing) but for 0.025 already very small oscillations
+  in u in areas 2,3 and results get worse very quick if supLen further decreased. Therefore we retain the supLen 0.03 
+  wit mass 0.001875 , which gives ratio supLen/mass=16.
+
+ 
+
+  There are no major oscillations observed for a medium supLen (as it was the case for constant spacing) and 
+  there is n bump in u for the rarefaction at all
+
+2. constant ratio supLen/m =16 (where mass equivalent to particle spacing)
+  A constant ratio supLen/m corresponds to a constant number of initial (at t=0) neighboring particles for 
+  each resolution, In the case of supLen/mass=16: at left hand side: 30 NNP, at right hand side: 2 NNP
+  (as smoothing/supplrt length is constant (both spatially and temporally)
+
+   converges to the exact solution with higher resolution. highest simulated resolution is 
+   supLen=0.005, m=0.0003125 (corresponds to dxl=0.0003125, dxr=0.0025): There are 3599 particles
+   and 750 time steps (simulation runs for several minutes)

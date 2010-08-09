@@ -33,9 +33,6 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
   ///- give a new ID number
   ID = ID_max;
 
-  ///- point to the material properties
-
-
   ///- set viscosity
   eta = mtl->eta;
 
@@ -73,12 +70,11 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
   ///- give a new ID number
   ID = ID_max;
 
-  ///- point to the material properties
-
-
-  ///- set viscosity
+    ///- set viscosity
   eta = mtl->eta;
 
+  ///- initialize mue_ab_max to zero
+  mue_ab_max=0;
   ///- set particle position
   R = position; 
 	
@@ -93,11 +89,6 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
 
 }
 
-
-
-
-
-
 //----------------------------------------------------------------------------------------
 //								construct a wall particle
 //----------------------------------------------------------------------------------------
@@ -109,9 +100,6 @@ Particle::Particle (double x, double y, double u, double v,
 
   ///- give a new ID number
   ID = 0;
-
-  ///- point to the material properties
-	
 
   ///- set particle position
   R[0] = x; R[1] = y; 

@@ -35,12 +35,12 @@ public:
 	///constructor
 	Hydrodynamics(ParticleManager &particles, Initiation &ini);
 
-	///get the time step
+	///get the time step for hydro
 	double GetTimestep(const Initiation& ini) const;
-	double GetTimestepGas(const Initiation& ini) const;
+	///get the time step for gas dyanamics
+	double GetTimestepGas(const Initiation& ini);
 	///build new pairs
-  void BuildInteractions(ParticleManager &particles, spKernel weight_function,
-			 const Initiation& ini);
+	void BuildInteractions(ParticleManager &particles, spKernel weight_function, const Initiation& ini);
 	///update new parameters in pairs
 	void UpdateInteractions(spKernel weight_function);
 

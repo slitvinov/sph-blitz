@@ -315,26 +315,26 @@ void Hydrodynamics::UpdateVolume(ParticleManager &particles, spKernel weight_fun
 //							get the time step (gasdynamics)
 //----------------------------------------------------------------------------------------
 
-double Hydrodynamics::GetTimestepGas(const Initiation& ini) const {
+double Hydrodynamics::GetTimestepGas(const Initiation& ini) {
   //maximum sound speed, particle velocity and density
  
   double dt_f=1.0e30;//time step due to force consideration 
   double dt_cv=1.0e30;//time step due to Courant and Viscosity consideration
   
-  
   //predict the time step
-  //iterate the partilce list
+  //iterate the partilce list, calculate theoretical max admissible time step
+  //for each particle and retain the smallest of all
   BOOST_FOREACH(spParticle prtl, particle_list) {
     assert(prtl != NULL);
-    
     //dt_f according to Monaghan 1992 ("smoothed particle hydrodynamics") (sec.10.3)
     dt_f=AMIN1(dt_f, sqrt(ini.supportlength/2/(v_abs(prtl->dUdt)+1e-35)));//to prevent singularity
-    //LOG(INFO) << "dt_f: after part "<<prtl->ID<<"  " << dt_f; 
     //dt_cv according to Monaghan 1992 ("smoothed particle hydrodynamics") (sec.10.3)
     dt_cv=AMIN1(dt_cv,ini.supportlength/2/(prtl->Cs+0.6*(ini.alpha_artVis*prtl->Cs+ini.beta_artVis*prtl->mue_ab_max)));
     assert(dt_cv>0.0);
-    //LOG(INFO) << "dt_cv: after part "<<prtl->ID<<"  " << dt_cv; 
   }
+  
+  // reset mue_ab to zero (for next iterarion)
+  Zero_mue_ab_max();
   
   const double dt = 0.25*AMIN1(dt_f, dt_cv);
   assert(dt>0.0);
