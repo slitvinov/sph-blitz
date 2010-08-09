@@ -246,14 +246,14 @@ int main (){
     globalAveragedVariance[i]=globalAveragedVariance[i]/variance_matrix.size();
   }
   
-  // outpzt of processed data
+  // output of processed data
 
   // first averaged values of particle data
 
   // assemble output file name ...averagedxxxxxxxx.dat (where xxxxxxxx is the time)
   size_t length;
   char timeString[20];
-  char  outputfile[51];
+  char  outputfile[50];
   length=inputfile.copy(timeString,8,inputfile.size()-12);
   timeString[length]='\0';
   strcat(outputfile,"../../results/ResultsInProgress/");
@@ -262,6 +262,7 @@ int main (){
   strcat(outputfile, ".dat");
   // create and open output file
   ofstream out(outputfile);
+  //ofstream out("../../results/ResultsInProgress/test.dat");
   // test if file opened
   if (!out){
     cout<<"Cannot create file "<<outputfile<<"\n" ;
@@ -270,7 +271,7 @@ int main (){
   else cout<<"\n writing in file\n"; 
   // write file header
   out<<"averaged values\n";
-  out<<"variables=x, y, rho, p, U, e, '-1'(just as a placeholder to maintain file structure(was ID)), m ";
+  out<<"variables=x, y, rho, p, U, e, '-1'(just as a placeholder to maintain file structure(was ID)), m \n";
   // write data into file
   for(int i=0;i<final_matrix.size();i++) {
     out<<setprecision(9)
@@ -306,7 +307,7 @@ int main (){
   else cout<<"\n writing in file\n"; 
   // write file header
   out2<<"variance for each set of averaged particle data\n";
-  out2<<"file structure: (mean)x|var(x)|var(y)|var(rho)|var(p)|var(u)|var(e)";
+  out2<<"file structure: (mean)x|var(x)|var(y)|var(rho)|var(p)|var(u)|var(e) \n";
   for(int i=0;i<variance_matrix.size();i++) {
     out2<<setprecision(9)
        << ::setw(17)<<variance_matrix[i][0] // (mean)x
@@ -325,7 +326,7 @@ int main (){
   // finally output gobal averaged variance data
 
   // assemble output file name ...globVarDataxxxxxxxx.dat (where xxxxxxxx is the time)
-  char  outputfile3[51];
+  char  outputfile3[54];
   strcat(outputfile3,"../../results/ResultsInProgress/");
   strcat(outputfile3, "globVarData");
   strcat(outputfile3, timeString);

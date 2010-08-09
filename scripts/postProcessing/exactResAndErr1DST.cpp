@@ -487,7 +487,7 @@ int main (){
   const string filename = "../../results/ResultsInProgress/relError" + number.str() + ".dat";
   // create and open file
   ofstream out3(filename.c_str());
-  if (!out){
+  if (!out3){
     cout<<"Initialtion: Cannot create "<<filename <<"! \n";
     exit(1);
   }
@@ -528,7 +528,7 @@ int main (){
   const string filename2 = "../../results/ResultsInProgress/IntegralAndMeanError" + number.str() + ".dat";
   // create and open outputfile
   ofstream out4(filename2.c_str());
-  if (!out){
+  if (!out4){
     cout<<"Initialtion: Cannot create "<<filename2 <<"! \n";
     exit(1);
  }
