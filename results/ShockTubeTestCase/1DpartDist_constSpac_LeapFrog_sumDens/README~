@@ -70,6 +70,13 @@ the decimal point are indicated, implicitly assuming "0."
   
   Results:
   simulation gets as exact as wanted EXCEPT FOR A LITTLE BUMP IN VELOCITY WITHIN THE RAREFACTION???
-  global error (where this bumb is negligeable) decreases in a linear manner,
+  global error (where this bumb is negligeable) decreases in a linear manner,as well as the local errors
+  indicating the after shock/after rarefaction values...
+
+  as far as the little bump inide the rarefaction is concerned: this is probably due to the constant Spacing
+  particle initialization. For constant mass, this phenomenon is not observed ( and in literature as far as I have 
+  found, people use m=cte for shock tube simulation...
+  -->see resolution study for constant mass...
+ 
   
   

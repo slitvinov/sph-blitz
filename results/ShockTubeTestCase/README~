@@ -18,3 +18,11 @@ Remarks on the evaluation of the simulation results:
   To measure the precission of the after shock values, an additional L1 norm calculation is added for both the area
   behind rarefaction (to discontinuity) (area 3) and the area behind shock (to discontinuity) (area 2) separately. 
   
+- for 2D PARTICLE DISTRIBUTION: the value that is finally compared to the exact 1D solution is the mean value of
+  all particles having initially (@t=0) the same x position. For a 2D particle distribution some numerical noise
+  is expected even if the particles are placed in a regular manner and which gets even considerably bigger with
+  randomly placed particles.
+  (according to Rasio/Shapiro 1991, Astrophysical Journal, 377: 559-80)
+  In order to quantify this numerical noise, there
+
+
