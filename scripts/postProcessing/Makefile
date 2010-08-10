@@ -8,4 +8,4 @@ exactResAndErr1DST: exactResAndErr1DST.cpp
 
 clean:
 	-rm average_q1DResults
-	-rm exactRes1DST
+	-rm exactResAndErr1DST

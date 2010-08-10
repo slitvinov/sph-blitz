@@ -23,6 +23,6 @@ Remarks on the evaluation of the simulation results:
   is expected even if the particles are placed in a regular manner and which gets even considerably bigger with
   randomly placed particles.
   (according to Rasio/Shapiro 1991, Astrophysical Journal, 377: 559-80)
-  In order to quantify this numerical noise, there
+  In order to quantify this numerical noise, the variance for each position
 
 
