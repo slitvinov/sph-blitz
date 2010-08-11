@@ -110,6 +110,7 @@ a rough overview on what has to be done:
   simulation results
 
 - average the simulation results in the second (y) direction
+  (and calculate variance to be able to quantitatively assess the scattering)
 
 - calculate exact results for shock tube problem at the (averaged) particle
   positions as computed during the simulation
@@ -150,7 +151,7 @@ This will perform the following action:
 
 
 2. also in this local directory: run the c++ program <<average_q1DResults.cpp>>
-    (possibly need to compile (<<make>>) before)
+   (possibly need to compile (<<make>>) before)
 
  This will perform the following action:
 
@@ -163,9 +164,22 @@ This will perform the following action:
  - ask the user for the name of the file to average, read this file 
    (from xxx/src/outdata), delete all boundary particles, and average
     corresponding particles (based on their IDs as previously determined)
+  
+ - calculate the variances for every set of averaged particles and the global averaged
+   variance for each of the following values x, y, rho, p, u, e, in an area +/- 0.5
+   around the diaphragm position (whole domain is +/- 1 around diaphragm, but as no 	
+   boundary conditions, there is an edge error, which should not be taken into account)
 
  - write the averaged results into the file
     <<results/ResultsInProgress/averagedxxxxxxxx.dat>> 
+   (where xxxxxxxx represents the corresponding simulation time in ms)
+
+ - write the variance data into the file
+    <<results/ResultsInProgress/variancexxxxxxxx.dat>> 
+   (where xxxxxxxx represents the corresponding simulation time in ms)
+
+ - write the global averaged variance data into the file
+    <<results/ResultsInProgress/globVarDataxxxxxxxx.dat>> 
    (where xxxxxxxx represents the corresponding simulation time in ms)
 
 

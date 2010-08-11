@@ -246,14 +246,21 @@ int main (){
     globalAveragedVariance[i]=globalAveragedVariance[i]/variance_matrix.size();
   }
   
-  // outpzt of processed data
+  // output of processed data
 
   // first averaged values of particle data
 
   // assemble output file name ...averagedxxxxxxxx.dat (where xxxxxxxx is the time)
+
+  //***************this whole bolck is totally unstable, some times
+  // it works, sometimes it does not work (without having changed anything)...
+  //
+
+  //try to do it in a different way...
+  /*
   size_t length;
   char timeString[20];
-  char  outputfile[51];
+  char  outputfile[50];
   length=inputfile.copy(timeString,8,inputfile.size()-12);
   timeString[length]='\0';
   strcat(outputfile,"../../results/ResultsInProgress/");
@@ -262,6 +269,20 @@ int main (){
   strcat(outputfile, ".dat");
   // create and open output file
   ofstream out(outputfile);
+  //ofstream out("../../results/ResultsInProgress/test.dat");
+  */
+
+  //different way (with c++ string)
+  size_t length;
+  char timeString[20];
+  length=inputfile.copy(timeString,8,inputfile.size()-12);
+  timeString[length]='\0';
+  stringstream ss(timeString); 
+  
+  const string outputfile = "../../results/ResultsInProgress/averaged" + ss.str() + ".dat";
+  // create and open outputfile
+  ofstream out(outputfile.c_str());
+  
   // test if file opened
   if (!out){
     cout<<"Cannot create file "<<outputfile<<"\n" ;
@@ -270,7 +291,7 @@ int main (){
   else cout<<"\n writing in file\n"; 
   // write file header
   out<<"averaged values\n";
-  out<<"variables=x, y, rho, p, U, e, '-1'(just as a placeholder to maintain file structure(was ID)), m ";
+  out<<"variables=x, y, rho, p, U, e, '-1'(just as a placeholder to maintain file structure(was ID)), m \n";
   // write data into file
   for(int i=0;i<final_matrix.size();i++) {
     out<<setprecision(9)
@@ -287,17 +308,23 @@ int main (){
   out.close();// close output file
   cout<<"\n averaged values written to file:\n";
   cout<<"   "<<outputfile<<"\n";
-
+  
   // then output variance data
-
+  
   // assemble output file name ...variancexxxxxxxx.dat (where xxxxxxxx is the time)
-  char  outputfile2[51];
-  strcat(outputfile2,"../../results/ResultsInProgress/");
-  strcat(outputfile2, "variance");
-  strcat(outputfile2, timeString);
-  strcat(outputfile2, ".dat");
-  // create and open output file
-  ofstream out2(outputfile2);
+  //**************************this is the same (also "unstable")
+  /*
+    char  outputfile2[51];
+    strcat(outputfile2,"../../results/ResultsInProgress/");
+    strcat(outputfile2, "variance");
+    strcat(outputfile2, timeString);
+    strcat(outputfile2, ".dat");
+    // create and open output file
+    ofstream out2(outputfile2);
+  */
+  // different way (with c++ string):
+  const string outputfile2 = "../../results/ResultsInProgress/variance" + ss.str() + ".dat";
+  ofstream out2(outputfile2.c_str());
   // test if file opened
   if (!out2){
     cout<<"Cannot create file "<<outputfile2<<"\n" ;
@@ -306,40 +333,43 @@ int main (){
   else cout<<"\n writing in file\n"; 
   // write file header
   out2<<"variance for each set of averaged particle data\n";
-  out2<<"file structure: (mean)x|var(x)|var(y)|var(rho)|var(p)|var(u)|var(e)";
+  out2<<"file structure: (mean)x|var(x)|var(y)|var(rho)|var(p)|var(u)|var(e) \n";
   for(int i=0;i<variance_matrix.size();i++) {
     out2<<setprecision(9)
-       << ::setw(17)<<variance_matrix[i][0] // (mean)x
-       << ::setw(17)<<variance_matrix[i][1] // var(x)
-       << ::setw(17)<<variance_matrix[i][2] // var(y)
-       << ::setw(17)<<variance_matrix[i][3] // var(rho)
-       << ::setw(17)<<variance_matrix[i][4] // var(p)
-       << ::setw(17)<<variance_matrix[i][5] // var(u)
-       << ::setw(17)<<variance_matrix[i][6] // var(e)
-       <<"\n";
+	<< ::setw(17)<<variance_matrix[i][0] // (mean)x
+	<< ::setw(17)<<variance_matrix[i][1] // var(x)
+	<< ::setw(17)<<variance_matrix[i][2] // var(y)
+	<< ::setw(17)<<variance_matrix[i][3] // var(rho)
+	<< ::setw(17)<<variance_matrix[i][4] // var(p)
+	<< ::setw(17)<<variance_matrix[i][5] // var(u)
+	<< ::setw(17)<<variance_matrix[i][6] // var(e)
+	<<"\n";
   }
   out2.close();// close output file
   cout<<"\n variance data written to file:\n";
   cout<<"   "<<outputfile2<<"\n";
   
   // finally output gobal averaged variance data
-
+  
   // assemble output file name ...globVarDataxxxxxxxx.dat (where xxxxxxxx is the time)
-  char  outputfile3[51];
-  strcat(outputfile3,"../../results/ResultsInProgress/");
-  strcat(outputfile3, "globVarData");
+
+  // and another solution: initialize c++ string with c string, then reconvert...
+  char  outputfile3[39];
+  strcat(outputfile3, "../../results/ResultsInProgress/globVarData");
   strcat(outputfile3, timeString);
   strcat(outputfile3, ".dat");
+  string op (outputfile3);
   // create and open output file
-  ofstream out3(outputfile3);
+  //ofstream out3(outputfile3);
+  ofstream out3(op.c_str());
   // test if file opened
   if (!out3){
-    cout<<"Cannot create file "<<outputfile3<<"\n" ;
+    cout<<"Cannot create file "<<op<<"\n" ;
     exit(1);
   }
   else cout<<"\n writing in file\n"; 
   // write file header
-  out3<<"global averaged variance data for domain 1.5< x <2.5 (corresponds to +/- 0.5 around diaphragm) \n";
+  out3<<"global averaged variance data for domain 1.5< x <2.5 (corresponds to +/- 0.5 around diaphragm) \n \n \n";
   out3<<"averaged variance for x: "<<globalAveragedVariance[0]<<"\n \n";
   out3<<"averaged variance for y: "<<globalAveragedVariance[1]<<"\n \n";
   out3<<"averaged variance for rho: "<<globalAveragedVariance[2]<<"\n \n";
@@ -349,7 +379,7 @@ int main (){
   out3.close();// close output file
 
   cout<<"\n global averaged variance written to file:\n";
-  cout<<"   "<<outputfile3<<"\n";
+  cout<<"   "<<op<<"\n";
   
   cout<<"\n program ended\n";
   return 0;
