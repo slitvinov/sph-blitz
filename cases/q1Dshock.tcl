@@ -21,14 +21,14 @@ set DENSITY_MODE 1
 set INITIAL_CONDITION 0
 
 # number of cells in X and Y directions
-set CELLS(0) 260
+set CELLS(0) 86
 set CELLS(1) 1
 
 # size of one cell
-set CELL_SIZE 0.015
+set CELL_SIZE 0.045
 
 # support length of the kernel
-set SUPPORT_LENGTH 0.015
+set SUPPORT_LENGTH 0.035
 
 # number of particles in one cell size
 # not used in q1D shock 
@@ -38,7 +38,7 @@ set CELL_RATIO 1
 set U0(0) 0.0
 set U0(1) 0.0
 
-# initial propeties of the particles (noz used either)
+# initial properties of the particles (not used either)
 set rho0 0.0
 set p0 0.5
 set T0 1.0

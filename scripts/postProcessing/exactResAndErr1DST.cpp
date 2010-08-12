@@ -97,15 +97,16 @@ int main (){
   // for simulation) as for changed conditions, p_2 has to be calculated
   // manually anyway (see below)
   const double gamma=1.4;
-  const double rho_1=0.125;
+  //const double rho_1=0.125; 
+  const double rho_1=0.1111111111111111;//for 2D const Mass particle distribution
   const double p_1=0.1;
   const double u_1=0.0;
-  const double e_1=2.0;
+  const double e_1=p_1/((gamma-1)*rho_1);
   const double a_1=sqrt(gamma*p_1/rho_1);
   const double rho_4=1.0;
   const double p_4=1.0;
   const double u_4=0.0;
-  const double e_4=2.5;
+  const double e_4=p_4/((gamma-1)*rho_4);
   const double a_4=sqrt(gamma*p_4/rho_4);
   // some little control output (to see if they are in the
   //  right order of magnitude)
@@ -117,8 +118,13 @@ int main (){
   // in our case p_4=1 and p_1=0.1 the iterative solution of
   // equation (7.94) anderson for p2 is (obtained with my calculator,
   // did not manage to solve it with maxima):
+
+  // for the 2D particle distribution with constant mass, we need a shock tube
+  // case with density ratio 9 (rho_4=1, rho_1=0.11111111111) all the other values
+  // remain unchanged
   
-  const double p_2=0.303130178;
+  //const double p_2=0.303130178;//for rho_4=1, rho_1=0.125
+  const double p_2=0.293309753;//for rho_4=1, rho_1=0.111111111
   const double p_3=p_2; // pressure the same over contact discontinuity
   
   // rho_2 with shock relation from state 1

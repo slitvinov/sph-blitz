@@ -1,0 +1,46 @@
+#########################################################################
+
+resolution study with constant mass 2D particle distribution 
+
+#########################################################################
+ 
+Remark: it is not obvious to find a convenient 2D particle distribution for the constant mass approach
+	(at least not for the shock tube values, that are employed in the previous studies: rho_l/rho_r=8)
+	The reason for this is the following:
+	To respect the initial density ratio rho_l/rho_r with an constant mass approach (m_l=m_r),
+	the initial particle spacings for the left and right hand side need to be (supposing that dx=dy):
+	dx_r=sqrt(rho_l/rho_r)*dx_l
+	At the same time, the number of particles in y direction calculated by (N_l&r=cell_size/dy_l&r) must 
+	be an integer for both sides (as they have to be placed in the cells in a way that allows for a periodical
+	continuation of the domain in y direction.)
+	
+	For a density ratio of 8, I could not find an appropriate particle distribution. One possibility to
+	avoid this problem (or better to diminuish the effects of the conflict at the cell limit) is to
+	increase the domain size in y direction which for the moment and to safe calculation time is the
+	minimum possibly size (which is one cell=one support length). But increasing the number of cells
+	in y direction would lead to a considerable increase in calculation time, which for this simple resolution
+	study is not acceptable (the highest resolution for 2D particle distribution with constant spacing took 
+	little less than 3 hours).
+
+	So I decided to choose a different density ratio for the reference shock tube case; one which 
+	is a square number. As 9 is the closest square number to the original density ration of 8, I picked this one.
+	This way, both sides can be filled with particles in a way that allows for a periodical
+	continuation of the domain in y direction. 
+	And the validity of the study is not affected, as the exact solution, of course, is also calculated for 
+	this new shock tube configuration (rho_l=1,rho_r=0.111111111(=1/9)). All other values remain the same as before
+	
+	to create the particle distribution, I selected a particle mass which would lead to dx_r=0.015
+	(the same dx as for the right hand side of the 1D particle distribution with constant mass). This way I
+	expected to find the optimum support lenght in the sae order of magnitude as in 1D...
+
+	Another point is: if I wanted to simulate only with optimum cell size (=support length) I could change
+	the support length only in steps of size dx_r=0.015. As this is a very rough step, I will also simulate
+	support lengths in between by diminuishing the support length while maintaining the cell size. This in not
+	ideal in terms of computational time, but it does not affect the quality of the results.
+
+1. support length variation at constant mass m=2.5e-5 
+(corresponds to constant particle spacing dx_l=dy_l=0.005, dx_r=dy_r=0.015)
+
+  Results: 
+
+	

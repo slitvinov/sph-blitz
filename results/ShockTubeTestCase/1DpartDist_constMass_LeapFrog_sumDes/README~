@@ -15,7 +15,7 @@ remark: in the case of constant Mass particle distribution, the particle distanc
   intended to check if the optimum support length is about the same as for the consSpacing
 
   Results:
-  global optimum at supLen around 0.25 (as for constantSpacing) but for 0.025 already very small oscillations
+  global optimum at supLen around 0.025 (as for constantSpacing) but for 0.025 already very small oscillations
   in u in areas 2,3 and results get worse very quick if supLen further decreased. Therefore we retain the supLen 0.03 
   wit mass 0.001875 , which gives ratio supLen/mass=16.
 

@@ -1,0 +1,58 @@
+################################################################
+
+Resolution study for 2D particle distribution (constant spacing)
+
+################################################################
+
+1.variation of support length with constant particle spacing dx=dy=0.005
+  
+  Results: it can be seen visually (in the x_y_plane figure) that particles have the tendendy to
+  develop instabilities around the shock front (either before or after) by slightly drifting out of the row
+  (meaning out of theie initial and theoretically correct y-position)
+  however this behaviour seems stable for support lengths >=0.02 (at least within the simulation time of 0.2) and is 
+  visually not detectable anymore for supLen>=0.35.
+  In the simulation with supLen=0.015, particles around the shock front are drifting comletely away from their
+  original position, forming a bizzare structure (it seems as if they would be attracted by the symetrically 
+  drifting particles of the next row???) (see x_y_plane figure in VisualScatterFigures)
+
+    (thats probably what monaghan says in his review paper (2005): shocks in 2D/3D can be noisy (with current algorithms)
+    or what Rasio & Shapiro 1991(Astrophysical Journal, Part 1 (ISSN 0004-637X), vol. 377, Aug. 20, 1991, p. 559-580) state:
+    in >1D there is a much bigger effect of numerical noise for shock tube simulation... )
+
+  the biggest simulated supLen is 0.045 as then, simulation already takes about 25 min: 
+    - 3591 real particle (+ twice as much boundary particles)
+    - total number of interactions at t=0 (including boundary particles): 636355 (average 118 NNP)
+    - 90 iterations with dt~0.022
+  
+  The optimum supLen for dx=dy=0.005 is 0.025 (as for 1D part distribution wih const Spacing) giving a ratio supLen/sx=5
+  The results look much like the corresponding ones for 1D particle resolution (only that the error is even 
+  slightly less for the averaged 2D value). The 2D simulation also diverges later (supLen=0.015 was not possible for 1D,
+  but still gives results (even though bad ones) for 2D. Attention this statement is risky, as the 1D simulation was 
+  performed without automatic time control, but with dt = const, perhaps the fact that supLen=0.015 diverged was due
+  to temporal stability limit, not spatial...)
+  
+  The oscillations in u after the shock though are bigger in 2D (but also bigger wavelength). For the 1D case
+  after shock oscillations also occured close to the temporal stability limit, therefore it is safer to check,
+  if the automatic time control also works for 2D. This is done by repeating one of the simulations
+  (e.g. supLen=0.025, dx=0.005) with smaller time steps (let's say 70% of the former time steps, 
+  automatically determined time step multiplied by 0.7 each time) and comparing the results. 
+  (it does not matter, which simulation (with wich supLen) to repeat, as the automatic time control takes into
+  account the supLen anyway. The question is just, if the security factor between automatically determined time limit
+  and the actually employed dt is big enough for 2D as well...(it should be, but it is safer to test this...)
+
+2.test if automatic time control works:
+  compare simulation1 (supLen=0.025, dx=0.005, autom. dt) with simulation2 (supLen=0.025, dx=0.005, autom.dt*0.7)
+  --> no significant visual results (especially not in the after shocl oscillations, which normally indicate instability)
+  --> quantitative comparison: 
+      simulation1:	L_1,tot:   0.0521197     L_2,tot:   0.037588      L_inf,tot:   0.0323803
+      simulation2:	L_1,tot:   0.0522695     L_2,tot:   0.0376961     L_inf,tot:   0.0324814
+    --> here no sighificant difference either, simulation 1 even slightly better (but this is arbitrary...
+  Conclusion: automatic time step control works for 2D as well!!!
+ 
+3. constant ratio supLen/dx=5
+
+  simulation for supLen=0.01, dx=0.002 took already 45 min (as dt gets quickly smaller, around 0.0005, 
+  approcimately 400 time steps...)
+
+
+

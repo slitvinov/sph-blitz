@@ -169,6 +169,17 @@ This will perform the following action:
    variance for each of the following values x, y, rho, p, u, e, in an area +/- 0.5
    around the diaphragm position (whole domain is +/- 1 around diaphragm, but as no 	
    boundary conditions, there is an edge error, which should not be taken into account)
+   !!!VARIANCE calculation FOR Y is nonsense (at least the way it is done in this program):
+    averaging is done for particles having a constant initial x position (as all
+    parameters (except their y value) for those particle sets are suposed to be (theoretically) the same
+    
+    to get a reasonable measure of the particle scattering/drifting in y direction (in the initial
+    distribution particles are all alligned in rows where for each row y=const) averaging and variance
+    calculation shall be conducted for all particles initially having the same y position.
+    I will implement this later in a separated small program (no need to repeat the simulations, as all 
+    data needed are saved in the corresponding simulation result folders...)
+    
+    
 
  - write the averaged results into the file
     <<results/ResultsInProgress/averagedxxxxxxxx.dat>> 

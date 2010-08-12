@@ -27,3 +27,14 @@ Remarks on the evaluation of the simulation results:
   values is calculated
 
 
+REMARK ON ARTIFICIAL HEATING:
+a paper (I do not remember which one any more) stated that the little bump in the p-profile at the contact 
+discontinuity is due to the artificial heating by the artificial viscosity (art. vis. also introduced in energy equation)
+(this effect is also known as "wall-heating" (Journal of Computational Physics 212 (2006) 124–149))
+Remedy can be found by introducing an artificial thermal conduction term in the thermal energy equation, which
+is activated only for particles in compression (as art.vis.) and thus controls wall heating.
+See "A shock-capturing SPH scheme based on adaptive kernel estimation" + references given in that paper
+(Journal of Computational Physics 212 (2006) 124–149)
+As for the further use of this program (porosities,...) we probably will not encounter any strong shocks any more,
+this "trick" is not implemented in the code. Perhaps I should mention the artificial heat conduction term anyway
+in the thesis, to show that the origin of this little error in p is known and the error therefore controllable.

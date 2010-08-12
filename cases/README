@@ -82,6 +82,6 @@ Porcedure to follow for a simulation with. ivs files
     main function call
    for example:
     ./sph <<project_name>> << xxxxx.ivs>>
-    ./sph ../cases/q1Dshock ../cases q1DshockSpace.ivs
+    ./sph ../cases/q1Dshock ../cases q1DshockSpaceConst.ivs
 
 	
