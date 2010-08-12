@@ -46,13 +46,16 @@ Resolution study for 2D particle distribution (constant spacing)
   --> quantitative comparison: 
       simulation1:	L_1,tot:   0.0521197     L_2,tot:   0.037588      L_inf,tot:   0.0323803
       simulation2:	L_1,tot:   0.0522695     L_2,tot:   0.0376961     L_inf,tot:   0.0324814
-    --> here no sighificant difference either, simulation 1 even slightly better (but this is arbitrary...
+    --> here no significant difference either, simulation 1 even slightly better (but this is arbitrary...
   Conclusion: automatic time step control works for 2D as well!!!
  
 3. constant ratio supLen/dx=5
+  
+  results: error gets as small as desired (except for a bump inside the rarefaction wave velocity-profile,
+  which does not disappear with higher resolution, exactly the same as for 1D particle distribution const spacing)
 
   simulation for supLen=0.01, dx=0.002 took already 45 min (as dt gets quickly smaller, around 0.0005, 
-  approcimately 400 time steps...)
+  approcimately 400 time steps...), simulation for supLen=0.005, dx=0.001 took 2 1/2 hours.
 
 
 

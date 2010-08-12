@@ -10,16 +10,16 @@
 using namespace std;
 
 int main () {
-  double m=2.5e-5;
+  double m=1.5625e-6;
   char inputfile[25]="1DST.dat";
   char Key_word[125];
   double vl=0,vr=0,pl=0,pr=0,rhol=0,rhor=0;
   double x=0;
   double domain_size_x=2.0;
-  double domain_size_y=0.045;//should correspond to suport length
+  double domain_size_y=0.015;//should correspond to suport length
   double dx_l,dx_r,dy_l,dy_r;
   int N_rx, N_lx, N_x,N_y,N_l,N_r;
-  double  N_ry,N_ly;
+ int N_ry,N_ly;
   
   //reading characteristic data for shock tube problem from file 1DST.dat
   ifstream fin(inputfile, ios::in);
@@ -54,9 +54,9 @@ int main () {
   cout<<"N_rx"<<N_rx<<endl;
   N_lx=domain_size_x/2/dx_l;
   cout<<"N_lx"<<N_lx<<endl;
-  N_ry=domain_size_y/dy_r;
+  N_ry=domain_size_y/dy_r+1;
   cout<<"N_ry"<<N_ry<<endl;
-  N_ly=domain_size_y/dy_l;
+  N_ly=domain_size_y/dy_l+1;
   cout<<"N_ly"<<N_ly<<endl;
   
   int N;

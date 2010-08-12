@@ -11,6 +11,7 @@ Incompressible
 Note: the initial particle distribution for incompressible simulations is
 created within the program. Therefore there is no need to pass a second argument
 to the main function specifying an external file for initial conditons (.ivs)
+(ivs=Initial Values Shocktube, <<ics>> (<<c>> for condition) does already exist as standard file ending)
 
 
 Compressible

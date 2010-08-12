@@ -42,5 +42,43 @@ Remark: it is not obvious to find a convenient 2D particle distribution for the 
 (corresponds to constant particle spacing dx_l=dy_l=0.005, dx_r=dy_r=0.015)
 
   Results: 
+  the best global results are obtained for h=0.03 (with m=2.5e-5) resulting in a ratio supLen/sqrt(m)=6. (for 2D
+  one has to take sqrt(m) because the spacing is ~ sqrt(m)
 
-	
+  However due to the discontiutity of the particle distribution in y disupLen/sqrt(m)=8rection at the interface, there is 
+  a very weak drifting of the interface particles on the high density side in y direction. Given the	
+  particle distribution, this behaviour is physical and the newly assumed particle positions probably
+  correspond to the equilibrium positions for this constellation. So no reason to worry...
+
+  Besides, within the rarefaction wave, there is still a bump in the velocity profile for most of the simulated cases.
+  It only disappeares for supLen>=0.4.
+  This bump was encountered in 1D for constant spacing, but not for constan mass particle distribution.
+  In 2D it was encountered for constant spacing (as expeected) but now also for constant mass simulations unless
+  supLen is very big.
+  
+2. suport length variation with ratio support length/sqrt(m)=6=const
+  
+  convergence to the exact solution can be observed.
+  however, within the rarefaction wave, there is still a bump in the velocity profile (even for high resolutions).
+  
+3. single simulation with suplen=0.1, supLen/sqrt(m)=8
+  To try out, if a highly resolved result (supLen=0.01) can be obtained without this bump, I tried one simulation with a 
+  ratio supLen/sqrt(m)=8. This corresponds to the case supLen=0.04 in 1.) 
+  This calculation took easily  3 hours: 
+      - 10656 real particles, 
+      - dt<~0.0005 (410 steps), 
+      - size of interaction list (at t=0): 1,201,907 
+  Result: the bump inside the rarefaction wave is gone, but it seems ( at least visually) as if the (compared to the
+	  particle spacing) high supLen lead to the fact that after shock/after rarefaction values are not reached exactly
+	  any more....???
+  quantitative comparison of the errors with the simulation support length/sqrt(m)=6 (both wit supLen=0.1):
+  
+                 |    L1    |    L2    |   Linf    |   L1_3   |    L2_3   |   Linf_3  |   L1_2   |   L2_2   |  Linf_2
+----------------------------------------------------------------------------------------------------------------------------
+supLen/sqrt(m)=6 |0.0228742 |0.0161848 |0.0136212  |0.0111649 |0.0073220  |0.0059373  |0.0094088 |0.0084059 |0.0082920
+----------------------------------------------------------------------------------------------------------------------------
+supLen/sqrt(m)=8 |0.016035  |0.0111414 |0.00934318 |0.013261  |0.00814581 |0.00628067 |0.0132    |0.0103663 |0.00968592
+
+  this shows that the visual impression was right: While the globar error (domain +/-0.5 diaphragm) is less
+  for supLen/sqrt(m)=8 (probably due to the absence of the bump in the rarefaction wave), the "local" errors 
+  in the two areas after shock (2) and after rarefaction (3) have increased, confirming the observation from above.
