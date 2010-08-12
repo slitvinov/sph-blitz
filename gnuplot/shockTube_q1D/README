@@ -1,0 +1,29 @@
+###########################################################################
+
+	How to visualize the results with gnuplot
+
+###########################################################################
+
+Once a simulation has been conducted and the postprocessing results have been
+obtained (according to <<sph-blitz/scripts/postProcessing/README>>):
+
+
+ 1.in the directroy <<sph-blitz/results/ResultsInProgress>> run either 
+   the <<compareResErrbars.sh>> or the <<compareResults.sh>> shell script
+   depending on whether errorbars shall be added to the figure or not.
+   In order for gnuplot to find the good files, both scripts need the time (in
+   ms 8 digits) as an additional input argument. The syntax to run the script
+   is for example:
+   <<./../../gnuplot/shockTube_q1D/compareResults.sh 00200000>>
+
+      both scripts will create 8 figures (2x4, one for r, p, u, e; in .eps and .png)
+
+      both of the scripts also copy the original simulation result file prtlxxxxxxxx.dat from
+      ..src/outdata to ..results/ResultsInProgress, so it is not lost.
+
+ 2. if, in addition, a visualization of the scattering of the particles is desired, the script 
+    <<visualizeScattering.sh>> can be executed (also in <<sph-blitz/results/ResultsInProgress>>)
+    
+  
+   
+     
