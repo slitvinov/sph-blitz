@@ -11,7 +11,8 @@ Incompressible
 Note: the initial particle distribution for incompressible simulations is
 created within the program. Therefore there is no need to pass a second argument
 to the main function specifying an external file for initial conditons (.ivs)
-(ivs=Initial Values Shocktube, <<ics>> (<<c>> for condition) does already exist as standard file ending)
+(ivs=Initial Values Shocktube, <<ics>> (<<c>> for condition) does already
+exist as standard file ending)
 
 
 Compressible
@@ -52,15 +53,26 @@ the user prior to the actual simulation and are then passed to the main
 function. The following initial particle distributions are available
 
 Purely 1D distribution:
+-----------------------
 - constant particle mass, different left hand side and right hand side
   spacing. The file is called <<1DshockMConst.ivs>> and is created by
    <<createIC1D_mConst.cpp>>
 
+  for the corresponding perturbation study (perturbation on particle position)
+  use 
+  <<createIC1D_mConstRAND.cpp>>
+
 - constant particle spacing, different left hand side and right hand side
   particle masses. The file is called <<1DshockSpaceConst.ivs>> and is created by
-   <<createIC1D_SpaceConst.cpp>>
+  <<createIC1D_SpaceConst.cpp>>
 
-2D distribution
+  for the corresponding perturbation study (perturbation on particle position)
+  use 
+  <<createIC1D_SpaceConstRAND.cpp>>
+
+
+2D distribution:
+----------------
 - constant particle mass for all the domain, different left hand side and 
   right hand side spacing. The file is called <<q1DshockMConst.ivs>> and created by
   <<createICq1D_mConst.cpp>>
@@ -70,7 +82,7 @@ Purely 1D distribution:
   created by <<createICq1D_SpaceConst.cpp>>
 
 
-Porcedure to follow for a simulation with. ivs files
+Porcedure to follow for a simulation with .ivs files
 -----------------------------------------------------------------
 1. Creating the initial condition file (.ivs)
    To create the desired initial condition file, one has to go into the
@@ -80,7 +92,7 @@ Porcedure to follow for a simulation with. ivs files
 
 2. Handing the .ivs fail over to the main function
    This is done by adding the .ivs file name as the second argument during the
-    main function call
+   main function call
    for example:
     ./sph <<project_name>> << xxxxx.ivs>>
     ./sph ../cases/q1Dshock ../cases q1DshockSpaceConst.ivs

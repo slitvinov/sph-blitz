@@ -22,7 +22,7 @@ remark: in the case of constant Mass particle distribution, the particle distanc
  
 
   There are no major oscillations observed for a medium supLen (as it was the case for constant spacing) and 
-  there is n bump in u for the rarefaction at all
+  there is no bump in teh velocity profile for the rarefaction at all
 
 2. constant ratio supLen/m =16 (where mass equivalent to particle spacing)
   A constant ratio supLen/m corresponds to a constant number of initial (at t=0) neighboring particles for 

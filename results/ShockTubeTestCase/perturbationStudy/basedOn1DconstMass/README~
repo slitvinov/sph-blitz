@@ -1,0 +1,48 @@
+###########################################################
+
+perturbation study for 1D particle distribution
+(particles perturbed from constant mass configuration)
+
+###########################################################
+
+1. reference solution for non disturbed particle distribution with supLen=0.02, mass=0.00125
+   (where m is obtained by smoothing...)
+  
+   just by curiosity: 
+   comparison of the results of this simulation with the corresponding simulation where m is directly
+   calculated based on the particle spacing m=rho*dx and this way initialized via the external .ivs file
+   
+   
+                |    L1    |    L2    |   Linf   |   L1_3   |    L2_3  |  Linf_3  |   L1_2   |   L2_2   | Linf_2
+----------------------------------------------------------------------------------------------------------------------------
+smoothed m      | 0.0369181| 0.0246914| 0.019845 | 0.0329381| 0.0218165| 0.017748 | 0.0375265| 0.0313671| 0.030061
+----------------------------------------------------------------------------------------------------------------------------
+ m=rho*dx       | 0.0334146| 0.0221597| 0.0177072| 0.02155  | 0.0134252| 0.0102227| 0.0232974| 0.0188216| 0.0176743
+
+    -->smoothed mass calculation results are not as accurate as the ones with m=rho*dx
+
+2. variation of the perturbation factor<<fac>> in the <<scripts/create_IC1D_SpaceConstRAND.cpp>> program;
+   <<fac>> is the maximum value in percent of dx of the uniform perturbation with mean 0.
+
+  the integrated values (velocity u, energy e) are mostly affected by the perturbation (resulting in oscillations),
+  whereas density (obtained by smoothing) still agrees reasonably with the theoretical solution (see, eg pert=0.25).
+  This is an indication for the fact, that the derivative approximation is mainly affected by disordered particles, not
+  the interpolation of the function value itself, which is used for density calculation.
+  (The actual function interpolation should be "exact" as long as there are particles in the support...).
+  (search for references...e.g Quinlain2006,...)
+
+  But why are then oscillations in the reults even in the areas, which neither shock nor rarefaction have reached yet:
+    This is because the derivative is not approximated correctly and therefore it is not zero (as it should be). 
+    particles therefore change their properties...
+
+ for greater perurbations, the after-shock/after-perturbation values are not reproduced exactly any more.
+
+
+  besides: the perturbation mainly affects the right hand side of the shock tube. As the particle spacing is much 
+	   bigger there, the absolute value of the perturbation is greater as well. With constant supportLength, 
+	   the effect of particle disorder has a bigger influence on the RHS, where there are much less particles
+	   within the suport domain than on the LHS.
+
+	   
+   
+

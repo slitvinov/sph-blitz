@@ -24,6 +24,6 @@ obtained (according to <<sph-blitz/scripts/postProcessing/README>>):
  2. if, in addition, a visualization of the scattering of the particles is desired, the script 
     <<visualizeScattering.sh>> can be executed (also in <<sph-blitz/results/ResultsInProgress>>)
     
-  
+  <<./../../gnuplot/shockTube_q1D/visualizeScattering.sh 00200000>>
    
      

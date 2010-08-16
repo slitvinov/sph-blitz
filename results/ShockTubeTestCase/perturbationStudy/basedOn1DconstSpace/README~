@@ -1,0 +1,30 @@
+###########################################################
+
+perturbation study for 1D particle distribution
+(particles perturbed from constant spacing configuration)
+
+###########################################################
+
+1. reference solution for non disturbed particle distribution with supLen=0.025, dx=0.005
+   (where m is obtained by smoothing...)
+  
+   just by curiosity: 
+   comparison of the results of this simulation with the correspodning simulation where m is directly
+   calculated based on the particle spacing m=rho*dx and this way initialized via the external .ivs file
+   
+   
+                |    L1    |    L2    |   Linf   |   L1_3   |    L2_3  |  Linf_3  |   L1_2   |   L2_2   |  Linf_2
+----------------------------------------------------------------------------------------------------------------------------
+smoothed m      | 0.0608299| 0.0436899| 0.0375259| 0.0222515| 0.0137414| 0.0103771| 0.0170229| 0.0137869| 0.0130829
+----------------------------------------------------------------------------------------------------------------------------
+ m=rho*dx       | 0.0608562| 0.0438779| 0.0377624| 0.0218631| 0.0136489| 0.0103841| 0.0172189| 0.0140166| 0.0133034
+
+    almost no difference but slight advantage for the smoothed mass...
+    KEEP IN MIND: simulation for second case (m=rho*dx) has been comducted with constant tine step dt=0.025, not yet
+	      with automatic time control...
+
+2. variation of the perturbation factor<<fac>> in the <<scripts/create_IC1D_SpaceConstRAND.cpp>> program;
+   <<fac>> is the maximum value in percent of dx of the uniform perturbation with mean 0.
+   
+
+

@@ -3,6 +3,7 @@
 #"eps solid" for solid (not dashed) lines, "momochrome" (instead of color),... 
 
 mkdir CompResErrBarFigures
+cp ../../src/outdata/prtl$1.dat prtl$1.dat
 
 gnuplot << EOF
 set terminal postscript eps enhanced color

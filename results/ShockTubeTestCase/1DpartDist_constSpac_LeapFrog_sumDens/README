@@ -27,7 +27,7 @@ the decimal point are indicated, implicitly assuming "0."
 
   Results: globally a support length of 0.025 gives the best results for this spacing. This corresponds to a
   ratio supLen/dx=5 (8 nearest neighbouring particles (NNP) in 1D, which is very close to the number given in 
-  literature for 1D (around 6); the results are still very good vor a supLen of 0,02 which would exactly 
+  literature for 1D ; the results are still very good vor a supLen of 0,02 which would exactly 
   correspond to 6 NNP, but 0.02 is at the edge of instability, therefore 0.025 is kept)
 
 3. for the ratio supLen/dx=5, make a resolution study.

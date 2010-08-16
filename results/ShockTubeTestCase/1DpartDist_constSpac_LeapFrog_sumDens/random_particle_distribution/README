@@ -8,9 +8,67 @@ Monaghan 2005 review paper:
 
 Rasio & Shapiro 1991(Astrophysical Journal, Part 1 (ISSN 0004-637X), vol. 377, Aug. 20, 1991, p. 559-580):
   - mention and even calculated shock tube problem with randomly distributed particle  (2.2.1), calculates
-    a 1D shock in a 3D domain: "particles randomly distributed in each constant density domain" and 
-    "equal mass particles" and even "constand number of neighbors" HOW CAN THAT BE ACHIEVED TECHNICALLY???
+    a 1D shock in a 3D domain: "particles randomly distributed in each constant density domain" 
+    (NO FURTHER PRECISION ON "HOW") and "equal mass particles" and even "constand number of neighbors" 
+    HOW CAN THAT BE ACHIEVED TECHNICALLY (except if one admits density fluctuations)???
   - speakes of another paper where he conducted more of those tests, but has not been published yet at that time
 
 Graham, Huhges 2007(Int. J. Numer. Meth. Fluids 2008; 56:1261–1269)
   - study the influence of random particle position initialization for viscous flows
+    -> perturbed particle spacing created as follows:
+	particles spaced on regular cartesian grid, randomized with UNIFORMLY distributed perturbation 
+	of mean 0 and width a --> a measure of randomness,
+	no method to call density given (as only theoretical considerations and no application to fluid dynamics)
+
+Quinlan/Basa 2006 (Int.journal for numerical methods in engineering 2006; 66:2064-2085)
+  - study of truncation error: also with irregular particle spacing
+    -> perturbed particle spacing created as follows:
+	particles spaced on regular cartesian grid, randomized with NORMALLY distributed perturbation,
+	particles have EQUAL MASS, density calculated with sph interpolation formula
+	
+
+What I will do now:
+
+  - for every of the four cases: 1D/2D particle distribution const mass/spacing pick one simulation
+   with good results and aceptable calculation time (not too high resolution)
+
+  - based on the original particle distribution, add a perturbation (try normalized and uniform (I would prefer uniform
+    because one has definite control over the biggest perurbation, other option "truncated normalized")
+
+  - to ensure the correct initial value for density despite of the randomized particle spacing, each particle
+    needs to have a different and individual mass. (That is where my approach differs from the above one, as I 
+    want to try to respect a certain initial value for density. )
+    While for 1D particle distribution, the calculation of the respective particle mass can be easily performed
+    by m=rho*dx (where dx is the distance to the neighbour particle on one side (or the mean of the distances
+    to both side's neighbour particles...)), for the 2D perturbed particle distribution it is not trivial to assign
+    each particle distribution an area dx*dy. Constructing the area dx*dy by employing the mean distance
+    to the neighbours in each direction (dx=1/2*((dx-)+(dx+)),dy=1/2*((dy-)+(dy+)) would not result in the exact
+    reproduction of the complete domain (as sum dx*dy!= domain size):
+   
+      let the disturbed particle distance be dx=dx_orig+dx', dy=dy_orig+dy' 
+	  where dx/y_reg is the (mean) distance to the neighbour particles in the corresponding direction for 
+	 the regular distribution
+	  and where dx', dy' is the perturbation of the mean distance in the corresponding direction 
+	  dx'=1/2*((dx-')+(dx+')),dy'=1/2*((dy-')+(dy+')) with <dx'>=<dy'>=0 (mean is 0)
+
+
+      in 1D if sum(dx_reg)=domainsize, the averaged (denoted <>)perturbed distribution gives: 
+  
+      sum(<dx>)=sum(<dx_reg+dx'>)=sum(<dx_reg>+<dx'>)=sum(<dx_reg>+0)=sum(dx_reg)=domainsize
+
+    in 2D if sum(dx_reg*dy_reg)=domainsize, the averaged (denoted <>)perturbed distribution gives: 
+
+      sum(<dx*dy>)=sum(<(dx_reg+dx')*(dy_reg+dy')>)=sum(<dx_reg*dy_reg>+<dx_reg*dy'>+<dy_reg*dx'>+<dx'*dy*>)=
+	sum(dx_reg*dy_reg)+sum(<dx'*dy'>)=domainsize+sum(<dx'*dy'>)
+      
+      and <dx'*dy'>!=0 the only question is: is the sum over a big number N of <dx'*dy'> =0,?
+      I don't know but I don't think so...
+  
+  therefore I will make the mass calculaton in a different way:
+    I will jsut use the SPH interpolation formula and use it to calculate the needed particle mass for the given
+    initial density. That means, a minor modification in the programm has to be done for the perturbation study:
+    (which will be reset to the standard program functionality afterwards)
+	  -> mass is not initialized via the external(.ivs) files but calculated within the program using the 
+	      method initiation:VolumeMass() which has already been implemented for incompressible simulations
+	  
+  
