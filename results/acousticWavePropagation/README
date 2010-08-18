@@ -1,0 +1,60 @@
+#######################################################
+
+Acoustic wave propagation test case
+
+#######################################################
+
+this test case is to assess the numerical dissipation of the SPH method 
+
+literature on SPH acoustics / dissipation
+
+-  Khoperskov2002, Astronomy Letters Volume 29, Number 4, 246-257, 
+   Dissipative-acoustic instability in accretion disks at a nonlinear stage
+   implement periodic source and initial perturbation: initial perturbation could be interesting for me: equation (19)
+   Just don't know yet, how to initialize: is this only a velocity perturbation or do I have to initialize corresponding
+   perturbations in pressure, ... as well???
+
+- Colagrossi2010, Computer Physics Communications, Volume 181, Issue 3, March 2010, Pages 532-549 
+  Free-surface flows solved by means of SPH schemes with numerical diffusive terms 
+  can't access full text version of the paper, they have "traveling acoustic waves" as a test case,
+  would perhaps e interesting to see, how they initialized their wave(s) (if it is detailed in the paper...)
+  Abstract:
+      A novel system of equations has been defined which contains diffusive terms in both the continuity and
+      energy equations and, at the leading order, coincides with a standard weakly-compressible SPH scheme with
+      artificial viscosity. A proper state equation is used to associate the internal energy variation to the
+      pressure field and to increase the speed of sound when strong deformations/compressions of the fluid occur.
+      The increase of the sound speed is associated to the shortening of the time integration step and, therefore,
+      allows a larger accuracy during both breaking and impact events. Moreover, the diffusive terms
+      allows reducing the high frequency numerical acoustic noise and smoothing the pressure field.
+      Finally, an enhanced formulation for the second-order derivatives has been defined which is consistent
+      and convergent all over the fluid domain and, therefore, permits to correctly model the diffusive
+      terms up to the free surface. The model has been tested using different free surface flows clearly
+      showing to be robust, efficient and accurate. An analysis of the CPU time cost and comparisons with
+      the standard SPH scheme is provided.
+
+- Wolfe2008, 16th International Conference in Central Europe on Computer Graphics, Visualization and Computer Vision
+  Acoustic Modeling of Reverberation using Smoothed Particle Hydrodynamics 
+  cannot really extract any useful information for me...
+
+- Astronomy and astrophysics [0004-6361] Attwood yr:2007 vol:464 iss:2 pg:447 -450 
+  Adaptive smoothing lengths in SPH 
+  What I can use from this article is the measurement of the energy of the wave, which is in this case the
+  total kinetic energy E=sum(1/2*m_i*v_i^2)...
+
+- The Astrophysical Journal 701 (2009) 1269
+  NUMERICAL DISSIPATION IN RSPH SIMULATIONS OF ASTROPHYSICAL FLOWS WITH APPLICATION TO PROTOPLANETARY DISKS
+  RSPH=Regularized SPH: regularization technique where the solution at temporal intervals is mapped on 
+  to a new set of regularly placed particles.
+  ->this increases numerical dissipation, therefore this article deals also with numerical dissipation in SPH
+  test cases of interest: 
+    *linear waves:
+     study temporal resolution at fixed sensor point, mainly to	see how the amplitude changes
+
+    *Kelvin Helmholtz Instability:
+     study growth of instability, no direct link to dissipation, but could be an interesting 2D inviscid
+     test case for me???
+
+- Monaghan2005 ReviewPaper
+  in section 6.1 Monaghan studies the dispersion relation for a infinite one dimensional gas
+  he finds out that there is good agreement with theorie for small wave numbers,
+  for higher wave numbers though
