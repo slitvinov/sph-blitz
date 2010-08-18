@@ -151,15 +151,15 @@ int main(int argc, char *argv[]) {
   timesolver->show_information();
 
   //BuildBoundaryParticle moved here from boundary constructor in order to be able to switch it of for the 1D case
-  if  (ini.kernel_type != "CubicSpline1D")
+  if  (ini.disable_boundary != 1)
     boundary.BuildBoundaryParticle(particles, hydro);
 
   Output output; ///- initialize output class (should be the last to be initialized)
-  ini.VolumeMass(hydro, particles, weight_function); //predict particle volume and mass
+  // ini.VolumeMass(hydro, particles, weight_function); //predict particle volume and mass
 
   //for 2D particle distribution BC is needed
   ///\todo{define a variable which controls the use of boundary conditions and solve it smarter than just testing  if  (ini.kernel_type != "CubicSpline1D") }
-  if  (ini.kernel_type != "CubicSpline1D")
+  if  (ini.disable_boundary != 1)
     boundary.BoundaryCondition(particles); //repose the boundary condition
      
   //start time

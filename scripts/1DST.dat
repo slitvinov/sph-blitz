@@ -1,9 +1,0 @@
-#left hand side values
-pl 1.0
-rhol 1.0
-vl 0.0
-
-#right hand side values 
-pr 0.1
-rhor 0.125
-vr 0.0

@@ -1,6 +1,0 @@
-For the use of the initial condition creator programs and information on what
-initial conditions they create, refer to README contained in the
-<<sph-blitz/cases>> folder:
-
-short cut to copy paste in local command line:
-emacs ../cases/README &

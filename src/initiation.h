@@ -50,6 +50,11 @@ public:
   ///- 1 read from the .rst file particle by particle with non-dimensional data
   int initial_condition;
 
+  ///\brief disable boundary condition marker:
+  ///- 0 boundary conditions enabled
+  ///- 1 boundary conditions disabled
+  int disable_boundary;
+
   ///simulation mode (1: liquids, 2: gas dynamics)
   int simu_mode;
 

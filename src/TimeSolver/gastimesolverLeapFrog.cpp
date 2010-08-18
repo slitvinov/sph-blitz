@@ -70,7 +70,7 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
       {
 	hydro.UpdateUe2Half(dt);
 	
-	if  (ini.kernel_type != "CubicSpline1D")//if not 1d (as in 1D now BC needed)
+	if  (ini.disable_boundary != 1)//if not 1d (as in 1D now BC needed)
 	  ///build the boundary particles
 	  boundary.BuildBoundaryParticle(particles,hydro);
       }
@@ -79,7 +79,7 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     ///calculate density (by summation)
     hydro.UpdateDensity(ini, weight_function);
     ///update the state of the boundary particles (by copying the real particles' state)
-    if  (ini.kernel_type != "CubicSpline1D")   
+    if  (ini.disable_boundary != 1)   
       boundary.BoundaryCondition(particles);
     ///calculate change rate
     hydro.UpdateChangeRate(ini);
@@ -89,7 +89,7 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     else 
       hydro.AdvanceStandardStep(dt);
     
-    if  (ini.kernel_type != "CubicSpline1D")
+    if  (ini.disable_boundary != 1)
       ///run away check before cell link lists are updated (due to index purposes)
       boundary.RunAwayCheck(hydro);  
     ///update of cell linked lists
@@ -123,7 +123,7 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
     
     if(ite!=1) {
       hydro.UpdateUeRho2Half(dt);
-      if  (ini.kernel_type != "CubicSpline1D")//if not 1d (as in 1D now BC needed)
+      if  (ini.disable_boundary != 1)//if not 1d (as in 1D now BC needed)
 	///build the boundary particles
 	boundary.BuildBoundaryParticle(particles,hydro);
     }
@@ -136,7 +136,7 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
     else//update state without smoothing (p,c,...)
       hydro.UpdateState(ini);
     //if boundary condition applicable: update boundary particle states
-    if(ini.kernel_type != "CubicSpline1D")   
+    if(ini.disable_boundary != 1)   
       boundary.BoundaryCondition(particles);
     //update change rates for U, e AND rho
     hydro.UpdateChangeRateInclRho(ini);
@@ -146,7 +146,7 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
     else 
       hydro.AdvanceStandardStepInclRho(dt);
     //perform run away check before updating linked lists (due to index purposes)
-    if  (ini.kernel_type != "CubicSpline1D")   
+    if  (ini.disable_boundary != 1)   
       boundary.RunAwayCheck(hydro); 
     //update cell linked list
     particles.UpdateCellLinkedLists();

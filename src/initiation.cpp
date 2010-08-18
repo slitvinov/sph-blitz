@@ -41,7 +41,7 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
 
 	interp.eval(tclfilename);
 	///<li>reading key words and configuration data from configuration file and assign them to the appropriate variable
-
+	disable_boundary  = interp.eval("[return $DISABLE_BOUNDARY]");
 	initial_condition = interp.eval("[return $INITIAL_CONDITION]");
         assert( (initial_condition == 0) || (initial_condition == 1));
 	simu_mode = interp.eval("[return $SIMULATION_MODE]");

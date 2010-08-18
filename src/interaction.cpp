@@ -267,7 +267,7 @@ void Interaction::UpdateForcesAndRho() {
 	  {
 	    piij=0;
 	  };
-	  LOG_EVERY_N(INFO, 100)<<Org->ID<<"  "<<Dest->ID<<" artvis: "<<piij;
+	  LOG_EVERY_N(INFO, 100000)<<Org->ID<<"  "<<Dest->ID<<" artvis: "<<piij;
 	  const Vec2d dUdti=-mj*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij;
           const Vec2d dUdtj=mi*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij;
 

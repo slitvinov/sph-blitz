@@ -65,7 +65,7 @@ void GasTimeSolverPredCorr::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     hydro.UpdateDensity(ini, weight_function);///<li> hydro.UpdateDensity
  
     ///<li>update the state of the boundary particles (by copying the real particles' state)
-    if  (ini.kernel_type != "CubicSpline1D")   
+    if  (ini.disable_boundary != 1)   
       boundary.BoundaryCondition(particles);
 	
     hydro.UpdateChangeRate(ini);///<li> hydro.UpdateChangeRate
@@ -77,12 +77,12 @@ void GasTimeSolverPredCorr::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     // hydro.BuildInteractions(particles, weight_function, ini);///<ol><li> rebuild interactions (just a test to see, if results are different from UpdateInteractions where only interactiondata (rij, Wij,...) are renewed, but no new interaction search is performed...)
 
     ///update the state of the boundary particles (by copying the real particles' state)
-    if  (ini.kernel_type != "CubicSpline1D")   
+    if  (ini.disable_boundary != 1)   
       boundary.BoundaryCondition(particles);
     hydro.UpdateInteractions(weight_function);///<li> update interactions
     hydro.UpdateDensity(ini, weight_function);///<li>hydro.UpdateDensity
     ///update the state of the boundary particles (by copying the real particles' state)
-    if  (ini.kernel_type != "CubicSpline1D")   
+    if  (ini.disable_boundary != 1)   
       boundary.BoundaryCondition(particles);
     //control output
     LOG(INFO)<<"change rate for corrector:";
@@ -90,7 +90,7 @@ void GasTimeSolverPredCorr::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     hydro.Corrector_summation(dt);///<li>hydro.Corrector_summation</ol>
     particles.UpdateCellLinkedLists();///<li>particles.UpdateCellLinkedLists  
     ///update the state of the boundary particles (by copying the real particles' state)
-    if  (ini.kernel_type != "CubicSpline1D")   
+    if  (ini.disable_boundary != 1)   
       boundary.BuildBoundaryParticle(particles, hydro);
 
  }
@@ -127,15 +127,15 @@ void GasTimeSolverPredCorr::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
      ///<li> the correction step without update the interaction list
     hydro.UpdateInteractions(weight_function);///<ol><li>hydro.UpdatePair
     ///update the state of the boundary particles (by copying the real particles' state)
-    if  (ini.kernel_type != "CubicSpline1D")   
+    if  (ini.disable_boundary != 1)   
        boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
     hydro.UpdateChangeRate(ini);///<li>hydro.UpdateChangeRate
     hydro.Corrector(dt);///<li>hydro.Corrector
     hydro.UpdateState(ini);///<li>hydro.UpdateState</ol>
-    if  (ini.kernel_type != "CubicSpline1D")
+    if  (ini.disable_boundary != 1)
     boundary.RunAwayCheck(hydro);///<ol><li>boundary.RunAwayCheck
     particles.UpdateCellLinkedLists();///<li>particles.UpdateCellLinkedLists
-    if  (ini.kernel_type != "CubicSpline1D")
+    if  (ini.disable_boundary != 1)
       boundary.BuildBoundaryParticle(particles, hydro);///<li> rebuild boundary particles
   }
 }

@@ -57,4 +57,45 @@ literature on SPH acoustics / dissipation
 - Monaghan2005 ReviewPaper
   in section 6.1 Monaghan studies the dispersion relation for a infinite one dimensional gas
   he finds out that there is good agreement with theorie for small wave numbers,
-  for higher wave numbers though
+  for higher wave numbers though, the theoretically linear dispersion relation omega=c_s*k
+  is not appoximated "exactly" anymore. (-->higher order kernels better...see. p.1731)
+  The same test case (velocity wave) can be taken to test the numerical diffusion of the code (am I right???,
+  see also concerns below....)
+
+  little ambiguity still exists because of the initialization:
+  Monaghan2005: only velocity wave u(x)=0.05*c_s*sin(2 PI x), density remains constant: pressure not precised
+		I will/would do p(x)=p_0-rho/2*v^2(x) as by setting rho=cosnt. it is assumed incompressibe anyway
+		and therefore bernoulli can be employed. For Mach numbers of M=0.05 this seems ok.
+
+		Implementation: 
+
+		-domain from x=0 to x=1, boundary conditions in x direction: periodic;
+		-Monaghan 1992 review paper ("smoothed particle hydrodynamics", ARAA):
+		  good agreement for wave propagation if wavelength> 2*Pi*h (and for us supLen=2*h)
+		  that means we need a suplen of <=wavelength/Pi
+		  
+		-Monaghan2005: 100 particles in area x=0 to x=1: dx=0.01
+			       h=const=0.013-> for us: supLen=0.026 
+		-CellSize: optimum: cellSize=supLen but domain size/cellsize needs to be integer
+		  --> take 32 cells of size 0.03125
+	        -simulation is an actual 2D simulation but by not placing any particles in the second
+		  dimension it can be artificially made a 1D simulation, boundary condition in y direction
+		  preiodic...
+		-initial particle distribution: see above, besides y=0 for all particles.
+			      
+		
+		  
+
+
+	    But I wonder if this is a good test case to study dissipation and I thing acoustic waves require
+	    to be modelled with variations of all variables? Should there not rather be an oscillation
+	    of all variables. In other words: should I not rather consider it fully compressible and
+	    calculate the values of the other variables with the isentropic relations???
+
+
+
+  expected results:
+  - for the Euler case without artificial viscosity:
+    
+    
+  
