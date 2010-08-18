@@ -31,8 +31,8 @@ Resolution study for 2D particle distribution (constant spacing)
   performed without automatic time control, but with dt = const, perhaps the fact that supLen=0.015 diverged was due
   to temporal stability limit, not spatial...)
   
-  The oscillations in u after the shock though are bigger in 2D (but also bigger wavelength). For the 1D case
-  after shock oscillations also occured close to the temporal stability limit, therefore it is safer to check,
+  The oscillations in u after the shock though are bigger in 2D (but also bigger wavelength). For the 1D case, 
+  those after shock oscillations also occured close to the temporal stability limit, therefore it is safer to check,
   if the automatic time control also works for 2D. This is done by repeating one of the simulations
   (e.g. supLen=0.025, dx=0.005) with smaller time steps (let's say 70% of the former time steps, 
   automatically determined time step multiplied by 0.7 each time) and comparing the results. 

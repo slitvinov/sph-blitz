@@ -61,6 +61,7 @@ Purely 1D distribution:
   for the corresponding perturbation study (perturbation on particle position)
   use 
   <<createIC1D_mConstRAND.cpp>>
+  and adjust the perturbation factor <<fac>> inside the program
 
 - constant particle spacing, different left hand side and right hand side
   particle masses. The file is called <<1DshockSpaceConst.ivs>> and is created by
@@ -69,6 +70,7 @@ Purely 1D distribution:
   for the corresponding perturbation study (perturbation on particle position)
   use 
   <<createIC1D_SpaceConstRAND.cpp>>
+  and adjust the perturbation factor <<fac>> inside the program
 
 
 2D distribution:

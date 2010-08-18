@@ -155,4 +155,6 @@ set terminal png
 set output "particlePositionsAndCo/rho00000000.png"
 replot
 
+reset
+
 EOF

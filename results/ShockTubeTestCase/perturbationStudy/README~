@@ -18,7 +18,7 @@ Graham, Huhges 2007(Int. J. Numer. Meth. Fluids 2008; 56:1261–1269)
   - study the influence of random particle position initialization for viscous flows
     -> perturbed particle spacing created as follows:
 	particles spaced on regular cartesian grid, randomized with UNIFORMLY distributed perturbation 
-	of mean 0 and width a --> a measure of randomness,
+	of mean 0 and width a --> a is measure of randomness,
 	no method to call density given (as only theoretical considerations and no application to fluid dynamics)
 
 Quinlan/Basa 2006 (Int.journal for numerical methods in engineering 2006; 66:2064-2085)
@@ -82,6 +82,12 @@ The actual perurbation study
  - as already mentionned above pick one simulation (good results, aceptable calculation time) for each ofthe four cases: 
    1D/2D particle distribution const mass/spacing pick one simulation
 
+    for 2D I tried the worst case: not summation density approach but continuity density approach:
+    as continuity density approach (integration of density) includes the SPH approximation of the derivative
+    ( and not as summation density approach just a smoothing) this approach should be more sensitive
+    to particle disorder!!!
+    
+
  - simulate configuration without perturbation (which is now with the mass calculation by smoothing and therefore 
    different from the one where mass is initialized from the external initiation (.ivs) file)
    This solution will serve as a further reference for the influence of perturbation in particle spacing
@@ -97,6 +103,20 @@ The actual perurbation study
  - for post processing/visualization: the following additional features are added:
     (see README in <<sph-blitz/gnuplot/shockTube_1D>> or <<sph-blitz/gnuplot/shockTube_q1D>>
     
+      the script for averaging the results of the 2D distribution in order to obtain an equivalent 1D solution must 
+      be modified a bit: the original allgorithm which averaged all particles initially being at the same x position
+      does not apply any more (as due to the perturbation particles in the second dimension do not necessarily have 
+      the same x position any more). 
+    
+Results
+-------
+
+the 2D particle distribution seems to be more resistant to disordered particles than the 1D distribution.
+For little particle disorder the global results get even better than for regular distribution. But this is 
+probably mainly due to the fact that this bump in the rarefaction wave almost disappears and that the
+over-estimation of velocity after rarefaction wave is less...
+The disordered results are generally less "smooth" than the ones with regular particle distribution. One can
+see many small oscillations (especially in u, e profile, not that much in density profile)
 
     
 

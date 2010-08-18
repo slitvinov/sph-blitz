@@ -39,13 +39,13 @@ Remark: it is not obvious to find a convenient 2D particle distribution for the 
 	ideal in terms of computational time, but it does not affect the quality of the results.
 
 1. support length variation at constant mass m=2.5e-5 
-(corresponds to constant particle spacing dx_l=dy_l=0.005, dx_r=dy_r=0.015)
+(corresponds to constant particle spacing dx_l=dy_l=0.005, dx_r=dy_r=0.015) 
 
   Results: 
   the best global results are obtained for h=0.03 (with m=2.5e-5) resulting in a ratio supLen/sqrt(m)=6. (for 2D
   one has to take sqrt(m) because the spacing is ~ sqrt(m)
 
-  However due to the discontiutity of the particle distribution in y disupLen/sqrt(m)=8rection at the interface, there is 
+  However due to the discontiutity of the particle distribution in y direction at the interface, there is 
   a very weak drifting of the interface particles on the high density side in y direction. Given the	
   particle distribution, this behaviour is physical and the newly assumed particle positions probably
   correspond to the equilibrium positions for this constellation. So no reason to worry...

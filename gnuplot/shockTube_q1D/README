@@ -25,5 +25,16 @@ obtained (according to <<sph-blitz/scripts/postProcessing/README>>):
     <<visualizeScattering.sh>> can be executed (also in <<sph-blitz/results/ResultsInProgress>>)
     
   <<./../../gnuplot/shockTube_q1D/visualizeScattering.sh 00200000>>
+
+for perturbation study:
+-----------------------
+execute first the script <<compareResults.sh>> (as for "normal" simulation), 
+execute then the script <<visualizeScatteringRAND.sh>> instead of <<visualizeScattering.sh>>
+it will create additionally the following figures:
+
+  
+  - figure showing the (perturbed) initial particle distribution (x_y_plane00000000.png/eps)
+  - figure showing the mass for each particle ((mass00000000.png/eps)
+  - figure showing the initial density profile (should correspond exactly to the initial conditions)
    
      

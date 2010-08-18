@@ -175,7 +175,7 @@ ofstream tx2tFile("DerivativesDataN1");
 		else cout << "Unable to open/create file";
 
 BOOST_FOREACH(spParticle prtl, particle_list) {
-    LOG_EVERY_N(INFO, 100) <<"dUdt: "<<prtl->dUdt[0] << " dUdt1: "<<prtl->dUdt[1];
+    LOG_EVERY_N(INFO, 100000) <<"dUdt: "<<prtl->dUdt[0] << " dUdt1: "<<prtl->dUdt[1];
   }
 
 

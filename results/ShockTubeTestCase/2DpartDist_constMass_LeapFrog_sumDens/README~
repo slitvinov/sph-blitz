@@ -45,7 +45,7 @@ Remark: it is not obvious to find a convenient 2D particle distribution for the 
   the best global results are obtained for h=0.03 (with m=2.5e-5) resulting in a ratio supLen/sqrt(m)=6. (for 2D
   one has to take sqrt(m) because the spacing is ~ sqrt(m)
 
-  However due to the discontiutity of the particle distribution in y disupLen/sqrt(m)=8rection at the interface, there is 
+  However due to the discontiutity of the particle distribution in y direction at the interface, there is 
   a very weak drifting of the interface particles on the high density side in y direction. Given the	
   particle distribution, this behaviour is physical and the newly assumed particle positions probably
   correspond to the equilibrium positions for this constellation. So no reason to worry...

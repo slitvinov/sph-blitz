@@ -13,7 +13,7 @@
 
 using namespace std;
 
-int main (){
+int main () {
 
   double supportlength;// needed for norm/error calculation 
   string inputfile;// string for file name of the first input file
@@ -27,11 +27,14 @@ int main (){
   cout<<"for 1D particle distribution: ../../src/outdata/prtlxxxxxxxx.dat\n";
   cout<<"for 2D particle distribution: ../../results/ResultsInProgress/averagedxxxxxxxx.dat\n";
   cin>> inputfile;  
-  cout<<"\n"<<"please enter the number of columns in the input file:  ";
-  cin>>n_col;
-  cout<<"\n please enter support length of the simulation: ";
-  cin>>supportlength;
-  cout<<"\n";
+  // cout<<"\n"<<"please enter the number of columns in the input file:  ";
+  // cin>>n_col;
+  // cout<<"\n please enter support length of the simulation: ";
+  // cin>>supportlength;
+  // cout<<"\n";
+  n_col=8;
+  x_dia=2.0;
+  supportlength=0.025;
 
   // format of the inputfile name xxxx/x...x12345678.dat,
   // where 12345678 time in ms
@@ -89,8 +92,8 @@ int main (){
   // read x coordinate of diaphragm position (for simulation configuration)
   // from user (as exact values are always calculated for configuration 
   // around x=0) (therefore domain is translated by x_dia...)
-  cout<<"\n please type x coordinate of diaphragm position of the simulation: ";
-  cin>>x_dia;
+  // cout<<"\n please type x coordinate of diaphragm position of the simulation: ";
+  // cin>>x_dia;
 
   // define initial values for shock tube problem (needed fore exact solution)
   // no need to automatically read them from 1DST.dat (where they are given

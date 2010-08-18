@@ -139,10 +139,10 @@ std::list<spParticle> ParticleManager::BuildNNP(Vec2d &point)
       }
     }
     //  }
-    LOG(INFO) << "NPP_list for particle at pos x: "<<point[0];
-BOOST_FOREACH(spParticle prtl_dest ,NNP_list) {
-  LOG(INFO) << "ParticleManager object is createparticle x:"<<prtl_dest->R[0];
- }
+    // LOG(INFO) << "NPP_list for particle at pos x: "<<point[0];
+    //BOOST_FOREACH(spParticle prtl_dest ,NNP_list) {
+  // LOG(INFO) << "ParticleManager object is creating particle x:"<<prtl_dest->R[0];
+    // }
   return NNP_list;
 }
 

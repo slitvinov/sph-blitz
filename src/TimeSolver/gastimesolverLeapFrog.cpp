@@ -103,7 +103,6 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
 					 const Initiation &ini, spKernel weight_function)
 {
   double integeral_time = 0.0;
-  
   while(integeral_time < D_time) {
     
     ///<ul><li> call for automatic time step control GasDyn

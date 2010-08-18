@@ -1,4 +1,4 @@
-all: create_IC1D_mConst create_IC1D_SpaceConst create_ICq1D_mConst create_ICq1D_SpaceConst  create_IC1D_SpaceConstRAND create_IC1D_mConstRAND
+all: create_IC1D_mConst create_IC1D_SpaceConst create_ICq1D_mConst create_ICq1D_SpaceConst  create_IC1D_SpaceConstRAND create_IC1D_mConstRAND create_ICq1D_SpaceConstRAND
 
 create_IC1D_mConst: create_IC1D_mConst.cpp
 
@@ -15,6 +15,8 @@ create_ICq1D_mConst: create_ICq1D_mConst.cpp
 
 create_ICq1D_SpaceConst: create_ICq1D_SpaceConst.cpp
 
+create_ICq1D_SpaceConstRAND: create_ICq1D_SpaceConstRAND.cpp
+
 .PHONY: clean
 
 clean:
@@ -24,4 +26,5 @@ clean:
 	-rm create_ICq1D_SpaceConst
 	-rm create_IC1D_SpaceConstRAND
 	-rm create_IC1D_mConstRAND
+	-rm create_ICq1D_SpaceConstRAND	
 

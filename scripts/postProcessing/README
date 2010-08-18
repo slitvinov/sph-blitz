@@ -102,6 +102,30 @@ Finally post processing for another simulation may be begin.
 for results obtained with 2D particle distribution
 --------------------------------------------------
 
+  note: if PERTURBED PARTICLE INITIATION is used, there is a slight difference in the post processing procedure:
+	- first simulate the unperturbed reference configuration and conduct the postprocessing as described below
+	  (for "normal" 2D particle distribution.)
+	- then rename the results folder (<<ResultsInProgress>>) into <<refSolution>> and leave it at its 
+	  location (sph-blitz/results/) for the whole rest of the perturbed simulations, that are based on 
+	  this reference smulation. 
+	- when now simulating the perturbed versions, the post-processing is as follows:
+  
+	    * run the shell script <<prepareDirectory.sh>> in a shell placed in this
+	      (/sph-blitz/scripts/postProcessing) directory
+		  (for description of the actions of the script: see 1D post-processing)
+    
+	    * in the same directory, run the c++ program <<average_q1DResultsRAND.cpp>> 
+	      (possibly need to compile (<<make>>) before)
+		  averaging is then done for all particles that have the same xposition in the initial state (t=0)
+		  of the unperturbed reference solution
+	 
+	    * in the same directory: run the c++ program <<exactResAndErr1DST.cpp>> 
+	      (same as for "normal" 2D post-processing)
+
+	    * for visualization, see <<sph-blitz/gnuplot/shockTube_q1D>>
+	
+      
+
 a rough overview on what has to be done:
 ---------------- 
 
@@ -179,8 +203,6 @@ This will perform the following action:
     I will implement this later in a separated small program (no need to repeat the simulations, as all 
     data needed are saved in the corresponding simulation result folders...)
     
-    
-
  - write the averaged results into the file
     <<results/ResultsInProgress/averagedxxxxxxxx.dat>> 
    (where xxxxxxxx represents the corresponding simulation time in ms)

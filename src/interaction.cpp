@@ -101,7 +101,7 @@ void Interaction::SummationDensity() {
 //					update pair forces
 //----------------------------------------------------------------------------------------
 void Interaction::UpdateForces() {
-  LOG_EVERY_N(INFO, 1000) << "Interaction::UpdateForces()";
+  LOG_EVERY_N(INFO, 100000) << "Interaction::UpdateForces()";
   //define pair values change in sub time steps
   const double rhoi = Org->rho; 
   const double rhoj = Dest->rho;
@@ -285,6 +285,6 @@ void Interaction::UpdateForcesAndRho() {
 }
 
 Interaction::~Interaction() {
-  LOG_EVERY_N(INFO, 1000) << "Interaction destroyed" ;
+  LOG_EVERY_N(INFO, 100000) << "Interaction destroyed" ;
 }
 

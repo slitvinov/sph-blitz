@@ -81,12 +81,12 @@ int main () {
   x=2-N_l*dx;
   
   for(int i=0;i<N_l;i++)  {
-
+    
     // create random perturbation
-
+    
     // as random numbers are generated as integers in a range from -200 to 200
     // they have to be divided by a factor to obtain the desired range
-     
+    
     pert_x = (rand() % 401 -200)/200.0*dx*fac;
     //cout<<pert_x<<endl;
     sum_pert=sum_pert+pert_x;
@@ -101,10 +101,10 @@ int main () {
   };
   x=2;
   for(int i=N_l;i<N;i++) {
-
+    
     pert_x = (rand() % 401 -200)/200.0*dx*fac;
     //cout<<pert_x<<endl;
- sum_pert=sum_pert+pert_x;
+    sum_pert=sum_pert+pert_x;
     x_array[i]=x+pert_x;
     x=x+dx;
     y_array[i]=0;
