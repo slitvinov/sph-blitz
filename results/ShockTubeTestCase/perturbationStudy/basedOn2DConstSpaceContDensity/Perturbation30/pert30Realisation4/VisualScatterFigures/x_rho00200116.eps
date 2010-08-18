@@ -1,0 +1,3727 @@
+%!PS-Adobe-2.0 EPSF-2.0
+%%Title: VisualScatterFigures/x_rho00200116.eps
+%%Creator: gnuplot 4.2 patchlevel 5 
+%%CreationDate: Tue Aug 17 15:44:01 2010
+%%DocumentFonts: (atend)
+%%BoundingBox: 50 50 410 302
+%%EndComments
+%%BeginProlog
+/gnudict 256 dict def
+gnudict begin
+%
+% The following 6 true/false flags may be edited by hand if required
+% The unit line width may also be changed
+%
+/Color true def
+/Blacktext false def
+/Solid false def
+/Dashlength 1 def
+/Landscape false def
+/Level1 false def
+/Rounded false def
+/TransparentPatterns false def
+/gnulinewidth 5.000 def
+/userlinewidth gnulinewidth def
+%
+/vshift -46 def
+/dl1 {
+  10.0 Dashlength mul mul
+  Rounded { currentlinewidth 0.75 mul sub dup 0 le { pop 0.01 } if } if
+} def
+/dl2 {
+  10.0 Dashlength mul mul
+  Rounded { currentlinewidth 0.75 mul add } if
+} def
+/hpt_ 31.5 def
+/vpt_ 31.5 def
+/hpt hpt_ def
+/vpt vpt_ def
+Level1 {} {
+/SDict 10 dict def
+systemdict /pdfmark known not {
+  userdict /pdfmark systemdict /cleartomark get put
+} if
+SDict begin [
+  /Title (VisualScatterFigures/x_rho00200116.eps)
+  /Subject (gnuplot plot)
+  /Creator (gnuplot 4.2 patchlevel 5 )
+  /Author (Oliver)
+%  /Producer (gnuplot)
+%  /Keywords ()
+  /CreationDate (Tue Aug 17 15:44:01 2010)
+  /DOCINFO pdfmark
+end
+} ifelse
+%
+% Gnuplot Prolog Version 4.2 (November 2007)
+%
+/M {moveto} bind def
+/L {lineto} bind def
+/R {rmoveto} bind def
+/V {rlineto} bind def
+/N {newpath moveto} bind def
+/Z {closepath} bind def
+/C {setrgbcolor} bind def
+/f {rlineto fill} bind def
+/Gshow {show} def   % May be redefined later in the file to support UTF-8
+/vpt2 vpt 2 mul def
+/hpt2 hpt 2 mul def
+/Lshow {currentpoint stroke M 0 vshift R 
+	Blacktext {gsave 0 setgray show grestore} {show} ifelse} def
+/Rshow {currentpoint stroke M dup stringwidth pop neg vshift R
+	Blacktext {gsave 0 setgray show grestore} {show} ifelse} def
+/Cshow {currentpoint stroke M dup stringwidth pop -2 div vshift R 
+	Blacktext {gsave 0 setgray show grestore} {show} ifelse} def
+/UP {dup vpt_ mul /vpt exch def hpt_ mul /hpt exch def
+  /hpt2 hpt 2 mul def /vpt2 vpt 2 mul def} def
+/DL {Color {setrgbcolor Solid {pop []} if 0 setdash}
+ {pop pop pop 0 setgray Solid {pop []} if 0 setdash} ifelse} def
+/BL {stroke userlinewidth 2 mul setlinewidth
+	Rounded {1 setlinejoin 1 setlinecap} if} def
+/AL {stroke userlinewidth 2 div setlinewidth
+	Rounded {1 setlinejoin 1 setlinecap} if} def
+/UL {dup gnulinewidth mul /userlinewidth exch def
+	dup 1 lt {pop 1} if 10 mul /udl exch def} def
+/PL {stroke userlinewidth setlinewidth
+	Rounded {1 setlinejoin 1 setlinecap} if} def
+% Default Line colors
+/LCw {1 1 1} def
+/LCb {0 0 0} def
+/LCa {0 0 0} def
+/LC0 {1 0 0} def
+/LC1 {0 1 0} def
+/LC2 {0 0 1} def
+/LC3 {1 0 1} def
+/LC4 {0 1 1} def
+/LC5 {1 1 0} def
+/LC6 {0 0 0} def
+/LC7 {1 0.3 0} def
+/LC8 {0.5 0.5 0.5} def
+% Default Line Types
+/LTw {PL [] 1 setgray} def
+/LTb {BL [] LCb DL} def
+/LTa {AL [1 udl mul 2 udl mul] 0 setdash LCa setrgbcolor} def
+/LT0 {PL [] LC0 DL} def
+/LT1 {PL [4 dl1 2 dl2] LC1 DL} def
+/LT2 {PL [2 dl1 3 dl2] LC2 DL} def
+/LT3 {PL [1 dl1 1.5 dl2] LC3 DL} def
+/LT4 {PL [6 dl1 2 dl2 1 dl1 2 dl2] LC4 DL} def
+/LT5 {PL [3 dl1 3 dl2 1 dl1 3 dl2] LC5 DL} def
+/LT6 {PL [2 dl1 2 dl2 2 dl1 6 dl2] LC6 DL} def
+/LT7 {PL [1 dl1 2 dl2 6 dl1 2 dl2 1 dl1 2 dl2] LC7 DL} def
+/LT8 {PL [2 dl1 2 dl2 2 dl1 2 dl2 2 dl1 2 dl2 2 dl1 4 dl2] LC8 DL} def
+/Pnt {stroke [] 0 setdash gsave 1 setlinecap M 0 0 V stroke grestore} def
+/Dia {stroke [] 0 setdash 2 copy vpt add M
+  hpt neg vpt neg V hpt vpt neg V
+  hpt vpt V hpt neg vpt V closepath stroke
+  Pnt} def
+/Pls {stroke [] 0 setdash vpt sub M 0 vpt2 V
+  currentpoint stroke M
+  hpt neg vpt neg R hpt2 0 V stroke
+ } def
+/Box {stroke [] 0 setdash 2 copy exch hpt sub exch vpt add M
+  0 vpt2 neg V hpt2 0 V 0 vpt2 V
+  hpt2 neg 0 V closepath stroke
+  Pnt} def
+/Crs {stroke [] 0 setdash exch hpt sub exch vpt add M
+  hpt2 vpt2 neg V currentpoint stroke M
+  hpt2 neg 0 R hpt2 vpt2 V stroke} def
+/TriU {stroke [] 0 setdash 2 copy vpt 1.12 mul add M
+  hpt neg vpt -1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt 1.62 mul V closepath stroke
+  Pnt} def
+/Star {2 copy Pls Crs} def
+/BoxF {stroke [] 0 setdash exch hpt sub exch vpt add M
+  0 vpt2 neg V hpt2 0 V 0 vpt2 V
+  hpt2 neg 0 V closepath fill} def
+/TriUF {stroke [] 0 setdash vpt 1.12 mul add M
+  hpt neg vpt -1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt 1.62 mul V closepath fill} def
+/TriD {stroke [] 0 setdash 2 copy vpt 1.12 mul sub M
+  hpt neg vpt 1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt -1.62 mul V closepath stroke
+  Pnt} def
+/TriDF {stroke [] 0 setdash vpt 1.12 mul sub M
+  hpt neg vpt 1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt -1.62 mul V closepath fill} def
+/DiaF {stroke [] 0 setdash vpt add M
+  hpt neg vpt neg V hpt vpt neg V
+  hpt vpt V hpt neg vpt V closepath fill} def
+/Pent {stroke [] 0 setdash 2 copy gsave
+  translate 0 hpt M 4 {72 rotate 0 hpt L} repeat
+  closepath stroke grestore Pnt} def
+/PentF {stroke [] 0 setdash gsave
+  translate 0 hpt M 4 {72 rotate 0 hpt L} repeat
+  closepath fill grestore} def
+/Circle {stroke [] 0 setdash 2 copy
+  hpt 0 360 arc stroke Pnt} def
+/CircleF {stroke [] 0 setdash hpt 0 360 arc fill} def
+/C0 {BL [] 0 setdash 2 copy moveto vpt 90 450 arc} bind def
+/C1 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 90 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C2 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 90 180 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C3 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 180 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C4 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 180 270 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C5 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 90 arc
+	2 copy moveto
+	2 copy vpt 180 270 arc closepath fill
+	vpt 0 360 arc} bind def
+/C6 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 90 270 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C7 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 270 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C8 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 270 360 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C9 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 270 450 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C10 {BL [] 0 setdash 2 copy 2 copy moveto vpt 270 360 arc closepath fill
+	2 copy moveto
+	2 copy vpt 90 180 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C11 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 180 arc closepath fill
+	2 copy moveto
+	2 copy vpt 270 360 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C12 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 180 360 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C13 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 90 arc closepath fill
+	2 copy moveto
+	2 copy vpt 180 360 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C14 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 90 360 arc closepath fill
+	vpt 0 360 arc} bind def
+/C15 {BL [] 0 setdash 2 copy vpt 0 360 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/Rec {newpath 4 2 roll moveto 1 index 0 rlineto 0 exch rlineto
+	neg 0 rlineto closepath} bind def
+/Square {dup Rec} bind def
+/Bsquare {vpt sub exch vpt sub exch vpt2 Square} bind def
+/S0 {BL [] 0 setdash 2 copy moveto 0 vpt rlineto BL Bsquare} bind def
+/S1 {BL [] 0 setdash 2 copy vpt Square fill Bsquare} bind def
+/S2 {BL [] 0 setdash 2 copy exch vpt sub exch vpt Square fill Bsquare} bind def
+/S3 {BL [] 0 setdash 2 copy exch vpt sub exch vpt2 vpt Rec fill Bsquare} bind def
+/S4 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt Square fill Bsquare} bind def
+/S5 {BL [] 0 setdash 2 copy 2 copy vpt Square fill
+	exch vpt sub exch vpt sub vpt Square fill Bsquare} bind def
+/S6 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt vpt2 Rec fill Bsquare} bind def
+/S7 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt vpt2 Rec fill
+	2 copy vpt Square fill Bsquare} bind def
+/S8 {BL [] 0 setdash 2 copy vpt sub vpt Square fill Bsquare} bind def
+/S9 {BL [] 0 setdash 2 copy vpt sub vpt vpt2 Rec fill Bsquare} bind def
+/S10 {BL [] 0 setdash 2 copy vpt sub vpt Square fill 2 copy exch vpt sub exch vpt Square fill
+	Bsquare} bind def
+/S11 {BL [] 0 setdash 2 copy vpt sub vpt Square fill 2 copy exch vpt sub exch vpt2 vpt Rec fill
+	Bsquare} bind def
+/S12 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt2 vpt Rec fill Bsquare} bind def
+/S13 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt2 vpt Rec fill
+	2 copy vpt Square fill Bsquare} bind def
+/S14 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt2 vpt Rec fill
+	2 copy exch vpt sub exch vpt Square fill Bsquare} bind def
+/S15 {BL [] 0 setdash 2 copy Bsquare fill Bsquare} bind def
+/D0 {gsave translate 45 rotate 0 0 S0 stroke grestore} bind def
+/D1 {gsave translate 45 rotate 0 0 S1 stroke grestore} bind def
+/D2 {gsave translate 45 rotate 0 0 S2 stroke grestore} bind def
+/D3 {gsave translate 45 rotate 0 0 S3 stroke grestore} bind def
+/D4 {gsave translate 45 rotate 0 0 S4 stroke grestore} bind def
+/D5 {gsave translate 45 rotate 0 0 S5 stroke grestore} bind def
+/D6 {gsave translate 45 rotate 0 0 S6 stroke grestore} bind def
+/D7 {gsave translate 45 rotate 0 0 S7 stroke grestore} bind def
+/D8 {gsave translate 45 rotate 0 0 S8 stroke grestore} bind def
+/D9 {gsave translate 45 rotate 0 0 S9 stroke grestore} bind def
+/D10 {gsave translate 45 rotate 0 0 S10 stroke grestore} bind def
+/D11 {gsave translate 45 rotate 0 0 S11 stroke grestore} bind def
+/D12 {gsave translate 45 rotate 0 0 S12 stroke grestore} bind def
+/D13 {gsave translate 45 rotate 0 0 S13 stroke grestore} bind def
+/D14 {gsave translate 45 rotate 0 0 S14 stroke grestore} bind def
+/D15 {gsave translate 45 rotate 0 0 S15 stroke grestore} bind def
+/DiaE {stroke [] 0 setdash vpt add M
+  hpt neg vpt neg V hpt vpt neg V
+  hpt vpt V hpt neg vpt V closepath stroke} def
+/BoxE {stroke [] 0 setdash exch hpt sub exch vpt add M
+  0 vpt2 neg V hpt2 0 V 0 vpt2 V
+  hpt2 neg 0 V closepath stroke} def
+/TriUE {stroke [] 0 setdash vpt 1.12 mul add M
+  hpt neg vpt -1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt 1.62 mul V closepath stroke} def
+/TriDE {stroke [] 0 setdash vpt 1.12 mul sub M
+  hpt neg vpt 1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt -1.62 mul V closepath stroke} def
+/PentE {stroke [] 0 setdash gsave
+  translate 0 hpt M 4 {72 rotate 0 hpt L} repeat
+  closepath stroke grestore} def
+/CircE {stroke [] 0 setdash 
+  hpt 0 360 arc stroke} def
+/Opaque {gsave closepath 1 setgray fill grestore 0 setgray closepath} def
+/DiaW {stroke [] 0 setdash vpt add M
+  hpt neg vpt neg V hpt vpt neg V
+  hpt vpt V hpt neg vpt V Opaque stroke} def
+/BoxW {stroke [] 0 setdash exch hpt sub exch vpt add M
+  0 vpt2 neg V hpt2 0 V 0 vpt2 V
+  hpt2 neg 0 V Opaque stroke} def
+/TriUW {stroke [] 0 setdash vpt 1.12 mul add M
+  hpt neg vpt -1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt 1.62 mul V Opaque stroke} def
+/TriDW {stroke [] 0 setdash vpt 1.12 mul sub M
+  hpt neg vpt 1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt -1.62 mul V Opaque stroke} def
+/PentW {stroke [] 0 setdash gsave
+  translate 0 hpt M 4 {72 rotate 0 hpt L} repeat
+  Opaque stroke grestore} def
+/CircW {stroke [] 0 setdash 
+  hpt 0 360 arc Opaque stroke} def
+/BoxFill {gsave Rec 1 setgray fill grestore} def
+/Density {
+  /Fillden exch def
+  currentrgbcolor
+  /ColB exch def /ColG exch def /ColR exch def
+  /ColR ColR Fillden mul Fillden sub 1 add def
+  /ColG ColG Fillden mul Fillden sub 1 add def
+  /ColB ColB Fillden mul Fillden sub 1 add def
+  ColR ColG ColB setrgbcolor} def
+/BoxColFill {gsave Rec PolyFill} def
+/PolyFill {gsave Density fill grestore grestore} def
+/h {rlineto rlineto rlineto gsave closepath fill grestore} bind def
+%
+% PostScript Level 1 Pattern Fill routine for rectangles
+% Usage: x y w h s a XX PatternFill
+%	x,y = lower left corner of box to be filled
+%	w,h = width and height of box
+%	  a = angle in degrees between lines and x-axis
+%	 XX = 0/1 for no/yes cross-hatch
+%
+/PatternFill {gsave /PFa [ 9 2 roll ] def
+  PFa 0 get PFa 2 get 2 div add PFa 1 get PFa 3 get 2 div add translate
+  PFa 2 get -2 div PFa 3 get -2 div PFa 2 get PFa 3 get Rec
+  gsave 1 setgray fill grestore clip
+  currentlinewidth 0.5 mul setlinewidth
+  /PFs PFa 2 get dup mul PFa 3 get dup mul add sqrt def
+  0 0 M PFa 5 get rotate PFs -2 div dup translate
+  0 1 PFs PFa 4 get div 1 add floor cvi
+	{PFa 4 get mul 0 M 0 PFs V} for
+  0 PFa 6 get ne {
+	0 1 PFs PFa 4 get div 1 add floor cvi
+	{PFa 4 get mul 0 2 1 roll M PFs 0 V} for
+ } if
+  stroke grestore} def
+%
+/languagelevel where
+ {pop languagelevel} {1} ifelse
+ 2 lt
+	{/InterpretLevel1 true def}
+	{/InterpretLevel1 Level1 def}
+ ifelse
+%
+% PostScript level 2 pattern fill definitions
+%
+/Level2PatternFill {
+/Tile8x8 {/PaintType 2 /PatternType 1 /TilingType 1 /BBox [0 0 8 8] /XStep 8 /YStep 8}
+	bind def
+/KeepColor {currentrgbcolor [/Pattern /DeviceRGB] setcolorspace} bind def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop 0 0 M 8 8 L 0 8 M 8 0 L stroke} 
+>> matrix makepattern
+/Pat1 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop 0 0 M 8 8 L 0 8 M 8 0 L stroke
+	0 4 M 4 8 L 8 4 L 4 0 L 0 4 L stroke}
+>> matrix makepattern
+/Pat2 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop 0 0 M 0 8 L
+	8 8 L 8 0 L 0 0 L fill}
+>> matrix makepattern
+/Pat3 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop -4 8 M 8 -4 L
+	0 12 M 12 0 L stroke}
+>> matrix makepattern
+/Pat4 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop -4 0 M 8 12 L
+	0 -4 M 12 8 L stroke}
+>> matrix makepattern
+/Pat5 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop -2 8 M 4 -4 L
+	0 12 M 8 -4 L 4 12 M 10 0 L stroke}
+>> matrix makepattern
+/Pat6 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop -2 0 M 4 12 L
+	0 -4 M 8 12 L 4 -4 M 10 8 L stroke}
+>> matrix makepattern
+/Pat7 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop 8 -2 M -4 4 L
+	12 0 M -4 8 L 12 4 M 0 10 L stroke}
+>> matrix makepattern
+/Pat8 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop 0 -2 M 12 4 L
+	-4 0 M 12 8 L -4 4 M 8 10 L stroke}
+>> matrix makepattern
+/Pat9 exch def
+/Pattern1 {PatternBgnd KeepColor Pat1 setpattern} bind def
+/Pattern2 {PatternBgnd KeepColor Pat2 setpattern} bind def
+/Pattern3 {PatternBgnd KeepColor Pat3 setpattern} bind def
+/Pattern4 {PatternBgnd KeepColor Landscape {Pat5} {Pat4} ifelse setpattern} bind def
+/Pattern5 {PatternBgnd KeepColor Landscape {Pat4} {Pat5} ifelse setpattern} bind def
+/Pattern6 {PatternBgnd KeepColor Landscape {Pat9} {Pat6} ifelse setpattern} bind def
+/Pattern7 {PatternBgnd KeepColor Landscape {Pat8} {Pat7} ifelse setpattern} bind def
+} def
+%
+%
+%End of PostScript Level 2 code
+%
+/PatternBgnd {
+  TransparentPatterns {} {gsave 1 setgray fill grestore} ifelse
+} def
+%
+% Substitute for Level 2 pattern fill codes with
+% grayscale if Level 2 support is not selected.
+%
+/Level1PatternFill {
+/Pattern1 {0.250 Density} bind def
+/Pattern2 {0.500 Density} bind def
+/Pattern3 {0.750 Density} bind def
+/Pattern4 {0.125 Density} bind def
+/Pattern5 {0.375 Density} bind def
+/Pattern6 {0.625 Density} bind def
+/Pattern7 {0.875 Density} bind def
+} def
+%
+% Now test for support of Level 2 code
+%
+Level1 {Level1PatternFill} {Level2PatternFill} ifelse
+%
+/Symbol-Oblique /Symbol findfont [1 0 .167 1 0 0] makefont
+dup length dict begin {1 index /FID eq {pop pop} {def} ifelse} forall
+currentdict end definefont pop
+/MFshow {
+   { dup 5 get 3 ge
+     { 5 get 3 eq {gsave} {grestore} ifelse }
+     {dup dup 0 get findfont exch 1 get scalefont setfont
+     [ currentpoint ] exch dup 2 get 0 exch R dup 5 get 2 ne {dup dup 6
+     get exch 4 get {Gshow} {stringwidth pop 0 R} ifelse }if dup 5 get 0 eq
+     {dup 3 get {2 get neg 0 exch R pop} {pop aload pop M} ifelse} {dup 5
+     get 1 eq {dup 2 get exch dup 3 get exch 6 get stringwidth pop -2 div
+     dup 0 R} {dup 6 get stringwidth pop -2 div 0 R 6 get
+     show 2 index {aload pop M neg 3 -1 roll neg R pop pop} {pop pop pop
+     pop aload pop M} ifelse }ifelse }ifelse }
+     ifelse }
+   forall} def
+/Gswidth {dup type /stringtype eq {stringwidth} {pop (n) stringwidth} ifelse} def
+/MFwidth {0 exch { dup 5 get 3 ge { 5 get 3 eq { 0 } { pop } ifelse }
+ {dup 3 get{dup dup 0 get findfont exch 1 get scalefont setfont
+     6 get Gswidth pop add} {pop} ifelse} ifelse} forall} def
+/MLshow { currentpoint stroke M
+  0 exch R
+  Blacktext {gsave 0 setgray MFshow grestore} {MFshow} ifelse } bind def
+/MRshow { currentpoint stroke M
+  exch dup MFwidth neg 3 -1 roll R
+  Blacktext {gsave 0 setgray MFshow grestore} {MFshow} ifelse } bind def
+/MCshow { currentpoint stroke M
+  exch dup MFwidth -2 div 3 -1 roll R
+  Blacktext {gsave 0 setgray MFshow grestore} {MFshow} ifelse } bind def
+/XYsave    { [( ) 1 2 true false 3 ()] } bind def
+/XYrestore { [( ) 1 2 true false 4 ()] } bind def
+end
+%%EndProlog
+gnudict begin
+gsave
+50 50 translate
+0.050 0.050 scale
+0 setgray
+newpath
+(Helvetica) findfont 140 scalefont setfont
+/Helvetica findfont 140 scalefont setfont
+1.000 UL
+LTb
+1.000 UL
+LTa
+854 448 M
+6136 0 V
+stroke
+LTb
+854 448 M
+63 0 V
+6073 0 R
+-63 0 V
+stroke
+770 448 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0)]
+] -46.7 MRshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+854 1038 M
+6136 0 V
+stroke
+LTb
+854 1038 M
+63 0 V
+6073 0 R
+-63 0 V
+stroke
+770 1038 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.2)]
+] -46.7 MRshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+854 1628 M
+6136 0 V
+stroke
+LTb
+854 1628 M
+63 0 V
+6073 0 R
+-63 0 V
+stroke
+770 1628 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.4)]
+] -46.7 MRshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+854 2218 M
+6136 0 V
+stroke
+LTb
+854 2218 M
+63 0 V
+6073 0 R
+-63 0 V
+stroke
+770 2218 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.6)]
+] -46.7 MRshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+854 2807 M
+6136 0 V
+stroke
+LTb
+854 2807 M
+63 0 V
+6073 0 R
+-63 0 V
+stroke
+770 2807 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.8)]
+] -46.7 MRshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+854 3397 M
+6136 0 V
+stroke
+LTb
+854 3397 M
+63 0 V
+6073 0 R
+-63 0 V
+stroke
+770 3397 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 1)]
+] -46.7 MRshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+854 3987 M
+6136 0 V
+stroke
+LTb
+854 3987 M
+63 0 V
+6073 0 R
+-63 0 V
+stroke
+770 3987 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 1.2)]
+] -46.7 MRshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+854 4577 M
+6136 0 V
+stroke
+LTb
+854 4577 M
+63 0 V
+6073 0 R
+-63 0 V
+stroke
+770 4577 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 1.4)]
+] -46.7 MRshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+1468 448 M
+0 4424 V
+stroke
+LTb
+1468 448 M
+0 63 V
+0 4361 R
+0 -63 V
+stroke
+1468 308 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 1.6)]
+] -46.7 MCshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+2695 448 M
+0 4424 V
+stroke
+LTb
+2695 448 M
+0 63 V
+0 4361 R
+0 -63 V
+stroke
+2695 308 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 1.8)]
+] -46.7 MCshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+3922 448 M
+0 4424 V
+stroke
+LTb
+3922 448 M
+0 63 V
+0 4361 R
+0 -63 V
+stroke
+3922 308 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 2)]
+] -46.7 MCshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+5149 448 M
+0 4221 V
+0 140 R
+0 63 V
+stroke
+LTb
+5149 448 M
+0 63 V
+0 4361 R
+0 -63 V
+stroke
+5149 308 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 2.2)]
+] -46.7 MCshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+6376 448 M
+0 4221 V
+0 140 R
+0 63 V
+stroke
+LTb
+6376 448 M
+0 63 V
+0 4361 R
+0 -63 V
+stroke
+6376 308 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 2.4)]
+] -46.7 MCshow
+1.000 UL
+LTb
+1.000 UL
+LTb
+854 4872 N
+854 448 L
+6136 0 V
+0 4424 V
+-6136 0 V
+Z stroke
+LCb setrgbcolor
+280 2660 M
+currentpoint gsave translate 90 rotate 0 0 moveto
+[ [(Helvetica) 140.0 0.0 true true 0 (density rho)]
+] -46.7 MCshow
+grestore
+LTb
+LCb setrgbcolor
+3922 98 M
+[ [(Helvetica) 140.0 0.0 true true 0 (length x)]
+] -46.7 MCshow
+LTb
+1.000 UP
+1.000 UL
+LTb
+1.000 UP
+1.000 UL
+LT0
+/Helvetica findfont 140 scalefont setfont
+LTb
+6339 4739 M
+('prtl00200116.dat' u 1:3) Rshow
+LT0
+6977 816 Pls
+6960 816 Pls
+6925 816 Pls
+6899 816 Pls
+6879 816 Pls
+6841 816 Pls
+6805 816 Pls
+6783 817 Pls
+6754 817 Pls
+6726 817 Pls
+6689 817 Pls
+6659 816 Pls
+6613 816 Pls
+6587 815 Pls
+6552 816 Pls
+6527 816 Pls
+6509 816 Pls
+6456 817 Pls
+6428 817 Pls
+6418 817 Pls
+6384 816 Pls
+6358 817 Pls
+6314 817 Pls
+6295 818 Pls
+6250 824 Pls
+6211 836 Pls
+6192 845 Pls
+6180 853 Pls
+6129 911 Pls
+6116 932 Pls
+6089 990 Pls
+6074 1027 Pls
+6045 1099 Pls
+6038 1116 Pls
+6028 1139 Pls
+6006 1180 Pls
+5988 1206 Pls
+5971 1220 Pls
+5963 1224 Pls
+5956 1226 Pls
+5935 1226 Pls
+5920 1224 Pls
+5901 1218 Pls
+5894 1216 Pls
+5878 1213 Pls
+5866 1212 Pls
+5852 1213 Pls
+5835 1215 Pls
+5814 1219 Pls
+5798 1223 Pls
+5785 1225 Pls
+5777 1226 Pls
+5758 1227 Pls
+5744 1227 Pls
+5735 1227 Pls
+5711 1226 Pls
+5703 1225 Pls
+5690 1225 Pls
+5674 1224 Pls
+5655 1224 Pls
+5640 1225 Pls
+5631 1225 Pls
+5616 1226 Pls
+5602 1227 Pls
+5590 1227 Pls
+5573 1227 Pls
+5556 1227 Pls
+5541 1226 Pls
+5530 1226 Pls
+5516 1225 Pls
+5499 1224 Pls
+5483 1223 Pls
+5467 1223 Pls
+5456 1223 Pls
+5440 1222 Pls
+5426 1223 Pls
+5415 1223 Pls
+5399 1222 Pls
+5381 1221 Pls
+5369 1221 Pls
+5354 1220 Pls
+5343 1219 Pls
+5322 1218 Pls
+5308 1217 Pls
+5293 1217 Pls
+5274 1217 Pls
+5262 1216 Pls
+5251 1216 Pls
+5238 1215 Pls
+5213 1216 Pls
+5195 1217 Pls
+5185 1218 Pls
+5182 1218 Pls
+5176 1220 Pls
+5155 1229 Pls
+5114 1270 Pls
+5114 1271 Pls
+5114 1275 Pls
+5105 1292 Pls
+5094 1311 Pls
+5065 1375 Pls
+6962 816 Pls
+6925 816 Pls
+6900 816 Pls
+6865 817 Pls
+6826 817 Pls
+6817 816 Pls
+6771 817 Pls
+6739 817 Pls
+6719 817 Pls
+6682 816 Pls
+6647 816 Pls
+6616 816 Pls
+6586 815 Pls
+6557 816 Pls
+6525 816 Pls
+6488 816 Pls
+6457 816 Pls
+6447 817 Pls
+6420 817 Pls
+6379 816 Pls
+6363 816 Pls
+6321 817 Pls
+6285 819 Pls
+6246 825 Pls
+6230 829 Pls
+6185 850 Pls
+6173 859 Pls
+6133 906 Pls
+6120 926 Pls
+6087 995 Pls
+6073 1029 Pls
+6045 1100 Pls
+6039 1114 Pls
+6020 1156 Pls
+6004 1184 Pls
+5996 1196 Pls
+5977 1215 Pls
+5966 1222 Pls
+5944 1228 Pls
+5936 1227 Pls
+5928 1226 Pls
+5905 1219 Pls
+5894 1216 Pls
+5871 1213 Pls
+5865 1213 Pls
+5844 1213 Pls
+5830 1216 Pls
+5811 1220 Pls
+5802 1222 Pls
+5788 1225 Pls
+5773 1227 Pls
+5764 1228 Pls
+5743 1228 Pls
+5733 1227 Pls
+5719 1226 Pls
+5704 1224 Pls
+5681 1224 Pls
+5674 1224 Pls
+5659 1224 Pls
+5641 1225 Pls
+5622 1226 Pls
+5611 1226 Pls
+5598 1227 Pls
+5586 1227 Pls
+5576 1227 Pls
+5553 1227 Pls
+5542 1226 Pls
+5530 1226 Pls
+5515 1225 Pls
+5505 1224 Pls
+5480 1223 Pls
+5469 1223 Pls
+5448 1222 Pls
+5438 1222 Pls
+5426 1222 Pls
+5417 1222 Pls
+5406 1222 Pls
+5381 1221 Pls
+5362 1220 Pls
+5350 1220 Pls
+5340 1219 Pls
+5328 1218 Pls
+5304 1217 Pls
+5285 1216 Pls
+5279 1216 Pls
+5267 1216 Pls
+5251 1216 Pls
+5244 1215 Pls
+5215 1215 Pls
+5194 1216 Pls
+5188 1218 Pls
+5182 1218 Pls
+5178 1220 Pls
+5157 1229 Pls
+5121 1260 Pls
+5113 1274 Pls
+5108 1284 Pls
+5103 1295 Pls
+5095 1309 Pls
+5050 1414 Pls
+6983 816 Pls
+6963 816 Pls
+6912 816 Pls
+6892 816 Pls
+6847 816 Pls
+6838 816 Pls
+6814 816 Pls
+6768 816 Pls
+6744 817 Pls
+6720 817 Pls
+6680 816 Pls
+6661 816 Pls
+6634 816 Pls
+6595 815 Pls
+6549 815 Pls
+6522 816 Pls
+6503 816 Pls
+6472 817 Pls
+6439 817 Pls
+6414 817 Pls
+6380 817 Pls
+6350 816 Pls
+6315 817 Pls
+6296 818 Pls
+6267 822 Pls
+6235 828 Pls
+6203 839 Pls
+6159 871 Pls
+6137 898 Pls
+6121 924 Pls
+6085 998 Pls
+6071 1035 Pls
+6051 1083 Pls
+6035 1123 Pls
+6019 1156 Pls
+6005 1182 Pls
+5998 1194 Pls
+5983 1210 Pls
+5965 1223 Pls
+5954 1227 Pls
+5934 1226 Pls
+5915 1222 Pls
+5903 1219 Pls
+5898 1218 Pls
+5875 1213 Pls
+5863 1213 Pls
+5842 1214 Pls
+5834 1215 Pls
+5819 1218 Pls
+5801 1222 Pls
+5787 1225 Pls
+5772 1227 Pls
+5760 1227 Pls
+5744 1227 Pls
+5732 1227 Pls
+5714 1226 Pls
+5699 1225 Pls
+5684 1224 Pls
+5673 1224 Pls
+5656 1224 Pls
+5647 1224 Pls
+5634 1225 Pls
+5616 1226 Pls
+5601 1227 Pls
+5587 1227 Pls
+5573 1227 Pls
+5552 1227 Pls
+5540 1227 Pls
+5521 1225 Pls
+5509 1224 Pls
+5497 1224 Pls
+5482 1223 Pls
+5465 1223 Pls
+5456 1223 Pls
+5441 1223 Pls
+5425 1222 Pls
+5415 1222 Pls
+5399 1222 Pls
+5379 1221 Pls
+5368 1220 Pls
+5353 1220 Pls
+5343 1220 Pls
+5327 1219 Pls
+5303 1217 Pls
+5294 1217 Pls
+5274 1216 Pls
+5267 1216 Pls
+5252 1216 Pls
+5231 1215 Pls
+5217 1215 Pls
+5202 1216 Pls
+5190 1218 Pls
+5179 1220 Pls
+5168 1223 Pls
+5148 1234 Pls
+5131 1248 Pls
+5110 1277 Pls
+5106 1286 Pls
+5099 1303 Pls
+5089 1320 Pls
+5070 1363 Pls
+6986 815 Pls
+6975 816 Pls
+6932 816 Pls
+6912 816 Pls
+6864 816 Pls
+6848 816 Pls
+6805 817 Pls
+6775 816 Pls
+6751 817 Pls
+6704 817 Pls
+6681 817 Pls
+6653 817 Pls
+6620 816 Pls
+6600 816 Pls
+6563 816 Pls
+6531 816 Pls
+6494 816 Pls
+6482 816 Pls
+6432 817 Pls
+6406 817 Pls
+6363 816 Pls
+6339 817 Pls
+6302 818 Pls
+6279 820 Pls
+6255 823 Pls
+6218 833 Pls
+6196 843 Pls
+6174 858 Pls
+6141 893 Pls
+6119 928 Pls
+6092 983 Pls
+6076 1022 Pls
+6058 1067 Pls
+6034 1125 Pls
+6019 1157 Pls
+6013 1169 Pls
+5989 1204 Pls
+5977 1216 Pls
+5968 1222 Pls
+5953 1226 Pls
+5936 1227 Pls
+5925 1225 Pls
+5909 1221 Pls
+5898 1217 Pls
+5877 1213 Pls
+5863 1213 Pls
+5844 1214 Pls
+5829 1216 Pls
+5819 1218 Pls
+5807 1221 Pls
+5794 1224 Pls
+5778 1226 Pls
+5757 1227 Pls
+5748 1228 Pls
+5729 1227 Pls
+5712 1226 Pls
+5702 1225 Pls
+5690 1224 Pls
+5673 1224 Pls
+5659 1224 Pls
+5648 1224 Pls
+5629 1225 Pls
+5617 1226 Pls
+5605 1227 Pls
+5584 1227 Pls
+5572 1227 Pls
+5555 1227 Pls
+5543 1227 Pls
+5529 1226 Pls
+5512 1225 Pls
+5503 1224 Pls
+5487 1224 Pls
+5468 1223 Pls
+5451 1223 Pls
+5438 1222 Pls
+5428 1222 Pls
+5413 1222 Pls
+5393 1222 Pls
+5373 1221 Pls
+5363 1221 Pls
+5347 1220 Pls
+5338 1219 Pls
+5321 1218 Pls
+5307 1217 Pls
+5294 1217 Pls
+5276 1216 Pls
+5272 1217 Pls
+5259 1217 Pls
+5232 1215 Pls
+5219 1215 Pls
+5201 1216 Pls
+5189 1218 Pls
+5181 1219 Pls
+5164 1225 Pls
+5152 1231 Pls
+5118 1265 Pls
+5103 1290 Pls
+5101 1296 Pls
+5098 1306 Pls
+5091 1316 Pls
+5040 1442 Pls
+6988 816 Pls
+6955 816 Pls
+6924 816 Pls
+6906 816 Pls
+6865 816 Pls
+6840 816 Pls
+6791 816 Pls
+6778 816 Pls
+6736 817 Pls
+6706 817 Pls
+6687 817 Pls
+6653 816 Pls
+6615 816 Pls
+6596 816 Pls
+6573 816 Pls
+6535 816 Pls
+6493 816 Pls
+6466 816 Pls
+6435 817 Pls
+6399 817 Pls
+6364 816 Pls
+6354 816 Pls
+6324 817 Pls
+6279 820 Pls
+6249 824 Pls
+6240 826 Pls
+6193 845 Pls
+6174 857 Pls
+6146 887 Pls
+6122 922 Pls
+6092 983 Pls
+6072 1030 Pls
+6054 1076 Pls
+6045 1099 Pls
+6018 1159 Pls
+6004 1184 Pls
+5995 1197 Pls
+5983 1210 Pls
+5963 1223 Pls
+5947 1227 Pls
+5932 1227 Pls
+5929 1226 Pls
+5905 1219 Pls
+5892 1216 Pls
+5873 1213 Pls
+5863 1212 Pls
+5846 1213 Pls
+5835 1215 Pls
+5821 1218 Pls
+5808 1220 Pls
+5788 1224 Pls
+5772 1227 Pls
+5760 1227 Pls
+5743 1227 Pls
+5726 1226 Pls
+5718 1226 Pls
+5704 1225 Pls
+5689 1224 Pls
+5672 1224 Pls
+5662 1224 Pls
+5645 1225 Pls
+5627 1226 Pls
+5613 1226 Pls
+5599 1227 Pls
+5581 1227 Pls
+5571 1227 Pls
+5558 1227 Pls
+5539 1226 Pls
+5524 1225 Pls
+5513 1225 Pls
+5500 1224 Pls
+5488 1224 Pls
+5471 1223 Pls
+5453 1223 Pls
+5439 1223 Pls
+5428 1223 Pls
+5410 1222 Pls
+5394 1222 Pls
+5381 1221 Pls
+5368 1221 Pls
+5361 1219 Pls
+5342 1220 Pls
+5330 1219 Pls
+5305 1218 Pls
+5292 1217 Pls
+5276 1217 Pls
+5266 1216 Pls
+5255 1216 Pls
+5239 1215 Pls
+5226 1215 Pls
+5198 1217 Pls
+5185 1218 Pls
+5176 1221 Pls
+5164 1225 Pls
+5131 1249 Pls
+5113 1271 Pls
+5113 1274 Pls
+5110 1283 Pls
+5105 1292 Pls
+5094 1309 Pls
+5042 1438 Pls
+5040 1440 Pls
+4940 1611 Pls
+4860 1681 Pls
+4780 1695 Pls
+4702 1704 Pls
+4630 1706 Pls
+4555 1709 Pls
+4492 1704 Pls
+4418 1700 Pls
+4352 1694 Pls
+4316 1698 Pls
+4190 1690 Pls
+4126 1684 Pls
+4057 1677 Pls
+3991 1676 Pls
+3900 1722 Pls
+3828 1733 Pls
+3805 1753 Pls
+3713 1864 Pls
+3620 1931 Pls
+3573 1976 Pls
+3546 1997 Pls
+3493 2054 Pls
+3426 2131 Pls
+3362 2202 Pls
+3330 2240 Pls
+3251 2307 Pls
+3229 2345 Pls
+3181 2399 Pls
+3162 2416 Pls
+3084 2514 Pls
+3032 2567 Pls
+3021 2582 Pls
+2933 2699 Pls
+2933 2697 Pls
+2854 2785 Pls
+2844 2803 Pls
+2788 2884 Pls
+2772 2905 Pls
+2701 3000 Pls
+2692 3015 Pls
+2624 3091 Pls
+2611 3110 Pls
+2585 3142 Pls
+2543 3191 Pls
+2529 3204 Pls
+2492 3247 Pls
+2455 3280 Pls
+2411 3310 Pls
+2375 3330 Pls
+2364 3335 Pls
+2327 3353 Pls
+2289 3362 Pls
+2283 3363 Pls
+2237 3375 Pls
+2210 3380 Pls
+2166 3384 Pls
+2149 3385 Pls
+2116 3389 Pls
+2077 3388 Pls
+2044 3393 Pls
+2008 3390 Pls
+1985 3393 Pls
+1955 3391 Pls
+1929 3394 Pls
+1881 3390 Pls
+1868 3388 Pls
+1827 3391 Pls
+1807 3387 Pls
+1757 3391 Pls
+1744 3390 Pls
+1728 3392 Pls
+1681 3393 Pls
+1666 3395 Pls
+1630 3393 Pls
+1582 3390 Pls
+1559 3394 Pls
+1528 3393 Pls
+1505 3396 Pls
+1465 3391 Pls
+1445 3394 Pls
+1392 3391 Pls
+1377 3392 Pls
+1329 3394 Pls
+1317 3394 Pls
+1271 3389 Pls
+1246 3389 Pls
+1221 3386 Pls
+1205 3389 Pls
+1162 3393 Pls
+1142 3394 Pls
+1094 3393 Pls
+1064 3392 Pls
+1025 3391 Pls
+1021 3390 Pls
+993 3394 Pls
+944 3393 Pls
+910 3393 Pls
+881 3391 Pls
+4977 1562 Pls
+4916 1636 Pls
+4851 1680 Pls
+4773 1696 Pls
+4702 1703 Pls
+4648 1708 Pls
+4568 1708 Pls
+4488 1708 Pls
+4438 1704 Pls
+4379 1693 Pls
+4267 1696 Pls
+4225 1696 Pls
+4139 1682 Pls
+4070 1678 Pls
+3971 1686 Pls
+3938 1701 Pls
+3861 1728 Pls
+3773 1789 Pls
+3689 1881 Pls
+3683 1885 Pls
+3571 1974 Pls
+3509 2037 Pls
+3473 2076 Pls
+3449 2111 Pls
+3348 2215 Pls
+3315 2260 Pls
+3269 2295 Pls
+3221 2357 Pls
+3133 2451 Pls
+3129 2457 Pls
+3112 2478 Pls
+3017 2589 Pls
+2996 2615 Pls
+2947 2677 Pls
+2913 2726 Pls
+2863 2778 Pls
+2856 2782 Pls
+2794 2885 Pls
+2768 2917 Pls
+2710 2985 Pls
+2695 3005 Pls
+2659 3052 Pls
+2630 3086 Pls
+2565 3167 Pls
+2549 3183 Pls
+2510 3229 Pls
+2487 3250 Pls
+2452 3285 Pls
+2414 3306 Pls
+2389 3324 Pls
+2347 3344 Pls
+2337 3348 Pls
+2300 3360 Pls
+2253 3373 Pls
+2225 3376 Pls
+2209 3380 Pls
+2177 3383 Pls
+2149 3387 Pls
+2110 3387 Pls
+2068 3388 Pls
+2044 3389 Pls
+2027 3389 Pls
+1990 3394 Pls
+1951 3390 Pls
+1931 3392 Pls
+1891 3388 Pls
+1873 3390 Pls
+1814 3385 Pls
+1810 3386 Pls
+1795 3388 Pls
+1745 3392 Pls
+1702 3396 Pls
+1677 3394 Pls
+1652 3395 Pls
+1628 3393 Pls
+1591 3390 Pls
+1569 3391 Pls
+1538 3394 Pls
+1507 3394 Pls
+1465 3391 Pls
+1452 3391 Pls
+1399 3390 Pls
+1380 3392 Pls
+1337 3396 Pls
+1299 3392 Pls
+1291 3391 Pls
+1255 3391 Pls
+1216 3387 Pls
+1203 3389 Pls
+1162 3392 Pls
+1135 3396 Pls
+1089 3391 Pls
+1076 3391 Pls
+1033 3395 Pls
+1003 3395 Pls
+969 3393 Pls
+947 3392 Pls
+931 3392 Pls
+879 3392 Pls
+863 3391 Pls
+5012 1504 Pls
+4928 1630 Pls
+4854 1681 Pls
+4784 1696 Pls
+4714 1706 Pls
+4637 1715 Pls
+4574 1706 Pls
+4520 1707 Pls
+4444 1707 Pls
+4373 1703 Pls
+4298 1697 Pls
+4209 1698 Pls
+4130 1682 Pls
+4059 1681 Pls
+4000 1683 Pls
+3892 1720 Pls
+3822 1745 Pls
+3797 1762 Pls
+3732 1842 Pls
+3639 1903 Pls
+3597 1945 Pls
+3549 1995 Pls
+3435 2126 Pls
+3415 2151 Pls
+3398 2168 Pls
+3295 2280 Pls
+3261 2302 Pls
+3214 2367 Pls
+3187 2397 Pls
+3105 2486 Pls
+3082 2506 Pls
+3045 2543 Pls
+3002 2612 Pls
+2933 2696 Pls
+2906 2734 Pls
+2877 2767 Pls
+2813 2853 Pls
+2785 2892 Pls
+2764 2921 Pls
+2714 2978 Pls
+2698 3003 Pls
+2650 3064 Pls
+2619 3101 Pls
+2590 3138 Pls
+2564 3167 Pls
+2500 3237 Pls
+2479 3256 Pls
+2467 3267 Pls
+2425 3298 Pls
+2412 3307 Pls
+2360 3337 Pls
+2318 3356 Pls
+2282 3365 Pls
+2275 3365 Pls
+2233 3376 Pls
+2197 3383 Pls
+2163 3387 Pls
+2128 3386 Pls
+2103 3387 Pls
+2083 3388 Pls
+2053 3389 Pls
+2028 3389 Pls
+2002 3389 Pls
+1972 3395 Pls
+1937 3393 Pls
+1883 3387 Pls
+1868 3386 Pls
+1849 3386 Pls
+1816 3390 Pls
+1769 3388 Pls
+1746 3391 Pls
+1716 3397 Pls
+1679 3402 Pls
+1637 3392 Pls
+1623 3392 Pls
+1592 3393 Pls
+1554 3395 Pls
+1513 3392 Pls
+1504 3393 Pls
+1460 3395 Pls
+1431 3391 Pls
+1417 3391 Pls
+1381 3391 Pls
+1356 3394 Pls
+1319 3395 Pls
+1282 3388 Pls
+1274 3388 Pls
+1218 3391 Pls
+1186 3393 Pls
+1149 3392 Pls
+1127 3394 Pls
+1084 3392 Pls
+1071 3393 Pls
+1042 3393 Pls
+1014 3394 Pls
+981 3394 Pls
+958 3395 Pls
+904 3389 Pls
+897 3390 Pls
+869 3390 Pls
+5024 1478 Pls
+4947 1609 Pls
+4867 1678 Pls
+4802 1692 Pls
+4725 1703 Pls
+4652 1712 Pls
+4576 1706 Pls
+4500 1708 Pls
+4402 1713 Pls
+4357 1705 Pls
+4292 1698 Pls
+4199 1693 Pls
+4126 1685 Pls
+4069 1678 Pls
+4002 1685 Pls
+3941 1695 Pls
+3862 1728 Pls
+3774 1789 Pls
+3728 1839 Pls
+3667 1886 Pls
+3596 1949 Pls
+3505 2040 Pls
+3496 2047 Pls
+3402 2170 Pls
+3360 2198 Pls
+3307 2261 Pls
+3290 2275 Pls
+3197 2388 Pls
+3176 2404 Pls
+3113 2477 Pls
+3089 2509 Pls
+3009 2599 Pls
+2986 2632 Pls
+2965 2661 Pls
+2910 2729 Pls
+2853 2793 Pls
+2843 2805 Pls
+2799 2873 Pls
+2756 2926 Pls
+2720 2976 Pls
+2678 3032 Pls
+2633 3084 Pls
+2629 3090 Pls
+2580 3151 Pls
+2542 3191 Pls
+2531 3201 Pls
+2494 3243 Pls
+2439 3291 Pls
+2419 3303 Pls
+2392 3323 Pls
+2351 3340 Pls
+2339 3346 Pls
+2291 3362 Pls
+2272 3367 Pls
+2242 3373 Pls
+2206 3380 Pls
+2167 3386 Pls
+2149 3386 Pls
+2111 3390 Pls
+2074 3386 Pls
+2067 3386 Pls
+2000 3389 Pls
+1987 3390 Pls
+1955 3396 Pls
+1927 3391 Pls
+1907 3395 Pls
+1868 3387 Pls
+1837 3385 Pls
+1801 3386 Pls
+1772 3386 Pls
+1742 3391 Pls
+1705 3396 Pls
+1691 3395 Pls
+1652 3400 Pls
+1614 3393 Pls
+1580 3390 Pls
+1574 3389 Pls
+1530 3398 Pls
+1488 3392 Pls
+1468 3391 Pls
+1444 3390 Pls
+1413 3394 Pls
+1358 3394 Pls
+1343 3391 Pls
+1334 3392 Pls
+1284 3391 Pls
+1253 3390 Pls
+1219 3388 Pls
+1209 3388 Pls
+1150 3392 Pls
+1142 3394 Pls
+1108 3395 Pls
+1075 3393 Pls
+1044 3393 Pls
+1002 3395 Pls
+966 3392 Pls
+928 3392 Pls
+916 3390 Pls
+902 3389 Pls
+5026 1475 Pls
+4951 1603 Pls
+4873 1674 Pls
+4796 1693 Pls
+4728 1703 Pls
+4645 1713 Pls
+4580 1708 Pls
+4503 1706 Pls
+4437 1701 Pls
+4312 1699 Pls
+4259 1695 Pls
+4226 1695 Pls
+4154 1689 Pls
+4053 1677 Pls
+3978 1683 Pls
+3917 1711 Pls
+3881 1722 Pls
+3760 1807 Pls
+3693 1869 Pls
+3647 1906 Pls
+3606 1948 Pls
+3521 2027 Pls
+3470 2070 Pls
+3403 2165 Pls
+3386 2185 Pls
+3321 2243 Pls
+3277 2286 Pls
+3213 2369 Pls
+3178 2403 Pls
+3109 2482 Pls
+3071 2526 Pls
+3037 2563 Pls
+2996 2619 Pls
+2938 2692 Pls
+2931 2700 Pls
+2869 2774 Pls
+2847 2801 Pls
+2775 2900 Pls
+2764 2914 Pls
+2711 2992 Pls
+2688 3021 Pls
+2663 3050 Pls
+2610 3110 Pls
+2600 3123 Pls
+2554 3177 Pls
+2521 3213 Pls
+2486 3252 Pls
+2458 3279 Pls
+2432 3298 Pls
+2407 3315 Pls
+2363 3335 Pls
+2350 3341 Pls
+2303 3359 Pls
+2273 3367 Pls
+2224 3373 Pls
+2210 3377 Pls
+2177 3386 Pls
+2137 3387 Pls
+2116 3389 Pls
+2087 3387 Pls
+2051 3388 Pls
+2006 3390 Pls
+2001 3390 Pls
+1933 3391 Pls
+1927 3390 Pls
+1913 3391 Pls
+1865 3390 Pls
+1840 3389 Pls
+1797 3385 Pls
+1768 3388 Pls
+1745 3390 Pls
+1703 3396 Pls
+1689 3396 Pls
+1653 3397 Pls
+1616 3391 Pls
+1599 3391 Pls
+1548 3393 Pls
+1522 3392 Pls
+1508 3394 Pls
+1464 3394 Pls
+1425 3393 Pls
+1401 3391 Pls
+1391 3391 Pls
+1351 3396 Pls
+1322 3394 Pls
+1286 3390 Pls
+1258 3390 Pls
+1214 3389 Pls
+1181 3391 Pls
+1154 3393 Pls
+1136 3395 Pls
+1102 3395 Pls
+1076 3393 Pls
+1034 3396 Pls
+998 3393 Pls
+977 3392 Pls
+952 3394 Pls
+920 3395 Pls
+868 3391 Pls
+6839 816 Pls
+6865 816 Pls
+6906 816 Pls
+6924 816 Pls
+6955 816 Pls
+6988 816 Pls
+6848 816 Pls
+6865 816 Pls
+6912 816 Pls
+6932 816 Pls
+6975 816 Pls
+6986 815 Pls
+6848 816 Pls
+6892 816 Pls
+6912 816 Pls
+6963 816 Pls
+6865 817 Pls
+6900 816 Pls
+6925 816 Pls
+6962 816 Pls
+6841 816 Pls
+6879 816 Pls
+6899 816 Pls
+6925 816 Pls
+6960 816 Pls
+6977 816 Pls
+6983 816 Pls
+6838 816 Pls
+6687 817 Pls
+6706 817 Pls
+6736 817 Pls
+6778 816 Pls
+6791 816 Pls
+6704 817 Pls
+6751 817 Pls
+6775 816 Pls
+6805 817 Pls
+6720 817 Pls
+6744 817 Pls
+6768 816 Pls
+6813 816 Pls
+6719 817 Pls
+6739 817 Pls
+6771 817 Pls
+6817 816 Pls
+6826 817 Pls
+6689 817 Pls
+6725 817 Pls
+6754 817 Pls
+6783 817 Pls
+6805 816 Pls
+6535 816 Pls
+6573 816 Pls
+6596 816 Pls
+6615 816 Pls
+6653 816 Pls
+6563 816 Pls
+6600 816 Pls
+6620 816 Pls
+6653 817 Pls
+6549 815 Pls
+6595 815 Pls
+6634 816 Pls
+6661 816 Pls
+6680 816 Pls
+6557 816 Pls
+6586 815 Pls
+6617 816 Pls
+6647 816 Pls
+6552 816 Pls
+6587 815 Pls
+6613 816 Pls
+6659 816 Pls
+6681 817 Pls
+6531 816 Pls
+6682 816 Pls
+6399 817 Pls
+6435 817 Pls
+6466 816 Pls
+6493 816 Pls
+6406 817 Pls
+6432 817 Pls
+6482 816 Pls
+6494 816 Pls
+6380 816 Pls
+6414 817 Pls
+6439 817 Pls
+6472 817 Pls
+6503 816 Pls
+6522 816 Pls
+6379 816 Pls
+6419 817 Pls
+6447 817 Pls
+6457 816 Pls
+6488 816 Pls
+6525 816 Pls
+6384 816 Pls
+6418 817 Pls
+6428 817 Pls
+6456 817 Pls
+6509 816 Pls
+6527 816 Pls
+6240 824 Pls
+6249 822 Pls
+6279 819 Pls
+6323 817 Pls
+6354 816 Pls
+6255 822 Pls
+6279 819 Pls
+6302 817 Pls
+6339 817 Pls
+6363 816 Pls
+6235 825 Pls
+6267 820 Pls
+6296 818 Pls
+6315 817 Pls
+6350 816 Pls
+6245 823 Pls
+6285 819 Pls
+6321 817 Pls
+6363 816 Pls
+6250 822 Pls
+6295 818 Pls
+6314 817 Pls
+6358 817 Pls
+6364 816 Pls
+6230 826 Pls
+6119 910 Pls
+6144 877 Pls
+6173 851 Pls
+6192 840 Pls
+6115 916 Pls
+6138 883 Pls
+6173 851 Pls
+6195 838 Pls
+6218 830 Pls
+6118 912 Pls
+6135 887 Pls
+6158 863 Pls
+6202 835 Pls
+6117 914 Pls
+6130 895 Pls
+6171 852 Pls
+6184 844 Pls
+6113 920 Pls
+6126 899 Pls
+6179 847 Pls
+6191 840 Pls
+6210 832 Pls
+6088 969 Pls
+6087 970 Pls
+6084 977 Pls
+6082 982 Pls
+6080 985 Pls
+6070 1009 Pls
+6010 1152 Pls
+6037 1089 Pls
+6048 1064 Pls
+6067 1017 Pls
+6004 1162 Pls
+6011 1150 Pls
+6027 1115 Pls
+6051 1055 Pls
+6011 1149 Pls
+6027 1114 Pls
+6045 1072 Pls
+6065 1022 Pls
+6012 1148 Pls
+6032 1104 Pls
+6037 1089 Pls
+6067 1016 Pls
+6020 1130 Pls
+6031 1107 Pls
+6038 1089 Pls
+6068 1014 Pls
+5998 1174 Pls
+5997 1177 Pls
+5996 1178 Pls
+5995 1179 Pls
+5989 1189 Pls
+5987 1192 Pls
+5987 1192 Pls
+5980 1201 Pls
+5979 1202 Pls
+5975 1207 Pls
+5974 1207 Pls
+5969 1213 Pls
+5968 1213 Pls
+5962 1218 Pls
+5955 1223 Pls
+5957 1221 Pls
+5957 1222 Pls
+5959 1220 Pls
+5954 1222 Pls
+5947 1226 Pls
+5945 1226 Pls
+5935 1228 Pls
+5939 1227 Pls
+5944 1226 Pls
+5925 1227 Pls
+5926 1227 Pls
+5920 1227 Pls
+5924 1227 Pls
+5927 1228 Pls
+5919 1227 Pls
+5927 1227 Pls
+5916 1226 Pls
+5912 1225 Pls
+5906 1223 Pls
+5900 1222 Pls
+5892 1219 Pls
+5897 1220 Pls
+5894 1220 Pls
+5896 1220 Pls
+5886 1217 Pls
+5886 1217 Pls
+5890 1219 Pls
+5890 1218 Pls
+5884 1217 Pls
+5870 1214 Pls
+5867 1214 Pls
+5858 1212 Pls
+5856 1213 Pls
+5864 1213 Pls
+5862 1213 Pls
+5855 1212 Pls
+5869 1214 Pls
+5844 1212 Pls
+5855 1213 Pls
+5855 1212 Pls
+5834 1214 Pls
+5836 1213 Pls
+5822 1215 Pls
+5825 1215 Pls
+5837 1213 Pls
+5820 1215 Pls
+5826 1214 Pls
+5805 1218 Pls
+5810 1217 Pls
+5827 1214 Pls
+5800 1219 Pls
+5803 1219 Pls
+5810 1217 Pls
+5793 1221 Pls
+5793 1221 Pls
+5798 1220 Pls
+5836 1213 Pls
+5789 1222 Pls
+5785 1223 Pls
+5812 1217 Pls
+5776 1224 Pls
+5779 1224 Pls
+5779 1224 Pls
+5780 1224 Pls
+5763 1226 Pls
+5765 1227 Pls
+5770 1225 Pls
+5769 1225 Pls
+5763 1226 Pls
+5756 1227 Pls
+5749 1227 Pls
+5749 1227 Pls
+5739 1227 Pls
+5751 1227 Pls
+5734 1227 Pls
+5734 1227 Pls
+5752 1227 Pls
+5735 1227 Pls
+5724 1227 Pls
+5727 1227 Pls
+5718 1227 Pls
+5720 1227 Pls
+5735 1227 Pls
+5724 1227 Pls
+5709 1226 Pls
+5710 1226 Pls
+5706 1226 Pls
+5703 1226 Pls
+5696 1225 Pls
+5702 1226 Pls
+5693 1225 Pls
+5690 1225 Pls
+5682 1224 Pls
+5682 1225 Pls
+5694 1225 Pls
+5676 1224 Pls
+5681 1224 Pls
+5664 1224 Pls
+5664 1224 Pls
+5665 1224 Pls
+5672 1224 Pls
+5654 1224 Pls
+5663 1224 Pls
+5647 1224 Pls
+5651 1224 Pls
+5647 1224 Pls
+5665 1224 Pls
+5637 1224 Pls
+5638 1224 Pls
+5650 1224 Pls
+5632 1225 Pls
+5640 1224 Pls
+5619 1225 Pls
+5622 1225 Pls
+5631 1224 Pls
+5613 1225 Pls
+5620 1225 Pls
+5695 1224 Pls
+5626 1225 Pls
+5608 1226 Pls
+5604 1226 Pls
+5608 1226 Pls
+5593 1227 Pls
+5607 1226 Pls
+5592 1227 Pls
+5589 1227 Pls
+5596 1227 Pls
+5577 1227 Pls
+5582 1227 Pls
+5590 1227 Pls
+5572 1227 Pls
+5578 1227 Pls
+5564 1228 Pls
+5563 1228 Pls
+5563 1228 Pls
+5576 1227 Pls
+5565 1227 Pls
+5603 1226 Pls
+5568 1227 Pls
+5549 1227 Pls
+5546 1227 Pls
+5547 1227 Pls
+5544 1227 Pls
+5543 1227 Pls
+5531 1227 Pls
+5531 1227 Pls
+5534 1227 Pls
+5533 1227 Pls
+5522 1226 Pls
+5521 1226 Pls
+5516 1226 Pls
+5513 1226 Pls
+5532 1226 Pls
+5520 1226 Pls
+5504 1225 Pls
+5507 1225 Pls
+5505 1225 Pls
+5507 1225 Pls
+5501 1225 Pls
+5496 1224 Pls
+5492 1224 Pls
+5489 1224 Pls
+5491 1224 Pls
+5475 1223 Pls
+5480 1224 Pls
+5494 1224 Pls
+5473 1223 Pls
+5471 1223 Pls
+5479 1224 Pls
+5456 1223 Pls
+5458 1223 Pls
+5460 1223 Pls
+5462 1223 Pls
+5460 1223 Pls
+5442 1223 Pls
+5447 1223 Pls
+5433 1223 Pls
+5444 1223 Pls
+5431 1222 Pls
+5429 1222 Pls
+5430 1222 Pls
+5439 1222 Pls
+5417 1222 Pls
+5420 1223 Pls
+5418 1222 Pls
+5447 1223 Pls
+5420 1222 Pls
+5430 1222 Pls
+5418 1223 Pls
+5408 1222 Pls
+5406 1222 Pls
+5406 1222 Pls
+5405 1222 Pls
+5401 1222 Pls
+5390 1222 Pls
+5390 1222 Pls
+5385 1222 Pls
+5397 1222 Pls
+5384 1222 Pls
+5372 1221 Pls
+5372 1221 Pls
+5365 1221 Pls
+5370 1221 Pls
+5372 1221 Pls
+5359 1220 Pls
+5361 1221 Pls
+5360 1220 Pls
+5352 1219 Pls
+5339 1220 Pls
+5344 1220 Pls
+5342 1220 Pls
+5353 1220 Pls
+5332 1219 Pls
+5335 1219 Pls
+5334 1219 Pls
+5354 1221 Pls
+5329 1219 Pls
+5345 1220 Pls
+5333 1219 Pls
+5322 1219 Pls
+5313 1218 Pls
+5318 1219 Pls
+5319 1218 Pls
+5314 1218 Pls
+5299 1217 Pls
+5296 1217 Pls
+5299 1217 Pls
+5294 1217 Pls
+5296 1217 Pls
+5286 1217 Pls
+5283 1217 Pls
+5285 1217 Pls
+5270 1216 Pls
+5277 1216 Pls
+5263 1217 Pls
+5265 1217 Pls
+5268 1216 Pls
+5285 1217 Pls
+5268 1216 Pls
+5258 1216 Pls
+5258 1216 Pls
+5265 1216 Pls
+5259 1216 Pls
+5254 1216 Pls
+5250 1217 Pls
+5244 1216 Pls
+5242 1216 Pls
+5247 1216 Pls
+5242 1216 Pls
+5230 1215 Pls
+5230 1215 Pls
+5235 1215 Pls
+5223 1215 Pls
+5210 1215 Pls
+5222 1215 Pls
+5218 1215 Pls
+5208 1215 Pls
+5207 1215 Pls
+5194 1216 Pls
+5204 1216 Pls
+5187 1217 Pls
+5192 1216 Pls
+5189 1217 Pls
+5186 1216 Pls
+5176 1219 Pls
+5177 1218 Pls
+5180 1218 Pls
+5180 1218 Pls
+5181 1218 Pls
+5169 1220 Pls
+5167 1221 Pls
+5173 1218 Pls
+5170 1220 Pls
+5160 1223 Pls
+5167 1220 Pls
+5173 1219 Pls
+5173 1218 Pls
+5156 1225 Pls
+5155 1225 Pls
+5147 1229 Pls
+5148 1229 Pls
+5143 1231 Pls
+5139 1234 Pls
+5123 1248 Pls
+5112 1260 Pls
+5122 1249 Pls
+5109 1265 Pls
+5106 1270 Pls
+5105 1275 Pls
+5101 1283 Pls
+5105 1271 Pls
+5106 1271 Pls
+5104 1274 Pls
+5104 1274 Pls
+5092 1296 Pls
+5097 1286 Pls
+5094 1290 Pls
+5096 1292 Pls
+5086 1309 Pls
+5100 1284 Pls
+5085 1311 Pls
+5094 1295 Pls
+5101 1277 Pls
+5089 1306 Pls
+5086 1309 Pls
+5082 1316 Pls
+5090 1303 Pls
+5080 1320 Pls
+5061 1363 Pls
+5097 1292 Pls
+5057 1375 Pls
+5042 1414 Pls
+5031 1440 Pls
+5031 1442 Pls
+5034 1438 Pls
+5016 1478 Pls
+5017 1475 Pls
+5004 1503 Pls
+4968 1562 Pls
+4939 1609 Pls
+4943 1603 Pls
+4932 1611 Pls
+4919 1630 Pls
+4907 1636 Pls
+4864 1674 Pls
+4851 1681 Pls
+4845 1682 Pls
+4858 1678 Pls
+4843 1680 Pls
+4794 1692 Pls
+4787 1693 Pls
+4776 1696 Pls
+4772 1695 Pls
+4764 1696 Pls
+4716 1703 Pls
+4720 1703 Pls
+4705 1706 Pls
+4693 1703 Pls
+4694 1704 Pls
+4644 1712 Pls
+4636 1713 Pls
+4639 1708 Pls
+4628 1715 Pls
+4621 1706 Pls
+4571 1708 Pls
+4565 1706 Pls
+4568 1706 Pls
+4560 1708 Pls
+4546 1709 Pls
+4511 1707 Pls
+4494 1706 Pls
+4491 1708 Pls
+4479 1708 Pls
+4483 1704 Pls
+4435 1707 Pls
+4430 1703 Pls
+4428 1701 Pls
+4409 1700 Pls
+4394 1712 Pls
+4370 1693 Pls
+4364 1703 Pls
+4343 1694 Pls
+4348 1705 Pls
+4308 1698 Pls
+4303 1699 Pls
+4289 1697 Pls
+4283 1698 Pls
+4258 1695 Pls
+4250 1695 Pls
+4217 1694 Pls
+4217 1696 Pls
+4200 1698 Pls
+4190 1693 Pls
+4181 1689 Pls
+4146 1688 Pls
+4131 1682 Pls
+4121 1681 Pls
+4118 1684 Pls
+4118 1683 Pls
+4061 1677 Pls
+4061 1678 Pls
+4050 1681 Pls
+4044 1676 Pls
+4048 1676 Pls
+3991 1684 Pls
+3993 1685 Pls
+3982 1676 Pls
+3969 1684 Pls
+3962 1687 Pls
+3932 1696 Pls
+3929 1702 Pls
+3908 1713 Pls
+3891 1724 Pls
+3884 1722 Pls
+3873 1724 Pls
+3853 1732 Pls
+3852 1731 Pls
+3820 1737 Pls
+3814 1749 Pls
+3797 1757 Pls
+3789 1765 Pls
+3765 1793 Pls
+3766 1792 Pls
+3752 1811 Pls
+3720 1844 Pls
+3724 1846 Pls
+3706 1868 Pls
+3686 1874 Pls
+3682 1886 Pls
+3676 1890 Pls
+3660 1891 Pls
+3640 1910 Pls
+3632 1908 Pls
+3613 1935 Pls
+3599 1952 Pls
+3590 1950 Pls
+3590 1953 Pls
+3566 1981 Pls
+3565 1979 Pls
+3540 2002 Pls
+3542 1999 Pls
+3514 2031 Pls
+3498 2044 Pls
+3503 2041 Pls
+3490 2051 Pls
+3487 2058 Pls
+3464 2075 Pls
+3467 2081 Pls
+3443 2117 Pls
+3429 2132 Pls
+3420 2137 Pls
+3409 2157 Pls
+3396 2175 Pls
+3393 2173 Pls
+3397 2171 Pls
+3380 2191 Pls
+3357 2208 Pls
+3355 2203 Pls
+3342 2221 Pls
+3324 2246 Pls
+3315 2249 Pls
+3310 2266 Pls
+3302 2267 Pls
+3290 2285 Pls
+3285 2280 Pls
+3273 2291 Pls
+3264 2300 Pls
+3256 2307 Pls
+3247 2312 Pls
+3223 2351 Pls
+3216 2362 Pls
+3209 2372 Pls
+3208 2375 Pls
+3192 2394 Pls
+3182 2402 Pls
+3177 2404 Pls
+3172 2410 Pls
+3174 2409 Pls
+3157 2422 Pls
+3124 2463 Pls
+3129 2457 Pls
+3105 2487 Pls
+3109 2482 Pls
+3102 2492 Pls
+3108 2484 Pls
+3079 2512 Pls
+3080 2520 Pls
+3085 2514 Pls
+3068 2531 Pls
+3041 2550 Pls
+3033 2569 Pls
+3029 2574 Pls
+3017 2589 Pls
+3013 2595 Pls
+3006 2606 Pls
+2928 2707 Pls
+2935 2699 Pls
+2993 2625 Pls
+2962 2667 Pls
+2983 2639 Pls
+2930 2703 Pls
+2998 2619 Pls
+2944 2683 Pls
+2993 2621 Pls
+2930 2704 Pls
+2930 2705 Pls
+2907 2736 Pls
+2910 2732 Pls
+2903 2741 Pls
+2874 2773 Pls
+2867 2780 Pls
+2860 2785 Pls
+2853 2789 Pls
+2852 2792 Pls
+2851 2799 Pls
+2762 2921 Pls
+2774 2907 Pls
+2844 2807 Pls
+2754 2933 Pls
+2796 2880 Pls
+2841 2812 Pls
+2762 2928 Pls
+2783 2899 Pls
+2810 2859 Pls
+2766 2924 Pls
+2792 2891 Pls
+2770 2912 Pls
+2786 2892 Pls
+2841 2810 Pls
+2718 2982 Pls
+2713 2985 Pls
+2709 2999 Pls
+2708 2992 Pls
+2700 3006 Pls
+2697 3010 Pls
+2599 3130 Pls
+2608 3117 Pls
+2662 3057 Pls
+2687 3028 Pls
+2579 3158 Pls
+2628 3096 Pls
+2632 3091 Pls
+2677 3039 Pls
+2563 3174 Pls
+2589 3145 Pls
+2618 3108 Pls
+2649 3070 Pls
+2565 3173 Pls
+2628 3093 Pls
+2658 3059 Pls
+2694 3012 Pls
+2584 3149 Pls
+2609 3117 Pls
+2623 3098 Pls
+2690 3022 Pls
+2553 3183 Pls
+2548 3190 Pls
+2542 3197 Pls
+2407 3319 Pls
+2432 3302 Pls
+2457 3283 Pls
+2485 3257 Pls
+2520 3219 Pls
+2419 3307 Pls
+2439 3295 Pls
+2494 3248 Pls
+2530 3207 Pls
+2541 3198 Pls
+2411 3311 Pls
+2425 3302 Pls
+2466 3272 Pls
+2479 3261 Pls
+2499 3242 Pls
+2414 3310 Pls
+2451 3289 Pls
+2487 3255 Pls
+2509 3234 Pls
+2410 3314 Pls
+2454 3285 Pls
+2491 3252 Pls
+2528 3210 Pls
+2391 3327 Pls
+2389 3328 Pls
+2273 3369 Pls
+2302 3361 Pls
+2349 3344 Pls
+2363 3338 Pls
+2242 3374 Pls
+2272 3368 Pls
+2291 3364 Pls
+2338 3349 Pls
+2350 3343 Pls
+2275 3367 Pls
+2282 3367 Pls
+2318 3358 Pls
+2360 3340 Pls
+2253 3375 Pls
+2300 3362 Pls
+2337 3350 Pls
+2347 3346 Pls
+2283 3365 Pls
+2289 3364 Pls
+2327 3355 Pls
+2364 3338 Pls
+2375 3333 Pls
+2237 3376 Pls
+2087 3387 Pls
+2116 3390 Pls
+2137 3388 Pls
+2177 3386 Pls
+2210 3378 Pls
+2224 3374 Pls
+2111 3391 Pls
+2149 3386 Pls
+2167 3386 Pls
+2206 3380 Pls
+2103 3387 Pls
+2128 3387 Pls
+2163 3387 Pls
+2197 3384 Pls
+2110 3387 Pls
+2149 3387 Pls
+2177 3384 Pls
+2209 3381 Pls
+2225 3377 Pls
+2116 3390 Pls
+2149 3386 Pls
+2166 3384 Pls
+2210 3381 Pls
+2233 3377 Pls
+2083 3388 Pls
+1933 3391 Pls
+2001 3390 Pls
+2006 3391 Pls
+2051 3388 Pls
+1955 3396 Pls
+1987 3390 Pls
+2000 3389 Pls
+2067 3387 Pls
+2074 3386 Pls
+1937 3393 Pls
+1972 3395 Pls
+2002 3389 Pls
+2028 3389 Pls
+2053 3389 Pls
+1931 3392 Pls
+1951 3390 Pls
+1990 3394 Pls
+2027 3390 Pls
+2044 3389 Pls
+2068 3388 Pls
+1955 3391 Pls
+1985 3393 Pls
+2008 3390 Pls
+2044 3393 Pls
+2077 3388 Pls
+1929 3394 Pls
+1797 3385 Pls
+1840 3389 Pls
+1865 3390 Pls
+1913 3392 Pls
+1801 3386 Pls
+1837 3385 Pls
+1868 3387 Pls
+1907 3395 Pls
+1816 3390 Pls
+1849 3386 Pls
+1868 3386 Pls
+1883 3387 Pls
+1795 3388 Pls
+1810 3386 Pls
+1814 3386 Pls
+1873 3390 Pls
+1891 3388 Pls
+1807 3387 Pls
+1827 3391 Pls
+1868 3388 Pls
+1881 3390 Pls
+1927 3390 Pls
+1927 3391 Pls
+1654 3397 Pls
+1689 3396 Pls
+1704 3396 Pls
+1745 3390 Pls
+1768 3388 Pls
+1652 3400 Pls
+1690 3395 Pls
+1705 3396 Pls
+1741 3391 Pls
+1772 3386 Pls
+1637 3392 Pls
+1679 3402 Pls
+1716 3397 Pls
+1746 3391 Pls
+1628 3393 Pls
+1652 3395 Pls
+1677 3394 Pls
+1702 3396 Pls
+1745 3392 Pls
+1630 3393 Pls
+1666 3395 Pls
+1681 3393 Pls
+1728 3392 Pls
+1744 3390 Pls
+1757 3391 Pls
+1769 3388 Pls
+1623 3392 Pls
+1508 3394 Pls
+1522 3392 Pls
+1548 3393 Pls
+1599 3391 Pls
+1616 3391 Pls
+1468 3392 Pls
+1488 3392 Pls
+1530 3398 Pls
+1574 3389 Pls
+1580 3390 Pls
+1614 3393 Pls
+1504 3393 Pls
+1513 3392 Pls
+1554 3395 Pls
+1592 3393 Pls
+1507 3394 Pls
+1538 3394 Pls
+1569 3391 Pls
+1591 3390 Pls
+1505 3396 Pls
+1528 3393 Pls
+1559 3394 Pls
+1582 3390 Pls
+1322 3394 Pls
+1351 3397 Pls
+1391 3391 Pls
+1401 3391 Pls
+1425 3393 Pls
+1464 3394 Pls
+1334 3393 Pls
+1343 3392 Pls
+1358 3394 Pls
+1413 3394 Pls
+1444 3390 Pls
+1319 3396 Pls
+1356 3394 Pls
+1380 3391 Pls
+1417 3391 Pls
+1431 3391 Pls
+1460 3395 Pls
+1337 3396 Pls
+1380 3392 Pls
+1399 3390 Pls
+1452 3391 Pls
+1317 3394 Pls
+1329 3394 Pls
+1377 3392 Pls
+1392 3392 Pls
+1445 3394 Pls
+1465 3391 Pls
+1465 3391 Pls
+1181 3391 Pls
+1214 3388 Pls
+1258 3390 Pls
+1286 3390 Pls
+1209 3388 Pls
+1219 3388 Pls
+1253 3390 Pls
+1284 3391 Pls
+1186 3393 Pls
+1218 3391 Pls
+1274 3388 Pls
+1282 3388 Pls
+1162 3392 Pls
+1203 3389 Pls
+1216 3387 Pls
+1255 3391 Pls
+1291 3391 Pls
+1299 3392 Pls
+1205 3389 Pls
+1221 3386 Pls
+1246 3389 Pls
+1271 3389 Pls
+1162 3393 Pls
+1034 3396 Pls
+1076 3393 Pls
+1102 3395 Pls
+1136 3395 Pls
+1154 3393 Pls
+1044 3393 Pls
+1075 3393 Pls
+1108 3395 Pls
+1142 3394 Pls
+1150 3392 Pls
+1014 3394 Pls
+1042 3393 Pls
+1071 3393 Pls
+1084 3392 Pls
+1127 3394 Pls
+1149 3392 Pls
+1033 3395 Pls
+1076 3391 Pls
+1089 3391 Pls
+1135 3396 Pls
+1021 3391 Pls
+1025 3391 Pls
+1064 3392 Pls
+1094 3393 Pls
+1142 3394 Pls
+868 3391 Pls
+920 3395 Pls
+952 3394 Pls
+977 3392 Pls
+998 3393 Pls
+902 3389 Pls
+916 3390 Pls
+928 3392 Pls
+966 3392 Pls
+1002 3395 Pls
+869 3390 Pls
+897 3390 Pls
+904 3389 Pls
+958 3395 Pls
+981 3394 Pls
+863 3391 Pls
+879 3392 Pls
+931 3392 Pls
+947 3392 Pls
+969 3393 Pls
+1003 3395 Pls
+881 3391 Pls
+910 3393 Pls
+944 3393 Pls
+993 3394 Pls
+6839 816 Pls
+6865 816 Pls
+6906 816 Pls
+6924 816 Pls
+6955 816 Pls
+6988 816 Pls
+6848 816 Pls
+6865 816 Pls
+6912 816 Pls
+6932 816 Pls
+6975 816 Pls
+6986 815 Pls
+6848 816 Pls
+6892 816 Pls
+6912 816 Pls
+6963 816 Pls
+6865 817 Pls
+6900 816 Pls
+6925 816 Pls
+6962 816 Pls
+6841 816 Pls
+6879 816 Pls
+6899 816 Pls
+6925 816 Pls
+6960 816 Pls
+6977 816 Pls
+6983 816 Pls
+6838 816 Pls
+6687 817 Pls
+6706 817 Pls
+6736 817 Pls
+6778 816 Pls
+6791 816 Pls
+6704 817 Pls
+6751 817 Pls
+6775 816 Pls
+6805 817 Pls
+6720 817 Pls
+6744 817 Pls
+6768 816 Pls
+6813 816 Pls
+6719 817 Pls
+6739 817 Pls
+6771 817 Pls
+6817 816 Pls
+6826 817 Pls
+6689 817 Pls
+6725 817 Pls
+6754 817 Pls
+6783 817 Pls
+6805 816 Pls
+6535 816 Pls
+6573 816 Pls
+6596 816 Pls
+6615 816 Pls
+6653 816 Pls
+6563 816 Pls
+6600 816 Pls
+6620 816 Pls
+6653 817 Pls
+6549 815 Pls
+6595 815 Pls
+6634 816 Pls
+6661 816 Pls
+6680 816 Pls
+6557 816 Pls
+6586 815 Pls
+6617 816 Pls
+6647 816 Pls
+6552 816 Pls
+6587 815 Pls
+6613 816 Pls
+6659 816 Pls
+6681 817 Pls
+6531 816 Pls
+6682 816 Pls
+6399 817 Pls
+6435 817 Pls
+6466 816 Pls
+6493 816 Pls
+6406 817 Pls
+6432 817 Pls
+6482 816 Pls
+6494 816 Pls
+6380 816 Pls
+6414 817 Pls
+6439 817 Pls
+6472 817 Pls
+6503 816 Pls
+6522 816 Pls
+6379 816 Pls
+6419 817 Pls
+6447 817 Pls
+6457 816 Pls
+6488 816 Pls
+6525 816 Pls
+6384 816 Pls
+6418 817 Pls
+6428 817 Pls
+6456 817 Pls
+6509 816 Pls
+6527 816 Pls
+6240 824 Pls
+6249 822 Pls
+6279 819 Pls
+6323 817 Pls
+6354 816 Pls
+6255 822 Pls
+6279 819 Pls
+6302 817 Pls
+6339 817 Pls
+6363 816 Pls
+6235 825 Pls
+6267 820 Pls
+6296 818 Pls
+6315 817 Pls
+6350 816 Pls
+6245 823 Pls
+6285 819 Pls
+6321 817 Pls
+6363 816 Pls
+6250 822 Pls
+6295 818 Pls
+6314 817 Pls
+6358 817 Pls
+6364 816 Pls
+6230 826 Pls
+6119 910 Pls
+6144 877 Pls
+6173 851 Pls
+6192 840 Pls
+6115 916 Pls
+6138 883 Pls
+6173 851 Pls
+6195 838 Pls
+6218 830 Pls
+6118 912 Pls
+6135 887 Pls
+6158 863 Pls
+6202 835 Pls
+6117 914 Pls
+6130 895 Pls
+6171 852 Pls
+6184 844 Pls
+6113 920 Pls
+6126 899 Pls
+6179 847 Pls
+6191 840 Pls
+6210 832 Pls
+6088 969 Pls
+6087 970 Pls
+6084 977 Pls
+6082 982 Pls
+6080 985 Pls
+6070 1009 Pls
+6010 1152 Pls
+6037 1089 Pls
+6048 1064 Pls
+6067 1017 Pls
+6004 1162 Pls
+6011 1150 Pls
+6027 1115 Pls
+6051 1055 Pls
+6011 1149 Pls
+6027 1114 Pls
+6045 1072 Pls
+6065 1022 Pls
+6012 1148 Pls
+6032 1104 Pls
+6037 1089 Pls
+6067 1016 Pls
+6020 1130 Pls
+6031 1107 Pls
+6038 1089 Pls
+6068 1014 Pls
+5998 1174 Pls
+5997 1177 Pls
+5996 1178 Pls
+5995 1179 Pls
+5989 1189 Pls
+5987 1192 Pls
+5987 1192 Pls
+5980 1201 Pls
+5979 1202 Pls
+5975 1207 Pls
+5974 1207 Pls
+5969 1213 Pls
+5968 1213 Pls
+5962 1218 Pls
+5955 1223 Pls
+5957 1221 Pls
+5957 1222 Pls
+5959 1220 Pls
+5954 1222 Pls
+5947 1226 Pls
+5945 1226 Pls
+5935 1228 Pls
+5939 1227 Pls
+5944 1226 Pls
+5925 1227 Pls
+5926 1227 Pls
+5920 1227 Pls
+5924 1227 Pls
+5927 1228 Pls
+5919 1227 Pls
+5927 1227 Pls
+5916 1226 Pls
+5912 1225 Pls
+5906 1223 Pls
+5900 1222 Pls
+5892 1219 Pls
+5897 1220 Pls
+5894 1220 Pls
+5896 1220 Pls
+5886 1217 Pls
+5886 1217 Pls
+5890 1219 Pls
+5890 1218 Pls
+5884 1217 Pls
+5870 1214 Pls
+5867 1214 Pls
+5858 1212 Pls
+5856 1213 Pls
+5864 1213 Pls
+5862 1213 Pls
+5855 1212 Pls
+5869 1214 Pls
+5844 1212 Pls
+5855 1213 Pls
+5855 1212 Pls
+5834 1214 Pls
+5836 1213 Pls
+5822 1215 Pls
+5825 1215 Pls
+5837 1213 Pls
+5820 1215 Pls
+5826 1214 Pls
+5805 1218 Pls
+5810 1217 Pls
+5827 1214 Pls
+5800 1219 Pls
+5803 1219 Pls
+5810 1217 Pls
+5793 1221 Pls
+5793 1221 Pls
+5798 1220 Pls
+5836 1213 Pls
+5789 1222 Pls
+5785 1223 Pls
+5812 1217 Pls
+5776 1224 Pls
+5779 1224 Pls
+5779 1224 Pls
+5780 1224 Pls
+5763 1226 Pls
+5765 1227 Pls
+5770 1225 Pls
+5769 1225 Pls
+5763 1226 Pls
+5756 1227 Pls
+5749 1227 Pls
+5749 1227 Pls
+5739 1227 Pls
+5751 1227 Pls
+5734 1227 Pls
+5734 1227 Pls
+5752 1227 Pls
+5735 1227 Pls
+5724 1227 Pls
+5727 1227 Pls
+5718 1227 Pls
+5720 1227 Pls
+5735 1227 Pls
+5724 1227 Pls
+5709 1226 Pls
+5710 1226 Pls
+5706 1226 Pls
+5703 1226 Pls
+5696 1225 Pls
+5702 1226 Pls
+5693 1225 Pls
+5690 1225 Pls
+5682 1224 Pls
+5682 1225 Pls
+5694 1225 Pls
+5676 1224 Pls
+5681 1224 Pls
+5664 1224 Pls
+5664 1224 Pls
+5665 1224 Pls
+5672 1224 Pls
+5654 1224 Pls
+5663 1224 Pls
+5647 1224 Pls
+5651 1224 Pls
+5647 1224 Pls
+5665 1224 Pls
+5637 1224 Pls
+5638 1224 Pls
+5650 1224 Pls
+5632 1225 Pls
+5640 1224 Pls
+5619 1225 Pls
+5622 1225 Pls
+5631 1224 Pls
+5613 1225 Pls
+5620 1225 Pls
+5695 1224 Pls
+5626 1225 Pls
+5608 1226 Pls
+5604 1226 Pls
+5608 1226 Pls
+5593 1227 Pls
+5607 1226 Pls
+5592 1227 Pls
+5589 1227 Pls
+5596 1227 Pls
+5577 1227 Pls
+5582 1227 Pls
+5590 1227 Pls
+5572 1227 Pls
+5578 1227 Pls
+5564 1228 Pls
+5563 1228 Pls
+5563 1228 Pls
+5576 1227 Pls
+5565 1227 Pls
+5603 1226 Pls
+5568 1227 Pls
+5549 1227 Pls
+5546 1227 Pls
+5547 1227 Pls
+5544 1227 Pls
+5543 1227 Pls
+5531 1227 Pls
+5531 1227 Pls
+5534 1227 Pls
+5533 1227 Pls
+5522 1226 Pls
+5521 1226 Pls
+5516 1226 Pls
+5513 1226 Pls
+5532 1226 Pls
+5520 1226 Pls
+5504 1225 Pls
+5507 1225 Pls
+5505 1225 Pls
+5507 1225 Pls
+5501 1225 Pls
+5496 1224 Pls
+5492 1224 Pls
+5489 1224 Pls
+5491 1224 Pls
+5475 1223 Pls
+5480 1224 Pls
+5494 1224 Pls
+5473 1223 Pls
+5471 1223 Pls
+5479 1224 Pls
+5456 1223 Pls
+5458 1223 Pls
+5460 1223 Pls
+5462 1223 Pls
+5460 1223 Pls
+5442 1223 Pls
+5447 1223 Pls
+5433 1223 Pls
+5444 1223 Pls
+5431 1222 Pls
+5429 1222 Pls
+5430 1222 Pls
+5439 1222 Pls
+5417 1222 Pls
+5420 1223 Pls
+5418 1222 Pls
+5447 1223 Pls
+5420 1222 Pls
+5430 1222 Pls
+5418 1223 Pls
+5408 1222 Pls
+5406 1222 Pls
+5406 1222 Pls
+5405 1222 Pls
+5401 1222 Pls
+5390 1222 Pls
+5390 1222 Pls
+5385 1222 Pls
+5397 1222 Pls
+5384 1222 Pls
+5372 1221 Pls
+5372 1221 Pls
+5365 1221 Pls
+5370 1221 Pls
+5372 1221 Pls
+5359 1220 Pls
+5361 1221 Pls
+5360 1220 Pls
+5352 1219 Pls
+5339 1220 Pls
+5344 1220 Pls
+5342 1220 Pls
+5353 1220 Pls
+5332 1219 Pls
+5335 1219 Pls
+5334 1219 Pls
+5354 1221 Pls
+5329 1219 Pls
+5345 1220 Pls
+5333 1219 Pls
+5322 1219 Pls
+5313 1218 Pls
+5318 1219 Pls
+5319 1218 Pls
+5314 1218 Pls
+5299 1217 Pls
+5296 1217 Pls
+5299 1217 Pls
+5294 1217 Pls
+5296 1217 Pls
+5286 1217 Pls
+5283 1217 Pls
+5285 1217 Pls
+5270 1216 Pls
+5277 1216 Pls
+5263 1217 Pls
+5265 1217 Pls
+5268 1216 Pls
+5285 1217 Pls
+5268 1216 Pls
+5258 1216 Pls
+5258 1216 Pls
+5265 1216 Pls
+5259 1216 Pls
+5254 1216 Pls
+5250 1217 Pls
+5244 1216 Pls
+5242 1216 Pls
+5247 1216 Pls
+5242 1216 Pls
+5230 1215 Pls
+5230 1215 Pls
+5235 1215 Pls
+5223 1215 Pls
+5210 1215 Pls
+5222 1215 Pls
+5218 1215 Pls
+5208 1215 Pls
+5207 1215 Pls
+5194 1216 Pls
+5204 1216 Pls
+5187 1217 Pls
+5192 1216 Pls
+5189 1217 Pls
+5186 1216 Pls
+5176 1219 Pls
+5177 1218 Pls
+5180 1218 Pls
+5180 1218 Pls
+5181 1218 Pls
+5169 1220 Pls
+5167 1221 Pls
+5173 1218 Pls
+5170 1220 Pls
+5160 1223 Pls
+5167 1220 Pls
+5173 1219 Pls
+5173 1218 Pls
+5156 1225 Pls
+5155 1225 Pls
+5147 1229 Pls
+5148 1229 Pls
+5143 1231 Pls
+5139 1234 Pls
+5123 1248 Pls
+5112 1260 Pls
+5122 1249 Pls
+5109 1265 Pls
+5106 1270 Pls
+5105 1275 Pls
+5101 1283 Pls
+5105 1271 Pls
+5106 1271 Pls
+5104 1274 Pls
+5104 1274 Pls
+5092 1296 Pls
+5097 1286 Pls
+5094 1290 Pls
+5096 1292 Pls
+5086 1309 Pls
+5100 1284 Pls
+5085 1311 Pls
+5094 1295 Pls
+5101 1277 Pls
+5089 1306 Pls
+5086 1309 Pls
+5082 1316 Pls
+5090 1303 Pls
+5080 1320 Pls
+5061 1363 Pls
+5097 1292 Pls
+5057 1375 Pls
+5042 1414 Pls
+5031 1440 Pls
+5031 1442 Pls
+5034 1438 Pls
+5016 1478 Pls
+5017 1475 Pls
+5004 1503 Pls
+4968 1562 Pls
+4939 1609 Pls
+4943 1603 Pls
+4932 1611 Pls
+4919 1630 Pls
+4907 1636 Pls
+4864 1674 Pls
+4851 1681 Pls
+4845 1682 Pls
+4858 1678 Pls
+4843 1680 Pls
+4794 1692 Pls
+4787 1693 Pls
+4776 1696 Pls
+4772 1695 Pls
+4764 1696 Pls
+4716 1703 Pls
+4720 1703 Pls
+4705 1706 Pls
+4693 1703 Pls
+4694 1704 Pls
+4644 1712 Pls
+4636 1713 Pls
+4639 1708 Pls
+4628 1715 Pls
+4621 1706 Pls
+4571 1708 Pls
+4565 1706 Pls
+4568 1706 Pls
+4560 1708 Pls
+4546 1709 Pls
+4511 1707 Pls
+4494 1706 Pls
+4491 1708 Pls
+4479 1708 Pls
+4483 1704 Pls
+4435 1707 Pls
+4430 1703 Pls
+4428 1701 Pls
+4409 1700 Pls
+4394 1712 Pls
+4370 1693 Pls
+4364 1703 Pls
+4343 1694 Pls
+4348 1705 Pls
+4308 1698 Pls
+4303 1699 Pls
+4289 1697 Pls
+4283 1698 Pls
+4258 1695 Pls
+4250 1695 Pls
+4217 1694 Pls
+4217 1696 Pls
+4200 1698 Pls
+4190 1693 Pls
+4181 1689 Pls
+4146 1688 Pls
+4131 1682 Pls
+4121 1681 Pls
+4118 1684 Pls
+4118 1683 Pls
+4061 1677 Pls
+4061 1678 Pls
+4050 1681 Pls
+4044 1676 Pls
+4048 1676 Pls
+3991 1684 Pls
+3993 1685 Pls
+3982 1676 Pls
+3969 1684 Pls
+3962 1687 Pls
+3932 1696 Pls
+3929 1702 Pls
+3908 1713 Pls
+3891 1724 Pls
+3884 1722 Pls
+3873 1724 Pls
+3853 1732 Pls
+3852 1731 Pls
+3820 1737 Pls
+3814 1749 Pls
+3797 1757 Pls
+3789 1765 Pls
+3765 1793 Pls
+3766 1792 Pls
+3752 1811 Pls
+3720 1844 Pls
+3724 1846 Pls
+3706 1868 Pls
+3686 1874 Pls
+3682 1886 Pls
+3676 1890 Pls
+3660 1891 Pls
+3640 1910 Pls
+3632 1908 Pls
+3613 1935 Pls
+3599 1952 Pls
+3590 1950 Pls
+3590 1953 Pls
+3566 1981 Pls
+3565 1979 Pls
+3540 2002 Pls
+3542 1999 Pls
+3514 2031 Pls
+3498 2044 Pls
+3503 2041 Pls
+3490 2051 Pls
+3487 2058 Pls
+3464 2075 Pls
+3467 2081 Pls
+3443 2117 Pls
+3429 2132 Pls
+3420 2137 Pls
+3409 2157 Pls
+3396 2175 Pls
+3393 2173 Pls
+3397 2171 Pls
+3380 2191 Pls
+3357 2208 Pls
+3355 2203 Pls
+3342 2221 Pls
+3324 2246 Pls
+3315 2249 Pls
+3310 2266 Pls
+3302 2267 Pls
+3290 2285 Pls
+3285 2280 Pls
+3273 2291 Pls
+3264 2300 Pls
+3256 2307 Pls
+3247 2312 Pls
+3223 2351 Pls
+3216 2362 Pls
+3209 2372 Pls
+3208 2375 Pls
+3192 2394 Pls
+3182 2402 Pls
+3177 2404 Pls
+3172 2410 Pls
+3174 2409 Pls
+3157 2422 Pls
+3124 2463 Pls
+3129 2457 Pls
+3105 2487 Pls
+3109 2482 Pls
+3102 2492 Pls
+3108 2484 Pls
+3079 2512 Pls
+3080 2520 Pls
+3085 2514 Pls
+3068 2531 Pls
+3041 2550 Pls
+3033 2569 Pls
+3029 2574 Pls
+3017 2589 Pls
+3013 2595 Pls
+3006 2606 Pls
+2928 2707 Pls
+2935 2699 Pls
+2993 2625 Pls
+2962 2667 Pls
+2983 2639 Pls
+2930 2703 Pls
+2998 2619 Pls
+2944 2683 Pls
+2993 2621 Pls
+2930 2704 Pls
+2930 2705 Pls
+2907 2736 Pls
+2910 2732 Pls
+2903 2741 Pls
+2874 2773 Pls
+2867 2780 Pls
+2860 2785 Pls
+2853 2789 Pls
+2852 2792 Pls
+2851 2799 Pls
+2762 2921 Pls
+2774 2907 Pls
+2844 2807 Pls
+2754 2933 Pls
+2796 2880 Pls
+2841 2812 Pls
+2762 2928 Pls
+2783 2899 Pls
+2810 2859 Pls
+2766 2924 Pls
+2792 2891 Pls
+2770 2912 Pls
+2786 2892 Pls
+2841 2810 Pls
+2718 2982 Pls
+2713 2985 Pls
+2709 2999 Pls
+2708 2992 Pls
+2700 3006 Pls
+2697 3010 Pls
+2599 3130 Pls
+2608 3117 Pls
+2662 3057 Pls
+2687 3028 Pls
+2579 3158 Pls
+2628 3096 Pls
+2632 3091 Pls
+2677 3039 Pls
+2563 3174 Pls
+2589 3145 Pls
+2618 3108 Pls
+2649 3070 Pls
+2565 3173 Pls
+2628 3093 Pls
+2658 3059 Pls
+2694 3012 Pls
+2584 3149 Pls
+2609 3117 Pls
+2623 3098 Pls
+2690 3022 Pls
+2553 3183 Pls
+2548 3190 Pls
+2542 3197 Pls
+2407 3319 Pls
+2432 3302 Pls
+2457 3283 Pls
+2485 3257 Pls
+2520 3219 Pls
+2419 3307 Pls
+2439 3295 Pls
+2494 3248 Pls
+2530 3207 Pls
+2541 3198 Pls
+2411 3311 Pls
+2425 3302 Pls
+2466 3272 Pls
+2479 3261 Pls
+2499 3242 Pls
+2414 3310 Pls
+2451 3289 Pls
+2487 3255 Pls
+2509 3234 Pls
+2410 3314 Pls
+2454 3285 Pls
+2491 3252 Pls
+2528 3210 Pls
+2391 3327 Pls
+2389 3328 Pls
+2273 3369 Pls
+2302 3361 Pls
+2349 3344 Pls
+2363 3338 Pls
+2242 3374 Pls
+2272 3368 Pls
+2291 3364 Pls
+2338 3349 Pls
+2350 3343 Pls
+2275 3367 Pls
+2282 3367 Pls
+2318 3358 Pls
+2360 3340 Pls
+2253 3375 Pls
+2300 3362 Pls
+2337 3350 Pls
+2347 3346 Pls
+2283 3365 Pls
+2289 3364 Pls
+2327 3355 Pls
+2364 3338 Pls
+2375 3333 Pls
+2237 3376 Pls
+2087 3387 Pls
+2116 3390 Pls
+2137 3388 Pls
+2177 3386 Pls
+2210 3378 Pls
+2224 3374 Pls
+2111 3391 Pls
+2149 3386 Pls
+2167 3386 Pls
+2206 3380 Pls
+2103 3387 Pls
+2128 3387 Pls
+2163 3387 Pls
+2197 3384 Pls
+2110 3387 Pls
+2149 3387 Pls
+2177 3384 Pls
+2209 3381 Pls
+2225 3377 Pls
+2116 3390 Pls
+2149 3386 Pls
+2166 3384 Pls
+2210 3381 Pls
+2233 3377 Pls
+2083 3388 Pls
+1933 3391 Pls
+2001 3390 Pls
+2006 3391 Pls
+2051 3388 Pls
+1955 3396 Pls
+1987 3390 Pls
+2000 3389 Pls
+2067 3387 Pls
+2074 3386 Pls
+1937 3393 Pls
+1972 3395 Pls
+2002 3389 Pls
+2028 3389 Pls
+2053 3389 Pls
+1931 3392 Pls
+1951 3390 Pls
+1990 3394 Pls
+2027 3390 Pls
+2044 3389 Pls
+2068 3388 Pls
+1955 3391 Pls
+1985 3393 Pls
+2008 3390 Pls
+2044 3393 Pls
+2077 3388 Pls
+1929 3394 Pls
+1797 3385 Pls
+1840 3389 Pls
+1865 3390 Pls
+1913 3392 Pls
+1801 3386 Pls
+1837 3385 Pls
+1868 3387 Pls
+1907 3395 Pls
+1816 3390 Pls
+1849 3386 Pls
+1868 3386 Pls
+1883 3387 Pls
+1795 3388 Pls
+1810 3386 Pls
+1814 3386 Pls
+1873 3390 Pls
+1891 3388 Pls
+1807 3387 Pls
+1827 3391 Pls
+1868 3388 Pls
+1881 3390 Pls
+1927 3390 Pls
+1927 3391 Pls
+1654 3397 Pls
+1689 3396 Pls
+1704 3396 Pls
+1745 3390 Pls
+1768 3388 Pls
+1652 3400 Pls
+1690 3395 Pls
+1705 3396 Pls
+1741 3391 Pls
+1772 3386 Pls
+1637 3392 Pls
+1679 3402 Pls
+1716 3397 Pls
+1746 3391 Pls
+1628 3393 Pls
+1652 3395 Pls
+1677 3394 Pls
+1702 3396 Pls
+1745 3392 Pls
+1630 3393 Pls
+1666 3395 Pls
+1681 3393 Pls
+1728 3392 Pls
+1744 3390 Pls
+1757 3391 Pls
+1769 3388 Pls
+1623 3392 Pls
+1508 3394 Pls
+1522 3392 Pls
+1548 3393 Pls
+1599 3391 Pls
+1616 3391 Pls
+1468 3392 Pls
+1488 3392 Pls
+1530 3398 Pls
+1574 3389 Pls
+1580 3390 Pls
+1614 3393 Pls
+1504 3393 Pls
+1513 3392 Pls
+1554 3395 Pls
+1592 3393 Pls
+1507 3394 Pls
+1538 3394 Pls
+1569 3391 Pls
+1591 3390 Pls
+1505 3396 Pls
+1528 3393 Pls
+1559 3394 Pls
+1582 3390 Pls
+1322 3394 Pls
+1351 3397 Pls
+1391 3391 Pls
+1401 3391 Pls
+1425 3393 Pls
+1464 3394 Pls
+1334 3393 Pls
+1343 3392 Pls
+1358 3394 Pls
+1413 3394 Pls
+1444 3390 Pls
+1319 3396 Pls
+1356 3394 Pls
+1380 3391 Pls
+1417 3391 Pls
+1431 3391 Pls
+1460 3395 Pls
+1337 3396 Pls
+1380 3392 Pls
+1399 3390 Pls
+1452 3391 Pls
+1317 3394 Pls
+1329 3394 Pls
+1377 3392 Pls
+1392 3392 Pls
+1445 3394 Pls
+1465 3391 Pls
+1465 3391 Pls
+1181 3391 Pls
+1214 3388 Pls
+1258 3390 Pls
+1286 3390 Pls
+1209 3388 Pls
+1219 3388 Pls
+1253 3390 Pls
+1284 3391 Pls
+1186 3393 Pls
+1218 3391 Pls
+1274 3388 Pls
+1282 3388 Pls
+1162 3392 Pls
+1203 3389 Pls
+1216 3387 Pls
+1255 3391 Pls
+1291 3391 Pls
+1299 3392 Pls
+1205 3389 Pls
+1221 3386 Pls
+1246 3389 Pls
+1271 3389 Pls
+1162 3393 Pls
+1034 3396 Pls
+1076 3393 Pls
+1102 3395 Pls
+1136 3395 Pls
+1154 3393 Pls
+1044 3393 Pls
+1075 3393 Pls
+1108 3395 Pls
+1142 3394 Pls
+1150 3392 Pls
+1014 3394 Pls
+1042 3393 Pls
+1071 3393 Pls
+1084 3392 Pls
+1127 3394 Pls
+1149 3392 Pls
+1033 3395 Pls
+1076 3391 Pls
+1089 3391 Pls
+1135 3396 Pls
+1021 3391 Pls
+1025 3391 Pls
+1064 3392 Pls
+1094 3393 Pls
+1142 3394 Pls
+868 3391 Pls
+920 3395 Pls
+952 3394 Pls
+977 3392 Pls
+998 3393 Pls
+902 3389 Pls
+916 3390 Pls
+928 3392 Pls
+966 3392 Pls
+1002 3395 Pls
+869 3390 Pls
+897 3390 Pls
+904 3389 Pls
+958 3395 Pls
+981 3394 Pls
+863 3391 Pls
+879 3392 Pls
+931 3392 Pls
+947 3392 Pls
+969 3393 Pls
+1003 3395 Pls
+881 3391 Pls
+910 3393 Pls
+944 3393 Pls
+993 3394 Pls
+6622 4739 Pls
+1.000 UL
+LTb
+854 4872 N
+854 448 L
+6136 0 V
+0 4424 V
+-6136 0 V
+Z stroke
+1.000 UP
+1.000 UL
+LTb
+stroke
+grestore
+end
+showpage
+%%Trailer
+%%DocumentFonts: Helvetica
