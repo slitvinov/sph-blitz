@@ -1,0 +1,27 @@
+
+
+createIC1DOscillation.cpp:
+ 
+Implementation: 
+
+	-domain from x=0 to x=1, boundary conditions in x direction: periodical;
+	-Monaghan 1992 review paper ("smoothed particle hydrodynamics", ARAA):
+	  good agreement for wave propagation if wavelength> 2*Pi*h (and for us supLen=2*h)
+	  that means we need a suplen of <=wavelength/Pi
+	  
+	-Monaghan2005: 100 particles in area x=0 to x=1: dx=0.01
+		       
+
+	-CellSize: 
+	  optimum: cellSize=supLen but domain size/cellsize needs to be integer
+	  --> take 32 cells of size 0.03125 (-->every supLen <0.03125 is admissible)
+
+       -simulation is an actual 2D simulation but by not placing any particles in the second
+	  dimension it can be artificially made a 1D simulation, boundary condition in y direction
+	  preiodic...
+	-initial particle distribution: see above, besides y=0 for all particles.
+	1. calculate velocity with u(x)=0.05*c_s*sin(2 PI x)
+	2. leave everything constant-> gives stationnary oscillation
+
+
+    

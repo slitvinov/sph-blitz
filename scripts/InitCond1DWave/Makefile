@@ -1,0 +1,29 @@
+all: createIC1DOscillation createIC1DTravelingWave \
+createIC1DSingleTravelWaveSmooth_p_u_rho \
+createIC1DSingleTravelWaveSmooth_x \
+createIC1DSingleTravelWaveP_only \
+createIC1DunperturbedDomain
+
+createIC1DOscillation: createIC1DOscillation.cpp
+
+createIC1DTravelingWave: createIC1DTravelingWave.cpp
+
+createIC1DSingleTravelWaveSmooth_p_u_rho: createIC1DSingleTravelWaveSmooth_p_u_rho.cpp
+
+createIC1DSingleTravelWaveP_only: createIC1DSingleTravelWaveP_only.cpp
+
+
+createIC1DSingleTravelWaveSmooth_x: createIC1DSingleTravelWaveSmooth_x.cpp
+
+createIC1DunperturbedDomain: createIC1DunperturbedDomain.cpp
+
+
+.PHONY: clean
+
+clean:
+	-rm createIC1DTravelingWave
+	-rm createIC1DOscillation
+	-rm createIC1DSingleTravelWaveSmooth_p_u_rho		
+	-rm createIC1DSingleTravelWaveSmooth_x
+	-rm createIC1DSingleTravelWaveP_only
+	-rm createIC1DunperturbedDomain

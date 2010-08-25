@@ -1,0 +1,66 @@
+ 
+###########################################################################
+
+1D Waves  - Post-processing 
+
+############################################################################
+
+
+1D stationnary wave (oscillation)
+---------------------------------
+
+1. run the shell script <<prepareDirectory.sh>> in a shell placed in this
+(/sph-blitz/scripts/postProcessing1DWave) directory
+
+ This will perform the following action:
+ - create a new directory <<ResultsInProgress>> in sph-blitz/results
+   !!!ATTENTION!!! by running this script all data possibly already existing
+   in the <<ResultsInProgress>> directory will be deleted. Therefore be sure
+   to save them at a different location before!!!
+
+
+2. run the c++ program <<findPeakVelocitiesOscillation>> in a shell placed in this
+(/sph-blitz/scripts/postProcessing1DWave) directory
+
+  -->asks user for output interval time of underlying simulation, enter in seconds (exactly as in 
+    configuration file for simulation (1DWave.tcl)
+  -->processes data and creates the following outputfiles in 
+    <<sph-blitz/results/ResultsInProgress>>: 
+  
+    - <<peakVelocities.dat>> 
+    file structure:
+    period number (starting at 1) | peak velocity | adimensional peak velocity=v_peak/v_peak,0|... 
+    ...time | adimensional time =t/T_0|
+    BE AWARE: the accuracy of the determined periodic time is biased by the output interval time!!!
+	      it can never be more accurate than the output interval time for the simulation!!!
+
+    - <<DampingPeriod.dat>> 
+    file structure
+    period number (starting at 1) | damping=(v_peak(i+1)-v_peak(i))/v_peak(i) |...
+    ... periodic time (normalized)= (t_peak(i+1)-t_peak(i))/(t_peak(1)-t_peak(0))|
+    BE AWARE: the accuracy of the determined periodic time is biased by the output interval time!!!
+	      it can never be more accurate than the output interval time for the simulation!!!
+
+3. if the visualization of the temporal evolution of velocity, pressure, density is desired,
+    there are gnuplot ("movie"-) scripts in <<sph-/blitz/gnuplot/1DWave>>, see README in that folder!
+
+
+
+1D traveling wave 
+------------------
+
+1. same as above (<<prepareDirectory.sh>>)
+
+2. run the c++ program <<findPeakVelocitiesTravelWave>> in a shell placed in this
+(/sph-blitz/scripts/postProcessing1DWave) directory
+   
+  it is a slightly modified version of the program above:
+    - maximum search not limited any more to domain x=0->x=0.5
+    - every simulation output data file is a multiple of T (see NOTE1) and therefore program can be simplified
+  
+  NOTE1: be sure that there are only output data files for instants which are multiples of the periodic time T
+	in order for the program to calculate the damping correctly ...
+  NOTE2: all the post-processing for time related data (such as T, ...) is not meaningful, as T is not "determined"
+	but already given by the simulation data output interval! So it will be constant anyway...
+	Nevertheless, I leave the T-data in the post-Processing output file in order that the information 
+	about the T value is not lost!

@@ -1,0 +1,10 @@
+all: findPeakVelocitiesOscillation
+
+findPeakVelocitiesOscillation: findPeakVelocitiesOscillation.cpp
+
+
+
+.PHONY: clean
+
+clean:
+	-rm findPeakVelocitiesOscillation
