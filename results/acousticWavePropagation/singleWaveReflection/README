@@ -24,7 +24,7 @@ data:
 - wavelength for the 2 created waves: lambda=0.5
 - T=lambda/c_0=0.422577127
 - no artificial viscosity!
--dt=T/1000=0.000422577127
+- dt=T/1000=0.000422577127
 
 - for periodic wall movement: uncomment corresponding code passage in gastimesolverLeapfrog.cpp timeIntegral_Summation()
 method!!!
@@ -56,16 +56,35 @@ at t_4=t_3+T
 ------------
 waves start to interfere
 
-at t_5=t_4+T
+at t_5=t_4+T/2
+------------
+maximum wave interference
+
+at t_6=t_4+T
 -----------
 wave interference over
 
-at t_6=t_5+T=3.380617019
+at t_7=t_6+T=3.380617019
 -----------
 - waves hit walls
 - simulation ends
 
+numerical results: 
+-for the case without artificial viscosity one can again observe the physical instability of the solution.
+ small perturbations (probably coming from the discretized wall movement) affect the shape of the waves)
+ but otherwise it looks good (reflection and interference work)
+ peak velocity values for first wave:
 
+ at t_1/2=T/2:		0.0170374172
+ at t_2:		0.0181827137   (even bigger, but probably due to slight change in shape, wave got more pointed)
+ at t_3:		0.0162377871   (now wave larger, therefore loss of v_max probably not due to num. dissipation,
+					but physical behaviour doue to instabilities)
+ at t_5:		0.0335744506   (corresponds quite well to the double of the velocity!)		
+ at t_7:		0.0154534525   (again wave has become larger...)
+
+I ran the simulation also with artificial viscosity, where the instabilities disappeared. Due to the damping,
+there is no conservation of v_max, that is why I did not extract numerical values for that case.
+But there is a little sequence of images which shows the overall behaviour... 
 
 
 

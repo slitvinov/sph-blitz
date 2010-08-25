@@ -86,7 +86,7 @@ set UyBu(1) 0.0
 # time step
 set Start_time 0.0		
 set End_time 3.38062
-set D_time 0.0422577127
+set D_time 0.211288563
 
 set NUMBER_OF_MATERIALS 2
 set material_name(0) Wall

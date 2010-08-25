@@ -148,7 +148,7 @@ void Interaction::UpdateForces() {
     //parameter for time step control
     double mue_ab=0.0;
 
-    if (/*UijdotRij*/1<0)//that means: whenever in compression (as only then artificial viscosity applies for a shock tube problem)
+    if (/*UijdotRij*/-1<0)//that means: whenever in compression (as only then artificial viscosity applies for a shock tube problem)
       {
 	//according to formula monaghan artificial viscosity
 	const double phiij=(hij*UijdotRij)/(pow(rij,2)+ini.epsilon_artVis*pow(hij,2)); 
