@@ -26,6 +26,8 @@ data:
 - no artificial viscosity!
 -dt=T/1000=0.000422577127
 
+- for periodic wall movement: uncomment corresponding code passage in gastimesolverLeapfrog.cpp timeIntegral_Summation()
+method!!!
 
 
 theoretical case:
