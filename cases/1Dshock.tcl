@@ -25,12 +25,12 @@ set INITIAL_CONDITION 0
 # number of cells in X and Y directions
 # 130 cells in x direction are good for supportlength =0.03 (for m=cte=0.001875)
 # xx cells in x direction are good for supportlength =xx (for dx=cte=0.05)
-set CELLS(0) 156
+set CELLS(0) 130
 set CELLS(1) 1
 
 # size of one cell
 # ->make sure that cell size >= support length
-set CELL_SIZE 0.025
+set CELL_SIZE 0.03
 
 # support length of the kernel 
 # -> make sure that support length > particle spacing
@@ -61,6 +61,12 @@ set beta_artVis 2.0
 set epsilon_artVis 0.1
 
 # boundary conditions
+
+
+# disable boundary conditions:
+# 1: boundary conditions disabled
+# 0: boundary conditions enabled
+set DISABLE_BOUNDARY 1
 # type and velocity
 set xBl 0
 set UxBl(0) 0.0
@@ -95,7 +101,7 @@ set material_a0(0) 0.0
 
 set material_name(1) Air
 set material_type(1) 1
-set material_cv(1) 1.0e3
+set material_cv(1) 717.645
 set material_eta(1) 0.0
 set material_gamma(1) 1.4
 set material_b0(1) 0.0

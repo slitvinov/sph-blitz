@@ -53,7 +53,8 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     //const double dt = 0.0025;
     
     ///<ul><li> call for automatic time step control GasDyn
-    const double dt=hydro.GetTimestepGas(ini);
+    // const double dt=hydro.GetTimestepGas(ini);
+    const double dt=0.000422577127;
     
     //control output
     LOG(INFO)<<"\n current timestep:"<<dt;
@@ -62,15 +63,30 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     LOG(INFO)<<"\n current (absolute) iterations:"<<ite;
     ite ++;
     integeral_time =integeral_time+ dt;
+    
     Time += dt;
-	  
+
+    // try oscillating wall
+
+    //generate first wave at instant t=0
+    if(Time<0.422577127)
+      boundary.UxBl[0]=0.05916*sin(14.86873023*Time);
+    if(Time>0.422577127)
+      boundary.UxBl[0]=0;
+    
+    // generate second wave as soon as first wave hits RHS wall
+    if(Time>1.690308509 && Time<2.112885637)
+      boundary.UxBl[0]=0.05916*sin(14.86873023*Time);
+    if(Time>2.112885637)
+      boundary.UxBl[0]=0;
+    
     ///<li>screen information for the iteration
     if(ite % 10 == 0) cout<<"N="<<ite<<" Time: " <<Time<<"	dt: "<<dt<<"\n";
     if(ite!=1)
       {
 	hydro.UpdateUe2Half(dt);
 	
-	if  (ini.disable_boundary != 1)//if not 1d (as in 1D now BC needed)
+	if  (ini.disable_boundary != 1)//check if boundary disabled
 	  ///build the boundary particles
 	  boundary.BuildBoundaryParticle(particles,hydro);
       }

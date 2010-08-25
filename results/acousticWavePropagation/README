@@ -6,6 +6,7 @@ Acoustic wave propagation test case
 
 this test case is to assess the numerical dissipation of the SPH method 
 
+---------------------- BEGIN LITERATURE SECTION -----------------------------------
 literature on SPH acoustics / dissipation
 
 -  Khoperskov2002, Astronomy Letters Volume 29, Number 4, 246-257, 
@@ -61,41 +62,62 @@ literature on SPH acoustics / dissipation
   is not appoximated "exactly" anymore. (-->higher order kernels better...see. p.1731)
   The same test case (velocity wave) can be taken to test the numerical diffusion of the code (am I right???,
   see also concerns below....)
+------------------------------------------END LITERATURE SECTION-------------------------------
 
   little ambiguity still exists because of the initialization:
+
   Monaghan2005: only velocity wave u(x)=0.05*c_s*sin(2 PI x), density remains constant: pressure not precised
-		I will/would do p(x)=p_0-rho/2*v^2(x) as by setting rho=cosnt. it is assumed incompressibe anyway
-		and therefore bernoulli can be employed. For Mach numbers of M=0.05 this seems ok.
+		I would vary, rho, p according to isentropic relations as well:
+      After a "bit" of thinking:
+	NO: just leave everything else constant (p. rho), maximum velocity in a wave means no displacement of
+	    the particles(->rho=spatially const at this instant,
+			and its the instant where there is no acceleration->p=spatially constant)
+  --> this way of initialization will give a stationary wave / a oscillation
 
-		Implementation: 
+WORKS GOOD; BUT NEW PROBLEM:
+    seems as if Kernel (at least CubicSpline1D) interpolates spatially constant functions (here, rho) 
+    "exactly" only for supLen=0.03, just discovered deviations (but very week) for other supLen values...
+    When "watching" the movies of the rho,p profiles I noticed that mean value for p, rho was not exactly 1!
+    after a certain time I figured out that it has to be the Kernel interpolation:original initialization was
+    with mass m=0.01 per particle (100 particles, domainsize =1, density=1) 
+    -->only a initialization with mass 0.00996.... resulted in a smoothed density of 1!!! NOT GOOD???
+    --> conducted a test on how a constant value function is interpolated by SPH approximation (see open office sheet):
+    the error encountered above turned out to be the "normal" interpolation error (dit not expected		
+    it to be that sensitive to supLen)
+    what I can do to circumvent this error (at least make it invisible) is:
+      - perform the initialization of particle mass by smoothing (=interpolation) based on the density given
+	as initial condition. This way the mass is calculated exactly in a way to obtain rho=1 and the center of
+	the oscillations will be rho=1...(In this case the particle mass does not have the theoretically
+	exact value of m=0.01 but depending on the selected supLen it is very close...)
+	Furthermore I use supLen=0.03( instead of 0.026 (monaghna)) (as best results in my interpolation test)
+    this interpolation error appears no matter which density mode is choosen (summation or continuity density).
+    While for continuity density the density is integrated and therefore the function interpolation 
+    formula is not used (but only the derivation approximation formula), it is still used once at the
+    beginning of the program, as density is smoothed there once (even forcontinuity density approach)
 
-		-domain from x=0 to x=1, boundary conditions in x direction: periodic;
-		-Monaghan 1992 review paper ("smoothed particle hydrodynamics", ARAA):
-		  good agreement for wave propagation if wavelength> 2*Pi*h (and for us supLen=2*h)
-		  that means we need a suplen of <=wavelength/Pi
-		  
-		-Monaghan2005: 100 particles in area x=0 to x=1: dx=0.01
-			       h=const=0.013-> for us: supLen=0.026 
-		-CellSize: optimum: cellSize=supLen but domain size/cellsize needs to be integer
-		  --> take 32 cells of size 0.03125
-	        -simulation is an actual 2D simulation but by not placing any particles in the second
-		  dimension it can be artificially made a 1D simulation, boundary condition in y direction
-		  preiodic...
-		-initial particle distribution: see above, besides y=0 for all particles.
-			      
-		
-		  
+  Post processing:
+    what is interesting about this test case is the damping/dissipation
+    in order to measure this damping  it is crucial that the time step is choosen in a way that N*dt=T,
+     where N is the number of iterations, T the period of the oscillation and dt the time step.
+    This ensures that the instant where the wave reaches its peak is actually simulated and can be output
+    for the measurement of the damping.
+    Two ways for damping measurement:
+    - total kinetic energy of the wave at velocity peak time E=sum(1/2*m_i*v_i^2)
+    - damping factor: let's assume the damping is exponential: dv_peak=-damp*v_peak,
+      where v_peak is the peak velocity and dv_peak is the difference in peak velocity of two consecutive periods.
 
+  -->mamual time control with dt<~0.002 (that is the automatic time control value) 
+    -> pick dt=0.001 output every 4 dt: every0.004, is enough to resolve the peak velocity, periode T determined
+	experimentally T= 239output steps: T=0.956 !(including art. viscosity)
+	advantage 1 of manually choosen dt: easier to control simulation runtime in terms of "multiples of periods"
+	advantage 2 of manually choosen dt: timestamp for outputfile names is regular, which makes it easier to read
+	them automatically in program for the postprocessing!
+    ...(for more information see README in <<results/acousticWavePropagation/1DOScillation>>)
 
-	    But I wonder if this is a good test case to study dissipation and I thing acoustic waves require
-	    to be modelled with variations of all variables? Should there not rather be an oscillation
-	    of all variables. In other words: should I not rather consider it fully compressible and
-	    calculate the values of the other variables with the isentropic relations???
+next initialization case: taveling 1D wave
 
+(for more information see README in <<results/acousticWavePropagation/1DOScillation>>
 
-
-  expected results:
-  - for the Euler case without artificial viscosity:
     
     
   

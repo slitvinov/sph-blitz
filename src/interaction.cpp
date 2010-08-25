@@ -148,14 +148,15 @@ void Interaction::UpdateForces() {
     //parameter for time step control
     double mue_ab=0.0;
 
-    if (UijdotRij<0)//that means: whenever in compression (as only then artificial viscosity applies for a shock tube problem)
+    if (/*UijdotRij*/1<0)//that means: whenever in compression (as only then artificial viscosity applies for a shock tube problem)
       {
 	//according to formula monaghan artificial viscosity
 	const double phiij=(hij*UijdotRij)/(pow(rij,2)+ini.epsilon_artVis*pow(hij,2)); 
 	//according to formula monaghan artificial viscosity
 	piij=(-1*ini.alpha_artVis*cij*phiij+ini.beta_artVis*pow(phiij,2))/rhoij; 
 	//parameter for time control
-	mue_ab=-phiij;
+	//mue_ab=-phiij;
+	mue_ab=abs(phiij);
 	assert(mue_ab>=0);
       }
     else //if no compression: artificial viscosity is zero
@@ -255,17 +256,24 @@ void Interaction::UpdateForcesAndRho() {
 
 	  ///Monaghan artificial viscosity
 	  double piij = 0.0;
-	
+	  
+	  //parameter for time step control
+	  double mue_ab=0.0;
+
           if (UijdotRij<0)//that means: whenever in compression (as only then artificial viscosity applies for a shock tube problem)
 	    {
 	      //according to formula monaghan artificial viscosity
 	      const double phiij=(hij*UijdotRij)/(pow(rij,2)+ini.epsilon_artVis*pow(hij,2)); 
 	      //according to formula monaghan artificial viscosity
-	    piij=(-1*ini.alpha_artVis*cij*phiij+ini.beta_artVis*pow(phiij,2))/rhoij; 
-          }
+	      piij=(-1*ini.alpha_artVis*cij*phiij+ini.beta_artVis*pow(phiij,2))/rhoij; 
+	      //parameter for time control
+	      mue_ab=-phiij;
+	      assert(mue_ab>=0);
+	    }
 	  else //if no compression: artificial viscosity is zero
-	  {
-	    piij=0;
+	    {
+	      piij=0;
+	      mue_ab=0;//parameter for time control, in Monaghan1989:=0, if no compression
 	  };
 	  LOG_EVERY_N(INFO, 100000)<<Org->ID<<"  "<<Dest->ID<<" artvis: "<<piij;
 	  const Vec2d dUdti=-mj*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij;
