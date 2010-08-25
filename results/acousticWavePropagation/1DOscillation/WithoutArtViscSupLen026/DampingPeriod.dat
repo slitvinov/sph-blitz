@@ -1,0 +1,18 @@
+Damping and periodic time
+period number (1 means: damping between period 1 and 2,...) | damping | periodic time
+                1   0.000262766413                1
+                2  -0.000410324988                1
+                3    0.00130022789                1
+                4    -0.0010263119                1
+                5    0.00210628513                1
+                6   -0.00148751224                1
+                7    0.00135610582                1
+                8   2.60121026e-05                1
+                9    0.00144796732                1
+               10    0.00300170186      0.995391705
+               11   -0.00500840823      0.986175115
+               12    -0.0172683391       0.99078341
+               13    -0.0280434647       1.00921659
+                  ... deleted all other values, as they were not reliably any more
+      (due to the distortion (it also seems as if higher harmonic modes would appear) of the wave,
+      there are too many maxima...

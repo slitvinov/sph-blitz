@@ -1,0 +1,96 @@
+1D (infinite) Traveling wave
+--------------------
+
+
+
+preliminary considerations for initialization  in .ods-sheet,
+
+try constant mass particle initiation, i.e. adapt the spacing to the density
+resulting from the wave-equations (see .ods-sheet)
+and test if the mass calculation by smoothing within the simulation program 
+results in constant mass!
+
+--> that works quite good and results (together with periodoc boundary conditions) in a traveling wave,
+    where the domain always has to be a multiple of the wavelength (of course, as otherwise not periodical)
+    (initial condition generator used: <<createIC1DWave.cpp>>)
+
+    run simulations for 1D Traveling wave with and without artificial viscosity:
+
+    1. WITHOUT artificial viscosity
+	test how amplitude evolves(by calculating damping factor exactly as for 1D oscillation),
+	I am using the same post processing program as for 1D oscillation, but to be able to do so
+	one has to ensure the following:
+	- be sure that the simulation data output interval coincides exactly with the periodic time T
+	  and also that there is outpt ONLY at T and its multiples (not in between)!!!
+	  therefore: - determine sound speed and together with wavelength determine period T=lambda/c
+		     - set timestep and output interval in a way that the above condition is respected
+			( but attention: dt still has to be inferior to dt_max_admissibe)
+		    for lambda=1, (p_0=rho=0=1) T=0.845154254 -->dt=0.000845.....
+		    Problem: period is not exactly as theoretically calculated
+		    WHY THAT??????
+		    anyway, to be able to calculate damping: 
+			    --> determine period T experimentally/manually: T~0.8673!!!
+
+			      (seems pretty much the same as for the stationnary oscillation 
+			      which is logical, as a stationnary oscillation is a superposition
+			      of 2 waves traveling in oposite directions... (so it has same T!)
+			      But why does this T not correspond to the theoretical value...???
+
+			      ADDED LATER: yes, If I had tkaen the value of the oscillation 0.8668
+			      (averaged T after 10 oscillations) the fit would even have been slightly
+			      better (characterized by the simlatneous intersection of the x axis by both profiles)
+			      for the comparison of after 10 periods 
+			      (done later, figures with filenames <<...exacterPeriod...>> )
+	results:
+	  -for supLen=0.026, almost perfect conservation of amplitude: damping factor ~0 (weak oscillation around 0)
+	  -however it seems that the wave changes its shape very slightly (seems to get larger/torn apart)): 
+	      noticeable effect after 10 periods: see graphical visualization!
+	      possible explanation:
+		as already noticed for the stationnary wave (oscillation), the situation without artificial viscosity
+		is very instable (not numerically but PHYSICALLY!). So, the slightest perturbations may not be damped 
+		and may result in a variation of the original wave shape. Such a perturbation could be
+		    - numerical inaccuracies
+		    - inaccuracies at initialization (model for initialization does perhaps not correspond
+		      to model which is implemented (perhaps initialization model was linearized) and wave
+		      has to find its "equlilbrium" shape... this would perhaps also explain why theoretical
+		      propagation speed is not (exactly) the theoretical one...)
+
+      2. WITH Artificial viscosity (for compression)
+
+		 Observations:
+		   - a) periodical time T is the same as for simulation without art. visc. 
+		   - b) there is damping which is not exactly constant ( Damping factor starts at ~0.54 
+			and decreases to ~0.45
+		   - c) the shape of the wave changes in a significant way (see figure (after 10 periods))!
+		
+		  Interpretation:
+		   - ad a) this is an indication for the supLen being correctly chosen. 
+		     For it was observed (for 1D oscillaton) that periodical time T changes with supLen
+		     and T for this result is OK (as it is the same as for simulation without art. visc.)
+		     --> choise of suplen must be correct!
+		      ( unless physical soundspeed/propagation speed would change from inviscid->viscid which I 
+			do not really think???)
+		   - ad b) the non-constant damping could be related to the shape changes of the wave (see c))
+		   - ad c) a closer look at the change of the wave-shape shows:
+			    the  absolute value of the slope of the profiles (p, rho, u) gets smaller in 
+			     zones where there is compression (dp/dx<0 for a wave traveling in positve x direction)
+		    -->implication: perhaps it has to do with the fact that art. visc. is only turned on for compression
+		    --> run another simulation with art. viscosity globally turned on!
+
+      3. WITH global Artificial viscosity (for compression AND rarefaction )
+
+		  - a) the wave keeps its shape (as presumed in 2.c), confirms that change of shape in 2.
+			had to to with the fact that art.visc. was turned on for compressions exclusively)
+  		  - b) damping now constant, but damping factor double as high (=~0.1112) as for 2.) (seems logical
+			as art. visc now for whole domain and not only for half of it (as half of domain compression,
+			other half expansion/rarefaction)
+		  - b1) a closer look at the evolution of the damping factor shows: first it decreases slightly
+			before it stabilizes around =~0.1112. This could be another indication for the fact, that
+			the wave initialization is not completely exact and that the wave first has to find its
+			"equilibrium position". (I have already speculated about this in 1.) )
+				
+		      
+		
+	      
+	  
+			     

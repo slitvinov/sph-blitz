@@ -1,0 +1,271 @@
+For the case of the 1D oscillation where initialization has been done by 
+a sinusoidal velocity profile:  (and p, rho=1= spatially const. @t=0) ther results are as follows:
+
+artificial viscosity turned on for particles approaching each other (compression)
+--------------------------------------------------------------------------------
+(as it was the case for shock tube simulation)
+
+
+1. run with supLen=0.03 (as it turned out to be the best supLen for interpolation of a constant value function
+			  with spacing dx=0.01, see .ods-sheet)
+  - the damping is not exponential (i.e. damping factor not really constant)
+  - the periodical time T is not exactly constant for all periods
+    (average over 10 first periods is T=0.9728)
+    (always keep in mind: can only be as precise as output interval!!!)
+  - looking at the "waveMovies" (see gnuplot folder) one notices that p, rho do not return
+    to the exact neutral position after half a period (as they theoretically should, as they have been initialized 
+    constant..., perhaps that is the cause for the values above (damping, period) not being constant!?!)
+    ADDED LATER: no this is not the reason: the reason was the "wrong" support length (see below)
+		 but as far as the above comment is concerned, this is probably because an initialization
+		 of p, rho=const does not (unlike I initially assumed) correspond to the "equilibrium" configuration
+		 and therefore the wave first has to find its "equilibrium" state (p<->rho<->v...)
+
+2. run with smaller smoothing/support length supLen=0.025
+    - huge difference to 1.run: 
+    - damping almost exactly exponential (damping factor almost constant)
+    - T almost constant!
+  --> encouraged me to try the exact monaghan value for smoothing length for this case: h=0.013
+      ->supLen=2*h=0.026;
+
+3. run with supLen=0.026 (as suggested by Monaghan)
+    - results are literally "exact" , little variations in T are due to the output interval of 0.004, otherwise
+      periode exactly constant (exact value bewteen 0.864 and 0.868), (compared to variable T's (>=0.94)for supLen=0.03)
+    - damping factor very constant, drops a bit starting at period 19....
+
+    ==> Monaghan did not pick the smoothing lenght of h=0.013 for no reason!
+
+
+artificial viscosity completely turned out
+------------------------------------------
+(that is actually what Monaghan simulated in his review paper and where he observed practically no
+ change in the wave form/amplitude... after 13.7 periods)
+
+
+1. run wit SupLen=0.026 (dt=0.001 as for all simulations before)
+ - the sound wave gets more and more distorted after a certain number of periods. The calculation is not instable
+   in the sense that it would diverge, no. But the smallest perturbations (which now, are not damped
+   any more) probably lead to the fact that the wave/oscillation "looses" its equilibrium and starts distorting...
+   (sometime, the wave looses completely its original form which makes the automatic peak value detection
+    during post-processing erroneous. Therefore, post-Processing results after ~10th period are completely wrong)
+
+  perturbations can be seen first in the velocity profile at the instant of 
+  crossing the zero line (see VelocProfileAt2_76Periods.png), whereas the form of the profile at the instant
+  of maximum velocity still looks unchanged for a couple of periods (see VelocProfileAt3_04Periods.png
+
+  But for the first ~10 periods, results seem very logical and reliable:
+
+  - periodical time T=0.868, exactly constant for the first 10 periods,
+    ...and is the same as for simulation with artificial viscosity
+    FOLLIWING IS NONSENSE:
+    (T<T_withArtificialViscosity, which is logical: 
+      omega damped oscillations always < their indamped equivalent --> T_damped > T)
+
+  - damping factor very small, oscillates around zero.
+
+ --> really strange: Monaghan2005 did it, and there were no distortions
+
+2. run with SupLen=0.026, but dt=0.03 (should correspond to Monaghan2005's dt)
+ -->does not change anything!?! The only difference is that Monaghan used a "Verlet symplectic integrator",
+  but this should really not matter. The solution is not instable, it just gets perturbed and the perturbations
+  probably excite different higher harmonic modes..!??! so its nothing unphysical, I would say...
+
+
+with "global" artificial viscosity (completely turned on)
+------------------------------------------
+(was done after 1D traveling wave, so there might be some references to that)  
+
+ run wit SupLen=0.026 
+
+    - period T remains the same (as it should)
+    - damping increases (as expected) from ~0.057 (for art. visc. with compression only) to now 0.112
+      (this is exactly the samoe value as for 1D traveling wave with globally turned on art. visc.
+    - besides:  an analog comment I made already for the 1D traveling wave with globally turned on art. visc.
+		seems valid here (only that here <<increases>> instead of <<decreases>>):
+		  a closer look at the evolution of the damping factor shows: first it increases slightly
+		  before it stabilizes around =~0.1112. This could be another indication for the fact, that
+		  the wave initialization is not completely exact and that the wave first has to find its
+		  "equilibrium position". (I have already speculated about this in 1.) )
+
+
+DONE LATER (after having found out about the dependency of the periodic time T on the support length (see below...):
+- several runs with different smoothing lengths to find the exact T,
+- a run with smoothing length<<0.025 to see check if the tendency supLen^,-> T^, and suplen v,-> t v is valid
+
+
+
+
+---------------------------------------------------------------------------------------------------------
+
+further investigation on the support length sensitivity of wave phenomena
+
+---------------------------------------------------------------------------
+
+so far we know:
+---------------
+---------------
+(from the 1D oscillation simulations conducted with art. visc. turned on for compression)
+
+for a wavelength of lambda=1 and a (mean) particle spacing of dx=0.01 (100 particles)
+suplen=0.026 seems to be the optimum value!
+
+A non-optimum value of SupLen leads to:
+---------------------------------------
+  - a change of the periodical time T:
+	for h=0.03: T~0.95 (instead of ~0.867 for optimum supLen)
+	for h=0.025: T~0.84 (instead of ~0.867 for optimum supLen)
+	Aha! one moment please: T~0.845 is the theoretically exact periodical time!
+	and for h=0.025, the other results are not much worse than for h=0.026 (means damping factor
+	almost constant as well,...)
+	so far I relied on Monaghans value because it seemed the most accurate one, but perhaps
+	it is not the exactly good value. Maybe he picked h=0.013 because he incremented h by 0.001
+	to find the optimum value...
+	...or his criterion was not the periodic time T but the fit with the original shape...???
+	So the perfect h (which gives the right T and therefore the right propagation speed)
+	would lie somewhere between h=0.0125 and h=0.013 (supLen=0.025 and 0.026)
+
+	=>> SUPPORT  LENGHT (SMOOTHING LENGHT) SEEMS TO INFLUENCE PERIODICAL TIME T AND THEREFORE
+	    PROPAGATION SPEED (SOUND SPEED)!!!
+
+  - a non constant damping factor!
+
+    so, before moving on, let's find the "exact" value for the support length!
+    we choose our precision +/-0.002 (controled by the simulation data output interval) and
+    average take T as the average periodical time of the 10 first periods!
+    (we conduct simulations with art Visc globally turned on but that really does not matter, as this does not 
+    influence T at all (T=08668 for art. visc. for compresssion and global art visc. ony without art visc has a slightly
+    different value, but this is perhaps because the wave gets distorted...)
+    dt=0.0005
+    output interval time=0.002(=dt*4)
+
+    aimed value			T=0.845 
+
+    1.supLen=0.026			T=0.8668
+    2.supLen=0.025			T=0.8404
+    3.suplen=0.0255			T=0.853
+    4.supLen=0.0252			T=0.8452 (THIS IS OK AS "EXACT" VALUE)
+
+
+    5.suplen=0.02			T=0.8314 (error 1.6%)
+    --> shows that T decreases when supLen decreases)!
+
+    for the optimum case (in terms of T) we have the following ratios:
+    a) supLen/lambda=0.0252/1=0.0252  
+    b) supLen/dx=0.0252/0.01=2.52
+    --> want to find out, if one of those ratios (and if yo, which of them) controls accurary!
+
+    ad a) change lambda!!!
+    -----------------------
+    expected results: normally it should not make a difference, as Monaghan2005 conducts a simulation
+    for lambda=0.2 (with otherwise same configuration) and everything works fine for him!
+    
+	  - run with lambda=0.2 makes a theoretical T of T=lambda/c=0.169
+	    and a ratio supLen/lambda=0.0252*5=0.126
+	    (to stay in the same relative precission, use output interval of 0.002/5=0.0004,	
+	    adapt timestep dt=0.0004)
+	    Results:
+		T=0.17068 (again averaged value for 10 first peridos)
+		damping: looks good, "constant" value ~0.428
+	      => period seems right (within 1%)
+
+	  - run with lambda=0.5 makes a theoretical T of T=lambda/c=0.4226
+	    and a ratio supLen/lambda=0.0252*2=0.0504
+	    (to stay in the same relative precission, use output interval of 0.002/2=0.001	
+	    timestep dt=0.0005)
+	    Results:
+		T=0.423 (again averaged value for 10 first peridos)
+		damping: looks good, "constant" value ~0.201
+	      => period seems very good
+
+	  - run lambda=2 makes ttheoretical T of T=lambda/c=1.690
+	    and a ratio supLen/lambda=0.0252/2=0.0126
+	    ->need to adapt domain: size=2, 200 particles to maintain dx=0.01
+	    (to stay in the same relative precission, use output interval of 0.002*2=0.004	
+	    timestep dt=0.0005)
+	    Results:
+		T= 1.6908(again averaged value for 10 first peridos)
+		damping: looks about good, almost"constant" value, slight icrease from 0.54->0.56
+	      => period literally exact!
+
+
+    seems as if results were good for all simulations with supLen/lambda=0.025*N and
+    supLen/lambda=0.025*1/N with N =1,2,3,...
+
+    test wavelength which does not respect this condition: 
+  
+	e.g. wavelength=0.75!
+	adapt domainsize=0.75, 75 particles..
+	theoretical T=0.6339
+	Results:
+		T= 0.634(again averaged value for 10 first peridos)
+		damping: looks  very good, "constant" value ~0.139
+	      => period literally exact!
+      
+	and test another one e.g. lambda=1.3
+	adapt domainsize=1.3, 130 particles..
+	theoretical T=1.0987
+
+	Results:
+		T= 1.0988(again averaged value for 10 first peridos)
+		damping: looks good, "constant" value ~0.83-0.84
+	      => period literally exact!
+
+  ==> simulation is not very sensitive to wavelength: for supLen=0.0252 and dx=0.01,
+      (at least)  one order of magnitude (lambda=0.2 to lambda=2) can be simulated without problems
+      FOR LATER: find limits of wavelength (max and min) which can be simulated for given supLen,dx)
+    
+  ==> so the ratio supLen/lambda can not be the controlling factor!!! 
+
+    ad b) change dx
+    -----------------
+    maintain supLen=0.0252, wavelength=1 (initial configuration) and vary dx via teh number of particles
+
+    N_particle		dx		supLen/dx		T		damping factor
+        
+      40		0.025		1.008			-- supLen/dx to small!! no physical result--
+      50		0.02		1.26			0.5854		0.03to >0.05
+      (wave shape still not physical, because particle distance in expansion/rarefaction part still too big!!!)
+     
+      64		0.015625	1.6128			0.6442		0.075, very constant
+      80		0.0125		2.016			0.8316		~0.11
+
+      100		0.01		2.52			0.8452		~0.108  
+      
+      110		0.00909...	2.772			0.9126		~0.112
+
+      125		0.008		3.15			0.8754		0.11 to 0.15
+      128		0.0078125	3.2256			0.844
+      160		0.00625		4.032			0.8386		0.10 to 0.101
+      200		0.005		5.04			0.8806		0.1 to 0.12 (wave shape not exact)
+
+VISUALIZATION OF THESE RESULTS WILL BE DONE LATER...
+  
+compare factor supLen/dx with results from above (where dx=0.01)
+for supLen=0.03: supLen/dx=3: 		T=0.9728 *)
+for supLen=0.025: supLen/dx=2.5:	T=0.8404
+for supLen=0.02: supLen/dx=2:		T=0.8314
+
+observations: 
+1. it seems as if the factor supLen/dx played an important role for the simulation of wave behaviour
+2. best global solution (in terms of T and damping) for supLen/dx=2.52, sensitivity seems locally
+   very high!
+3. in terms of T only, there are at least 3 values supLen/dx which gave a good solution 
+4. even if it needs further confirmation, it seems as if the couples (supLen/dx, T) obtained with 
+   different supLens (0.03, 0.025, 0.02) fit in this set of data (this implies that this ratio could be
+   independent of supLen, or dx respectivley)
+
+IDEAS FOR FURTHER INVESTIGATION
+  - test if the optimum factor supLen/dx depends on dx, 
+  (if suPlen=5,dx=1 is optimum, is supLen10, dx=2 optimum as well??)
+  - find out about dependency of optimum factor supLen/dx on amplitude of wave
+    ( perhaps the particle displacement (gets bigger with amplitude) and the resulting local 
+      asymmetry/particle disorder have an influence..
+      determine kind of local ratios supLen/dx (min/max) in expansion and compression zones,
+      perhaps they are a more universal criterion...)
+    
+
+
+
+
+
+
+

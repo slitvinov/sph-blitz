@@ -1,0 +1,12 @@
+Damping and periodic time
+period number (1 means: damping between period 1 and 2,...) | damping | periodic time (normalized with T of first period
+                1     0.0545317429                1
+                2     0.0549680309       1.00236967
+                3     0.0545450476       1.00236967
+                4     0.0552741778       1.00236967
+                5     0.0551744367       1.00236967
+                6     0.0558087767                1
+                7     0.0561931157       1.00236967
+                8     0.0564328907       1.00236967
+                9     0.0564229134                1
+               10     0.0566092848       1.00236967

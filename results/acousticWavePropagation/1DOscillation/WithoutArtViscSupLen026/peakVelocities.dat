@@ -1,0 +1,19 @@
+peak velocity for each period and corresponding time
+period number | peak velocity | adimensional peak velocity| time |adimensional time 
+                1      0.059131606                1                0                0
+                2     0.0591160682      0.999737234            0.868                1
+                3      0.059140325       1.00014745            1.736                2
+                4     0.0590634291      0.998847031            2.604                3
+                5     0.0591240466       0.99987216            3.472                4
+                6     0.0589995145      0.997766144             4.34                5
+                7      0.059087277      0.999250333            5.208                6
+                8     0.0590071484      0.997895244            6.076                7
+                9     0.0590056135      0.997869287            6.944                8
+               10     0.0589201753      0.996424405            7.812                9
+               11     0.0587433145      0.993433436            8.676       9.99539171
+               12      0.059037525      0.998408956            9.532       10.9815668
+               13      0.060057005       1.01564982           10.392       11.9723502
+               14     0.0617412115       1.04413216           11.268       12.9815668
+   ... deleted all other values, as they were not reliably any more
+      (due to the distortion (it also seems as if higher harmonic modes would appear) of the wave,
+      there are too many maxima...

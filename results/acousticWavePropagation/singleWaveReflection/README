@@ -1,0 +1,75 @@
+###################################################################################
+
+1D test case for reflection and superposition of waves
+
+###################################################################################
+
+in this test case one single 1D wave is created by a moving LHS wall.
+the wave then travels to the RHS end of the domain (where there is a rigid wall
+boundary condition) ans is reflected there. 
+At the moment the wave hits the RHS wall, a second wave is generated at the LHS wall,
+so they meet in the middle of the domain and interfere with each other.
+
+Details:
+---------
+---------
+
+data:
+- domain size: x_domain=2
+- number of particles =200 (->dx =0.01) (in file 1DunperturbedDomain.ivs) 
+- supLen=0.0252
+- pressure P_=1.0
+- density rho_0=1.0
+-> sound speed c_0=1.183216
+- wavelength for the 2 created waves: lambda=0.5
+- T=lambda/c_0=0.422577127
+- no artificial viscosity!
+-dt=T/1000=0.000422577127
+
+
+
+theoretical case:
+--------------
+
+at t_0=0
+--------
+LHS wall starts moving according to u_wall=u_max*sin(omega*t) 
+  where omega=2*PI/T=14.86873023, u_max=0.05*c_0=0.05916
+
+at t_1=T=0.422577127
+--------
+LHS wall stops moving
+
+at t_2=x_domain/c_0=1.690308509
+-------------------------------
+- wave hits RHS wall
+- LHS wall starts moving again according to same equation as above, generating a new wave
+
+at t_3=t_2+T=2.112885637
+------------
+- LHS wall stops moving
+- first wave completely reflected from RHS wall
+
+at t_4=t_3+T
+------------
+waves start to interfere
+
+at t_5=t_4+T
+-----------
+wave interference over
+
+at t_6=t_5+T=3.380617019
+-----------
+- waves hit walls
+- simulation ends
+
+
+
+
+
+    
+
+
+
+
+
