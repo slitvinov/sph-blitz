@@ -1,0 +1,52 @@
+##########################################################################
+
+	How to visualize the results with gnuplot
+
+###########################################################################
+
+Once a simulation has been conducted and the results have been post-processed:
+
+
+1. in the directroy <<sph-blitz/results/ResultsInProgress>> run the script show damping to visualize
+    the decrease of amplitude with each period.
+  
+ The syntax to run the script
+   is for example:
+   <<./../../gnuplot/1DWave/showDamping.sh>> 
+  script produces the following figures in the newly created folder <<Visualization>>
+
+  - <<Damping.png/eps>> shows the evolution of the Amplitude over the period number
+    
+  - <<Period.png/eps>> shows the temporal evolution of the period Time.
+    BE AWARE: the accuracy of the shown period time can never be superior to the output interval time of 
+	      the underlying simulation!!!
+
+
+
+2. if visualization of temporal evolution of v, p, rho or x of the current simulation is desired:
+
+2a)FIGURE
+  in the directroy <<sph-blitz/results/ResultsInProgress>> run the script <<showShapeChange.sh>> to visualize
+    the change of shape after a certain number of periods (input argument is time stamp of simulation result data
+      that shall be compared to initial shape...(for traveling wave: be sure it is multiple of periodical time T)
+    for example
+<<./../../gnuplot/1DWave/showShapeChange.sh 08673000>>
+  
+
+2b) MOVIE
+  i) run (in <<sph-blitz/src/outdata>>) the shell script <<sph-blitz/scripts/dat2punto.sh>> and redirect its output into 
+  a file called <<punto.dat>>:
+  do all this by typing:
+  <<./../../scripts/dat2punto.sh > punto.dat>>
+      (this merges all the output data in the file punto.dat, which can then be read by gnuplot)
+
+  ii) run scripts
+  <<waveMovieVelocity.gp>> 
+  <<waveMoviePressure.gp>>  
+  <<waveMovieDensity.gp>>
+  <<waveMoviePosition.gp>> 
+  in a gnuplot shell in the folder <<sph-blitz/src/outdata>>
+  that means: a) stay at <<sph-blitz/src/outdata>>
+	      b) type <<gnuplot>>
+	      c) type <<load '../../gnuplot/1DWave/waveMovieVelocity.gp'>> for velocity movie (others equivalent)
+	      d) press <<n>> for next instant, press <<p>> for previous instant
