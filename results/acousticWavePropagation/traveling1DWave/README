@@ -80,7 +80,7 @@ results in constant mass!
       3. WITH global Artificial viscosity (for compression AND rarefaction )
 
 		  - a) the wave keeps its shape (as presumed in 2.c), confirms that change of shape in 2.
-			had to to with the fact that art.visc. was turned on for compressions exclusively)
+			was due to the fact that art.visc. was turned on for compressions exclusively)
   		  - b) damping now constant, but damping factor double as high (=~0.1112) as for 2.) (seems logical
 			as art. visc now for whole domain and not only for half of it (as half of domain compression,
 			other half expansion/rarefaction)

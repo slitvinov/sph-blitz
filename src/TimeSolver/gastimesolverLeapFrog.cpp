@@ -68,18 +68,18 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
 
     // try oscillating wall
 
-    //generate first wave at instant t=0
-    if(Time<0.422577127)
-      boundary.UxBl[0]=0.05916*sin(14.86873023*Time);
-    if(Time>=0.422577127-1e-7)
-      boundary.UxBl[0]=0;
+    // //generate first wave at instant t=0
+    // if(Time<0.422577127)
+    //   boundary.UxBl[0]=0.05916*sin(14.86873023*Time);
+    // if(Time>=0.422577127-1e-7)
+    //   boundary.UxBl[0]=0;
     
-    // generate second wave as soon as first wave hits RHS wall
-    if(Time>1.690308509 && Time<2.112885637)
-      boundary.UxBl[0]=0.05916*sin(14.86873023*Time);
-    if(Time>=2.112885637-1e-7)
-      boundary.UxBl[0]=0;
-    //LOG(INFO)<<"\n current U wall: "<<boundary.UxBl[0];
+    // // generate second wave as soon as first wave hits RHS wall
+    // if(Time>1.690308509 && Time<2.112885637)
+    //   boundary.UxBl[0]=0.05916*sin(14.86873023*Time);
+    // if(Time>=2.112885637-1e-7)
+    //   boundary.UxBl[0]=0;
+    // //LOG(INFO)<<"\n current U wall: "<<boundary.UxBl[0];
     
     ///<li>screen information for the iteration
     if(ite % 10 == 0) cout<<"N="<<ite<<" Time: " <<Time<<"	dt: "<<dt<<"\n";

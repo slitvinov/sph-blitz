@@ -56,9 +56,9 @@ artificial viscosity completely turned out
 
   - periodical time T=0.868, exactly constant for the first 10 periods,
     ...and is the same as for simulation with artificial viscosity
-    FOLLIWING IS NONSENSE:
-    (T<T_withArtificialViscosity, which is logical: 
-      omega damped oscillations always < their indamped equivalent --> T_damped > T)
+      FOLLIWING IS NONSENSE:
+      (T<T_withArtificialViscosity, which is logical: 
+	omega damped oscillations always < their indamped equivalent --> T_damped > T)
 
   - damping factor very small, oscillates around zero.
 
@@ -113,15 +113,15 @@ A non-optimum value of SupLen leads to:
   - a change of the periodical time T:
 	for h=0.03: T~0.95 (instead of ~0.867 for optimum supLen)
 	for h=0.025: T~0.84 (instead of ~0.867 for optimum supLen)
-	Aha! one moment please: T~0.845 is the theoretically exact periodical time!
+	Aha! one moment please: T~0.845=sqrt(gamma*p_0/rho_0) is the theoretically exact periodical time!
 	and for h=0.025, the other results are not much worse than for h=0.026 (means damping factor
 	almost constant as well,...)
 	so far I relied on Monaghans value because it seemed the most accurate one, but perhaps
 	it is not the exactly good value. Maybe he picked h=0.013 because he incremented h by 0.001
 	to find the optimum value...
-	...or his criterion was not the periodic time T but the fit with the original shape...???
+	...or his criterion was not the periodic time T but the fit with the original shape of the wave...???
 	So the perfect h (which gives the right T and therefore the right propagation speed)
-	would lie somewhere between h=0.0125 and h=0.013 (supLen=0.025 and 0.026)
+	would be somewhere between h=0.0125 and h=0.013 (supLen=0.025 and 0.026)
 
 	=>> SUPPORT  LENGHT (SMOOTHING LENGHT) SEEMS TO INFLUENCE PERIODICAL TIME T AND THEREFORE
 	    PROPAGATION SPEED (SOUND SPEED)!!!
@@ -151,7 +151,7 @@ A non-optimum value of SupLen leads to:
     for the optimum case (in terms of T) we have the following ratios:
     a) supLen/lambda=0.0252/1=0.0252  
     b) supLen/dx=0.0252/0.01=2.52
-    --> want to find out, if one of those ratios (and if yo, which of them) controls accurary!
+    --> want to find out, if one of those ratios (and if so, which of them) controls accurary!
 
     ad a) change lambda!!!
     -----------------------
@@ -217,7 +217,7 @@ A non-optimum value of SupLen leads to:
 
     ad b) change dx
     -----------------
-    maintain supLen=0.0252, wavelength=1 (initial configuration) and vary dx via teh number of particles
+    maintain supLen=0.0252, wavelength=1 (initial configuration) and vary dx via the number of particles
 
     N_particle		dx		supLen/dx		T		damping factor
         
@@ -252,6 +252,9 @@ observations:
 4. even if it needs further confirmation, it seems as if the couples (supLen/dx, T) obtained with 
    different supLens (0.03, 0.025, 0.02) fit in this set of data (this implies that this ratio could be
    independent of supLen, or dx respectivley)
+5. for shock tube already, we have found that supLen/dx influenced the quality of the simulation results,
+   however the optimum ratio for that case was between 4 and 5. Maybe it is not comparable, because there are
+   discontinuities in that case and maybe therefore the simulation needs more nearest neighbors to remain stable??? 
 
 IDEAS FOR FURTHER INVESTIGATION
   - test if the optimum factor supLen/dx depends on dx, 
