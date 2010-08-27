@@ -12,10 +12,12 @@ artificial viscosity turned on for particles approaching each other (compression
   - the periodical time T is not exactly constant for all periods
     (average over 10 first periods is T=0.9728)
     (always keep in mind: can only be as precise as output interval!!!)
+
   - looking at the "waveMovies" (see gnuplot folder) one notices that p, rho do not return
     to the exact neutral position after half a period (as they theoretically should, as they have been initialized 
     constant..., perhaps that is the cause for the values above (damping, period) not being constant!?!)
-    ADDED LATER: no this is not the reason: the reason was the "wrong" support length (see below)
+    ADDED LATER: no this is not the reason: the reason for damping, period not being constant was the 
+		"wrong" support length (see below)
 		 but as far as the above comment is concerned, this is probably because an initialization
 		 of p, rho=const does not (unlike I initially assumed) correspond to the "equilibrium" configuration
 		 and therefore the wave first has to find its "equilibrium" state (p<->rho<->v...)
@@ -27,7 +29,7 @@ artificial viscosity turned on for particles approaching each other (compression
   --> encouraged me to try the exact monaghan value for smoothing length for this case: h=0.013
       ->supLen=2*h=0.026;
 
-3. run with supLen=0.026 (as suggested by Monaghan)
+3. run with supLen=0.026 (as suggested by Monaghan, only Monaghan without art viscosity)
     - results are literally "exact" , little variations in T are due to the output interval of 0.004, otherwise
       periode exactly constant (exact value bewteen 0.864 and 0.868), (compared to variable T's (>=0.94)for supLen=0.03)
     - damping factor very constant, drops a bit starting at period 19....
@@ -87,6 +89,7 @@ with "global" artificial viscosity (completely turned on)
 		  "equilibrium position". (I have already speculated about this in 1.) )
 
 
+
 DONE LATER (after having found out about the dependency of the periodic time T on the support length (see below...):
 - several runs with different smoothing lengths to find the exact T,
 - a run with smoothing length<<0.025 to see check if the tendency supLen^,-> T^, and suplen v,-> t v is valid
@@ -128,14 +131,14 @@ A non-optimum value of SupLen leads to:
 
   - a non constant damping factor!
 
-    so, before moving on, let's find the "exact" value for the support length!
-    we choose our precision +/-0.002 (controled by the simulation data output interval) and
-    average take T as the average periodical time of the 10 first periods!
-    (we conduct simulations with art Visc globally turned on but that really does not matter, as this does not 
-    influence T at all (T=08668 for art. visc. for compresssion and global art visc. ony without art visc has a slightly
-    different value, but this is perhaps because the wave gets distorted...)
-    dt=0.0005
-    output interval time=0.002(=dt*4)
+  so, before moving on, let's find the "exact" value for the support length!
+  we choose our precision +/-0.002 (controled by the simulation data output interval) and
+  average take T as the average periodical time of the 10 first periods!
+  (we conduct simulations with art Visc globally turned on but that really does not matter, as this does not 
+  influence T at all (T=08668 for art. visc. for compresssion and global art visc. ony without art visc has a slightly
+  different value, but this is perhaps because the wave gets distorted...)
+  dt=0.0005
+  output interval time=0.002(=dt*4)
 
     aimed value			T=0.845 
 
@@ -233,14 +236,14 @@ A non-optimum value of SupLen leads to:
       110		0.00909...	2.772			0.9126		~0.112
 
       125		0.008		3.15			0.8754		0.11 to 0.15
-      128		0.0078125	3.2256			0.844
-      160		0.00625		4.032			0.8386		0.10 to 0.101
+      128		0.0078125	3.2256			0.844		0.10-0.13 (wave shape not exact)
+      160		0.00625		4.032			0.8386		0.10 to 0.11 (wave shape not exact)
       200		0.005		5.04			0.8806		0.1 to 0.12 (wave shape not exact)
 
 VISUALIZATION OF THESE RESULTS WILL BE DONE LATER...
   
 compare factor supLen/dx with results from above (where dx=0.01)
-for supLen=0.03: supLen/dx=3: 		T=0.9728 *)
+for supLen=0.03: supLen/dx=3: 		T=0.9728 
 for supLen=0.025: supLen/dx=2.5:	T=0.8404
 for supLen=0.02: supLen/dx=2:		T=0.8314
 
@@ -269,6 +272,60 @@ IDEAS FOR FURTHER INVESTIGATION
 
 
 
+
+Hi Sergey,
+
+I just send you this mail to get some order/structure into my proceeding and to facilitate you the business if you want to read through my acoustic stuff next week:
+
+What I did:
+
+1. made a literature research on SPH acoustics / dissipation, mainly to get ideas on how to initialize an acoustic wave
+   (results of this research can be found in ..acousticWavePropagation/README (in literature section)
+
+2. started simulation with domain-size=1, 100 particles, first try with initialization of u(x)=0.05*c_s*sin(2 PI x)
+   supLen=0.026 (everything taken from monaghan2005 review paper p.1731ff.) (but with artificial viscosity turned on for particles    
+   approaching each other (as it was recommended for shock tube)
+
+   this initialization would give a stationary oscillating wave
+  -> found out that this way mean density value not interpolated exactly (seen when wave movie of the density profile:
+     the constantly initiated density (rho_0=1) becomes after one timestep something like rho_0=1.004 or so
+     see ("WORKS GOOD; BUT NEW PROBLEM", just below literature section in ..acousticWavePropagation/README)
+     ...remedy for this error (or rather a work around) is given also in ..acousticWavePropagation/README
+
+3. figured out problem in 2. had to do with interpolation and found out that best interpolation of constant value function
+   for supLen=0.03 (see .ods sheet in acousticWavePropagation/ )
+
+4. ran simulation with supLen=0.03 (see ..acousticWavePropagation/1DOscillation/README)
+   criterions for me at this point were: good solution is constant periodical time T and constant damping factor (i.e. exponential damping)
+   at this time I did not yet care much about the actual value of the period, but only: const yes/no 
+
+   ...more details about the way the data are post processed and how i.e. damping is calculated in: scripts/postProcssing1DWave/README)
+
+5. as period/damping not really constant, new run with smaller supLen=0.025 (see ..acousticWavePropagation/1DOscillation/README)
+   results much better (i.e. much more constant T, damping)
+
+6. other run with supLen=0.026 (see ..acousticWavePropagation/1DOscillation/README))
+   values very constant,
+    AT THIS TIME I STILL DID NOT HAVE A LOOK AT THE THEORETICAL T VALUE 
+    (because I was not sure at this time if T would correspond to T=lambda/soundspeed for the stationary wave as well and
+     if it would not depend on the damping as it does for a mechanical oscillation..., so there was no theoretical reference value for me
+     at this point)
+    (for me an exact result still was a result with constant values for damping, T)
+
+7. run simulation WITHOUT artificial viscosity
+   (see ..acousticWavePropagation/1DOscillation/README))
+   -->encountered some (I think physical) instabilities...
+
+8. run simulation with global damping (no matter if particles approaching or not)
+  --> damping higher, as expected
+
+9. initialized an INFINITELY LONG traveling 1D wave and ran simulations with/without art. viscosity
+   (see ..acousticWavePropagation/1DTravelingWave/README))
+   --> for traveling wave I knew that T = lambda/soundspeed but I still wondered wyh (with supLen=0.026, Monaghan-value) I could not
+       reach the exact value (still error of 2%-3%)
+
+10. then I summarized all I had so far in "further investigation on the support length sensitivity of wave phenomena" 
+    (see ..acousticWavePropagation/1DOscillation/README, around line 100)
 
 
 

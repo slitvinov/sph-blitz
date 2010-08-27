@@ -63,19 +63,19 @@ literature on SPH acoustics / dissipation
   The same test case (velocity wave) can be taken to test the numerical diffusion of the code (am I right???,
   see also concerns below....)
   
-  ADDED LATER:
-  besides: in section 8.4 monaghan suggests a way to reduce artificial viscosity in areas where it is not needed
-  (areas without shocks), by this measure art Visc can be reduced up to the factor 10...
-
-  PERHAPS IT IS WORTH IMPLEMENTING THIS, BECAUSE IT WAS SEEN FOR ACOUSTIC WAVE PROPAGATION THAT DAMPING WITH
-  ART VISCOSITY IS QUITE HIGH!
-
+      ADDED LATER:
+      besides: in section 8.4 monaghan suggests a way to reduce artificial viscosity in areas where it is not needed
+      (areas without shocks), by this measure art Visc can be reduced up to the factor 10...
+  
+      PERHAPS IT IS WORTH IMPLEMENTING THIS, BECAUSE IT WAS SEEN FOR ACOUSTIC WAVE PROPAGATION THAT DAMPING WITH
+      ART VISCOSITY IS QUITE HIGH!
+  
 ------------------------------------------END LITERATURE SECTION-------------------------------
 
   little ambiguity still exists because of the initialization:
 
   Monaghan2005: only velocity wave u(x)=0.05*c_s*sin(2 PI x), density remains constant: pressure not precised
-		I would vary, rho, p according to isentropic relations as well:
+		I would vary, rho, p according to isentropic relations as well.
       After a "bit" of thinking:
 	NO: just leave everything else constant (p. rho), maximum velocity in a wave means no displacement of
 	    the particles(->rho=spatially const at this instant,
@@ -92,7 +92,8 @@ WORKS GOOD; BUT NEW PROBLEM:
     --> conducted a test on how a constant value function is interpolated by SPH approximation (see open office sheet):
     the error encountered above turned out to be the "normal" interpolation error (dit not expected		
     it to be that sensitive to supLen)
-    what I can do to circumvent this error (at least make it invisible) is:
+
+    -->what I can do to circumvent this error (at least make it invisible) is:
       - perform the initialization of particle mass by smoothing (=interpolation) based on the density given
 	as initial condition. This way the mass is calculated exactly in a way to obtain rho=1 and the center of
 	the oscillations will be rho=1...(In this case the particle mass does not have the theoretically
@@ -102,6 +103,7 @@ WORKS GOOD; BUT NEW PROBLEM:
     While for continuity density the density is integrated and therefore the function interpolation 
     formula is not used (but only the derivation approximation formula), it is still used once at the
     beginning of the program, as density is smoothed there once (even forcontinuity density approach)
+
 
   Post processing:
     what is interesting about this test case is the damping/dissipation
