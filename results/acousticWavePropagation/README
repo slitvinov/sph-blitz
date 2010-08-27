@@ -62,6 +62,14 @@ literature on SPH acoustics / dissipation
   is not appoximated "exactly" anymore. (-->higher order kernels better...see. p.1731)
   The same test case (velocity wave) can be taken to test the numerical diffusion of the code (am I right???,
   see also concerns below....)
+  
+  ADDED LATER:
+  besides: in section 8.4 monaghan suggests a way to reduce artificial viscosity in areas where it is not needed
+  (areas without shocks), by this measure art Visc can be reduced up to the factor 10...
+
+  PERHAPS IT IS WORTH IMPLEMENTING THIS, BECAUSE IT WAS SEEN FOR ACOUSTIC WAVE PROPAGATION THAT DAMPING WITH
+  ART VISCOSITY IS QUITE HIGH!
+
 ------------------------------------------END LITERATURE SECTION-------------------------------
 
   little ambiguity still exists because of the initialization:

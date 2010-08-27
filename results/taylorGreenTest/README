@@ -1,0 +1,144 @@
+First implement viscosity (and thermal conductivity)
+
+----------------------- BEGIN LITERATURE SECTION -----------------------------------------------
+
+literature research for implementing physical viscosity in SPH:
+---------------------------------------------------------------
+
+  REMARK: Liu2003 p.77: as now second kernel derivation comes into play: kernel function derivation
+			needs to have compact support! (is the case for cubic spline)
+
+			Added later: second kernel derivation not necessarily needed!
+  
+Liu2003 book describes 3 approaches to approximate physical viscosity
+--------
+	    
+  1.)	"nested summation approach" (Flebbe1994 "Smoothed particle hydrodynamics - physical viscosity and
+	 the simulation of accretion discs", astrophysical journal 431, 754-760, and others, see Liu2003 book)
+	 equations are presented in Liu2003 p118-119 in a clearer way than in Flebbe1994!!
+	  added later: expression also completely presented in BasaQuinlan2008 (see below)
+	
+  2.)	approach of Monaghan1995 ("Heat conduction with discontinuous conductivity",
+	applied mathematics report and reprint, monash university, article can not be found)
+	equations can not be found either in ClearyMonaghan1999 
+	(conduction modelling using smoothed particle hydrodynamics) which seems to be a continuation of Monaghan1995
+	
+	According to Liu2003, the same approach was also used by Morris1997 (Modeling low reynolds number
+	INCOMPRESSIBLE flows using SPH) and the corresponding momentum equation including viscosity is
+	given in Liu2003 p.129
+	ATTENTION: BasaQuinlan2008 says, the Morris1997 model is based on a slightly different approach 
+		   than the one of monaghan (while Morris also uses a mixed finite difference/SPH approach
+		   to model the second derivative, his model is not based on the principal idea, which
+		   has been used to conceive the Monaghan artificial viscosity)
+	
+	- this approach seems to be more appropriate for low velocity/low reynolds-number flows	
+
+	(BasaQuinlan2008 (see below) states that the above formulation is only valid for incompressible flows)
+	
+	 
+  3.) 	direct use of second derivative of smoothing function (Takeda1994, "numerical simulation of viscous flow
+	by smootehd particle hydrodynamics")
+
+
+  REMARK: Liu2003 suggests that one part of the artificial viscosity term is still retained, despite
+	  of the implementation of physical viscosity (p.129). this can prevent unphysical particle penetration
+          while removing spurious shear viscosity (as the other part of the art. viscosity term is removed)
+ 
+
+Monaghan2005 Review paper cites 2 approaches (chapt.8) for implementation of physical viscosity:
+------------
+  
+  1.) Cleary 1998 ("Modelling confined multi-material heat and mass flow using SPH") or
+      ClearyAndHa2002 ("Flow modelling in casting processes")
+	- use ideas similar to art. visvosity and heat conduction
+	- applications to low reynolds-number flows (Morris 1997) and to systems with more than 1 fluid in contact
+	
+    => seems to be the same apporach as 2.) above (for Liu2003)
+      (only strange how application can be done in 1997 if actual method only published in 1998, but probably
+       Cleary not "original inventor" of this approach, but Monaghan and Cleary wokr to gether see also paper
+	ClearyMonaghan1999)
+
+  2.) approach of calculating velocity derivatives in viscous terms using SPH methods
+      (Taketa1994, Watkins1996, Chaniotis2002, see ref. list in Monaghan2005)
+	- conserves linear momentum, does not conserve angular momentum exactly
+	- as conservation of angular momentum is not an issue for many applications,
+	  good results (together with a re-meshing strategy, NOT OF INTEREST FOR US)
+    
+    => same approach as 3.) above (for Liu2003)
+
+  besides: Monaghan2005 also mentiones natural viscosity in connection with the implementation 
+	   of heat conduction (chapt. 7). This is due to the analogy of heat and momentum diffusion. 
+	   He gives a way (based on ClearyMonaghan1999) to implement the heat conduction equatation based
+	   on an integral approximation for the second derivative. 
+	      This has several advantages over a direct use of 2nd derivative of smoothing function
+	      (as suggested above (in Liu2003 3.) ))
+	      as approximation using second kernel derivative (see 2.3, Monaghan2005) has following disadvantages:
+		  + very sensitive to particle disorder
+		  + heat transfer pos/neg depending on particle distance, as d²W/dx² can change sign
+		    (not physical!!!)
+		  + does not conserve thermal energy in adiabatic system
+
+	    Furthermore, Monaghan gives an analog expression for matter diffusion,
+	    but no explicit expression for momentum diffusion.
+
+
+  BasaQuinlan2008 ("Robustness and accuracy of SPH formulations for viscous ﬂow")
+-----------------
+
+  In this paper, 5 different models of viscous stress terms are investigated, which at the same time 
+  is a nice summary of the different techniques:
+ 
+  1.) "direct derivatives model" (A)
+	disadvantages see above!!!
+
+  2.) two pass model (B) (see Flebbe1994) (corresponds to Liu2003 1.) )
+      nesting of two first derivatives in order to obtain second derivatives
+      i.e. first one has to conduct 2 nested summations and information twice as much as "normal" has
+      to be temporarily stored for each step, besides the boundary (which is made up of a cell ofghost particles)
+      needs to be double as big (as due to the nested summation, if a is the original particle, and b its neighbors,	
+      then even information on all particles c (c denoting neighboring particles of b) is needed!)
+
+Models three four and five use all a combined ﬁnite-difference and and
+SPH derivative toexpress second derivatives
+AND according to BasaQuinlan2008, all 3 of these modesl implement a simplified viscous term
+valid only for INCOMPRESSIBLE flow!!!!
+(i.e if this is true, these 3 models are not appropriate for our purposes!!!)
+
+   3.)  VioleauAndIssa2007 (C) ("Numerical modelling of complex turbulent free-surface ﬂows with the SPH method:
+				an overview") 
+	...expression for viscous term derived from the work of Monaghan
+
+   4.) Cleary1998 (D) ("Modelling conﬁned multi-material heat and mass ﬂows using SPH")
+
+	...different expression for viscous term also derived from the work of Monaghan!
+	This is the form, Monaghan2005 talks about in chapt.7, because the expression is in perfect
+	analogy with the equation for thermal conduction cited in this chapter (and originally derived
+	by ClearyMonaghan1999)
+
+	disadvantage of this method: calibration factor, which is not universal!!!
+
+	GOOD TO KNOW: the Cleary1998 paper gives some general rules on how to set up boundary particles
+		      if the boundary is not shaped in a way the boundary particles allign with the particle lattice.
+		      This is only meant to be for a solid, but perhaps some of the advice might also be useful
+		      if I have to create different boundary shapes for coming simulations!
+
+   5.) Morris1997 (E)
+      ...this model is based on a different approaches	
+      conserves limear momentum exactly but angular momentum only approximately as viscous
+      force alligned to relative velocity vector rather to distance vector (as it is the case for artVis and
+      the models C,D, which therefore also conserve angular momentum exactly)
+
+--INDEED: all reported applications of the last 3 models are limited to the incompressible case!!!
+    That is a pitty, because 
+      a) it would have been logical to implement the (physical) viscous diffusion in the same way
+	 as the thermal diffusion (i.e. use model (D) )
+      b) models D,E are the best ones for the 2 test cases poiseuille flow and lid driven cavity
+
+      WAHT I DO NOT UNDERSTAND: they say, models C,D,E are based on a simplified viscous stress model for
+      incompressible flow, BUT they use themselves a compressible flow version for the test cases???
+      
+      Does this mean, the underlying incompressible stress model is just a model assumption, but the actual
+      expression is valid for compressible flows as well? I am still sceptical because I have not found
+      any original applications ( I mean e.g. by the original authorsof the corresponding methods)
+      of these models to compresisble flow???
+	  
