@@ -241,16 +241,25 @@ A non-optimum value of SupLen leads to:
       200		0.005		5.04			0.8806		0.1 to 0.12 (wave shape not exact)
 
 VISUALIZATION OF THESE RESULTS WILL BE DONE LATER...
+(preliminary visualization is done in "period".ods sheet, blue points)
+more datapoints needed, to seemore clearly how it behaves
   
 compare factor supLen/dx with results from above (where dx=0.01)
 for supLen=0.03: supLen/dx=3: 		T=0.9728 
 for supLen=0.025: supLen/dx=2.5:	T=0.8404
 for supLen=0.02: supLen/dx=2:		T=0.8314
+(--> seems as if these values fit in the trend above, see also .ods sheet 
+where these values are represented by a red point)
 
 observations: 
 1. it seems as if the factor supLen/dx played an important role for the simulation of wave behaviour
+   (anyway this factor is important to sph accuracy in general,
+   see for example Quinlan2006 "Truncation error in mesh-free particle methods",
+   a study of accuracy for viscous flows was conducted by Graham2008 ("accuracy of SPH viscous flow models")
+   where the factor h/dx is found to be important as well, but for wave propagation in particular, I have not found
+   something yet. 
 2. best global solution (in terms of T and damping) for supLen/dx=2.52, sensitivity seems locally
-   very high!
+   very high (especially if supLen/dx>2.52)!
 3. in terms of T only, there are at least 3 values supLen/dx which gave a good solution 
 4. even if it needs further confirmation, it seems as if the couples (supLen/dx, T) obtained with 
    different supLens (0.03, 0.025, 0.02) fit in this set of data (this implies that this ratio could be
@@ -267,6 +276,7 @@ IDEAS FOR FURTHER INVESTIGATION
       asymmetry/particle disorder have an influence..
       determine kind of local ratios supLen/dx (min/max) in expansion and compression zones,
       perhaps they are a more universal criterion...)
+  
     
 
 

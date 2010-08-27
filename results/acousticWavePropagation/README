@@ -98,11 +98,14 @@ WORKS GOOD; BUT NEW PROBLEM:
 	as initial condition. This way the mass is calculated exactly in a way to obtain rho=1 and the center of
 	the oscillations will be rho=1...(In this case the particle mass does not have the theoretically
 	exact value of m=0.01 but depending on the selected supLen it is very close...)
+
 	Furthermore I use supLen=0.03( instead of 0.026 (monaghna)) (as best results in my interpolation test)
-    this interpolation error appears no matter which density mode is choosen (summation or continuity density).
+
+    Besides: this interpolation error appears no matter which density mode is choosen (summation or continuity density).
     While for continuity density the density is integrated and therefore the function interpolation 
-    formula is not used (but only the derivation approximation formula), it is still used once at the
-    beginning of the program, as density is smoothed there once (even forcontinuity density approach)
+    formula is not used for this(but only the derivation approximation formula), it is still used once at the
+    beginning of the program, as density is smoothed there once (even for continuity density approach). This is
+    why the interpolation error for a function (not derivative) also appears for continuity density appraoch)
 
 
   Post processing:
@@ -111,6 +114,8 @@ WORKS GOOD; BUT NEW PROBLEM:
      where N is the number of iterations, T the period of the oscillation and dt the time step.
     This ensures that the instant where the wave reaches its peak is actually simulated and can be output
     for the measurement of the damping.
+   (ADDED LATER: this condition is not necessary, if the time step is choosen sufficiently small, which I have done)
+   
     Two ways for damping measurement:
     - total kinetic energy of the wave at velocity peak time E=sum(1/2*m_i*v_i^2)
     - damping factor: let's assume the damping is exponential: dv_peak=-damp*v_peak,
@@ -118,18 +123,17 @@ WORKS GOOD; BUT NEW PROBLEM:
 
   -->mamual time control with dt<~0.002 (that is the automatic time control value) 
     -> pick dt=0.001 output every 4 dt: every0.004, is enough to resolve the peak velocity, periode T determined
-	experimentally T= 239output steps: T=0.956 !(including art. viscosity)
-	(for more results and the right T, see README in 1D oscillating wave)
+	experimentally T= 239output steps: T=0.956  (ADDED LATER: which is not the correct value, but T ~0.85)
+	(for more results and the "right" T, see README in 1D oscillating wave)
 
 	advantage 1 of manually choosen dt: easier to control simulation runtime in terms of "multiples of periods"
 	advantage 2 of manually choosen dt: timestamp for outputfile names is regular, which makes it easier to read
 	them automatically in program for the postprocessing!
     ...(for more information see README in <<results/acousticWavePropagation/1DOScillation>>)
 
-next initialization case: taveling 1D wave
-
 (for more information see README in <<results/acousticWavePropagation/1DOScillation>>
 
+next initialization case: taveling 1D wave
     
     
   
