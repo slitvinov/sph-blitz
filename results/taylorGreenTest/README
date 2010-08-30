@@ -10,13 +10,17 @@ literature research for implementing physical viscosity in SPH:
 
 			Added later: second kernel derivation not necessarily needed!
   
-Liu2003 book describes 3 approaches to approximate physical viscosity
+Liu2003 book describes 3 approaches to approximate physical viscosity (or more general physical diffusion (heat/momentum)
 --------
 	    
   1.)	"nested summation approach" (Flebbe1994 "Smoothed particle hydrodynamics - physical viscosity and
 	 the simulation of accretion discs", astrophysical journal 431, 754-760, and others, see Liu2003 book)
 	 equations are presented in Liu2003 p118-119 in a clearer way than in Flebbe1994!!
 	  added later: expression also completely presented in BasaQuinlan2008 (see below)
+
+	different formulation, that is also based on double summation:
+	Watkins1996, Astronomy and Astrophysics Supplement, v.119, p.177-187
+	"A new prescription for viscosity in smoothed particle hydrodynamics"
 	
   2.)	approach of Monaghan1995 ("Heat conduction with discontinuous conductivity",
 	applied mathematics report and reprint, monash university, article can not be found)
@@ -40,7 +44,7 @@ Liu2003 book describes 3 approaches to approximate physical viscosity
 	by smootehd particle hydrodynamics")
 
 
-  REMARK: Liu2003 suggests that one part of the artificial viscosity term is still retained, despite
+  REMARK: Liu2003 suggests that one part of the artificial viscosity term might still be maintained, despite
 	  of the implementation of physical viscosity (p.129). this can prevent unphysical particle penetration
           while removing spurious shear viscosity (as the other part of the art. viscosity term is removed)
  
@@ -88,19 +92,19 @@ Monaghan2005 Review paper cites 2 approaches (chapt.8) for implementation of phy
   In this paper, 5 different models of viscous stress terms are investigated, which at the same time 
   is a nice summary of the different techniques:
  
-  1.) "direct derivatives model" (A)
-	disadvantages see above!!!
+  1.) "direct derivatives model" (A) (second derivatives directly approximated by SPH)
+	disadvantages (if no further corrections applied), see above!!!
 
   2.) two pass model (B) (see Flebbe1994) (corresponds to Liu2003 1.) )
       nesting of two first derivatives in order to obtain second derivatives
-      i.e. first one has to conduct 2 nested summations and information twice as much as "normal" has
-      to be temporarily stored for each step, besides the boundary (which is made up of a cell ofghost particles)
+      i.e. one has to conduct 2 nested summations and information twice as much as "normal" has
+      to be temporarily stored for each step, besides the boundary (which is made up of a cell of ghost particles)
       needs to be double as big (as due to the nested summation, if a is the original particle, and b its neighbors,	
       then even information on all particles c (c denoting neighboring particles of b) is needed!)
 
-Models three four and five use all a combined ﬁnite-difference and and
-SPH derivative toexpress second derivatives
-AND according to BasaQuinlan2008, all 3 of these modesl implement a simplified viscous term
+Models three four and five all use a combined ﬁnite-difference and 
+SPH derivative to express second derivatives
+AND according to BasaQuinlan2008, all 3 of these models implement a simplified viscous term
 valid only for INCOMPRESSIBLE flow!!!!
 (i.e if this is true, these 3 models are not appropriate for our purposes!!!)
 
@@ -113,20 +117,31 @@ valid only for INCOMPRESSIBLE flow!!!!
 	...different expression for viscous term also derived from the work of Monaghan!
 	This is the form, Monaghan2005 talks about in chapt.7, because the expression is in perfect
 	analogy with the equation for thermal conduction cited in this chapter (and originally derived
-	by ClearyMonaghan1999)
+	by ClearyMonaghan1999, "Conduction Moedlling Using Smoothed Particle Hydrodynamics")
 
-	disadvantage of this method: calibration factor, which is not universal!!!
+	disadvantage of this method: calibration factor , which is not universal!!!
 
 	GOOD TO KNOW: the Cleary1998 paper gives some general rules on how to set up boundary particles
 		      if the boundary is not shaped in a way the boundary particles allign with the particle lattice.
 		      This is only meant to be for a solid, but perhaps some of the advice might also be useful
 		      if I have to create different boundary shapes for coming simulations!
 
+		      also for boundaries: Computer Physics Communications
+				    Volume 180, Issue 10, October 2009, Pages 1811-1820 
+				  "SPH term particle boundary forces for arbitrary boundaries"
+
    5.) Morris1997 (E)
       ...this model is based on a different approaches	
-      conserves limear momentum exactly but angular momentum only approximately as viscous
+      conserves limear momentum exactly but angular momentum only approximately (which according to Morris does not
+      matter that much for low Reynolds flows) as viscous
       force alligned to relative velocity vector rather to distance vector (as it is the case for artVis and
       the models C,D, which therefore also conserve angular momentum exactly)
+      In original paper, aplication only for incompressible low reynoldsnumber flows, and therefore viscosity
+      not taken into account in the energy equation
+
+      GOOD TO KNOW: Morris1997 gives a detailed description of hot to implement boundary particles. He also
+		    mentiones references for curved boundaries (where the simple "copying" does not work) and for 
+                    modeling objects in the flow (by imobilizing boundary particles)
 
 --INDEED: all reported applications of the last 3 models are limited to the incompressible case!!!
     That is a pitty, because 
@@ -141,4 +156,57 @@ valid only for INCOMPRESSIBLE flow!!!!
       expression is valid for compressible flows as well? I am still sceptical because I have not found
       any original applications ( I mean e.g. by the original authorsof the corresponding methods)
       of these models to compresisble flow???
+
+
+PICK A VISCOSITY MODEL FOR IMPLEMENTATION:
+
+
+Model A: not robust enough (high sensitivity to particle disorder ...) --> not appropriate for implementation
+	 ..would need corrections to become robust:(re-meshing, i.e. particles periodically reordered..,
+	 and variable h, to keep neighborus ~const. (but the latter is not a big deal)
+	  for compressible viscous flows with heat conductuion, see: 
+	  Chaniotis2002 Journal of Computational Physics 182, 67–90 (2002)
+	  "Remeshed Smoothed Particle Hydrodynamics for the Simulation of Viscous and Heat Conducting Flows"
+
+
+
+Model B: not the best results in tests of BasaQuinlan2008, but should be valid for compressible flows
+         Problem: more complicated to implement because boundary particles would haveto be doubled
+                 and interaction calculation performed once more for each time step and particle.
+	--> not the best choice either
+
+Model C,D,E : allegedly based on assumptions for the incompressible stress tensor (and mue=spatially constant),
+              there are doubts if these cases are suitable for our purposes. However, BasaQuinlan2008 test
+              these models for acompressible flow as well??? (how does that go together???)
+
+	      for the  BasaQuinlan2008 test cases D, E gave the best results, therefore implementation of one
+              of them:
+              D: advantage: same principle as monaghan heat conduction (equation is in perfect analogie)
+                 disadvantage: there is a calibration factor, about which there are doubts (probably non-universal)
+	      E: no calibration factor needed, with good results (for low velocities/reynoldsnumbers)
+		 disadvantage: does not conserve angularmomentum exactly (which gets only a problem for higher velocities)
+
+==> I try first to implement D and E (non big deal to change) and to thoroughly conduct tests, to see if they work
+    for compressible cases!
+
+
+Implementation of D,E in momentum equation:
+
+simply add terms given in BasaQuinlan2008 to momentum-equation (see also Liu2003 (4.79) )  
+
+Implementation of D, E in energy equation:
+
+no information in  BasaQuinlan2008, Morris1997 (for E), Cleary1998 (contribution of viscous heating 
+neglected in energy equation!!!)
+
+
+
+
+
+
+
+
+
+
+
 	  
