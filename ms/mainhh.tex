@@ -4,6 +4,8 @@
 \usepackage{amsmath}
 \usepackage[pict2e]{struktex}
 \usepackage{parcolumns}
+\usepackage{pstricks}
+\usepackage{enumerate}% to be able to customize enumeration lists 
 % \usepackage{multicol}
 %\usepackage[rflt]{floatflt}
 
@@ -25,7 +27,7 @@
 
 \begin{document}
 
-\input{titelblatt}
+\input{titelblatthh}
 
 \tableofcontents
 \chapter{Introduction}
@@ -38,11 +40,7 @@ NEEDED have shown that wall porosity can damp
 acoustic instabilities in hypersonic flows over a slender cone. A numerical
 simulation of this configuration is desired to furnish data for a detailed
 analysis of the active mechanism. The simulation method of choice for the first approach
-to this configuration is called Smoothed Particle Hydrodynamics (SPH). Although
-there has been no known application of SPH to this precise case to date,
-SPH is adopted, as it promises a crucial advantage in the way boundary
-conditions are implemented. And for the treatment of porosities,
-the structure of the solid boundaries represents a significant part of the problem.
+to this configuration is called Smoothed Particle Hydrodynamics (SPH). 
 
 SPH designates a meshfree method for numerical simulation of particle
 ensembles (respectively matter that can be modelled as an ensemble of
@@ -61,16 +59,24 @@ Monaghan tempted to compute an astrophysical gas dynamics problem with a new,
 %%%%%%%%%%%%%%%%
  compared to grid based methods more
 
-efficient method~\cite{Gingold1977}. Independently and simultaneously, work in
+efficient approach~\cite{Gingold1977}. Independently and simultaneously, work in
 this field was also carried out by Lucy who came up with the same
-idea~\cite{Lucy1977}.
-ADVANTAGES???DISADVANTAGES???
+idea~\cite{Lucy1977}.One main advantage of SPH, which also is the reason why SPH was applied first to astrophysical problems, lies in the fact that it is a particle method and therefore does not need any room-fixed grid for the underlying numerical scheme. Instead
+the base for the calculation of derivatives are discrete points (particles), which move with the fluid (Lagrangian approach). Dealing with high density variations and huge calculation domains, astrophysical problems, when simulated with grid-based methods, 
+required a considerable effort in terms of mesh-refinemend. For particle methods like SPH whereas, density variations are principally resolved naturally (more/less particles in a certain area) and calculation is only performed at places where there is matter (particles).
+Another advantage is the relative ease of the
+implementation of boundaries. And this is the main reason for the application of SPH in this work. For the structure of the solid boundaries represents a significant part of the problem, when treating porosities. 
+ 
+%OTHER APPROACHES FOR CAVITY/POROSITY SIMULATION (look up in literature)
+To be able to perform the simulation, a 2D compressible SPH code was developped in several stages and then tested for various test cases.
+The first code that emerged from this project was a simple 1D compressible SPH code simulating a shock--tube problem. Although this code has no real use for practical applications, it is presented in this thesis with the goal to introduce the reader, who would like th familiarize himself with the implementation of SPH, to this technique.
 
-PREVIOUS APPLICATIONS IN GAS DYNAMICS (citing different relevant papers)
+The 2D code is based on an incompressible multi-phase SPH code, which was developed by HU and is now in use at the Institute of Aerodynamics of the TUM. This code was adapted in several steps to the needs of the present work, the first step being the implementation of the equations used in the 1D SPH code mentioned above and the adaption of the code to treat inviscid compressible problems. At this stage the code was tested for accuracy and robustness
+by means of the 1D shock--tube problem. Both a 1D and a 2D particle distribution have been employed to this 1D problem. To conclude the 1D shock--tube tests, a study on the influence of perturbations in the particle distribution has been conducted, again both for 1D and 2D particle distributions.
+At the same point, the simulation of acoustic wave propagation has been assessed, as acoustic phenomena are essential for the final flow configuration to investigate (see above).
+Finally the code was further adapted to incorporate physical viscosity and heat conduction models.
+...various test cases before simulating the actual porosity problem
 
-OTHER APPROACHES FOR CAVITY/POROSITY SIMULATION (look up in literature)
-
-INTRODUCE THE TWO CODES AND MENTION THAT THEY ARE CODED IN C/C++...
 
 
 
@@ -168,43 +174,43 @@ SPH form  equation \ref{eq:derivativeIdentity} reads as follows:
 \nabla_a A = \frac{1}{\Phi_a}\sum_b \frac{m_b}{\rho_b}(A_b-A_a)\nabla_a W_{ab}.
 \end{equation}
 
-
 It can be seen that the approximation to the derivative of the
 field function $A$ is now expressed by a summation over the field function itself
 and the derivative of the kernel function - which can be determined exactly.
 
-Now the basic formulations are introduced in principle: Both the field function
+Now the basic SPH formulations are introduced: Both the field function
 itself and its spacial derivatives can be approximated using only information 
 of a discrete number of particles. Hence, the rates of change of
 the states described by the equations of fluid dynamics, which are of the form
 \ref{eq:EFD_form}, can be rewritten using this information. Thus 
 one obtains the SPH formulation of the equations of fluid dynamics.
 
-The detailed derivation of the SPH equations will not be shown here, as the
+The detailed derivation of the SPH equations for fluid dynamicy will not be shown here, as the
 interest  only lies in describing the principle ideas behind the SPH
 method. To summarize, these are as follows: A (field) function can be
 described as an integral interpolation over the function itself and a kernel
 function (which has to be chosen in an appropriate way). A further
 approximation consists in transforming the integral over the domain into a
-summation over the discrete elements constituing this domain (the particles). 
+summation over the discrete elements (the particles) constituing this domain. 
 This allows to express both
 the field function and its spacial derivatives in forms 
 that depend exclusively on discrete values
 of the field function itself (and of the kernel function and its derivatives, 
-all of which are known). By finally choosing an appropriate kernel function with
-compact support, the summation over all particles in the domain can be reduced
+all of which are known). By finally choosing an appropriate kernel function $W$ with
+compact support (i.e. a finite support domain, where $W=0$ beyond) , the summation over all particles in the calculation domain can be reduced
 to a summation over those particles within the support domain of the particle
 in question.
 
-As already mentionned above, the SPH formulation of the equations of fluid
+The SPH formulation of the equations of fluid
 dynamics is obtained by applying the above principles and conducting different
 transformations to the original (exact) equations. Depending on the
 transformations used, the final SPH equations can assume a different form. In
 the following, a common form for the rates of change of density, velocity and
-internal energy based on the EULER EQUATIONS (i.e. without viscosity and heat conduction) is
-listed\cite{Monaghan2005,Liu2003} (perhaps also list NSG-form, and
-explain why Euler is of interest as well (for 1DSPH code, perhaps later real
-code including viscosity???)
+internal energy based on the EULER EQUATIONS (i.e. without viscosity and heat conduction)
+is listed\cite{Monaghan2005,Liu2003} 
+%(perhaps also list NSG-form, and
+%explain why Euler is of interest as well (for 1DSPH code, perhaps later real
+%code including viscosity???)
 
 \begin{equation}
 \label{eq:DCR_Euler}
@@ -225,167 +231,39 @@ code including viscosity???)
 For the detailed derivation and for alternative formulations of
 these equations refer to \cite{Monaghan2005, Liu2003}.
 
-Artificial Viscosity
 
-(perhaps I will move this section and make it a subsection of 'Implementation of SPH' (as artificial viscosity is linked to numerics
-
-Another point that has to be taken into account for SPH simulations, especially
-if shock waves are present, is arificial viscosity\cite{Monaghan2005}. This
-prevents particles from penetrating one into an other in zones with high
-compression rates and also generally stabilizes a numerical
-allgorithm.
-Artificial viscosity for numerical simulation of shock phenomena
-in general was first introduced by \cite{vonNeumann1950}. They suggested to
-introduce an artificial dissipation to give the shock a finite thickness to 
-allow shocks to be calculated numerically (in the cited example with finite difference
-scheme) without introduction of shock jump conditions.    ...(see article)
-The first use of artificial viscosity specifically for the mesh--free SPH goes
-back to Lucy\cite{Lucy1977}. He suggested an artificial bulk viscosity to
-prevent a slow build--up of acoustic energy by integration errors in zones with
-low density respectively low particle presence. 
-Finally, the form of artificial viscosity most commomly used in SPH
-literature\cite{Liu2003} is the one proposed by Monaghan and
-Gingold\cite{Monaghan1983}. They stated that the use of one of the artificial
-viscosities cited above (Neumann Richtmyer (adapted to SPH) or bulk
-viscosity) on shock problems would lead to either excessive particle
-oscillation or excessive smearing of the shock front. The expression for this
-artificial viscosity $\Pi_{ab}$, which is added to the pressure term of
-equation \ref{eq:VCR_Euler}, is:
-
-\begin{equation}
-\label{eq:MonArtVis}
-\Pi _{\mathit{ab}}=-\nu
-\left(\frac{v_{\mathit{ab}}r_{\mathit{ab}}}{r_{\mathit{ab}}^{2}+\epsilon
-h_{\mathit{ab}}^{2}}\right),
-\end{equation}
-where 
-\begin{equation}
-\label{eq:FactArtVis}
-\nu =\frac{h_{\mathit{ab}}}{\rho _{\mathit{ab}}}\left(\alpha
-c_{\mathit{ab}}-\beta
-\frac{h_{\mathit{ab}}v_{\mathit{ab}}r_{\mathit{ab}}}{r_{\mathit{ab}}^{2}+\epsilon
-h_{\mathit{ab}}^{2}}\right).
-\end{equation}
-
-$v_{ab}$ stands for $v_a-v_b$, $r_{ab}$ for $r_a-r_b$, $c_{ab}$ is the
-averaged sound speed of the two particles in question $1/2(c_a+c_b)$. The same
-applies for $\rho_{ab}(=1/2(\rho_a+\rho_b))$ and $h_{ab}=(1/2(h_a+h_b))$. IT
-HAS TO BE MENTIONED SOMEWHERE (but probably not right here) THAT: the use of
-the averaged smoothing length $h_{ab}$ is a way to symmetrize particle
-interactions when h is spatially variable. In this case a particle $a$ could be
-located in the support domain of a particle $b$ but not vice versa. This would
-lead to an asymmetric mutual contribution of forces. To avoid this, using the
-averaged smoothing length between two particles is an appropriate remedy~\cite{Liu2003}.
-Including artificial viscosity, the SPH form of the Euler momentum equation becomes~\cite{Monaghan2005}
-
-\begin{equation}
-\label{eq:VCR_EulerInclArtVis}
-\frac{dv_{a}}{\mathit{dt}}=-\sum {m_{b}\left(\frac{P_{a}}{\rho_{a}^{2}}+\frac{P_{b}}{\rho _{b}^{2}}+\Pi _{ab}\right)\nabla_{a}W_{ab}}.
-\end{equation}
-
-The artificial viscosity must also be reflected in the energy equation, as viscosity 
-transfers energy from kinetic to thermal~\cite{Monaghan2005}. One formulation of the 
-energy equation which is convenient for implementation in the 1D SPH code (as a big 
-part of the needed expression has already been calculated for 
-\ref{eq:VCR_EulerInclArtVis}) can be found in~\cite{Liu2003}.
-
-\begin{equation}
-\label{eq:ECR_EulerInclArtVis}
-\frac{de_{a}}{\mathit{dt}}=-\mathit{}\frac{1}{2}\sum{m_{b}\left(\frac{P_{a}}{\rho _{a}^{2}}+\frac{P_{b}}{\rho _{b}^{2}}\right)v_{\mathit{ab}}\nabla _{a}W_{\mathit{ab}}}.
-\end{equation}
-
-...mention somewhere that kernel unity is inverse of volume?!?!?
 
 \section{Implementation of an SPH code}
 This section presents some particular features of an SPH code. Emphasis is
-placed on these features as they will finally be implemented in one of the
+placed on these features, that will finally be implemented in one of the
 two SPH codes designed and modified during this work.
-Points of interest are the implementation of different boundary conditions in
-SPH, a closer description of the kernel function, as well as different methods/algorithms
-to perform the search for the interacting particles. Furthermore, different
+Points of interest are a closer description of the kernel function, different methods/algorithms to perform the search for the interacting particles, as well as the implementation of different boundary conditions in
+SPH. Furthermore, different
 equations of state are introduced, depending on the nature of the flow problem
-to be considered (compressible/incompressible). Finally some numerical
-integration schemes that have proven to be reliable for SPH applications will be diwscussed.
+to be considered (compressible/incompressible), followed by a passage
+explaining the use of artificial viscosity. After this, some numerical
+integration schemes that have proven to be reliable for SPH applications are discussed and the two different possibilities to calculate the density are shown. Finally a general structure of a generic SPH code is given
 
 
-\subsection{Boundary condition implementation}
-\label{sec:boundaryConditionImplementation}
-For particles at the edge of the calculation domain, the summation interpolation does not
-give exact results, as the integral (or better the sum) is truncated due to
-the simple fact that outside the domain there are no
-particles~\cite{Liu2003}. (find better citation...) This effect is called the
-the particle deficiency
-problem.\cite{Liu2003}. In cases where the region of interest is far from boundaries
-and where information from the boundaries does not propagate to the region of interest
-in the time of interest, there is no need to consider this
-problem. 
-The 1D shock tube simulation described further below
-(PERHAPS LINK TO SECTION)is an example of such a case.  
-But for other applications the edges play an important role,
-%%%%%%%%%%%%%%%%%%%
-% or the domain has to be rendered periodocally. ????
-
-%correction:
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
- or the calculation domain has to be continued periodically. In both cases...
-
-(So) ...it is necessary to define specific boundary
-conditions. This can be accomplished by a special boundary treatment which
-often includes so--called virtual particles or ghost
-particles~\cite{Liu2003}. The first ones to come up with this idea were
-\cite{LIBERSKY1993}. Virtual particles are used to model solid walls by
-placing them inside the solid body, mirrored at the surface. For each real
-particle whose support domain interferes with the wall, one such particle is
-built. Virtual particles have the same properties as their real counterpart
-except for the velocity. Depending on the type of boundary condition they are
-supposed to represent, different velocities are assigned to them.\cite{Hu2006}.
-
-No--slip velocity boundary condition:
-
-\begin{equation}
-v_{virtual}=2v_{wall}-v_{real}.
-\end{equation}
-
-Free slip velocity boundary condition:
-
-\begin{equation}
-v_{virtual}^{tangential}=v_{real}^{tangential}.
-\end{equation}
-
-FIGURE: ILLUSTRATION OF VELOCITY ASSIGNMENT FOR VIRTUAL BOUNDARY PARTICLES
-
-For the treatment of periodic boundary conditions, no ghost particles are
-needed. Particles leaving the calculation domain on one side are simply
-reinserted on the opposite side (with the same properties).
 
 
 \subsection{Kernel function}
 \label{sec:KernelFunction}
-???not sure, if its the right place here, but somewhere there should be a
-paragraph with more detailed information on kernels used, compact support,
-perhaps even some properties,...(and perhaps some graphics???)
+% ???not sure, if its the right place here, but somewhere there should be a
+% paragraph with more detailed information on kernels used, compact support,
+% perhaps even some properties,...(and perhaps some graphics???)
 
 
 Some properties of kernel functions (smoothing functions) and notions related
 to them have already been mentionned in section
 \ref{sec:BasicsSPH}. In principle, every function can act as kernel function
-if it respects a set of criteria 
-%%%%%%%%%%%%%%%%%
-%complsed LISTED? 
-%%%%%%%%%%%%%%%%
-correction: (I had composed, does this work?)
-by \cite{Liu2003}.
+if it respects a set of criteria listed by~\cite{Liu2003}.
 The most important ones are:
 
 The smoothing function should vanish outside of a certain area around its
 center. This property is called compact support and the domain where $W\neq0$
-is the support domain of the smoothing function. The smoothing length $\kappa h$ and the
-support length $h$ 
-%%%%%%%%%%%%%
-%may not be mixed up. ARE NOT TO BE CONFUSED?
-yes: i meant
-%%%%%%%%%%%%
-are not to be confused.
+is the support domain of the smoothing function. The smupport length $\kappa h$ and the
+smoothing length $h$ are not to be confused.
  
 \begin{equation}
 W(x-x')=0,\textit{for}|x-x'|>\kappa h.
@@ -404,7 +282,7 @@ length $h$ tends to zero:
 \end{equation}
 This is to ensure consistency of the integral approximation, which means that
 the approximate expression tends to the exact expression of the integral
-interpolant equation.
+interpolant equation for $h \rightarrow 0$.
 
 The full list of SPH kernel properties can be found in  \cite{Liu2003}.
 Based on those properties a variety of kernels are used in SPH literature. A
@@ -422,10 +300,13 @@ O,& \text{for q $>$ 2}.
 
 
 In the work of \cite{Fulk1996} a measure of merit for kernels is developed and
-they came to the result that, in 1D, no kernel performed significantly better
+they came to the result that, at least in 1D, no kernel performes significantly better
 than the cubic spline.
-This is why for the 1D SPH code described in section (WHATEVER) the cubic
-spline kernel is employed.
+This is why for the 1D SPH code described in section (\ref{sec:1DSPHcode}) the cubic
+spline kernel was employed.
+
+The unit of the kernel function $W$ is the inverse of the volume (or the corresponding 1D/2D magnitude), as can be seen easily from equation ~\ref{eq:SumDensity} which is only introduced below.
+
 
 \subsection{Neighboring particle search methods}
 \label{sec:NNPS}
@@ -489,6 +370,55 @@ detail. One class of these are called tree search algorithms~\cite{Hernquist1989
 especially robust and efficient for problems with variable smoothing
 length~\cite{Liu2003}.
 
+\subsection{Boundary condition implementation}
+\label{sec:boundaryConditionImplementation}
+For particles at the edge of the calculation domain, the summation interpolation does not
+give exact results, as the integral (or better the sum) is truncated due to
+the simple fact that outside the domain there are no
+particles~\cite{Liu2003}. (find better citation...) This effect is called the
+the particle deficiency
+problem.\cite{Liu2003}. In cases where the region of interest is far from boundaries
+and where information from the boundaries does not propagate to the region of interest
+in the time of interest, there is no need to consider this
+problem. 
+The 1D shock tube simulation described further below
+(PERHAPS LINK TO SECTION)is an example of such a case.  
+But for other applications the edges play an important role,
+%%%%%%%%%%%%%%%%%%%
+% or the domain has to be rendered periodocally. ????
+
+%correction:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+ or the calculation domain has to be continued periodically. In both cases...
+
+(So) ...it is necessary to define specific boundary
+conditions. This can be accomplished by a special boundary treatment which
+often includes so--called virtual particles or ghost
+particles~\cite{Liu2003}. The first ones to come up with this idea were
+\cite{LIBERSKY1993}. Virtual particles are used to model solid walls by
+placing them inside the solid body, mirrored at the surface. For each real
+particle whose support domain interferes with the wall, one such particle is
+built. Virtual particles have the same properties as their real counterpart
+except for the velocity. Depending on the type of boundary condition they are
+supposed to represent, different velocities are assigned to them.\cite{Hu2006}.
+
+No--slip velocity boundary condition:
+
+\begin{equation}
+v_{virtual}=2v_{wall}-v_{real}.
+\end{equation}
+
+Free slip velocity boundary condition:
+
+\begin{equation}
+v_{virtual}^{tangential}=v_{real}^{tangential}.
+\end{equation}
+
+FIGURE: ILLUSTRATION OF VELOCITY ASSIGNMENT FOR VIRTUAL BOUNDARY PARTICLES
+
+For the treatment of periodic boundary conditions, no ghost particles are
+needed. Particles leaving the calculation domain on one side are simply
+reinserted on the opposite side (with the same properties).
 
 
 \subsection{Equation of state}
@@ -505,12 +435,14 @@ appropriate (citation and conditions). In this case the (ideal gas) equation of 
 %transformation steps (or at least realations needed)...
 
 \begin{equation}
+\label{eq:idealGasEqState}
  p=(\gamma-1)\rho e.
 \end{equation}
 
 The sound speed, which is needed to calculate the artificial viscosity (see (\ref{eq:FactArtVis})), can be formulated for an ideal gas as:
 
 \begin{equation}
+\label{eq:soundSpeed}
  c=\sqrt{\gamma R T}
 \end{equation}
 or, with $c_v T=e$, $R=c_p-c_v$ and $\gamma=\frac{c_p}{c_v}$,
@@ -519,15 +451,76 @@ or, with $c_v T=e$, $R=c_p-c_v$ and $\gamma=\frac{c_p}{c_v}$,
  c=\sqrt{\gamma(\gamma-1)e}.
 \end{equation}
 
-Different equations of state need to be used in other media. For example, Monaghan
-computes flows of liquids ..............
-???shold I mention the equation of state applied for liquids (by artificially
-introducing a little compressibility \cite{Monaghan1994,Monaghan2005}???
+Different equations of state need to be used in other media. For example, according to Monaghan~\cite{Monaghan1994,Monaghan2005},even liquids, which are commonly approximated
+as incompressible (such as water) are treated as weakly compressibly is SPH. This requires a corresponding equation of state. As this equation f state does not depend on the temperature though, the energy equation is decoupled from the rest of the equations and there is no need to solve it (exactly as it is known for the truly incompressible case).
 
 
 
+\subsection{Artificial Viscosity}
+\label{sec:ArtVisc}
 
-\subsection{Numerical integration}
+Another point that has to be taken into account for SPH simulations, especially
+if shock waves are present, is arificial viscosity\cite{Monaghan2005}. This
+prevents particles from penetrating one into an other in zones with high
+compression rates and also generally stabilizes a numerical
+allgorithm.
+Artificial viscosity for numerical simulation of shock phenomena
+in general was first introduced by \cite{vonNeumann1950}. They suggested to
+introduce an artificial dissipation to give the shock a finite thickness to 
+allow shocks to be calculated numerically (in the cited example with finite difference
+scheme) without introduction of shock jump conditions.    ...(see article)
+The first use of artificial viscosity specifically for the mesh--free SPH goes
+back to Lucy\cite{Lucy1977}. He suggested an artificial bulk viscosity to
+prevent a slow build--up of acoustic energy by integration errors in zones with
+low density respectively low particle presence. 
+Finally, the form of artificial viscosity most commomly used in SPH
+literature\cite{Liu2003} is the one proposed by Monaghan and
+Gingold\cite{Monaghan1983}. They stated that the use of one of the artificial
+viscosities cited above (Neumann Richtmyer (adapted to SPH) or bulk
+viscosity) on shock problems would lead to either excessive particle
+oscillation or excessive smearing of the shock front. The expression for this
+artificial viscosity $\Pi_{ab}$, which is added to the pressure term of
+equation \ref{eq:VCR_Euler}, is (in the formulation of \cite{Monaghan1992}, which is equivalent to the one given in \cite{Monaghan2005}, but more appropriate for implementation as parts of it are later needed for automatic timestep control):
+
+\begin{equation}
+\label{eq:MonArtVis}
+\Pi_{\mathit{ab}}= \frac{-\alpha c_{\mathit{ab}}\mu_{ab}+\beta \mu_{ab}^2}{\rho_{ab}}
+\end{equation}
+where 
+\begin{equation}
+\label{eq:FactArtVis}
+\mu_{ab}=\frac{h_{ab}v_{ab}r_{ab}}{r_{ab}^2+\epsilon h_{ab}^2}
+\end{equation}
+
+$v_{ab}$ stands for $v_a-v_b$, $r_{ab}$ for $r_a-r_b$, $c_{ab}$ is the
+averaged sound speed of the two particles in question $1/2(c_a+c_b)$. The same
+applies for $\rho_{ab}(=1/2(\rho_a+\rho_b))$ and $h_{ab}=(1/2(h_a+h_b))$. IT
+HAS TO BE MENTIONED SOMEWHERE (but probably not right here) THAT: the use of
+the averaged smoothing length $h_{ab}$ is a way to symmetrize particle
+interactions when h is spatially variable. In this case a particle $a$ could be
+located in the support domain of a particle $b$ but not vice versa. This would
+lead to an asymmetric mutual contribution of forces. To avoid this, using the
+averaged smoothing length between two particles is an appropriate remedy~\cite{Liu2003}.
+Commom choices for the two paramters figuring in equation (\ref{eq:MonArtVis} are $\alpha=1$ and $\beta=2$ \cite{Monaghan1992}. The epsilon term in equation (\ref{eq:FactArtVis}) is to prevent singularity if $r=0$ and epsilon should be chosen as $\epsilon=0.01$ \cite{Monaghan1992}.
+Including artificial viscosity, the SPH form of the Euler momentum equation ~\ref{eq:VCR_Euler} becomes~\cite{Monaghan2005}
+
+\begin{equation}
+\label{eq:VCR_EulerInclArtVis}
+\frac{dv_{a}}{\mathit{dt}}=-\sum {m_{b}\left(\frac{P_{a}}{\rho_{a}^{2}}+\frac{P_{b}}{\rho _{b}^{2}}+\Pi _{ab}\right)\nabla_{a}W_{ab}}.
+\end{equation}
+
+The artificial viscosity must also be reflected in the energy equation, as viscosity 
+transfers energy from kinetic to thermal~\cite{Monaghan2005}. One formulation of the 
+energy equation which is convenient for implementation in the 1D SPH code (as a big 
+part of the needed expression has already been calculated for 
+\ref{eq:VCR_EulerInclArtVis}) can be found in~\cite{Liu2003}.
+
+\begin{equation}
+\label{eq:ECR_EulerInclArtVis}
+\frac{de_{a}}{\mathit{dt}}=-\mathit{}\frac{1}{2}\sum{m_{b}\left(\frac{P_{a}}{\rho _{a}^{2}}+\frac{P_{b}}{\rho _{b}^{2}}\right)v_{\mathit{ab}}\nabla _{a}W_{\mathit{ab}}}.
+\end{equation}
+
+\subsection{Numerical integration scheme}
 \label{sec:numIntegr}
 
 As far as the time integation of the equations of SPH is concerned, any stable
@@ -590,6 +583,44 @@ $S_n$ and $\hat S_{n+1}$:
 S_{n+\frac{1}{2}}=\frac{1}{2}(S_n+\hat S_{n+1}).
 \end{equation}
 
+\subsection{Choice of time step}
+\label{sec:TmeStepChoice}
+As any other numerical method, SPH gets instable, if the time step $dt$ for the numerical integration is not choosen correctly (i.e. small enough). 
+This fact was first examined by Courant, Friedrichs and Lewy \ref{} who studied the convergence behaviour of discretized partial differential equations (i.e difference equations). They found out that for hyperbolic difference equations, the spatial and temporal discretization steps need to meet a certain condition in order for the difference equation to converge to its  corresponding differnetial equation. This conditon is generally known as the Courant-Friedrichs-Lewy (CFL) Condition, which gives a necessary criterion for the stability of numerical difference (only difference, right?? or otehrs as well???) schemes. 
+In 1D it can be formulated as
+\begin{equation}
+ \frac{u\delta t}{\delta x}\leq C
+\end{equation}
+$C$ being a constant.
+To principally make its meaning clear, it can be interpreted as follws:
+the numerically possible propagation (in terms of distance) of any information during 1 timestep ($\propto\delta x$) must be superior to the physical propagation ($\propto u\delta$, $u$ being a propagation velocity charactieristic to the problem) of phenomena of the underlying problem. If this is not given, the simulation can not correctly reproduce the physical behaviour. 
+
+The principle of the CFL-Condition can also be applied to SPH \cite{Monaghan1989}, which is not a finite difference scheme, but where a characteristic numerical propagation can still be described using the smoothing length as length scale (in 1 timestep, information can propagate at maximum a distance of $\kappa h$, which corresponds to the support length). On the other hand, the characteristic propagation speed for the physical problem is the soundspeed $c$. 
+In addition to the courant condition, two more criteria that influence the timestep selection must be considered \cite{Monaghan1992}, one based on the force per unit mass $f$ and the other based on the viscosity (physical and artificial).
+
+These three conditions can be written as \cite{Monaghan1989,Monaghan1992}
+\begin{equation}
+\label{eq:dtForce}
+ dt_f=\min_i(\frac{h}{f_i})=min(\frac{h}{\frac{du}{dt}})
+\end{equation}
+
+\begin{equation}
+\label{eq:dtCourantVisc}
+ dt_{cv}=\min_i(\frac{h}{c_i+0.6(\alpha c_i+\beta \max_j \mu_{ij}})
+\end{equation}
+
+where equation \ref{eq:dtForce} defines the maximum admissible timestep regarding the forces and equation \ref{eq:dtCourantVisc} the maximum admissible timestep for the combined Courant and viscosity criterion. The indices $i,j$ go over all particles, the parameters $\alpha$ and $\beta$ are the same as for the artificial viscosity (see section \ref{sec:ArtVisc}) and $\mu_{ij}$ is the viscosity. In the case of an exclusively artificial viscosity, $\mu_{ij}$ is given by equation (\ref{eq:FactArtVis}).
+
+The applicable time step for the simulation corresponds to the minimum of the above two, including a security factor 
+\begin{equation}
+\label{eq:dt}
+dt=\min(dt_f,dt_{cv})
+\end{equation}
+
+This cas be implemented in an SPH program and so the applicable timestep is automatically adapted to the given situation at each individual timestep. 
+Note concerning the implementation: In eqiation (\label{eq:dtForce}), there can be a singularity in the denominator if the mass specific force per particle (i.e. its acceleration) is zero. Although this does not affect the validity of the above equations, there are issues when implemented. To prevent this singularity, a very small number (e.g. $1^{1e-35}$) is added to the denominator when this equation is implemented.
+
+
 \subsection{Summation Density and Continuity Density approach}
 \label{sec:DensCalcMode}
 One way to update the density with the SPH method is simply to integrate the density 
@@ -619,7 +650,7 @@ together with the description in this paragraph shall show the interdependence o
 constituent parts of an SPH code in principle. The actual (control) flow of a specific
 SPH code may differ in detail from \ref{fig:BasicSphCode} and can be seen 
 from the more detailed flow diagrams for the specific code.
-Remark: the structure described in the following paragraph applies to any (serial, not parallel) SPH code (no matter if compressible/incompressible or viscous/inviscous). The equations referred to however, are the SPH form of the Euler equations and thus are only valid for invscid problems.
+Remark: the structure described in the following paragraph applies to any (serial, not parallel) SPH code (no matter if compressible/incompressible or viscous/inviscid). The equations referred to however, are the SPH form of the Euler equations and thus are only valid for invscid problems.
 
 \ref{fig:BasicSphCode} shows that the first essential part of an SPH program is the setting up of the initial conditions includuing the definition of geometrical and other
 probem--specific parameters. Since the choice of the variables/quantities given as 
@@ -631,54 +662,308 @@ Thereafter the program enters the main computation loop and the operations execu
 therein are repeated for each time step. Among those operations is the creation of the 
 virtual boundary particles (\ref{sec:boundaryConditionImplementation}) which then 
 need to be included in the nearest neighbouring particle search (\ref{sec:NNPS}). 
-After having determined all the interactions for all particles the smoothing function 
+After having determined all the interactions for all particles, the smoothing function 
 and its derivative can be computed for each interaction pair. Then, depending on the 
-choice of density calculation mode (?see? \ref{sec:DensCalcMode}), the program sequence differs slightly. 
+choice of density calculation mode (see \ref{sec:DensCalcMode}), the program sequence differs slightly. 
 With the summation density approach, the density is obtained by summation 
 (smoothing)\ref{eq:SumDensity}, and, once density is calculated, the forces on the 
 particles may be determined. Those forces allow for the computation of the rate
 of change of momentum (remark: the calculation of forces and rate of chage of  momentum 
 can be considered as one single step, all included in \ref{eq:VCR_Euler}). The 
 rate of change of energy is also determined from \ref{eq:ECR_Euler}.
-As for the continuity density approach, the calculation of forces is conducted without 
-smoothing, taking the value of density to be that obtained at the previous step 
-(or the initial value for the first time step). But the rate of change of density 
+For the continuity density approach, the calculation of forces is conducted the same way as before. But the rate of change of density 
 has to be determined as well \ref{eq:DCR_Euler}, as density will be obtained by integration. 
 Once all necessary change rates are known, the values can be updated to the next time step, see \ref{sec:numIntegr} and the loop can be restarted. After the actual simulation is finished, an output module is in charge of making data available in a form (that is) exploitable by the user.
 
 
 \begin{figure}[h]
   \centering
-      \includegraphics[width=1.0\textwidth]{Graphics/general_structure_SPH}
+     % \includegraphics[width=1.0\textwidth]{Graphics/general_structure_SPH}
   \caption{basic structure of an SPH code}
   \label{fig:BasicSphCode}
 \end{figure}
 
+
+
+\section{Presentation of test cases}
+\label{sec:testCases}
+ 
+This section introduces the different test cases, which are used to validate the developped code at the different stages. The general problem setup is presented as well as analytical solutions in case they exist. Otherwise the numerical reference solution is provided.
+
+The reason why this section is placed already here is, that the test problems are sometimes referred to from the code section (\ref{sec:1DSPHcode}, \ref{sec:2DSPHcode}) and it is preferable if they are introduced before.
+
+Details on initializing the flowfield, running the simulations and post--processing are not given in this section but only in section \ref{sec:simuSetupTestCases}, after having introduced the numerical codes. The present section merely povides the basis by introducing equations and the general ideas necessary to perform the actual simulation and the post-processing.
+
+\subsection{1D shock--tube}
+As an exact solution is known, the 1D shock tube is a very common test--case for compressible numerical techniques, especially in the form used by Sod \cite{Sod1978}.
+
+%\subsubsection{Presentation and analytical solution}
+ The problem consists of two initially separated (e.g. by a diaphragm) gas--filled tube sections, both in general with different properties, at least different pressure. When at the instant $t_0$ (initial situation shown in \ref{fig:shockTubeT0}) the separation is removed, a shockwave is propagating into the low--pressure area and a rarefaction is traveling into the high pressure area, both adjusting the pressure to the same intermediate value. This means that at a time $t_1>t_0$ the situation can be presented as in figure \ref{fig:shockTubeT1} where the nomenclature from Anderson \cite{Anderson2002} is adopted.
+
+\begin{figure}[h]
+    \centering
+      \input{Graphics/shockTube_t0}
+      \caption{shock--tube at initial time $t_0$}
+      \label{fig:shockTubeT0}
+
+      \input{Graphics/shockTube_t1}
+      \caption{shock--tube at time $t_1>t_0$}
+      \label{fig:shockTubeT1}
+\end{figure}
+
+In figure \ref{fig:shockTubeT1}, areas 2 and 3 are separated by the so called contact discontinuity, which is the fluid interface generated by the removal of the diaphragm. While in general, the states and properties of the fluids in 2 and 3 are different, pressure $p$ and velocity $u$ at both sides of the discontinuity have to be the same:
+
+\begin{equation}
+\label{eq:condCD}
+p_2=p_3
+u_3=u_2
+\end{equation}
+
+The analytical solution to the shock--tube problem can be found using the shock relations and the isentropical relations and is taken from Anderson \cite{Anderson2002} as well. 
+It will be presented here, as the post processing program, which is described below, is based on this solution.
+
+First the unknown quantities in areas 2 and 3 are calculated (states 1 and 4 are completely known). Then the location of all area boundaries is determined at a certain instant $t_1>t_0$. Finally the properties inside the rarefaction (located between area 3 and 4) can be obtained.
+
+\paragraph{determination of quantities in areas 2 and 3}
+
+With the relation
+
+\begin{equation}
+ \frac{p_4}{p_1}=\frac{p_2}{p_1}(1-\frac{(\gamma_4-1)(c_1/c_4)(\frac{p_2}{p_1}-1)}{\sqrt(2\gamma_1*[2 \gamma_1+(\gamma_1+1)(p_2/p_1-1)])})^(\frac{-2 \gamma_4}{\gamma_4-1})
+\end{equation}
+
+ the unknown pressure $p_2$ can be determined iteratively, where the sound speed for an ideal gas is calculated according to equation \ref{eq:soundSpeed}. 
+
+For the further proceeding, the ratio of specific heats $\gamma$ is assumed constant (i.e. same gas in 1 and 4 and besides, no variation of $\gamma$ with temperature)
+
+\begin{equation}
+ \gamma_4= \gamma_3= \gamma_2= \gamma_1=const
+\end{equation}
+
+The density in area 2 can be determined from state 1 with the shock relations 
+\begin{equation}
+ \rho_2=\rho_1*(1+(\gamma+1)/(\gamma-1)*(p_2/p_1))/((\gamma+1)/(\gamma-1)+p_2/p_1);
+\end{equation}
+
+Applying the isentropical relations from state 4, one obtains the density in area 3
+
+\begin{equation}
+\rho_3=(p_3/p_4)^(1/gamma)*rho_4
+\end{equation}
+
+The internal energy in areas 2 and 3 is obtained by the ideal gas equation of state (\ref{eq:idealGasEqState})
+
+The velocity of the shock traveling into area 1 is
+\begin{equation}
+\label{eq:shockVelocity}
+W=c_1*\sqrt(\frac{(\gamma+1)}{(2*\gamma)}*(\frac{p_2}{p_1}-1)+1)
+\end{equation}
+
+With the applicaton of the continuity equation, the velocity induced in area 2 $u_2$ by the shock is
+\begin{equation}
+ u_2=W*(1-\frac{rho_1}{rho_2})
+\end{equation}
+
+Accoring to equation \ref{eq:condCD}, the velocity in area 3 $u_3$ is the same.
+
+\paragraph{determination of the area boundaries at a certain instant}
+
+As geometrical information comes into play, the position of the diaphragm in the space has to be indicated and is assumed to be $x_{dia}=0$ and x is counted positively towards the right (in direction of the low pressure area (area 1)).
+The following positions have to be determined (see also figure \ref{fig:shockTubeT1}:
+
+\begin{enumerate} [(a)]
+
+  \item begin rarefaction (delimits area 4) \\
+As the begin of the rarefaction propagates into area 4 with the corresponding (local) soundspeed, its position is 
+\begin{equation}
+ x_{rar,beg}=-c_4 t
+\end{equation}
+
+  \item end rarefaction (delimits area 3) \\
+The end of the rarefaction propagates with the corresponding (local) soundspeed relative to the fluid in 3 which itself has a velocity $u_3$. The desired position is therefore
+\begin{equation}
+ x_{rar,end}=(u_3-c_3) t
+\end{equation}
+
+  \item contact discontinuity \\
+The contact discontinuity moves with the velocity $u_3$ and therefore
+\begin{equation}
+ x_{CD}=u_3 t
+\end{equation}
+
+  \item shock \\
+  The expression for the propagation velocity is given by equation \ref{eq:shockVelocity} and therefore
+\begin{equation}
+ x_{shock}=W t
+\end{equation}
+
+\end{enumerate}
+
+\paragraph{determination of the properties inside the rarefaction}
+Inside the rarefaction the flow evolves in an isentropic manner, which means the isentropic relation can be employed. Furthermore, the theorie of characteristics gives the velocity at a certain point inside the rarefaction. Again all equations are taken from Anderson ~\cite{Anderson2002} and the coordinate system remains unchanged ($x=0$ corresponds to diaphragm position and therefore origin of rarefaction)
+
+To obtain the velocity inside the rarefactions, the following equation is used
+\begin{equation}
+ u_{rar}=\frac{2}{(\gamma+1)}(c_4+\frac{x}{t})
+\end{equation}
+
+The density at a certain point inside the rarefaction is calculated with
+\begin{equation}
+\rho=\rho_4 (1-\frac{(gamma-1)}{2}(\frac{u}{a_4}))^\frac{2}{(gamma-1)}
+\end{equation}
+and for the pressure, the isentropic relation in the following form is used
+\begin{equation}
+p=p_4(\frac{rho}{rho_4})^\gamma
+\end{equation}
+Finally, the internal energy is computed with the equation of state \ref{eq:idealGasEqState}.
+
+\subsection{acoustic wave propagation}
+Acoustic phenomena play an important role for the actual problem to be investigated within this project (see \ref{sec:intro}). It is therefore necessary to get an idea on how the code reproduces these phenomena. A crucial issue in this context is the damping of oscillating or propagating waves due to numerical dissipation: Many numerical codes have an intrinsic dissipation, intoduced by the numerical scheme, even when the actually implemented equations are inviscid. This numerical dissipation acts like a real viscous dissipation and diminuishes the kinetic energy of the flow. The comparison of the simulation results against the following test cases, whose theoretical solution is always obtained assuming an inviscid flow (i.e. no dissipation), aim at quantifying this damping. A further point to be investigated by means of these test cases is the capability of the code to exactly reproduce the right periodical time $T$ of the propagating/oscillating wave.
+
+In order to quantify the effect of viscosity in the simulation results (no matter what nature it is), a damping factor
+is introduced as the relative change in amplitude $A$ of two consecutive periods $i$ and $i+1$
+\begin{equation}
+ f_d=\frac{A_i-A_{i+1}}{A_i}
+\end{equation}
+where the amplitude $A$ may be measured either in terms of pressure $p$ or velocity $u$.
+
+For the case of a damping force that is proportional to the velocity, the damping factor
+is constant. This fact is important with regard to the artificial viscosity that can be included in the code (see \ref{sec:ArtVisc}). A closer look at the formulation for the artificial viscosity (\ref{eq:MonArtVis}) yields
+\begin{equation}
+ \Pi_\propto v_{ab}
+\end{equation}.
+This above statement is made assuming $\nu$ from (\ref{eq:MonArtVis}) constant.
+
+
+
+\subsubsection{1D stationnary oscillating wave}
+The configuration of an oscillating wave is taken from \cite{Monaghan2005}, where it is used
+to study the dispersion relation for an infinite one--dimensional gas. In the present context though, the same configuration is judged suitable for the study of damping and evolution of $T$. 
+
+The sinusoidal oscillation of wavelength $\lambda$ is initialized by a velocity profile with amplitude of 5\% of sound speed
+\begin{equation}
+ u(x)=0.05 c\sin(2\pi x/\lambda)
+\end{equation}
+in the domain $0\leq x\leq \lambda$ with periodical boundary conditions on both sides.
+
+For a simple harmonic wave , the theoretical perioiocal time $T$ is given as \cite{Stewart1930}
+\begin{equation}
+ T=\frac{\lambda}{c}
+\end{equation}
+and serves as a reference for the comparison with the simulation results.
+
+
+
+
+
+\subsubsection{1D infinite traveling wave}
+This test case is similar to the above one with the difference that now, the wave travels in one direction through the space. A theoretical description for this kind of wave can be found using the wave equation for a velocity potential. This is a linearized equation and therefore valid only for small disturbances, which for the present application is justified.
+In Stewart \cite{Stewart1930}, the expressions for the fluctuation (denoted by a $\delta$) of the desired quantities around their mean values (denoted by the subscript $0$) are directly given and read as follows:
+\begin{itemize}
+\item velocity evolution 
+\begin{equation}
+\label{eq:1DWaveDetla_u}
+ \delta u(x,t)=k A\prime \sin(k(ct-x))
+\end{equation}
+\item density evolution 
+\begin{equation}
+ \delta \rho(x,t)=\rho_0\frac{k}{c} A\prime  \sin(k(ct-x))
+\end{equation}
+\item pressure evolution 
+\begin{equation}
+ \delta p(x,t)=k c \rho_0 A\prime  \sin(k(ct-x))
+\end{equation}
+\item evolution of the displacement $\xi=x-x_0$
+\begin{equation}
+\label{eq:1DWaveDisplacement}
+ \xi(x,t)=-\frac{A\prime }{c} \cos(k(ct-x))=-\frac{A\prime }{c} \sin(k(ct-x+\frac{\pi}{2k}))
+\end{equation}
+
+\end{itemize}
+
+$A\prime $ denotes the amplitude of the underlying velocity potential and therefore determines the amplitude of the other quantities as well. It can be any random constant with the restriction that the disturubances in $\rho$ and $p$ remain small compared to their mean value (linear theorie). The variable $k$ is the  wavenumber and defined as $k=\frac{2\pi}{\lambda}$.
+
+Furthermore one can note that the displacement is $\pi/2$ or $90°$ in phase ahead of the other quantities. This fact will be important when thinking about the initialization of a finite propagating wave (single wave train). 
+
+For the initialization of the flowfield at the instant $t=0$, the above equations (\ref{eq:1DWaveDetla_u})-(\ref{eq:1DWaveDisplacement}) will be employed (see CORRESPONDING SECTION IN SIMUSETUP...)
+
+
+\subsubsection{1D wave tain with reflextion and interference}
+For the testing of reflextion and interference, the problem as described below is simulated.
+But first, some thoughts on the initialization of a single 1D wave train are presented.
+Goal is, to initialize a 1D wave train in one part of the domain while the rest shall be initialized with unperturbed flow. For this to make any sense, the size of the domain has of course to be superior to the wavelength $\lambda$ of the wave train. 
+
+First attempts to initialize the single wave train using the equations for a continuous (infinite) traveling wave (\ref{eq:1DWaveDetla_u})-(\ref{eq:1DWaveDisplacement}) have turned out to be problematic due to the phase shift between $\rho,p,u$ on the one hand and the displacement $\xi$ on the other hand. As the wave does not continue indefinitely but is simply cut off after one wavelength, there will always be a discontunuity in one of the quantities.  If, for example, the initialization is done with a smooth transition of $\rho,p,u$ from the unperturbed flow, there is a discontinuity in the displacement, and vice versa. This discontunuity (be it in $\rho,p,u$ or in the displacement) constitutes a new disturbance which again is origin of new waves. So, no neat wave train could be created this way. 
+Thus, a different way to generate the wave had to be found and it turned out that the periodic movement of a wall boundary was an appropriate mean to do so. 
+
+Now that single wave trains ca be produced, the test case is introduced:
+
+A domain with size $l_{\mathit{dom}}$ and limited by two solid walls (at $x=0$ and $x=l_{\mathit{dom}}$) is considered. The left hand wall (at $x=0$) has the ability to perform a movement according to a sinusoidal velocity profile, when desired.
+The periodical time $T$ of the wave train is chosen in a way that its wavelegth is
+$\lambda=l_{\mathit{dom}}/4$. The condition on $T$ is therefore
+\begin{equation}
+ T=\frac{l_{\mathit{dom}}}{4 c_0}
+\end{equation}
+
+The following passage explains the temporal course of the theoretically exact test problem
+
+\begin{itemize} 
+\item At $t_0=0$ the left hand side wall begins to move according to 
+\begin{equation}
+  u_{\mathit{wall}}=u_{\mathit{max}}\sin(\omega t) 
+\end{equation}
+  where 
+\begin{equation}
+\omega=2*\Pi/T u_{\mathit{max}}=0.05 c_0
+\end{equation}
+
+
+\item At $t_1=T$ the wall stops moving, meaning that exactly one wave train has been generated, which now travels through the domain
+
+\item At $t_2=l_{\mathit{dom}}/c_0$ the first part of the wave train hits the right hand side  wall and starts being reflected. Simultaniously, the LHS wall starts moving again according to same equation as above, generating a new wave.
+
+\item At $t_3=t_2+T$ the LHS wall stops moving and the generation of the secound wave is finished. 
+The first wave is now completely reflected from the RHS wall
+
+\item At $t_4=t_3+T$ the two waves begin to interfere. (Both wave trains reach the middle of the domain)
+
+\item At $t_5=t_4+T/2$ the interference of the waves is at maximum, i.e. both waves interfere along their entire wavelength
+
+\item At $t_6=t_4+T$ the wave interference is over
+
+\item At $t_7=t_6+T$ both waves hit the respective walls. The test problem ends at this instant
+\end{itemize}
+
+
+To get a visual idea of this problem, refer to figure LABEL (show to situations with wave trains...)
+
+ 
+
+
+
+
+
+
+
+
+
 \section{1D SPH code}
+\label{sec:1DSPHcode}
 
 \subsection{Short overview}
 PERHAPS THIS SUBSECTION TITLE IS REMOVED AND THE FOLLOWING TEXT WILL FIGURE JUST BELOW THE SECTION TITLE!?!
 
 This code has a relatively simple structure, yet it features all the components
 a more sophisticated SPH computational program would incorporate. Both the summation 
-density approach and the continuity density approach are implemented 
-\ref{sec:DensCalcMode} By computing a 1D shock tube problem, the code is used to verify 
-the basic SPH equations which are then implemented in the more complex 2D program. 
+density approach and the continuity density approach are implemented (see 
+\ref{sec:DensCalcMode}.) By computing a 1D shock tube problem, the code is used to verify 
+the basic compressible SPH euler equations which are then implemented in the more complex 2D program. 
 As the analytical solution for this problem is well known, the shock tube is a very 
 common test case for 1D compressible codes \cite{Sod1978} (PERHAPS ONE MORE REFERENCE WHICH STATES THAT SHOCK TUBE IS A COMMONLY USED TEST CASE...). 
 The problem setup and the results obtained are discussed in the corresponding section.
 
-\subsection{Validation case}
-As mentionned above, the test case for this 1D compressible SPH code is a 1D shock tube 
-problem. It is introduced already at this stage as it is referred to sometimes in the 
-following section.
-A shock tube consists of two initially separated (e.g. by a diaphragm) gas--filled areas,
-one side at higher pressure than the other....
-
-PLUS FIGURE SHOCK TUBE
-
 \subsection{Components and structure}
-
+This section introduces all the
 
 \subsubsection{The data structures}
 
@@ -689,7 +974,6 @@ To facilitate the implementation and the handling of the code, two data structur
 This data structure is defined in the header file parameters.h(WRITE IN CODE STYLE) and 
 contains all parameters needed to set up the problem. Among those parameters are 
 geometrical values, the initial conditions, simulation length and time step 
-(IN AN EARLY VERSION; IN A LATER VERSION TRY TO ADAPT TIME STEP AUTOMATICALLY!!!!?!!!) 
 as well as parameters defining the fluid properties.
 
 \paragraph{The simulation data structure}
@@ -1056,12 +1340,52 @@ $x$ $\rho$ $p$ $u$ $e$
 
 
 \section{2D SPH code}
+\label{sec:2DSPHcode}
 \subsection{short overview}
+The 2D SPH code is more sophisticated than the formerly introduced 1D code. Features such as different types of boundary conditions, a more complex and more efficient neighbouring particle search allgorithm , physical viscosity description and heat conduction, as well as an automatic time stepping control are implemented. Thus, this program is more flexible and can be used to treat problems of real scientific and practical importance. 
+
+Just like the 1D SPH code, the 2D code is implemented in C++. While the 1D code is still using a functional programming approach, the 2D code follows the object-oriented programming paradigm.
+
+But before starting to describe the structure of the code including all the objects and their interaction (subject of the following paragraphs), a short introduction on the file structure of the whole repository, which containins code, pre-- and post--processing scripts, results etc. is given.
+
+The main folder is called {\tt sph-blitz} and contains a number of sub--folders. Those folders, that are important for the use of the program, are briefly detailed here. The others contain different add--ins and third--party libraries for the program, but their detailed knowledge is not required.
+While Information on how to install and run the program is given in the corresponding section (\ref{sec:HowToInstAndRun2D}), the present description shall be considered as a first orientation guide. It should help the user to get a rough idea on where to find what.
+\begin{itemize}
+ \item {\tt src}\\
+This folder contains the source code of the c++ program. It has again several subfolders, some of which with further source-files that have been grouped together.
+Furthermore it contains a folder {\tt html} f
+Finally there is also a folder {\tt outdata}, where the simulation results are written to. This folder might not exist by default. In this case it is automatically created during simulation. 
+\item {\tt scripts}\\
+Scripts necessary for pre--processing (generation of initial particle distributions) as well as for post--processing  are arranged in this folder
+\item{\tt gnuplot}\\
+Gnuplot being the name of a plotting--software, this folder contains gnuplot--scripts for visualization of the results.
+
+\end{itemize}
+Some of the folders and subfolders contain README--files, which can be consulted for more precise information and instructions on the corresponding subject. But before having a look at these, it is recommended to read over section \ref{sec:HowToInstAndRun2D}), as many issues are adressed there.
+
+
+
+
+
+
+
+
+
 \subsection{components}
+Describe doxygen
 
 \subsection{structure}
 
 \lstinputlisting[language=c++,caption=An example of program listing,captionpos=b]{code/hello.cpp}
+
+\subsection{How to install and run the program}
+\label{sec:HowToInstAndRun2D}
+
+
+\section{simulation Setup for different test cases}
+\label{sec:simuSetupTestCases}
+
+
 
 \chapter{Results}
 \section{1D SPH code}
