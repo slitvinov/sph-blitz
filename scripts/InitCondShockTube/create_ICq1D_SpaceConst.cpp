@@ -16,13 +16,13 @@ int main () {
   double vl=0,vr=0,pl=0,pr=0,rhol=0,rhor=0,ml=0,mr=0;
   double x=0;
   double domain_size_x=2.0;
-  double domain_size_y=0.005;//should correspond to suport length
+  double domain_size_y=0.025;//should correspond to suport length
   double dx,dy;
   int N_rx, N_lx, N_x,N_ly,N_y,N_l,N_r;
   double N_ry;
 
  //here constant spacing !!dx must be chosen in a way that h is multiple of it (here: e.g. dx= 0.005,0.01,...)
-  dx=0.001;
+  dx=0.005;
   dy=dx;
   cout<<"dx=dy="<<dx<<endl;
   

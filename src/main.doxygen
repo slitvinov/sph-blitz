@@ -16,36 +16,187 @@
  - tcl http://www.tcl.tk/
  - blitz++ http://www.oonumerics.org/blitz/
  - glog http://code.google.com/p/google-glog/
- 
-  \section restart_file Restart file format 
+\section incomp_code Incompressible Version 
+
+  \subsection restart_file Restart file format 
   
-  \section input_file Input file format
+  \subsection input_file Input file format
   Examples of input files are sotred in sph-blitz/case directory.
   Input files are writen in <b>TCL</b> language. See comments 
   in the files for explanation.
   
-  \section sim Runnig simulations
+  \subsection sim Runnig simulations
   \verbatim
  cd src
  ./sph ../cases/couette \endverbatim 
-  \section post Postprocessing
+  \subsection post Postprocessing
   To combine all time snapshots in one file
  \verbatim 
  cd outdata/
  ../../scripts/dat2punto.sh > punto.dat
  \endverbatim
   
-  \section vis Visuzalization 
+  \subsection vis Visuzalization 
   
-  \subsection vis_gnuplot gnuplot
+  \subsubsection vis_gnuplot gnuplot
   \image html pognuplot.png "Poiseuille flow: velocites of the particles visualization with gnuplot"
  
-  \subsection vis_punto punto 
+  \subsubsection vis_punto punto 
 
   \verbatim
  punto -D 2 -c 4 -B 0:0:0.04:0.04 -G -0.6:0.6 -s 8 -lc black -bg white  punto.dat \endverbatim
   \image html couette.png "Couette flow: particle visualization with punto"
   \image html poiseuille.png "Poiseuille flow: particle visualization with punto"
+
+
+
+\section comp_code Compressible Version 
+
+  \subsection input_file Input file format
+
+two inputfiles for compressible version (both in cases folder)
+<UL>
+<LI>tcl-file with information on the configuration (same as for incompressible
+case) 
+<LI>additionally a file to initialize particles (.ivs)
+</UL>
+
+  
+  \subsection simCompr Preparing and Runnig simulations
+<OL>
+<LI> <b>creating the .ivs-file</b> with the particle initialization information <br/>
+go to desired folder in sph-blitz/scripts (for example for shock tube:)
+\verbatim
+sph-blitz/scripts/InitCondShockTube
+\endverbatim
+run 
+\verbatim
+make
+\endverbatim
+run desired initial condition script (example is 1D particle distribution with
+constant mass particles) (q1D in file-name means quasi-1D (2D particle distribution))
+\verbatim
+./create_IC1D_mConst
+\endverbatim
+corresponding .ivs file is now created in sph-blitz/cases<br/>
+<br/>
+<LI> <b>running the simulation</b> <br/>
+go to the source folder
+
+ \verbatim
+ cd ../../ src
+\endverbatim
+and run the simulation program with the two inputfiles (.tcl file WITHOUT file anding)
+\verbatim
+
+ ./sph ../cases/1Dshock ../cases/1DshockMConst.ivs
+\endverbatim
+Note: only use couples of configuration (.tcl) files and .ivs files which are
+suitable
+<br/>
+the following couples go together
+
+<table border="1">
+<tr>
+<td> <b> .tcl files </b> </td>
+<td> <b> .ivs files </b> </td>
+<td> <b> remarks </b>
+</tr>
+<tr>
+<td>1Dshock.tcl</td>
+<td>1DshockSpaceConst.ivs,<br/> 1DshockMConst.ivs</td>
+<td> -- </td>
+</tr>
+<tr>
+<td>q1Dshock.tcl</td>
+<td>q1DshockSpaceConst.ivs,<br/> q1DshockMConst.ivs</td>
+<td> -- </td>
+</tr>
+<tr>
+<td>1DOscillation.tcl</td>
+<td>1DOscillation.ivs</td>
+<td>  uncomment line 158 in sph.cpp for mass calculation  </td>
+</tr>
+<tr>
+<td>1DTravelingWave.tcl</td>
+<td>1DTravelingWave.ivs</td>
+<td> <UL> <LI> concerning artificial viscosity:c.f footnote under table <br/>
+<LI> uncomment line 158 in sph.cpp for mass calculation </UL> </td>
+</tr>
+<tr>
+<td>singleWaveWithReflection.tcl </td>
+<td>1DunperturbedDomain.ivs</td>
+<td> <UL> <LI> concerning artificial viscosity:c.f footnote under table <br/>
+<LI> uncomment line 158 in sph.cpp for mass calculation
+<LI> uncomment line 71-81 in Timesolver/gastimesolverLeapfrog.cpp for moving wall </UL> </td>
+
+
+</tr>
+</table> 
+Note: as artificial viscosity is implemented and only turned on for
+approaching particles (as recommended for shock tube in literature), the
+traveling waves are distorded. To get rid of this effect one would have to
+turn on art. visc. globally (interaction.cpp, line 159,
+if-statement,e.g. change to if(-1<0) ). A simulation without any art. visc. is not
+(physically) stable as the SPH code does not introduce any intrinsic numerical dissipation
+
+  \subsection postCompr Postprocessing
+<OL>
+<LI>  <b>combine all time snapshots in one file</b>
+ \verbatim 
+ cd outdata/
+ ../../scripts/dat2punto.sh > punto.dat
+ \endverbatim
+
+<li>still in outdata: <b>run gnuplot</b>
+\verbatim
+gnuplot\
+\endverbatim
+in gnuplotshell, <b>run gnuplot-script</b> depending on the simulation type
+<UL>
+<LI> for shock tube with 1D particle distribution (4 options)
+\verbatim
+load '../../gnuplot/shockTube_1D/velocity_movie.gp'
+load '../../gnuplot/shockTube_1D/pressure_movie.gp'
+load '../../gnuplot/shockTube_1D/density_movie.gp'
+load '../../gnuplot/shockTube_1D/energy_movie.gp'
+
+\endverbatim
+<LI> for q1D Shock-tube (2D particle distribution) (4 options as well),
+  \verbatim
+load '../../gnuplot/shockTube_q1D/velocity_movie.gp'
+load '../../gnuplot/shockTube_q1D/pressure_movie.gp'
+load '../../gnuplot/shockTube_q1D/density_movie.gp'
+load '../../gnuplot/shockTube_q1D/energy_movie.gp'
+\endverbatim
+<LI>for 1D stationnary oscillating wave
+\verbatim
+load '../../gnuplot/1DWave/waveMovieVelocity.gp'
+load '../../gnuplot/1DWave/waveMoviePressure.gp'
+load '../../gnuplot/1DWave/waveMovieDensity.gp'
+load '../../gnuplot/1DWave/waveMoviePosition.gp'
+\endverbatim
+<LI>for 1D traveling wave
+\verbatim
+load '../../gnuplot/1DWave/TravelingWaveMovieVelocity.gp'
+load '../../gnuplot/1DWave/TravelingWaveMoviePressure.gp'
+load '../../gnuplot/1DWave/TravelingWaveMovieDensity.gp'
+load '../../gnuplot/1DWave/TravelingWaveMoviePosition.gp'
+\endverbatim
+
+<LI>for single 1D wave train with reflection and interference
+\verbatim
+load '../../gnuplot/1DWave/SingleWaveMovieVelocity.gp'
+load '../../gnuplot/1DWave/SingleWaveMoviePressure.gp'
+load '../../gnuplot/1DWave/SingleWaveMovieDensity.gp'
+\endverbatim
+
+If a post-processing including quantitative comparison to reference solution (for shock tube cases) is desired, 
+refer to README in sph-blitz/scripts/postProcessingShockTube.
+<br/>There are also results (readily post processed, including visualization) in their respective folder, for example:
+<br/>sph-blitz/results/ShockTubeTestCase/1DpartDist_constMass_LeapFrog_sumDes
+<br/>(this is for 1D particle distribution with constant mass particles, leapFrog integrator and summation approach for density calculation)
+
 */
 
 

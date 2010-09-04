@@ -53,8 +53,8 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     //const double dt = 0.0025;
     
     ///<ul><li> call for automatic time step control GasDyn
-    // const double dt=hydro.GetTimestepGas(ini);
-    const double dt=0.000422577127;
+     const double dt=hydro.GetTimestepGas(ini);
+    // const double dt=0.000422577127;
     
     //control output
     LOG(INFO)<<"\n current timestep:"<<dt;
@@ -79,7 +79,8 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     //   boundary.UxBl[0]=0.05916*sin(14.86873023*Time);
     // if(Time>=2.112885637-1e-7)
     //   boundary.UxBl[0]=0;
-    // //LOG(INFO)<<"\n current U wall: "<<boundary.UxBl[0];
+   
+
     
     ///<li>screen information for the iteration
     if(ite % 10 == 0) cout<<"N="<<ite<<" Time: " <<Time<<"	dt: "<<dt<<"\n";

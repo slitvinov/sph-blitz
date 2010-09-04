@@ -13,7 +13,7 @@ set INTEGRATION_SCHEME 1
 #possible density treatments
 #1: summation density (density obtained by smoothing)
 #2: continuity density (density is integrated)
-set DENSITY_MODE 2
+set DENSITY_MODE 1
 
 # initial conditions flag 
 # 0: use initial 

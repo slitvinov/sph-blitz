@@ -34,19 +34,17 @@ set CELL_SIZE 0.03125
 
 # support length of the kernel 
 # -> make sure that support length > particle spacing
-# (0.03 is not bad for m=cte=0.001875)
-# (xx is not bad for dx=cte=0.005)
 set SUPPORT_LENGTH 0.0252
 
 # number of particles in one cell size
 # not used in 1D shock 
 set CELL_RATIO 1
 
-# initial particles velocity
+# initial particles velocity (not used)
 set U0(0) 0.0
 set U0(1) 0.0
 
-# initial propeties of the particles
+# initial propeties of the particles (not used)
 set rho0 0.0
 set p0 0.5
 set T0 1.0
@@ -85,8 +83,8 @@ set UyBu(1) 0.0
 
 # time step
 set Start_time 0.0		
-set End_time 10
-set D_time 0.002
+set End_time 5
+set D_time 0.05
 
 set NUMBER_OF_MATERIALS 2
 set material_name(0) Wall

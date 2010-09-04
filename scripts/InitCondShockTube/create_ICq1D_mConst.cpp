@@ -10,13 +10,13 @@
 using namespace std;
 
 int main () {
-  double m=1.5625e-6;
+  double m=0.000025;
   char inputfile[25]="1DST.dat";
   char Key_word[125];
   double vl=0,vr=0,pl=0,pr=0,rhol=0,rhor=0;
   double x=0;
   double domain_size_x=2.0;
-  double domain_size_y=0.015;//should correspond to suport length
+  double domain_size_y=0.025;//should correspond to suport length
   double dx_l,dx_r,dy_l,dy_r;
   int N_rx, N_lx, N_x,N_y,N_l,N_r;
  int N_ry,N_ly;
@@ -56,7 +56,7 @@ int main () {
   cout<<"N_lx"<<N_lx<<endl;
   N_ry=domain_size_y/dy_r+1;
   cout<<"N_ry"<<N_ry<<endl;
-  N_ly=domain_size_y/dy_l+1;
+  N_ly=domain_size_y/dy_l;
   cout<<"N_ly"<<N_ly<<endl;
   
   int N;

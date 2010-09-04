@@ -16,7 +16,7 @@ int main () {
   const double p_0=1.0;
   const double gamma=1.4;//gamma air
   const double rho=1.0;// density (considered constant)
-  const int N=110;// number of particles
+  const int N=100;// number of particles
   const double domain_size=1.0;
   const double lambda=1.0;// wavelength
  

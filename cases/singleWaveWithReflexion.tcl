@@ -42,11 +42,11 @@ set SUPPORT_LENGTH 0.0252
 # not used in 1D shock 
 set CELL_RATIO 1
 
-# initial particles velocity
+# initial particles velocity (not used)
 set U0(0) 0.0
 set U0(1) 0.0
 
-# initial propeties of the particles
+# initial propeties of the particles(not used)
 set rho0 0.0
 set p0 0.5
 set T0 1.0
@@ -86,7 +86,7 @@ set UyBu(1) 0.0
 # time step
 set Start_time 0.0		
 set End_time 3.38062
-set D_time 0.211288563
+set D_time 0.0422411163
 
 set NUMBER_OF_MATERIALS 2
 set material_name(0) Wall

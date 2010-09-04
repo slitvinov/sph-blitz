@@ -24,7 +24,7 @@ set INITIAL_CONDITION 0
 
 # number of cells in X and Y directions
 # 130 cells in x direction are good for supportlength =0.03 (for m=cte=0.001875)
-# xx cells in x direction are good for supportlength =xx (for dx=cte=0.05)
+
 set CELLS(0) 130
 set CELLS(1) 1
 
@@ -35,8 +35,8 @@ set CELL_SIZE 0.03
 # support length of the kernel 
 # -> make sure that support length > particle spacing
 # (0.03 is not bad for m=cte=0.001875)
-# (xx is not bad for dx=cte=0.005)
-set SUPPORT_LENGTH 0.025
+
+set SUPPORT_LENGTH 0.03
 
 # number of particles in one cell size
 # not used in 1D shock 
@@ -46,7 +46,7 @@ set CELL_RATIO 1
 set U0(0) 0.0
 set U0(1) 0.0
 
-# initial propeties of the particles
+# initial propeties of the particles (not used for compressible case)
 set rho0 0.0
 set p0 0.5
 set T0 1.0
