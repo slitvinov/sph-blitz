@@ -58,10 +58,9 @@
 <a name="l00034"></a>00034 
 <a name="l00036"></a>00036         <a class="code" href="classHydrodynamics.html#837d2adb43e7d4ea4fa5a1c89bb59313" title="constructor">Hydrodynamics</a>(<a class="code" href="classParticleManager.html" title="Particle manager class.">ParticleManager</a> &amp;particles, <a class="code" href="classInitiation.html" title="Initiates the simulation It must be a one copy of Initiation object and copying is...">Initiation</a> &amp;ini);
 <a name="l00037"></a>00037 
-<a name="l00039"></a>00039         <span class="keywordtype">double</span> <a class="code" href="classHydrodynamics.html#6d30abd98e4bb9d7b9b6605099e27385" title="get the time step">GetTimestep</a>(<span class="keyword">const</span> <a class="code" href="classInitiation.html" title="Initiates the simulation It must be a one copy of Initiation object and copying is...">Initiation</a>&amp; ini) <span class="keyword">const</span>;
-<a name="l00040"></a>00040         <span class="keywordtype">double</span> GetTimestepGas(<span class="keyword">const</span> <a class="code" href="classInitiation.html" title="Initiates the simulation It must be a one copy of Initiation object and copying is...">Initiation</a>&amp; ini) <span class="keyword">const</span>;
-<a name="l00042"></a>00042   <span class="keywordtype">void</span> <a class="code" href="classHydrodynamics.html#7b536220e99d3160b9fd5bd3bfba03ae" title="build new pairs">BuildInteractions</a>(<a class="code" href="classParticleManager.html" title="Particle manager class.">ParticleManager</a> &amp;particles, <a class="code" href="glbtype_8h.html#d8eca68d62feb04dbeb3d5e038af892a" title="a shared pointer to time kernel">spKernel</a> weight_function,
-<a name="l00043"></a>00043                          <span class="keyword">const</span> <a class="code" href="classInitiation.html" title="Initiates the simulation It must be a one copy of Initiation object and copying is...">Initiation</a>&amp; ini);
+<a name="l00039"></a>00039         <span class="keywordtype">double</span> <a class="code" href="classHydrodynamics.html#6d30abd98e4bb9d7b9b6605099e27385" title="get the time step for hydro">GetTimestep</a>(<span class="keyword">const</span> <a class="code" href="classInitiation.html" title="Initiates the simulation It must be a one copy of Initiation object and copying is...">Initiation</a>&amp; ini) <span class="keyword">const</span>;
+<a name="l00041"></a>00041         <span class="keywordtype">double</span> <a class="code" href="classHydrodynamics.html#fc0fb24bd0e968b467f5027c09db303d" title="get the time step for gas dyanamics">GetTimestepGas</a>(<span class="keyword">const</span> <a class="code" href="classInitiation.html" title="Initiates the simulation It must be a one copy of Initiation object and copying is...">Initiation</a>&amp; ini);
+<a name="l00043"></a>00043         <span class="keywordtype">void</span> <a class="code" href="classHydrodynamics.html#7b536220e99d3160b9fd5bd3bfba03ae" title="build new pairs">BuildInteractions</a>(<a class="code" href="classParticleManager.html" title="Particle manager class.">ParticleManager</a> &amp;particles, <a class="code" href="glbtype_8h.html#d8eca68d62feb04dbeb3d5e038af892a" title="a shared pointer to time kernel">spKernel</a> weight_function, <span class="keyword">const</span> <a class="code" href="classInitiation.html" title="Initiates the simulation It must be a one copy of Initiation object and copying is...">Initiation</a>&amp; ini);
 <a name="l00045"></a>00045         <span class="keywordtype">void</span> <a class="code" href="classHydrodynamics.html#26fd9721c73e098ceff407b2ad3a0ff5" title="update new parameters in pairs">UpdateInteractions</a>(<a class="code" href="glbtype_8h.html#d8eca68d62feb04dbeb3d5e038af892a" title="a shared pointer to time kernel">spKernel</a> weight_function);
 <a name="l00046"></a>00046 
 <a name="l00047"></a>00047         <span class="comment">//manupilate the particle physics</span>
@@ -102,7 +101,7 @@
 <a name="l00099"></a>00099 
 <a name="l00100"></a>00100 <span class="preprocessor">#endif //HYDRODYNAMICS_H</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Fri Aug 6 11:25:08 2010 by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Mon Sep 6 17:43:25 2010 by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>

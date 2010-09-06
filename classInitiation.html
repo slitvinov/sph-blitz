@@ -79,6 +79,12 @@ Tcl::interpreter&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInitiation.html#1bbced7f2136569c065e0f5c874c6cff">initial_condition</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">initial condition marker:  <a href="#1bbced7f2136569c065e0f5c874c6cff"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="5de751f555cc4070f12097d40c7b4c83"></a><!-- doxytag: member="Initiation::disable_boundary" ref="5de751f555cc4070f12097d40c7b4c83" args="" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInitiation.html#5de751f555cc4070f12097d40c7b4c83">disable_boundary</a></td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">disable boundary condition marker:<ul>
+<li>0 boundary conditions enabled</li><li>1 boundary conditions disabled </li></ul>
+<br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="db9ebb73d2d6e17bb8e0179d29abaf7b"></a><!-- doxytag: member="Initiation::simu_mode" ref="db9ebb73d2d6e17bb8e0179d29abaf7b" args="" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInitiation.html#db9ebb73d2d6e17bb8e0179d29abaf7b">simu_mode</a></td></tr>
 
@@ -208,7 +214,7 @@ Here is the call graph for this function:</div>
 <div class="dynsection">
 <p><center><img src="classInitiation_63ff63740e3dac5ef22283e840e400b6_cgraph.png" border="0" usemap="#classInitiation_63ff63740e3dac5ef22283e840e400b6_cgraph_map" alt=""></center>
 <map name="classInitiation_63ff63740e3dac5ef22283e840e400b6_cgraph_map">
-<area shape="rect" href="classInitiation.html#1a3e11bc3cf92b25fb22b9d40436debd" title="show information on screen" alt="" coords="203,5,411,32"></map>
+<area shape="rect" href="classInitiation.html#1a3e11bc3cf92b25fb22b9d40436debd" title="show information on screen" alt="" coords="183,5,361,32"></map>
 </div>
 
 </div>
@@ -249,7 +255,7 @@ Here is the caller graph for this function:</div>
 <div class="dynsection">
 <p><center><img src="classInitiation_1a3e11bc3cf92b25fb22b9d40436debd_icgraph.png" border="0" usemap="#classInitiation_1a3e11bc3cf92b25fb22b9d40436debd_icgraph_map" alt=""></center>
 <map name="classInitiation_1a3e11bc3cf92b25fb22b9d40436debd_icgraph_map">
-<area shape="rect" href="classInitiation.html#63ff63740e3dac5ef22283e840e400b6" title="Initiation::Initiation" alt="" coords="261,5,411,32"></map>
+<area shape="rect" href="classInitiation.html#63ff63740e3dac5ef22283e840e400b6" title="Initiation::Initiation" alt="" coords="235,5,363,32"></map>
 </div>
 
 </div>
@@ -295,16 +301,37 @@ mass initiation is different from 1DSPH code: here: mass is calculated by summin
 <li>
 iterate particles on the particle list<p>
 <dl class="todo" compact><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>{initialize particle mass via initiation file...} </dd></dl>
+<p>
+<ul>
+<li>
+pick an origin particle<p>
+size of the list can be zero in some circumstances but in 1D (2D) shock it is not expected<p>
 </li>
+<li>
+iterate this Nearest Neighbor spParticle list<p>
+</li>
+<li>
+calculate distance (origin&lt;-&gt; neighbor)<p>
+</li>
+<li>
+calculate weight function for given distance (w=0, if dist&gt;supportlengtg) an summ it up </li>
+</ul>
+<p>
+</li>
+<li>
+calculate volume as reciprocal value of weight function<p>
+</li>
+<li>
+save volume and mass in the respective particle list node (whih is each a spParticle object with all the particle properties) </li>
 </ul>
 
 <p>
 <div class="dynheader">
-Here is the caller graph for this function:</div>
+Here is the call graph for this function:</div>
 <div class="dynsection">
-<p><center><img src="classInitiation_cdca7ed4a42af8799edc416086e35e97_icgraph.png" border="0" usemap="#classInitiation_cdca7ed4a42af8799edc416086e35e97_icgraph_map" alt=""></center>
-<map name="classInitiation_cdca7ed4a42af8799edc416086e35e97_icgraph_map">
-<area shape="rect" href="sph_8cpp.html#0ddf1224851353fc92bfbff6f499fa97" title="The main program." alt="" coords="227,5,280,32"></map>
+<p><center><img src="classInitiation_cdca7ed4a42af8799edc416086e35e97_cgraph.png" border="0" usemap="#classInitiation_cdca7ed4a42af8799edc416086e35e97_cgraph_map" alt=""></center>
+<map name="classInitiation_cdca7ed4a42af8799edc416086e35e97_cgraph_map">
+<area shape="rect" href="classParticleManager.html#440983b60aa4d0337c9ed3c40860bd3e" title="do NNP search around a point and build the NNP list" alt="" coords="209,5,388,32"><area shape="rect" href="vec2d_8h.html#977aa48c7b1ffeff460162482c21e2c4" title="Return the distance of two points given as vectors." alt="" coords="439,31,521,57"></map>
 </div>
 
 </div>
@@ -404,7 +431,7 @@ number of materials
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="initiation_8h_source.html">initiation.h</a><li><a class="el" href="initiation_8cpp.html">initiation.cpp</a></ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Fri Aug 6 11:25:42 2010 by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Mon Sep 6 17:44:11 2010 by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>
