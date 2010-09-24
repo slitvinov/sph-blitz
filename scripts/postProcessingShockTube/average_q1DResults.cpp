@@ -15,7 +15,7 @@ using namespace std;
 
 int main (){
 
-  const int n_col=8;// number of columns in smulation output file
+  const int n_col=8;// number of columns in simulation output file
   double buffer;
   int counter=0;
   vector<double> row(n_col,0);

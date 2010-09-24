@@ -28,16 +28,16 @@ int main (){
   
   cout<<"please enter the output time interval in s (as specified in 1DWave.tcl file:"<<endl;
   cin>>timeInterval;
-cout<<"please enter the wavelength of the oscillation (as specified in createIC-file):"<<endl;
- cin>>lambda;
+  cout<<"please enter the wavelength of the oscillation (as specified in createIC-file):"<<endl;
+  cin>>lambda;
 
   // while loop over all output intervall values
   for(;;) {
     double maxVelocThisInstant=-10000;// max velocity of current instant(=output time)
     
     // assemble input file name
-    stringstream number;//string for number (time stamp)
-    stringstream number2;//string for second time stamp if first one not o.k.
+    stringstream number;// string for number (time stamp)
+    stringstream number2;// string for second time stamp if first one not o.k.
     // calculate number (time stamp) for file name
     // needs to be casted to int as otherwise numbers over 1,000,000 
     // have the format 1e+6 which is not ok for the file name
@@ -66,7 +66,7 @@ cout<<"please enter the wavelength of the oscillation (as specified in createIC-
     // while reading directly sort out the boundary particles
     while(!fin.eof()) {
       
-      // very "elegant" way of cutting off first to lines of file 
+      // very "elegant" way of cutting off first two lines of file 
       // (as they do not contain data), but did not know any better
       string garbage;
       getline(fin,garbage);
@@ -104,11 +104,11 @@ cout<<"please enter the wavelength of the oscillation (as specified in createIC-
     // does not work!
 
     // he program has got some slight problems comparing those double and
-    // exacuting this allgorithm: if the two values next to the maximum are
+    // executing this allgorithm: if the two values next to the maximum are
     // exactly identical, it finds nothing, and some times it takes the value
-    // before or after the actual maximum!
+    // just before or after the actual maximum!
     // is there something wrong with this allgorithm or is it a c++ problem
-    // related to double comparison or something lese???
+    // related to double comparison or something else???
     for (int i=0;i<inputFileData.size()-2;i++) {
       //if it is a real local maximum (not at the edges)
       if(inputFileData[i][4]<inputFileData[i+1][4])
@@ -170,11 +170,6 @@ cout<<"please enter the wavelength of the oscillation (as specified in createIC-
   cout<<"\n 1D Wave port-processing date written to:\n";
   cout<<"   "<<outputfile<<"\n";
   
-
-
-
-
-
 
  const string outputfile2 = "../../results/ResultsInProgress/DampingPeriod.dat";
   // create and open outputfile

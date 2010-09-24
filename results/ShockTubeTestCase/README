@@ -1,14 +1,17 @@
 Remarks on the evaluation of the simulation results:
 
-- the error of simulated data compared to the exact solution is measured by the L_1 norm: ||E||_1 =SUM |E_i,Nt| 
-  where E_i,Nt is the error vector for particle i at the time(step) Nt. The error vector E consists of 
-  the three variables rho, u, e, E=(rho,u,e) (p =rho*R*T, T=e/cv and so p is not independant of those 3 variables.
-  Therefore there is no need to include p in this consideration) 
+- the error of simulated data compared to the exact solution is measured by the L_1, L_2 and L_inf norm norm
+  (the norm efinition is taken from Novak2007 (Journal of Computational Physics 226 (2007) 1271–1290).
+  The errors are normalized with the following characteristic values 
+  (rho_4 (initial density high pressure side), e_4 (initial internal energy h.p. side), u_2(=u_3) induced velocity by shock)
 
-  Remark: in order for the cumulated error ||E||_1 to be independant of the spacial ressolution it is divided
-  by the number of particles N in the (considered) domain. (Others multiply it with dx which is based on the same principle,
+  
+  Remark: in order for the cumulated error ||E||_1 to be independant of the spacial resolution it is divided
+  by the number of particles N in the (considered) domain (in this case, the parameter A in the norm definition of Novak 2007 is:  A=const=1).
+  (Others multiply it with dx which is based on the same principle,
   but as for the particular case of an SPH shock tube there is not necessarily a constant particle spacing, 
   a divison by N is preferred)
+  
 
 - furthermore the relative (NO, THE ABSOLUTE, as relative nonsens for 0) error for each variable (rho,p, u,e) is determined for each particle position 
   (as well as the average (NO, THE CUMMULATED) value over all particles)

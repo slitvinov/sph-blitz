@@ -6,7 +6,11 @@ Post processing for quantitative comparison of simulation results with exact
 solution 
 
 ############################################################################
-
+preliminary remark: when <<exactResAndErr1DST.cpp>>is mentionned in the text below, always use
+<<exactResAndErr1DST2.cpp>>, as this is the version with the corrected norm definitions.
+There is another program <<<<exactResAndErr1DST3.cpp>> which does the same post-processing but with
+all the data files being in one and the same folder (can be used for later post-processing, once the files are 
+not any more in their original location)
 
 for results obtained with 1D particle distribution
 --------------------------------------------------
@@ -30,7 +34,7 @@ after a simulation (with 1D particle distribution) has been conducted and as
 long as the results still are in the directory <<sph-blitz/src/outdata>>:
 
 1. run the shell script <<prepareDirectory.sh>> in a shell placed in this
-(/sph-blitz/scripts/postProcessing) directory
+(/sph-blitz/scripts/postProcessingShockTube) directory
 
  This will perform the following action:
  - create a new directory <<ResultsInProgress>> in sph-blitz/results
@@ -82,10 +86,10 @@ long as the results still are in the directory <<sph-blitz/src/outdata>>:
      file in one plot command (for errorbars) ...pipeing data with linux
      commands would possibly work but to complicated...)
 
-   * <</results/ResultsInProgress/IntegralAndMeanErrorxxxxxxxx.dat>>
+   * <</results/ResultsInProgress/IntegralErrorxxxxxxxx.dat>>
      this file contains the integral error of the simulation results
-     (in the domain x=+/-0.5 around the diaphragm) measured by the L_1 norm
-     (for more information on the used L_1 norm, see
+     (in the domain x=+/-0.5 around the diaphragm) measured by the L_1,L_2,L_inf norm
+     (for more information on the used norms, see
      <<../../results/ShockTubeTestCase/README>>)
  
 3. use the gnuplot scripts to visualize the results 
@@ -258,10 +262,10 @@ This will perform the following action:
      file in one plot command (for errorbars) ...pipeing data with linux
      commands would possibly work but to complicated...
 
-   * <</results/ResultsInProgress/IntegralAndMeanErrorxxxxxxxx.dat>>
+   * <</results/ResultsInProgress/IntegralErrorxxxxxxxx.dat>>
      this file contains the integral error of the simulation results
-     (in the domain x=+/-0.5 around the diaphragm) measured by the L_1 norm
-     (for more information on the used L_1 norm, see
+     (in the domain x=+/-0.5 around the diaphragm) measured by the L_1,L_2,L_inf norm
+     (for more information on the used norms, see
      <<../../results/ShockTubeTestCase/README>>)
  
  4. use the gnuplot scripts to visualize the results 

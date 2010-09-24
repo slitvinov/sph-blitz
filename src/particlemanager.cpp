@@ -111,7 +111,7 @@ std::list<spParticle> ParticleManager::BuildNNP(Vec2d &point)
   std::list<spParticle> NNP_list;
   NNP_list.clear();
   
-  LOG(INFO) << "NPP list should now be empty: Size: "<<NNP_list.size() ;
+  LOG_EVERY_N(INFO,10000) << "NPP list should now be empty: Size: "<<NNP_list.size() ;
   //where is the point
   const int k = int ((point[0] + cll_sz)/ cll_sz);
   const int m = int ((point[1] + cll_sz)/ cll_sz);

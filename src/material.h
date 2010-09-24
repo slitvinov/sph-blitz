@@ -24,8 +24,9 @@ public:
 	int material_type;
 
 	double cv;///<heat capacity
-	double eta;///<viscosity
-	double gamma; ///<???
+	double eta;///<(shear) viscosity
+	double zeta;///<bulk viscosity
+	double gamma; ///<ratio of specific heats (adiabatic index)
 
 	double nu; ///<kinetice viscosity
 	double b0;///<reference pressure

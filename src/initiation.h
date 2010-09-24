@@ -58,6 +58,18 @@ public:
   ///simulation mode (1: liquids, 2: gas dynamics)
   int simu_mode;
 
+  ///\brief physical viscosity marker:
+  ///
+  ///- 1: including physical viscosity
+  ///- 0: no physical viscosity
+  int physical_viscosity_marker; 
+
+  ///\brief artificial viscosity marker:
+  ///- 2. art. visc. globally turned on
+  ///- 1: incl. art. visc. for compression only (as needed for shock-tube case)
+  ///- 0: no artificial viscosity
+  int artificial_viscosity_marker; 
+
   ///\brief density mode marker
   ///
   ///- 1: summation density (density obtained by smoothing),
@@ -80,10 +92,22 @@ public:
   ///g force on particles
   Vec2d g_force;
 
+  ///\brief marker to choose output format
+  /// 
+  /// 0: used for post-processing of shocktube cases and wave propagation; format: x, y, rho, p, Ux, e, ID, m
+  /// 1: used for visualization with SPLASH-program; format x, y, Ux, Uy, rho, e, p, h=supportlength/2, m, V, ID
+  int splash_optimized_output;
+
   //timing control
   double Start_time;///<Simulation start time
   double End_time;///<Simulation end time
   double D_time;///<time interval for output (every D_time: output)
+  ///\brief marker for automatic time control
+  /// 0: autom. time conrtol switched off
+  /// 1: autom time control activated!
+  double autom_dt_control;
+  double manually_choosen_dt;///<Time-step (specified in .tcl-configuration file) which is applied if autom. dt-control is turned off
+
 
   Vec2d U0;///<inital flow speed (if initial condition is defined here)w
   double rho0;///<initial particle density(if initial condition is defined here)

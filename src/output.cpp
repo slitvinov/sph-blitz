@@ -33,14 +33,18 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
   out<<"title='particle position' \n";
   if( ini.simu_mode==1)
     out<<"variables=x, y, Ux, Uy rho\n";
-  if (ini.simu_mode==2)
-    out<<"variables=x, y, rho, p, U, e, ID, m \n";
+  if (ini.simu_mode==2) {
+    if (ini.splash_optimized_output==0)
+      out<<"variables=x, y, rho, p, Ux, e, ID, m \n";
+    else 
+      out<<"variables=x, y, Ux, Uy, rho, e, p, h=supportlength/2, m, V, ID \n";
+  }
   int f=0, g=0, a=0, b=0; 	
-  ///<li>output real and soild particles
+  ///<li>output real and solid particles
   for(int i = 0; i < ini.number_of_materials; i++) {
     f=0; g=0; a=0; b=0;	
     int j = 0; //if there is such material or not
-    ///<ul><li>iterate the real partilce list
+    ///<ul><li>iterate the real particle list
     BOOST_FOREACH(spParticle prtl, hydro.particle_list) {
       f++;
       assert(prtl != NULL);
@@ -56,36 +60,81 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
 	      << "  " << prtl->U[0] << "  " << prtl->U[1]
 	      << "  " << prtl->rho << '\n';
         }
-	if (ini.simu_mode == 2)
-	  out<<setprecision(9)
-	     << ::setw(17)<<prtl->R[0] 
-	     << ::setw(17)<<prtl->R[1] 
-	     << ::setw(17) <<prtl->rho 
-	     << ::setw(17)<<prtl->p
-	     << ::setw(17)<<prtl->U[0]
-	     << ::setw(17)<<prtl->e
-	     <<"  "<<prtl->ID
-	     <<"  "<<prtl->m<<"\n";
+	if (ini.simu_mode == 2) {
+	  if (ini.splash_optimized_output==0)
+	    out<<setprecision(9)
+	       << ::setw(17)<<prtl->R[0] 
+	       << ::setw(17)<<prtl->R[1] 
+	       << ::setw(17) <<prtl->rho 
+	       << ::setw(17)<<prtl->p
+	       << ::setw(17)<<prtl->U[0]
+	       << ::setw(17)<<prtl->e
+	       <<"  "<<prtl->ID
+	       <<"  "<<prtl->m
+	       <<"\n";
+	  else
+	    out<<setprecision(9)
+	       << ::setw(17)<<prtl->R[0] 
+	       << ::setw(17)<<prtl->R[1] 
+	       << ::setw(17)<<prtl->U[0]
+	       << ::setw(17)<<prtl->U[1]
+	       << ::setw(17) <<prtl->rho 
+	       << ::setw(17)<<prtl->e
+	       << ::setw(17)<<prtl->p
+	       << ::setw(17)<<ini.supportlength/2
+	       <<"  "<<prtl->m
+	       <<"  "<<prtl->V
+	       <<"  "<<prtl->ID
+	       <<"\n";
+	}
       }
     }
+    // if(ini.simu_mode==2&&ini.splash_optimized_output==1) {
+    //   out<<endl;
+    //   out<<"Boudnary Particles"<<endl;
+    // }
+
     /// <li>iterate the boundary partilce list
     BOOST_FOREACH(spParticle prtl, boundary.boundary_particle_list) {
       g++;		
       if(hydro.materials[i]->material_name == prtl->mtl->material_name) { 
 	j ++;
 	b++;
-	if (j == 1) {
-          out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
-        }
-	out<<setprecision(9)
-	   << ::setw(17)<<prtl->R[0] 
-	   << ::setw(17)<<prtl->R[1] 
-	     << ::setw(17) <<prtl->rho 
-	     << ::setw(17)<<prtl->p
-	     << ::setw(17)<<prtl->U[0]
-	     << ::setw(17)<<prtl->e
-	     <<"  "<<prtl->ID
-             <<"  "<<prtl->m<<"\n";
+	if( ini.simu_mode == 1) {
+	  if(j == 1)  {
+	    out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
+	  }
+	  out << prtl->R[0] << "  " << prtl->R[1]
+	      << "  " << prtl->U[0] << "  " << prtl->U[1]
+	      << "  " << prtl->rho << '\n';
+	}
+	if (ini.simu_mode == 2) {
+	  if (ini.splash_optimized_output==0)
+	    out<<setprecision(9)
+	       << ::setw(17)<<prtl->R[0] 
+	       << ::setw(17)<<prtl->R[1] 
+	       << ::setw(17) <<prtl->rho 
+	       << ::setw(17)<<prtl->p
+	       << ::setw(17)<<prtl->U[0]
+	       << ::setw(17)<<prtl->e
+	       <<"  "<<prtl->ID
+	       <<"  "<<prtl->m
+	       <<"\n";
+	  else
+	    out<<setprecision(9)
+	       << ::setw(17)<<prtl->R[0] 
+	       << ::setw(17)<<prtl->R[1] 
+	       << ::setw(17)<<prtl->U[0]
+	       << ::setw(17)<<prtl->U[1]
+	       << ::setw(17) <<prtl->rho 
+	       << ::setw(17)<<prtl->e
+	       << ::setw(17)<<prtl->p
+	       << ::setw(17)<<ini.supportlength/2
+	       <<"  "<<prtl->m
+	       <<"  "<<prtl->V
+	       <<"  "<<prtl->ID
+	       <<"\n";
+	}
       }
     }
   }

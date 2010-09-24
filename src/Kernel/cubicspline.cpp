@@ -60,7 +60,7 @@ Vec2d CubicSpline::gradW(const double distance, const Vec2d& distanceVector) con
 //----------------------------------------------------------------------------------------
 double CubicSpline::F(const double distance) const
 {
-  double R= 2.0*distance/ supportlength; // 
+  double R= 2.0*distance/ supportlength; 
   if (R>2.0) {
     //support of 4h, everything beyond is zero    
     return 0.0;

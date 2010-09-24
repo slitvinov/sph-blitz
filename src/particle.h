@@ -76,11 +76,11 @@ class Particle {
 	Vec2d P_n;///<do not knwo what this is n=?conservative???<b>!!!Question!!!</b>
 	Vec2d U_n; ///<do not knwo what this is n=?conservative???<b>!!!Question!!!</b>
 	double e_I;///<intermediate value of internal enegry (used in the integrator)
-        double e_n; ///intermediate volume, internal energy used in integrator
+        double e_n; //intermediate volume, internal energy used in integrator
 
-	//for multimaterials
-	double eta; ///particle.h(line 69-74) viscosity of each particle<b>!!!Question!!!</b>
-	
+
+	double eta; ///<(shear) viscosity of each particle
+	double zeta; ///<bulk viscosity of each particle
 	//change rate for real particles
 	double drhodt; ///<density change rate for real particles
         double dedt; ///<internal energy change rate for real particles

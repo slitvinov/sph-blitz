@@ -76,6 +76,8 @@ What I will do now:
     the perturbation study (which will be reset to the standard program functionality afterwards):
 	-> mass is not initialized via the external(.ivs) files but calculated within the program using the 
 	   method initiation:VolumeMass() which has already been implemented for incompressible simulations
+      this way as well, the summ of all particle volumes will not be exactly the domain volume, but the difference
+      is very small (see "Smoothed dissipative particle dynamics", Espanol2003)
     
 The actual perurbation study
 ----------------------------
@@ -108,17 +110,3 @@ The actual perurbation study
       does not apply any more (as due to the perturbation particles in the second dimension do not necessarily have 
       the same x position any more). 
     
-Results
--------
-
-the 2D particle distribution seems to be more resistant to disordered particles than the 1D distribution.
-For little particle disorder the global results get even better than for regular distribution. But this is 
-probably mainly due to the fact that this bump in the rarefaction wave almost disappears and that the
-over-estimation of velocity after rarefaction wave is less...
-The disordered results are generally less "smooth" than the ones with regular particle distribution. One can
-see many small oscillations (especially in u, e profile, not that much in density profile)
-
-    
-
-	  
-  

@@ -23,9 +23,7 @@ class Interaction {
   const double rmi;///<reciprocal value of mass particle i
   const double rmj;///<reciprocal value of mass particle j
 
-  const double etai;///<viscosity for particle i
-  const double etaj;///<viscosity for particle j
-
+ 
   //distance between the two particles, weight and derivatives
   double rij; ///<distance between 2 particles
   double rrij; ///<reciprocal value of distance between 2 particles
@@ -33,7 +31,13 @@ class Interaction {
   double Fij; ///<scalar kernel gradient
   Vec2d gradWij; ///<vector kernel gradient
   Vec2d eij; ///<pair direction from orginal particle to destination particle 
-  
+  double Vi;///< volume of particle i (origin particle)
+  double Vj;///< volume of particle j (dest. particle)
+  double etai;///<(shear) viscosity for particle i
+  double etaj;///<(shear) viscosity for particle j
+  double zetai;///<bulk viscosity for particle i
+  double zetaj;///<bulk viscosity for particle j
+
  public:
 
   ///constructor

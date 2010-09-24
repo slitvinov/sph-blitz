@@ -76,10 +76,12 @@ What I will do now:
     the perturbation study (which will be reset to the standard program functionality afterwards):
 	-> mass is not initialized via the external(.ivs) files but calculated within the program using the 
 	   method initiation:VolumeMass() which has already been implemented for incompressible simulations
+      this way as well, the summ of all particle volumes will not be exactly the domain volume, but the difference
+      is very small (see "Smoothed dissipative particle dynamics", Espanol2003)
     
 The actual perurbation study
 ----------------------------
- - as already mentionned above pick one simulation (good results, aceptable calculation time) for each ofthe four cases: 
+ - as already mentionned above pick one simulation (good results, acceptable calculation time) for each ofthe four cases: 
    1D/2D particle distribution const mass/spacing pick one simulation
 
     for 2D I tried the worst case: not summation density approach but continuity density approach:

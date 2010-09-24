@@ -35,9 +35,9 @@ Material::Material(Initiation &ini, const int number)
   b0 = ini.interp.eval("[return $material_b0"  + index);
   rho0 = ini.interp.eval("[return $material_rho0"  + index);
   a0 = ini.interp.eval("[return $material_a0"  + index);
-
-  if (ini.simu_mode == 1) {
-    eta = ini.interp.eval("[return $material_eta"  + index);
+  eta = ini.interp.eval("[return $material_eta"  + index);
+  if (ini.simu_mode == 2) {
+   zeta = ini.interp.eval("[return $material_zeta"  + index);
   }
   LOG(INFO) << "Material object is created";
 }
@@ -51,7 +51,8 @@ void Material::show_properties()
 	nu = eta/rho0;
 	LOG(INFO)<<"Material: "<<material_name<<"\n";		
 	LOG(INFO)<<"The heat capacity is  "<<cv<<" J/kg/K\n";
-	LOG(INFO)<<"The viscosity is "<<eta<<" Pa.s \n";
+	LOG(INFO)<<"The (shear) viscosity is "<<eta<<" Pa.s \n";
+	LOG(INFO)<<"The bulk viscosity is "<<zeta<<" Pa.s \n";
 	LOG(INFO)<<"The heat ratio is "<<gamma<<"\n";
 	LOG(INFO)<<"The reference pressure b0 is "<<b0<<" Pa\n";
 	LOG(INFO)<<"The reference density is "<<rho0<<" kg/m^3 \n";

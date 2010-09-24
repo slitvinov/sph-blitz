@@ -47,10 +47,28 @@ set T0 1.0
 set G_FORCE(0) 0.0
 set G_FORCE(1) 0.0
 
-# parameters of artificial viscosity
+# artificial viscosity marker:
+# 2. art. visc. globally turned on
+# 1: incl. art. visc. for compression only (as needed for shock-tube case)
+# 0: no artificial viscosity
+set ARTIFICIAL_VISCOSITY_MARKER 1
+
+# parameters for artificial viscosity
 set alpha_artVis 1.0
 set beta_artVis 2.0
 set epsilon_artVis 0.1
+
+# physical viscosity flag
+# 1: physical viscosity included
+# 0: no physical viscosity
+set PHYSICAL_VISCOSITY_MARKER 0
+
+# marker to choose output format
+# 0: used for post-processing of shocktube cases and wave propagation
+#    format: x, y, rho, p, Ux, e, ID, m
+# 1: used for visualization with SPLASH-program and all "real" 2D simulations
+#    format x, y, Ux, Uy, rho, e, p, h=supportlength/2, m, V, ID
+set SPLASH_OPTIMIZED_OUTPUT 0
 
 # boundary conditions
 #
@@ -86,10 +104,20 @@ set yBu 1
 set UyBu(0) 0.0
 set UyBu(1) 0.0
 
-# time step
+# time control
 set Start_time 0.0		
 set End_time 0.2	
 set D_time 0.0025
+
+#marker for automatic time control
+# 0: autom. time conrtol switched off: specified dt used (see below) 
+# 1: autom time control activated!
+set AUTOMATIC_DT_CONTROL_MARKER 1
+
+#timestep taken into account if autom. time-step-control switched off
+#ATTENTION: the timestep has to be thoroughly choosen (respecting the stability criteria)
+#(RECOMMENDATION: run the desired configuration with autom.dt-control turned on first to get an idea of the max. admissible dt, then pick a dt (including a certain margin, to be safe)
+set manually_choosen_dt 0.0008
 
 set NUMBER_OF_MATERIALS 2
 set material_name(0) Wall

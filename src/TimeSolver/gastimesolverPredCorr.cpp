@@ -46,8 +46,13 @@ void GasTimeSolverPredCorr::TimeIntegral_summation(Hydrodynamics &hydro, Particl
 	
   while(integeral_time < D_time) {
 
-    ///\todo{ move into Initiation?...and/or make time step calculation automatically (constant time step was only for testing purposes)}
-    const double dt = 0.0025;
+    ///<ul><li> call automatic time step control GasDyn or take manual dt (depending on preference specified in .tcl-file)
+    double dt;//time step
+    if(ini.autom_dt_control==1)
+      dt=hydro.GetTimestepGas(ini);
+    else
+      dt=ini.manually_choosen_dt;
+    
     //control output
     LOG(INFO)<<"\n current timestep:"<<dt;
     LOG(INFO)<<"\n current absolute integraltime:"<<Time;
@@ -106,8 +111,13 @@ void GasTimeSolverPredCorr::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
 	
   while(integeral_time < D_time) {
 
-    ///\todo{ move into Initiation?...and/or make time step calculation automatically (constant time step was only for testing purposes)}
-    const double dt = 0.0025;
+    ///<ul><li> call automatic time step control GasDyn or take manual dt (depending on preference specified in .tcl-file)
+    double dt;//time step
+    if(ini.autom_dt_control==1)
+      dt=hydro.GetTimestepGas(ini);
+    else
+      dt=ini.manually_choosen_dt;
+    
     //control output
     LOG(INFO)<<"\n current timestep:"<<dt;
     LOG(INFO)<<"\n current absolute integraltime:"<<Time;

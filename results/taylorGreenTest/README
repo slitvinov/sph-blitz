@@ -186,18 +186,36 @@ Model C,D,E : allegedly based on assumptions for the incompressible stress tenso
 	      E: no calibration factor needed, with good results (for low velocities/reynoldsnumbers)
 		 disadvantage: does not conserve angularmomentum exactly (which gets only a problem for higher velocities)
 
-==> I try first to implement D and E (non big deal to change) and to thoroughly conduct tests, to see if they work
-    for compressible cases!
+Implemented model will be: Espagnol2003.
+
+-assumes that no big spacial variations in the viscosities (shear bulk) occurr 
+(which is probably not exactly right for the case of final application because
+of wall cooling and temperature dependence of viscosity)
+-continuous formutaltion of momentu equation for non constant viscosities in espagnols ref.19 (p.310),
+ equivalent discrete formulation can be derived.
+-model implements shear and bulk viscosity, bulk viscosity initially set to zero (though implemented)
+ (which is justified for a diluted gas (according to espagnols ref. 19(p.310)
+ (both viscosities are given in .tcl file as material properties, values for bulk viscosities hardly known,
+ see JOURNAL OF THERMOPHYSICS AND HEAT TRANSFER Vol. 13, No. 3, 1999 "Bulk Viscosity: Past to Present")
+ one can take zeta = -2/3 eta, as hypothesized by stokes (see anderson fundamentals of aerodynamics,eq 15.11))
+
+-for the later step of a variable viscosity (as viscosity =f(T) and T in general variable), there are several
+possibilities (some seem more correct than others)
+1. adapting the formulation of hu/adams which wasderived for DISCONTINUOUS viscosity (e.g two different phases)
+ this results in a formulaton of an effective viscosity in analogy with cleary1999 for the thermal conduction 
+(both postulated that viscous stress or heat flux respectivelyshould be the same at interface for both sides)
+=> I think this is not an appropriate approach as it does not take into account the spatial evolution of viscosity
+  but is based on a NSG formulation with viscosity=cte.
+
+2. just averaging the viscosities of 2 particles (still taking the viscosity fromulation derived for constant visc.)
+
+3. deriving a SPH formulation for variable viscosity based on espagnols2003 const. viscosity approach.
+=> would be most accurate, but also most complex.
 
 
-Implementation of D,E in momentum equation:
+- the units of the viscosities used in the equations are: 
+   [Pa s]-> dynamic viscosity
 
-simply add terms given in BasaQuinlan2008 to momentum-equation (see also Liu2003 (4.79) )  
-
-Implementation of D, E in energy equation:
-
-no information in  BasaQuinlan2008, Morris1997 (for E), Cleary1998 (contribution of viscous heating 
-neglected in energy equation!!!)
 
 
 

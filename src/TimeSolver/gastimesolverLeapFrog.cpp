@@ -48,13 +48,13 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
   double integeral_time = 0.0;
   /// loop as long as time < output interval
   while(integeral_time < D_time) {
-
-    ///\todo{ move into Initiation?...and/or make time step calculation automatically (constant time step was only for testing purposes)}
-    //const double dt = 0.0025;
     
-    ///<ul><li> call for automatic time step control GasDyn
-     const double dt=hydro.GetTimestepGas(ini);
-    // const double dt=0.000422577127;
+    ///<ul><li> call automatic time step control GasDyn or take manual dt (depending on preference specified in .tcl-file)
+    double dt;//time step
+    if(ini.autom_dt_control==1)
+      dt=hydro.GetTimestepGas(ini);
+    else
+      dt=ini.manually_choosen_dt;
     
     //control output
     LOG(INFO)<<"\n current timestep:"<<dt;
@@ -106,6 +106,9 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
       hydro.AdvanceFirstStep(dt);
     else 
       hydro.AdvanceStandardStep(dt);
+
+    //udate particle volume (this is neccerary each time the particle position has changed)
+    hydro.UpdateVolume(particles, weight_function);
     
     if  (ini.disable_boundary != 1)
       ///run away check before cell link lists are updated (due to index purposes)
@@ -122,10 +125,14 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
 {
   double integeral_time = 0.0;
   while(integeral_time < D_time) {
-    
-    ///<ul><li> call for automatic time step control GasDyn
-    const double dt=hydro.GetTimestepGas(ini);
-    
+
+    ///<ul><li> call automatic time step control GasDyn or take manual dt (depending on preference specified in .tcl-file)
+    double dt;//time step
+    if(ini.autom_dt_control==1)
+      dt=hydro.GetTimestepGas(ini);
+    else
+      dt=ini.manually_choosen_dt;
+        
     //control output
     LOG(INFO)<<"\n current timestep:"<<dt;
     LOG(INFO)<<"\n current absolute integraltime:"<<Time;
@@ -163,7 +170,11 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
       hydro.AdvanceFirstStepInclRho(dt);
     else 
       hydro.AdvanceStandardStepInclRho(dt);
-    //perform run away check before updating linked lists (due to index purposes)
+    //udate particle volume (this is neccerary each time the particle position has changed)
+    hydro.UpdateVolume(particles, weight_function);
+    
+    
+    //perform run away check before updating linked lists (due to possible index issues)
     if  (ini.disable_boundary != 1)   
       boundary.RunAwayCheck(hydro); 
     //update cell linked list

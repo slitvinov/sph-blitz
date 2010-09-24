@@ -1,0 +1,37 @@
+######################################################
+
+	post-processing Taylor Green Flow 
+
+######################################################
+
+The simulation results are compared to the exact analytical solution
+of the INCOMPRESSIBLE Taylor-Green flow. (this is justified for the
+present conditions as demonstrated by Chaniotis2002, Journal of Computational Physics 182, 67–90)
+
+The quality of the simulation results is measured by 
+  (see papers Hu2007 (Journal of Computational Physics 227, 264-278) or
+  Chaniotis2002 (see above))
+- comparison of the decay in max. velocity with the theoretical decay rate
+- .
+
+Post-Processing Steps:
+---------------------
+
+1. run the shell script <<prepareDirectory.sh>> in a shell placed in this
+(/sph-blitz/scripts/postProcessingTaylorGreen) directory
+
+ This will perform the following action:
+ - create a new directory <<ResultsInProgress>> in sph-blitz/results
+   !!!ATTENTION!!! by running this script all data possibly already existing
+   in the <<ResultsInProgress>> directory will be deleted. Therefore be sure
+   to save them at a different location before!!!
+
+2. run the program <<VelocDecayAnalysisTG.cpp>> in this (/sph-blitz/scripts/postProcessingTaylorGreen)
+   directory
+   This will determine the maximum velocity for each output time and write the results
+  (time, max_vel) in a file called <<decayAnalysis.dat>> in the ResultsInProgress directory.
+  
+
+
+
+

@@ -70,8 +70,9 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
   ///- give a new ID number
   ID = ID_max;
 
-    ///- set viscosity
-  eta = mtl->eta;
+    ///- set viscosities
+  eta = mtl->eta;//(shear)
+  zeta=mtl->zeta;//(bulk)
 
   ///- initialize mue_ab_max to zero
   mue_ab_max=0;
@@ -124,7 +125,8 @@ Particle::Particle (spParticle RealParticle ) :
   rl_prtl = RealParticle ;
 
   ///- set viscosity
-  eta = mtl->eta;
+  // eta = mtl->eta;
+  
 
   ///- set states
   R = RealParticle->R; rho = RealParticle->rho; p = RealParticle->p; T = RealParticle->T;
@@ -136,6 +138,9 @@ Particle::Particle (spParticle RealParticle ) :
   P = RealParticle->P; P_I = RealParticle->P_I; rho_I = rho;
   P_n = RealParticle->P_n; U_n = RealParticle->U_n; rho_n = RealParticle->rho_n;
   e_n = RealParticle->e_n;
+  //viscosities copied as well for ghost particles (as they can be variable)
+  eta = RealParticle->eta;
+  zeta=RealParticle->zeta;
 	
 }
 //----------------------------------------------------------------------------------------
@@ -167,6 +172,7 @@ Particle::Particle (spParticle RealParticle , spMaterial material):
   P = RealParticle->P; P_I = RealParticle->P_I; rho_I = rho;
   P_n = RealParticle->P_n; U_n = RealParticle->U_n; rho_n = RealParticle->rho_n;
   e_n = RealParticle->e_n; 
+//viscosities not copied for image particles (as in general different material than real particles)
 
 }
 //----------------------------------------------------------------------------------------
@@ -181,4 +187,7 @@ void Particle ::StatesCopier(spParticle RealParticle , const int type)
   e = RealParticle->e; e_I=RealParticle->e_I;
   rho_I = RealParticle->rho_I;
   Cs =RealParticle->Cs; U = RealParticle->U; U_I = RealParticle->U_I;
+  //add viscosity copier (for the case of varaible viscosity)
+  eta = RealParticle->eta;
+  zeta=RealParticle->zeta;
 }

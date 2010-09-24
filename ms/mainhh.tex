@@ -233,16 +233,19 @@ these equations refer to \cite{Monaghan2005, Liu2003}.
 
 
 
-\section{Implementation of an SPH code}
-This section presents some particular features of an SPH code. Emphasis is
-placed on these features, that will finally be implemented in one of the
+%\section{Implementation of an SPH code}
+\section{Features of an SPH code}
+\label{sec:FeaturesOfSPH}
+This section presents some features of a general/generic SPH code and different variants of these features . Emphasis is
+placed on these variants, that will finally be implemented in one of the
 two SPH codes designed and modified during this work.
 Points of interest are a closer description of the kernel function, different methods/algorithms to perform the search for the interacting particles, as well as the implementation of different boundary conditions in
 SPH. Furthermore, different
 equations of state are introduced, depending on the nature of the flow problem
 to be considered (compressible/incompressible), followed by a passage
 explaining the use of artificial viscosity. After this, some numerical
-integration schemes that have proven to be reliable for SPH applications are discussed and the two different possibilities to calculate the density are shown. Finally a general structure of a generic SPH code is given
+integration schemes that have proven to be reliable for SPH applications are discussed and the two different possibilities to calculate the density are shown. Finally a general structure of a generic SPH code is given.
+Note: in this section the above mentionned features are discussed in a general perspective, independent of the particular implementation in a concrete code. The latter will be done in section (\ref{sec:CompAndStruc1DCode}) for the 1D code and in sections (\ref{sec:Comp2DCode}) and (\ref{sec:Struc2DCode}) for the 2d code, which gives a more complete view.
 
 
 
@@ -425,7 +428,10 @@ reinserted on the opposite side (with the same properties).
 
 
 The equation of state relates the pressure $p$ 
-to the density $\rho$ and the internal energy $e$ (or equivalent...). For the 
+to the density $\rho$ and in general also the internal energy $e$ (or equivalent...).
+An equation of state is needed for the solution of compressible flow problems, as the energy equation is not decoupled from the mass and momentum equation as it is the case for incompressibly treated flows: For the latter, the density $\rho$ is constant and therefore not a variable of the problem, leaving the pressure $p$ and the velocity vector $v$ as unknowns of the problem. These (in the general 3D case) four variables are faced by the four equations (mass and momentum conservation) which makes the problem solvable. If the density becomes an unknown of the probem as well, further equation have to be consulted to (CLOSE?) the problem.  
+ 
+ For the 
 application of SPH to gas dynamics, the assumption of an ideal gas is often
 appropriate (citation and conditions). In this case the (ideal gas) equation of state is
 
@@ -586,7 +592,7 @@ S_{n+\frac{1}{2}}=\frac{1}{2}(S_n+\hat S_{n+1}).
 \subsection{Choice of time step}
 \label{sec:TmeStepChoice}
 As any other numerical method, SPH gets instable, if the time step $dt$ for the numerical integration is not choosen correctly (i.e. small enough). 
-This fact was first examined by Courant, Friedrichs and Lewy \ref{} who studied the convergence behaviour of discretized partial differential equations (i.e difference equations). They found out that for hyperbolic difference equations, the spatial and temporal discretization steps need to meet a certain condition in order for the difference equation to converge to its  corresponding differnetial equation. This conditon is generally known as the Courant-Friedrichs-Lewy (CFL) Condition, which gives a necessary criterion for the stability of numerical difference (only difference, right?? or otehrs as well???) schemes. 
+This fact was first examined by Courant, Friedrichs and Lewy \cite{Courant1928} who studied the convergence behaviour of discretized partial differential equations (i.e difference equations). They found out that for hyperbolic difference equations, the spatial and temporal discretization steps need to meet a certain condition in order for the difference equation to converge to its  corresponding differnetial equation. This conditon is generally known as the Courant-Friedrichs-Lewy (CFL) Condition, which gives a necessary criterion for the stability of numerical difference (only difference, right?? or otehrs as well???) schemes. 
 In 1D it can be formulated as
 \begin{equation}
  \frac{u\delta t}{\delta x}\leq C
@@ -618,7 +624,7 @@ dt=\min(dt_f,dt_{cv})
 \end{equation}
 
 This cas be implemented in an SPH program and so the applicable timestep is automatically adapted to the given situation at each individual timestep. 
-Note concerning the implementation: In eqiation (\label{eq:dtForce}), there can be a singularity in the denominator if the mass specific force per particle (i.e. its acceleration) is zero. Although this does not affect the validity of the above equations, there are issues when implemented. To prevent this singularity, a very small number (e.g. $1^{1e-35}$) is added to the denominator when this equation is implemented.
+Note concerning the implementation: In eqiation (\ref{eq:dtForce}), there can be a singularity in the denominator if the mass specific force per particle (i.e. its acceleration) is zero. Although this does not affect the validity of the above equations, there are issues when implemented. To prevent this singularity, a very small number (e.g. $1^{1e-35}$) is added to the denominator when this equation is implemented.
 
 
 \subsection{Summation Density and Continuity Density approach}
@@ -678,7 +684,7 @@ Once all necessary change rates are known, the values can be updated to the next
 
 \begin{figure}[h]
   \centering
-     % \includegraphics[width=1.0\textwidth]{Graphics/general_structure_SPH}
+     \includegraphics[width=1.0\textwidth]{Graphics/general_structure_SPH}
   \caption{basic structure of an SPH code}
   \label{fig:BasicSphCode}
 \end{figure}
@@ -963,6 +969,7 @@ common test case for 1D compressible codes \cite{Sod1978} (PERHAPS ONE MORE REFE
 The problem setup and the results obtained are discussed in the corresponding section.
 
 \subsection{Components and structure}
+\label{sec:CompAndStruc1DCode}
 This section introduces all the
 
 \subsubsection{The data structures}
@@ -1342,13 +1349,14 @@ $x$ $\rho$ $p$ $u$ $e$
 \section{2D SPH code}
 \label{sec:2DSPHcode}
 \subsection{short overview}
+\label{sec:shortOverview2D}
 The 2D SPH code is more sophisticated than the formerly introduced 1D code. Features such as different types of boundary conditions, a more complex and more efficient neighbouring particle search allgorithm , physical viscosity description and heat conduction, as well as an automatic time stepping control are implemented. Thus, this program is more flexible and can be used to treat problems of real scientific and practical importance. 
 
-Just like the 1D SPH code, the 2D code is implemented in C++. While the 1D code is still using a functional programming approach, the 2D code follows the object-oriented programming paradigm.
+Just like the 1D SPH code, the 2D code is implemented in C/C++. While the 1D code is still using a functional programming approach, the 2D code follows the object-oriented programming paradigm.
 
 But before starting to describe the structure of the code including all the objects and their interaction (subject of the following paragraphs), a short introduction on the file structure of the whole repository, which containins code, pre-- and post--processing scripts, results etc. is given.
 
-The main folder is called {\tt sph-blitz} and contains a number of sub--folders. Those folders, that are important for the use of the program, are briefly detailed here. The others contain different add--ins and third--party libraries for the program, but their detailed knowledge is not required.
+The main folder is called {\tt sph-blitz} and contains a number of sub--folders. Those that are important for the use of the program, are briefly detailed here. The others contain different add--ins and third--party libraries for the program, but their detailed knowledge is not required.
 While Information on how to install and run the program is given in the corresponding section (\ref{sec:HowToInstAndRun2D}), the present description shall be considered as a first orientation guide. It should help the user to get a rough idea on where to find what.
 \begin{itemize}
  \item {\tt src}\\
@@ -1363,6 +1371,24 @@ Gnuplot being the name of a plotting--software, this folder contains gnuplot--sc
 \end{itemize}
 Some of the folders and subfolders contain README--files, which can be consulted for more precise information and instructions on the corresponding subject. But before having a look at these, it is recommended to read over section \ref{sec:HowToInstAndRun2D}), as many issues are adressed there.
 
+If one desires to acquire detailed understading of this code witout previous knowledge, the following roadmap is suggested.
+\begin{enumerate}
+ \item go through section (\ref{sec:FeaturesOfSPH}) to get an idea on which parts a code principally contains and how its general structure looks like (in particular, consider (\ref{fig:BasicSphCode}).
+\item for a first approach to this specific code, consult sections (\ref{sec:Comp2DCode}) and (\ref{sec:Struc2DCode}).
+\item to broaden and deepen understanding of implementation specific details,
+an automatic source code documentation system is set up. It provides very extensive documentation (almost to source code level) of all classes, methods and attributes used in the code and even shows dependencies among them by means of call- and caller-graphs for every method (i.e. which methods call the considered method and which methods does the considered method call).
+This documentation tool is called doxygen and is used in the following way:
+Run doxygen in a shell placed in the {\tt sph-blitz/src}-folder to generate the documentation in form of html-files.
+\begin{verbatim} doxygen
+\end{verbatim}
+The html-files are written in a newly created folder {\tt sph-blitz/src/html}. Open the main-page of the documentation (index.html) in a browser. The corresponding command (assuming for example a firefox browser) is
+\begin{verbatim} firefox html/index.html &
+\end{verbatim}
+Now one can navigate through the documentation.
+\item the last step might be (provided such detailed knowledge of the code is desired), to directly have a look in the source files. There is additional documentation by comments which are not exported to doxygen.
+\end{enumerate}
+
+
 
 
 
@@ -1372,9 +1398,13 @@ Some of the folders and subfolders contain README--files, which can be consulted
 
 
 \subsection{components}
-Describe doxygen
+\label{sec:Comp2DCode}
+The different classes and some essential methods are briefly described, to show how the  features generally introduced in section (\ref{sec:FeaturesOfSPH}) are concretely implemented. For a more complete view of the various classes, their methods and all their attributes, it is recommended to use doxygen, the automatic code documentation tool (see section \ref{sec:shortOverview2D}).
+
+
 
 \subsection{structure}
+\label{sec:Struc2DCode}
 
 \lstinputlisting[language=c++,caption=An example of program listing,captionpos=b]{code/hello.cpp}
 

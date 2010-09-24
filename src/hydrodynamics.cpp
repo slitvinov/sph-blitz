@@ -299,7 +299,7 @@ void Hydrodynamics::UpdateVolume(ParticleManager &particles, spKernel weight_fun
     reciprocV = 0.0; 
     //<li>iterate this Nearest Neighbor spParticle list
     BOOST_FOREACH(spParticle prtl_dest ,NNP_list) {
-      ///<ul><li>sum the weights for all of these particles (because they are the inverse of a volume!?!)</ul>
+      ///<ul><li>sum the weights for all of these particles (because they are the inverse of a volume!)</ul>
       reciprocV += weight_function->w(v_distance(prtl_org->R, prtl_dest->R));
     }
     ///<li>calculate volume
@@ -454,14 +454,14 @@ void Hydrodynamics::Corrector_summation(const double dt) {
     prtl->e = prtl->e_I + prtl->dedt*dt;
   }
   //control output
-  ofstream tx2tFile("changeRatesN1");
-  if (tx2tFile.is_open()) {
-    BOOST_FOREACH(spParticle prtl, particle_list) {
-      tx2tFile<<"\n R_x: "<<prtl->R[0]<<"  U_x: "<<prtl->U[0]<<"  e: "<<prtl->e<<"  dUdt: "<<prtl->dUdt[0]<<" dedt "<<prtl->dedt<<"  ID  "<<prtl->ID<<"\n";
-    } 
+  // ofstream tx2tFile("changeRatesN1");
+  // if (tx2tFile.is_open()) {
+  //   BOOST_FOREACH(spParticle prtl, particle_list) {
+  //     tx2tFile<<"\n R_x: "<<prtl->R[0]<<"  U_x: "<<prtl->U[0]<<"  e: "<<prtl->e<<"  dUdt: "<<prtl->dUdt[0]<<" dedt "<<prtl->dedt<<"  ID  "<<prtl->ID<<"\n";
+  //   } 
     
-  }
-  tx2tFile.close();
+  // }
+  // tx2tFile.close();
 }
 
 //everything that comes below is new:
@@ -473,18 +473,21 @@ void Hydrodynamics::AdvanceFirstStep(const double dt) {
     prtl->R = prtl->R + prtl->U*dt;
   }
 
-  ofstream t2x2tFile("PositionsVeloN1");
-  if (t2x2tFile.is_open()) {
-    BOOST_FOREACH(spParticle prtl, particle_list) {
-      t2x2tFile <<setprecision (9)<< ::setw( 5 )<<prtl->ID
-		<<::setw(15)<<prtl->R[0]<< ::setw(15)
-		<<prtl->U[0]<<::setw(15)<<prtl->U[1]
-		<<::setw(15)<<prtl->e<<endl;
-    }
-    t2x2tFile.close();
-  } else {
-    cout << "Unable to open/create file";
-  }
+  // control output:
+
+  // ofstream t2x2tFile("PositionsVeloN1");
+  // if (t2x2tFile.is_open()) {
+  //   BOOST_FOREACH(spParticle prtl, particle_list) {
+  //     t2x2tFile <<setprecision (9)<< ::setw( 5 )<<prtl->ID
+  // 		<<::setw(15)<<prtl->R[0]<< ::setw(15)
+  // 		<<prtl->U[0]<<::setw(15)<<prtl->U[1]
+  // 		<<::setw(15)<<prtl->e<<endl;
+  //   }
+  //   t2x2tFile.close();
+  // } else {
+  //   cout << "Unable to open/create file";
+  // }
+
 }
 
 
@@ -499,6 +502,9 @@ void Hydrodynamics::AdvanceFirstStepInclRho(const double dt) {
 }
 void Hydrodynamics::AdvanceStandardStep(const double dt) {
  ///<ul><li>iterate the real partilce list
+///<ul><li>update  U,e, by advancing 1 step starting at intermediate variables
+///<li>update position by advancing one time step </ul>
+
   BOOST_FOREACH(spParticle prtl, particle_list) {
     prtl->U = prtl->U_I + prtl->dUdt*dt;
     prtl->e = prtl->e_I + prtl->dedt*dt;
@@ -508,6 +514,8 @@ void Hydrodynamics::AdvanceStandardStep(const double dt) {
 
 void Hydrodynamics::AdvanceStandardStepInclRho(const double dt) {
  ///<ul><li>iterate the real partilce list
+///<ul><li>update rho, U,e, by advancing 1 step starting at intermediate variables
+///<li>update position by advancing one time step </ul>
   BOOST_FOREACH(spParticle prtl, particle_list) {
     prtl->rho = prtl->rho_I + prtl->drhodt*dt;
     prtl->U = prtl->U_I + prtl->dUdt*dt;
@@ -517,7 +525,9 @@ void Hydrodynamics::AdvanceStandardStepInclRho(const double dt) {
 }
 
 void Hydrodynamics::UpdateUe2Half(const double dt) {
-///<ul><li>iterate the real partilce list
+///<ul><li>iterate the real partilce list 
+///<ul><li>write current values in intermediate variables
+///<li>update (overwrite) current values by advancing half a time step </ul>
   BOOST_FOREACH(spParticle prtl, particle_list) {
     prtl->U_I=prtl->U;
     prtl->e_I=prtl->e;
