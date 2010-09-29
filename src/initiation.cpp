@@ -79,7 +79,7 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   }
   x_cells = interp.getat("CELLS", 0);
   assert(x_cells > 0);
-  y_cells = interp.getat ("CELLS", 0);
+  y_cells = interp.getat ("CELLS", 1);
   assert(y_cells > 0);
   cell_size = interp.getval("CELL_SIZE");
   assert(cell_size>0.0);

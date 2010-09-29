@@ -20,13 +20,14 @@ set DENSITY_MODE 1
 set INITIAL_CONDITION	0
 
 # number of cell
-set ncell 8
-set CELLS(0) $ncell
-set CELLS(1) $ncell
+set xncell 4
+set yncell 8
+set CELLS(0) $xncell
+set CELLS(1) $yncell
 
 # sizer of the domain
 set L 1.0
-set SUPPORT_LENGTH [expr {$L / $ncell}]
+set SUPPORT_LENGTH [expr {$L / $yncell}]
 set CELL_SIZE $SUPPORT_LENGTH
 
 # the number of particles in one support length
@@ -52,11 +53,11 @@ set freeslip 2
 set symmetry 3
 
 # type and velocity
-set xBl $periodic
+set xBl $symmetry
 set UxBl(0) 0.0
 set UxBl(1) 0.0
 
-set xBr $periodic
+set xBr $symmetry
 set UxBr(0) 0.0
 set UxBr(1) 0.0
 
@@ -104,9 +105,9 @@ set material_a0(2) $material_a0(0)
 set xlength [expr {$CELLS(0)* $CELL_SIZE} ]
 set ylength [expr {$CELLS(1)* $CELL_SIZE} ]
 
-set blockFractionX 0.4
+set blockFractionX 0.8
 set blockFractionY 0.4
-set sq_block [expr {$blockFractionX * $blockFractionY}]
+set sq_block [expr {0.5 * $blockFractionX * $blockFractionY}]
 set sq_media [expr {1.0 - $sq_block} ]
 
 set g_all 1.0
@@ -126,8 +127,8 @@ set G_FORCE(2,1) -$g_block
 # set number of material variable  --- "no" 
 proc getmatNo { } {
     # x and y provided by the main program 
-    set blockX0 [expr {(0.5 - $blockFractionX/2.0) * $xlength}]
-    set blockX1 [expr {(0.5 + $blockFractionX/2.0) * $xlength}]
+    set blockX0 [expr {(1.0 - $blockFractionX/2.0) * $xlength}]
+    set blockX1 $xlength
     set blockY0 [expr {(0.6 - $blockFractionY/2.0) * $ylength}]
     set blockY1 [expr {(0.6 + $blockFractionY/2.0) * $ylength}]
     set inX [expr ($x > $blockX0) && ($x < $blockX1)]
