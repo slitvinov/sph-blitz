@@ -637,9 +637,12 @@ public:
      details::result eval(std::istream &s);
 
      details::result eval(object const &o);
-
+  
+     details::result setdouble(const std::string &s, const double val);
      details::result getval(std::string const &s);
      details::result getat(const std::string &s, const int index);
+     details::result isproc(std::string const &s);
+     void evalproc(const std::string &s);
      bool exist(const std::string &s);
 
      // the InputIterator should give object& or Tcl_Obj* when dereferenced
@@ -871,5 +874,6 @@ namespace details
      void name##_cpptcl_Init(Tcl::interpreter &i)
 
 std::string convertInt(const int number);
+std::string convertDouble(const double number);
 
 #endif // CPPTCL_INCLUDED

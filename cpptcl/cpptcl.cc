@@ -915,8 +915,21 @@ result interpreter::eval(object const &o)
      return result(interp_);
 }
 
+result interpreter::setdouble(const std::string &s, const double val) {
+  return eval("set " + s + " " + convertDouble(val));
+}
+
+
 result interpreter::getval(const std::string &s) {
   return eval("[return $" + s + "]");
+}
+
+result interpreter::isproc(const std::string &s) {
+  return eval("llength [info procs " + s + " ]");
+}
+
+void interpreter::evalproc(const std::string &s) {
+  eval("eval  [info body " + s + " ]");
 }
 
 bool interpreter::exist(const std::string &s) {
@@ -1100,3 +1113,11 @@ std::string convertInt(const int number)
    ss << number;
    return ss.str();
 }
+
+std::string convertDouble(const double number)
+{
+   stringstream ss;
+   ss << number;
+   return ss.str();
+}
+

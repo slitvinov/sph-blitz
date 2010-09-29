@@ -75,7 +75,7 @@ set UyBu(0) 0.0
 set UyBu(1) 0.0
 
 set NUMBER_OF_MATERIALS 3
-set material_name(0) Air
+set material_name(0) Wall
 set material_type(0) 1
 set material_cv(0) 1.0e3
 set material_eta(0) 1.0e-3
@@ -84,7 +84,7 @@ set material_b0(0) 1.0e2
 set material_rho0(0) 1.0e3
 set material_a0(0) 1.0e2
 
-set material_name(1) $material_name(0)
+set material_name(1) Media
 set material_type(1) $material_type(0)
 set material_cv(1) $material_cv(0)
 set material_eta(1) $material_eta(0)
@@ -93,7 +93,7 @@ set material_b0(1) $material_b0(0)
 set material_rho0(1) $material_rho0(0)
 set material_a0(1) $material_a0(0)
 
-set material_name(2) $material_name(0)
+set material_name(2) Block
 set material_type(2) $material_type(0)
 set material_cv(2) $material_cv(0)
 set material_eta(2) $material_eta(0)
@@ -102,3 +102,20 @@ set material_b0(2) $material_b0(0)
 set material_rho0(2) $material_rho0(0)
 set material_a0(2) $material_a0(0)
 
+# return material number based on the position of the particle
+set xlength [expr {$CELLS(0)* $CELL_SIZE} ]
+set ylength [expr {$CELLS(1)* $CELL_SIZE} ]
+
+# set number of material variable  --- "no" 
+proc getmatNo { } {
+    # x and y provided by the main program 
+    set inX [expr ($x > 0.4*$xlength) && ($x < 0.6*$xlength)]
+    set inY [expr ($y > 0.7*$ylength) && ($y < 0.9*$xlength)]
+    if {$inX && $inY} { 
+	# block 
+	set no 2
+    } else {
+	# media
+	set no 1
+    } 
+}

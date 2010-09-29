@@ -47,6 +47,25 @@ int test_main( int, char *[] )     {
  ios = interp.exist("s");
  BOOST_REQUIRE( ios) ;
 
+ ios = interp.isproc("NotgetmatNo");
+ BOOST_REQUIRE( !ios);
+
+ ios = interp.isproc("aux");
+ BOOST_REQUIRE( !ios);
+
+ ios = interp.isproc("getmatNo");
+ BOOST_REQUIRE( ios);
+
+ ios = interp.exist("qq");
+ BOOST_REQUIRE( !ios) ;
+ interp.setdouble("qq", 42.0);
+ val = interp.getval("qq");
+ BOOST_REQUIRE( abs(val-42.0)<1e-8);
+
+
+ interp.evalproc("getmatNo");
+ const int no=interp.getval("no");
+ BOOST_REQUIRE( no == 2) ;
 
  return EXIT_SUCCESS;
 };
