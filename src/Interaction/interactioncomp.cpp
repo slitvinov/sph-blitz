@@ -143,7 +143,7 @@ InteractionComp::InteractionComp(const spParticle prtl_org, const spParticle prt
 				 const Initiation& ini): 
   Interaction(prtl_org, prtl_dest, weight_function, dstc, ini)
 {
-  assert(ini.simu_mode == 2);
+  assert(ini.simu_mode == 1);
   LOG_EVERY_N(INFO, 100) << "Create compressible interaction";
 };
 
