@@ -26,7 +26,6 @@ protected:
 
   const double rmi;///<reciprocal value of mass particle i
   const double rmj;///<reciprocal value of mass particle j
-
  
   //distance between the two particles, weight and derivatives
   double rij; ///<distance between 2 particles

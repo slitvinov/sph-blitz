@@ -178,7 +178,7 @@ Particle::Particle (spParticle RealParticle , spMaterial material):
 //----------------------------------------------------------------------------------------
 //					particle states copier for boundary particles
 //----------------------------------------------------------------------------------------
-void Particle ::StatesCopier(spParticle RealParticle , const int type)
+void Particle ::StatesCopier(spParticle RealParticle , const int)
 {
   ///- copy states
   R = RealParticle->R; m = RealParticle->m;
