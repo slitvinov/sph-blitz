@@ -1,6 +1,11 @@
 bin_PROGRAMS=sph kernel_test particlemanager_test spParticle
-AM_CXXFLAGS=-I${top_srcdir} 
+AM_CXXFLAGS=-I${top_srcdir} -I${top_srcdir}/cpptcl
 
+# add to all binaries
+LDADD=${top_srcdir}/cpptcl/libcpptcl.a
+${top_srcdir}/cpptcl/libcpptcl.a: 
+	cd ${top_srcdir}/cpptcl; \
+	${MAKE}
 
 nomain=	 boundary.cpp boundary.h \
 	glbtype.h glbfunc.cpp glbfunc.h \
@@ -23,7 +28,6 @@ nomain=	 boundary.cpp boundary.h \
 	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
 	TimeSolver/gastimesolverLeapFrog.cpp TimeSolver/gastimesolverLeapFrog.h \
 	TimeSolver/gastimesolverPredCorr.cpp TimeSolver/gastimesolverPredCorr.h \
-	cpptcl.cc cpptcl.h \
 	main.doxygen
 
 sph_SOURCES= sph.cpp $(nomain)

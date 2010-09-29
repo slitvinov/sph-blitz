@@ -15,10 +15,6 @@
 #include "particlemanager.h"
 #include "Kernel/kernel.h"
 #include "initiation.h"
-
-//using namespace std;
-
-
 //----------------------------------------------------------------------------------------
 //							constructor 
 //----------------------------------------------------------------------------------------
@@ -41,74 +37,68 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   
   interp.eval(tclfilename);
   ///<li>reading key words and configuration data from configuration file and assign them to the appropriate variable
-  disable_boundary  = interp.eval("[return $DISABLE_BOUNDARY]");
-  initial_condition = interp.eval("[return $INITIAL_CONDITION]");
+  disable_boundary  = interp.getval("DISABLE_BOUNDARY");
+  initial_condition = interp.getval("INITIAL_CONDITION");
   assert( (initial_condition == 0) || (initial_condition == 1));
-  simu_mode = interp.eval("[return $SIMULATION_MODE]");
+  simu_mode = interp.getval("SIMULATION_MODE");
   // assert(simu_mode==1||simu_mode==2); (already tested in sph.cpp)
-  density_mode = interp.eval("[return $DENSITY_MODE]");
+  density_mode = interp.getval("DENSITY_MODE");
   assert(density_mode == 1 || density_mode == 2);
-   kernel_type = static_cast<std::string>(interp.eval("[return $KERNEL_TYPE]"));
+  kernel_type = static_cast<std::string>(interp.getval("KERNEL_TYPE"));
   // for harmonic kernel we need a parameter n
   if (kernel_type == "Harmonic") {
-    harmonic_n = interp.eval("[return $harmonic_n]");
+    harmonic_n = interp.getval("harmonic_n");
   }
   
   /// if gas dynamics
   if (simu_mode == 2) {
     //further markers exclusively applied to gas dynamics
-    integration_scheme = interp.eval("[return $INTEGRATION_SCHEME]");//(already tested in sph.cpp)
+    integration_scheme = interp.getval("INTEGRATION_SCHEME");//(already tested in sph.cpp)
     //assert(integration_scheme == 1 || integration_scheme == 2);
-    splash_optimized_output = interp.eval("[return $SPLASH_OPTIMIZED_OUTPUT]");
+    splash_optimized_output = interp.getval("SPLASH_OPTIMIZED_OUTPUT");
     assert(splash_optimized_output==0||splash_optimized_output==1);
     /// read parameters of artificial viscosity 
-    alpha_artVis = interp.eval("[return $alpha_artVis]");
-    beta_artVis = interp.eval("[return $beta_artVis]");
-    epsilon_artVis = interp.eval("[return $epsilon_artVis]");
+    alpha_artVis = interp.getval("alpha_artVis");
+    beta_artVis = interp.getval("beta_artVis");
+    epsilon_artVis = interp.getval("epsilon_artVis");
     //read physical and artificial viscosity markers
-    physical_viscosity_marker=interp.eval("[return $PHYSICAL_VISCOSITY_MARKER]");
+    physical_viscosity_marker=interp.getval("PHYSICAL_VISCOSITY_MARKER");
     assert(physical_viscosity_marker==0||physical_viscosity_marker==1);
-    artificial_viscosity_marker=interp.eval("[return $ARTIFICIAL_VISCOSITY_MARKER]");
+    artificial_viscosity_marker=interp.getval("ARTIFICIAL_VISCOSITY_MARKER");
     assert(artificial_viscosity_marker==0||artificial_viscosity_marker==1||artificial_viscosity_marker==2);
-    autom_dt_control=interp.eval("[return $AUTOMATIC_DT_CONTROL_MARKER]");
+    autom_dt_control=interp.getval("AUTOMATIC_DT_CONTROL_MARKER");
     assert(autom_dt_control==0||autom_dt_control==1);
     if(autom_dt_control==0)//if dt_auto turned out, take man. choosen dt
-       manually_choosen_dt = interp.eval("[return $manually_choosen_dt]");
-
-  } 
-  x_cells = interp.eval ("[return $CELLS(0)]");
+      manually_choosen_dt = interp.getval("manually_choosen_dt");
+  }
+  x_cells = interp.getat("CELLS", 0);
   assert(x_cells > 0);
-  y_cells = interp.eval ("[return $CELLS(1)]");
+  y_cells = interp.getat ("CELLS", 0);
   assert(y_cells > 0);
-  
-  cell_size = interp.eval("[return $CELL_SIZE]");
+  cell_size = interp.getval("CELL_SIZE");
   assert(cell_size>0.0);
-  
-  supportlength = interp.eval("[return $SUPPORT_LENGTH]");
+  supportlength = interp.getval("SUPPORT_LENGTH");
   assert(supportlength > 0.0);
-  
-  hdelta = interp.eval("[return $CELL_RATIO]");
+  hdelta = interp.getval("CELL_RATIO");
   assert(hdelta > 0.0);
-  
-  g_force[0] = interp.eval ("[return $G_FORCE(0)]");
-  g_force[1] = interp.eval ("[return $G_FORCE(1)]");
-  
-  number_of_materials = interp.eval("[return $NUMBER_OF_MATERIALS]");
+  g_force[0] = interp.getat("G_FORCE", 0);
+  g_force[1] = interp.getat("G_FORCE", 1);
+  number_of_materials = interp.getval("NUMBER_OF_MATERIALS");
   assert(number_of_materials > 0);
   
-  Start_time = interp.eval("[return $Start_time]");
-  End_time = interp.eval("[return $End_time]");
-  D_time = interp.eval("[return $D_time]");
+  Start_time = interp.getval("Start_time");
+  End_time = interp.getval("End_time");
+  D_time = interp.getval("D_time");
   // can be zero for debugging
   assert(D_time>0.0);
   assert(End_time >= Start_time);
   
   if (initial_condition == 0) {
-    rho0 = interp.eval("[return $rho0]");
-    p0 = interp.eval("[return $p0]");
-    T0 = interp.eval("[return $T0]");
-    U0[0] = interp.eval ("[return $U0(0)]");
-    U0[1] = interp.eval ("[return $U0(1)]");
+    rho0 = interp.getval("rho0");
+    p0 = interp.getval("p0");
+    T0 = interp.getval("T0");
+    U0[0] = interp.getval("(U00)");
+    U0[1] = interp.getval("(U01)");
   }
   
   ///<li>create outdata directory
@@ -137,6 +127,7 @@ void Initiation::show_information() const
 {
   ///- output general information on screen
   LOG(INFO)<<"The simulation mode is"<<simu_mode<<"! (1=liquids, 2=gas dynamics)\n";
+  LOG(INFO)<<"Output directory is "<< outdir;
   LOG(INFO)<<"The number of materials in the simulation is  "<<number_of_materials<<"\n";
   LOG(INFO)<<"The computational domain size is  "<<box_size[0]<<" micrometers x "<<box_size[1]<<" micrometers\n";
   LOG(INFO)<<"The cell size is "<<cell_size<<" micrometers \n";
@@ -181,8 +172,6 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
 
   /// <ul><li>iterate particles on the particle list
   BOOST_FOREACH(spParticle prtl_org, hydro.particle_list) {
-    ///\todo{initialize particle mass via initiation file...}
-    //prtl_org->m=0.001875;
     /// <ul><li> pick an origin particle
     assert(prtl_org != NULL);
     const std::list<spParticle> NNP_list = particles.BuildNNP(prtl_org->R);
@@ -204,7 +193,12 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
     prtl_org->V = reciprocV;
     prtl_org->m = prtl_org->rho*reciprocV;
     LOG_EVERY_N(INFO, 1000) <<std::setprecision(10)<< "prtl ID"<<prtl_org->ID<<"prtl m  = " << prtl_org->m;
-    
   }
   LOG(INFO)<<"Initiation::VolumeMass ends";
 }
+
+
+const char *CharPtrToStdString(const char *str)
+{
+    return (str) ? str : "";
+} 

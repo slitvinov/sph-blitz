@@ -44,7 +44,7 @@ public:
 	///update new parameters in pairs
 	void UpdateInteractions(spKernel weight_function);
 
-	//manupilate the particle physics
+	//manipulate the particle physics
 	///initiate particle change rate
 	void ZeroChangeRate();
 	///add the gravity effects
@@ -69,7 +69,7 @@ public:
 
 	///calculate states from conservatives
 	void UpdateState(const Initiation &ini);
-	///calculate partilce volume
+	///calculate particle volume
 	void UpdateVolume(ParticleManager &particles, spKernel weight_function);
 
 	/// predictor method, density evaluated directly
@@ -82,7 +82,7 @@ public:
         ///for corrector method, density evaluated with summation (that means: no density update within this method)
 	void Corrector_summation(const double dt);
 
-	///special uitilities
+	///special utilities
 	void Zero_Velocity();
 	///sets art.vis parameter mue_ab_max (which is needed for time control) to zero 
 	void Zero_mue_ab_max();

@@ -111,7 +111,6 @@ std::list<spParticle> ParticleManager::BuildNNP(Vec2d &point)
   ///<ul><li>clear the list first
   std::list<spParticle> NNP_list;
   NNP_list.clear();
-  
   LOG_EVERY_N(INFO,10000) << "NPP list should now be empty: Size: "<<NNP_list.size() ;
   //where is the point
   const int k = int ((point[0] + cll_sz)/ cll_sz);
@@ -139,11 +138,6 @@ std::list<spParticle> ParticleManager::BuildNNP(Vec2d &point)
 	}
       }
     }
-    //  }
-    // LOG(INFO) << "NPP_list for particle at pos x: "<<point[0];
-    //BOOST_FOREACH(spParticle prtl_dest ,NNP_list) {
-  // LOG(INFO) << "ParticleManager object is creating particle x:"<<prtl_dest->R[0];
-    // }
   return NNP_list;
 }
 
@@ -352,7 +346,7 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 //					build the initial particles and the linked lists
 //                                      FOR COMPRESSIBLE SIMULATION
 //----------------------------------------------------------------------------------------
-void ParticleManager::BuildRealParticleGasDyn(vecMaterial materials, 
+void ParticleManager::BuildRealParticleGasDyn(vecMaterial materials,
 					std::list<spParticle >& particle_list, 
 					Initiation &ini)
 {

@@ -20,6 +20,24 @@ set DENSITY_MODE 1
 
 set INITIAL_CONDITION	0
 
+#possible density treatments
+#1: summation density (density obtained by smoothing)
+#2: continuity density (density is integrated)
+set DENSITY_MODE 1
+
+#possible integration schemes
+#1: leap frog
+#2: predictor corrector
+set INTEGRATION_SCHEME 2
+
+# output directory
+# if isim is not given set OUTDIR to output_co0
+# to set isim variable use
+# SPH_TCL="set isim 42" ./sph ../cases/couette 
+if  [catch {set OUTDIR output_co$isim}] {
+    set OUTDIR output_co0
+} 
+
 # number of cell
 set ncell 8
 set CELLS(0) $ncell

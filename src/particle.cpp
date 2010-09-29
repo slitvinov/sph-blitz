@@ -24,9 +24,7 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
 		   double pressure, double temperature, 
 		   spMaterial material) 
   : bd(0),
-    mtl(material)
-{
-
+    mtl(material) {
   ///- increase the total particle number
   ID_max++;
 	

@@ -11,7 +11,6 @@
 // ***** localincludes *****
 #include "material.h"
 #include "initiation.h"
-#include <boost/format.hpp>
 
 using namespace std;
 
@@ -21,23 +20,17 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //					constructors
 //----------------------------------------------------------------------------------------
-Material::Material(Initiation &ini, const int number)
-{
-  LOG(INFO) << "Run constructor of Material class";
-  // to have array in the return string for tcl
-  // example [return A(1)]
-  const std::string index = boost::str(boost::format("(%i)]") % number);
-
-  material_name = std::string(ini.interp.eval("[return $material_name" + index));
-  material_type = ini.interp.eval("[return $material_type"  + index);
-  cv = ini.interp.eval("[return $material_cv"  + index);
-  gamma = ini.interp.eval("[return $material_gamma"  + index);
-  b0 = ini.interp.eval("[return $material_b0"  + index);
-  rho0 = ini.interp.eval("[return $material_rho0"  + index);
-  a0 = ini.interp.eval("[return $material_a0"  + index);
-  eta = ini.interp.eval("[return $material_eta"  + index);
+Material::Material(Initiation &ini, const int index) {
+  material_name = std::string(ini.interp.getat("material_name", index));
+  material_type = ini.interp.getat("material_type",  index);
+  cv = ini.interp.getat("material_cv",  index);
+  gamma = ini.interp.getat("material_gamma",  index);
+  b0 = ini.interp.getat("material_b0",  index);
+  rho0 = ini.interp.getat("material_rho0",  index);
+  a0 = ini.interp.getat("material_a0",  index);
+  eta = ini.interp.getat("material_eta",  index);
   if (ini.simu_mode == 2) {
-   zeta = ini.interp.eval("[return $material_zeta"  + index);
+    zeta = ini.interp.getat("material_zeta",  index);
   }
   LOG(INFO) << "Material object is created";
 }
@@ -71,7 +64,7 @@ void Material::Set_b0(const double sound)
 //----------------------------------------------------------------------------------------
 double Material::get_p(const double rho) const
 {
-	return b0*pow(rho/rho0,gamma);
+  return b0*pow(rho/rho0,gamma);
 }
 
 double Material::get_p(const double rho, const double e) const

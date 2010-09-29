@@ -12,14 +12,13 @@
  git clone git://github.com/slitvinov/sph-blitz
  cd sph-blitz
  ./local-install.sh  \endverbatim
- The script configures and compiles the following third party libraries
+ The script configures and compiles the third party libraries
  - tcl http://www.tcl.tk/
+ - cpptcl http://cpptcl.sourceforge.net/
  - blitz++ http://www.oonumerics.org/blitz/
  - glog http://code.google.com/p/google-glog/
-\section incomp_code Incompressible Version 
-
+ \section incomp_code Incompressible Version 
   \subsection restart_file Restart file format 
-  
   \subsection input_file Input file format
   Examples of input files are sotred in sph-blitz/case directory.
   Input files are writen in <b>TCL</b> language. See comments 

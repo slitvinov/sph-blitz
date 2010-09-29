@@ -3,7 +3,7 @@
 /// \file initiation.h 
 /// \brief initializes the simulation data
 
-#include "cpptcl.h"
+#include "cpptcl/cpptcl.h"
 #include "vec2d.h"
 #include <boost/utility.hpp>
 #include "glbtype.h"
@@ -16,11 +16,13 @@ class Kernel;
 /// and copying is prevented
 class Initiation : boost::noncopyable {
 public:
-	
   ///the project name
   std::string Project_name;
   //the ivs file name
   std::string Ivs_file_name;
+
+  /// output directory name (default is outdata)
+  std::string outdir;
 
   ///kernel type
   /// possible values are
@@ -36,7 +38,7 @@ public:
   ///tcl interpreter to read configuration data
   Tcl::interpreter interp; 
 
-  ///\brief integation scheme selection
+  ///\brief integration scheme selection
   ///
   ///possible integration schemes
   ///- 1: leap frog
@@ -77,15 +79,15 @@ public:
   int density_mode;
   ///supportlength
   double supportlength;
-  /// parameter n for harmonic kerenel
+  /// parameter n for harmonic kernel
   double harmonic_n;
-  ///the compuational domain size
+  ///the computational domain size
   Vec2d box_size;
   ///cell size
   double cell_size;
-  ///the inital particle distance
+  ///the initial particle distance
   double delta;
-  ///the ration between smoothing length and inital particle distance
+  ///the ration between smoothing length and initial particle distance
   int hdelta;
   ///cells matrix for real particles
   int x_cells, y_cells;
@@ -109,7 +111,7 @@ public:
   double manually_choosen_dt;///<Time-step (specified in .tcl-configuration file) which is applied if autom. dt-control is turned off
 
 
-  Vec2d U0;///<inital flow speed (if initial condition is defined here)w
+  Vec2d U0;///<initial flow speed (if initial condition is defined here)w
   double rho0;///<initial particle density(if initial condition is defined here)
   double p0;///<initial pressure(if initial condition is defined here)
   double T0;///<initial temperature(if initial condition is defined here)
@@ -121,7 +123,7 @@ public:
 
   
  ///constructor 
-  ///\param *project_name: a pointer to the project name array (the project name is defined as a main-function argument and therefore given as an additional command line element when running the progam)
+  ///\param *project_name: a pointer to the project name array (the project name is defined as a main-function argument and therefore given as an additional command line element when running the program)
 ///\param *ivs_file_name: a pointer to the project ivs file name array (the ivs file name is defined as the second main-function argument)or to NULL in case no ivs file is needed (liquids simulation)
   explicit Initiation(const std::string& project_name, const std::string& ivs_file_name);
   ///show information on screen
@@ -130,4 +132,9 @@ public:
   void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, 
 		  spKernel weight_function);
 };
+
+
+/// convert char* to std::string
+const char *CharPtrToStdString(const char *str);
+
 #endif

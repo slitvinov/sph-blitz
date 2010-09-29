@@ -26,9 +26,16 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
 
   /// generate file name with leading zeros
   const std::string file_list = boost::str(boost::format("%08d") % static_cast<int>(Itime));
-  const std::string file_name = "./outdata/prtl" + file_list + ".dat";
+  const std::string file_name = ini.outdir + "/prtl" + file_list + ".dat";
 
   ofstream out(file_name.c_str());
+  if (!out.is_open()) {
+    LOG(INFO) << "Cannot open file: " << file_name;
+    exit(EXIT_FAILURE);
+  }
+  /// check if file is OK
+  
+
   ///<li>defining header for tecplot(plot software)
   out<<"title='particle position' \n";
   if( ini.simu_mode==1)
