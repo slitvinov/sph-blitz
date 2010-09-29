@@ -36,15 +36,17 @@ void InteractionIn::UpdateForces() {
       LOG_EVERY_N(INFO, 10000) << "etai = " << etai;
       LOG_EVERY_N(INFO, 10000) << "shear_rij = " << shear_rij;
       
-      /// viscous and pressure parts
       const Vec2d Ui = Org->U; 
       const Vec2d Uj = Dest->U;
       const Vec2d Uij = Ui - Uj;
 
       const double pi = Org->p; 
       const double pj = Dest->p;
+      /// viscous forces
       const Vec2d dPdti_visc = -shear_rij*Fij*(Vi2 + Vj2) * Uij;
-      const Vec2d dPdti_pre = - eij*Fij*rij*(pi*Vi2 + pj*Vj2);
+
+      /// pressure forces
+      const Vec2d dPdti_pre = eij*Fij*rij*(pi*Vi2 + pj*Vj2);
       
       const Vec2d dPdti = dPdti_visc  + dPdti_pre;
       LOG_EVERY_N(INFO, 10000) << "Ui = " << Ui;

@@ -10,6 +10,6 @@ fi
 
 for file in $(ls -1 ${pat}[0-9]*.*); do
     #printf "file: %s\n" $file > "/dev/stderr"
-    awk 'NF>3&&NR>2{$1=$1; print}'  $file 
+    awk 'NF>3&&NR>2{$1=$1; print $0, no} $0~/zone/{no++}'  $file 
     printf "\n"
 done 

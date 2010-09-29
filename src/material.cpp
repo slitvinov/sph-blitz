@@ -20,7 +20,9 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //					constructors
 //----------------------------------------------------------------------------------------
-Material::Material(Initiation &ini, const int index) {
+Material::Material(Initiation &ini, const int index):
+  material_no(index)
+{
   material_name = std::string(ini.interp.getat("material_name", index));
   material_type = ini.interp.getat("material_type",  index);
   cv = ini.interp.getat("material_cv",  index);
@@ -54,17 +56,20 @@ void Material::show_properties()
 //			obtain parameter b0
 //			after nondimensionlization finished
 //----------------------------------------------------------------------------------------
-void Material::Set_b0(const double sound)
+void Material::Set_b0(const double)
 {
-	//compressiblity
-	b0 = a0*sound/gamma;
+  // 
+  b0 = a0 * a0 * pow(rho0, 1.0 - gamma) / gamma;
 }
 //----------------------------------------------------------------------------------------
 //					get pressure
 //----------------------------------------------------------------------------------------
 double Material::get_p(const double rho) const
 {
-  return b0*pow(rho/rho0,gamma);
+  LOG_EVERY_N(INFO, 1000) << "b0 = " << b0;
+  LOG_EVERY_N(INFO, 1000) << "rho0 = " << rho0;
+  LOG_EVERY_N(INFO, 1000) << "gamma = " << gamma;
+  return b0*pow(rho0, gamma);
 }
 
 double Material::get_p(const double rho, const double e) const

@@ -33,4 +33,8 @@ namespace blast = boost::numeric::ublas;
 ///a vector of shared_ptr to material
 typedef blast::vector< spMaterial > vecMaterial;
 
+/// a matrix for gforce
+typedef boost::numeric::ublas::matrix<double> TMatrix;
+
+
 #endif

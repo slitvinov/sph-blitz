@@ -42,7 +42,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   }
 
   /// <li>determine the artificial compressiblity
-  const double sound = AMAX1(v_abs(ini.g_force), viscosity_max);
+  const double sound =  viscosity_max;
   LOG(INFO) << "sound speed is ready: " << sound;
   for(int k = 0; k < ini.number_of_materials; k++) {
     materials[k]->Set_b0(sound);
@@ -274,11 +274,12 @@ void Hydrodynamics::Zero_mue_ab_max() {
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::AddGravity(const Initiation &ini) {
   LOG(INFO) << "Hydrodynamics::AddGravity starts";
-  LOG(INFO) << "ini.gravity = " << ini.g_force;
   ///- iterate particles on the real particle list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- to each particles dUdt: add the gravity effects
-    prtl->dUdt = prtl->dUdt + ini.g_force;
+    const int no = prtl->mtl->material_no;
+    prtl->dUdt[0] = prtl->dUdt[0] + ini.g_force(no, 0);
+    prtl->dUdt[1] = prtl->dUdt[1] + ini.g_force(no, 1);
   }
 }
 //----------------------------------------------------------------------------------------
@@ -384,9 +385,21 @@ double Hydrodynamics::GetTimestep(const Initiation& ini) const {
   }
   LOG(INFO) << "viscosity_max is ready";
 
-  const Vec2d gravity = ini.g_force;
+  /// TODO: make it maximum of all materials
+  double max_gr = 0.0;
+  for(int k = 0; k < ini.number_of_materials; k++) {
+    Vec2d gravity;
+    gravity[0] = ini.g_force(k, 0);
+    gravity[1] = ini.g_force(k, 1);
+    const double vabs = v_abs(gravity);
+    if (vabs> max_gr) {
+      max_gr = vabs;
+    }
+  }
+  LOG(INFO) << "max_gr = " << max_gr;
+
   const double dt_g_vis = 
-    AMIN1(sqrt(ini.delta/v_abs(gravity)), 0.5*ini.delta*ini.delta/viscosity_max);
+    AMIN1(sqrt(ini.delta/max_gr), 0.5*ini.delta*ini.delta/viscosity_max);
 
   assert(dt_g_vis>0.0);
   LOG(INFO) << "dt_g_vis: " << dt_g_vis;

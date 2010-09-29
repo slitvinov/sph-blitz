@@ -8,6 +8,8 @@ void hello() {
 }
 
 int test_main( int, char *[] )     {  
+  const double eps = 1e-8;
+  
   Tcl::interpreter interp; 
   interp.def("hello", hello);
 
@@ -22,13 +24,13 @@ int test_main( int, char *[] )     {
  BOOST_REQUIRE( s == "30");
 
  double val = interp.getval("val");
- BOOST_REQUIRE( abs(val-42.0)<1e-8);
+ BOOST_REQUIRE( abs(val-42.0)<eps);
 
  val = interp.getat("aux", 1);
- BOOST_REQUIRE( abs(val-1.0)<1e-8);
+ BOOST_REQUIRE( abs(val-1.0)<eps);
 
  val = interp.getat("aux", 2);
- BOOST_REQUIRE( abs(val-2.0)<1e-8);
+ BOOST_REQUIRE( abs(val-2.0)<eps);
 
  try {
    val = interp.getat("aux", 3);
@@ -60,12 +62,24 @@ int test_main( int, char *[] )     {
  BOOST_REQUIRE( !ios) ;
  interp.setdouble("qq", 42.0);
  val = interp.getval("qq");
- BOOST_REQUIRE( abs(val-42.0)<1e-8);
+ BOOST_REQUIRE( abs(val-42.0)<eps);
 
 
  interp.evalproc("getmatNo");
  const int no=interp.getval("no");
  BOOST_REQUIRE( no == 2) ;
+
+ val = interp.getat("mat", 1, 1);
+ BOOST_REQUIRE( abs(val-18.0)<1e-8);
+
+ int ndim = interp.getndim("aux");
+ BOOST_REQUIRE(ndim == 1);
+
+ ndim = interp.getndim("mat");
+ BOOST_REQUIRE(ndim == 2);
+
+ ndim = interp.getndim("qq");
+ BOOST_REQUIRE(ndim == 0);
 
  return EXIT_SUCCESS;
 };

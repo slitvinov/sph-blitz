@@ -638,10 +638,22 @@ public:
 
      details::result eval(object const &o);
   
+  /// set variable 
      details::result setdouble(const std::string &s, const double val);
-     details::result getval(std::string const &s);
+
+  /// get value
+     details::result getval(const std::string  &s);
+
+  /// get an element in the arrays
      details::result getat(const std::string &s, const int index);
-     details::result isproc(std::string const &s);
+  /// get an element in the 2D matrix
+     details::result getat(const std::string &s, const int i, const int j);
+
+  /// get the number of dimensions
+  int getndim(const std::string &s);
+
+  /// is s a name of the procedure
+     bool isproc(std::string const &s);
      void evalproc(const std::string &s);
      bool exist(const std::string &s);
 

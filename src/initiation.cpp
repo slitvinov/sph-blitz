@@ -87,9 +87,27 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   assert(supportlength > 0.0);
   hdelta = interp.getval("CELL_RATIO");
   assert(hdelta > 0.0);
-  g_force[0] = interp.getat("G_FORCE", 0);
-  g_force[1] = interp.getat("G_FORCE", 1);
+
   number_of_materials = interp.getval("NUMBER_OF_MATERIALS");
+  
+  if (interp.getndim("G_FORCE") == 1) {
+    /// one dimensional vector make it for all materials
+    LOG(INFO) << "G_FORCE is one dimensional";
+    g_force.resize(number_of_materials, 2);
+    for (int material_no=0; material_no<number_of_materials; material_no++) {
+      g_force(material_no, 0) = interp.getat("G_FORCE", 0);
+      g_force(material_no, 1) = interp.getat("G_FORCE", 1);
+    }
+  } else {
+    g_force.resize(number_of_materials, 2);
+    LOG(INFO) << "G_FORCE is two dimensional";
+    for (int material_no=0; material_no<number_of_materials; material_no++) {
+      g_force(material_no, 0) = interp.getat("G_FORCE", material_no, 0);
+      g_force(material_no, 1) = interp.getat("G_FORCE", material_no, 1);
+      LOG(INFO) << "g_force(" << material_no << ",0) = " << g_force(material_no, 0);
+      LOG(INFO) << "g_force(" << material_no << ",1) = " << g_force(material_no, 1);
+    }
+  }
   assert(number_of_materials > 0);
   
   Start_time = interp.getval("Start_time");
@@ -100,17 +118,18 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   assert(End_time >= Start_time);
   
   if (initial_condition == 0) {
-    rho0 = interp.getval("rho0");
-    p0 = interp.getval("p0");
+    //rho0 = interp.getval("rho0");
+    //p0 = interp.getval("p0");
     T0 = interp.getval("T0");
     U0[0] = interp.getat("U0", 0);
     U0[1] = interp.getat("U0", 1);
   }
   
   ///<li>create outdata directory
-  const int sys_return = system("mkdir -p outdata");
+  const std::string syscommand = "mkdir -p " + outdir;
+  const int sys_return = system(syscommand.c_str());
   if (sys_return) {
-    LOG(ERROR) << "system command faild" << inputfile;
+    LOG(ERROR) << "system command: " << syscommand << " faild" << inputfile;
     exit(EXIT_FAILURE);
   }
   
@@ -141,7 +160,6 @@ void Initiation::show_information() const
   LOG(INFO)<<"The cell matrix size is "<<x_cells<<" x "<<y_cells<<"\n";
   LOG(INFO)<<"The ratio between cell size and initial particle width is "<<hdelta<<"\n";
   LOG(INFO)<<"The initial particle width is "<<delta<<" micrometers\n";
-  LOG(INFO)<<"The g force is "<<g_force[0]<<" m/s^2 x "<<g_force[1]<<" m/s^2 \n";
 	///- output the timing information on screen
   LOG(INFO)<<"Ending time is "<<End_time<<" \n";
   LOG(INFO)<<"Output time interval is "<<D_time<<" \n";
@@ -153,9 +171,6 @@ void Initiation::show_information() const
   //Initialize the initial conditions from .cfg file
   if (initial_condition==0) {
     LOG(INFO)<<"The initial flow speed is "<<U0[0]<<" m/s x "<<U0[1]<<" m/s\n";
-    LOG(INFO)<<"The initial density is "<<rho0<<" kg/m^3\n";
-    LOG(INFO)<<"The initial pressure is "<<p0<<" Pa\n";
-    LOG(INFO)<<"The initial temperature is "<<T0<<" K\n";
   }
 	
   //Initialize the initial conditions from .rst file

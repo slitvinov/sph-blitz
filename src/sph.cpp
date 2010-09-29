@@ -151,8 +151,10 @@ int main(int argc, char *argv[]) {
   timesolver->show_information();
 
   //BuildBoundaryParticle moved here from boundary constructor in order to be able to switch it of for the 1D case
-  if  (ini.disable_boundary != 1)
+  if  (ini.disable_boundary != 1) {
+    
     boundary.BuildBoundaryParticle(particles, hydro);
+  }
 
   Output output; ///- initialize output class (should be the last to be initialized)
 

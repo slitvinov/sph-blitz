@@ -149,58 +149,46 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
   //clear the list first
   interactions.clear();
   ///<ul><li>iterate particles on the particle list
-  for (std::list<spParticle >::const_iterator p = particle_list.begin(); 
-       p != particle_list.end();
-       p++) {
-      /// <ul><li> choose origin particle 
-      spParticle prtl_org = *p;
-      if(prtl_org->bd == 0)
-	{
-	  ///<li>find out where(in which cell) the particle is
-	  const int i = int ((prtl_org->R[0] + cll_sz)/ cll_sz);
-	  const int j = int ((prtl_org->R[1] + cll_sz)/ cll_sz);
-	  ///<li>loop on this and all surrounding cells
-	  for(int k = i - 1; k <= i + 1; k++) 
-	    for(int m = j - 1; m <= j + 1; m++) { 
-	      ///<ul><li>iterate this cell list
-	      for (std::list<spParticle >::const_iterator p1 = cell_lists(k,m).begin(); 
-		   p1 != cell_lists(k,m).end();
-		   p1++) {
-		// destination particle
-		spParticle prtl_dest = *p1;
-		
-		///<ul><li>calculate distance between particle in question 
-		///and destination particle (which is iterated)and if 
-		///interaction takes place: add pair to inetraction list 
-		/// (<b>question: why is dst compared to h^2 and not 
-		///support length to determine if there is interaction or not??</b>
-		const double dstc = v_sq(prtl_org->R - prtl_dest->R);
-		assert(supportlengthsquare>0.0);
-		if( (dstc < supportlengthsquare) && (prtl_org->ID > prtl_dest->ID)) {
-		  /// choose the type of interaction
-		  if (ini.simu_mode == 1) {
-		    spInteraction pair = 
-		      boost::make_shared<InteractionIn>(prtl_org, prtl_dest, 
-							weight_function, sqrt(dstc),
-							ini);
-		    interactions.push_back(pair);
-		  } else if (ini.simu_mode == 2) {
-		    spInteraction pair = 
-		      boost::make_shared<InteractionComp>(prtl_org, prtl_dest, 
-							  weight_function, sqrt(dstc),
-							  ini);
-		    interactions.push_back(pair);
-		  } else {
-		    std::cerr << __FILE__ << ':' << __LINE__ << " unknown simulation mode (check SIMULATION_MODE)";
-		    std::exit(EXIT_FAILURE);
-		  }
-
-		}
+  BOOST_FOREACH(spParticle prtl_org, particle_list) {
+    if(prtl_org->bd == 0) {
+      ///<li>find out where(in which cell) the particle is
+      const int i = int ((prtl_org->R[0] + cll_sz)/ cll_sz);
+      const int j = int ((prtl_org->R[1] + cll_sz)/ cll_sz);
+      ///<li>loop on this and all surrounding cells
+      for(int k = i - 1; k <= i + 1; k++) 
+	for(int m = j - 1; m <= j + 1; m++) { 
+	  ///<ul><li>iterate this cell list
+	  BOOST_FOREACH(spParticle prtl_dest,  cell_lists(k,m)) {
+	    ///<ul><li>calculate distance between particle in question 
+	    ///and destination particle (which is iterated)and if 
+	    ///interaction takes place: add pair to inetraction list 
+	    const double dstc = v_sq(prtl_org->R - prtl_dest->R);
+	    assert(supportlengthsquare>0.0);
+	    if( (dstc < supportlengthsquare) && (prtl_org->ID > prtl_dest->ID)) {
+	      /// choose the type of interaction
+	      if (ini.simu_mode == 1) {
+		spInteraction pair = 
+		  boost::make_shared<InteractionIn>(prtl_org, prtl_dest, 
+						    weight_function, sqrt(dstc),
+						    ini);
+		interactions.push_back(pair);
+	      } else if (ini.simu_mode == 2) {
+		spInteraction pair = 
+		  boost::make_shared<InteractionComp>(prtl_org, prtl_dest, 
+						      weight_function, sqrt(dstc),
+						      ini);
+		interactions.push_back(pair);
+	      } else {
+		std::cerr << __FILE__ << ':' << __LINE__ << " unknown simulation mode (check SIMULATION_MODE)";
+		std::exit(EXIT_FAILURE);
 	      }
+	      
 	    }
+	  }
 	}
+    }
   }
-
+  
   //control output
   LOG(INFO)<<"build interaction (within build pair) done \n";
   ofstream txtFile("BuddiesDataN1");
@@ -212,7 +200,6 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
 	   p++)
 	{
 	  spInteraction inte= *p;
-
 	  txtFile <<setprecision (9)<< ::setw( 7 )<<inte->getOrigin()->ID<<::setw( 7 )<<inte->getDest()->ID<<::setw( 17 )<<inte->get_rij()<<::setw(17 )<<inte->getWij()<<"  "<<inte->getGradWij()[0]<<endl;
 	}
 

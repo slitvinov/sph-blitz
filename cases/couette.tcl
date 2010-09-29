@@ -11,7 +11,7 @@ set KERNEL_TYPE QuinticSpline
 # disable boundary conditions:
 # 1: boundary conditions disabled
 # 0: boundary conditions enabled
-set DISABLE_BOUNDARY 1
+set DISABLE_BOUNDARY 0
 
 #possible density treatments
 #1: summation density (density obtained by smoothing)
@@ -60,14 +60,13 @@ set p0 1.0
 set T0 1.0
 
 set G_FORCE(0) 0.0
-#set G_FORCE(0) 0.0
 set G_FORCE(1) 0.0
 
 
 set Start_time 0.0
 set End_time 1.0
 # time between output
-set D_time 1e-2
+set D_time 1e-6
 
 # boundary conditions
 set wall 0 

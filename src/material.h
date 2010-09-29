@@ -23,6 +23,9 @@ public:
 	///-  2: gas
 	int material_type;
 
+  /// material_type
+  const int material_no;
+
 	double cv;///<heat capacity
 	double eta;///<(shear) viscosity
   	double zeta;///<bulk viscosity

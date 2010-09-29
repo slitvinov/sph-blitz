@@ -12,7 +12,6 @@
 #include <sstream>
 #include <iterator>
 
-
 using namespace Tcl;
 using namespace Tcl::details;
 using namespace std;
@@ -924,7 +923,7 @@ result interpreter::getval(const std::string &s) {
   return eval("[return $" + s + "]");
 }
 
-result interpreter::isproc(const std::string &s) {
+bool interpreter::isproc(const std::string &s) {
   return eval("llength [info procs " + s + " ]");
 }
 
@@ -939,6 +938,28 @@ bool interpreter::exist(const std::string &s) {
 result interpreter::getat(const std::string &s, const int index) {
   return eval("[return $" + s + "(" + convertInt(index) + ")]");
 }
+
+result interpreter::getat(const std::string &s, const int i, const int j) {
+  const std::string aux = "[return $" + s + "(" + convertInt(i) + "," +  convertInt(j) + ")]";
+  return eval(aux);
+}
+
+int interpreter::getndim(const std::string &s) {
+  /// try as a variable (TODO: redo this part)
+  try {
+    getval(s);
+    return 0;
+  } catch(std::runtime_error) {
+
+    try {
+      getat(s, 1);
+      return 1; 
+    } catch(std::runtime_error) {
+      return 2;
+    }
+  }
+}
+
 
 void interpreter::pkg_provide(string const &name, string const &version)
 {

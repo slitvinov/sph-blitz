@@ -92,7 +92,7 @@ public:
   ///cells matrix for real particles
   int x_cells, y_cells;
   ///g force on particles
-  Vec2d g_force;
+  TMatrix g_force;
 
   ///\brief marker to choose output format
   /// 
@@ -112,8 +112,8 @@ public:
 
 
   Vec2d U0;///<initial flow speed (if initial condition is defined here)w
-  double rho0;///<initial particle density(if initial condition is defined here)
-  double p0;///<initial pressure(if initial condition is defined here)
+  //double rho0;///<initial particle density(if initial condition is defined here)
+  //double p0;///<initial pressure(if initial condition is defined here)
   double T0;///<initial temperature(if initial condition is defined here)
 
   ///artificial viscosity

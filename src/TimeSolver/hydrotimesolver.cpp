@@ -120,14 +120,14 @@ void HydroTimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &partic
 
     ///<li> the correction step without update the interaction list
     hydro.UpdateInteractions(weight_function);///<ol><li>hydro.UpdatePair
-    boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
+    //boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
     hydro.UpdateChangeRate(ini);///<li>hydro.UpdateChangeRate
     hydro.Corrector(dt);///<li>hydro.Corrector
     hydro.UpdateState(ini);///<li>hydro.UpdateState</ol>
     ///<li> renew boundary particles
     boundary.RunAwayCheck(hydro);///<ol><li>boundary.RunAwayCheck
     particles.UpdateCellLinkedLists();///<li>particles.UpdateCellLinkedLists
-    boundary.BuildBoundaryParticle(particles, hydro);///<li>boundary.BuildBoundaryParticles</ol></ul>
+    //boundary.BuildBoundaryParticle(particles, hydro);///<li>boundary.BuildBoundaryParticles</ol></ul>
   }
 }
 
