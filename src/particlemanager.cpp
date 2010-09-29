@@ -256,12 +256,6 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 		Temperature = ini.T0;
 		density = materials[material_no]->rho0;
 		pressure = materials[material_no]->get_p(density);
-		const Vec2d c_cntr(4.0, 4.0);
-		if(v_abs(position - c_cntr) <= 1.0) {
-		  material_no = 2;
-		  pressure += ini.p0;
-		  density = materials[material_no]->get_rho(pressure);
-		}
 		//create a new real particle
                 LOG_EVERY_N(INFO, 100) << "Create a particle with position: " << position;
 		spParticle prtl = boost::make_shared<Particle>(position, velocity, 
