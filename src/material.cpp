@@ -119,5 +119,6 @@ double Material::get_Cs(const double p, const double rho)
 {
   assert(rho>0.0);
   assert(p>0.0);
-  return sqrt(gamma*p/rho);
+  /// TODO: temperaturey use a0 as a sound speed
+  return a0;
 }
