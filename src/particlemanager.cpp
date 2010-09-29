@@ -15,7 +15,8 @@
 // ***** local includes *****
 #include "particlemanager.h"
 #include "hydrodynamics.h"
-#include "interaction.h"
+#include "Interaction/interactionin.h"
+#include "Interaction/interactioncomp.h"
 #include "initiation.h"
 #include "boundary.h"
 
@@ -185,11 +186,23 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
 		const double dstc = v_sq(prtl_org->R - prtl_dest->R);
 		assert(supportlengthsquare>0.0);
 		if( (dstc < supportlengthsquare) && (prtl_org->ID > prtl_dest->ID)) {
-		  spInteraction pair = 
-		    boost::make_shared<Interaction>(prtl_org, prtl_dest, 
-						    weight_function, sqrt(dstc),
-						    ini);
-		  interactions.push_back(pair);
+		  /// choose the type of interaction
+		  if (ini.simu_mode == 1) {
+		    spInteraction pair = 
+		      boost::make_shared<InteractionIn>(prtl_org, prtl_dest, 
+							weight_function, sqrt(dstc),
+							ini);
+		    interactions.push_back(pair);
+		  } else if (ini.simu_mode == 2) {
+		    spInteraction pair = 
+		      boost::make_shared<InteractionComp>(prtl_org, prtl_dest, 
+							  weight_function, sqrt(dstc),
+							  ini);
+		    interactions.push_back(pair);
+		  } else {
+		    std::cerr << __FILE__ << ':' << __LINE__ << " unknown simulation mode (check SIMULATION_MODE)";
+		    std::exit(EXIT_FAILURE);
+		  }
 
 		}
 	      }
@@ -356,8 +369,7 @@ void ParticleManager::BuildRealParticleGasDyn(vecMaterial materials,
       //check if the .ivs file exists
       ifstream fin(inputfile.c_str(), ios::in);
       if (!fin) {
-      	LOG(INFO)<<"Initialtion: Cannot open "<< inputfile <<" \n";
-      	LOG(INFO) << __FILE__ << ':' << __LINE__ << std::endl;
+      	LOG(INFO)<<"Initialtion: Cannot open file: "<< inputfile <<" \n";
       	exit(EXIT_FAILURE);
       }
       else LOG(INFO)<<"Initialtion: Read real particle data from "<< inputfile <<" \n"; 

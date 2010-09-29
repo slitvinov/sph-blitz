@@ -25,7 +25,7 @@ public:
 
 	double cv;///<heat capacity
 	double eta;///<(shear) viscosity
-	double zeta;///<bulk viscosity
+  	double zeta;///<bulk viscosity
 	double gamma; ///<ratio of specific heats (adiabatic index)
 
 	double nu; ///<kinetice viscosity
