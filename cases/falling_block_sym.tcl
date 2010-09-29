@@ -81,7 +81,7 @@ set material_eta(0) 1.0
 set material_gamma(0) 1.0
 set material_b0(0) 1.0e2
 set material_rho0(0) $rho_media
-set material_a0(0) 1.0
+set material_a0(0) 30.0
 
 set material_name(1) Media
 set material_type(1) $material_type(0)
