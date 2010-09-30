@@ -164,21 +164,18 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
 	    ///and destination particle (which is iterated)and if 
 	    ///interaction takes place: add pair to inetraction list 
 	    const double dstc = v_sq(prtl_org->R - prtl_dest->R);
-	    assert(supportlengthsquare>0.0);
 	    if( (dstc < supportlengthsquare) && (prtl_org->ID > prtl_dest->ID)) {
 	      /// choose the type of interaction
 	      if (ini.simu_mode == 1) {
-		spInteraction pair = 
-		  boost::make_shared<InteractionIn>(prtl_org, prtl_dest, 
-						    weight_function, sqrt(dstc),
-						    ini);
-		interactions.push_back(pair);
+		interactions.push_back
+		  (boost::make_shared<InteractionIn>(prtl_org, prtl_dest, 
+						     weight_function, sqrt(dstc),
+						     ini));
 	      } else if (ini.simu_mode == 2) {
-		spInteraction pair = 
-		  boost::make_shared<InteractionComp>(prtl_org, prtl_dest, 
-						      weight_function, sqrt(dstc),
-						      ini);
-		interactions.push_back(pair);
+		interactions.push_back
+		  (boost::make_shared<InteractionComp>(prtl_org, prtl_dest, 
+						     weight_function, sqrt(dstc),
+						     ini));
 	      } else {
 		std::cerr << __FILE__ << ':' << __LINE__ << " unknown simulation mode (check SIMULATION_MODE)";
 		std::exit(EXIT_FAILURE);
@@ -191,21 +188,21 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
   }
   
   //control output
-  LOG(INFO)<<"build interaction (within build pair) done \n";
-  ofstream txtFile("BuddiesDataN1");
-  if (txtFile.is_open())
-    {
+  // LOG(INFO)<<"build interaction (within build pair) done \n";
+  // ofstream txtFile("BuddiesDataN1");
+  // if (txtFile.is_open())
+  //   {
 
-      for (std::list<spInteraction>::const_iterator  p = interactions.begin(); 
-	   p!=interactions.end();
-	   p++)
-	{
-	  spInteraction inte= *p;
-	  txtFile <<setprecision (9)<< ::setw( 7 )<<inte->getOrigin()->ID<<::setw( 7 )<<inte->getDest()->ID<<::setw( 17 )<<inte->get_rij()<<::setw(17 )<<inte->getWij()<<"  "<<inte->getGradWij()[0]<<endl;
-	}
+  //     for (std::list<spInteraction>::const_iterator  p = interactions.begin(); 
+  // 	   p!=interactions.end();
+  // 	   p++)
+  // 	{
+  // 	  spInteraction inte= *p;
+  // 	  txtFile <<setprecision (9)<< ::setw( 7 )<<inte->getOrigin()->ID<<::setw( 7 )<<inte->getDest()->ID<<::setw( 17 )<<inte->get_rij()<<::setw(17 )<<inte->getWij()<<"  "<<inte->getGradWij()[0]<<endl;
+  // 	}
 
-      txtFile.close();
-    }
+  //     txtFile.close();
+  //   }
 
 }
 

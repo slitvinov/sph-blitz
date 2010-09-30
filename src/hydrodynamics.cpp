@@ -102,10 +102,7 @@ void Hydrodynamics::UpdateDensity(ParticleManager &particles,
     pair->SummationDensity();	
   };
   LOG(INFO)<<"density after smoothing";
-  BOOST_FOREACH(spParticle prtl, particle_list){
-    LOG(INFO) << setprecision (20)<<::setw( 7 )<<prtl->ID<< ::setw( 25 )<<prtl->rho<<::setw( 7 )<<endl;
-  }
-		
+
   ///- calulate new pressure by calling UpdateState() Method
   UpdateState(ini);
 }
@@ -117,21 +114,22 @@ void Hydrodynamics::UpdateDensity(const Initiation &ini, spKernel  weight_functi
   ///- initiate zero density
   LOG(INFO)<<"Hydrodynamics::UpdateDensity(ini, weight_function)";
   Self_density(weight_function);
-  BOOST_FOREACH(spParticle prtl, particle_list){
-    LOG_EVERY_N(INFO,100) << setprecision (9)<<prtl->ID<<"    "<<prtl->rho<<endl;
-  }
+
+  // BOOST_FOREACH(spParticle prtl, particle_list){
+  //   LOG_EVERY_N(INFO,100) << setprecision (9)<<prtl->ID<<"    "<<prtl->rho<<endl;
+  // }
 
   ///- iterate the interaction list
   assert(interaction_list.size()>0);
   BOOST_FOREACH(spInteraction pair, interaction_list) {
     pair->SummationDensity();	
   }
-  LOG(INFO)<<"density after smoothing";
 
+  LOG(INFO)<<"density after smoothing";
   assert(particle_list.size()>0);
-  BOOST_FOREACH(spParticle prtl, particle_list){
-    LOG_EVERY_N(INFO,100) << setprecision (9)<<prtl->ID<<"    "<<prtl->rho<<endl;
-  }
+  // BOOST_FOREACH(spParticle prtl, particle_list){
+  //   LOG_EVERY_N(INFO,100) << setprecision (9)<<prtl->ID<<"    "<<prtl->rho<<endl;
+  //}
 
   ///- calulate new pressure by calling UpdateState()
   UpdateState(ini);
@@ -170,26 +168,24 @@ void Hydrodynamics::UpdateChangeRate(const Initiation& ini) {
       aux_interaction->UpdateForces();
   }
   //control output
-  BOOST_FOREACH(spParticle prtl, particle_list) {
-    LOG_EVERY_N(INFO, 100) <<"dUdt: "<<prtl->dUdt[0] << " dUdt1: "<<prtl->dUdt[1];
-  }
+  //BOOST_FOREACH(spParticle prtl, particle_list) {
+  //    LOG_EVERY_N(INFO, 100) <<"dUdt: "<<prtl->dUdt[0] << " dUdt1: "<<prtl->dUdt[1];
+  //  }
 
 
-ofstream tx2tFile("DerivativesDataN1");
-	if (tx2tFile.is_open())
-        {
-        BOOST_FOREACH(spParticle prtl, particle_list) {
-	  
-	  tx2tFile <<setprecision (9)<< ::setw( 5 )<<prtl->ID<< ::setw(20)<<prtl->dUdt[0]<<::setw(20)<<prtl->dUdt[1]<<::setw(20)<<prtl->dedt<<endl;
-	
-	  }
-	tx2tFile.close();
-	}
-		else cout << "Unable to open/create file";
-
-BOOST_FOREACH(spParticle prtl, particle_list) {
-    LOG_EVERY_N(INFO, 100000) <<"dUdt: "<<prtl->dUdt[0] << " dUdt1: "<<prtl->dUdt[1];
-  }
+  // ofstream tx2tFile("DerivativesDataN1");
+  //   if (tx2tFile.is_open())
+  //     {
+  //       BOOST_FOREACH(spParticle prtl, particle_list) {
+  // 	  tx2tFile <<setprecision (9)<< ::setw( 5 )<<prtl->ID<< ::setw(20)<<prtl->dUdt[0]<<::setw(20)<<prtl->dUdt[1]<<::setw(20)<<prtl->dedt<<endl;
+  // 	}
+  // 	tx2tFile.close();
+  //     }
+  //   else cout << "Unable to open/create file";
+      
+  //     BOOST_FOREACH(spParticle prtl, particle_list) {
+  // 	LOG_EVERY_N(INFO, 100000) <<"dUdt: "<<prtl->dUdt[0] << " dUdt1: "<<prtl->dUdt[1];
+  //     }
 
 
   ///- include the gravity effects
@@ -407,7 +403,7 @@ double Hydrodynamics::GetTimestep(const Initiation& ini) const {
   const double dt = 0.25*AMIN1(dt_g_vis, ini.delta/(Cs_max + V_max));
   assert(dt>0.0);
   /// \todo{verify automatic calculation of time step} 
-  return 0.5*dt;
+  return dt;
 }
 //----------------------------------------------------------------------------------------
 //						the redictor and corrector method: predictor

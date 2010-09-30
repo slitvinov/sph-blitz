@@ -41,9 +41,9 @@ set g -1.0
 set T0 0.0
 
 set Start_time 0.0
-set End_time 0.000108507
+set End_time 0.108507
 # time between output
-set D_time 0.000108507
+set D_time 0.108507
 
 # boundary conditions
 set wall 0 

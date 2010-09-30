@@ -25,7 +25,7 @@ Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest,
 			 const Initiation& ini):
   ini(ini),   Org(prtl_org), Dest(prtl_dest), mi(Org->m), mj(Dest->m), 
   rmi(1.0/mi), rmj(1.0/mj),   etai(Org->eta), etaj(Dest->eta),
-  zetai(Org->zeta), zetaj(Dest->zeta),   rij(dstc) {
+  zetai(Org->zeta), zetaj(Dest->zeta), rij(dstc) {
 
   assert(prtl_dest != NULL);
   assert(prtl_org != NULL);
