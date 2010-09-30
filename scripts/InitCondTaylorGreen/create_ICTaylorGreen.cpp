@@ -17,7 +17,7 @@ int main () {
   double y=0;
   const double domain_size_x=1.0;
   const double domain_size_y=domain_size_x;
-  const int N_x=100;
+  const int N_x=60;
   const int N_y=N_x;
   const int N=N_x*N_y;
   const double dx=domain_size_x/N_x;

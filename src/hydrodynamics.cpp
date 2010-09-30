@@ -319,7 +319,8 @@ double Hydrodynamics::GetTimestepGas(const Initiation& ini) {
   //maximum sound speed, particle velocity and density
  
   double dt_f=1.0e30;//time step due to force consideration 
-  double dt_cv=1.0e30;//time step due to Courant and Viscosity consideration
+  double dt_cv=1.0e30;//time step due to Courant and (artificial) Viscosity consideration (viscous diffusion)
+double dt_v_real=1.0e30;//time step due physical viscosity (viscous diffusion)
   
   //predict the time step
   //iterate the partilce list, calculate theoretical max admissible time step
@@ -331,12 +332,14 @@ double Hydrodynamics::GetTimestepGas(const Initiation& ini) {
     //dt_cv according to Monaghan 1992 ("smoothed particle hydrodynamics") (sec.10.3)
     dt_cv=AMIN1(dt_cv,ini.supportlength/2/(prtl->Cs+0.6*(ini.alpha_artVis*prtl->Cs+ini.beta_artVis*prtl->mue_ab_max)));
     assert(dt_cv>0.0);
+    // dt_v_real according to HuAdams2007 (and Litvinov2010: "A splitting scheme for highly dissipative smoothed particle dynamics")
+    dt_v_real=AMIN1(dt_v_real,0.25*pow(ini.supportlength/2,2)/(prtl->eta+1e-35));
   }
   
   // reset mue_ab to zero (for next iterarion)
   Zero_mue_ab_max();
   
-  const double dt = 0.25*AMIN1(dt_f, dt_cv);
+  const double dt = 0.25*AMIN1(dt_f, dt_cv,dt_v_real);
   assert(dt>0.0);
   LOG(INFO) << "dt: " << dt; 
   return dt;

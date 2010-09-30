@@ -7,4 +7,5 @@
 double AMAX1(const double a, const double b);
 ///Get the minimum
 double AMIN1(const double a, const double b);
+double AMIN1(const double a, const double b, const double c);
 #endif

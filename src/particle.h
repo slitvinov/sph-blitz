@@ -37,7 +37,7 @@ class Particle {
 	///particle states copier for boundary particles
 	void StatesCopier(spParticle RealParticle , const int type);
 
-	/// \brief boundary particle or not
+	/// \brief boundary particle or not (click for mor info)
 	///
 	///- 0: inside the boundary
 	///- 1: on the boundary
@@ -52,9 +52,12 @@ class Particle {
 	///for ghost particles: pointer to their real particle
 	spParticle rl_prtl;
 
-	///for time step control: max value (over all interaction partners) of
-	///mue_ab (paramter for monaghan art. viscosity,
+	///\brief for time step control (click for more info)
+	///
+	/// max value (over all interaction partners) of
+	/// mue_ab (paramter for monaghan art. viscosity,
 	/// cf. Monaghan 1992 SPH review
+	/// (mue_ab has the units of a dynamic viscosity: [Pa s])
 	double mue_ab_max;
 
 	//Physical data
@@ -87,7 +90,7 @@ class Particle {
 	Vec2d dUdt;///<acceleration change for real particles <b>or is it the other wa round</b>
 
 
-	///\brief ID number
+	///\brief ID number (click for more info)
 	///
 	///- a real particle has a unique positive ID
 	///- a wall particle has zero ID

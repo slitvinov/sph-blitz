@@ -185,7 +185,7 @@ void Interaction::UpdateForces() {
     }
     else  {
       piij=0;
-      mue_ab=0;//parameter for time control, in Monaghan1989:=0, if no compression
+      mue_ab=0;//parameter for time control, in Monaghan1989
     };
         
     //assign value for mue_ab to mue_ab_max, if bigger than former max value.
@@ -194,23 +194,43 @@ void Interaction::UpdateForces() {
     
     //initialize vector for velocity change rate due to physical viscosity
     Vec2d  dUdt_visc(0,0);
+    if(Org->ID==2 && Dest->ID==1)
+      LOG(INFO)<<"dUdt_visc before (should always be zero) : ("<<dUdt_visc[0]<<","<<dUdt_visc[1]<<")";
     if (ini.physical_viscosity_marker==1) {
       // physical viscosity implementation according to espagnol2003 (eq. 30)
       // where Fij is defined as >= 0 (gradW(r)=-F(r)*r) contary to Monaghan where Fij<=0 (gradW(r)=F(r)*r)
-    
+      
       const double d_i=1/Vi;// inverse of particle volume (partice number density)
+      if(Org->ID==2 && Dest->ID==1)
+	LOG(INFO)<<"d_i :"<<d_i;
       const double d_j=1/Vj;// inverse of particle volume (partice number density)
+      if(Org->ID==2 && Dest->ID==1)
+	LOG(INFO)<<"d_j :"<<d_j;
       //mean shear viscosity (in case of non-constant viscosity)
       const  double eta_ij=0.5*(etai+etaj); 
+      if(Org->ID==2 && Dest->ID==1)
+	LOG(INFO)<<" eta_ij :"<< eta_ij;
       //mean bulk viscosity (in case of non-constant viscosity)
       const  double zeta_ij=0.5*(zetai+zetaj);
+      if(Org->ID==2 && Dest->ID==1)
+	LOG(INFO)<<" zeta_ij :"<< zeta_ij;
       const double eijdotUij=dot(eij,Uij);// factor for calculation of phys. visc.
+      if(Org->ID==2 && Dest->ID==1) {
+	LOG(INFO)<<" eij :"<< eij;
+	LOG(INFO)<<" Uij :"<< Uij;
+	LOG(INFO)<<" Ui :"<< Org->U;
+	LOG(INFO)<<" Uj :"<< Dest->U;
+	LOG(INFO)<<" eijdotUij :"<< eijdotUij;
+      }
       const double Fij_=abs(Fij);//as in Espagnol Fij defined >=0!
-   //velocity change rate due to physical viscosity
+      if(Org->ID==2 && Dest->ID==1)
+	LOG(INFO)<<" Fij_ :"<< Fij_;
+      //velocity change rate due to physical viscosity
       dUdt_visc=1/mi*(-1*((5.0*eta_ij)/3.0-zeta_ij)*Fij_/(d_i*d_j)*Uij-5.0*(zeta_ij+eta_ij/3)*Fij_/(d_i*d_j)*eijdotUij*eij);
     } 
-  
-
+    if(Org->ID==2 && Dest->ID==1)
+      LOG(INFO)<<"dUdt_visc after : ("<<dUdt_visc[0]<<","<<dUdt_visc[1]<<")";
+    
     // calculate total velocity change rate (due to pressure, art. visc and physical visc.)
     const Vec2d dUdti=-mj*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij+dUdt_visc;
     const Vec2d dUdtj=mi*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij-dUdt_visc;
@@ -220,7 +240,7 @@ void Interaction::UpdateForces() {
     const double dedti=0.5*dot(dUdti,(Uj-Ui));
     const double dedtj=0.5*dot(dUdtj,(Ui-Uj));
     
-    //add result to corresponding particle variable (so, an iteration over interaction list corresponds to the required summation) 
+    //add result to corresponding particle variable (so, an iteration over the interaction list corresponds to the required summation) 
     Org->dUdt += dUdti;
     Dest->dUdt += dUdtj;
     Org->dedt+=dedti;
@@ -325,7 +345,7 @@ void Interaction::UpdateForcesAndRho() {
     // enter if loop to compute art. visc. depending on the artVisc_control value	
     
     if (artVisc_control<0)  {
-      //according to formula monaghan artificial viscosity
+      //according to formula "monaghan artificial viscosity"
       const double phiij=(hij*UijdotRij)/(pow(rij,2)+ini.epsilon_artVis*pow(hij,2)); 
       //according to formula monaghan artificial viscosity
       piij=(-1*ini.alpha_artVis*cij*phiij+ini.beta_artVis*pow(phiij,2))/rhoij; 

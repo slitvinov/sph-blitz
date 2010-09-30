@@ -85,11 +85,12 @@ int main (){
       // -the row does not correspond to a boundary particle
       // (for which ID=0)
       // the different rows in the underlying simulation data file are
-      // x| y| rho| p| Ux| e| ID| m| V| Uy   
-      if(row[6]!=0) {
+      // (in the SPLASH-optimized output mode)
+      // x | y | Ux | Uy | rho | e | p | h=supportlength/2 | m | V | ID 
+      if(row[10]!=0) {
 
 	// determine max velocity this instant
-	const double velocity=sqrt(pow(row[4],2)+pow(row[9],2));
+	const double velocity=sqrt(pow(row[2],2)+pow(row[3],2));
 	if (velocity>maxVelocThisInstant)
 	  maxVelocThisInstant=velocity;
       }
@@ -98,14 +99,17 @@ int main (){
     fin.close();// close inputfile
        
     // pair maximum velocity of this instant with corresponding time:
-    maxVelThisInstAndTime[0]=maxVelocThisInstant;
-    maxVelThisInstAndTime[1]=fileCounter*timeInterval;
+    maxVelThisInstAndTime[1]=maxVelocThisInstant;
+    maxVelThisInstAndTime[0]=fileCounter*timeInterval;
     // put max velocity this instant in an array/vector
     MaxVelocAllInstants.push_back(maxVelThisInstAndTime);
     // increment file counter as loop will restart for next input file
     fileCounter++;  
   }
   // end while loop over all files
+
+  //control-output
+  cout<<"number of instants (=data-files): "<<MaxVelocAllInstants.size()<<endl;
   
   // calculate exact solution (theoretical decay)
   
@@ -139,6 +143,9 @@ int main (){
     U_max_exact.push_back(couple_t_Umax);
   }
 
+  // control output
+  cout<<"size of U_max_exact: "<<U_max_exact.size()<<endl;
+
   const string outputfile = "../../results/ResultsInProgress/decayAnalysis.dat";
   
   // create and open outputfile
@@ -160,8 +167,8 @@ int main (){
     // max_velocity or "--" if there is novalue for the corresponding time)
     stringstream conditionalOutputVelSS;
     string conditionalOutputVel;
-    if ((i+tempResFact)%tempResFact==0) {
-      conditionalOutputVelSS<<  MaxVelocAllInstants[j][0] ;
+    if ((i+tempResFact)%tempResFact==0 && j<MaxVelocAllInstants.size()) {
+      conditionalOutputVelSS<<  MaxVelocAllInstants[j][1] ;
     }
     else 
       conditionalOutputVelSS<<"--";
@@ -171,9 +178,10 @@ int main (){
     // same conditional output operations for the 4. column (rel. error)
     stringstream conditionalOutputErrSS;
     string conditionalOutputErr;
-    if ((i+tempResFact)%tempResFact==0) {
-      conditionalOutputErrSS<<  (U_max_exact[i][0]-MaxVelocAllInstants[j][0])/U_max_exact[i][0];
+    if ((i+tempResFact)%tempResFact==0 && j<MaxVelocAllInstants.size()) {
+      conditionalOutputErrSS<<  (U_max_exact[i][1]-MaxVelocAllInstants[j][1])/U_max_exact[i][1];
       j++;
+      cout<<"j incremented to: "<<j<<endl;
     }
     else 
       conditionalOutputErrSS<<"--";
@@ -184,14 +192,12 @@ int main (){
     // (time | exact Max Velocity | simu Max Velocity | rel. Error)
     out<<setprecision(9)
        << ::setw(17)<<U_max_exact[i][0]
-       << ::setw(17)<<U_max_exact[i][0]
+       << ::setw(17)<<U_max_exact[i][1]
        << ::setw(17) <<conditionalOutputVel
        << ::setw(17) <<conditionalOutputErr
        <<"\n";
     
-    // increment iterator
-    if((i+tempResFact)%tempResFact==0)
-      j++;
+    
     
   }
   out.close();// close outputfile
