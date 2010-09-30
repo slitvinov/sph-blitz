@@ -20,8 +20,8 @@ set DENSITY_MODE 1
 set INITIAL_CONDITION	0
 
 # number of cell
-set xncell 8
-set yncell 16
+set xncell 12
+set yncell 12
 set CELLS(0) $xncell
 set CELLS(1) $yncell
 
@@ -89,7 +89,7 @@ set material_eta(0) 1.0
 set material_gamma(0) 1.0
 set material_b0(0) 1.0e2
 set material_rho0(0) $rho_media
-set material_a0(0) 30.0
+set material_a0(0) 1.0
 
 set material_name(1) Media
 set material_type(1) $material_type(0)
@@ -113,7 +113,7 @@ set material_a0(2) $material_a0(0)
 set xlength [expr {$CELLS(0)* $CELL_SIZE} ]
 set ylength [expr {$CELLS(1)* $CELL_SIZE} ]
 
-set blockFractionX 0.8
+set blockFractionX 0.4
 set blockFractionY 0.4
 set sq_block [expr {0.5 * $blockFractionX * $blockFractionY}]
 set sq_media [expr {1.0 - $sq_block} ]

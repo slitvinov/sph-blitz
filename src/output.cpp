@@ -109,11 +109,11 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
 	b++;
 	if( ini.simu_mode == 1) {
 	  if(j == 1)  {
-	    out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
+	    //out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
 	  }
-	  out << prtl->R[0] << "  " << prtl->R[1]
-	      << "  " << prtl->U[0] << "  " << prtl->U[1]
-	      << "  " << prtl->rho << '\n';
+	  //out << prtl->R[0] << "  " << prtl->R[1]
+	  //    << "  " << prtl->U[0] << "  " << prtl->U[1]
+	  //    << "  " << prtl->rho << '\n';
 	}
 	if (ini.simu_mode == 2) {
 	  if (ini.splash_optimized_output==0)
