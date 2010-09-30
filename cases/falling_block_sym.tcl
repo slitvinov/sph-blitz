@@ -18,6 +18,7 @@ set DISABLE_BOUNDARY 0
 set DENSITY_MODE 1
 
 set INITIAL_CONDITION	0
+set initial_perturb 0.25
 
 # number of cell
 set xncell 12

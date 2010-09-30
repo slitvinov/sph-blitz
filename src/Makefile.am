@@ -21,6 +21,7 @@ nomain=	 boundary.cpp boundary.h \
 	Kernel/cubicspline1D.cpp Kernel/cubicspline1D.h \
 	Kernel/betaspline.h Kernel/betaspline.cpp \
 	Kernel/harmonic.h Kernel/harmonic.cpp \
+	ParticleGenerator/particlegenerator.h ParticleGenerator/particlegenerator.cpp \
 	Interaction/interaction.cpp  Interaction/interaction.h \
 	Interaction/interactioncomp.cpp  Interaction/interactioncomp.h \
 	Interaction/interactionin.cpp  Interaction/interactionin.h \

@@ -48,6 +48,15 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   disable_boundary  = interp.getval("DISABLE_BOUNDARY");
   initial_condition = interp.getval("INITIAL_CONDITION");
   assert( (initial_condition == 0) || (initial_condition == 1));
+  if (!interp.exist("initial_perturb")) {
+    LOG(INFO) << "initial_perturb is not found, assume 0";
+    initial_perturb = 0.0;
+  } else {
+    initial_perturb = interp.getval("initial_perturb");
+    LOG(INFO) << "found initial_perturb: " << initial_perturb;
+    assert( (initial_perturb > 0) && (initial_perturb < 0.5) );
+  }
+
   simu_mode = interp.getval("SIMULATION_MODE");
   // assert(simu_mode==1||simu_mode==2); (already tested in sph.cpp)
   density_mode = interp.getval("DENSITY_MODE");
@@ -168,6 +177,7 @@ void Initiation::show_information() const
   LOG(INFO)<<"The cell matrix size is "<<x_cells<<" x "<<y_cells<<"\n";
   LOG(INFO)<<"The ratio between cell size and initial particle width is "<<hdelta<<"\n";
   LOG(INFO)<<"The initial particle width is "<<delta<<" micrometers\n";
+  LOG(INFO)<<"Perturbing initial particles (fraction of delta)"<< initial_perturb << " micrometers\n";
 	///- output the timing information on screen
   LOG(INFO)<<"Ending time is "<<End_time<<" \n";
   LOG(INFO)<<"Output time interval is "<<D_time<<" \n";

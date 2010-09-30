@@ -14,6 +14,7 @@
 
 // ***** local includes *****
 #include "particlemanager.h"
+#include "ParticleGenerator/particlegenerator.h"
 #include "hydrodynamics.h"
 #include "Interaction/interactionin.h"
 #include "Interaction/interactioncomp.h"
@@ -218,14 +219,16 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
   if(initial_condition==0) {	
     //initialize the real particles inside the boundary
     LOG(INFO) << "Run simu_mode = 1, initial_condition = 0 version of BuildRealParticle";
+    ParticleGenerator pgen;
     for(int i = 1; i < x_clls - 1; i++) {
       for(int j = 1; j < y_clls - 1; j++) {
 	LOG(INFO) << "cell (" << i << ", " << j << ")";
 	//create a new real particle
 	for(int k = 0; k < hdelta; k++) {
 	  for(int m = 0; m < hdelta; m++) {
-	    const Vec2d position((i - 1)*cll_sz + (k + 0.5)*delta, 
-				 (j - 1)*cll_sz + (m + 0.5)*delta);
+	    const Vec2d position = pgen.getPosition(ini, i, k, j, m, delta, cll_sz);
+	    // const Vec2d position((i - 1)*cll_sz + (k + 0.5)*delta, 
+	    // 			 (j - 1)*cll_sz + (m + 0.5)*delta);
 	    /// ask Initiation for the material number of this particle
 	    const int material_no = ini.getParticleMaterialNo(position);
 	    const Vec2d velocity = ini.U0;

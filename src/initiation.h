@@ -52,6 +52,11 @@ public:
   ///- 1 read from the .rst file particle by particle with non-dimensional data
   int initial_condition;
 
+  /// \brief initial position perturbation
+  /// 
+  /// add a rundom number to the initial postions (in the fraction of delta)
+  double initial_perturb; 
+
   ///\brief disable boundary condition marker:
   ///- 0 boundary conditions enabled
   ///- 1 boundary conditions disabled
