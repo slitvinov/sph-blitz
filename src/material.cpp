@@ -65,7 +65,7 @@ void Material::Set_b0(const double)
 //----------------------------------------------------------------------------------------
 double Material::get_p(const double rho) const
 {
-  return b0*pow(rho0, gamma);
+  return b0*pow(rho, gamma);
 }
 
 double Material::get_p(const double rho, const double e) const
