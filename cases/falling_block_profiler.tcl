@@ -20,14 +20,13 @@ set DENSITY_MODE 1
 set INITIAL_CONDITION	0
 
 # number of cell
-set xncell 8
-set yncell 16
-set CELLS(0) $xncell
-set CELLS(1) $yncell
+set ncell 8
+set CELLS(0) $ncell
+set CELLS(1) $ncell
 
 # sizer of the domain
 set L 1.0
-set SUPPORT_LENGTH [expr {$L / $yncell}]
+set SUPPORT_LENGTH [expr {$L / $ncell}]
 set CELL_SIZE $SUPPORT_LENGTH
 
 # the number of particles in one support length
@@ -40,19 +39,11 @@ set U0(1) 0.0
 set g -1.0
 
 set T0 0.0
-# output directory
-# if isim is not given set OUTDIR to output_co0
-# to set isim variable use
-# SPH_TCL="set eta_block 42" ./sph ../cases/falling_block_sym
-if  [catch {set OUTDIR outdata${eta_block}}] {
-    set OUTDIR outdata0
-    set eta_block 1.0
-} 
 
 set Start_time 0.0
-set End_time 1e3
+set End_time 0.000108507
 # time between output
-set D_time [expr {1e-2  / $eta_block}]
+set D_time 0.000108507
 
 # boundary conditions
 set wall 0 
@@ -61,11 +52,11 @@ set freeslip 2
 set symmetry 3
 
 # type and velocity
-set xBl $symmetry
+set xBl $periodic
 set UxBl(0) 0.0
 set UxBl(1) 0.0
 
-set xBr $symmetry
+set xBr $periodic
 set UxBr(0) 0.0
 set UxBr(1) 0.0
 
@@ -79,7 +70,7 @@ set UyBu(1) 0.0
 
 set rho_media 1.0
 set rho_block 1.033333
-
+set eta_block 1.0
 
 set NUMBER_OF_MATERIALS 3
 set material_name(0) Wall
@@ -89,7 +80,7 @@ set material_eta(0) 1.0
 set material_gamma(0) 1.0
 set material_b0(0) 1.0e2
 set material_rho0(0) $rho_media
-set material_a0(0) 30.0
+set material_a0(0) 1.0
 
 set material_name(1) Media
 set material_type(1) $material_type(0)
@@ -113,12 +104,12 @@ set material_a0(2) $material_a0(0)
 set xlength [expr {$CELLS(0)* $CELL_SIZE} ]
 set ylength [expr {$CELLS(1)* $CELL_SIZE} ]
 
-set blockFractionX 0.8
+set blockFractionX 0.4
 set blockFractionY 0.4
-set sq_block [expr {0.5 * $blockFractionX * $blockFractionY}]
+set sq_block [expr {$blockFractionX * $blockFractionY}]
 set sq_media [expr {1.0 - $sq_block} ]
 
-set g_all [expr {1.0  * $eta_block}]
+set g_all 1.0
 set g_block [expr {$g_all / $rho_block / $sq_block}]
 set g_media [expr {$g_all / $rho_media / $sq_media}]
 
@@ -135,8 +126,8 @@ set G_FORCE(2,1) -$g_block
 # set number of material variable  --- "no" 
 proc getmatNo { } {
     # x and y provided by the main program 
-    set blockX0 0.0
-    set blockX1 [expr {0.5 * $blockFractionX * $xlength}]
+    set blockX0 [expr {(0.5 - $blockFractionX/2.0) * $xlength}]
+    set blockX1 [expr {(0.5 + $blockFractionX/2.0) * $xlength}]
     set blockY0 [expr {(0.6 - $blockFractionY/2.0) * $ylength}]
     set blockY1 [expr {(0.6 + $blockFractionY/2.0) * $ylength}]
     set inX [expr ($x > $blockX0) && ($x < $blockX1)]
