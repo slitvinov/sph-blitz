@@ -52,13 +52,12 @@ void Material::show_properties()
 	LOG(INFO)<<"The reference pressure b0 is "<<b0<<" Pa\n";
 	LOG(INFO)<<"The reference density is "<<rho0<<" kg/m^3 \n";
 }
+
 //----------------------------------------------------------------------------------------
 //			obtain parameter b0
-//			after nondimensionlization finished
 //----------------------------------------------------------------------------------------
 void Material::Set_b0(const double)
 {
-  // 
   b0 = a0 * a0 * pow(rho0, 1.0 - gamma) / gamma;
 }
 //----------------------------------------------------------------------------------------
@@ -66,9 +65,6 @@ void Material::Set_b0(const double)
 //----------------------------------------------------------------------------------------
 double Material::get_p(const double rho) const
 {
-  LOG_EVERY_N(INFO, 1000) << "b0 = " << b0;
-  LOG_EVERY_N(INFO, 1000) << "rho0 = " << rho0;
-  LOG_EVERY_N(INFO, 1000) << "gamma = " << gamma;
   return b0*pow(rho0, gamma);
 }
 
@@ -119,6 +115,6 @@ double Material::get_Cs(const double p, const double rho)
 {
   assert(rho>0.0);
   assert(p>0.0);
-  /// TODO: temperaturey use a0 as a sound speed
+  /// TODO: use a0 a 
   return a0;
 }

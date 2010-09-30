@@ -289,7 +289,6 @@ void Hydrodynamics::UpdateState(const Initiation &ini) {
     if (ini.simu_mode==1)  { //liquid mode equation of state
       assert(prtl->rho > 0.0);
       prtl->p = prtl->mtl->get_p(prtl->rho);
-      assert(prtl->p > 0.0);
     }
     //gas dynamics mode equation of state
     if (ini.simu_mode==2) {
