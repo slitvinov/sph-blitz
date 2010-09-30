@@ -34,6 +34,14 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
     LOG(ERROR) << " cannot open project file: " << inputfile;
     exit(EXIT_FAILURE);
   }
+
+  // get environment variable and run it as a TCL command
+  // to use it run
+  // SPH_TCL="set isim 10" ./sph <project>
+  const std::string sph_tcl = CharPtrToStdString(std::getenv("SPH_TCL"));
+  if (sph_tcl.size() > 0) {
+    interp.eval(sph_tcl);
+  }
   
   interp.eval(tclfilename);
   ///<li>reading key words and configuration data from configuration file and assign them to the appropriate variable

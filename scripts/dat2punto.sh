@@ -3,13 +3,13 @@
 set -e
 
 if [ -z "$1" ]; then
-    pat="prtl"
+    dir="outdata"
 else
-    pat="$1"
+    dir=$1
 fi
 
-for file in $(ls -1 ${pat}[0-9]*.*); do
+for file in $(ls -1 "${dir}"/prtl[0-9]*.*); do
     #printf "file: %s\n" $file > "/dev/stderr"
-    awk 'NF>3&&NR>2{$1=$1; print $0, no} $0~/zone/{no++}'  $file 
+    awk 'NF>3&&NR>2{$1=$1; print $0, no} $0~/zone/{no++}'  $file
     printf "\n"
-done 
+done   > ${dir}/punto.dat

@@ -20,8 +20,8 @@ set DENSITY_MODE 1
 set INITIAL_CONDITION	0
 
 # number of cell
-set xncell 4
-set yncell 8
+set xncell 8
+set yncell 16
 set CELLS(0) $xncell
 set CELLS(1) $yncell
 
@@ -40,11 +40,19 @@ set U0(1) 0.0
 set g -1.0
 
 set T0 0.0
+# output directory
+# if isim is not given set OUTDIR to output_co0
+# to set isim variable use
+# SPH_TCL="set eta_block 42" ./sph ../cases/falling_block_sym
+if  [catch {set OUTDIR outdata${eta_block}}] {
+    set OUTDIR outdata0
+    set eta_block 1.0
+} 
 
 set Start_time 0.0
 set End_time 1e3
 # time between output
-set D_time 1e-2
+set D_time [expr {1e-2  / $eta_block}]
 
 # boundary conditions
 set wall 0 
@@ -71,7 +79,7 @@ set UyBu(1) 0.0
 
 set rho_media 1.0
 set rho_block 1.033333
-set eta_block 1.0
+
 
 set NUMBER_OF_MATERIALS 3
 set material_name(0) Wall
@@ -110,7 +118,7 @@ set blockFractionY 0.4
 set sq_block [expr {0.5 * $blockFractionX * $blockFractionY}]
 set sq_media [expr {1.0 - $sq_block} ]
 
-set g_all 1.0
+set g_all [expr {1.0  * $eta_block}]
 set g_block [expr {$g_all / $rho_block / $sq_block}]
 set g_media [expr {$g_all / $rho_media / $sq_media}]
 
