@@ -361,27 +361,21 @@ double Hydrodynamics::GetTimestepGas(const Initiation& ini) {
 //----------------------------------------------------------------------------------------
 double Hydrodynamics::GetTimestep(const Initiation& ini) const {
   //maximum sound speed, particle velocity and density
-  double Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = -1.0;
-
+  double Cs_max = 0.0; 
+  double viscosity_max=0.0;
   //predict the time step
-  //iterate the partilce list
-  BOOST_FOREACH(spParticle prtl, particle_list) {
-    assert(prtl != NULL);
-    Cs_max = AMAX1(Cs_max, prtl->Cs);
-    V_max = AMAX1(V_max, v_abs(prtl->U));
-    rho_min = AMIN1(rho_min, prtl->rho);
-    rho_max = AMAX1(rho_max, prtl->rho);
+  //iterate materials to find 
+  // - largest sound spead 
+  // - largest visocity 
+  BOOST_FOREACH(spMaterial mtl, materials) {
+    assert(mtl != NULL);
+    Cs_max = AMAX1(Cs_max, mtl->get_Cs());
+    viscosity_max = AMAX1(viscosity_max, mtl->nu);
   }
+  LOG(INFO) << "Cs_max = " << Cs_max;
+  LOG(INFO) << "viscosity_max = " << viscosity_max;
 
-  ///<li>initialize parameters for time step and the artificial compressiblity
-  double viscosity_max = 0.0; 
-  for(int k = 0; k < ini.number_of_materials; k++) {
-    viscosity_max = AMAX1(viscosity_max, materials[k]->nu);
-  }
-  LOG(INFO) << "viscosity_max is ready";
-
-  /// TODO: make it maximum of all materials
-  double max_gr = 0.0;
+  double max_gr = 1e-13;
   for(int k = 0; k < ini.number_of_materials; k++) {
     Vec2d gravity;
     gravity[0] = ini.g_force(k, 0);
@@ -393,16 +387,14 @@ double Hydrodynamics::GetTimestep(const Initiation& ini) const {
   }
   LOG(INFO) << "max_gr = " << max_gr;
 
-  const double dt_g_vis = 
-    AMIN1(sqrt(ini.delta/max_gr), 0.5*ini.delta*ini.delta/viscosity_max);
-
-  assert(dt_g_vis>0.0);
-  LOG(INFO) << "dt_g_vis: " << dt_g_vis;
-
-  const double dt = 0.25*AMIN1(dt_g_vis, ini.delta/(Cs_max + V_max));
-  assert(dt>0.0);
-  /// \todo{verify automatic calculation of time step} 
-  return 0.5*dt;
+  const double dt_vis = 0.125*ini.delta*ini.delta/viscosity_max;
+  LOG(INFO) << "dt_vis = " << dt_vis;
+  const double dt_sound = 0.25*ini.delta/Cs_max;
+  LOG(INFO) << "dt_sound = " << dt_sound;
+  const double dt_gravity = 0.25*ini.delta/max_gr;
+  LOG(INFO) << "dt_gravity = " << dt_gravity;
+  const double dt = AMIN3(dt_vis, dt_gravity, dt_sound);
+  LOG(INFO) << "dt  = " << dt;
 }
 //----------------------------------------------------------------------------------------
 //						the redictor and corrector method: predictor

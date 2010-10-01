@@ -17,3 +17,7 @@ double AMIN1(const double a, const double b) {
   if (a < b) return a;
   return b;
 }
+
+double AMIN3(const double a, const double b, const double c) {
+  return AMIN1(a, AMIN1(b, c));
+}
