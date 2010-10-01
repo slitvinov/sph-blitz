@@ -47,8 +47,7 @@ ParticleManager::ParticleManager(const Initiation &ini)
   LOG(INFO) << "ParticleManager object is created";
 }
 
-ParticleManager::ParticleManager(
-				 const double supportlength, const Vec2d& box_size, 
+ParticleManager::ParticleManager(const double supportlength, const Vec2d& box_size, 
 				 const double cell_size, 
 				 const int x_cells, const int y_cells,
 				 const int initial_condition, const int hdelta,
@@ -62,7 +61,7 @@ ParticleManager::ParticleManager(
   delta(delta),
   hdelta(hdelta),
   x_clls(x_cells+2),
-  y_clls(y_cells+2)
+  y_clls(y_cells+2) 
 {
   cell_lists.resize(x_clls, y_clls);
 }
@@ -145,9 +144,7 @@ std::list<spParticle> ParticleManager::BuildNNP(Vec2d &point)
 void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions, 
 				       std::list<spParticle > &particle_list, 
 				       spKernel weight_function, 
-				       const Initiation& ini)
-{
-  //clear the list first
+				       const Initiation& ini) {
   interactions.clear();
   ///<ul><li>iterate particles on the particle list
   BOOST_FOREACH(spParticle prtl_org, particle_list) {

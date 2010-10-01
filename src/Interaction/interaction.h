@@ -12,10 +12,8 @@ class Interaction {
 protected:
   /// destructor 
   virtual ~Interaction();
-
   /// local reference to initiation object
   const Initiation& ini;
-
 
   //particle pair
   spParticle Org;	///<pointer to particle with larger ID (of particle pair)
@@ -54,26 +52,19 @@ public:
   ///Depends on: Interaction Object, Org, Dest
   void RenewInteraction(spKernel weight_function);
 
-  //pair interaction
-
   ///\brief summation of the density
-  ///
   ///Changes: Org(rho:summation), Dest(rho:summation)\n
   ///Depends on: Interaction Object, Org(rho), Dest(rho)
   ///Remark: the idea is different from the original sph method
   void SummationDensity();
-
   ///update forces
   virtual void UpdateForces() = 0; 
-
   // update forces and rho
   void UpdateForcesAndRho();
-
   spParticle  getOrigin() const;
   spParticle  getDest() const;
   double getWij() const;
   Vec2d getGradWij() const;
   double get_rij() const;
 };
-
 #endif //INTERACTION_H
