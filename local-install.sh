@@ -13,13 +13,13 @@ WRKDIR=$(pwd)
 
 # compile and install tcl
 cd tcl/unix
-./configure --prefix="$PREFIX" CC=${CC:=gcc} CXX=${CXX:=g++}
+./configure --prefix="$PREFIX" --disable-shared CC=${CC:=gcc} CXX=${CXX:=g++}
 make install ${MAKE_FLAGS}
 cd "${WRKDIR}"
 
 # compile and install blitz
 cd blitz
-./configure --prefix="$PREFIX" CXX=${CXX:=g++}
+./configure --prefix="$PREFIX" --disable-doxygen CXX=${CXX:=g++}
 make install ${MAKE_FLAGS}
 cd "${WRKDIR}"
 
@@ -30,4 +30,4 @@ make install ${MAKE_FLAGS}
 cd "${WRKDIR}"
 
 ./configure --with-blitz="${PREFIX}" --with-tcl="${PREFIX}"/lib/ CXX=${CXX:=g++} 
-make "${MAKE_FLAGS}"
+make ${MAKE_FLAGS}

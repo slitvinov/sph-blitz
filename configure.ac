@@ -1,10 +1,10 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.63])
+#AC_PREREQ([2.63])
 AC_INIT([sph], [0.1], [slitvinov@gmail.com])
+AM_INIT_AUTOMAKE([sph], [0.1])
 AC_CONFIG_SRCDIR([src/sph.cpp])
-AM_INIT_AUTOMAKE(sph, 0.1)
 AC_CONFIG_MACRO_DIR([m4])
 
 # Checks for programs.

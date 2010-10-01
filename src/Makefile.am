@@ -2,7 +2,7 @@ bin_PROGRAMS=sph kernel_test particlemanager_test spParticle
 AM_CXXFLAGS=-I${top_srcdir} -I${top_srcdir}/cpptcl
 
 # add to all binaries
-LDADD=${top_srcdir}/cpptcl/libcpptcl.a
+LDADD=${top_srcdir}/cpptcl/libcpptcl.a -ldl
 ${top_srcdir}/cpptcl/libcpptcl.a: 
 	cd ${top_srcdir}/cpptcl; \
 	${MAKE}
@@ -22,6 +22,9 @@ nomain=	 boundary.cpp boundary.h \
 	Kernel/betaspline.h Kernel/betaspline.cpp \
 	Kernel/harmonic.h Kernel/harmonic.cpp \
 	ParticleGenerator/particlegenerator.h ParticleGenerator/particlegenerator.cpp \
+	ParticleContext/nocontext.cpp ParticleContext/nocontext.h \
+	ParticleContext/solidcontext.cpp ParticleContext/solidcontext.h \
+	ParticleContext/particlecontext.cpp ParticleContext/particlecontext.h \
 	Interaction/interaction.cpp  Interaction/interaction.h \
 	Interaction/interactioncomp.cpp  Interaction/interactioncomp.h \
 	Interaction/interactionin.cpp  Interaction/interactionin.h \
