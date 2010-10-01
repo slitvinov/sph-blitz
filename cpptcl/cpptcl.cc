@@ -11,6 +11,8 @@
 #include <map>
 #include <sstream>
 #include <iterator>
+#include <iostream>
+#include <fstream>
 
 using namespace Tcl;
 using namespace Tcl::details;
@@ -958,6 +960,27 @@ int interpreter::getndim(const std::string &s) {
       return 2;
     }
   }
+}
+
+void interpreter::dump(const std::string &filename) {
+  std::string dfile = std::string(CPPTCL_SRC) + std::string("/dump.tcl");
+  std::ifstream tclfilename;
+  tclfilename.open (dfile.c_str());
+  if (!tclfilename.good() ) {
+    std::cerr << __FILE__ << ':' << __LINE__ << ": cannot open file: " << dfile << '\n';
+    std::cerr << __FILE__ << ':' << __LINE__ << ": I will try in your home directory: " << dfile << '\n';
+    const char * hPath = getenv ("HOME");
+    dfile = std::string(hPath) + std::string("/dump.tcl");
+    tclfilename.open (dfile.c_str());
+    if (!tclfilename.good() ) {
+      std::cerr << __FILE__ << ':' << __LINE__ << ": cannot open file: " << dfile << '\n';
+      std::cerr << __FILE__ << ':' << __LINE__ << ": put dump.tcl in $HOME directory: " << dfile << '\n';
+      exit(EXIT_FAILURE);
+    }
+  }
+  
+  eval(tclfilename);
+  eval("interp'dump " + filename );
 }
 
 

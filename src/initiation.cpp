@@ -42,8 +42,8 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   if (sph_tcl.size() > 0) {
     interp.eval(sph_tcl);
   }
-  
   interp.eval(tclfilename);
+  
   ///<li>reading key words and configuration data from configuration file and assign them to the appropriate variable
   disable_boundary  = interp.getval("DISABLE_BOUNDARY");
   initial_condition = interp.getval("INITIAL_CONDITION");
@@ -72,6 +72,17 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   } else {
     outdir = "outdata";
   }
+  ///<li>create outdata directory
+  const std::string syscommand = "mkdir -p " + outdir;
+  const int sys_return = system(syscommand.c_str());
+  if (sys_return) {
+    LOG(ERROR) << "system command: " << syscommand << " faild" << inputfile;
+    exit(EXIT_FAILURE);
+  }
+  // output directory created,  try to dump a config file into it
+  const std::string dfile = outdir + "/config.tcl";
+  interp.dump(dfile);
+  LOG(INFO) << "configuration dumpt in " <<  dfile;
   
   /// if gas dynamics
   if (simu_mode == 2) {
@@ -140,14 +151,6 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
     T0 = interp.getval("T0");
     U0[0] = interp.getat("U0", 0);
     U0[1] = interp.getat("U0", 1);
-  }
-  
-  ///<li>create outdata directory
-  const std::string syscommand = "mkdir -p " + outdir;
-  const int sys_return = system(syscommand.c_str());
-  if (sys_return) {
-    LOG(ERROR) << "system command: " << syscommand << " faild" << inputfile;
-    exit(EXIT_FAILURE);
   }
   
   ///<li>process the data <b>!!!Question!!!</b>

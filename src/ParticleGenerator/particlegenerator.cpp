@@ -22,7 +22,6 @@ Vec2d ParticleGenerator::getPosition(const Initiation& ini,
   return Vec2d(position);
 }
 
-
 int ParticleGenerator::getParticleMaterialNo(Initiation& ini ,
 					     const Vec2d& position) {
   // if no proc in the tcl file set default material number 

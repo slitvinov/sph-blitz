@@ -652,6 +652,9 @@ public:
   /// get the number of dimensions
   int getndim(const std::string &s);
 
+  /// dump content of the interpreter into the files
+  void dump(const std::string &filename);
+
   /// is s a name of the procedure
      bool isproc(std::string const &s);
      void evalproc(const std::string &s);

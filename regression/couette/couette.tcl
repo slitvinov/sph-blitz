@@ -39,8 +39,8 @@ if  [catch {set OUTDIR output$res_level}] {
     set OUTDIR output$res_level
 } 
 
-# number of cell
-set ncell [expr {$res_level * 4}]
+#set initial_perturb 0.1
+set ncell [expr { 2 * int(pow(2, $res_level))}]
 set CELLS(0) 4
 set CELLS(1) $ncell
 

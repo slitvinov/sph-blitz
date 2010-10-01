@@ -81,5 +81,7 @@ int test_main( int, char *[] )     {
  ndim = interp.getndim("qq");
  BOOST_REQUIRE(ndim == 0);
 
+ interp.dump("interp.tcl");
+
  return EXIT_SUCCESS;
 };
