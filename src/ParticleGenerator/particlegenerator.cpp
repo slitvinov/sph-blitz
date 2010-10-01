@@ -22,3 +22,30 @@ Vec2d ParticleGenerator::getPosition(const Initiation& ini,
   return Vec2d(position);
 }
 
+
+int ParticleGenerator::getParticleMaterialNo(Initiation& ini ,
+					     const Vec2d& position) {
+  // if no proc in the tcl file set default material number 
+  if (!ini.interp.isproc("getmatNo") ) {
+    const int default_materail_number = 1;
+    LOG(INFO) << "return default material number" ;
+    return default_materail_number;
+  } else {
+    // set position of the particle and call the function
+    ini.interp.setdouble("x", position[0]);
+    ini.interp.setdouble("y", position[1]);
+    ini.interp.evalproc("getmatNo");
+    const int no = ini.interp.getval("no");
+    if (no>ini.number_of_materials - 1) {
+      LOG(ERROR) << "number of material is " << no << '\n' << 
+	"maximum material number is " << ini.number_of_materials - 1;
+      std::exit(EXIT_FAILURE);
+    } 
+    if (no < 0) {
+      LOG(ERROR) << "number of material is " << no << '\n';
+      std::exit(EXIT_FAILURE);
+    }
+    LOG(INFO) << "for particle " << position << " return material number " << no ;
+    return no;
+  } 
+}

@@ -136,9 +136,6 @@ public:
   ///predict the particle volume and mass
   void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, 
 		  spKernel weight_function);
-  
-  ///reurns material number of the particles with given position
-  int getParticleMaterialNo(const Vec2d& position);
 };
 
 

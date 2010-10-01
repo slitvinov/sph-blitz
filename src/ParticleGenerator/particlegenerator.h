@@ -14,6 +14,11 @@ public:
   Vec2d getPosition(const Initiation& ini, 
 		    const int i, const int k, const int j, const int m, 
 		    const double delta, const double cll_sz) ;
+
+  /// returns particle material number
+  int getParticleMaterialNo(Initiation& ini ,
+			    const Vec2d& position);
+
 private:
   boost::mt19937 engine;
   boost::uniform_real<double> distrib;

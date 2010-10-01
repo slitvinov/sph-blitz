@@ -236,31 +236,6 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
   LOG(INFO)<<"Initiation::VolumeMass ends";
 }
 
-int Initiation::getParticleMaterialNo(const Vec2d& position) {
-  // if no proc in the tcl file set default material number 
-  if (!interp.isproc("getmatNo") ) {
-    const int default_materail_number = 1;
-    LOG(INFO) << "return default material number" ;
-    return default_materail_number;
-  } else {
-    // set position of the particle and call the function
-    interp.setdouble("x", position[0]);
-    interp.setdouble("y", position[1]);
-    interp.evalproc("getmatNo");
-    const int no = interp.getval("no");
-    if (no>number_of_materials - 1) {
-      LOG(ERROR) << "number of material is " << no << '\n' << 
-	"maximum material number is " << number_of_materials - 1;
-      std::exit(EXIT_FAILURE);
-    } 
-    if (no < 0) {
-      LOG(ERROR) << "number of material is " << no << '\n';
-      std::exit(EXIT_FAILURE);
-    }
-    LOG(INFO) << "for particle " << position << " return material number " << no ;
-    return no;
-  } 
-}
 
 const char *CharPtrToStdString(const char *str)
 {

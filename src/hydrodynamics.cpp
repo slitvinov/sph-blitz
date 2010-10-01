@@ -395,6 +395,7 @@ double Hydrodynamics::GetTimestep(const Initiation& ini) const {
   LOG(INFO) << "dt_gravity = " << dt_gravity;
   const double dt = AMIN3(dt_vis, dt_gravity, dt_sound);
   LOG(INFO) << "dt  = " << dt;
+  return dt;
 }
 //----------------------------------------------------------------------------------------
 //						the redictor and corrector method: predictor
