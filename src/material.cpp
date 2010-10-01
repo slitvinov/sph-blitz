@@ -27,9 +27,9 @@ Material::Material(Initiation &ini, const int index):
   material_type = ini.interp.getat("material_type",  index);
   cv = ini.interp.getat("material_cv",  index);
   gamma = ini.interp.getat("material_gamma",  index);
-  b0 = ini.interp.getat("material_b0",  index);
+  // b0 = ini.interp.getat("material_b0",  index);
   rho0 = ini.interp.getat("material_rho0",  index);
-  a0 = ini.interp.getat("material_a0",  index);
+  sound_speed = ini.interp.getat("material_sound_speed",  index);
   eta = ini.interp.getat("material_eta",  index);
   if (ini.simu_mode == 2) {
     zeta = ini.interp.getat("material_zeta",  index);
@@ -49,7 +49,6 @@ void Material::show_properties()
 	LOG(INFO)<<"The (shear) viscosity is "<<eta<<" Pa.s \n";
 	LOG(INFO)<<"The bulk viscosity is "<<zeta<<" Pa.s \n";
 	LOG(INFO)<<"The heat ratio is "<<gamma<<"\n";
-	LOG(INFO)<<"The reference pressure b0 is "<<b0<<" Pa\n";
 	LOG(INFO)<<"The reference density is "<<rho0<<" kg/m^3 \n";
 }
 
@@ -58,7 +57,7 @@ void Material::show_properties()
 //----------------------------------------------------------------------------------------
 void Material::Set_b0(const double)
 {
-  b0 = a0 * a0 * pow(rho0, 1.0 - gamma) / gamma;
+  b0 = sound_speed * sound_speed * pow(rho0, 1.0 - gamma) / gamma;
 }
 //----------------------------------------------------------------------------------------
 //					get pressure
@@ -111,10 +110,16 @@ double Material::get_e(const double T) const
 //----------------------------------------------------------------------------------------
 //					get sound speed
 //----------------------------------------------------------------------------------------
-double Material::get_Cs(const double p, const double rho)
-{
+
+double Material::get_Cs() const  {
+  return sound_speed;
+}
+
+//----------------------------------------------------------------------------------------
+// get sound speed
+//----------------------------------------------------------------------------------------
+double Material::get_Cs(const double p, const double rho) const {
   assert(rho>0.0);
   assert(p>0.0);
-  /// TODO: use a0 a 
-  return a0;
+  return sqrt(gamma*p/rho);
 }

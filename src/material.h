@@ -32,9 +32,9 @@ public:
 	double gamma; ///<ratio of specific heats (adiabatic index)
 
 	double nu; ///<kinetic viscosity
-	double b0;///<reference pressure
+  
 	double rho0;///<reference density
-	double a0; ///<reference <b>sound speed??? was not commented</b>
+	double sound_speed; ///<sound speed
 
 	///constructor
 	/// imaterial is a number of material in input file
@@ -66,7 +66,12 @@ public:
 	///get temperature 
 	double get_T(const double p, const double rho) const;
 	///get sound speed
-	double get_Cs(const double p, const double rho);
+        double get_Cs() const;
+	///get sound speed
+        double get_Cs(const double p, const double rho) const;
+
+private:
+  double b0;///<reference pressure
 
 };
 #endif //MATERIAL_H

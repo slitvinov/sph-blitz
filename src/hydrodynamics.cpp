@@ -402,7 +402,7 @@ double Hydrodynamics::GetTimestep(const Initiation& ini) const {
   const double dt = 0.25*AMIN1(dt_g_vis, ini.delta/(Cs_max + V_max));
   assert(dt>0.0);
   /// \todo{verify automatic calculation of time step} 
-  return dt;
+  return 0.5*dt;
 }
 //----------------------------------------------------------------------------------------
 //						the redictor and corrector method: predictor

@@ -1,6 +1,7 @@
 #! /bin/bash
 
 set -u
+i=0
 for outdir in $(ls -d outdata*); do
     printf "post.sh:%i processing: %s\n" $LINENO $outdir > "/dev/stderr"
     ../../scripts/dat2punto.sh $outdir
@@ -15,6 +16,8 @@ for outdir in $(ls -d outdata*); do
     cp $outdir/punto.last /tmp/punto.last
     gnuplot gplot.gp
     printf "post.sh:%i last time step configuration is in punto.png\n" $LINENO> "/dev/stderr"
+    let i++
+    cp punto.png ~/Dropbox/punto$i.png
 done
 
 

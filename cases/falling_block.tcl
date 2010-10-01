@@ -80,7 +80,7 @@ set material_eta(0) 1.0
 set material_gamma(0) 1.0
 set material_b0(0) 1.0e2
 set material_rho0(0) $rho_media
-set material_a0(0) 1.0
+set material_sound_speed(0) 1.0
 
 set material_name(1) Media
 set material_type(1) $material_type(0)
@@ -89,7 +89,7 @@ set material_eta(1) $material_eta(0)
 set material_gamma(1) $material_gamma(0)
 set material_b0(1) $material_b0(0)
 set material_rho0(1) $material_rho0(0)
-set material_a0(1) $material_a0(0)
+set material_sound_speed(1) $material_sound_speed(0)
 
 set material_name(2) Block
 set material_type(2) $material_type(0)
@@ -98,7 +98,7 @@ set material_eta(2) $eta_block
 set material_gamma(2) $material_gamma(0)
 set material_b0(2) $material_b0(0)
 set material_rho0(2) $rho_block
-set material_a0(2) $material_a0(0)
+set material_sound_speed(2) $material_sound_speed(0)
 
 # return material number based on the position of the particle
 set xlength [expr {$CELLS(0)* $CELL_SIZE} ]

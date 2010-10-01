@@ -123,7 +123,7 @@ set material_eta(0) 0.0
 set material_gamma(0) 0.0
 set material_b0(0) 0.0
 set material_rho0(0) 0.0
-set material_a0(0) 0.0
+set material_sound_speed(0) 0.0
 
 set material_name(1) Air
 set material_type(1) 1
@@ -132,4 +132,4 @@ set material_eta(1) 0.0
 set material_gamma(1) 1.4
 set material_b0(1) 0.0
 set material_rho0(1) 0.0
-set material_a0(1) 0.0
+set material_sound_speed(1) 0.0
