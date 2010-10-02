@@ -8,6 +8,7 @@ AC_CONFIG_SRCDIR([src/sph.cpp])
 AC_CONFIG_MACRO_DIR([m4])
 
 # Checks for programs.
+AC_PROG_LIBTOOL
 AC_PROG_CXX
 AC_PROG_RANLIB
 
@@ -17,8 +18,11 @@ AC_SUBST(TCL_BIN_DIR)
 . ${TCL_BIN_DIR}/tclConfig.sh
 TCL_LIB_SPEC=$(${SHELL} -c "echo ${TCL_LIB_SPEC}")
 TCL_INCLUDE_SPEC=$(${SHELL} -c "echo ${TCL_INCLUDE_SPEC}")
-LIBS="${TCL_LIB_SPEC} ${LIBS}"
-CXXFLAGS="${TCL_INCLUDE_SPEC} ${CXXFLAGS}"
+#TCL_LIBS=$(${SHELL} -c "echo ${TCL_LIBS}")
+TCL_LD_SEARCH_FLAGS=$(${SHELL} -c "echo ${TCL_LD_SEARCH_FLAGS}")
+#LIBS="${TCL_LIB_SPEC} ${TCL_LD_SEARCH_FLAGS} ${TCL_LIBS} ${LIBS}"
+LIBS="${TCL_LIB_SPEC} ${LIBS} ${TCL_LD_SEARCH_FLAGS}"
+CPPFLAGS="${TCL_INCLUDE_SPEC} ${CPPFLAGS}"
 
 
 # Checks for blitz++ 
@@ -42,7 +46,7 @@ fi
 # TODO: 
 # link to  google log 
 # assuming it is in the same directory as blitz++
-LIBS="$LIBS $BLITZ_LIBDIR/libglog.a -pthread"
+#LIBS="$LIBS "
 
 
 # Checks for typedefs, structures, and compiler characteristics.
