@@ -4,6 +4,7 @@
 /// \author changes by: Andreas Mattes
 #include <glog/logging.h>
 #include <boost/smart_ptr/make_shared.hpp>
+#include <dlfcn.h>
 
 // main page for doxygen is in a separate file
 #include "main.doxygen"
@@ -52,7 +53,6 @@ int main(int argc, char *argv[]) {
     LOG(INFO) << " No Project Name Specified!!\n";
     exit(EXIT_FAILURE);
   }
-
  
   /// initializations
   const std::string aux_string  = std::string(argv[1]);

@@ -8,6 +8,7 @@
 //-----------------------------------------------------------------------------------
 #include "hydrodynamics.h"
 #include "plugins/bodyforce.h"
+#include <dlfcn.h>
 #include <fstream>
 #include <list>
 #include <glog/logging.h>
@@ -279,13 +280,15 @@ void Hydrodynamics::AddGravity(const Initiation &ini) {
       prtl->dUdt[0] = prtl->dUdt[0] + ini.g_force(no, 0);
       prtl->dUdt[1] = prtl->dUdt[1] + ini.g_force(no, 1);
     } else {
+      TBodyF bf = (TBodyF) dlsym(ini.externalFunHandle, "bodyforce");
       double x = prtl->R[0];
       double y = prtl->R[1];
       double Fx = 0.0;
       double Fy = 0.0;
       /// this is the most nasty part
       /// can segfoult 
-      (*ini.bodyF)(x, y, Fx, Fy);
+      (*bf)(x, y, Fx, Fy);
+      //exit(-1);
       prtl->dUdt[0] = prtl->dUdt[0] + Fx;
       prtl->dUdt[1] = prtl->dUdt[1] + Fy;
     } // !ini.useCompiledBodyForce

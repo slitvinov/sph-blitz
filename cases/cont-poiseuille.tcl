@@ -63,7 +63,7 @@ set NUMBER_OF_MATERIALS 2
 set Start_time 0.0
 set End_time 1.0
 # time between output
-set D_time 1e-2
+set D_time 1e-3
 
 # boundary conditions
 set wall 0 
@@ -84,11 +84,11 @@ set xBr $periodic
 set UxBr(0) 0.0
 set UxBr(1) 0.0
 
-set yBd $wall
+set yBd $periodic
 set UyBd(0) 0.0
 set UyBd(1) 0.0
 
-set yBu $wall
+set yBu $periodic
 set UyBu(0) 0.0
 set UyBu(1) 0.0
 
@@ -100,7 +100,7 @@ set material_eta(0) 1.0e-3
 set material_gamma(0) 7.0
 set material_b0(0) 1.0e2
 set material_rho0(0) 1.0e3
-set material_sound_speed(0) 1.0e2
+set material_sound_speed(0) 1e-3
 
 set material_name(1) $material_name(0)
 set material_type(1) $material_type(0)
