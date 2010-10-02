@@ -144,6 +144,10 @@ public:
   void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, 
 		  spKernel weight_function);
   ~Initiation();
+
+ private:
+  /// helpper function to define body force
+  void DefineBodyForce();
 };
 
 

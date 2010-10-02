@@ -107,57 +107,8 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   assert(hdelta > 0.0);
 
   number_of_materials = interp.getval("NUMBER_OF_MATERIALS");
+  DefineBodyForce();
   
-  if (interp.getndim("G_FORCE") == 1) {
-    /// one dimensional vector make it for all materials
-    LOG(INFO) << "G_FORCE is one dimensional";
-    g_force.resize(number_of_materials, 2);
-    for (int material_no=0; material_no<number_of_materials; material_no++) {
-      g_force(material_no, 0) = interp.getat("G_FORCE", 0);
-      g_force(material_no, 1) = interp.getat("G_FORCE", 1);
-    }
-  } else {
-    g_force.resize(number_of_materials, 2);
-    LOG(INFO) << "G_FORCE is two dimensional";
-    for (int material_no=0; material_no<number_of_materials; material_no++) {
-      g_force(material_no, 0) = interp.getat("G_FORCE", material_no, 0);
-      g_force(material_no, 1) = interp.getat("G_FORCE", material_no, 1);
-      LOG(INFO) << "g_force(" << material_no << ",0) = " << g_force(material_no, 0);
-      LOG(INFO) << "g_force(" << material_no << ",1) = " << g_force(material_no, 1);
-    }
-  }
-  assert(number_of_materials > 0);
-
-  /// try compiled body force 
-  /// if I can find in config file the cBodyForce 
-  /// variable I try to compile it into the shared library
-  if (interp.exist("cBodyForce")) {
-    useCompiledBodyForce = true;
-    LOG(INFO) << "I find cBodyForce. Be hold";
-    LOG(INFO) << "a path to plugin directory " << PLUGIN_PATH;
-    LOG(INFO) << "try to source it compile.tcl";
-    const std::string ctcl = std::string(PLUGIN_PATH) 
-      + std::string("/compile.tcl");
-    interp.eval("source " + ctcl);
-    LOG(INFO) << "try to compile cBodyForce";
-    const std::string pfile = std::string(PLUGIN_PATH) + std::string("/libforce.so");
-    LOG(INFO) << "plugin file is " << pfile; 
-    interp.eval("compile $cBodyForce " + pfile);
-    externalFunHandle = dlopen(pfile.c_str(), RTLD_LAZY);
-    if (!externalFunHandle) {
-      LOG(ERROR) << "Cannot open library: " << dlerror();
-      exit(EXIT_FAILURE);
-    }
-    TBodyF bodyF = (TBodyF) dlsym(externalFunHandle, "bodyforce");
-    if (!bodyF) {
-      LOG(ERROR) << "Cannot load symbol 'bodyforce': " << dlerror();
-      dlclose(externalFunHandle);
-      exit(EXIT_FAILURE);
-    }
-    LOG(INFO) << "body force is loaded";
-  } else {
-    useCompiledBodyForce = false;
-  }
   Start_time = interp.getval("Start_time");
   End_time = interp.getval("End_time");
   D_time = interp.getval("D_time");
@@ -267,10 +218,70 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
   LOG(INFO)<<"Initiation::VolumeMass ends";
 }
 
-
-const char *CharPtrToStdString(const char *str) {
-    return (str) ? str : "";
-} 
+void Initiation::DefineBodyForce() {
+  /// try compiled body force 
+  /// if I can find in config file the cBodyForce 
+  /// variable I try to compile it into the shared library
+  if (interp.exist("cBodyForce")) {
+    useCompiledBodyForce = true;
+    LOG(INFO) << "I find cBodyForce. Be hold";
+    LOG(INFO) << "a path to plugin directory " << PLUGIN_PATH;
+    LOG(INFO) << "try to source it compile.tcl";
+    const std::string ctcl = std::string(PLUGIN_PATH) 
+      + std::string("/compile.tcl");
+    interp.eval("source " + ctcl);
+    LOG(INFO) << "try to compile cBodyForce";
+    const std::string pfile = std::string(PLUGIN_PATH) + std::string("/libforce.so");
+    LOG(INFO) << "plugin file is " << pfile; 
+    interp.eval("compile $cBodyForce " + pfile);
+    externalFunHandle = dlopen(pfile.c_str(), RTLD_LAZY);
+    if (!externalFunHandle) {
+      LOG(ERROR) << "Cannot open library: " << dlerror();
+      exit(EXIT_FAILURE);
+    }
+    bodyF = (TBodyF) dlsym(externalFunHandle, "bodyforce");
+    if (!bodyF) {
+      LOG(ERROR) << "Cannot load symbol 'bodyforce': " << dlerror();
+      dlclose(externalFunHandle);
+      exit(EXIT_FAILURE);
+    }
+    LOG(INFO) << "body force is loaded";
+    assert(number_of_materials>0);
+    g_force.resize(number_of_materials, 2);
+    if (!interp.exist("G_REF")) {
+      LOG(ERROR) << "I need G_REF: reference body force for time step estimation";
+      exit(EXIT_FAILURE);
+    }
+    for (int material_no=0; material_no<number_of_materials; material_no++) {
+      g_force(material_no, 0) = interp.getat("G_REF", 0);
+      g_force(material_no, 1) = interp.getat("G_REF", 1);
+    }
+    /// read gravity vector for dt calculations
+  } else {
+    /// normal case no compiled body force
+    LOG(INFO) << "I did not find cBodyForce. Use normal gravity force";
+    useCompiledBodyForce = false;
+    if (interp.getndim("G_FORCE") == 1) {
+      /// one dimensional vector make it for all materials
+      LOG(INFO) << "G_FORCE is one dimensional";
+      g_force.resize(number_of_materials, 2);
+      for (int material_no=0; material_no<number_of_materials; material_no++) {
+	g_force(material_no, 0) = interp.getat("G_FORCE", 0);
+	g_force(material_no, 1) = interp.getat("G_FORCE", 1);
+      }
+    } else {
+      g_force.resize(number_of_materials, 2);
+      LOG(INFO) << "G_FORCE is two dimensional";
+      for (int material_no=0; material_no<number_of_materials; material_no++) {
+	g_force(material_no, 0) = interp.getat("G_FORCE", material_no, 0);
+	g_force(material_no, 1) = interp.getat("G_FORCE", material_no, 1);
+	LOG(INFO) << "g_force(" << material_no << ",0) = " << g_force(material_no, 0);
+	LOG(INFO) << "g_force(" << material_no << ",1) = " << g_force(material_no, 1);
+      }
+    }
+    assert(number_of_materials > 0);
+  }
+}
 
 // need a destructor to unload shared library
 Initiation::~Initiation() {
@@ -278,3 +289,7 @@ Initiation::~Initiation() {
     dlclose(externalFunHandle);
   }
 }
+
+const char *CharPtrToStdString(const char *str) {
+    return (str) ? str : "";
+} 

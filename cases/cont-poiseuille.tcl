@@ -46,16 +46,17 @@ set p0 1.0
 set T0 1.0
 
 set g 1e-4
-set G_FORCE(0) 1e-4
-set G_FORCE(1) 0.0
+set G_REF(0) $g
+set G_REF(1) 0.0
 
+# a c++ function to get body force 
 # a c++ function to get body force 
 set cBodyForce \
     "extern \"C\" void bodyforce(double x, double y, double& Fx, double& Fy) { 
-          if (x>0.5*$L) {
-             Fx = 0.0; Fy = $g;
+          if (y>0.5*$L) {
+             Fx = $g; Fy = 0.0;
           } else {
-             Fx = 0.0; Fy = - $g;
+             Fx = -$g; Fy = 0.0;
           }
     }"
 

@@ -8,7 +8,6 @@
 //-----------------------------------------------------------------------------------
 #include "hydrodynamics.h"
 #include "plugins/bodyforce.h"
-#include <dlfcn.h>
 #include <fstream>
 #include <list>
 #include <glog/logging.h>
@@ -273,26 +272,23 @@ void Hydrodynamics::Zero_mue_ab_max() {
 void Hydrodynamics::AddGravity(const Initiation &ini) {
   LOG(INFO) << "Hydrodynamics::AddGravity starts";
   ///- iterate particles on the real particle list
-  BOOST_FOREACH(spParticle prtl, particle_list) {
-    ///- to each particles dUdt: add the gravity effects
-    if (!ini.useCompiledBodyForce) {
+  ///- to each particles dUdt: add the gravity effects
+  if (!ini.useCompiledBodyForce) {
+    BOOST_FOREACH(spParticle prtl, particle_list) {
       const int no = prtl->mtl->material_no;
       prtl->dUdt[0] = prtl->dUdt[0] + ini.g_force(no, 0);
       prtl->dUdt[1] = prtl->dUdt[1] + ini.g_force(no, 1);
-    } else {
-      TBodyF bf = (TBodyF) dlsym(ini.externalFunHandle, "bodyforce");
-      double x = prtl->R[0];
-      double y = prtl->R[1];
+    }
+  } else {
+    BOOST_FOREACH(spParticle prtl, particle_list) {
       double Fx = 0.0;
       double Fy = 0.0;
-      /// this is the most nasty part
       /// can segfoult 
-      (*bf)(x, y, Fx, Fy);
-      //exit(-1);
+      (*ini.bodyF)(prtl->R[0], prtl->R[1], Fx, Fy);
       prtl->dUdt[0] = prtl->dUdt[0] + Fx;
       prtl->dUdt[1] = prtl->dUdt[1] + Fy;
-    } // !ini.useCompiledBodyForce
-  } // BOOST_FOREACH
+    } // BOOST_FOREACH
+  } // !ini.useCompiledBodyForce
 }
 
 //----------------------------------------------------------------------------------------

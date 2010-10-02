@@ -4,7 +4,6 @@
 /// \author changes by: Andreas Mattes
 #include <glog/logging.h>
 #include <boost/smart_ptr/make_shared.hpp>
-#include <dlfcn.h>
 
 // main page for doxygen is in a separate file
 #include "main.doxygen"
