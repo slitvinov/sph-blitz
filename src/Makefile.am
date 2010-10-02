@@ -6,8 +6,8 @@ AM_CXXFLAGS=-I${top_srcdir} -I${top_srcdir}/cpptcl \
 	-DPLUGIN_PATH=\"${abs_top_srcdir}/plugins\"
 
 # add to all binaries
-LDADD=${top_builddir}/cpptcl/libcpptcl.a 
-AM_LDFLAGS=-lglog -pthread -Wl,-R $(abs_top_srcdir)/plugins/
+LDADD=${top_builddir}/cpptcl/libcpptcl.a
+AM_LDFLAGS=-Wl,-R $(abs_top_srcdir)/plugins/
 ${top_builddir}/cpptcl/libcpptcl.a:
 	cd ${top_builddir}/cpptcl; \
 	${MAKE}

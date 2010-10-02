@@ -13,7 +13,7 @@ WRKDIR=$(pwd)
 
 # compile and install tcl
 cd tcl/unix
-./configure --prefix="$PREFIX" --disable-shared CC=${CC:=gcc} CXX=${CXX:=g++}
+./configure --prefix="$PREFIX" CC=${CC:=gcc} CXX=${CXX:=g++}
 make install ${MAKE_FLAGS}
 cd "${WRKDIR}"
 

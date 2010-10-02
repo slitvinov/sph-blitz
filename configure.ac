@@ -8,9 +8,8 @@ AC_CONFIG_SRCDIR([src/sph.cpp])
 AC_CONFIG_MACRO_DIR([m4])
 
 # Checks for programs.
-AC_PROG_LIBTOOL
-AC_PROG_CXX
 AC_PROG_RANLIB
+AC_PROG_CXX
 
 # check tcl library
 SC_PATH_TCLCONFIG 
@@ -18,12 +17,10 @@ AC_SUBST(TCL_BIN_DIR)
 . ${TCL_BIN_DIR}/tclConfig.sh
 TCL_LIB_SPEC=$(${SHELL} -c "echo ${TCL_LIB_SPEC}")
 TCL_INCLUDE_SPEC=$(${SHELL} -c "echo ${TCL_INCLUDE_SPEC}")
-#TCL_LIBS=$(${SHELL} -c "echo ${TCL_LIBS}")
+TCL_LIBS=$(${SHELL} -c "echo ${TCL_LIBS}")
 TCL_LD_SEARCH_FLAGS=$(${SHELL} -c "echo ${TCL_LD_SEARCH_FLAGS}")
-#LIBS="${TCL_LIB_SPEC} ${TCL_LD_SEARCH_FLAGS} ${TCL_LIBS} ${LIBS}"
-LIBS="${TCL_LIB_SPEC} ${LIBS} ${TCL_LD_SEARCH_FLAGS}"
+LIBS="${TCL_LIB_SPEC} ${TCL_LD_SEARCH_FLAGS} ${TCL_LIBS} ${LIBS}"
 CPPFLAGS="${TCL_INCLUDE_SPEC} ${CPPFLAGS}"
-
 
 # Checks for blitz++ 
 AC_CHECK_BLITZ(
@@ -32,7 +29,7 @@ AC_CHECK_BLITZ(
     CPPFLAGS="$CPPFLAGS $BLITZ_CPPFLAGS"
   ],
   [
-    AC_MSG_ERROR([blitz++ library are required])
+    AC_MSG_ERROR([blitz++ library is required])
   ]	
 )
 
@@ -42,12 +39,10 @@ if test "$GXX" = yes; then
   CPPFLAGS="$CPPFLAGS -isystem$BLITZ_INCDIR"
 fi
 
-
 # TODO: 
 # link to  google log 
 # assuming it is in the same directory as blitz++
-#LIBS="$LIBS "
-
+LIBS="$LIBS -lglog -pthread"
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
