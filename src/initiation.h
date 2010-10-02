@@ -98,6 +98,13 @@ public:
   int x_cells, y_cells;
   ///g force on particles
   TMatrix g_force;
+  /// is TRUE we use compiled body force 
+  /// from cBodyForce variable in the config file
+  bool useCompiledBodyForce;
+  /// compiled body force function
+  TBodyF bodyF;
+  /// a handle of external function
+  void* externalFunHandle;
 
   ///\brief marker to choose output format
   /// 
@@ -136,6 +143,7 @@ public:
   ///predict the particle volume and mass
   void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, 
 		  spKernel weight_function);
+  ~Initiation();
 };
 
 

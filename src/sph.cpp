@@ -72,8 +72,7 @@ int main(int argc, char *argv[]) {
   /// (by defining an object of class Initiation (initialization "automatically" done at this moment (from .tcl or .rst file) by constructor method of Initiation class. 
   /// That is by the way the reason why the initiation::initiation method does not figure in the call graph of the main function (constructors are not shwon there)
   Initiation ini(aux_string, aux_string2);
-
-
+  
 //for gas dynamics (simu_mode=2) check if second input parameter to main (initial condition file .ivs) exists
    if (argc<3 && ini.simu_mode==2)  {
     LOG(INFO) << " No Initiation File Specified (program runs in gas dynamics mode)!!\n";

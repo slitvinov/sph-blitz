@@ -1,10 +1,14 @@
 #include <dlfcn.h>
 #include <cstdlib>
 #include <iostream>
+typedef void(*Misc)(const double, const double, double&, double&);
+
+class Init {
+public: 
+  Misc fun;
+} init;
+
 int main () {
-
-  typedef void(*Misc)(const double, const double, double&, double&);
-
   void* so = dlopen("libforce.so", RTLD_LAZY);
   if (!so) {
     std::cerr << "Cannot open library: " << dlerror() << '\n';
@@ -18,11 +22,11 @@ int main () {
     dlclose(so);
     return EXIT_FAILURE;
   }
-
+  init.fun = misc;
 
   double Fx;
   double Fy;
-  (*misc)(1.0, 2.0, Fx, Fy);
+  (init.fun)(1.0, 2.0, Fx, Fy);
   std::cerr << "Fy = " << Fy << '\n';
 
   dlclose(so);

@@ -7,6 +7,7 @@
 //		initiation.cpp
 //----------------------------------------------------------------------------------------
 #include <fstream>
+#include <dlfcn.h>
 #include <glog/logging.h>
 #include <boost/foreach.hpp>
 
@@ -126,7 +127,37 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
     }
   }
   assert(number_of_materials > 0);
-  
+
+  /// try compiled body force 
+  /// if I can find in config file the cBodyForce 
+  /// variable I try to compile it into the shared library
+  if (interp.exist("cBodyForce")) {
+    useCompiledBodyForce = true;
+    LOG(INFO) << "I find cBodyForce. Be hold";
+    LOG(INFO) << "a path to plugin directory " << PLUGIN_PATH;
+    LOG(INFO) << "try to source it compile.tcl";
+    const std::string ctcl = std::string(PLUGIN_PATH) 
+      + std::string("/compile.tcl");
+    interp.eval("source " + ctcl);
+    LOG(INFO) << "try to compile cBodyForce";
+    const std::string pfile = std::string(PLUGIN_PATH) + std::string("/libforce.so");
+    LOG(INFO) << "plugin file is " << pfile; 
+    interp.eval("compile $cBodyForce " + pfile);
+    externalFunHandle = dlopen(pfile.c_str(), RTLD_LAZY);
+    if (!externalFunHandle) {
+      LOG(ERROR) << "Cannot open library: " << dlerror();
+      exit(EXIT_FAILURE);
+    }
+    TBodyF bodyF = (TBodyF) dlsym(externalFunHandle, "bodyforce");
+    if (!bodyF) {
+      LOG(ERROR) << "Cannot load symbol 'bodyforce': " << dlerror();
+      dlclose(externalFunHandle);
+      exit(EXIT_FAILURE);
+    }
+    LOG(INFO) << "body force is loaded";
+  } else {
+    useCompiledBodyForce = false;
+  }
   Start_time = interp.getval("Start_time");
   End_time = interp.getval("End_time");
   D_time = interp.getval("D_time");
@@ -237,7 +268,13 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
 }
 
 
-const char *CharPtrToStdString(const char *str)
-{
+const char *CharPtrToStdString(const char *str) {
     return (str) ? str : "";
 } 
+
+// need a destructor to unload shared library
+Initiation::~Initiation() {
+  if (useCompiledBodyForce) {
+    dlclose(externalFunHandle);
+  }
+}

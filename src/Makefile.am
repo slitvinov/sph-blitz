@@ -1,9 +1,13 @@
 bin_PROGRAMS=sph kernel_test particlemanager_test spParticle
-AM_CXXFLAGS=-I${top_srcdir} -I${top_srcdir}/cpptcl
+
+# PLUGIN_PATH is a path to the compile.tcl 
+# it is used to get dynamics loaded functions
+AM_CXXFLAGS=-I${top_srcdir} -I${top_srcdir}/cpptcl \
+	-DPLUGIN_PATH=\"${abs_top_srcdir}/plugins\"
 
 # add to all binaries
 LDADD=${top_builddir}/cpptcl/libcpptcl.a 
-AM_LDFLAGS=-lglog -pthread
+AM_LDFLAGS=-lglog -pthread -Wl,-R $(abs_top_srcdir)/plugins/
 ${top_builddir}/cpptcl/libcpptcl.a:
 	cd ${top_builddir}/cpptcl; \
 	${MAKE}

@@ -6,7 +6,7 @@ proc compile {program plugin_name} {
     puts $outfile $program
     close $outfile
     
-    set comp_line "{CXX} {CPPFLAGS} {CXXFLAGS} {LDFLAGS} {LIBS} $tmpf -o $ofile -shared"
+    set comp_line "{CXX}  {CPPFLAGS} {CXXFLAGS} {LDFLAGS} {LIBS} $tmpf -o $ofile -shared -fPIC"
     eval exec $comp_line
     exec mv $ofile $plugin_name
 }

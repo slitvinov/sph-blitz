@@ -274,11 +274,24 @@ void Hydrodynamics::AddGravity(const Initiation &ini) {
   ///- iterate particles on the real particle list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- to each particles dUdt: add the gravity effects
-    const int no = prtl->mtl->material_no;
-    prtl->dUdt[0] = prtl->dUdt[0] + ini.g_force(no, 0);
-    prtl->dUdt[1] = prtl->dUdt[1] + ini.g_force(no, 1);
-  }
+    if (!ini.useCompiledBodyForce) {
+      const int no = prtl->mtl->material_no;
+      prtl->dUdt[0] = prtl->dUdt[0] + ini.g_force(no, 0);
+      prtl->dUdt[1] = prtl->dUdt[1] + ini.g_force(no, 1);
+    } else {
+      double x = prtl->R[0];
+      double y = prtl->R[1];
+      double Fx = 0.0;
+      double Fy = 0.0;
+      /// this is the most nasty part
+      /// can segfoult 
+      (*ini.bodyF)(x, y, Fx, Fy);
+      prtl->dUdt[0] = prtl->dUdt[0] + Fx;
+      prtl->dUdt[1] = prtl->dUdt[1] + Fy;
+    } // !ini.useCompiledBodyForce
+  } // BOOST_FOREACH
 }
+
 //----------------------------------------------------------------------------------------
 //							calculate states from conservatives
 //----------------------------------------------------------------------------------------
