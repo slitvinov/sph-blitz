@@ -8,6 +8,6 @@
 ** TODO [#A] Add S1 scheme
 ** TODO [#C] Add bibtex to doxygen
 ** DONE [#A] Add boost: smart pointers, asserts, tests, logging
-** DONE [#A] Add tcl  or python support
+** DONE [#A] Add tcl or python support
 ** TODO [#B] Add tau http://www.cs.uoregon.edu/research/tau/home.php
 ** TODO [#B] Add particle generators
