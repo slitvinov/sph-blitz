@@ -2,9 +2,15 @@ bin_PROGRAMS=sph kernel_test particlemanager_test spParticle
 AM_CXXFLAGS=-I${top_srcdir} -I${top_srcdir}/cpptcl
 
 # add to all binaries
-LDADD=${top_srcdir}/cpptcl/libcpptcl.a -ldl
-${top_srcdir}/cpptcl/libcpptcl.a: 
-	cd ${top_srcdir}/cpptcl; \
+LDADD=${top_builddir}/plugins/libbforce.a \
+	${top_builddir}/cpptcl/libcpptcl.a -ldl
+
+${top_builddir}/cpptcl/libcpptcl.a: 
+	cd ${top_builddir}/cpptcl; \
+	${MAKE}
+
+${top_builddir}/plugins/libbforce.a:
+	cd ${top_builddir}/plugins; \
 	${MAKE}
 
 nomain=	 boundary.cpp boundary.h \
