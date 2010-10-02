@@ -12,7 +12,7 @@ ${top_builddir}/cpptcl/libcpptcl.a:
 	cd ${top_builddir}/cpptcl; \
 	${MAKE}
 
-nomain=	 boundary.cpp boundary.h \
+nomain=	boundary.cpp boundary.h \
 	glbtype.h glbfunc.cpp glbfunc.h \
 	hydrodynamics.cpp hydrodynamics.h \
 	initiation.cpp initiation.h \
