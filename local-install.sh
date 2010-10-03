@@ -6,10 +6,10 @@ set -u
 MAKE_FLAGS=${MAKE_FLAGS=""}
 
 # directory where third party libraries will be installed
-PREFIX=$(pwd)/prefix-thirdparty
+PREFIX=${PREFIX="$(pwd)/prefix-thirdparty"}
 
 # working directory 
-WRKDIR=$(pwd)
+WRKDIR=${WRKDIR="$(pwd)"}
 
 # compile and install tcl
 cd tcl/unix
