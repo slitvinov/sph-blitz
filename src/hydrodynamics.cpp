@@ -7,7 +7,6 @@
 //		hydrodynamics.cpp
 //-----------------------------------------------------------------------------------
 #include "hydrodynamics.h"
-#include "plugins/bodyforce.h"
 #include <fstream>
 #include <list>
 #include <glog/logging.h>

@@ -7,7 +7,8 @@ plugins_test_LDFLAGS=-Wl,-R $(abs_top_srcdir)/plugins/
 # libbforce_la_SOURCES=bodyforce.cpp bodyforce.h
 # libbforce_la_LDFLAGS=-avoid-version -module -shared
 
-bin_SCRIPTS= compile.tcl
+bin_SCRIPTS=compile.tcl
+EXTRA_DIST=compile.tmp.tcl
 
 compile.tcl: compile.tmp.tcl
 	sed \
