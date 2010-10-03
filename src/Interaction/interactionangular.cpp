@@ -9,12 +9,10 @@
 #include <assert.h>
 
 // ***** localincludes *****
-#include "Kernel/kernel.h"
+#include "vec2d.h"
 #include "Interaction/interactionangular.h"
 #include "particle.h"
 #include "initiation.h"
-#include "glbfunc.h"
-
 
 //----------------------------------------------------------------------------------------
 //					update pair forces

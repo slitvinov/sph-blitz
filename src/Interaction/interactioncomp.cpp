@@ -10,12 +10,10 @@
 #include <assert.h>
 
 // ***** localincludes *****
-#include "Kernel/kernel.h"
+#include "vec2d.h"
 #include "interactioncomp.h"
 #include "particle.h"
 #include "initiation.h"
-#include "glbfunc.h"
-
 
 //----------------------------------------------------------------------------------------
 //					update pair forces
@@ -141,8 +139,7 @@ void InteractionComp::UpdateForces() {
 InteractionComp::InteractionComp(const spParticle prtl_org, const spParticle prtl_dest, 
 				 spKernel weight_function, const double dstc,
 				 const Initiation& ini): 
-  Interaction(prtl_org, prtl_dest, weight_function, dstc, ini)
-{
+  Interaction(prtl_org, prtl_dest, weight_function, dstc, ini) {
   assert(ini.simu_mode == 1);
   LOG_EVERY_N(INFO, 100) << "Create compressible interaction";
 };

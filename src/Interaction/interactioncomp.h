@@ -2,7 +2,6 @@
 #define INTERACTIONCOMP_H
 /// \file interaction.h 
 /// \brief Defines interaction between particles
-
 #include "Interaction/interaction.h"
 
 class Initiation;
