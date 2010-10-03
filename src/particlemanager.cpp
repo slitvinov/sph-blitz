@@ -18,19 +18,15 @@
 #include "hydrodynamics.h"
 #include "Interaction/interactionin.h"
 #include "Interaction/interactioncomp.h"
+#include "Interaction/interactionangular.h"
 #include "initiation.h"
 #include "boundary.h"
-
-
-
 using namespace std;
 
 //----------------------------------------------------------------------------------------
 //									constructor
 //----------------------------------------------------------------------------------------
-ParticleManager::ParticleManager(const Initiation &ini)
-{
-  
+ParticleManager::ParticleManager(const Initiation &ini) {
   ///- copy properties from class Initiation
   supportlength = ini.supportlength;
   supportlengthsquare = supportlength*supportlength;

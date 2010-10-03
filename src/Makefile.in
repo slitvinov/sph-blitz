@@ -56,8 +56,8 @@ am__objects_1 = boundary.$(OBJEXT) glbfunc.$(OBJEXT) \
 	nocontext.$(OBJEXT) solidcontext.$(OBJEXT) \
 	particlecontext.$(OBJEXT) interaction.$(OBJEXT) \
 	interactioncomp.$(OBJEXT) interactionin.$(OBJEXT) \
-	timesolver.$(OBJEXT) hydrotimesolver.$(OBJEXT) \
-	gastimesolverLeapFrog.$(OBJEXT) \
+	interactionangular.$(OBJEXT) timesolver.$(OBJEXT) \
+	hydrotimesolver.$(OBJEXT) gastimesolverLeapFrog.$(OBJEXT) \
 	gastimesolverPredCorr.$(OBJEXT)
 am_kernel_test_OBJECTS = $(am__objects_1) kernel_test.$(OBJEXT)
 kernel_test_OBJECTS = $(am_kernel_test_OBJECTS)
@@ -225,6 +225,7 @@ nomain = boundary.cpp boundary.h \
 	Interaction/interaction.cpp  Interaction/interaction.h \
 	Interaction/interactioncomp.cpp  Interaction/interactioncomp.h \
 	Interaction/interactionin.cpp  Interaction/interactionin.h \
+	Interaction/interactionangular.cpp Interaction/interactionangular.h \
 	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
 	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
 	TimeSolver/gastimesolverLeapFrog.cpp TimeSolver/gastimesolverLeapFrog.h \
@@ -342,6 +343,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hydrotimesolver.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/initiation.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interaction.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interactionangular.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interactioncomp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interactionin.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kernel.Po@am__quote@
@@ -555,6 +557,20 @@ interactionin.obj: Interaction/interactionin.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Interaction/interactionin.cpp' object='interactionin.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o interactionin.obj `if test -f 'Interaction/interactionin.cpp'; then $(CYGPATH_W) 'Interaction/interactionin.cpp'; else $(CYGPATH_W) '$(srcdir)/Interaction/interactionin.cpp'; fi`
+
+interactionangular.o: Interaction/interactionangular.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT interactionangular.o -MD -MP -MF $(DEPDIR)/interactionangular.Tpo -c -o interactionangular.o `test -f 'Interaction/interactionangular.cpp' || echo '$(srcdir)/'`Interaction/interactionangular.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/interactionangular.Tpo $(DEPDIR)/interactionangular.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Interaction/interactionangular.cpp' object='interactionangular.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o interactionangular.o `test -f 'Interaction/interactionangular.cpp' || echo '$(srcdir)/'`Interaction/interactionangular.cpp
+
+interactionangular.obj: Interaction/interactionangular.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT interactionangular.obj -MD -MP -MF $(DEPDIR)/interactionangular.Tpo -c -o interactionangular.obj `if test -f 'Interaction/interactionangular.cpp'; then $(CYGPATH_W) 'Interaction/interactionangular.cpp'; else $(CYGPATH_W) '$(srcdir)/Interaction/interactionangular.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/interactionangular.Tpo $(DEPDIR)/interactionangular.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Interaction/interactionangular.cpp' object='interactionangular.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o interactionangular.obj `if test -f 'Interaction/interactionangular.cpp'; then $(CYGPATH_W) 'Interaction/interactionangular.cpp'; else $(CYGPATH_W) '$(srcdir)/Interaction/interactionangular.cpp'; fi`
 
 timesolver.o: TimeSolver/timesolver.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT timesolver.o -MD -MP -MF $(DEPDIR)/timesolver.Tpo -c -o timesolver.o `test -f 'TimeSolver/timesolver.cpp' || echo '$(srcdir)/'`TimeSolver/timesolver.cpp
