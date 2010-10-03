@@ -1,4 +1,6 @@
 ** TODO [#A] Add solid particles
+** TODO [#A] Add a dence droplet benchmark 
+   [[http://gfs.sourceforge.net/tests/tests/kinetic.html]]
 ** TODO [#A] Add output based on the context
 ** TODO [#A] Add unit tests
 ** TODO [#A] Add flow around cylinder
