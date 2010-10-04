@@ -9,16 +9,20 @@
 #include <dlfcn.h>
 #include <glog/logging.h>
 #include <boost/foreach.hpp>
+#include <boost/smart_ptr/make_shared.hpp>
 // ***** localincludes *****
 #include "hydrodynamics.h"
 #include "particlemanager.h"
 #include "Kernel/kernel.h"
 #include "initiation.h"
+#include "ParticleContext/solidcontext.h"
+#include "ParticleContext/nocontext.h"
+
 //----------------------------------------------------------------------------------------
 //							constructor 
 //----------------------------------------------------------------------------------------
 Initiation::Initiation(const std::string& project_name, const std::string& ivs_file_name):
-  Project_Name(project_name), Ivs_File_Name(ivs_file_name) {
+  Project_Name(project_name), Ivs_File_Name(ivs_file_name), interp(boost::make_shared<Tcl::interpreter>()) {
   LOG(INFO) << "Run constructor of Initiation class";
   //the input file name
   const std::string inputfile = Project_Name + ".tcl";
@@ -28,43 +32,42 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
     LOG(ERROR) << " cannot open project file: " << inputfile;
     exit(EXIT_FAILURE);
   }
-
   // get environment variable and run it as a TCL command
   // to use it run
   // SPH_TCL="set isim 10" ./sph <project>
   const std::string sph_tcl = CharPtrToStdString(std::getenv("SPH_TCL"));
   if (sph_tcl.size() > 0) {
     LOG(INFO) << "Find this SPH_TCL: " << sph_tcl;
-    interp.eval(sph_tcl);
+    interp->eval(sph_tcl);
   }
-  interp.eval(tclfilename);
+  interp->eval(tclfilename);
   ///<li>reading key words and configuration data from configuration 
   ///file and assign them to the appropriate variable
-  disable_boundary  = interp.getval("DISABLE_BOUNDARY");
-  initial_condition = interp.getval("INITIAL_CONDITION");
+  disable_boundary  = interp->getval("DISABLE_BOUNDARY");
+  initial_condition = interp->getval("INITIAL_CONDITION");
   assert( (initial_condition == 0) || (initial_condition == 1));
-  if (!interp.exist("initial_perturb")) {
+  if (!interp->exist("initial_perturb")) {
     LOG(INFO) << "initial_perturb is not found, assume 0";
     initial_perturb = 0.0;
   } else {
-    initial_perturb = interp.getval("initial_perturb");
+    initial_perturb = interp->getval("initial_perturb");
     LOG(INFO) << "found initial_perturb: " << initial_perturb;
     assert( (initial_perturb > 0) && (initial_perturb < 0.5) );
   }
-  simu_mode = interp.getval("SIMULATION_MODE");
+  simu_mode = interp->getval("SIMULATION_MODE");
   // (already tested in sph.cpp) 
   // LITVINOV: it is better to fall as soon possible
   assert(simu_mode==1||simu_mode==2); 
-  density_mode = interp.getval("DENSITY_MODE");
+  density_mode = interp->getval("DENSITY_MODE");
   assert(density_mode == 1 || density_mode == 2);
-  kernel_type = static_cast<std::string>(interp.getval("KERNEL_TYPE"));
+  kernel_type = static_cast<std::string>(interp->getval("KERNEL_TYPE"));
   // for harmonic kernel we need a parameter n
   if (kernel_type == "Harmonic") {
-    harmonic_n = interp.getval("harmonic_n");
+    harmonic_n = interp->getval("harmonic_n");
   }
   
-  if (interp.exist("OUTDIR")) {
-    outdir = static_cast<std::string>(interp.getval("OUTDIR"));
+  if (interp->exist("OUTDIR")) {
+    outdir = static_cast<std::string>(interp->getval("OUTDIR"));
   } else {
     outdir = "outdata";
   }
@@ -77,57 +80,66 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   }
   // output directory created,  try to dump a config file into it
   const std::string dfile = outdir + "/config.tcl";
-  interp.dump(dfile);
+  interp->dump(dfile);
   LOG(INFO) << "configuration dumpt in " <<  dfile;
   
   /// if gas dynamics
   if (simu_mode == 2) {
     //further markers exclusively applied to gas dynamics
-    integration_scheme = interp.getval("INTEGRATION_SCHEME");//(already tested in sph.cpp)
+    integration_scheme = interp->getval("INTEGRATION_SCHEME");//(already tested in sph.cpp)
     //assert(integration_scheme == 1 || integration_scheme == 2);
-    splash_optimized_output = interp.getval("SPLASH_OPTIMIZED_OUTPUT");
+    splash_optimized_output = interp->getval("SPLASH_OPTIMIZED_OUTPUT");
     assert(splash_optimized_output==0||splash_optimized_output==1);
     /// read parameters of artificial viscosity 
-    alpha_artVis = interp.getval("alpha_artVis");
-    beta_artVis = interp.getval("beta_artVis");
-    epsilon_artVis = interp.getval("epsilon_artVis");
+    alpha_artVis = interp->getval("alpha_artVis");
+    beta_artVis = interp->getval("beta_artVis");
+    epsilon_artVis = interp->getval("epsilon_artVis");
     //read physical and artificial viscosity markers
-    physical_viscosity_marker=interp.getval("PHYSICAL_VISCOSITY_MARKER");
+    physical_viscosity_marker=interp->getval("PHYSICAL_VISCOSITY_MARKER");
     assert(physical_viscosity_marker==0||physical_viscosity_marker==1);
-    artificial_viscosity_marker=interp.getval("ARTIFICIAL_VISCOSITY_MARKER");
+    artificial_viscosity_marker=interp->getval("ARTIFICIAL_VISCOSITY_MARKER");
     assert(artificial_viscosity_marker==0||artificial_viscosity_marker==1||artificial_viscosity_marker==2);
-    autom_dt_control=interp.getval("AUTOMATIC_DT_CONTROL_MARKER");
+    autom_dt_control=interp->getval("AUTOMATIC_DT_CONTROL_MARKER");
     assert(autom_dt_control==0||autom_dt_control==1);
     if(autom_dt_control==0)//if dt_auto turned out, take man. choosen dt
-      manually_choosen_dt = interp.getval("manually_choosen_dt");
+      manually_choosen_dt = interp->getval("manually_choosen_dt");
   }
-  x_cells = interp.getat("CELLS", 0);
+  x_cells = interp->getat("CELLS", 0);
   assert(x_cells > 0);
-  y_cells = interp.getat ("CELLS", 1);
+  y_cells = interp->getat ("CELLS", 1);
   assert(y_cells > 0);
-  cell_size = interp.getval("CELL_SIZE");
+  cell_size = interp->getval("CELL_SIZE");
   assert(cell_size>0.0);
-  supportlength = interp.getval("SUPPORT_LENGTH");
+  supportlength = interp->getval("SUPPORT_LENGTH");
   assert(supportlength > 0.0);
-  hdelta = interp.getval("CELL_RATIO");
+  hdelta = interp->getval("CELL_RATIO");
   assert(hdelta > 0);
-  number_of_materials = interp.getval("NUMBER_OF_MATERIALS");
+  number_of_materials = interp->getval("NUMBER_OF_MATERIALS");
   assert(number_of_materials > 0);
   DefineBodyForce();
   
-  Start_time = interp.getval("Start_time");
-  End_time = interp.getval("End_time");
-  D_time = interp.getval("D_time");
+  Start_time = interp->getval("Start_time");
+  End_time = interp->getval("End_time");
+  D_time = interp->getval("D_time");
   // can be zero for debugging
   assert(D_time>0.0);
   assert(End_time >= Start_time);
   
   if (initial_condition == 0) {
-    //rho0 = interp.getval("rho0");
-    //p0 = interp.getval("p0");
-    T0 = interp.getval("T0");
-    U0[0] = interp.getat("U0", 0);
-    U0[1] = interp.getat("U0", 1);
+    //rho0 = interp->getval("rho0");
+    //p0 = interp->getval("p0");
+    T0 = interp->getval("T0");
+    U0[0] = interp->getat("U0", 0);
+    U0[1] = interp->getat("U0", 1);
+  }
+
+  /// Initialize Context 
+  if (interp->isproc("getSolid")) {
+    LOG(INFO) << "Found getSolid: some particles are solid";
+    context = boost::make_shared<SolidContext>(*this);
+  } else {
+    LOG(INFO) << "No getSolid: assuming NoContext (all particles are normal)" ;
+    context = boost::make_shared<NoContext>();
   }
   
   ///<li>process the data <b>!!!Question!!!</b>
@@ -217,18 +229,18 @@ void Initiation::DefineBodyForce() {
   /// try compiled body force 
   /// if I can find in config file the cBodyForce 
   /// variable I try to compile it into the shared library
-  if (interp.exist("cBodyForce")) {
+  if (interp->exist("cBodyForce")) {
     useCompiledBodyForce = true;
     LOG(INFO) << "I find cBodyForce. Be hold";
     LOG(INFO) << "a path to plugin directory " << PLUGIN_PATH;
     LOG(INFO) << "try to source compile.tcl and compile  plugin";
     const std::string ctcl = std::string(PLUGIN_PATH) 
       + std::string("/compile.tcl");
-    interp.eval("source " + ctcl);
+    interp->eval("source " + ctcl);
     LOG(INFO) << "try to compile cBodyForce";
     const std::string pfile = std::string(PLUGIN_PATH) + std::string("/libforce.so");
     LOG(INFO) << "plugin file is " << pfile; 
-    interp.eval("compile $cBodyForce " + pfile);
+    interp->eval("compile $cBodyForce " + pfile);
     externalFunHandle = dlopen(pfile.c_str(), RTLD_LAZY);
     if (!externalFunHandle) {
       LOG(ERROR) << "Cannot open library: " << dlerror();
@@ -243,34 +255,34 @@ void Initiation::DefineBodyForce() {
     LOG(INFO) << "body force is loaded";
     assert(number_of_materials>0);
     g_force.resize(number_of_materials, 2);
-    if (!interp.exist("G_REF")) {
+    if (!interp->exist("G_REF")) {
       LOG(ERROR) << "I need G_REF: reference body force for time step estimation";
       exit(EXIT_FAILURE);
     }
     for (int material_no=0; material_no<number_of_materials; material_no++) {
-      g_force(material_no, 0) = interp.getat("G_REF", 0);
-      g_force(material_no, 1) = interp.getat("G_REF", 1);
+      g_force(material_no, 0) = interp->getat("G_REF", 0);
+      g_force(material_no, 1) = interp->getat("G_REF", 1);
     }
     /// read gravity vector for dt calculations
   } else {
     /// normal case no compiled body force
     LOG(INFO) << "I did not find cBodyForce. Use normal gravity force";
     useCompiledBodyForce = false;
-    if (interp.getndim("G_FORCE") == 1) {
+    if (interp->getndim("G_FORCE") == 1) {
       /// one dimensional vector make it for all materials
       LOG(INFO) << "G_FORCE is one dimensional";
       g_force.resize(number_of_materials, 2);
       for (int material_no=0; material_no<number_of_materials; material_no++) {
-	g_force(material_no, 0) = interp.getat("G_FORCE", 0);
-	g_force(material_no, 1) = interp.getat("G_FORCE", 1);
+	g_force(material_no, 0) = interp->getat("G_FORCE", 0);
+	g_force(material_no, 1) = interp->getat("G_FORCE", 1);
       }
     } else {
       assert(number_of_materials > 0);
       g_force.resize(number_of_materials, 2);
       LOG(INFO) << "G_FORCE is two dimensional";
       for (int material_no=0; material_no<number_of_materials; material_no++) {
-	g_force(material_no, 0) = interp.getat("G_FORCE", material_no, 0);
-	g_force(material_no, 1) = interp.getat("G_FORCE", material_no, 1);
+	g_force(material_no, 0) = interp->getat("G_FORCE", material_no, 0);
+	g_force(material_no, 1) = interp->getat("G_FORCE", material_no, 1);
 	LOG(INFO) << "g_force(" << material_no << ",0) = " << g_force(material_no, 0);
 	LOG(INFO) << "g_force(" << material_no << ",1) = " << g_force(material_no, 1);
       }

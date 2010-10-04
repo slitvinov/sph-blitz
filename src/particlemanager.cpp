@@ -11,6 +11,7 @@
 #include <glog/logging.h>
 #include <boost/foreach.hpp>
 #include <boost/smart_ptr/make_shared.hpp>
+#include "ParticleContext/particlecontext.h"
 
 // ***** local includes *****
 #include "particlemanager.h"
@@ -231,6 +232,8 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 							   density, pressure, 
 							   Temperature, 
 							   materials[material_no]);
+	    /// add particle to the context
+	    ini.context->AddParticle(prtl);
 	    prtl->cell_i = i; prtl->cell_j = j; 
 	    //insert particle in the particle list
 	    particle_list.push_back(prtl);

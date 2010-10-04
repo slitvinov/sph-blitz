@@ -25,16 +25,16 @@ Vec2d ParticleGenerator::getPosition(const Initiation& ini,
 int ParticleGenerator::getParticleMaterialNo(Initiation& ini ,
 					     const Vec2d& position) {
   // if no proc in the tcl file set default material number 
-  if (!ini.interp.isproc("getmatNo") ) {
+  if (!ini.interp->isproc("getmatNo") ) {
     const int default_materail_number = 1;
     LOG(INFO) << "return default material number" ;
     return default_materail_number;
   } else {
     // set position of the particle and call the function
-    ini.interp.setdouble("x", position[0]);
-    ini.interp.setdouble("y", position[1]);
-    ini.interp.evalproc("getmatNo");
-    const int no = ini.interp.getval("no");
+    ini.interp->setdouble("x", position[0]);
+    ini.interp->setdouble("y", position[1]);
+    ini.interp->evalproc("getmatNo");
+    const int no = ini.interp->getval("no");
     if (no>ini.number_of_materials - 1) {
       LOG(ERROR) << "number of material is " << no << '\n' << 
 	"maximum material number is " << ini.number_of_materials - 1;
@@ -52,16 +52,16 @@ int ParticleGenerator::getParticleMaterialNo(Initiation& ini ,
 Vec2d ParticleGenerator::getParticleVelocity(Initiation& ini ,
 					     const Vec2d& position) {
   // if no proc in the tcl file set default material number 
-  if (!ini.interp.isproc("getVelocity") ) {
+  if (!ini.interp->isproc("getVelocity") ) {
     LOG(INFO) << "return default velocity: " << ini.U0;
     return Vec2d(ini.U0);
   } else {
     // set position of the particle and call the function
-    ini.interp.setdouble("x", position[0]);
-    ini.interp.setdouble("y", position[1]);
-    ini.interp.evalproc("getVelocity");
-    const double vx  = ini.interp.getval("vx");
-    const double vy  = ini.interp.getval("vy");
+    ini.interp->setdouble("x", position[0]);
+    ini.interp->setdouble("y", position[1]);
+    ini.interp->evalproc("getVelocity");
+    const double vx  = ini.interp->getval("vx");
+    const double vy  = ini.interp->getval("vy");
     const Vec2d velocity(vx, vy);
     LOG(INFO) << "for particle " << position << " return velocity " << velocity;
     return velocity;

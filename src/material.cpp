@@ -23,16 +23,16 @@ using namespace std;
 Material::Material(Initiation &ini, const int index):
   material_no(index)
 {
-  material_name = std::string(ini.interp.getat("material_name", index));
-  material_type = ini.interp.getat("material_type",  index);
-  cv = ini.interp.getat("material_cv",  index);
-  gamma = ini.interp.getat("material_gamma",  index);
-  // b0 = ini.interp.getat("material_b0",  index);
-  rho0 = ini.interp.getat("material_rho0",  index);
-  sound_speed = ini.interp.getat("material_sound_speed",  index);
-  eta = ini.interp.getat("material_eta",  index);
+  material_name = std::string(ini.interp->getat("material_name", index));
+  material_type = ini.interp->getat("material_type",  index);
+  cv = ini.interp->getat("material_cv",  index);
+  gamma = ini.interp->getat("material_gamma",  index);
+  // b0 = ini.interp->getat("material_b0",  index);
+  rho0 = ini.interp->getat("material_rho0",  index);
+  sound_speed = ini.interp->getat("material_sound_speed",  index);
+  eta = ini.interp->getat("material_eta",  index);
   if (ini.simu_mode == 2) {
-    zeta = ini.interp.getat("material_zeta",  index);
+    zeta = ini.interp->getat("material_zeta",  index);
   }
   LOG(INFO) << "Material object is created";
 }

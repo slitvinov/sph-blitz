@@ -21,21 +21,21 @@ Boundary::Boundary(Initiation &ini, const ParticleManager &particles) {
   // check if input-file exist
   /// - reading key words and configuration data from input file
   ///\todo{perhaps also implement an open boundary condition. at the moment shock tube simulations are done with "artificial" open edge by defining the domain from 0 til 3.9 and only placing particles from 1-3, so whatever boundary condition is  for xbl and xbr in the initiation file (tcl) it practically has no effect.}
-  xBr = ini.interp.eval("[return $xBr]");
-  UxBr[0] = ini.interp.eval("[return $UxBr(0)]");
-  UxBr[1] = ini.interp.eval("[return $UxBr(1)]");
+  xBr = ini.interp->eval("[return $xBr]");
+  UxBr[0] = ini.interp->eval("[return $UxBr(0)]");
+  UxBr[1] = ini.interp->eval("[return $UxBr(1)]");
 
-  xBl = ini.interp.eval("[return $xBl]");
-  UxBl[0] = ini.interp.eval("[return $UxBl(0)]");
-  UxBl[1] = ini.interp.eval("[return $UxBl(1)]");
+  xBl = ini.interp->eval("[return $xBl]");
+  UxBl[0] = ini.interp->eval("[return $UxBl(0)]");
+  UxBl[1] = ini.interp->eval("[return $UxBl(1)]");
 
-  yBd = ini.interp.eval("[return $yBd]");
-  UyBd[0] = ini.interp.eval("[return $UyBd(0)]");
-  UyBd[1] = ini.interp.eval("[return $UyBd(1)]");
+  yBd = ini.interp->eval("[return $yBd]");
+  UyBd[0] = ini.interp->eval("[return $UyBd(0)]");
+  UyBd[1] = ini.interp->eval("[return $UyBd(1)]");
 
-  yBu = ini.interp.eval("[return $yBu]");
-  UyBu[0] = ini.interp.eval("[return $UyBu(0)]");
-  UyBu[1] = ini.interp.eval("[return $UyBu(1)]");
+  yBu = ini.interp->eval("[return $yBu]");
+  UyBu[0] = ini.interp->eval("[return $UyBu(0)]");
+  UyBu[1] = ini.interp->eval("[return $UyBu(1)]");
 
 
   show_information();

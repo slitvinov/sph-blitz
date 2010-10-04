@@ -5,12 +5,13 @@
 #include "ParticleContext/particlecontext.h"
 #include <set>
 class  Particle;
+class Initiation;
 
-/// particles move as normal
+/// A class to move particle if a part of them is solid
 class SolidContext : public ParticleContext {
  public:
-  /// constructor 
-  SolidContext();
+  /// constructor
+  explicit SolidContext(const Initiation& ini);
   
   /// move particles as normal
   virtual const Vec2d MoveParticle(const Vec2d& R, const Vec2d& U, const double dt, const int id) const;
@@ -28,7 +29,11 @@ class SolidContext : public ParticleContext {
   virtual ~SolidContext();
 
  private:
+  /// a set with IDs of solid particles
   std::set<int> solidIDset;
+
+  /// the class stores it own reference to Initiation
+  const Initiation& ini;
 };
 
 #endif // SRC_PARTICECONTEXT_SOLIDCONTEXT

@@ -36,7 +36,11 @@ public:
   int number_of_materials;
 
   ///tcl interpreter to read configuration data
-  Tcl::interpreter interp; 
+  boost::shared_ptr<Tcl::interpreter> interp; 
+
+  /// a pointer to context class 
+  /// used to define "special" rulles of partilce motion (ex. solid partilces)
+  spParticleContext context;
 
   ///\brief integration scheme selection
   ///
