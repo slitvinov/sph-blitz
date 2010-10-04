@@ -1,2 +1,4 @@
 ACLOCAL_AMFLAGS = -I m4
-SUBDIRS= src cpptcl
+# include boost and all subdirs
+EXTRA_DIST=boost
+SUBDIRS= src cpptcl plugins

@@ -38,7 +38,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   /// <li>initialize parameters for time step and the artificial compressiblity
   double viscosity_max = 0.0;
   for (int k = 0; k < ini.number_of_materials; k++) {
-    viscosity_max = AMAX1(viscosity_max, materials[k]->nu);
+    viscosity_max = std::max(viscosity_max, materials[k]->nu);
   }
 
   /// <li>determine the artificial compressiblity
@@ -271,13 +271,25 @@ void Hydrodynamics::Zero_mue_ab_max() {
 void Hydrodynamics::AddGravity(const Initiation &ini) {
   LOG(INFO) << "Hydrodynamics::AddGravity starts";
   ///- iterate particles on the real particle list
-  BOOST_FOREACH(spParticle prtl, particle_list) {
-    ///- to each particles dUdt: add the gravity effects
-    const int no = prtl->mtl->material_no;
-    prtl->dUdt[0] = prtl->dUdt[0] + ini.g_force(no, 0);
-    prtl->dUdt[1] = prtl->dUdt[1] + ini.g_force(no, 1);
-  }
+  ///- to each particles dUdt: add the gravity effects
+  if (!ini.useCompiledBodyForce) {
+    BOOST_FOREACH(spParticle prtl, particle_list) {
+      const int no = prtl->mtl->material_no;
+      prtl->dUdt[0] = prtl->dUdt[0] + ini.g_force(no, 0);
+      prtl->dUdt[1] = prtl->dUdt[1] + ini.g_force(no, 1);
+    }
+  } else {
+    BOOST_FOREACH(spParticle prtl, particle_list) {
+      double Fx = 0.0;
+      double Fy = 0.0;
+      /// can segfoult 
+      (*ini.bodyF)(prtl->R[0], prtl->R[1], Fx, Fy);
+      prtl->dUdt[0] = prtl->dUdt[0] + Fx;
+      prtl->dUdt[1] = prtl->dUdt[1] + Fy;
+    } // BOOST_FOREACH
+  } // !ini.useCompiledBodyForce
 }
+
 //----------------------------------------------------------------------------------------
 //							calculate states from conservatives
 //----------------------------------------------------------------------------------------
@@ -340,16 +352,16 @@ double Hydrodynamics::GetTimestepGas(const Initiation& ini) {
   BOOST_FOREACH(spParticle prtl, particle_list) {
     assert(prtl != NULL);
     //dt_f according to Monaghan 1992 ("smoothed particle hydrodynamics") (sec.10.3)
-    dt_f=AMIN1(dt_f, sqrt(ini.supportlength/2/(v_abs(prtl->dUdt)+1e-35)));//to prevent singularity
+    dt_f=std::min(dt_f, sqrt(ini.supportlength/2/(v_abs(prtl->dUdt)+1e-35)));//to prevent singularity
     //dt_cv according to Monaghan 1992 ("smoothed particle hydrodynamics") (sec.10.3)
-    dt_cv=AMIN1(dt_cv,ini.supportlength/2/(prtl->Cs+0.6*(ini.alpha_artVis*prtl->Cs+ini.beta_artVis*prtl->mue_ab_max)));
+    dt_cv=std::min(dt_cv,ini.supportlength/2/(prtl->Cs+0.6*(ini.alpha_artVis*prtl->Cs+ini.beta_artVis*prtl->mue_ab_max)));
     assert(dt_cv>0.0);
   }
   
   // reset mue_ab to zero (for next iterarion)
   Zero_mue_ab_max();
   
-  const double dt = 0.25*AMIN1(dt_f, dt_cv);
+  const double dt = 0.25*std::min(dt_f, dt_cv);
   assert(dt>0.0);
   LOG(INFO) << "dt: " << dt; 
   return dt;
@@ -369,8 +381,8 @@ double Hydrodynamics::GetTimestep(const Initiation& ini) const {
   // - largest visocity 
   BOOST_FOREACH(spMaterial mtl, materials) {
     assert(mtl != NULL);
-    Cs_max = AMAX1(Cs_max, mtl->get_Cs());
-    viscosity_max = AMAX1(viscosity_max, mtl->nu);
+    Cs_max = std::max(Cs_max, mtl->get_Cs());
+    viscosity_max = std::max(viscosity_max, mtl->nu);
   }
   LOG(INFO) << "Cs_max = " << Cs_max;
   LOG(INFO) << "viscosity_max = " << viscosity_max;

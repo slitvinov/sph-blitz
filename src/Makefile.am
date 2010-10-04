@@ -1,13 +1,18 @@
 bin_PROGRAMS=sph kernel_test particlemanager_test spParticle
-AM_CXXFLAGS=-I${top_srcdir} -I${top_srcdir}/cpptcl
+
+# PLUGIN_PATH is a path to the compile.tcl 
+# it is used to get dynamics loaded functions
+AM_CXXFLAGS=-I${top_srcdir} -I${top_srcdir}/cpptcl \
+	-DPLUGIN_PATH=\"${abs_top_srcdir}/plugins\"
 
 # add to all binaries
-LDADD=${top_srcdir}/cpptcl/libcpptcl.a
-${top_srcdir}/cpptcl/libcpptcl.a: 
-	cd ${top_srcdir}/cpptcl; \
+LDADD=${top_builddir}/cpptcl/libcpptcl.a
+AM_LDFLAGS=-Wl,-R $(abs_top_srcdir)/plugins/
+${top_builddir}/cpptcl/libcpptcl.a:
+	cd ${top_builddir}/cpptcl; \
 	${MAKE}
 
-nomain=	 boundary.cpp boundary.h \
+nomain=	boundary.cpp boundary.h \
 	glbtype.h glbfunc.cpp glbfunc.h \
 	hydrodynamics.cpp hydrodynamics.h \
 	initiation.cpp initiation.h \
@@ -22,9 +27,13 @@ nomain=	 boundary.cpp boundary.h \
 	Kernel/betaspline.h Kernel/betaspline.cpp \
 	Kernel/harmonic.h Kernel/harmonic.cpp \
 	ParticleGenerator/particlegenerator.h ParticleGenerator/particlegenerator.cpp \
+	ParticleContext/nocontext.cpp ParticleContext/nocontext.h \
+	ParticleContext/solidcontext.cpp ParticleContext/solidcontext.h \
+	ParticleContext/particlecontext.cpp ParticleContext/particlecontext.h \
 	Interaction/interaction.cpp  Interaction/interaction.h \
 	Interaction/interactioncomp.cpp  Interaction/interactioncomp.h \
 	Interaction/interactionin.cpp  Interaction/interactionin.h \
+	Interaction/interactionangular.cpp Interaction/interactionangular.h \
 	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
 	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
 	TimeSolver/gastimesolverLeapFrog.cpp TimeSolver/gastimesolverLeapFrog.h \

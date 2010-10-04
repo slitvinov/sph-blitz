@@ -1,24 +1,23 @@
-///\file interaction.cpp
+///\file interactionangular.cpp
 ///\author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 ///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
 
 //----------------------------------------------------------------------------------------
 //		defines interaction between particles
-//		interaction.cpp
 //----------------------------------------------------------------------------------------
 #include <glog/logging.h>
 #include <assert.h>
 
 // ***** localincludes *****
-#include "Kernel/kernel.h"
-#include "Interaction/interactionin.h"
+#include "vec2d.h"
+#include "Interaction/interactionangular.h"
 #include "particle.h"
 #include "initiation.h"
 
 //----------------------------------------------------------------------------------------
 //					update pair forces
 //----------------------------------------------------------------------------------------
-void InteractionIn::UpdateForces() {
+void InteractionAngular::UpdateForces() {
       const double rhoi = Org->rho; 
       const double rhoj = Dest->rho;
       const double Vi = mi/rhoi; 
@@ -38,14 +37,14 @@ void InteractionIn::UpdateForces() {
       const Vec2d dPdti = dPdti_visc  + dPdti_pre;
       Org->dUdt += dPdti*rmi;
       Dest->dUdt -= dPdti*rmj;
-}
+};
 
-InteractionIn::InteractionIn(const spParticle prtl_org, const spParticle prtl_dest, 
+InteractionAngular::InteractionAngular(const spParticle prtl_org, const spParticle prtl_dest, 
 	      spKernel weight_function, const double dstc,
 	      const Initiation& ini): 
   Interaction(prtl_org, prtl_dest, weight_function, dstc, ini) {
   assert(ini.simu_mode == 1);
-}
+};
 
-InteractionIn::~InteractionIn() {
+InteractionAngular::~InteractionAngular() {
 }

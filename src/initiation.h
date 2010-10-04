@@ -17,9 +17,9 @@ class Kernel;
 class Initiation : boost::noncopyable {
 public:
   ///the project name
-  std::string Project_name;
+  const std::string Project_Name;
   //the ivs file name
-  std::string Ivs_file_name;
+  const std::string Ivs_File_Name;
 
   /// output directory name (default is outdata)
   std::string outdir;
@@ -60,7 +60,7 @@ public:
   ///\brief disable boundary condition marker:
   ///- 0 boundary conditions enabled
   ///- 1 boundary conditions disabled
-  int disable_boundary;
+  bool disable_boundary;
 
   ///simulation mode (1: liquids, 2: gas dynamics)
   int simu_mode;
@@ -98,6 +98,13 @@ public:
   int x_cells, y_cells;
   ///g force on particles
   TMatrix g_force;
+  /// is TRUE we use compiled body force 
+  /// from cBodyForce variable in the config file
+  bool useCompiledBodyForce;
+  /// compiled body force function
+  TBodyF bodyF;
+  /// a handle of external function
+  void* externalFunHandle;
 
   ///\brief marker to choose output format
   /// 
@@ -136,6 +143,11 @@ public:
   ///predict the particle volume and mass
   void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, 
 		  spKernel weight_function);
+  ~Initiation();
+
+ private:
+  /// helpper function to define body force
+  void DefineBodyForce();
 };
 
 

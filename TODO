@@ -1,11 +1,15 @@
-* todo list
+** TODO [#A] Add solid particles
+** TODO [#A] Add a dence droplet benchmark 
+   [[http://gfs.sourceforge.net/tests/tests/kinetic.html]]
+** TODO [#A] Add output based on the context
 ** TODO [#A] Add unit tests
-** TODO [#A] Add regression tests
-** TODO [#A] Fix pressure force
-** TODO [#A] Add angular momentum conservative forumlation
+** TODO [#A] Add flow around cylinder
+** DONE [#A] Add regression tests
+** DONE [#A] Fix pressure force
+** TODO [#A] Add angular momentum conservative formulation
 ** TODO [#A] Add S1 scheme
 ** TODO [#C] Add bibtex to doxygen
 ** DONE [#A] Add boost: smart pointers, asserts, tests, logging
-** DONE [#A] Add tcl  or python support
+** DONE [#A] Add tcl or python support
 ** TODO [#B] Add tau http://www.cs.uoregon.edu/research/tau/home.php
 ** TODO [#B] Add particle generators

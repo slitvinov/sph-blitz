@@ -9,7 +9,7 @@
 #include "particlemanager.h"
 #include "boundary.h"
 #include "initiation.h"
-#include "glbtype.h"
+//#include "glbtype.h"
 
 
 // constructor

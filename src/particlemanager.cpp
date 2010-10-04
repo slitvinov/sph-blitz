@@ -18,19 +18,15 @@
 #include "hydrodynamics.h"
 #include "Interaction/interactionin.h"
 #include "Interaction/interactioncomp.h"
+#include "Interaction/interactionangular.h"
 #include "initiation.h"
 #include "boundary.h"
-
-
-
 using namespace std;
 
 //----------------------------------------------------------------------------------------
 //									constructor
 //----------------------------------------------------------------------------------------
-ParticleManager::ParticleManager(const Initiation &ini)
-{
-  
+ParticleManager::ParticleManager(const Initiation &ini) {
   ///- copy properties from class Initiation
   supportlength = ini.supportlength;
   supportlengthsquare = supportlength*supportlength;
@@ -47,8 +43,7 @@ ParticleManager::ParticleManager(const Initiation &ini)
   LOG(INFO) << "ParticleManager object is created";
 }
 
-ParticleManager::ParticleManager(
-				 const double supportlength, const Vec2d& box_size, 
+ParticleManager::ParticleManager(const double supportlength, const Vec2d& box_size, 
 				 const double cell_size, 
 				 const int x_cells, const int y_cells,
 				 const int initial_condition, const int hdelta,
@@ -62,7 +57,7 @@ ParticleManager::ParticleManager(
   delta(delta),
   hdelta(hdelta),
   x_clls(x_cells+2),
-  y_clls(y_cells+2)
+  y_clls(y_cells+2) 
 {
   cell_lists.resize(x_clls, y_clls);
 }
@@ -145,9 +140,7 @@ std::list<spParticle> ParticleManager::BuildNNP(Vec2d &point)
 void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions, 
 				       std::list<spParticle > &particle_list, 
 				       spKernel weight_function, 
-				       const Initiation& ini)
-{
-  //clear the list first
+				       const Initiation& ini) {
   interactions.clear();
   ///<ul><li>iterate particles on the particle list
   BOOST_FOREACH(spParticle prtl_org, particle_list) {
@@ -253,7 +246,7 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
   //initialize real particles from the non-dimensional restart file .rst
   if(initial_condition==1) {	
     //the restart file name
-    const std::string inputfile = ini.Project_name + ".rst";
+    const std::string inputfile = ini.Project_Name + ".rst";
     //check if the restart exist
     ifstream fin(inputfile.c_str(), ios::in);
     if (!fin.good()) {
@@ -319,16 +312,13 @@ void ParticleManager::BuildRealParticleGasDyn(vecMaterial materials,
 					std::list<spParticle >& particle_list, 
 					Initiation &ini)
 {
-	
   LOG(INFO) << "Start BuildRealParticleGasDyn\n";
 
   double density, pressure, Temperature, mass;
-  int material_no;
-
   ///initial particles either  from .rst file or from .ivs (Initial Values Shock tube)file
  
-  const std::string inputfile =std::string(ini.Ivs_file_name);
-       material_no = 1; //number for Air (second line in cfg file (->index 1)
+  const std::string inputfile =std::string(ini.Ivs_File_Name);
+  const int material_no = 1; //number for Air (second line in cfg file (->index 1)
       //check if the .ivs file exists
       ifstream fin(inputfile.c_str(), ios::in);
       if (!fin) {

@@ -36,5 +36,7 @@ typedef blast::vector< spMaterial > vecMaterial;
 /// a matrix for gforce
 typedef boost::numeric::ublas::matrix<double> TMatrix;
 
+/// compiled body force function type
+typedef void(*TBodyF)(double, double, double&, double&);
 
 #endif

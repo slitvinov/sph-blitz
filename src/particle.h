@@ -1,6 +1,5 @@
 /// \file particle.h 
 /// \brief a sph particle
-
 #ifndef PARTICLE_H
 #define PARTICLE_H
 #include "vec2d.h"
@@ -17,9 +16,8 @@ class Particle {
 
 	///construct a real particle including mass (used forgasdynamcis where mass 
 	Particle (Vec2d position, Vec2d velocity, double density, 
-		    double pressure, double mass,double temperature, 
+		  double pressure, double mass,double temperature, 
 		  spMaterial material);
-
 
 	///construct a wall particle
 	Particle (double x, double y, double u, double v, 
@@ -85,8 +83,6 @@ class Particle {
 	double drhodt; ///<density change rate for real particles
         double dedt; ///<internal energy change rate for real particles
 	Vec2d dUdt;///<acceleration change for real particles <b>or is it the other wa round</b>
-
-
 	///\brief ID number
 	///
 	///- a real particle has a unique positive ID

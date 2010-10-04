@@ -9,7 +9,7 @@ dnl
 dnl   Blitz headers should be under DIR/include or INCDIR
 dnl   Blitz library should be under DIR/lib or LIBDIR
 dnl  
-dnl Define and set shell variable ac_cxx_lib_blitz to 'yes' or 'no'
+dnl Define and set shell variable ac_cv_lib_blitz to 'yes' or 'no'
 dnl Substitute variables BLITZ_CPPFLAGS, BLITZ_LDFLAGS, BLITZ_LIBS
 dnl Define macro HAVE_BLITZ
 dnl 
@@ -50,7 +50,7 @@ if test "$withval" != no ; then
   if test -n "$blitz_libdir"; then LDFLAGS="-L$blitz_libdir" ; fi
 	LIBS="-lblitz"
 
-	AC_CACHE_CHECK([whether Blitz++ is installed],[ac_cxx_lib_blitz],
+	AC_CACHE_CHECK([whether Blitz++ is installed],[ac_cv_lib_blitz],
 	[AC_LANG_SAVE
 	AC_LANG_CPLUSPLUS
 	AC_RUN_IFELSE(
@@ -59,7 +59,7 @@ if test "$withval" != no ; then
 ]],[[
 blitz::Array<int,1> x(10);
 x = blitz::tensor::i;
-	]])],[ac_cxx_lib_blitz=yes],[ac_cxx_lib_blitz=no])
+	]])],[ac_cv_lib_blitz=yes],[ac_cv_lib_blitz=no])
 	AC_LANG_RESTORE
 	])
 
@@ -67,7 +67,7 @@ x = blitz::tensor::i;
 	LDFLAGS=$saveLDFLAGS
 	LIBS=$saveLIBS
 
-	if test "$ac_cxx_lib_blitz" = yes ; then
+	if test "$ac_cv_lib_blitz" = yes ; then
 		AC_DEFINE([HAVE_BLITZ], [1],[Define Blitz support])
 		if test -n "$blitz_incdir"; then BLITZ_CPPFLAGS="-I$blitz_incdir"; fi
 		if test -n "$blitz_libdir"; then BLITZ_LDFLAGS="-L$blitz_libdir" ; fi
@@ -78,7 +78,7 @@ x = blitz::tensor::i;
 
 else dnl $withval = no
 
-  ac_cxx_lib_blitz='no' 
+  ac_cv_lib_blitz='no' 
 
 fi
 
@@ -88,7 +88,7 @@ AC_SUBST(BLITZ_LDFLAGS)
 AC_SUBST(BLITZ_LIBS)
 AC_SUBST(BLITZ_LIBDIR)
 
-AS_IF([test "$ac_cxx_lib_blitz" = no], [$2], [$1])
+AS_IF([test "$ac_cv_lib_blitz" = no], [$2], [$1])
 
 ])
 

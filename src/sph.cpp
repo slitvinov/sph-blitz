@@ -52,7 +52,6 @@ int main(int argc, char *argv[]) {
     LOG(INFO) << " No Project Name Specified!!\n";
     exit(EXIT_FAILURE);
   }
-
  
   /// initializations
   const std::string aux_string  = std::string(argv[1]);
@@ -72,8 +71,7 @@ int main(int argc, char *argv[]) {
   /// (by defining an object of class Initiation (initialization "automatically" done at this moment (from .tcl or .rst file) by constructor method of Initiation class. 
   /// That is by the way the reason why the initiation::initiation method does not figure in the call graph of the main function (constructors are not shwon there)
   Initiation ini(aux_string, aux_string2);
-
-
+  
 //for gas dynamics (simu_mode=2) check if second input parameter to main (initial condition file .ivs) exists
    if (argc<3 && ini.simu_mode==2)  {
     LOG(INFO) << " No Initiation File Specified (program runs in gas dynamics mode)!!\n";
@@ -151,7 +149,7 @@ int main(int argc, char *argv[]) {
   timesolver->show_information();
 
   //BuildBoundaryParticle moved here from boundary constructor in order to be able to switch it of for the 1D case
-  if  (ini.disable_boundary != 1) {
+  if  (!ini.disable_boundary) {
     
     boundary.BuildBoundaryParticle(particles, hydro);
   }
@@ -164,7 +162,7 @@ int main(int argc, char *argv[]) {
 
   //for 2D particle distribution BC is needed
   ///\todo{define a variable which controls the use of boundary conditions and solve it smarter than just testing  if  (ini.kernel_type != "CubicSpline1D")! done: disable_boundary marker! }
-  if  (ini.disable_boundary != 1)
+  if  (!ini.disable_boundary)
     boundary.BoundaryCondition(particles); //repose the boundary condition
      
   //start time
