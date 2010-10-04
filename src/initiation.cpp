@@ -138,13 +138,10 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   LOG(INFO) << "Initiation object is created";
 }
 
-
-
 //----------------------------------------------------------------------------------------
 //					show information to screen
 //----------------------------------------------------------------------------------------
-void Initiation::show_information() const 
-{
+void Initiation::show_information() const  {
   ///- output general information on screen
   LOG(INFO)<<"The simulation mode is"<<simu_mode<<"! (1=liquids, 2=gas dynamics)\n";
   LOG(INFO)<<"Output directory is "<< outdir;
@@ -166,7 +163,6 @@ void Initiation::show_information() const
   if (initial_condition==0) {
     LOG(INFO)<<"The initial flow speed is "<< U0;
   }
-	
   //Initialize the initial conditions from .rst file
   if (initial_condition == 1) {
     LOG(INFO)<<"Read the initial conditions from separated restat file "
@@ -185,30 +181,31 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
   ///here: mass is calculated by summing up the kernel function contributions for easch particle, which gives a kind of the inverse volume taken by each particle (not perfectly true at the discontinuity). together with rho (from initialization) a mass for each particle can be obtained.
   ///within the discontinuity zone, this mass varies because of the smoothing effect of the kernel summation.
   ///The mass for each particle  stays constant during the simuation.
-
   /// <ul><li>iterate particles on the particle list
   BOOST_FOREACH(spParticle prtl_org, hydro.particle_list) {
     /// <ul><li> pick an origin particle
     assert(prtl_org != NULL);
     const std::list<spParticle> NNP_list = particles.BuildNNP(prtl_org->R);
-
     /// size of the list can be zero in some circumstances
     /// but in 1D (2D) shock it is not expected
     assert(NNP_list.size() > 0);
-    double reciprocV = 0.0; 
+    double partilceVolume = 0.0; 
     /// <li>iterate this Nearest Neighbor spParticle list
     BOOST_FOREACH(const spParticle prtl_dest, NNP_list) {
       /// <li> calculate distance (origin<-> neighbor)
       const double dstc = v_distance(prtl_org->R, prtl_dest->R);
       /// <li> calculate weight function for given distance (w=0, if dist>supportlengtg) an summ it up </ul> 
-      reciprocV += weight_function->w(dstc);
+      partilceVolume += weight_function->w(dstc);
     }
     /// <li> calculate volume as reciprocal value of weight function
-    reciprocV = 1.0/reciprocV;
+    assert(partilceVolume  > 0.0);
+    const double reciprocV = 1.0/partilceVolume;
     /// <li> save volume and mass in the respective particle list node (whih is each a spParticle object with all the particle properties) 
     prtl_org->V = reciprocV;
     prtl_org->m = prtl_org->rho*reciprocV;
-    LOG_EVERY_N(INFO, 1000) <<std::setprecision(10)<< "prtl ID"<<prtl_org->ID<<"prtl m  = " << prtl_org->m;
+    LOG_EVERY_N(INFO, 1000) <<std::setprecision(10)
+			    << "prtl ID"<<prtl_org->ID
+			    <<"prtl m  = " << prtl_org->m;
   }
   LOG(INFO)<<"Initiation::VolumeMass ends";
 }
@@ -221,7 +218,7 @@ void Initiation::DefineBodyForce() {
     useCompiledBodyForce = true;
     LOG(INFO) << "I find cBodyForce. Be hold";
     LOG(INFO) << "a path to plugin directory " << PLUGIN_PATH;
-    LOG(INFO) << "try to source it compile.tcl";
+    LOG(INFO) << "try to source compile.tcl and compile  plugin";
     const std::string ctcl = std::string(PLUGIN_PATH) 
       + std::string("/compile.tcl");
     interp.eval("source " + ctcl);
@@ -234,7 +231,7 @@ void Initiation::DefineBodyForce() {
       LOG(ERROR) << "Cannot open library: " << dlerror();
       exit(EXIT_FAILURE);
     }
-    bodyF = (TBodyF) dlsym(externalFunHandle, "bodyforce");
+    bodyF = (TBodyF)dlsym(externalFunHandle, "bodyforce");
     if (!bodyF) {
       LOG(ERROR) << "Cannot load symbol 'bodyforce': " << dlerror();
       dlclose(externalFunHandle);
@@ -265,6 +262,7 @@ void Initiation::DefineBodyForce() {
 	g_force(material_no, 1) = interp.getat("G_FORCE", 1);
       }
     } else {
+      assert(number_of_materials > 0);
       g_force.resize(number_of_materials, 2);
       LOG(INFO) << "G_FORCE is two dimensional";
       for (int material_no=0; material_no<number_of_materials; material_no++) {
@@ -274,8 +272,7 @@ void Initiation::DefineBodyForce() {
 	LOG(INFO) << "g_force(" << material_no << ",1) = " << g_force(material_no, 1);
       }
     }
-    assert(number_of_materials > 0);
-  }
+   }
 }
 
 // need a destructor to unload shared library
