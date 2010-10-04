@@ -246,7 +246,7 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
   //initialize real particles from the non-dimensional restart file .rst
   if(initial_condition==1) {	
     //the restart file name
-    const std::string inputfile = ini.Project_name + ".rst";
+    const std::string inputfile = ini.Project_Name + ".rst";
     //check if the restart exist
     ifstream fin(inputfile.c_str(), ios::in);
     if (!fin.good()) {
@@ -312,16 +312,13 @@ void ParticleManager::BuildRealParticleGasDyn(vecMaterial materials,
 					std::list<spParticle >& particle_list, 
 					Initiation &ini)
 {
-	
   LOG(INFO) << "Start BuildRealParticleGasDyn\n";
 
   double density, pressure, Temperature, mass;
-  int material_no;
-
   ///initial particles either  from .rst file or from .ivs (Initial Values Shock tube)file
  
-  const std::string inputfile =std::string(ini.Ivs_file_name);
-       material_no = 1; //number for Air (second line in cfg file (->index 1)
+  const std::string inputfile =std::string(ini.Ivs_File_Name);
+  const int material_no = 1; //number for Air (second line in cfg file (->index 1)
       //check if the .ivs file exists
       ifstream fin(inputfile.c_str(), ios::in);
       if (!fin) {

@@ -1,7 +1,6 @@
 /// \file initiation.cpp
 /// \author author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 // \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
-
 //----------------------------------------------------------------------------------------
 //      initialize the progam
 //		initiation.cpp
@@ -10,7 +9,6 @@
 #include <dlfcn.h>
 #include <glog/logging.h>
 #include <boost/foreach.hpp>
-
 // ***** localincludes *****
 #include "hydrodynamics.h"
 #include "particlemanager.h"
@@ -19,18 +17,13 @@
 //----------------------------------------------------------------------------------------
 //							constructor 
 //----------------------------------------------------------------------------------------
-Initiation::Initiation(const std::string& project_name, const std::string& ivs_file_name) {
+Initiation::Initiation(const std::string& project_name, const std::string& ivs_file_name):
+  Project_Name(project_name), Ivs_File_Name(ivs_file_name) {
   LOG(INFO) << "Run constructor of Initiation class";
-  
-  //the project name
-  Project_name = project_name;
-  //the ivs file name
-  Ivs_file_name=ivs_file_name;
-  
   //the input file name
-  const std::string inputfile = Project_name + ".tcl";
+  const std::string inputfile = Project_Name + ".tcl";
   std::ifstream tclfilename;
-  tclfilename.open (inputfile.c_str());
+  tclfilename.open(inputfile.c_str());
   if (!tclfilename.is_open()) {
     LOG(ERROR) << " cannot open project file: " << inputfile;
     exit(EXIT_FAILURE);
@@ -41,11 +34,13 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   // SPH_TCL="set isim 10" ./sph <project>
   const std::string sph_tcl = CharPtrToStdString(std::getenv("SPH_TCL"));
   if (sph_tcl.size() > 0) {
+    LOG(INFO) << "Find this SPH_TCL: " << sph_tcl;
     interp.eval(sph_tcl);
   }
   
   interp.eval(tclfilename);
-  ///<li>reading key words and configuration data from configuration file and assign them to the appropriate variable
+  ///<li>reading key words and configuration data from configuration 
+  ///file and assign them to the appropriate variable
   disable_boundary  = interp.getval("DISABLE_BOUNDARY");
   initial_condition = interp.getval("INITIAL_CONDITION");
   assert( (initial_condition == 0) || (initial_condition == 1));
@@ -57,9 +52,10 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
     LOG(INFO) << "found initial_perturb: " << initial_perturb;
     assert( (initial_perturb > 0) && (initial_perturb < 0.5) );
   }
-
   simu_mode = interp.getval("SIMULATION_MODE");
-  // assert(simu_mode==1||simu_mode==2); (already tested in sph.cpp)
+  // (already tested in sph.cpp) 
+  // LITVINOV: it is better to fall as soon possible
+  assert(simu_mode==1||simu_mode==2); 
   density_mode = interp.getval("DENSITY_MODE");
   assert(density_mode == 1 || density_mode == 2);
   kernel_type = static_cast<std::string>(interp.getval("KERNEL_TYPE"));
@@ -67,11 +63,18 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   if (kernel_type == "Harmonic") {
     harmonic_n = interp.getval("harmonic_n");
   }
-
+  
   if (interp.exist("OUTDIR")) {
     outdir = static_cast<std::string>(interp.getval("OUTDIR"));
   } else {
     outdir = "outdata";
+  }
+  ///<li>create outdata directory
+  const std::string syscommand = "mkdir -p " + outdir;
+  const int sys_return = system(syscommand.c_str());
+  if (sys_return) {
+    LOG(ERROR) << "system command: " << syscommand << " faild" << inputfile;
+    exit(EXIT_FAILURE);
   }
   
   /// if gas dynamics
@@ -104,9 +107,9 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   supportlength = interp.getval("SUPPORT_LENGTH");
   assert(supportlength > 0.0);
   hdelta = interp.getval("CELL_RATIO");
-  assert(hdelta > 0.0);
-
+  assert(hdelta > 0);
   number_of_materials = interp.getval("NUMBER_OF_MATERIALS");
+  assert(number_of_materials > 0);
   DefineBodyForce();
   
   Start_time = interp.getval("Start_time");
@@ -124,16 +127,9 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
     U0[1] = interp.getat("U0", 1);
   }
   
-  ///<li>create outdata directory
-  const std::string syscommand = "mkdir -p " + outdir;
-  const int sys_return = system(syscommand.c_str());
-  if (sys_return) {
-    LOG(ERROR) << "system command: " << syscommand << " faild" << inputfile;
-    exit(EXIT_FAILURE);
-  }
-  
   ///<li>process the data <b>!!!Question!!!</b>
   box_size[0] = x_cells*cell_size; box_size[1] = y_cells*cell_size;
+  LOG(INFO) << "Domain size: " << box_size;
   delta = cell_size/hdelta;///(line 104) this is only 
   /// true if h=cell_size (which is not necessarily given, as h, cell_size can be initiated independently in configuration file)
   
@@ -153,30 +149,29 @@ void Initiation::show_information() const
   LOG(INFO)<<"The simulation mode is"<<simu_mode<<"! (1=liquids, 2=gas dynamics)\n";
   LOG(INFO)<<"Output directory is "<< outdir;
   LOG(INFO)<<"The number of materials in the simulation is  "<<number_of_materials<<"\n";
-  LOG(INFO)<<"The computational domain size is  "<<box_size[0]<<" micrometers x "<<box_size[1]<<" micrometers\n";
-  LOG(INFO)<<"The cell size is "<<cell_size<<" micrometers \n";
-  LOG(INFO)<<"The support length is "<<supportlength<<" micrometers \n";
+  LOG(INFO)<<"The computational domain size is  " << box_size;
+  LOG(INFO)<<"The cell size is "<<cell_size;
+  LOG(INFO)<<"The support length is "<<supportlength;
   LOG(INFO)<<"The cell matrix size is "<<x_cells<<" x "<<y_cells<<"\n";
   LOG(INFO)<<"The ratio between cell size and initial particle width is "<<hdelta<<"\n";
-  LOG(INFO)<<"The initial particle width is "<<delta<<" micrometers\n";
-  LOG(INFO)<<"Perturbing initial particles (fraction of delta)"<< initial_perturb << " micrometers\n";
+  LOG(INFO)<<"The initial particle width is "<<delta;
+  LOG(INFO)<<"Perturbing initial particles (fraction of delta)"<< initial_perturb;
 	///- output the timing information on screen
   LOG(INFO)<<"Ending time is "<<End_time<<" \n";
   LOG(INFO)<<"Output time interval is "<<D_time<<" \n";
-  
   LOG(INFO)<<"initial_condition "<< initial_condition <<" \n";
   LOG(INFO)<<" simu_mode "<< simu_mode <<" \n";
-
   ///- output iniformation on initialization mode (.cfg file or .rst file)
   //Initialize the initial conditions from .cfg file
   if (initial_condition==0) {
-    LOG(INFO)<<"The initial flow speed is "<<U0[0]<<" m/s x "<<U0[1]<<" m/s\n";
+    LOG(INFO)<<"The initial flow speed is "<< U0;
   }
 	
   //Initialize the initial conditions from .rst file
-  if (initial_condition == 1)
+  if (initial_condition == 1) {
     LOG(INFO)<<"Read the initial conditions from separated restat file "
-	<<Project_name<<".rst \n";
+	     <<Project_Name<<".rst \n";
+  }
 }
 
 //----------------------------------------------------------------------------------------

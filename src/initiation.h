@@ -17,9 +17,9 @@ class Kernel;
 class Initiation : boost::noncopyable {
 public:
   ///the project name
-  std::string Project_name;
+  const std::string Project_Name;
   //the ivs file name
-  std::string Ivs_file_name;
+  const std::string Ivs_File_Name;
 
   /// output directory name (default is outdata)
   std::string outdir;
@@ -60,7 +60,7 @@ public:
   ///\brief disable boundary condition marker:
   ///- 0 boundary conditions enabled
   ///- 1 boundary conditions disabled
-  int disable_boundary;
+  bool disable_boundary;
 
   ///simulation mode (1: liquids, 2: gas dynamics)
   int simu_mode;

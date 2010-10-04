@@ -157,7 +157,7 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
 //--------------------------------------------------------------------------------------------
 void Output::OutRestart(const Hydrodynamics &hydro, const double Time, const Initiation& ini) {
   ///- output non-dimensional data
-  std::string outputfile = ini.Project_name + ".rst";
+  std::string outputfile = ini.Project_Name + ".rst";
   ofstream out(outputfile.c_str());
 
   //calculate the real particle number
