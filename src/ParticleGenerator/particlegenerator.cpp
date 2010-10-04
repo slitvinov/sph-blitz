@@ -48,3 +48,23 @@ int ParticleGenerator::getParticleMaterialNo(Initiation& ini ,
     return no;
   } 
 }
+
+Vec2d ParticleGenerator::getParticleVelocity(Initiation& ini ,
+					     const Vec2d& position) {
+  // if no proc in the tcl file set default material number 
+  if (!ini.interp.isproc("getVelocity") ) {
+    LOG(INFO) << "return default velocity: " << ini.U0;
+    return Vec2d(ini.U0);
+  } else {
+    // set position of the particle and call the function
+    ini.interp.setdouble("x", position[0]);
+    ini.interp.setdouble("y", position[1]);
+    ini.interp.evalproc("getVelocity");
+    const double vx  = ini.interp.getval("vx");
+    const double vy  = ini.interp.getval("vy");
+    const Vec2d velocity(vx, vy);
+    LOG(INFO) << "for particle " << position << " return velocity " << velocity;
+    return velocity;
+  } 
+}
+

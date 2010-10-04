@@ -21,13 +21,6 @@ done
 printf "run.sh:$LINENO writing L2 norm in conv.dat\n" > "/dev/stderr"
 PYTHONPATH=../ python poiseuille.py prof.1 prof.2 prof.3 | awk '{print 2^(NR+1), $1}' > conv.dat
 
-gnuplot <<EOF
-set term postscript enhanced
-set output "conv.eps"
-set log
-plot "conv.dat"
-EOF
-
 
 
 

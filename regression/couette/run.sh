@@ -7,7 +7,7 @@ set -u
 cp ../../src/sph sph
 reslist="1 2 3"
 for res in $reslist; do
-    SPH_TCL="set res_level $res" ./sph couette
+    #SPH_TCL="set res_level $res" ./sph couette
     # copy log files
     cp /tmp/sph.INFO /tmp/sph.ERROR output$res/
     # to get the time step from the name of output file
@@ -19,10 +19,13 @@ for res in $reslist; do
 done
 
 printf "run.sh:$LINENO writing L2 norm in conv.dat\n" > "/dev/stderr"
-PYTHONPATH=../ python couette.py prof.1 prof.2 prof.3 | awk '{print 2^(NR+1), $1}' > conv.dat
+PYTHONPATH=../ python couette.py prof.1 prof.2 prof.3 | awk '{print 2^(NR+1)*3, $1}' > conv.dat
 
-
-
-
-
-
+gnuplot <<EOF
+set term postscript enhanced
+set output "conv.eps"
+set log
+set xlabel "resolution"
+set ylabel "L2 norm"
+plot "conv.dat" w lp ps 1 pt 7
+EOF

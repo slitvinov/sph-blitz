@@ -19,6 +19,9 @@ public:
   int getParticleMaterialNo(Initiation& ini ,
 			    const Vec2d& position);
 
+  /// return particle velocity
+  Vec2d getParticleVelocity(Initiation& ini,
+			    const Vec2d& position);
 private:
   boost::mt19937 engine;
   boost::uniform_real<double> distrib;

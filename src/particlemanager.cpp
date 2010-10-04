@@ -228,7 +228,7 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 	    // 			 (j - 1)*cll_sz + (m + 0.5)*delta);
 	    /// ask Initiation for the material number of this particle
 	    const int material_no = pgen.getParticleMaterialNo(ini, position);
-	    const Vec2d velocity = ini.U0;
+	    const Vec2d velocity = pgen.getParticleVelocity(ini, position);
 	    const double Temperature = ini.T0;
 	    const double density = materials[material_no]->rho0;
 	    const double pressure = materials[material_no]->get_p(density);
