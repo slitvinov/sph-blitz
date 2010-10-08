@@ -23,6 +23,7 @@ set DENSITY_MODE 1
 set ncell 8
 set CELLS(0) $ncell
 set CELLS(1) $ncell
+#set initial_perturb 
 
 #possible integration schemes
 #1: leap frog
@@ -30,7 +31,7 @@ set CELLS(1) $ncell
 set INTEGRATION_SCHEME 2
 
 # size of the domain
-set L 1e-3
+set L 1.0
 set SUPPORT_LENGTH [expr {$L / $ncell}]
 set CELL_SIZE $SUPPORT_LENGTH
 
@@ -52,7 +53,8 @@ set NUMBER_OF_MATERIALS 2
 set Start_time 0.0
 set End_time 0.1
 # time between output
-set D_time 1e-2
+set D_time 0.01
+set output_file_format_factor 100
 
 # boundary conditions
 set wall 0 
@@ -85,11 +87,11 @@ set NUMBER_OF_MATERIALS 2
 set material_name(0) Air
 set material_type(0) 1
 set material_cv(0) 1.0e3
-set material_eta(0) 1.0e-3
+set material_eta(0) 1.0
 set material_gamma(0) 7.0
 set material_b0(0) 1.0e2
-set material_rho0(0) 1.0e3
-set material_sound_speed(0) 1.0e-2
+set material_rho0(0) 1.0
+set material_sound_speed(0) 1.0
 
 set material_name(1) $material_name(0)
 set material_type(1) $material_type(0)
@@ -100,7 +102,7 @@ set material_b0(1) $material_b0(0)
 set material_rho0(1) $material_rho0(0)
 set material_sound_speed(1) $material_sound_speed(0)
 
-set v0 1.0e-3
+set v0 1.0
 proc getVelocity { } {
     # generate taylor-green initial conditions
     set pi 3.1415926
