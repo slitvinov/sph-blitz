@@ -55,9 +55,6 @@ public:
 					std::list<spParticle >& particle_list, 
 			       Initiation &ini);
 
-  ///buid the initial wall particles and the linked lists
-  void BuildWallParticle(Hydrodynamics &hydro, Boundary &boundary);
-
   /// build real particles 
   void BuildRealParticle(Hydrodynamics &hydro);
 
