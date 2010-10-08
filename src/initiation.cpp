@@ -17,6 +17,7 @@
 #include "initiation.h"
 #include "ParticleContext/solidcontext.h"
 #include "ParticleContext/nocontext.h"
+#include "ParticleContext/rotcontext.h"
 
 //----------------------------------------------------------------------------------------
 //							constructor 
@@ -142,6 +143,9 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   if (interp->isproc("getSolid")) {
     LOG(INFO) << "Found getSolid: some particles are solid";
     context = boost::make_shared<SolidContext>(*this);
+  } else if (interp->isproc("getRot")) {
+    LOG(INFO) << "Found getRot: some particles are rotating";
+    context = boost::make_shared<RotContext>(*this);        
   } else {
     LOG(INFO) << "No getSolid: assuming NoContext (all particles are normal)" ;
     context = boost::make_shared<NoContext>();
