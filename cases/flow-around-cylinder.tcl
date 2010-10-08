@@ -54,6 +54,9 @@ set End_time 1e6
 # time between output
 set D_time 1e2
 
+# factor to create output file name 
+set output_file_format_factor 1.0
+
 # boundary conditions
 set wall 0 
 set periodic 1

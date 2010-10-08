@@ -124,6 +124,11 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   // can be zero for debugging
   assert(D_time>0.0);
   assert(End_time >= Start_time);
+  if (!interp->exist("output_file_format_factor")) {
+    output_file_format_factor = 1e6;
+  } else {
+    output_file_format_factor = interp->getval("output_file_format_factor");
+  }
   
   if (initial_condition == 0) {
     //rho0 = interp->getval("rho0");
@@ -171,6 +176,7 @@ void Initiation::show_information() const  {
 	///- output the timing information on screen
   LOG(INFO)<<"Ending time is "<<End_time<<" \n";
   LOG(INFO)<<"Output time interval is "<<D_time<<" \n";
+  LOG(INFO) << "Output format factor is " << output_file_format_factor << '\n';
   LOG(INFO)<<"initial_condition "<< initial_condition <<" \n";
   LOG(INFO)<<" simu_mode "<< simu_mode <<" \n";
   ///- output iniformation on initialization mode (.cfg file or .rst file)

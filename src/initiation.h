@@ -126,6 +126,10 @@ public:
   double autom_dt_control;
   double manually_choosen_dt;///<Time-step (specified in .tcl-configuration file) which is applied if autom. dt-control is turned off
 
+  /// output factor, used to generate the name of output file
+  /// default value is 1e6
+  double output_file_format_factor;
+
 
   Vec2d U0;///<initial flow speed (if initial condition is defined here)w
   //double rho0;///<initial particle density(if initial condition is defined here)
