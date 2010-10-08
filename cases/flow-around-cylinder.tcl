@@ -30,7 +30,7 @@ set CELLS(1) $ncell
 set INTEGRATION_SCHEME 2
 
 # size of the domain
-set L 1e-3
+set L 0.1
 set SUPPORT_LENGTH [expr {$L / $ncell}]
 set CELL_SIZE $SUPPORT_LENGTH
 
@@ -45,14 +45,14 @@ set rho0 1e3
 set p0 1.0
 set T0 1.0
 
-set G_FORCE(0) 1e-4
+set G_FORCE(0) 1.5e-7
 set G_FORCE(1) 0.0
 
 set NUMBER_OF_MATERIALS 2
 set Start_time 0.0
-set End_time 1.0
+set End_time 1e6
 # time between output
-set D_time 1e-4
+set D_time 1e2
 
 # boundary conditions
 set wall 0 
@@ -85,11 +85,11 @@ set NUMBER_OF_MATERIALS 2
 set material_name(0) Air
 set material_type(0) 1
 set material_cv(0) 1.0e3
-set material_eta(0) 1.0e-1
+set material_eta(0) 1.0e-3
 set material_gamma(0) 7.0
 set material_b0(0) 1.0e2
 set material_rho0(0) 1.0e3
-set material_sound_speed(0) 1.0e-1
+set material_sound_speed(0) 5.77e-4
 
 set material_name(1) $material_name(0)
 set material_type(1) $material_type(0)
@@ -100,7 +100,7 @@ set material_b0(1) $material_b0(0)
 set material_rho0(1) $material_rho0(0)
 set material_sound_speed(1) $material_sound_speed(0)
 
-set R 2e-4
+set R 2e-2
 set x0 [expr {0.5*$L}]
 set y0 [expr {0.5*$L}]
 
