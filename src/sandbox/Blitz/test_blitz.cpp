@@ -5,6 +5,19 @@
 #include <blitz/array.h>
 #include <cstdlib>
 
+blitz::TinyMatrix<double, 3, 3> RotMat(const blitz::TinyVector<double, 3> u, const double theta) {
+  const double cost = cos(theta);
+  const double sint = sin(theta);
+  const double omcos = 1 - cos(theta);
+  blitz::TinyMatrix<double, 3, 3> R;
+  R = 
+    cost + u[0]*u[0]*omcos, u[0]*u[1]*omcos-u[2]*sint, u[0]*u[2]*(1-cost) + u[1]*sint,
+     u[1]*u[0]*omcos + u[2]*sint, cost+u[1]*u[1]*omcos, u[1]*u[2]*omcos - u[0]*sin(theta),
+     u[2]*u[0]*omcos - u[1]*sin(theta), u[2]*u[1]*omcos+u[0]*sint, cost+u[2]*u[2]*omcos
+    ;
+  return R;
+}
+
 int main() {
   const int ndim = 2;
   blitz::TinyVector<double, ndim> x;
@@ -52,6 +65,29 @@ int main() {
 
   y = sin(x);
   std::cout << "sin(x) = " << y << '\n';
+
+  // Rotation matrix 
+  // http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_given_an_axis_and_an_angle
+  // axis is given by unit vector
+  const blitz::TinyVector<double, 3> u(1.0, 0.0, 0.0);
+  const double theta = 0.5;
+  blitz::TinyMatrix<double, 3, 3> R;
+
+  R = RotMat(blitz::TinyVector<double, 3>(1.0, 0.0, 0.0), 0.0);
+  std::cout << R << '\n';
+
+  R = RotMat(blitz::TinyVector<double, 3>(0.0, 1.0, 0.0), 0.0);
+  std::cout << R << '\n';
+
+  R = RotMat(blitz::TinyVector<double, 3>(0.0, 0.0, 1.0), 0.0);
+  std::cout << R << '\n';
+
+  blitz::TinyMatrix<double, 3, 3> R1, R2, dR;
+  R1 = RotMat(blitz::TinyVector<double, 3>(0.0, 1.0, 0.0), 0.1);
+  R2 = RotMat(blitz::TinyVector<double, 3>(0.0, 1.0, 0.0), 0.1);
+  R = RotMat(blitz::TinyVector<double, 3>(0.0, 1.0, 0.0), 0.2);
+
+  // std::cout << R - R1 - R2 << '\n';
 
   return EXIT_SUCCESS;
 }
