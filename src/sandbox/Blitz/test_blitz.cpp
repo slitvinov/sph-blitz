@@ -3,17 +3,57 @@
 #include <blitz/tinyvec-et.h>
 #include <blitz/tinymat.h>
 #include <blitz/array.h>
+#include <boost/numeric/ublas/lu.hpp>
+namespace bnu = boost::numeric::ublas;
+
+int determinant_sign(const bnu::permutation_matrix<std ::size_t>& pm)
+{
+    int pm_sign=1;
+    std::size_t size = pm.size();
+    for (std::size_t i = 0; i < size; ++i)
+        if (i != pm(i))
+            pm_sign *= -1.0; // swap_rows would swap a pair of rows here, so we change sign
+    return pm_sign;
+}
+ 
+double determinant( bnu::matrix<double>& m ) {
+    bnu::permutation_matrix<std ::size_t> pm(m.size1());
+    double det = 1.0;
+    if( bnu::lu_factorize(m,pm) ) {
+        det = 0.0;
+    } else {
+        for(int i = 0; i < m.size1(); i++) 
+            det *= m(i,i); // multiply by elements on diagonal
+        det = det * determinant_sign( pm );
+    }
+    return det;
+}
+
+bnu::matrix<double> TinyToBNU(const blitz::TinyMatrix<double, 3, 3> tm) {
+  bnu::matrix<double> m(3, 3);
+  for (int i=0; i<3; i++) {
+    for (int j=0; j<3; j++) {
+      m(i, j) = tm(i, j);
+    }
+  }
+  return m;
+}
+
+
 #include <cstdlib>
 
 blitz::TinyMatrix<double, 3, 3> RotMat(const blitz::TinyVector<double, 3> u, const double theta) {
   const double cost = cos(theta);
   const double sint = sin(theta);
   const double omcos = 1 - cos(theta);
+  const double ux = u[0];
+  const double uy = u[1];
+  const double uz = u[2];
   blitz::TinyMatrix<double, 3, 3> R;
   R = 
-    cost + u[0]*u[0]*omcos, u[0]*u[1]*omcos-u[2]*sint, u[0]*u[2]*(1-cost) + u[1]*sint,
-     u[1]*u[0]*omcos + u[2]*sint, cost+u[1]*u[1]*omcos, u[1]*u[2]*omcos - u[0]*sin(theta),
-     u[2]*u[0]*omcos - u[1]*sin(theta), u[2]*u[1]*omcos+u[0]*sint, cost+u[2]*u[2]*omcos
+    cost + ux*ux*omcos, ux*uy*omcos-uz*sint, ux*uz*omcos + uy*sint,
+     uy*ux*omcos + uz*sint, cost+uy*uy*omcos, uy*uz*omcos - ux*sint,
+     uz*ux*omcos - uy*sint, uz*uy*omcos+ux*sint, cost+uz*uz*omcos
     ;
   return R;
 }
@@ -88,6 +128,13 @@ int main() {
   R = RotMat(blitz::TinyVector<double, 3>(0.0, 1.0, 0.0), 0.2);
 
   // std::cout << R - R1 - R2 << '\n';
+  bnu::matrix<double> m;
+  m = TinyToBNU(R1);
+  std::cerr << "det(m) = " << determinant(m) << '\n';
+
+  m = TinyToBNU(R2);
+  std::cerr << "det(m) = " << determinant(m) << '\n';
+
 
   return EXIT_SUCCESS;
 }
