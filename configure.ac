@@ -51,7 +51,10 @@ AC_C_INLINE
 # Checks for library functions.
 AC_CHECK_FUNCS([pow sqrt])
 
-AC_OUTPUT(Makefile src/Makefile cpptcl/Makefile plugins/Makefile)
+AC_OUTPUT(Makefile src/Makefile 
+		   cpptcl/Makefile plugins/Makefile 
+		   src/sandbox/Blitz/Makefile
+		   )
 
 AC_MSG_NOTICE([================================================])
 AC_MSG_NOTICE([CXX=$CXX])

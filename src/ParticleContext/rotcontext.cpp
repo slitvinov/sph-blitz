@@ -28,13 +28,13 @@ void RotContext::AddParticle(const spParticle prtl) {
   }
 }
 
-/// remove particle from the context
+/// remove the particle from the context
 void RotContext::RemoveParticle(const spParticle prtl) {
   // particle is not solid any more
   solidIDset.erase(prtl->ID);
 }
 
-/// just assign a new postions to particle
+/// assign a new postions to the particle
 void RotContext::UpdatePosition(spParticle prtl, const Vec2d& newR) const {
   prtl->R = newR;
 }
