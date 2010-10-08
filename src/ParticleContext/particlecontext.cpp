@@ -14,6 +14,7 @@ void ParticleContext::RemoveParticle(const spParticle) {
   // do nothing as a default
 }
 
+
 ParticleContext::~ParticleContext() {
   // do nothing as a default 
 }

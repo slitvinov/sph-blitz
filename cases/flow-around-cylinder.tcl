@@ -52,7 +52,7 @@ set NUMBER_OF_MATERIALS 2
 set Start_time 0.0
 set End_time 1.0
 # time between output
-set D_time 1e-2
+set D_time 1e-4
 
 # boundary conditions
 set wall 0 
@@ -85,11 +85,11 @@ set NUMBER_OF_MATERIALS 2
 set material_name(0) Air
 set material_type(0) 1
 set material_cv(0) 1.0e3
-set material_eta(0) 1.0e-3
+set material_eta(0) 1.0e-1
 set material_gamma(0) 7.0
 set material_b0(0) 1.0e2
 set material_rho0(0) 1.0e3
-set material_sound_speed(0) 1.0e2
+set material_sound_speed(0) 1.0e-1
 
 set material_name(1) $material_name(0)
 set material_type(1) $material_type(0)
@@ -100,20 +100,19 @@ set material_b0(1) $material_b0(0)
 set material_rho0(1) $material_rho0(0)
 set material_sound_speed(1) $material_sound_speed(0)
 
-# set number of material variable  --- "no" 
+set R 2e-4
+set x0 [expr {0.5*$L}]
+set y0 [expr {0.5*$L}]
+
 proc getSolid { } {
     # x and y provided by the main program 
-    set blockX0 [expr {(0.5 - $blockFractionX/2.0) * $xlength}]
-    set blockX1 [expr {(0.5 + $blockFractionX/2.0) * $xlength}]
-    set blockY0 [expr {(0.6 - $blockFractionY/2.0) * $ylength}]
-    set blockY1 [expr {(0.6 + $blockFractionY/2.0) * $ylength}]
-    set inX [expr ($x > $blockX0) && ($x < $blockX1)]
-    set inY [expr ($y > $blockY0) && ($y < $blockY1)]
-    if {$inX && $inY} { 
+    set dx [expr {$x - $x0}]
+    set dy [expr {$y - $y0}]
+    
+    if {[expr {pow($dx,2) + pow($dy,2) < pow($R,2)}]} { 
 	# block 
-	set no 2
+	set issolid 1
     } else {
-	# media
-	set no 1
-    } 
+	set issolid 0
+    }
 }

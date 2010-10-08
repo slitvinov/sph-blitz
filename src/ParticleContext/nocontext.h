@@ -11,14 +11,13 @@ class NoContext : public ParticleContext {
   /// constructor 
   NoContext();
   
-  /// move particles as normal
-  virtual const Vec2d MoveParticle(const Vec2d& R, const Vec2d& U, const double dt, const int id) const;
+  /// how we move particles depends on the position, velocity, and ID
+  virtual void UpdatePosition(spParticle prtl, const Vec2d& newR) const;
 
-  /// accelerate particles as normal
-  virtual const Vec2d AccelerateParticle(const Vec2d& U, const Vec2d& F, const double dt, const int id) const;
+  /// get a new velocity of the particle based on the context
+  virtual void UpdateVelocity(spParticle prtl, const Vec2d& newU) const;
 
   /// destructor 
   virtual ~NoContext();
 };
-
 #endif // SRC_PARTICECONTEXT_NONTEXT

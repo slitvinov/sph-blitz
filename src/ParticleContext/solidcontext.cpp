@@ -34,24 +34,19 @@ void SolidContext::RemoveParticle(const spParticle prtl) {
   solidIDset.erase(prtl->ID);
 }
 
-const Vec2d SolidContext::MoveParticle(const Vec2d& R, 
-				       const Vec2d& U, 
-				       const double dt, const int) const {
-  // move solid particle as usual, id is not used
-  return R + U * dt;
+/// just assign a new postions to particle
+void SolidContext::UpdatePosition(spParticle prtl, const Vec2d& newR) const {
+  prtl->R = newR;
 }
 
-
-const Vec2d SolidContext::AccelerateParticle(const Vec2d& U, 
-					     const Vec2d& F,
-					     const double dt, const int id) const {
-  if ( solidIDset.find(id) == solidIDset.end()  )  {
+/// how velocity is updated depends on the type of particle
+/// 'solid' particle is not updated
+void SolidContext::UpdateVelocity(spParticle prtl, const Vec2d& newU) const {
+  if ( solidIDset.find(prtl->ID) == solidIDset.end()  )  {
     // accelerate as usual
-    return U + F *dt;
-  } else {
-      // if it is solid do not change velocity
-    return U; 
-  }
+    prtl->U = newU;
+  } 
+  /// for solid particle do nothing
 }
 
 SolidContext::~SolidContext() {

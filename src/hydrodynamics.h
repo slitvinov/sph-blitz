@@ -94,7 +94,9 @@ public:
 	void AdvanceStandardStepInclRho(const double dt);
 	void UpdateUe2Half(const double dt);
 	void UpdateUeRho2Half(const double dt);
-
+private:
+  /// local reference to Initiation
+  const Initiation& ini;
 };
 
 #endif //HYDRODYNAMICS_H

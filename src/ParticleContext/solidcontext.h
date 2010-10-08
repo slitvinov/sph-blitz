@@ -14,10 +14,10 @@ class SolidContext : public ParticleContext {
   explicit SolidContext(const Initiation& ini);
   
   /// move particles as normal
-  virtual const Vec2d MoveParticle(const Vec2d& R, const Vec2d& U, const double dt, const int id) const;
+  virtual void UpdatePosition(spParticle prtl, const Vec2d& newUR) const;
 
-  /// accelerate particles as normal
-  virtual const Vec2d AccelerateParticle(const Vec2d& U, const Vec2d& F, const double dt, const int id) const;
+  /// update velocity as normal
+  virtual void UpdateVelocity(spParticle prtl, const Vec2d& newU) const;
 
   /// add particle to the context (only works for the initial conditions)
   virtual void AddParticle(const spParticle prtl) ;

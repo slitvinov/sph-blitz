@@ -1,22 +1,19 @@
-#include "ParticleContext/nocontext.h"
 #include <glog/logging.h>
+#include "ParticleContext/nocontext.h"
+#include "particle.h"
 
 NoContext::NoContext() {
   LOG(INFO) << "Create NoContext";
 }
 
-const Vec2d NoContext::MoveParticle(const Vec2d& R, 
-					const Vec2d& U, 
-					const double dt, const int) const {
-  // new position 
-  return R + U * dt;
+/// just assign a new postions to particle
+void NoContext::UpdatePosition(spParticle prtl, const Vec2d& newR) const {
+  prtl->R = newR;
 }
 
-const Vec2d NoContext::AccelerateParticle(const Vec2d& U, 
-					  const Vec2d& F,
-					  const double dt, const int) const {
-  // new velocity
-  return U + F *dt;
+/// just assign a new velocity to particle
+void NoContext::UpdateVelocity(spParticle prtl, const Vec2d& newU) const {
+  prtl->U = newU;
 }
 
 NoContext::~NoContext() {

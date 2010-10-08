@@ -7,7 +7,7 @@ set -u
 cp ../../src/sph sph
 reslist="1 2 3"
 for res in $reslist; do
-    #SPH_TCL="set res_level $res" ./sph couette
+    SPH_TCL="set res_level $res" ./sph couette
     # copy log files
     cp /tmp/sph.INFO /tmp/sph.ERROR output$res/
     # to get the time step from the name of output file
