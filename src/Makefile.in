@@ -15,6 +15,7 @@
 
 @SET_MAKE@
 
+
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
@@ -44,8 +45,33 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__installdirs = "$(DESTDIR)$(bindir)"
-PROGRAMS = $(bin_PROGRAMS)
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
+am__install_max = 40
+am__nobase_strip_setup = \
+  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
+am__nobase_strip = \
+  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
+am__nobase_list = $(am__nobase_strip_setup); \
+  for p in $$list; do echo "$$p $$p"; done | \
+  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
+  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
+    if (++n[$$2] == $(am__install_max)) \
+      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
+    END { for (dir in files) print dir, files[dir] }'
+am__base_list = \
+  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
+  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
+am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)"
+LIBRARIES = $(lib_LIBRARIES)
+AR = ar
+ARFLAGS = cru
+libsph_a_AR = $(AR) $(ARFLAGS)
+libsph_a_LIBADD =
 am__objects_1 = boundary.$(OBJEXT) glbfunc.$(OBJEXT) \
 	hydrodynamics.$(OBJEXT) initiation.$(OBJEXT) \
 	material.$(OBJEXT) output.$(OBJEXT) particle.$(OBJEXT) \
@@ -60,6 +86,9 @@ am__objects_1 = boundary.$(OBJEXT) glbfunc.$(OBJEXT) \
 	timer.$(OBJEXT) timesolver.$(OBJEXT) hydrotimesolver.$(OBJEXT) \
 	gastimesolverLeapFrog.$(OBJEXT) \
 	gastimesolverPredCorr.$(OBJEXT)
+am_libsph_a_OBJECTS = $(am__objects_1)
+libsph_a_OBJECTS = $(am_libsph_a_OBJECTS)
+PROGRAMS = $(bin_PROGRAMS)
 am_kernel_test_OBJECTS = $(am__objects_1) kernel_test.$(OBJEXT)
 kernel_test_OBJECTS = $(am_kernel_test_OBJECTS)
 kernel_test_LDADD = $(LDADD)
@@ -74,7 +103,7 @@ am_spParticle_OBJECTS = spParticle.$(OBJEXT)
 spParticle_OBJECTS = $(am_spParticle_OBJECTS)
 spParticle_LDADD = $(LDADD)
 spParticle_DEPENDENCIES = ${top_builddir}/cpptcl/libcpptcl.a
-am_sph_OBJECTS = sph.$(OBJEXT) $(am__objects_1)
+am_sph_OBJECTS = sph.$(OBJEXT)
 sph_OBJECTS = $(am_sph_OBJECTS)
 sph_LDADD = $(LDADD)
 sph_DEPENDENCIES = ${top_builddir}/cpptcl/libcpptcl.a
@@ -91,10 +120,12 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(kernel_test_SOURCES) $(particlemanager_test_SOURCES) \
-	$(spParticle_SOURCES) $(sph_SOURCES)
-DIST_SOURCES = $(kernel_test_SOURCES) $(particlemanager_test_SOURCES) \
-	$(spParticle_SOURCES) $(sph_SOURCES)
+SOURCES = $(libsph_a_SOURCES) $(kernel_test_SOURCES) \
+	$(particlemanager_test_SOURCES) $(spParticle_SOURCES) \
+	$(sph_SOURCES)
+DIST_SOURCES = $(libsph_a_SOURCES) $(kernel_test_SOURCES) \
+	$(particlemanager_test_SOURCES) $(spParticle_SOURCES) \
+	$(sph_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -196,6 +227,9 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 
+# build a library to use in unit tests
+lib_LIBRARIES = libsph.a
+
 # PLUGIN_PATH is a path to the compile.tcl 
 # it is used to get dynamics loaded functions
 AM_CXXFLAGS = -I${top_srcdir} -I${top_srcdir}/cpptcl \
@@ -236,7 +270,8 @@ nomain = boundary.cpp boundary.h \
 	TimeSolver/gastimesolverPredCorr.cpp TimeSolver/gastimesolverPredCorr.h \
 	main.doxygen
 
-sph_SOURCES = sph.cpp $(nomain)
+sph_SOURCES = sph.cpp 
+libsph_a_SOURCES = $(nomain)
 
 # examples
 spParticle_SOURCES = sandbox/spParticle.cpp
@@ -279,6 +314,42 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
+install-libLIBRARIES: $(lib_LIBRARIES)
+	@$(NORMAL_INSTALL)
+	test -z "$(libdir)" || $(MKDIR_P) "$(DESTDIR)$(libdir)"
+	@list='$(lib_LIBRARIES)'; test -n "$(libdir)" || list=; \
+	list2=; for p in $$list; do \
+	  if test -f $$p; then \
+	    list2="$$list2 $$p"; \
+	  else :; fi; \
+	done; \
+	test -z "$$list2" || { \
+	  echo " $(INSTALL_DATA) $$list2 '$(DESTDIR)$(libdir)'"; \
+	  $(INSTALL_DATA) $$list2 "$(DESTDIR)$(libdir)" || exit $$?; }
+	@$(POST_INSTALL)
+	@list='$(lib_LIBRARIES)'; test -n "$(libdir)" || list=; \
+	for p in $$list; do \
+	  if test -f $$p; then \
+	    $(am__strip_dir) \
+	    echo " ( cd '$(DESTDIR)$(libdir)' && $(RANLIB) $$f )"; \
+	    ( cd "$(DESTDIR)$(libdir)" && $(RANLIB) $$f ) || exit $$?; \
+	  else :; fi; \
+	done
+
+uninstall-libLIBRARIES:
+	@$(NORMAL_UNINSTALL)
+	@list='$(lib_LIBRARIES)'; test -n "$(libdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$files" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(libdir)' && rm -f "$$files" )"; \
+	cd "$(DESTDIR)$(libdir)" && rm -f $$files
+
+clean-libLIBRARIES:
+	-test -z "$(lib_LIBRARIES)" || rm -f $(lib_LIBRARIES)
+libsph.a: $(libsph_a_OBJECTS) $(libsph_a_DEPENDENCIES) 
+	-rm -f libsph.a
+	$(libsph_a_AR) libsph.a $(libsph_a_OBJECTS) $(libsph_a_LIBADD)
+	$(RANLIB) libsph.a
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	test -z "$(bindir)" || $(MKDIR_P) "$(DESTDIR)$(bindir)"
@@ -774,9 +845,9 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS)
+all-am: Makefile $(LIBRARIES) $(PROGRAMS)
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -806,7 +877,8 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic clean-libLIBRARIES \
+	mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -832,7 +904,7 @@ install-dvi: install-dvi-am
 
 install-dvi-am:
 
-install-exec-am: install-binPROGRAMS
+install-exec-am: install-binPROGRAMS install-libLIBRARIES
 
 install-html: install-html-am
 
@@ -871,22 +943,23 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS
+uninstall-am: uninstall-binPROGRAMS uninstall-libLIBRARIES
 
 .MAKE: install-am install-strip
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-binPROGRAMS \
-	clean-generic ctags distclean distclean-compile \
-	distclean-generic distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-binPROGRAMS \
-	install-data install-data-am install-dvi install-dvi-am \
-	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
+	clean-generic clean-libLIBRARIES ctags distclean \
+	distclean-compile distclean-generic distclean-tags distdir dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-binPROGRAMS install-data install-data-am install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am \
+	install-libLIBRARIES install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
-	uninstall-am uninstall-binPROGRAMS
+	uninstall-am uninstall-binPROGRAMS uninstall-libLIBRARIES
 
 ${top_builddir}/cpptcl/libcpptcl.a:
 	cd ${top_builddir}/cpptcl; \

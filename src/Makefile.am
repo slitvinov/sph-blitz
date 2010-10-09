@@ -1,5 +1,8 @@
 bin_PROGRAMS=sph kernel_test particlemanager_test spParticle
 
+# build a library to use in unit tests
+lib_LIBRARIES=libsph.a
+
 # PLUGIN_PATH is a path to the compile.tcl 
 # it is used to get dynamics loaded functions
 AM_CXXFLAGS=-I${top_srcdir} -I${top_srcdir}/cpptcl \
@@ -43,7 +46,8 @@ nomain=	boundary.cpp boundary.h \
 	TimeSolver/gastimesolverPredCorr.cpp TimeSolver/gastimesolverPredCorr.h \
 	main.doxygen
 
-sph_SOURCES= sph.cpp $(nomain)
+sph_SOURCES=sph.cpp 
+libsph_a_SOURCES=$(nomain)
 
 # examples
 spParticle_SOURCES = sandbox/spParticle.cpp
