@@ -22,7 +22,7 @@ int main(int , char *argv[]) {
   google::InitGoogleLogging(argv[0]);
 
   /// create timer
-  Timer tm(0.0);
+  Timer tm;
 
   /// create observer
   boost::shared_ptr<Observer> obs1 = boost::make_shared<Observer>(std::string("number 1"));
