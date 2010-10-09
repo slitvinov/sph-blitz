@@ -150,9 +150,7 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   } else if (interp->isproc("getRot")) {
     LOG(INFO) << "Found getRot: some particles are rotating";
     context = boost::make_shared<RotContext>(*this);
-    ///
-    must be attached
-    ///
+    timer->addTimeObserver(context);
   } else {
     LOG(INFO) << "No getSolid: assuming NoContext (all particles are normal)" ;
     context = boost::make_shared<NoContext>();

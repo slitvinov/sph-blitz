@@ -22,10 +22,14 @@ double Timer::getTime() const {
 
 void Timer::addTimeObserver(spTimeObserver obj) {
   _notificationList.push_back(obj);
+  LOG(INFO) << "addTimeObserver" ;
+  LOG(INFO) << "_notificationList.size() = " << _notificationList.size();
 }
 
 void Timer::rmTimeObserver(spTimeObserver obj) {
   _notificationList.remove(obj);
+  LOG(INFO) << "rmTimeObserver" ;
+  LOG(INFO) << "_notificationList.size() = " << _notificationList.size();
 }
 
 void Timer::notifyAll() const {

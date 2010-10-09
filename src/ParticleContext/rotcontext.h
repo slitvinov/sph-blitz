@@ -10,7 +10,7 @@ class  Particle;
 class Initiation;
 
 /// A class to move particle if a part of them is solid
-class RotContext : public ParticleContext , public TimeObserver {
+class RotContext : public ParticleContext {
  public:
   /// constructor
   explicit RotContext(const Initiation& ini);

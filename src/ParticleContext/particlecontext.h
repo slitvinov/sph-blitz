@@ -4,9 +4,10 @@
 /// \brief define abstract particle context class
 #include "vec2d.h"
 #include "glbtype.h"
+#include "Timer/timeobserver.h"
 
 /// defines how particle moves and accelerates 
-class ParticleContext {
+class ParticleContext : public TimeObserver{
  public:
   /// constructor 
   ParticleContext();
@@ -25,6 +26,8 @@ class ParticleContext {
 
   /// destructor 
   virtual ~ParticleContext();
+ private:
+  virtual void notify();
 };
 
 #endif // SRC_PARTICLECONTEXT_PARTICECONTEXT
