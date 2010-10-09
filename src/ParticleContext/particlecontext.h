@@ -13,7 +13,7 @@ class ParticleContext : public TimeObserver{
   ParticleContext();
 
   /// how we move particles depends on the position, velocity, and ID
-  virtual void UpdatePosition(spParticle prtl, const Vec2d& newR) const = 0;
+  virtual void UpdatePosition(spParticle prtl, const Vec2d& newR) = 0;
 
   /// get a new velocity of the particle based on the context
   virtual void UpdateVelocity(spParticle prtl, const Vec2d& newU) const = 0;

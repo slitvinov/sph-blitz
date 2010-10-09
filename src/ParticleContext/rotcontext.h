@@ -16,7 +16,7 @@ class RotContext : public ParticleContext {
   explicit RotContext(const Initiation& ini);
   
   /// move particles as normal
-  virtual void UpdatePosition(spParticle prtl, const Vec2d& newUR) const;
+  virtual void UpdatePosition(spParticle prtl, const Vec2d& newUR) ;
 
   /// update velocity as normal
   virtual void UpdateVelocity(spParticle prtl, const Vec2d& newU) const;
@@ -37,6 +37,9 @@ class RotContext : public ParticleContext {
   
   /// a set with IDs of rotating particles
   std::set<int> rotIDset;
+
+  /// a set with IDs of particles updated during this timestep
+  std::set<int> updatedID;
 
   /// the class stores its own reference to Initiation
   const Initiation& ini;

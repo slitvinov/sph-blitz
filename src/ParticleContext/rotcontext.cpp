@@ -24,9 +24,9 @@ RotContext::RotContext(const Initiation& ini):
   LOG(INFO) << "omegaRot : " << omegaRot;
   LOG(INFO) << "axRot : " << axRot;
   LOG(INFO) << "Create RotContext";
-  const double time = ini.timer->getTime();
-  assert(time > -1e-12);
-  posRotMat = getRotMat(axRot, omegaRot * time);
+  const double dt = ini.timer->get_dt();
+  assert(dt > -1e-12);
+  posRotMat = getRotMat(axRot, omegaRot * dt);
   LOG(INFO) << "at time " << time;
   LOG(INFO) << "Rot matrix is: " << posRotMat;
 }
@@ -53,21 +53,24 @@ void RotContext::RemoveParticle(const spParticle prtl) {
 }
 
 /// assign a new postions to the particle
-void RotContext::UpdatePosition(spParticle prtl, const Vec2d& newR) const {
+void RotContext::UpdatePosition(spParticle prtl, const Vec2d& newR)  {
   if ( rotIDset.find(prtl->ID) == rotIDset.end()  )  {
       prtl->R = newR;
   } else {
-    /// it is rotating particle --- ignore newR and updated position in specified way
-    /// build 3 dimensional vector for the postions
-    const blitz::TinyVector<double, 3> oldPos(prtl->R[0], prtl->R[1], 0.0);
-    const blitz::TinyVector<double, 3> dpos = oldPos - centerRot;
-    /// rotate it 
-    const blitz::TinyVector<double, 3> newPos = centerRot + 
-      product(posRotMat, dpos);
-    /// and plug it back
-    prtl->R = newPos[0], newPos[1];
+    /// if a particle was not updated
+    if ( updatedID.find(prtl->ID) == updatedID.end()  )  {
+      /// it is rotating particle --- ignore newR and updated position in specified way
+      /// build 3 dimensional vector for the postions
+      const blitz::TinyVector<double, 3> oldPos(prtl->R[0], prtl->R[1], 0.0);
+      const blitz::TinyVector<double, 3> dpos = oldPos - centerRot;
+      /// rotate it 
+      const blitz::TinyVector<double, 3> newPos = centerRot + 
+	product(posRotMat, dpos);
+      /// and plug it back
+      prtl->R = newPos[0], newPos[1];
+      updatedID.insert(prtl->ID);
+    }
   }
-  
 }
 
 /// how velocity is updated depends on the type of particle
@@ -90,9 +93,9 @@ void RotContext::UpdateVelocity(spParticle prtl, const Vec2d& newU) const {
 
 void RotContext::notify() {
   /// here rotation matrix must be updated
-  const double time = ini.timer->getTime();
-  assert(time > 0.0);
-    posRotMat = getRotMat(axRot, omegaRot * time);
+  const double dt = ini.timer->get_dt();
+  posRotMat = getRotMat(axRot, omegaRot * dt);
+  updatedID.clear();
   LOG(INFO) << "at time " << time;
   LOG(INFO) << "Rot matrix is: " << posRotMat;
 }

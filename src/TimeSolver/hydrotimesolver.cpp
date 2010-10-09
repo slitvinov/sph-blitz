@@ -56,6 +56,7 @@ void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
     integeral_time =integeral_time+ dt;
     Time += dt;
     ini.timer->updateTime(Time);
+    ini.timer->update_dt(dt);
 	  
     ///<ul><li>screen information for the iteration
     if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
@@ -112,6 +113,7 @@ void HydroTimeSolver::TimeIntegral(Hydrodynamics &hydro,
     integeral_time =integeral_time+ dt;
     Time += dt;
     ini.timer->updateTime(Time);
+    ini.timer->update_dt(dt);
 	  
     ///<ul><li>screen information for the iteration
     if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "

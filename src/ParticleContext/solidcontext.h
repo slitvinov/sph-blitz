@@ -14,7 +14,7 @@ class SolidContext : public ParticleContext {
   explicit SolidContext(const Initiation& ini);
   
   /// move particles as normal
-  virtual void UpdatePosition(spParticle prtl, const Vec2d& newUR) const;
+  virtual void UpdatePosition(spParticle prtl, const Vec2d& newUR) ;
 
   /// update velocity as normal
   virtual void UpdateVelocity(spParticle prtl, const Vec2d& newU) const;

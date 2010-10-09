@@ -35,7 +35,7 @@ void SolidContext::RemoveParticle(const spParticle prtl) {
 }
 
 /// just assign a new postions to particle
-void SolidContext::UpdatePosition(spParticle prtl, const Vec2d& newR) const {
+void SolidContext::UpdatePosition(spParticle prtl, const Vec2d& newR) {
   prtl->R = newR;
 }
 

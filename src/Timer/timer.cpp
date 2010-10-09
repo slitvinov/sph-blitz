@@ -15,11 +15,12 @@ void Timer::updateTime(const double new_time){
   notifyAll();
 }
 
-void Time::update_dt(const double new_dt) {
+void Timer::update_dt(const double new_dt) {
   _dt = new_dt;
+  notifyAll();
 }
 
-double Time::get_dt() const {
+double Timer::get_dt() const {
   return _dt;
 }
 

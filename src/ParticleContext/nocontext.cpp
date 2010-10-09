@@ -7,7 +7,7 @@ NoContext::NoContext() {
 }
 
 /// just assign a new postions to particle
-void NoContext::UpdatePosition(spParticle prtl, const Vec2d& newR) const {
+void NoContext::UpdatePosition(spParticle prtl, const Vec2d& newR) {
   prtl->R = newR;
 }
 
