@@ -24,6 +24,11 @@ RotContext::RotContext(const Initiation& ini):
   LOG(INFO) << "omegaRot : " << omegaRot;
   LOG(INFO) << "axRot : " << axRot;
   LOG(INFO) << "Create RotContext";
+  const double time = ini.timer->getTime();
+  assert(time > 0.0);
+  posRotMat = getRotMat(axRot, omegaRot * time);
+  LOG(INFO) << "at time " << time;
+  LOG(INFO) << "Rot matrix is: " << posRotMat;
 }
 
 void RotContext::AddParticle(const spParticle prtl) {
@@ -85,9 +90,30 @@ void RotContext::UpdateVelocity(spParticle prtl, const Vec2d& newU) const {
 
 void RotContext::notify() {
   /// here rotation matrix must be updated
+  const double time = ini.timer->getTime();
+  assert(time > 0.0);
+  posRotMat = getRotMat(axRot, omegaRot * time);
+  LOG(INFO) << "at time " << time;
+  LOG(INFO) << "Rot matrix is: " << posRotMat;
 }
-
 
 RotContext::~RotContext() {
   LOG(INFO) << "Destroy RotContext";
+}
+
+blitz::TinyMatrix<double, 3, 3> getRotMat(const blitz::TinyVector<double, 3> u, 
+					  const double theta) {
+  const double cost = cos(theta);
+  const double sint = sin(theta);
+  const double omcos = 1 - cos(theta);
+  const double ux = u[0];
+  const double uy = u[1];
+  const double uz = u[2];
+  blitz::TinyMatrix<double, 3, 3> R;
+  R = 
+    cost + ux*ux*omcos, ux*uy*omcos-uz*sint, ux*uz*omcos + uy*sint,
+     uy*ux*omcos + uz*sint, cost+uy*uy*omcos, uy*uz*omcos - ux*sint,
+     uz*ux*omcos - uy*sint, uz*uy*omcos+ux*sint, cost+uz*uz*omcos
+    ;
+  return R;
 }

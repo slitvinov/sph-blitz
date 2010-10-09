@@ -54,6 +54,10 @@ class RotContext : public ParticleContext , public TimeObserver {
   blitz::TinyVector<double, 3> centerRot;
 };
 
+/// returns rotation matrix for the angle and axis
+blitz::TinyMatrix<double, 3, 3> getRotMat(const blitz::TinyVector<double, 3> u, 
+					  const double theta);
+
 #endif // SRC_PARTICECONTEXT_ROTCONTEXT
 
 
