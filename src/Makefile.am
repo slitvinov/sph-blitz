@@ -46,7 +46,7 @@ nomain=	boundary.cpp boundary.h \
 	TimeSolver/gastimesolverPredCorr.cpp TimeSolver/gastimesolverPredCorr.h \
 	main.doxygen
 
-sph_SOURCES=sph.cpp 
+sph_SOURCES=sph.cpp $(nomain)
 libsph_a_SOURCES=$(nomain)
 
 # examples

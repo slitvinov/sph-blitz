@@ -103,7 +103,7 @@ am_spParticle_OBJECTS = spParticle.$(OBJEXT)
 spParticle_OBJECTS = $(am_spParticle_OBJECTS)
 spParticle_LDADD = $(LDADD)
 spParticle_DEPENDENCIES = ${top_builddir}/cpptcl/libcpptcl.a
-am_sph_OBJECTS = sph.$(OBJEXT)
+am_sph_OBJECTS = sph.$(OBJEXT) $(am__objects_1)
 sph_OBJECTS = $(am_sph_OBJECTS)
 sph_LDADD = $(LDADD)
 sph_DEPENDENCIES = ${top_builddir}/cpptcl/libcpptcl.a
@@ -270,7 +270,7 @@ nomain = boundary.cpp boundary.h \
 	TimeSolver/gastimesolverPredCorr.cpp TimeSolver/gastimesolverPredCorr.h \
 	main.doxygen
 
-sph_SOURCES = sph.cpp 
+sph_SOURCES = sph.cpp $(nomain)
 libsph_a_SOURCES = $(nomain)
 
 # examples

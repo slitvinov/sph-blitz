@@ -54,6 +54,7 @@ AC_CHECK_FUNCS([pow sqrt])
 AC_OUTPUT(Makefile src/Makefile 
 		   cpptcl/Makefile plugins/Makefile 
 		   src/sandbox/Blitz/Makefile
+		   src/Timer/Makefile
 		   )
 
 AC_MSG_NOTICE([================================================])
