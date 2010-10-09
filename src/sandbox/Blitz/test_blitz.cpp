@@ -58,6 +58,22 @@ blitz::TinyMatrix<double, 3, 3> RotMat(const blitz::TinyVector<double, 3> u, con
   return R;
 }
 
+blitz::TinyMatrix<double, 3, 3> VelMat(const blitz::TinyVector<double, 3> u, const double theta, const double omega) {
+  const double dcost = -sin(theta) * omega;
+  const double dsint = cos(theta) * omega;
+  const double domcos = sin(theta) * omega;
+  const double ux = u[0];
+  const double uy = u[1];
+  const double uz = u[2];
+  blitz::TinyMatrix<double, 3, 3> R;
+  R = 
+    dcost + ux*ux*domcos, ux*uy*domcos-uz*dsint, ux*uz*domcos + uy*dsint,
+     uy*ux*domcos + uz*dsint, dcost+uy*uy*domcos, uy*uz*domcos - ux*dsint,
+     uz*ux*domcos - uy*dsint, uz*uy*domcos+ux*dsint, dcost+uz*uz*domcos
+    ;
+  return R;
+}
+
 int main() {
   const int ndim = 2;
   blitz::TinyVector<double, ndim> x;

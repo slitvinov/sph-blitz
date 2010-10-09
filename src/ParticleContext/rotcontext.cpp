@@ -49,6 +49,11 @@ void RotContext::UpdateVelocity(spParticle prtl, const Vec2d& newU) const {
   /// for solid particle do nothing
 }
 
+void RotContext::notify() {
+  /// here rotation matrix must be updated
+}
+
+
 RotContext::~RotContext() {
   LOG(INFO) << "Destroy RotContext";
 }

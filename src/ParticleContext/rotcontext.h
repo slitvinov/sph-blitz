@@ -3,12 +3,13 @@
 /// \file rotcontext.h
 /// \brief define rotating object
 #include "ParticleContext/particlecontext.h"
+#include "Timer/timeobserver.h"
 #include <set>
 class  Particle;
 class Initiation;
 
 /// A class to move particle if a part of them is solid
-class RotContext : public ParticleContext {
+class RotContext : public ParticleContext , public TimeObserver {
  public:
   /// constructor
   explicit RotContext(const Initiation& ini);
@@ -29,6 +30,10 @@ class RotContext : public ParticleContext {
   virtual ~RotContext();
 
  private:
+  /// this function is called then simulation time is updated
+  /// RotContext class must be 'attached' to Timer
+  virtual void notify();
+  
   /// a set with IDs of solid particles
   std::set<int> solidIDset;
 
