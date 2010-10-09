@@ -431,7 +431,9 @@ void Hydrodynamics::Predictor(const double dt) {
     const double auxE = prtl->e + prtl->dedt*dt;
 			
     ///<li>calculate the middle values at step n+1/2</ul></ul>
-    ini.context->UpdatePosition(prtl, (auxR + prtl->R_I)*0.5);
+    if (movePartilces) {
+      ini.context->UpdatePosition(prtl, (auxR + prtl->R_I)*0.5);
+    }
     prtl->rho = (auxRho + prtl->rho_I)*0.5;
     ini.context->UpdateVelocity(prtl, (auxU+ prtl->U_I)*0.5);
     prtl->e=(auxE+ prtl->e_I)*0.5;
@@ -444,7 +446,9 @@ void Hydrodynamics::Corrector(const double dt) {
   ///- iterate the real partilce list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- for each particle: correction based on values on n step and change rate at n+1/2
-    ini.context->UpdatePosition(prtl, prtl->R_I + prtl->U*dt);
+    if (movePartilces) {
+      ini.context->UpdatePosition(prtl, prtl->R_I + prtl->U*dt);
+    }
     prtl->rho = prtl->rho + prtl->drhodt*dt;
     ini.context->UpdateVelocity(prtl, prtl->U_I + prtl->dUdt*dt);
     prtl->e = prtl->e_I + prtl->dedt*dt;
@@ -468,7 +472,9 @@ void Hydrodynamics::Predictor_summation(const double dt) {
 			
     ///<li>calculate the middle values at step n+1/2 and save 
     ///them in spParticle objects prtl</ul></ul>
-    ini.context->UpdatePosition(prtl, (auxR + prtl->R_I)*0.5);
+    if (movePartilces) {
+      ini.context->UpdatePosition(prtl, (auxR + prtl->R_I)*0.5);
+    }
     ini.context->UpdateVelocity(prtl, (auxU + prtl->U_I)*0.5);
     prtl->e = (auxE + prtl->e_I)*0.5;
   }
@@ -482,7 +488,9 @@ void Hydrodynamics::Corrector_summation(const double dt) {
   ///- iterate the real partilce list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- for each particle: correction (advances R,U) based on values on n step and change rate at n+1/2
-    ini.context->UpdatePosition(prtl, prtl->R_I + prtl->U*dt);
+    if (movePartilces) {
+      ini.context->UpdatePosition(prtl, prtl->R_I + prtl->U*dt);
+    }
     ini.context->UpdateVelocity(prtl, prtl->U_I + prtl->dUdt*dt);
     prtl->e = prtl->e_I + prtl->dedt*dt;
   }

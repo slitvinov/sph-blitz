@@ -32,13 +32,15 @@ set OUTDIR output
 
 # number of cell
 set ncell 8
-set CELLS(0) $ncell
-set CELLS(1) [expr {2*$ncell}]
+set CELLS(0) [expr {2*$ncell}]
+set CELLS(1) $ncell
 
 # sizer of the domain
-set L 1.0
-set SUPPORT_LENGTH [expr {$L / $ncell}]
+
+set SUPPORT_LENGTH [expr {1.0 / $ncell}]
 set CELL_SIZE $SUPPORT_LENGTH
+set Lx [expr {$CELL_SIZE * $CELLS(0)}]
+set Ly [expr {$CELL_SIZE * $CELLS(1)}]
 
 # the number of particles in one support length
 set CELL_RATIO  3
@@ -105,10 +107,10 @@ set material_sound_speed(1) $material_sound_speed(0)
 
 # create a cylinder in the center of the domain 
 set R 0.2
-set x0 [expr {0.5*$L}]
-set y0 [expr {0.5*$L}]
-set centerRot(1) $x0
-set centerRot(2) $y0
+set x0 [expr {0.5*$Lx}]
+set y0 [expr {0.5*$Ly}]
+set centerRot(0) $x0
+set centerRot(1) $y0
 set omegaRot 0.5
 
 proc getRot { } {

@@ -156,6 +156,12 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
     context = boost::make_shared<NoContext>();
   }
   
+  if (!interp->exist("movePartilces")) {
+    movePartilces = true;
+  } else {
+    movePartilces = interp->getval("movePartilces");
+  }
+  
   ///<li>process the data <b>!!!Question!!!</b>
   box_size[0] = x_cells*cell_size; box_size[1] = y_cells*cell_size;
   LOG(INFO) << "Domain size: " << box_size;

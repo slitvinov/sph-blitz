@@ -41,6 +41,10 @@ public:
   /// a pointer to context class 
   /// used to define "special" rulles of partilce motion (ex. solid partilces, rotating partilces)
   spParticleContext context;
+  
+  /// if false particles are not allowed to move in hydrodynamics simulations
+  /// \todo{temporary solution, shell be replaced by Context}
+  bool movePartilces;
 
   /// global timer
   spTimer timer;

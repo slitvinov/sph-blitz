@@ -8,7 +8,7 @@
 RotContext::RotContext(const Initiation& ini):
   ini(ini) {
   /// create 3D objects from user input
-  centerRot = ini.interp->getat("centerRot", 1), ini.interp->getat("centerRot", 2), 0.0;
+  centerRot = ini.interp->getat("centerRot", 0), ini.interp->getat("centerRot", 1), 0.0;
   omegaRot = ini.interp->getval("omegaRot");
   if (ini.interp->exist("axRot")) {
     axRot = ini.interp->getat("axRot", 1), 
