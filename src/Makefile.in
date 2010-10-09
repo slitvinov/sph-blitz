@@ -57,7 +57,7 @@ am__objects_1 = boundary.$(OBJEXT) glbfunc.$(OBJEXT) \
 	particlecontext.$(OBJEXT) rotcontext.$(OBJEXT) \
 	interaction.$(OBJEXT) interactioncomp.$(OBJEXT) \
 	interactionin.$(OBJEXT) interactionangular.$(OBJEXT) \
-	timesolver.$(OBJEXT) hydrotimesolver.$(OBJEXT) \
+	timer.$(OBJEXT) timesolver.$(OBJEXT) hydrotimesolver.$(OBJEXT) \
 	gastimesolverLeapFrog.$(OBJEXT) \
 	gastimesolverPredCorr.$(OBJEXT)
 am_kernel_test_OBJECTS = $(am__objects_1) kernel_test.$(OBJEXT)
@@ -228,6 +228,8 @@ nomain = boundary.cpp boundary.h \
 	Interaction/interactioncomp.cpp  Interaction/interactioncomp.h \
 	Interaction/interactionin.cpp  Interaction/interactionin.h \
 	Interaction/interactionangular.cpp Interaction/interactionangular.h \
+	Timer/timer.cpp Timer/timer.h \
+	Timer/timeobserver.h \
 	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
 	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
 	TimeSolver/gastimesolverLeapFrog.cpp TimeSolver/gastimesolverLeapFrog.h \
@@ -363,6 +365,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/solidcontext.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spParticle.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sph.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timesolver.Po@am__quote@
 
 .cpp.o:
@@ -588,6 +591,20 @@ interactionangular.obj: Interaction/interactionangular.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Interaction/interactionangular.cpp' object='interactionangular.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o interactionangular.obj `if test -f 'Interaction/interactionangular.cpp'; then $(CYGPATH_W) 'Interaction/interactionangular.cpp'; else $(CYGPATH_W) '$(srcdir)/Interaction/interactionangular.cpp'; fi`
+
+timer.o: Timer/timer.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT timer.o -MD -MP -MF $(DEPDIR)/timer.Tpo -c -o timer.o `test -f 'Timer/timer.cpp' || echo '$(srcdir)/'`Timer/timer.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/timer.Tpo $(DEPDIR)/timer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Timer/timer.cpp' object='timer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o timer.o `test -f 'Timer/timer.cpp' || echo '$(srcdir)/'`Timer/timer.cpp
+
+timer.obj: Timer/timer.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT timer.obj -MD -MP -MF $(DEPDIR)/timer.Tpo -c -o timer.obj `if test -f 'Timer/timer.cpp'; then $(CYGPATH_W) 'Timer/timer.cpp'; else $(CYGPATH_W) '$(srcdir)/Timer/timer.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/timer.Tpo $(DEPDIR)/timer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Timer/timer.cpp' object='timer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o timer.obj `if test -f 'Timer/timer.cpp'; then $(CYGPATH_W) 'Timer/timer.cpp'; else $(CYGPATH_W) '$(srcdir)/Timer/timer.cpp'; fi`
 
 timesolver.o: TimeSolver/timesolver.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT timesolver.o -MD -MP -MF $(DEPDIR)/timesolver.Tpo -c -o timesolver.o `test -f 'TimeSolver/timesolver.cpp' || echo '$(srcdir)/'`TimeSolver/timesolver.cpp

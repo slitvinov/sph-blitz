@@ -35,6 +35,8 @@ nomain=	boundary.cpp boundary.h \
 	Interaction/interactioncomp.cpp  Interaction/interactioncomp.h \
 	Interaction/interactionin.cpp  Interaction/interactionin.h \
 	Interaction/interactionangular.cpp Interaction/interactionangular.h \
+	Timer/timer.cpp Timer/timer.h \
+	Timer/timeobserver.h \
 	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
 	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
 	TimeSolver/gastimesolverLeapFrog.cpp TimeSolver/gastimesolverLeapFrog.h \
