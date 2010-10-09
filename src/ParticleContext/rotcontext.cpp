@@ -44,7 +44,7 @@ void RotContext::UpdatePosition(spParticle prtl, const Vec2d& newR) const {
     const blitz::TinyVector<double, 3> oldPos(prtl->R[0], prtl->R[1], 0.0);
     /// rotate it 
     const blitz::TinyVector<double, 3> newPos = product(posRotMat, oldPos);
-    /// and plug back
+    /// and plug it back
     prtl->R = newPos[0], newPos[1];
   }
   
@@ -60,9 +60,9 @@ void RotContext::UpdateVelocity(spParticle prtl, const Vec2d& newU) const {
     /// it is rotating particle --- ignore newU and updated velocity in specified way
     /// build 3 dimensional vector for the postions
     const blitz::TinyVector<double, 3> pos(prtl->R[0], prtl->R[1], 0.0);
-    /// rotate it 
+    /// get liniar velocity
     const blitz::TinyVector<double, 3> newVel = cross(velRot, pos);
-    /// and plug back
+    /// and plug it back
     prtl->U = newVel[0], newVel[1];
   }
 }
