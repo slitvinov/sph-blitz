@@ -18,8 +18,11 @@ RotContext::RotContext(const Initiation& ini):
     /// default value for rotation axis
     axRot = 0, 0, 1;
   }
-  /// procedure must be defined
+  /// getRot procedure in TCL file must be defined
   assert(ini.interp->isproc("getRot"));
+  LOG(INFO) << "centerRot : " << centerRot;
+  LOG(INFO) << "omegaRot : " << omegaRot;
+  LOG(INFO) << "axRot : " << axRot;
   LOG(INFO) << "Create RotContext";
 }
 
