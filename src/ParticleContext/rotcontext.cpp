@@ -46,7 +46,7 @@ void RotContext::UpdateVelocity(spParticle prtl, const Vec2d& newU) const {
     // accelerate as usual
     prtl->U = newU;
   } 
-  /// for solid particle do nothing
+  /// for solid particle do nothing, velocity is constant
 }
 
 void RotContext::notify() {
