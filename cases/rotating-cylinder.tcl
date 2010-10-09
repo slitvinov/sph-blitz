@@ -43,7 +43,7 @@ set CELLS(0) $ncell
 set CELLS(1) $ncell
 
 # sizer of the domain
-set L 1e-3
+set L 1.0
 set SUPPORT_LENGTH [expr {$L / $ncell}]
 set CELL_SIZE $SUPPORT_LENGTH
 
@@ -83,22 +83,22 @@ set UxBr(0) 0.0
 set UxBr(1) 0.0
 
 set yBd $wall
-set UyBd(0) 0.0
+set UyBd(0) -0.5
 set UyBd(1) 0.0
 
 set yBu $wall
-set UyBu(0) 1.25e-5
+set UyBu(0) 0.5
 set UyBu(1) 0.0
 
 set NUMBER_OF_MATERIALS 2
 set material_name(0) Air
 set material_type(0) 1
 set material_cv(0) 1.0e3
-set material_eta(0) 1.0e-3
+set material_eta(0) 1.0
 set material_gamma(0) 7.0
 set material_b0(0) 1.0e2
-set material_rho0(0) 1.0e3
-set material_sound_speed(0) 1.0e2
+set material_rho0(0) 1.0
+set material_sound_speed(0) 10.0
 
 set material_name(1) $material_name(0)
 set material_type(1) $material_type(0)
@@ -108,3 +108,23 @@ set material_gamma(1) $material_gamma(0)
 set material_b0(1) $material_b0(0)
 set material_rho0(1) $material_rho0(0)
 set material_sound_speed(1) $material_sound_speed(0)
+
+# create a cylinder in the center of the domain 
+set R 0.2
+set x0 [expr {0.5*$L}]
+set y0 [expr {0.5*$L}]
+set centerRot(1) $x0
+set centerRot(2) $y0
+set omegaRot 0.5
+
+proc getRot { } {
+    # x and y provided by the main program 
+    set dx [expr {$x - $x0}]
+    set dy [expr {$y - $y0}]
+    if {[expr {pow($dx,2) + pow($dy,2) < pow($R,2)}]} { 
+	# block 
+	set isrot 1
+    } else {
+	set isrot 0
+    }
+}

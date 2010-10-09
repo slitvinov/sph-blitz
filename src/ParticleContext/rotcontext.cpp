@@ -25,7 +25,7 @@ RotContext::RotContext(const Initiation& ini):
   LOG(INFO) << "axRot : " << axRot;
   LOG(INFO) << "Create RotContext";
   const double time = ini.timer->getTime();
-  assert(time > 0.0);
+  assert(time > -1e-12);
   posRotMat = getRotMat(axRot, omegaRot * time);
   LOG(INFO) << "at time " << time;
   LOG(INFO) << "Rot matrix is: " << posRotMat;
