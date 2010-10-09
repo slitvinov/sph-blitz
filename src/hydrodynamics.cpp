@@ -17,6 +17,7 @@
 #include "Kernel/kernel.h"
 #include "particlemanager.h"
 #include "Interaction/interaction.h"
+#include "Timer/timer.h"
 #include "initiation.h"
 #include "ParticleContext/particlecontext.h"
 using namespace std;

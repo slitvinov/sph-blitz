@@ -13,7 +13,7 @@ class Interaction;
 class TimeSolver;
 class Kernel;
 class ParticleContext;
-
+class Timer;
 
 ///a shared pointer to Material
 typedef boost::shared_ptr<Material> spMaterial;
@@ -32,6 +32,9 @@ typedef boost::shared_ptr<Kernel> spKernel;
 
 ///a shared pointer to time Context Class
 typedef boost::shared_ptr<ParticleContext> spParticleContext;
+
+///a shared pointer to time Timer Class
+typedef boost::shared_ptr<Timer> spTimer;
 
 namespace blast = boost::numeric::ublas;
 

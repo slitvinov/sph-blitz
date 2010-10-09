@@ -2,7 +2,7 @@
 #define INITIATION_H
 /// \file initiation.h 
 /// \brief initializes the simulation data
-
+#include "Timer/timer.h"
 #include "cpptcl/cpptcl.h"
 #include "vec2d.h"
 #include <boost/utility.hpp>
@@ -39,8 +39,11 @@ public:
   boost::shared_ptr<Tcl::interpreter> interp; 
 
   /// a pointer to context class 
-  /// used to define "special" rulles of partilce motion (ex. solid partilces)
+  /// used to define "special" rulles of partilce motion (ex. solid partilces, rotating partilces)
   spParticleContext context;
+
+  /// global timer
+  spTimer timer;
 
   ///\brief integration scheme selection
   ///

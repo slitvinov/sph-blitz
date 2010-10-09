@@ -1,9 +1,11 @@
-** TODO [#A] Add solid particles
+** DONE [#A] Add solid particles
+** TODO [#A] Add more tests for solid particles
 ** TODO [#A] Add a dence droplet benchmark 
    [[http://gfs.sourceforge.net/tests/tests/kinetic.html]]
+** TODO [#B] Add gmsh (?) support for particles and boundary generation
 ** TODO [#A] Add output based on the context
 ** TODO [#A] Add unit tests
-** TODO [#A] Add flow around cylinder
+** DONE [#A] Add flow around cylinder
 ** TODO [#B] Try doxygen with tcl files
 ** DONE [#A] Add regression tests
 ** DONE [#A] Fix pressure force

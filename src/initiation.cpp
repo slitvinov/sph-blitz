@@ -14,6 +14,7 @@
 #include "hydrodynamics.h"
 #include "particlemanager.h"
 #include "Kernel/kernel.h"
+
 #include "initiation.h"
 #include "ParticleContext/solidcontext.h"
 #include "ParticleContext/nocontext.h"
@@ -23,7 +24,9 @@
 //							constructor 
 //----------------------------------------------------------------------------------------
 Initiation::Initiation(const std::string& project_name, const std::string& ivs_file_name):
-  Project_Name(project_name), Ivs_File_Name(ivs_file_name), interp(boost::make_shared<Tcl::interpreter>()) {
+  Project_Name(project_name), Ivs_File_Name(ivs_file_name), interp(boost::make_shared<Tcl::interpreter>()),
+  timer(boost::make_shared<Timer>())
+{
   LOG(INFO) << "Run constructor of Initiation class";
   //the input file name
   const std::string inputfile = Project_Name + ".tcl";
@@ -120,6 +123,7 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   DefineBodyForce();
   
   Start_time = interp->getval("Start_time");
+  timer->updateTime(Start_time);
   End_time = interp->getval("End_time");
   D_time = interp->getval("D_time");
   // can be zero for debugging

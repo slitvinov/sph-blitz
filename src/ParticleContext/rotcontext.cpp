@@ -1,5 +1,5 @@
 /// \file rotcontext.cpp
-/// \brief define solid context
+/// \brief define a context for rotating particle
 #include "ParticleContext/rotcontext.h"
 #include "particle.h"
 #include "initiation.h"
@@ -19,10 +19,10 @@ void RotContext::AddParticle(const spParticle prtl) {
   ini.interp->setdouble("x", position[0]);
   ini.interp->setdouble("y", position[1]);
   ini.interp->evalproc("getRot");
-  const bool isSolid = ini.interp->getval("isrot");
-  if (isSolid) {
+  const bool isRot = ini.interp->getval("isrot");
+  if (isRot) {
       LOG(INFO) << "Particle with position: " << prtl->R  << " is rotating";
-      solidIDset.insert(prtl->ID);
+      rotIDset.insert(prtl->ID);
   } else {
       LOG(INFO) << "Particle with position: " << prtl->R  << " is NOT rotating";
   }
@@ -30,23 +30,41 @@ void RotContext::AddParticle(const spParticle prtl) {
 
 /// remove the particle from the context
 void RotContext::RemoveParticle(const spParticle prtl) {
-  // particle is not solid any more
-  solidIDset.erase(prtl->ID);
+  // particle is not rotating any more
+  rotIDset.erase(prtl->ID);
 }
 
 /// assign a new postions to the particle
 void RotContext::UpdatePosition(spParticle prtl, const Vec2d& newR) const {
-  prtl->R = newR;
+  if ( rotIDset.find(prtl->ID) == rotIDset.end()  )  {
+      prtl->R = newR;
+  } else {
+    /// it is rotating particle --- ignore newR and updated position in specified way
+    /// build 3 dimensional vector for the postions
+    const blitz::TinyVector<double, 3> oldPos(prtl->R[0], prtl->R[1], 0.0);
+    /// rotate it 
+    const blitz::TinyVector<double, 3> newPos = product(posRotMat, oldPos);
+    /// and plug back
+    prtl->R = newPos[0], newPos[1];
+  }
+  
 }
 
 /// how velocity is updated depends on the type of particle
-/// 'solid' particle is not updated
+/// 'rotating' particle is not updated
 void RotContext::UpdateVelocity(spParticle prtl, const Vec2d& newU) const {
-  if ( solidIDset.find(prtl->ID) == solidIDset.end()  )  {
+  if ( rotIDset.find(prtl->ID) == rotIDset.end()  )  {
     // accelerate as usual
     prtl->U = newU;
-  } 
-  /// for solid particle do nothing, velocity is constant
+  }  else {
+    /// it is rotating particle --- ignore newU and updated velocity in specified way
+    /// build 3 dimensional vector for the postions
+    const blitz::TinyVector<double, 3> pos(prtl->R[0], prtl->R[1], 0.0);
+    /// rotate it 
+    const blitz::TinyVector<double, 3> newVel = cross(velRot, pos);
+    /// and plug back
+    prtl->U = newVel[0], newVel[1];
+  }
 }
 
 void RotContext::notify() {

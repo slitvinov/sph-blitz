@@ -10,7 +10,7 @@ typedef boost::shared_ptr<TimeObserver> spTimeObserver;
 class Timer {
 public:
   ///constructor
-  Timer(const double init_time);
+  Timer();
   ///update time to a new value
   void updateTime(const double new_time);
   ///get current value of time
@@ -26,5 +26,7 @@ private:
   double _globalTime;
   ///a list of all attached observers
   std::list<spTimeObserver> _notificationList;
+  /// to make sure timer was set at least once
+  bool _wasSet;
 };
 #endif

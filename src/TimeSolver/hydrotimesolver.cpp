@@ -55,6 +55,7 @@ void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
     ite ++;
     integeral_time =integeral_time+ dt;
     Time += dt;
+    ini.timer->updateTime(Time);
 	  
     ///<ul><li>screen information for the iteration
     if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
@@ -110,12 +111,11 @@ void HydroTimeSolver::TimeIntegral(Hydrodynamics &hydro,
     ite ++;
     integeral_time =integeral_time+ dt;
     Time += dt;
+    ini.timer->updateTime(Time);
 	  
     ///<ul><li>screen information for the iteration
     if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
 			  <<Time<<"	dt: "<<dt<<"\n";
-
-	
     //predictor and corrector method used
     ///<li> the prediction step
     hydro.BuildInteractions(particles, weight_function, ini);///<ol><li>hydro.BuildInteractions

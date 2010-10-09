@@ -3,17 +3,20 @@
 #include "Timer/timer.h"
 #include "Timer/timeobserver.h"
 
-Timer::Timer(const double init_time):
-  _globalTime(init_time) {
+Timer::Timer():
+  _wasSet(false) {
+  // Timer is created but time is unknown
 }
 
 void Timer::updateTime(const double new_time){
+  _wasSet = true;
   LOG(INFO) << "update global time";
   _globalTime = new_time;
   notifyAll();
 }
 
 double Timer::getTime() const {
+  assert(_wasSet);
   return _globalTime;
 }
 
@@ -30,4 +33,5 @@ void Timer::notifyAll() const {
   BOOST_FOREACH(const spTimeObserver obj, _notificationList) {
     LOG(INFO) << "notify an observer";
     obj->notify();
+  }
 }

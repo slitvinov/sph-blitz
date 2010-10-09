@@ -2,9 +2,10 @@
 #define SRC_PARTICECONTEXT_ROTCONTEXT
 /// \file rotcontext.h
 /// \brief define rotating object
+#include <blitz/tinymat.h>
+#include <set>
 #include "ParticleContext/particlecontext.h"
 #include "Timer/timeobserver.h"
-#include <set>
 class  Particle;
 class Initiation;
 
@@ -34,11 +35,18 @@ class RotContext : public ParticleContext , public TimeObserver {
   /// RotContext class must be 'attached' to Timer
   virtual void notify();
   
-  /// a set with IDs of solid particles
-  std::set<int> solidIDset;
+  /// a set with IDs of rotating particles
+  std::set<int> rotIDset;
 
   /// the class stores its own reference to Initiation
   const Initiation& ini;
+
+  /// rotation matrix to get postion of the particle
+  blitz::TinyMatrix<double, 3, 3> posRotMat;
+
+  /// angular velocity pseudo-vector
+  blitz::TinyVector<double, 3> velRot;
+
 };
 
 #endif // SRC_PARTICECONTEXT_ROTCONTEXT
