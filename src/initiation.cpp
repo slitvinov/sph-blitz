@@ -193,6 +193,7 @@ void Initiation::show_information() const  {
   LOG(INFO)<<"Output time interval is "<<D_time<<" \n";
   LOG(INFO) << "Output format factor is " << output_file_format_factor << '\n';
   LOG(INFO)<<"initial_condition "<< initial_condition <<" \n";
+  LOG(INFO)<<"movePartilces is "<< movePartilces << '\n';
   LOG(INFO)<<" simu_mode "<< simu_mode <<" \n";
   ///- output iniformation on initialization mode (.cfg file or .rst file)
   //Initialize the initial conditions from .cfg file
