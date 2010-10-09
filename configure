@@ -4967,7 +4967,7 @@ fi
 done
 
 
-ac_config_files="$ac_config_files Makefile src/Makefile cpptcl/Makefile plugins/Makefile src/sandbox/Blitz/Makefile src/Timer/Makefile"
+ac_config_files="$ac_config_files Makefile src/Makefile cpptcl/Makefile plugins/Makefile src/sandbox/Blitz/Makefile src/Timer/Makefile src/ParticleContext/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -5706,6 +5706,7 @@ do
     "plugins/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/Makefile" ;;
     "src/sandbox/Blitz/Makefile") CONFIG_FILES="$CONFIG_FILES src/sandbox/Blitz/Makefile" ;;
     "src/Timer/Makefile") CONFIG_FILES="$CONFIG_FILES src/Timer/Makefile" ;;
+    "src/ParticleContext/Makefile") CONFIG_FILES="$CONFIG_FILES src/ParticleContext/Makefile" ;;
 
   *) as_fn_error "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

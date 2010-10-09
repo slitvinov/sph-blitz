@@ -55,6 +55,7 @@ AC_OUTPUT(Makefile src/Makefile
 		   cpptcl/Makefile plugins/Makefile 
 		   src/sandbox/Blitz/Makefile
 		   src/Timer/Makefile
+		   src/ParticleContext/Makefile
 		   )
 
 AC_MSG_NOTICE([================================================])

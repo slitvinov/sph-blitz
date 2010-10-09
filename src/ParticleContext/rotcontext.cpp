@@ -92,8 +92,7 @@ void RotContext::notify() {
   /// here rotation matrix must be updated
   const double time = ini.timer->getTime();
   assert(time > 0.0);
-  const double pi = 3.1415926;
-  posRotMat = getRotMat(axRot, -2.0*pi*omegaRot * time);
+    posRotMat = getRotMat(axRot, omegaRot * time);
   LOG(INFO) << "at time " << time;
   LOG(INFO) << "Rot matrix is: " << posRotMat;
 }

@@ -6,4 +6,3 @@ test_timer_CXXFLAGS=-I${top_srcdir}
 ${top_builddir}/src/libsph.a:
 	cd ${top_builddir}/src; \
 	${MAKE}
-
