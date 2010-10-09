@@ -28,14 +28,7 @@ set DENSITY_MODE 1
 #1: leap frog
 #2: predictor corrector
 set INTEGRATION_SCHEME 2
-
-# output directory
-# if isim is not given set OUTDIR to output_co0
-# to set isim variable use
-# SPH_TCL="set isim 42" ./sph ../cases/couette 
-if  [catch {set OUTDIR output_co$isim}] {
-    set OUTDIR output_co0
-} 
+set OUTDIR output
 
 # number of cell
 set ncell 8
@@ -65,7 +58,7 @@ set G_FORCE(1) 0.0
 set Start_time 0.0
 set End_time 1.0
 # time between output
-set D_time 1e-6
+set D_time 1e-2
 
 # boundary conditions
 set wall 0 
