@@ -30,5 +30,4 @@ void Timer::notifyAll() const {
   BOOST_FOREACH(const spTimeObserver obj, _notificationList) {
     LOG(INFO) << "notify an observer";
     obj->notify();
-  }
 }

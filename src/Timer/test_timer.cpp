@@ -8,7 +8,7 @@
 
 class Observer : public TimeObserver {
 public: 
-  Observer(const std::string& name ):
+  explicit Observer(const std::string& name ):
     name(name) {
   }
 private:
@@ -35,8 +35,9 @@ int main(int , char *argv[]) {
   /// call update
   tm.updateTime(1.0);
   tm.updateTime(2.0);
-
   std::cout << "tm.getTime() = " << tm.getTime() << '\n';
+
+  /// remove observer
   tm.rmTimeObserver(obs2);
 
   tm.updateTime(3.0);
