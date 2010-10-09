@@ -9,7 +9,7 @@ RotContext::RotContext(const Initiation& ini):
   ini(ini) 
 {
   /// procedure must be defined
-  assert(ini.interp->isproc("getSolid"));
+  assert(ini.interp->isproc("getRot"));
   LOG(INFO) << "Create RotContext";
 }
 
@@ -18,13 +18,13 @@ void RotContext::AddParticle(const spParticle prtl) {
   const Vec2d position = prtl->R;
   ini.interp->setdouble("x", position[0]);
   ini.interp->setdouble("y", position[1]);
-  ini.interp->evalproc("getSolid");
-  const bool isSolid = ini.interp->getval("issolid");
+  ini.interp->evalproc("getRot");
+  const bool isSolid = ini.interp->getval("isrot");
   if (isSolid) {
-      LOG(INFO) << "Particle with position: " << prtl->R  << " is solid";
+      LOG(INFO) << "Particle with position: " << prtl->R  << " is rotating";
       solidIDset.insert(prtl->ID);
   } else {
-      LOG(INFO) << "Particle with position: " << prtl->R  << " is NOT solid";
+      LOG(INFO) << "Particle with position: " << prtl->R  << " is NOT rotating";
   }
 }
 

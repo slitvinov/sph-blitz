@@ -32,7 +32,7 @@ class SolidContext : public ParticleContext {
   /// a set with IDs of solid particles
   std::set<int> solidIDset;
 
-  /// the class stores it own reference to Initiation
+  /// the class stores its own reference to Initiation
   const Initiation& ini;
 };
 
