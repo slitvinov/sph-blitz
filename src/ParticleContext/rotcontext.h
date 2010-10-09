@@ -44,9 +44,14 @@ class RotContext : public ParticleContext , public TimeObserver {
   /// rotation matrix to get postion of the particle
   blitz::TinyMatrix<double, 3, 3> posRotMat;
 
-  /// angular velocity pseudo-vector
-  blitz::TinyVector<double, 3> velRot;
+  /// rotation axis
+  blitz::TinyVector<double, 3> axRot;
+  
+  /// angular velocity (scalar)
+  double omegaRot;
 
+  /// center of rotation
+  blitz::TinyVector<double, 3> centerRot;
 };
 
 #endif // SRC_PARTICECONTEXT_ROTCONTEXT

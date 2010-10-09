@@ -6,8 +6,18 @@
 #include <glog/logging.h>
 
 RotContext::RotContext(const Initiation& ini):
-  ini(ini) 
-{
+  ini(ini) {
+  /// create 3D objects from user input
+  centerRot = ini.interp->getat("centerRot", 1), ini.interp->getat("centerRot", 2), 0.0;
+  omegaRot = ini.interp->getval("omegaRot");
+  if (ini.interp->exist("axRot")) {
+    axRot = ini.interp->getat("axRot", 1), 
+      ini.interp->getat("axRot", 2), 
+      ini.interp->getat("axRot", 3);
+  } else {
+    /// default value for rotation axis
+    axRot = 0, 0, 1;
+  }
   /// procedure must be defined
   assert(ini.interp->isproc("getRot"));
   LOG(INFO) << "Create RotContext";
@@ -61,7 +71,7 @@ void RotContext::UpdateVelocity(spParticle prtl, const Vec2d& newU) const {
     /// build 3 dimensional vector for the postions
     const blitz::TinyVector<double, 3> pos(prtl->R[0], prtl->R[1], 0.0);
     /// get liniar velocity
-    const blitz::TinyVector<double, 3> newVel = cross(velRot, pos);
+    const blitz::TinyVector<double, 3> newVel = omegaRot*cross(axRot, pos);
     /// and plug it back
     prtl->U = newVel[0], newVel[1];
   }
