@@ -33,7 +33,7 @@ set OUTDIR output
 # number of cell
 set ncell 8
 set CELLS(0) $ncell
-set CELLS(1) $ncell
+set CELLS(1) [expr {2*$ncell}]
 
 # sizer of the domain
 set L 1.0
@@ -56,7 +56,7 @@ set G_FORCE(1) 0.0
 
 
 set Start_time 0.0
-set End_time 1.0
+set End_time 10.0
 # time between output
 set D_time 1e-2
 
@@ -66,7 +66,7 @@ set periodic 1
 set freeslip 2
 set symmetry 3
 
-set gamma_dot 0.0
+set gamma_dot 1.0
 # type and velocity
 set xBl $periodic
 set UxBl(0) 0.0
