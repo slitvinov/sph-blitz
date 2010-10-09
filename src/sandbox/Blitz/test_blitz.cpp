@@ -3,6 +3,9 @@
 #include <blitz/tinyvec-et.h>
 #include <blitz/tinymat.h>
 #include <blitz/array.h>
+#include <cstdlib>
+
+#ifdef USE_UBLAST
 #include <boost/numeric/ublas/lu.hpp>
 namespace bnu = boost::numeric::ublas;
 
@@ -38,9 +41,7 @@ bnu::matrix<double> TinyToBNU(const blitz::TinyMatrix<double, 3, 3> tm) {
   }
   return m;
 }
-
-
-#include <cstdlib>
+#endif
 
 blitz::TinyMatrix<double, 3, 3> RotMat(const blitz::TinyVector<double, 3> u, const double theta) {
   const double cost = cos(theta);
@@ -147,15 +148,14 @@ int main() {
   R2 = RotMat(blitz::TinyVector<double, 3>(0.0, 1.0, 0.0), 0.1);
   R = RotMat(blitz::TinyVector<double, 3>(0.0, 1.0, 0.0), 0.2);
 
-  // std::cout << R - R1 - R2 << '\n';
+#ifdef USE_UBLAST  
   bnu::matrix<double> m;
   m = TinyToBNU(R1);
   std::cerr << "det(m) = " << determinant(m) << '\n';
 
   m = TinyToBNU(R2);
   std::cerr << "det(m) = " << determinant(m) << '\n';
-
+#endif
   
-
   return EXIT_SUCCESS;
 }
