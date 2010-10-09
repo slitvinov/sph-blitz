@@ -75,10 +75,12 @@ blitz::TinyMatrix<double, 3, 3> VelMat(const blitz::TinyVector<double, 3> u, con
 }
 
 int main() {
-  const int ndim = 2;
-  blitz::TinyVector<double, ndim> x;
-  blitz::TinyVector<double, ndim> y;
-  blitz::TinyMatrix<double, ndim, ndim> A;
+  blitz::TinyVector<double, 2> x;
+  blitz::TinyVector<double, 2> y;
+  blitz::TinyMatrix<double, 2, 2> A;
+
+  blitz::TinyVector<double, 3> x3;
+  blitz::TinyVector<double, 3> y3;
   
   std::cerr << "blitz++\n";
 
@@ -91,7 +93,7 @@ int main() {
   y = product(A, x);
   std::cout << "A*x = " << y << '\n';
 
-  const blitz::TinyVector<double, ndim> q(1.0, 4.5);
+  const blitz::TinyVector<double, 2> q(1.0, 4.5);
   ///q(1) = 1.0; /// compilation error
   
   /// does BOOST_FOREACH work for TinyVector?
@@ -121,6 +123,8 @@ int main() {
 
   y = sin(x);
   std::cout << "sin(x) = " << y << '\n';
+  std::cout << "x - y = " << x - y << '\n';
+  std::cout << "cross(x, y) = " << cross(x3, y3) << '\n';
 
   // Rotation matrix 
   // http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_given_an_axis_and_an_angle
@@ -151,6 +155,7 @@ int main() {
   m = TinyToBNU(R2);
   std::cerr << "det(m) = " << determinant(m) << '\n';
 
+  
 
   return EXIT_SUCCESS;
 }
