@@ -2,9 +2,9 @@
 #define SRC_PARTICLECONTEXT_PARTICECONTEXT
 /// \file particlecontext.h
 /// \brief define abstract particle context class
-#include "vec2d.h"
-#include "glbtype.h"
-#include "Timer/timeobserver.h"
+#include "src/vec2d.h"
+#include "src/glbtype.h"
+#include "src/Timer/timeobserver.h"
 
 /// defines how particle moves and accelerates 
 class ParticleContext : public TimeObserver{

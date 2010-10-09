@@ -4,8 +4,8 @@
 /// \brief define rotating object
 #include <blitz/tinymat.h>
 #include <set>
-#include "ParticleContext/particlecontext.h"
-#include "Timer/timeobserver.h"
+#include "src/ParticleContext/particlecontext.h"
+#include "src/Timer/timeobserver.h"
 class  Particle;
 class Initiation;
 

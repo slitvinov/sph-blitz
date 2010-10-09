@@ -109,7 +109,7 @@ set x0 [expr {0.5*$L}]
 set y0 [expr {0.5*$L}]
 set centerRot(1) $x0
 set centerRot(2) $y0
-set omegaRot 0.5
+set omegaRot 1.0
 
 proc getRot { } {
     # x and y provided by the main program 

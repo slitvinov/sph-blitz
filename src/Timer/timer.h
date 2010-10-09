@@ -15,6 +15,10 @@ public:
   void updateTime(const double new_time);
   ///get current value of time
   double getTime() const;
+  ///update time to a new value
+  void update_dt(const double new_dt);
+  ///get current value of time
+  double get_dt() const;
   ///add observer to the list
   void addTimeObserver( spTimeObserver );
   ///remove observer from the list
@@ -24,6 +28,8 @@ private:
   void notifyAll() const;
   ///current simulation time 
   double _globalTime;
+  ///simulation time step
+  double _dt;
   ///a list of all attached observers
   std::list<spTimeObserver> _notificationList;
   /// to make sure timer was set at least once

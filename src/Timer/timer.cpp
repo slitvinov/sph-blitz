@@ -15,6 +15,14 @@ void Timer::updateTime(const double new_time){
   notifyAll();
 }
 
+void Time::update_dt(const double new_dt) {
+  _dt = new_dt;
+}
+
+double Time::get_dt() const {
+  return _dt;
+}
+
 double Timer::getTime() const {
   assert(_wasSet);
   return _globalTime;
