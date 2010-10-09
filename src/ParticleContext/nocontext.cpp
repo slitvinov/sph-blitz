@@ -16,6 +16,12 @@ void NoContext::UpdateVelocity(spParticle prtl, const Vec2d& newU) const {
   prtl->U = newU;
 }
 
+/// get a new acceleration of the particle based on the context
+bool NoContext::Interacting(spParticle Org, spParticle Dest) const {
+  return true;
+}
+
+
 NoContext::~NoContext() {
   LOG(INFO) << "Destroy NoContext";
 }

@@ -10,15 +10,18 @@
 #include <assert.h>
 
 // ***** localincludes *****
-#include "Kernel/kernel.h"
-#include "Interaction/interactionin.h"
-#include "particle.h"
-#include "initiation.h"
+#include "src/Kernel/kernel.h"
+#include "src/Interaction/interactionin.h"
+#include "src/ParticleContext/particlecontext.h"
+#include "src/particle.h"
+#include "src/initiation.h"
 
 //----------------------------------------------------------------------------------------
 //					update pair forces
 //----------------------------------------------------------------------------------------
 void InteractionIn::UpdateForces() {
+  ///  \todo{This is very slow}
+  if (ini.context->Interacting(Org, Dest)) {
       const double rhoi = Org->rho; 
       const double rhoj = Dest->rho;
       const double Vi = mi/rhoi; 
@@ -38,6 +41,7 @@ void InteractionIn::UpdateForces() {
       const Vec2d dPdti = dPdti_visc  + dPdti_pre;
       Org->dUdt += dPdti*rmi;
       Dest->dUdt -= dPdti*rmj;
+  }
 }
 
 InteractionIn::InteractionIn(const spParticle prtl_org, const spParticle prtl_dest, 

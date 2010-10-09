@@ -39,6 +39,15 @@ void SolidContext::UpdatePosition(spParticle prtl, const Vec2d& newR) {
   prtl->R = newR;
 }
 
+/// check if particles should interact
+bool SolidContext::Interacting(spParticle Org, spParticle Dest) const {
+  const bool orgIsNormal =  solidIDset.find(Org->ID) == solidIDset.end();
+  const bool destIsNormal = solidIDset.find(Dest->ID) == solidIDset.end();
+
+  return (orgIsNormal || destIsNormal);
+}
+
+
 /// how velocity is updated depends on the type of particle
 /// 'solid' particle is not updated
 void SolidContext::UpdateVelocity(spParticle prtl, const Vec2d& newU) const {

@@ -112,6 +112,7 @@ set y0 [expr {0.5*$Ly}]
 set centerRot(0) $x0
 set centerRot(1) $y0
 set omegaRot 0.5
+set movePartilces 0
 
 proc getRot { } {
     # x and y provided by the main program 

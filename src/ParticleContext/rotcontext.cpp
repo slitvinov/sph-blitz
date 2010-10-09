@@ -91,6 +91,14 @@ void RotContext::UpdateVelocity(spParticle prtl, const Vec2d& newU) const {
   }
 }
 
+/// check if particles should interact
+bool RotContext::Interacting(spParticle Org, spParticle Dest) const {
+  const bool orgIsNormal =  rotIDset.find(Org->ID) == rotIDset.end();
+  const bool destIsNormal = rotIDset.find(Dest->ID) == rotIDset.end();
+  return (orgIsNormal || destIsNormal);
+}
+
+
 void RotContext::notify() {
   /// here rotation matrix must be updated
   const double dt = ini.timer->get_dt();

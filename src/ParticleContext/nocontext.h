@@ -17,6 +17,9 @@ class NoContext : public ParticleContext {
   /// get a new velocity of the particle based on the context
   virtual void UpdateVelocity(spParticle prtl, const Vec2d& newU) const;
 
+  /// is particle interacting?
+  virtual bool Interacting(spParticle Org, spParticle Dest) const;
+
   /// destructor 
   virtual ~NoContext();
 };
