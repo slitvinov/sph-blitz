@@ -98,6 +98,15 @@ bool RotContext::Interacting(spParticle Org, spParticle Dest) const {
   return (orgIsNormal || destIsNormal);
 }
 
+/// return context ID: 0 for nocontext and >0 for the special contextd
+/// used to in output.cpp
+int RotContext::ContextID(spParticle Org) const {
+  if ( rotIDset.find(Org->ID) == rotIDset.end()  )  {
+      return 0;
+  } else {
+    return 2;
+  }
+}
 
 void RotContext::notify() {
   /// here rotation matrix must be updated

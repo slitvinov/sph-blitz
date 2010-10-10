@@ -31,7 +31,7 @@ set INTEGRATION_SCHEME 2
 set OUTDIR output
 
 # number of cell
-set ncell 8
+set ncell 10
 set CELLS(0) [expr {2*$ncell}]
 set CELLS(1) $ncell
 
@@ -118,7 +118,7 @@ proc getRot { } {
     # x and y provided by the main program 
     set dx [expr {$x - $x0}]
     set dy [expr {$y - $y0}]
-    if {[expr {pow($dx,2) + pow($dy,2) < pow($R,2)}]} { 
+    if {[expr {pow($dx,2) + pow($dy,2) <= pow($R,2)}]} { 
 	# block 
 	set isrot 1
     } else {

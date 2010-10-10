@@ -22,6 +22,10 @@ class SolidContext : public ParticleContext {
   /// is particle interacting?
   virtual bool Interacting(spParticle Org, spParticle Dest) const;
 
+  /// return context ID: 0 for nocontext and >0 for the special contextd
+  /// used to in output.cpp
+  virtual int ContextID(spParticle Org) const;
+
   /// add particle to the context (only works for the initial conditions)
   virtual void AddParticle(const spParticle prtl) ;
 

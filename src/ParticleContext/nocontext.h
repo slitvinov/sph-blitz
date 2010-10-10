@@ -20,6 +20,10 @@ class NoContext : public ParticleContext {
   /// is particle interacting?
   virtual bool Interacting(spParticle Org, spParticle Dest) const;
 
+  /// return context ID: 0 for nocontext and >0 for the special contextd
+  /// used to in output.cpp
+  virtual int ContextID(spParticle Org) const;
+
   /// destructor 
   virtual ~NoContext();
 };

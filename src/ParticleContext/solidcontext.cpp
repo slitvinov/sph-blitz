@@ -58,6 +58,16 @@ void SolidContext::UpdateVelocity(spParticle prtl, const Vec2d& newU) const {
   /// for solid particle do nothing
 }
 
+/// return context ID: 0 for nocontext and >0 for the special contextd
+/// used to in output.cpp
+int SolidContext::ContextID(spParticle Org) const {
+  if ( solidIDset.find(Org->ID) == solidIDset.end()  )  {
+      return 0;
+  } else {
+    return 2;
+  }
+}
+
 SolidContext::~SolidContext() {
   LOG(INFO) << "Destroy SolidContext";
 }

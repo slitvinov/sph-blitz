@@ -21,6 +21,9 @@ bool NoContext::Interacting(spParticle Org, spParticle Dest) const {
   return true;
 }
 
+int NoContext::ContextID(spParticle) const {
+  return 0;
+}
 
 NoContext::~NoContext() {
   LOG(INFO) << "Destroy NoContext";

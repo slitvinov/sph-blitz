@@ -21,6 +21,11 @@ class ParticleContext : public TimeObserver{
   /// get a new velocity of the particle based on the context
   virtual bool Interacting(spParticle Org, spParticle Dest) const = 0;
 
+  /// return context ID: 0 for nocontext and >0 for the special contextd
+  /// used to in output.cpp
+  virtual int ContextID(spParticle Org) const = 0;
+
+
   /// add particle to the context
   virtual void AddParticle(const spParticle prtl) ;
 
