@@ -28,12 +28,13 @@ set DENSITY_MODE 1
 #1: leap frog
 #2: predictor corrector
 set INTEGRATION_SCHEME 2
-set OUTDIR output
+set OUTDIR output-omega${omegaRot}-ncell${ncell}-xsclae${xscale}-yscale${yscale}-eta${eta}
 
 # number of cell
-set ncell 10
-set CELLS(0) [expr {2*$ncell}]
-set CELLS(1) $ncell
+#set ncell 10
+#set xscale 
+set CELLS(0) [expr {$xscale*$ncell}]
+set CELLS(1) [expr {$yscale*$ncell}]
 
 # sizer of the domain
 
@@ -56,11 +57,10 @@ set T0 1.0
 set G_FORCE(0) 0.0
 set G_FORCE(1) 0.0
 
-
 set Start_time 0.0
-set End_time 2e-2
+set End_time 100.0
 # time between output
-set D_time 5e-3
+set D_time 1.0
 
 # boundary conditions
 set wall 0 
@@ -79,18 +79,18 @@ set UxBr(0) 0.0
 set UxBr(1) 0.0
 
 set yBd $wall
-set UyBd(0) [expr {-0.5*$gamma_dot}]
+set UyBd(0) [expr {-0.5*$gamma_dot*$Ly}]
 set UyBd(1) 0.0
 
 set yBu $wall
-set UyBu(0) [expr {0.5*$gamma_dot}]
+set UyBu(0) [expr {0.5*$gamma_dot*$Ly}]
 set UyBu(1) 0.0
 
 set NUMBER_OF_MATERIALS 2
 set material_name(0) Air
 set material_type(0) 1
 set material_cv(0) 1.0e3
-set material_eta(0) 1.0
+set material_eta(0) $eta
 set material_gamma(0) 7.0
 set material_b0(0) 1.0e2
 set material_rho0(0) 1.0

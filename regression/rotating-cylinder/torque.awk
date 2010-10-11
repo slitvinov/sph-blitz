@@ -23,10 +23,10 @@ NF&&$7>0{
     dx=x-x0
     dy=y-y0
 
-    Fx=$6
-    Fy=$7
+    Fx=$5
+    Fy=$6
     
-    t+= dx*Fx + dy*Fy
+    t+= dx*Fy - dy*Fx
 }
 
 function print_output() {
