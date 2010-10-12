@@ -1,4 +1,48 @@
+inputfile: "rot.in";
+outputfile: "rot.out";
+omega: 0.5;
+
+r_fun(x, y):=sqrt(x^2 + y^2);
+theta_fun(x, y):= atan2(y, x);
+
+x(r,theta):= r*cos(theta);
 y(r,theta):= r*sin(theta);
+
 psif(r, theta):= 1/2*y(r,theta)^2 -
 1/4*(2*(1-2*omega)*log(r) + 1 +
   ((1/r^2 - 2)*cos(2*theta)));
+
+/* components of velocity field */
+u_r(r, theta):= 1/r * ''(diff(psif(r, theta), theta));
+u_theta(r, theta):= - ''(diff(psif(r, theta), r));
+
+/* Jacobian matrix */
+J(r, theta):=matrix( [cos(theta), -sin(theta)], [sin(theta), cos(theta)]);
+
+
+/* check boundary conditions */
+float(u_r(1, %pi/8));
+limit(psif(r, theta)/y(r, theta)^2, r, +inf);
+
+
+rvec(x, y):=block([r, theta, ur, utheta, aux],
+  theta: ''(theta_fun(x, y)),
+  r: ''(r_fun(x, y)),
+  ur: ''(u_r(r, theta)),
+  utheta: ''(u_theta(r, theta)),
+  aux: J(r, theta) . matrix([ur, utheta]),
+  return(aux)
+  );
+
+/* a matrix with (x, y) pairs */
+VX: matrix();
+S: read_matrix(inputfile)$
+for i:1 thru length(S) do
+block([x, y],
+  x: S[i, 1],
+  y: S[i, 2],
+  rmax: float(rvec(x, y)),
+  VX: addrow(VX, transpose(rmax))
+  );
+
+write_data(VX, outputfile);

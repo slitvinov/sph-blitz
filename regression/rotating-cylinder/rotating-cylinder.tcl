@@ -125,3 +125,10 @@ proc getRot { } {
 	set isrot 0
     }
 }
+
+
+proc getVelocity { } {
+    # generate taylor-green initial conditions
+    set vx  [expr {  $gamma_dot * $y - 0.5 *$gamma_dot * $Ly }]
+    set vy  0.0
+}

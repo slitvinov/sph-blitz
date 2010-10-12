@@ -16,3 +16,5 @@
 ** DONE [#A] Add tcl or python support
 ** TODO [#B] Add tau http://www.cs.uoregon.edu/research/tau/home.php
 ** TODO [#B] Add particle generators
+** TODO [#B] Make boundary conditions 3D ready 
+*** should write tests first

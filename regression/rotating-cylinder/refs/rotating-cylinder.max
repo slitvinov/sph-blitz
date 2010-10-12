@@ -1,0 +1,13 @@
+x(r,theta):= r*cos(theta);
+y(r,theta):= r*sin(theta);
+
+psif(r, theta):= 1/2*y(r,theta)^2 -
+1/4*(2*(1-2*omega)*log(r) + 1 +
+  ((1/r^2 - 2)*cos(2*theta)));
+
+/* components of velocity field */
+u_r(r, theta):= 1/r*''(diff(psif(r, theta), theta));
+u_theta(r, theta):= - ''(diff(psif(r, theta), r));
+
+tau_r_theta(r, theta):=  eta * ( ''diff(u_r(r, theta), theta) + ''diff(u_theta(r, theta)/r, r)/r);
+sublis([r=1], integrate(tau_r_theta(r, theta), theta, 0, 2*%pi));
