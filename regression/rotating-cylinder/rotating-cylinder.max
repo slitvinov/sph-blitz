@@ -1,0 +1,4 @@
+y(r,theta):= r*sin(theta);
+psif(r, theta):= 1/2*y(r,theta)^2 -
+1/4*(2*(1-2*omega)*log(r) + 1 +
+  ((1/r^2 - 2)*cos(2*theta)));
