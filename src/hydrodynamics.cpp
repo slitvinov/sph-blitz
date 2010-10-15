@@ -344,7 +344,6 @@ void Hydrodynamics::UpdateVolume(ParticleManager &particles, spKernel weight_fun
 //----------------------------------------------------------------------------------------
 //							get the time step (gasdynamics)
 //----------------------------------------------------------------------------------------
-
 double Hydrodynamics::GetTimestepGas(const Initiation& ini) {
   //maximum sound speed, particle velocity and density
  
@@ -414,6 +413,25 @@ double Hydrodynamics::GetTimestep(const Initiation& ini) const {
   LOG(INFO) << "dt  = " << dt;
   return dt;
 }
+
+//----------------------------------------------------------------------------------------
+//							get the time step (thermo)
+//----------------------------------------------------------------------------------------
+double Hydrodynamics::GetTimestepThermo(const Initiation& ini) const {
+  double min_rho_cv_k = 1e20;
+  for(int k = 0; k < ini.number_of_materials; k++) {
+    const double rho_cv_k = materials[k]->rho0*materials[k]->cv/materials[k]->k_thermal;
+    if (rho_cv_k < min_rho_cv_k) {
+      min_rho_cv_k = rho_cv_k;
+    }
+  }
+  LOG(INFO) << "min_rho_cv_k = " << min_rho_cv_k;
+  const double beta = 0.1;
+  const double dt = 1.44*beta * ini.delta*ini.delta * min_rho_cv_k;
+  LOG(INFO) << "dt = " << dt;
+  return dt;
+}
+
 //----------------------------------------------------------------------------------------
 //						the redictor and corrector method: predictor
 //----------------------------------------------------------------------------------------

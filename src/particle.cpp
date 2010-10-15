@@ -88,7 +88,7 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
 	
   ///- set conservative values (mass and volume determined lateron) and their  intermediate values
   // m = 0.0; // for 2D shock tube mass is initialized from the external
- V = 0.0; e = mtl->get_e(T); e_I = e;
+  V = 0.0; e = mtl->get_e(T); e_I = e;
   R_I = R; P_I = P; rho_I = rho;
   //  rho_n = rho; e_n = e; 
 }

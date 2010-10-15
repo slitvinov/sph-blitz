@@ -31,12 +31,8 @@ set DENSITY_MODE 1
 set INTEGRATION_SCHEME 2
 
 # output directory
-# if isim is not given set OUTDIR to output_co0
-# to set isim variable use
-# SPH_TCL="set isim 42" ./sph ../cases/couette 
-if  [catch {set OUTDIR output_co$isim}] {
-    set OUTDIR output_co0
-} 
+set OUTDIR output
+
 
 # number of cell
 set ncell 8
@@ -62,11 +58,10 @@ set T0 1.0
 set G_FORCE(0) 0.0
 set G_FORCE(1) 0.0
 
-
 set Start_time 0.0
-set End_time 1.0
+set End_time 10.0
 # time between output
-set D_time 1e-6
+set D_time 1e-2
 
 # boundary conditions
 set wall 0 
@@ -75,11 +70,11 @@ set freeslip 2
 set symmetry 3
 
 # type and velocity
-set xBl $periodic
+set xBl $wall
 set UxBl(0) 0.0
 set UxBl(1) 0.0
 
-set xBr $periodic
+set xBr $wall
 set UxBr(0) 0.0
 set UxBr(1) 0.0
 
@@ -111,3 +106,13 @@ set material_gamma(1) $material_gamma(0)
 set material_b0(1) $material_b0(0)
 set material_rho0(1) $material_rho0(0)
 set material_sound_speed(1) $material_sound_speed(0)
+
+set T0 1.0
+proc getTemperature { } {
+    # generate taylor-green initial conditions
+    if {$x > [expr {0.5*$L}]} {
+	set T 0.0
+    } else {
+	set T $T0
+    }
+}

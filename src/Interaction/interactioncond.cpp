@@ -31,10 +31,10 @@ void InteractionCond::UpdateForces() {
 
     /// \todo{should be updated outside}
     const double Ti = (Org->e)/(Org->mtl->cv);
-    const double Tj = (Org->e)/(Org->mtl->cv);
+    const double Tj = (Dest->e)/(Org->mtl->cv);
 
     /// see eq. (28) in Cleary1999 
-    const double dedt_local = 4.0* mj / (rhoi*rhoj) * (ki*kj)/(ki+kj) * (Ti - Tj) * Fij;
+    const double dedt_local = 4.0* mj / (rhoi*rhoj) * (ki*kj)/(ki+kj) * (Ti - Tj) * (-Fij);
 
     Org->dedt += dedt_local;
     Dest->dedt -= dedt_local;

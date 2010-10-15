@@ -45,7 +45,15 @@ void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
   LOG(INFO) << "Start TimeIntegral_summation";
   double integeral_time = 0.0;
   while(integeral_time < D_time) {
-    const double dt = hydro.GetTimestep(ini);
+    double dt;
+    if (ini.simu_mode == 1) {
+      dt = hydro.GetTimestep(ini);
+    } else if (ini.simu_mode == 3) {
+      dt = hydro.GetTimestep(ini);
+    } else {
+      LOG(ERROR) << "wrong simulation mode";
+      exit(EXIT_FAILURE);
+    }
     assert(dt>0.0);
     //control output
     LOG(INFO)<<"\n current timestep:"<<dt<<
