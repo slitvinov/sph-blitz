@@ -9,6 +9,7 @@ reslist="1 2 3"
 for res in $reslist; do
     SPH_TCL="set res_level $res" ./sph couette
     # copy log files
+    touch /tmp/sph.INFO /tmp/sph.ERROR
     cp /tmp/sph.INFO /tmp/sph.ERROR output$res/
     # to get the time step from the name of output file
     time=$(echo output$res/prtl0015*.dat | awk -v FS="prtl" '{print $2}'  | tr -d '.dat')

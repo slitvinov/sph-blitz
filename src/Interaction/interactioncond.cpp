@@ -46,9 +46,8 @@ InteractionCond::InteractionCond(const spParticle prtl_org, const spParticle prt
 	      const Initiation& ini): 
   Interaction(prtl_org, prtl_dest, weight_function, dstc, ini) {
   assert(ini.simu_mode == 3);
-  LOG(INFO) << "Constructor of InteractionCond is called";
 }
 
 InteractionCond::~InteractionCond() {
-  LOG(INFO) << "Destructor of InteractionCond is called";
+  
 }
