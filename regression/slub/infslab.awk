@@ -7,6 +7,7 @@
 # plot "<awk -v test_erf=1 -v x=1.0 -f infslab.awk ", erfc(x)
 # Usage
 # seq 0.0 0.01 1.0 | awk -v k_l=1.0 -v rho_l=1e3 -v cv_l=1.0 -v Tl=0.0 -v Tr=1.0 -v xm=0.5 -v t=0.1 -f infslab.awk 
+# seq 0.0 0.001 1.0 | awk -v k_l=1.0 -v rho_l=1e3 -v cv_l=1.0 -v Tl=0.0 -v Tr=1.0 -v xm=0.5 -v t=0.1 -f infslab.awk
 
 function abs(x) {
     if (x>0) {
