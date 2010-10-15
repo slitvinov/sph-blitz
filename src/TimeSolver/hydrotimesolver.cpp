@@ -49,7 +49,7 @@ void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
     if (ini.simu_mode == 1) {
       dt = hydro.GetTimestep(ini);
     } else if (ini.simu_mode == 3) {
-      dt = hydro.GetTimestep(ini);
+      dt = hydro.GetTimestepThermo(ini);
     } else {
       LOG(ERROR) << "wrong simulation mode";
       exit(EXIT_FAILURE);
