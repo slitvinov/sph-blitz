@@ -17,6 +17,7 @@
 #include "particlemanager.h"
 #include "ParticleGenerator/particlegenerator.h"
 #include "hydrodynamics.h"
+#include "Interaction/interactioncond.h"
 #include "Interaction/interactionin.h"
 #include "Interaction/interactioncomp.h"
 #include "Interaction/interactionangular.h"
@@ -159,22 +160,30 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
 	    ///interaction takes place: add pair to inetraction list 
 	    const double dstc = v_sq(prtl_org->R - prtl_dest->R);
 	    if( (dstc < supportlengthsquare) && (prtl_org->ID > prtl_dest->ID)) {
+	      switch (ini.simu_mode) {
 	      /// choose the type of interaction
-	      if (ini.simu_mode == 1) {
+	      case 1: 
 		interactions.push_back
 		  (boost::make_shared<InteractionIn>(prtl_org, prtl_dest, 
 						     weight_function, sqrt(dstc),
 						     ini));
-	      } else if (ini.simu_mode == 2) {
+		break;
+	      case 2:
 		interactions.push_back
 		  (boost::make_shared<InteractionComp>(prtl_org, prtl_dest, 
-						     weight_function, sqrt(dstc),
-						     ini));
-	      } else {
+						       weight_function, sqrt(dstc),
+						       ini));
+		break;
+	      case 3:
+		interactions.push_back
+		  (boost::make_shared<InteractionCond>(prtl_org, prtl_dest, 
+						       weight_function, sqrt(dstc),
+						       ini));
+		break;
+	      default:
 		std::cerr << __FILE__ << ':' << __LINE__ << " unknown simulation mode (check SIMULATION_MODE)";
 		std::exit(EXIT_FAILURE);
 	      }
-	      
 	    }
 	  }
 	}

@@ -35,6 +35,7 @@ nomain=	boundary.cpp boundary.h \
 	ParticleContext/particlecontext.cpp ParticleContext/particlecontext.h \
 	ParticleContext/rotcontext.cpp ParticleContext/rotcontext.h \
 	Interaction/interaction.cpp  Interaction/interaction.h \
+	Interaction/interactioncond.cpp  Interaction/interactioncond.h \
 	Interaction/interactioncomp.cpp  Interaction/interactioncomp.h \
 	Interaction/interactionin.cpp  Interaction/interactionin.h \
 	Interaction/interactionangular.cpp Interaction/interactionangular.h \
