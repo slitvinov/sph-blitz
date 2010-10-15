@@ -21,7 +21,7 @@
 //					update pair forces
 //----------------------------------------------------------------------------------------
 void InteractionCond::UpdateForces() {
-  ///  \todo{This is very slow}
+  ///  \todo{This condition check is very slow}
   if (ini.context->Interacting(Org, Dest)) {
     const double rhoi = Org->rho; 
     const double rhoj = Dest->rho;

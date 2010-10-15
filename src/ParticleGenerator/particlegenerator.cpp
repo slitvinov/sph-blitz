@@ -52,14 +52,15 @@ int ParticleGenerator::getParticleMaterialNo(Initiation& ini ,
 Vec2d ParticleGenerator::getParticleVelocity(Initiation& ini ,
 					     const Vec2d& position) {
   // if no proc in the tcl file set default material number 
-  if (!ini.interp->isproc("getVelocity") ) {
+  const std::string procname="getVelocity";
+  if (!ini.interp->isproc(procname) ) {
     LOG(INFO) << "return default velocity: " << ini.U0;
     return Vec2d(ini.U0);
   } else {
     // set position of the particle and call the function
     ini.interp->setdouble("x", position[0]);
     ini.interp->setdouble("y", position[1]);
-    ini.interp->evalproc("getVelocity");
+    ini.interp->evalproc(procname);
     const double vx  = ini.interp->getval("vx");
     const double vy  = ini.interp->getval("vy");
     const Vec2d velocity(vx, vy);
@@ -68,3 +69,20 @@ Vec2d ParticleGenerator::getParticleVelocity(Initiation& ini ,
   } 
 }
 
+double ParticleGenerator::getParticleTemperature(Initiation& ini ,
+						 const Vec2d& position) {
+  // if no proc in the tcl file set default material number 
+  const std::string procname="getTemperature";
+  if (!ini.interp->isproc(procname) ) {
+    LOG(INFO) << "return default velocity: " << ini.U0;
+    return ini.T0;
+  } else {
+    // set position of the particle and call the function
+    ini.interp->setdouble("x", position[0]);
+    ini.interp->setdouble("y", position[1]);
+    ini.interp->evalproc(procname);
+    const double T  = ini.interp->getval("T");
+    LOG(INFO) << "for particle " << position << " return temperature is " << T;
+    return T;
+  } 
+}

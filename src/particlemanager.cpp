@@ -11,18 +11,18 @@
 #include <glog/logging.h>
 #include <boost/foreach.hpp>
 #include <boost/smart_ptr/make_shared.hpp>
-#include "ParticleContext/particlecontext.h"
+#include "src/ParticleContext/particlecontext.h"
 
 // ***** local includes *****
-#include "particlemanager.h"
-#include "ParticleGenerator/particlegenerator.h"
-#include "hydrodynamics.h"
-#include "Interaction/interactioncond.h"
-#include "Interaction/interactionin.h"
-#include "Interaction/interactioncomp.h"
-#include "Interaction/interactionangular.h"
-#include "initiation.h"
-#include "boundary.h"
+#include "src/particlemanager.h"
+#include "src/ParticleGenerator/particlegenerator.h"
+#include "src/hydrodynamics.h"
+#include "src/Interaction/interactioncond.h"
+#include "src/Interaction/interactionin.h"
+#include "src/Interaction/interactioncomp.h"
+#include "src/Interaction/interactionangular.h"
+#include "src/initiation.h"
+#include "src/boundary.h"
 using namespace std;
 
 //----------------------------------------------------------------------------------------
@@ -232,7 +232,7 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 	    /// ask Initiation for the material number of this particle
 	    const int material_no = pgen.getParticleMaterialNo(ini, position);
 	    const Vec2d velocity = pgen.getParticleVelocity(ini, position);
-	    const double Temperature = ini.T0;
+	    const double Temperature = pgen.getParticleTemperature(ini, position);
 	    const double density = materials[material_no]->rho0;
 	    const double pressure = materials[material_no]->get_p(density);
 	    //create a new real particle

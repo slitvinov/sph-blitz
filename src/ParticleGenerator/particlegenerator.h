@@ -1,6 +1,6 @@
 #ifndef SRC_PARTICLEGENERATOR_PARTICLEGENERATOR_H
 #define SRC_PARTICLEGENERATOR_PARTICLEGENERATOR_H
-#include "vec2d.h"
+#include "src/vec2d.h"
 #include <boost/random.hpp>
 class Initiation;
 
@@ -22,6 +22,10 @@ public:
   /// return particle velocity
   Vec2d getParticleVelocity(Initiation& ini,
 			    const Vec2d& position);
+
+  double getParticleTemperature(Initiation& ini ,
+				const Vec2d& position);
+
 private:
   boost::mt19937 engine;
   boost::uniform_real<double> distrib;
