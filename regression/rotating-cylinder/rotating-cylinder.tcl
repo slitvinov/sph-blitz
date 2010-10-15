@@ -24,11 +24,14 @@ set INITIAL_CONDITION	0
 #2: continuity density (density is integrated)
 set DENSITY_MODE 1
 
+# the number of particles in one support length
+set CELL_RATIO  3
+
 #possible integration schemes
 #1: leap frog
 #2: predictor corrector
 set INTEGRATION_SCHEME 2
-set OUTDIR output-omega${omegaRot}-ncell${ncell}-xsclae${xscale}-yscale${yscale}-eta${eta}
+set OUTDIR output-omega${omegaRot}-ncell${ncell}-xsclae${xscale}-yscale${yscale}-eta${eta}-ratio${CELL_RATIO}
 
 # number of cell
 #set ncell 10
@@ -43,8 +46,6 @@ set CELL_SIZE $SUPPORT_LENGTH
 set Lx [expr {$CELL_SIZE * $CELLS(0)}]
 set Ly [expr {$CELL_SIZE * $CELLS(1)}]
 
-# the number of particles in one support length
-set CELL_RATIO  3
 
 # initial velocity
 set U0(0) 0.0
