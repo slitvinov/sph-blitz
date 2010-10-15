@@ -71,8 +71,6 @@ class Particle {
 	Vec2d R_I;///<intermediate position
 	Vec2d P_I;///<intermediate momentim
 	Vec2d U_I;///<intermediate velocity
-	Vec2d P_n;///<do not knwo what this is n=?conservative???<b>!!!Question!!!</b>
-	Vec2d U_n; ///<do not knwo what this is n=?conservative???<b>!!!Question!!!</b>
 	double e_I;///<intermediate value of internal enegry (used in the integrator)
         double e_n; //intermediate volume, internal energy used in integrator
 
