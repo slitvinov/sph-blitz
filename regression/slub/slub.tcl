@@ -61,9 +61,9 @@ set G_FORCE(0) 0.0
 set G_FORCE(1) 0.0
 
 set Start_time 0.0
-set End_time 10.0
+set End_time 0.1
 # time between output
-set D_time 1e-2
+set D_time 0.1
 
 # boundary conditions
 set wall 0 
