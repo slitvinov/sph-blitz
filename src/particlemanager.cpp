@@ -218,7 +218,7 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
   //initialize particles from the file .tlc
   if(initial_condition==0) {	
     //initialize the real particles inside the boundary
-    LOG(INFO) << "Run simu_mode = 1, initial_condition = 0 version of BuildRealParticle";
+    LOG(INFO) << "Run simu_mode = 1 or simu_mode = 3, initial_condition = 0 version of BuildRealParticle";
     ParticleGenerator pgen;
     for(int i = 1; i < x_clls - 1; i++) {
       for(int j = 1; j < y_clls - 1; j++) {
@@ -252,7 +252,7 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 	} // k loop
       } // j loop
     } // i loop
-    LOG(INFO) << "End of  simu_mode = 1, initial_condition = 0 version of BuildRealParticle";
+    LOG(INFO) << "End of  simu_mode = 1 or simu_mode = 3, initial_condition = 0 version of BuildRealParticle";
   } /// initial_condition==0 condition
 	
   //initialize real particles from the non-dimensional restart file .rst

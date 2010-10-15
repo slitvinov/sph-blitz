@@ -61,7 +61,7 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   simu_mode = interp->getval("SIMULATION_MODE");
   // (already tested in sph.cpp) 
   // LITVINOV: it is better to fall as soon possible
-  assert(simu_mode==1||simu_mode==2); 
+  assert(simu_mode==1||simu_mode==2||simu_mode==3); 
   density_mode = interp->getval("DENSITY_MODE");
   assert(density_mode == 1 || density_mode == 2);
   kernel_type = static_cast<std::string>(interp->getval("KERNEL_TYPE"));

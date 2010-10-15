@@ -118,32 +118,36 @@ int main(int argc, char *argv[]) {
   
   /// a smart pointer to timesolver
   spTimeSolver timesolver;
-  switch (ini.simu_mode) 
-  {
+  switch (ini.simu_mode)  {
+  case 1: 
+    /// call a HydroTimeSolver constructor and get a shared_ptr 
+    timesolver = boost::make_shared<HydroTimeSolver>();
+    break;
+  case 2:
+    switch (ini.integration_scheme) {
     case 1: 
-      /// call a HydroTimeSolver constructor and get a shared_ptr 
-      timesolver = boost::make_shared<HydroTimeSolver>();
+      /// call a GasTimeSolverLeapFrog constructor and get a shared_ptr 
+      timesolver = boost::make_shared<GasTimeSolverLeapFrog>();
       break;
     case 2:
-       switch (ini.integration_scheme)
-       {
-         case 1: 
-	   /// call a GasTimeSolverLeapFrog constructor and get a shared_ptr 
-	   timesolver = boost::make_shared<GasTimeSolverLeapFrog>();
-	   break;
-         case 2:
-	   /// call a GasTimeSolverPredCorr constructor and get a shared_ptr 
-	   timesolver = boost::make_shared<GasTimeSolverPredCorr>();
-	   break;
-         default:
-	  std::cerr << __FILE__ << ':' << __LINE__ << " unknown time solver scheme, must be 1: leap frog, or 2: Predictor Corrector (INTEGRATION_SCHEME parameter in configuration file)\n" ;
-	  exit(EXIT_FAILURE);
-       }
-       break;
-      default:
-      std::cerr << __FILE__ << ':' << __LINE__ << " unknown simulation mode (SIMULATION_MODE in configuration file)\n" ;
+	/// call a GasTimeSolverPredCorr constructor and get a shared_ptr 
+      timesolver = boost::make_shared<GasTimeSolverPredCorr>();
+      break;
+    default:
+      std::cerr << __FILE__ << ':' << __LINE__ << " unknown time solver scheme";
+      std::cerr << "must be 1: leap frog, or 2: Predictor Corrector (INTEGRATION_SCHEME parameter in configuration file)\n";
       exit(EXIT_FAILURE);
+    }
+    break;
+  case 3:
+    /// call a HydroTimeSolver constructor and get a shared_ptr 
+    timesolver = boost::make_shared<HydroTimeSolver>();
+   break;
+  default:
+    std::cerr << __FILE__ << ':' << __LINE__ << " unknown simulation mode (SIMULATION_MODE in configuration file)\n" ;
+    exit(EXIT_FAILURE);
   }
+
   /// make sure the pointer is created
   assert(timesolver != NULL);
   timesolver->show_information();
@@ -156,7 +160,7 @@ int main(int argc, char *argv[]) {
 
   Output output; ///- initialize output class (should be the last to be initialized)
 
-  if (ini.simu_mode == 1) {
+  if (ini.simu_mode == 1 || ini.simu_mode == 3) {
     ini.VolumeMass(hydro, particles, weight_function); //predict particle volume and mass
   }
 

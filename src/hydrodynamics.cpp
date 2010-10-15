@@ -57,6 +57,8 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini):
     particles.BuildRealParticle(materials, particle_list, ini);
   }  else if (ini.simu_mode == 2) {
     particles.BuildRealParticleGasDyn(materials, particle_list, ini);
+  } else if (ini.simu_mode == 3) {
+    particles.BuildRealParticle(materials, particle_list, ini);
   } else {
     LOG(ERROR) << "Unknown SIMULATION_MODE: " << ini.simu_mode;
     LOG(ERROR) << "check configuration file";
