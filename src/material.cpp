@@ -34,6 +34,10 @@ Material::Material(Initiation &ini, const int index):
   if (ini.simu_mode == 2) {
     zeta = ini.interp->getat("material_zeta",  index);
   }
+  /// thermal condactivity simulation
+  if (ini.simu_mode == 3) {
+    k_thermal = ini.interp->getat("material_kthermal",  index);
+  }
   LOG(INFO) << "Material object is created";
 }
 

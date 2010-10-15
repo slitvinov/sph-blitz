@@ -34,6 +34,9 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
   ///- set viscosity
   eta = mtl->eta;
 
+  ///- set particle thermal condactivity
+  k_thermal = mtl->k_thermal;
+
   ///- set particle position
   R = position; 
 	
@@ -45,7 +48,7 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
   // m = 0.0; // for 2D shock tube mass is initialized from the external
   V = 0.0; e = mtl->get_e(T); e_I = e;
   R_I = R; P_I = P; rho_I = rho;
-  rho_n = rho; e_n = e; 
+  //  rho_n = rho; e_n = e; 
 
 }
 
@@ -68,6 +71,9 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
   ///- give a new ID number
   ID = ID_max;
 
+  ///- set particle thermal condactivity
+  k_thermal = mtl->k_thermal;
+
     ///- set viscosities
   eta = mtl->eta;//(shear)
   zeta=mtl->zeta;//(bulk)
@@ -84,7 +90,7 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
   // m = 0.0; // for 2D shock tube mass is initialized from the external
  V = 0.0; e = mtl->get_e(T); e_I = e;
   R_I = R; P_I = P; rho_I = rho;
-  rho_n = rho; e_n = e; 
+  //  rho_n = rho; e_n = e; 
 }
 
 //----------------------------------------------------------------------------------------
@@ -121,10 +127,6 @@ Particle::Particle (spParticle RealParticle ) :
   ///- point to its real particle
   rl_prtl = RealParticle ;
 
-  ///- set viscosity
-  // eta = mtl->eta;
-  
-
   ///- set states
   R = RealParticle->R; rho = RealParticle->rho; p = RealParticle->p; T = RealParticle->T;
   Cs =RealParticle->Cs; U = RealParticle->U; U_I = RealParticle->U_I;
@@ -133,9 +135,13 @@ Particle::Particle (spParticle RealParticle ) :
   m = RealParticle->m; V = RealParticle->V; e = RealParticle->e; 
   R_I = RealParticle->R_I;	e_I = RealParticle->e_I;
   P = RealParticle->P; P_I = RealParticle->P_I; rho_I = rho;
-  rho_n = RealParticle->rho_n;
-  e_n = RealParticle->e_n;
+  //  rho_n = RealParticle->rho_n;
+  //  e_n = RealParticle->e_n;
   //viscosities copied as well for ghost particles (as they can be variable)
+  
+  ///- set particle thermal condactivity
+  k_thermal = RealParticle->k_thermal;
+
   eta = RealParticle->eta;
   zeta=RealParticle->zeta;
 	
@@ -153,7 +159,7 @@ Particle::Particle (spParticle RealParticle , spMaterial material):
 
   ///- point to its real particle
 
-
+  k_thermal = RealParticle->k_thermal;
 
   ///- set viscosity
   eta = RealParticle->eta;
@@ -167,8 +173,8 @@ Particle::Particle (spParticle RealParticle , spMaterial material):
   m = RealParticle->m; V = RealParticle->V; e = RealParticle->e; 
   R_I = RealParticle->R_I;	e_I = RealParticle->e_I;
   P = RealParticle->P; P_I = RealParticle->P_I; rho_I = rho;
-  rho_n = RealParticle->rho_n;
-  e_n = RealParticle->e_n; 
+  //  rho_n = RealParticle->rho_n;
+  //  e_n = RealParticle->e_n; 
 //viscosities not copied for image particles (as in general different material than real particles)
 
 }
@@ -185,6 +191,7 @@ void Particle ::StatesCopier(spParticle RealParticle , const int)
   rho_I = RealParticle->rho_I;
   Cs =RealParticle->Cs; U = RealParticle->U; U_I = RealParticle->U_I;
   //add viscosity copier (for the case of varaible viscosity)
+  k_thermal = RealParticle->k_thermal;
   eta = RealParticle->eta;
   zeta=RealParticle->zeta;
 }

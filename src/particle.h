@@ -64,7 +64,7 @@ public:
   double T;///<Temperature
   double Cs;///<sound speed
   double rho_I;///<intermediate value for density (needed for integration)
-  double rho_n; ////<do not know what this is ("conservative value") <b>!!!Question!!!</b>
+  //  double rho_n; ////<do not know what this is ("conservative value") <b>!!!Question!!!</b>
   double m;///<mass
   double V;///<volume
   double e; ///<internal energy
@@ -72,9 +72,9 @@ public:
   Vec2d P_I;///<intermediate momentim
   Vec2d U_I;///<intermediate velocity
   double e_I;///<intermediate value of internal enegry (used in the integrator)
-  double e_n; //intermediate volume, internal energy used in integrator
+  //  double e_n; //intermediate volume, internal energy used in integrator
   
-  
+  double k_thermal;///<thermal condactivity
   double eta; ///<(shear) viscosity of each particle
   double zeta; ///<bulk viscosity of each particle
   //change rate for real particles

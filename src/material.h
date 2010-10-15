@@ -6,7 +6,7 @@
 #include <string>
 #include <boost/smart_ptr/shared_ptr.hpp>
 
-class Material;
+//class Material;
 class Initiation;
 
 /// Material 
@@ -26,6 +26,7 @@ public:
   /// material_type
   const int material_no;
 
+  double k_thermal; ///<thermal condactivity
   double cv;///<heat capacity
   double eta;///<(shear) viscosity
   double zeta;///<bulk viscosity
