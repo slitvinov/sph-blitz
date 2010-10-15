@@ -68,7 +68,7 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
 	      << "  " << prtl->U[0] << "  " << prtl->U[1] 
 	      << "  " << prtl->dUdt[0] << "  " << prtl->dUdt[1] 
 	      << "  " << ini.context->ContextID(prtl)
-	      << "  " << prtl->rho << '\n';
+	      << "  " << prtl->rho << "  " << prtl->e << '\n';
         }
 	if (ini.simu_mode == 2) {
 	  if (ini.splash_optimized_output==0)

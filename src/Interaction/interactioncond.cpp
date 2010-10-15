@@ -15,6 +15,7 @@
 #include "src/ParticleContext/particlecontext.h"
 #include "src/particle.h"
 #include "src/initiation.h"
+#include "src/material.h"
 
 //----------------------------------------------------------------------------------------
 //					update pair forces
@@ -22,25 +23,21 @@
 void InteractionCond::UpdateForces() {
   ///  \todo{This is very slow}
   if (ini.context->Interacting(Org, Dest)) {
-      const double rhoi = Org->rho; 
-      const double rhoj = Dest->rho;
-      const double Vi = mi/rhoi; 
-      const double Vj = mj/rhoj;
-      assert(Vi>0.0);
-      assert(Vj>0.0);
-      const double Vi2 = Vi*Vi; 
-      const double Vj2 = Vj*Vj;
-      const double shear_rij = 2.0*etai*etaj/(etai + etaj);
-      const Vec2d Uij = Org->U - Dest->U;
-      const double pi = Org->p; 
-      const double pj = Dest->p;
-      /// viscous forces
-      const Vec2d dPdti_visc = -shear_rij*Fij*(Vi2 + Vj2) * Uij;
-      /// pressure forces
-      const Vec2d dPdti_pre = eij*Fij*rij*(pi*Vi2 + pj*Vj2);
-      const Vec2d dPdti = dPdti_visc  + dPdti_pre;
-      Org->dUdt += dPdti*rmi;
-      Dest->dUdt -= dPdti*rmj;
+    const double rhoi = Org->rho; 
+    const double rhoj = Dest->rho;
+
+    const double ki = Org->k_thermal;
+    const double kj = Dest->k_thermal;
+
+    /// \todo{should be updated outside}
+    const double Ti = (Org->e)/(Org->mtl->cv);
+    const double Tj = (Org->e)/(Org->mtl->cv);
+
+    /// see eq. (28) in Cleary1999 
+    const double dedt_local = 4.0* mj / (rhoi*rhoj) * (ki*kj)/(ki+kj) * (Ti - Tj) * Fij;
+
+    Org->dedt += dedt_local;
+    Dest->dedt -= dedt_local;
   }
 }
 
@@ -48,8 +45,10 @@ InteractionCond::InteractionCond(const spParticle prtl_org, const spParticle prt
 	      spKernel weight_function, const double dstc,
 	      const Initiation& ini): 
   Interaction(prtl_org, prtl_dest, weight_function, dstc, ini) {
-  assert(ini.simu_mode == 1);
+  assert(ini.simu_mode == 3);
+  LOG(INFO) << "Constructor of InteractionCond is called";
 }
 
 InteractionCond::~InteractionCond() {
+  LOG(INFO) << "Destructor of InteractionCond is called";
 }
