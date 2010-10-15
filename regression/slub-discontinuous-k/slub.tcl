@@ -31,17 +31,19 @@ set DENSITY_MODE 1
 set INTEGRATION_SCHEME 2
 
 # output directory
-if  [catch {set OUTDIR output$res_level}] {
-    set res_level 10
-    set OUTDIR output$res_level
-} 
+if  [catch {set OUTDIR output_res${res_level}_kl$kl}] {
+    # default values of resolution level and kl
+    set res_level 30
+    set kl 10
+    set OUTDIR output_res${res_level}_kl$kl
+}
 
 # number of cell
 set ncell $res_level
 set CELLS(0) $ncell
 set CELLS(1) [expr {int(0.5*$ncell)}]
 
-# sizer of the domain
+# size of the domain
 set L 1.0
 set SUPPORT_LENGTH [expr {$L / $ncell}]
 set CELL_SIZE $SUPPORT_LENGTH
@@ -88,26 +90,36 @@ set yBu $wall
 set UyBu(0) 0.0
 set UyBu(1) 0.0
 
-set NUMBER_OF_MATERIALS 2
-set material_name(0) Air
-set material_type(0) 1
-set material_cv(0) 1.0
-set material_kthermal(0) 1.0
-set material_eta(0) 1.0e-3
-set material_gamma(0) 7.0
-set material_b0(0) 1.0e2
-set material_rho0(0) 1.0e3
-set material_sound_speed(0) 1.0e2
+set NUMBER_OF_MATERIALS 3
+set material_name(1) Bulk1
+set material_type(1) 1
+set material_cv(1) 1.0
+set material_kthermal(1) 1.0
+set material_eta(1) 1.0e-3
+set material_gamma(1) 7.0
+set material_b0(1) 1.0e2
+set material_rho0(1) 1.0e3
+set material_sound_speed(1) 1.0e2
 
-set material_name(1) $material_name(0)
-set material_type(1) $material_type(0)
-set material_cv(1) $material_cv(0)
-set material_kthermal(1) $material_kthermal(0)
-set material_eta(1) $material_eta(0)
-set material_gamma(1) $material_gamma(0)
-set material_b0(1) $material_b0(0)
-set material_rho0(1) $material_rho0(0)
-set material_sound_speed(1) $material_sound_speed(0)
+set material_name(0) Wall
+set material_type(0) $material_type(1)
+set material_cv(0) $material_cv(1)
+set material_kthermal(0) $material_kthermal(1)
+set material_eta(0) $material_eta(1)
+set material_gamma(0) $material_gamma(1)
+set material_b0(0) $material_b0(1)
+set material_rho0(0) $material_rho0(1)
+set material_sound_speed(0) $material_sound_speed(1)
+
+set material_name(2) Bulk2
+set material_type(2) $material_type(1)
+set material_cv(2) $material_cv(1)
+set material_kthermal(2) $kl
+set material_eta(2) $material_eta(1)
+set material_gamma(2) $material_gamma(1)
+set material_b0(2) $material_b0(1)
+set material_rho0(2) $material_rho0(1)
+set material_sound_speed(2) $material_sound_speed(1)
 
 set T0 1.0
 proc getTemperature { } {
@@ -118,3 +130,13 @@ proc getTemperature { } {
 	set T 0.0
     }
 }
+
+proc getmatNo { } {
+    # generate taylor-green initial conditions
+    if {$x > [expr {0.5*$L}]} {
+	set no 2
+    } else {
+	set no 1
+    }
+}
+
