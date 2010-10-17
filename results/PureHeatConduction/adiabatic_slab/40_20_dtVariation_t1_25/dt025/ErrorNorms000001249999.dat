@@ -1,0 +1,7 @@
+norm errors
+
+ L1  |  L2  |  L_oo
+
+0.000716284 0.00167812 0.00562007
+
+ energy content represented by=1/N_i*sum(e_i): 0.5

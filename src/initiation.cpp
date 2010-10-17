@@ -1,6 +1,6 @@
 /// \file initiation.cpp
 /// \author author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
+/// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
 
 //----------------------------------------------------------------------------------------
 //      initialize the progam
@@ -70,11 +70,19 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
     assert(physical_viscosity_marker==0||physical_viscosity_marker==1);
     artificial_viscosity_marker=interp.eval("[return $ARTIFICIAL_VISCOSITY_MARKER]");
     assert(artificial_viscosity_marker==0||artificial_viscosity_marker==1||artificial_viscosity_marker==2);
+    // read pure_conduction marker
+    pure_conduction = interp.eval("[return $PURE_CONDUCTION]");
+    assert( (pure_conduction==0)||(pure_conduction==1));
+    // read isothermal BC marker
+    isothermal_boundary = interp.eval("[return $ISOTHERMAL_BOUNDARY]");
+    assert( (isothermal_boundary==0)||(isothermal_boundary==1));
+    // read autom. dt control marker
     autom_dt_control=interp.eval("[return $AUTOMATIC_DT_CONTROL_MARKER]");
     assert(autom_dt_control==0||autom_dt_control==1);
     if(autom_dt_control==0)//if dt_auto turned out, take man. choosen dt
-       manually_choosen_dt = interp.eval("[return $manually_choosen_dt]");
-
+      manually_choosen_dt = interp.eval("[return $manually_choosen_dt]");
+    xxl_timestamp_marker=interp.eval("[return $XXL_TIMESTAMP_MARKER]");
+    assert(xxl_timestamp_marker==0||xxl_timestamp_marker==1);
   } 
   x_cells = interp.eval ("[return $CELLS(0)]");
   assert(x_cells > 0);

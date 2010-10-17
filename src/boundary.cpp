@@ -16,6 +16,7 @@
 Boundary::Boundary(Initiation &ini, const ParticleManager &particles) {
   /// copy global properties from initiation class
   box_size = ini.box_size;
+  isothermal_boundary=ini.isothermal_boundary;
   x_clls = particles.x_clls;
   y_clls = particles.y_clls;
   // check if inputfile exist
@@ -24,19 +25,31 @@ Boundary::Boundary(Initiation &ini, const ParticleManager &particles) {
   xBr = ini.interp.eval("[return $xBr]");
   UxBr[0] = ini.interp.eval("[return $UxBr(0)]");
   UxBr[1] = ini.interp.eval("[return $UxBr(1)]");
-
+  //read temerature if isothermal boudary condition activated
+  if(isothermal_boundary==1)
+    TxBr = ini.interp.eval("[return $TxBr]");
+  
   xBl = ini.interp.eval("[return $xBl]");
   UxBl[0] = ini.interp.eval("[return $UxBl(0)]");
   UxBl[1] = ini.interp.eval("[return $UxBl(1)]");
-
+  //read temerature if isothermal boudary condition activated
+  if(isothermal_boundary==1)
+    TxBl = ini.interp.eval("[return $TxBl]");
+  
   yBd = ini.interp.eval("[return $yBd]");
   UyBd[0] = ini.interp.eval("[return $UyBd(0)]");
   UyBd[1] = ini.interp.eval("[return $UyBd(1)]");
-
+  //read temerature if isothermal boudary condition activated
+  if(isothermal_boundary==1)
+    TyBd = ini.interp.eval("[return $TyBd]");
+  
   yBu = ini.interp.eval("[return $yBu]");
   UyBu[0] = ini.interp.eval("[return $UyBu(0)]");
   UyBu[1] = ini.interp.eval("[return $UyBu(1)]");
-
+  //read temerature if isothermal boudary condition activated
+  if(isothermal_boundary==1)
+    TyBu = ini.interp.eval("[return $TyBu]");
+  
 
   show_information();
 
@@ -1092,6 +1105,9 @@ void Boundary::Boundary_W(spParticle prtl)
     case 0: 
       prtl->R[0] = - prtl->R[0]; 
       prtl->U = UxBl*2.0 - prtl->U;
+      //besides set temperature if isothermal boundary
+      if(isothermal_boundary==1)
+	prtl->T=TxBl;
       break;
       //perodic
     case 1:
@@ -1101,6 +1117,9 @@ void Boundary::Boundary_W(spParticle prtl)
     case 2: 
       prtl->R[0] = - prtl->R[0]; 
       prtl->U[0] = UxBl[0]*2.0 - prtl->U[0];
+      //besides set temperature if isothermal boundary
+      if(isothermal_boundary==1)
+	prtl->T=TxBl;
       break;
       //symmetry
     case 3: 
@@ -1120,6 +1139,9 @@ void Boundary::Boundary_E(spParticle prtl)
     case 0: 
       prtl->R[0] = box_size[0]*2.0 - prtl->R[0]; 
       prtl->U = UxBr*2.0 - prtl->U;
+ //besides set temperature if isothermal boundary
+      if(isothermal_boundary==1)
+	prtl->T=TxBr;
       break;
       //perodic
     case 1:
@@ -1129,6 +1151,9 @@ void Boundary::Boundary_E(spParticle prtl)
     case 2: 
       prtl->R[0] = box_size[0]*2.0 - prtl->R[0]; 
       prtl->U[0] = UxBr[0]*2.0 - prtl->U[0];
+      //besides set temperature if isothermal boundary
+      if(isothermal_boundary==1)
+	prtl->T=TxBr;
       break;
       //symmetry
     case 3: 
@@ -1148,6 +1173,9 @@ void Boundary::Boundary_S(spParticle prtl)
     case 0: 
       prtl->R[1] = - prtl->R[1]; 
       prtl->U = UyBd*2.0 - prtl->U;
+      //besides set temperature if isothermal boundary
+      if(isothermal_boundary==1)
+	prtl->T=TyBd;
       break;
       //perodic
     case 1:
@@ -1157,6 +1185,9 @@ void Boundary::Boundary_S(spParticle prtl)
     case 2: 
       prtl->R[1] = - prtl->R[1]; 
       prtl->U[1] = UyBd[1]*2.0 - prtl->U[1];
+      //besides set temperature if isothermal boundary
+      if(isothermal_boundary==1)
+	prtl->T=TyBd;
       break;
       //symmetry
     case 3: 
@@ -1176,6 +1207,9 @@ void Boundary::Boundary_N(spParticle prtl)
     case 0: 
       prtl->R[1] = box_size[1]*2.0 - prtl->R[1]; 
       prtl->U = UyBu*2.0 - prtl->U;
+      //besides set temperature if isothermal boundary
+      if(isothermal_boundary==1)
+	prtl->T=TyBu;
       break;
       //perodic
     case 1:
@@ -1185,6 +1219,9 @@ void Boundary::Boundary_N(spParticle prtl)
     case 2: 
       prtl->R[1] = box_size[1]*2.0 - prtl->R[1]; 
       prtl->U[1] = UyBu[1]*2.0 - prtl->U[1];
+     //besides set temperature if isothermal boundary
+      if(isothermal_boundary==1)
+	prtl->T=TyBu;
       break;
       //symmetry
     case 3: 
@@ -1205,6 +1242,9 @@ void Boundary::Boundary_SW(spParticle prtl)
       prtl->R = - prtl->R;
       prtl->U[0] = UyBd[0]*2.0 - prtl->U[0];
       prtl->U[1] = UxBl[1]*2.0 - prtl->U[1];
+      //besides set temperature if isothermal boundary
+      if(isothermal_boundary==1)
+	prtl->T=TxBl;
       break;
       //perodic
     case 1:
@@ -1215,6 +1255,9 @@ void Boundary::Boundary_SW(spParticle prtl)
       prtl->R = - prtl->R;
       prtl->U[0] = UyBd[0]*2.0 - prtl->U[0];
       prtl->U[1] = UxBl[1]*2.0 - prtl->U[1];
+      //besides set temperature if isothermal boundary
+      if(isothermal_boundary==1)
+	prtl->T=TxBl;
       break;
       //symmetry
     case 3: 
@@ -1237,6 +1280,9 @@ void Boundary::Boundary_NW(spParticle prtl)
       prtl->R[1] = box_size[1]*2.0 - prtl->R[1]; 
       prtl->U[0] = UyBu[0]*2.0 - prtl->U[0];
       prtl->U[1] = UxBl[1]*2.0 - prtl->U[1];
+      //besides set temperature if isothermal boundary
+      if(isothermal_boundary==1)
+	prtl->T=TxBl;
       break;
       //perodic
     case 1:
@@ -1249,6 +1295,9 @@ void Boundary::Boundary_NW(spParticle prtl)
       prtl->R[1] = box_size[1]*2.0 - prtl->R[1]; 
       prtl->U[0] = UyBu[0]*2.0 - prtl->U[0];
       prtl->U[1] = UxBl[1]*2.0 - prtl->U[1];
+      //besides set temperature if isothermal boundary
+      if(isothermal_boundary==1)
+	prtl->T=TxBl;
       break;
       //symmetry
     case 3: 
@@ -1271,6 +1320,9 @@ void Boundary::Boundary_NE(spParticle prtl)
       prtl->R = box_size*2.0 - prtl->R; 
       prtl->U[0] = UyBu[0]*2.0 - prtl->U[0];
       prtl->U[1] = UxBr[1]*2.0 - prtl->U[1];
+      //besides set temperature if isothermal boundary
+      if(isothermal_boundary==1)
+	prtl->T=TxBr;
       break;
       //perodic
     case 1:
@@ -1281,6 +1333,9 @@ void Boundary::Boundary_NE(spParticle prtl)
       prtl->R = box_size*2.0 - prtl->R; 
       prtl->U[0] = UyBu[0]*2.0 - prtl->U[0];
       prtl->U[1] = UxBr[1]*2.0 - prtl->U[1];
+      //besides set temperature if isothermal boundary
+      if(isothermal_boundary==1)
+	prtl->T=TxBr;
       break;
       //symmetry
     case 3: 
@@ -1291,38 +1346,44 @@ void Boundary::Boundary_NE(spParticle prtl)
   }
 }
 //----------------------------------------------------------------------------------------
-//            implement north-east corner boundary by modifying particle states
+//            implement south-east corner boundary by modifying particle states
 //----------------------------------------------------------------------------------------
 void Boundary::Boundary_SE(spParticle prtl)
 {
   //the rigid wall conditions    
   switch(xBr) {
     //wall
-    case 0: 
-      prtl->R[0] = box_size[0]*2.0 - prtl->R[0]; 
-      prtl->R[1] = - prtl->R[1]; 
-      prtl->U[0] = UyBd[0]*2.0 - prtl->U[0];
-      prtl->U[1] = UxBr[1]*2.0 - prtl->U[1];
-      break;
-      //perodic
-    case 1:
-      prtl->R[0] = prtl->R[0] + box_size[0];
-      prtl->R[1] = prtl->R[1] - box_size[1];
-      break;
-      //free slip wall
-    case 2: 
-      prtl->R[0] = box_size[0]*2.0 - prtl->R[0]; 
-      prtl->R[1] = - prtl->R[1]; 
-      prtl->U[0] = UyBd[0]*2.0 - prtl->U[0];
-      prtl->U[1] = UxBr[1]*2.0 - prtl->U[1];
-      break;
-      //symmetry
-    case 3: 
-      prtl->R[0] = box_size[0]*2.0 - prtl->R[0]; 
-      prtl->R[1] = - prtl->R[1]; 
-      prtl->U[0] = UyBd[0]*2.0 - prtl->U[0];
-      prtl->U[1] = UxBr[1]*2.0 - prtl->U[1];
-      break;
+  case 0: 
+    prtl->R[0] = box_size[0]*2.0 - prtl->R[0]; 
+    prtl->R[1] = - prtl->R[1]; 
+    prtl->U[0] = UyBd[0]*2.0 - prtl->U[0];
+    prtl->U[1] = UxBr[1]*2.0 - prtl->U[1];
+    //besides set temperature if isothermal boundary
+    if(isothermal_boundary==1)
+      prtl->T=TxBr;
+    break;
+    //perodic
+  case 1:
+    prtl->R[0] = prtl->R[0] + box_size[0];
+    prtl->R[1] = prtl->R[1] - box_size[1];
+    break;
+    //free slip wall
+  case 2: 
+    prtl->R[0] = box_size[0]*2.0 - prtl->R[0]; 
+    prtl->R[1] = - prtl->R[1]; 
+    prtl->U[0] = UyBd[0]*2.0 - prtl->U[0];
+    prtl->U[1] = UxBr[1]*2.0 - prtl->U[1];
+    //besides set temperature if isothermal boundary
+    if(isothermal_boundary==1)
+      prtl->T=TxBr;
+    break;
+    //symmetry
+  case 3: 
+    prtl->R[0] = box_size[0]*2.0 - prtl->R[0]; 
+    prtl->R[1] = - prtl->R[1]; 
+    prtl->U[0] = UyBd[0]*2.0 - prtl->U[0];
+    prtl->U[1] = UxBr[1]*2.0 - prtl->U[1];
+    break;
   }
 }
 

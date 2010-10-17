@@ -9,7 +9,7 @@
 #include <glog/logging.h>
 #include <assert.h>
 
-// ***** localincludes *****
+// ***** local includes *****
 #include "Kernel/kernel.h"
 #include "interaction.h"
 #include "particle.h"
@@ -29,6 +29,8 @@ Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest,
   rmi(1.0/mi), rmj(1.0/mj),
   etai(Org->eta), etaj(Dest->eta),
   zetai(Org->zeta), zetaj(Dest->zeta),
+  ki(Org->k), kj(Dest->k),
+  Ti(Org->T), Tj(Dest->T),
   rij(dstc) {
   assert(prtl_dest != NULL);
   assert(prtl_org != NULL);
@@ -109,6 +111,36 @@ void Interaction::SummationDensity() {
 //----------------------------------------------------------------------------------------
 //					update pair forces
 //----------------------------------------------------------------------------------------
+
+void Interaction::UpdateEnergyPureConduction(){
+ LOG_EVERY_N(INFO, 100000) << "Interaction::UpdateForces()";
+ //define pair values change in sub time steps
+ const double rhoi = Org->rho; 
+ const double rhoj = Dest->rho;
+ 
+ //energy change rate    
+ //(physical viscosity  not (yet) taken into account in energy equation)
+ 
+ //first energy change rate contribution  due to thermal conduction (Cleary1999)
+ const double dedtij_cond=4.0*mj/(rhoi*rhoj)*ki*kj/(ki+kj)*(Ti-Tj)*Fij;
+ //now complete energy equation
+ const double dedti=+dedtij_cond;
+ const double dedtj=-dedtij_cond;
+ 
+ //add result to particle's energy variable (so, an iteration over the interaction list corresponds to the required summation
+ Org->dedt+=dedti;
+ Dest->dedt+=dedtj;
+
+ //reset pressure to a positive value: 
+ //pressure is actually not important (as not taken into account for 
+ //pure conduction). However, as I wanted to implement the pureConduction case
+ //in a way which can easily be extended to a flow problem, the program 
+ //runs all the methods (which are not used for the pure conduction).
+ // to prevent a program interuption due to an assertion of p (<0),
+ // I reset p here to a value >0 foe each iteration.
+ Org->p=1000.0;
+ Dest->p=1000.0;
+}
 void Interaction::UpdateForces() {
   LOG_EVERY_N(INFO, 100000) << "Interaction::UpdateForces()";
   //define pair values change in sub time steps
@@ -194,11 +226,13 @@ void Interaction::UpdateForces() {
     
     //initialize vector for velocity change rate due to physical viscosity
     Vec2d  dUdt_visc(0,0);
+    // control output for one interaction pair
     if(Org->ID==2 && Dest->ID==1)
       LOG(INFO)<<"dUdt_visc before (should always be zero) : ("<<dUdt_visc[0]<<","<<dUdt_visc[1]<<")";
     if (ini.physical_viscosity_marker==1) {
       // physical viscosity implementation according to espagnol2003 (eq. 30)
-      // where Fij is defined as >= 0 (gradW(r)=-F(r)*r) contary to Monaghan where Fij<=0 (gradW(r)=F(r)*r)
+      // where Fij is defined as >= 0 (gradW(r)=-F(r)*r) contary to Monaghan 
+      // where Fij<=0 (gradW(r)=F(r)*r)
       
       const double d_i=1/Vi;// inverse of particle volume (partice number density)
       if(Org->ID==2 && Dest->ID==1)
@@ -206,15 +240,16 @@ void Interaction::UpdateForces() {
       const double d_j=1/Vj;// inverse of particle volume (partice number density)
       if(Org->ID==2 && Dest->ID==1)
 	LOG(INFO)<<"d_j :"<<d_j;
-      //mean shear viscosity (in case of non-constant viscosity)
+      // mean shear viscosity (in case of non-constant viscosity)
       const  double eta_ij=0.5*(etai+etaj); 
       if(Org->ID==2 && Dest->ID==1)
 	LOG(INFO)<<" eta_ij :"<< eta_ij;
-      //mean bulk viscosity (in case of non-constant viscosity)
+      // mean bulk viscosity (in case of non-constant viscosity)
       const  double zeta_ij=0.5*(zetai+zetaj);
       if(Org->ID==2 && Dest->ID==1)
 	LOG(INFO)<<" zeta_ij :"<< zeta_ij;
       const double eijdotUij=dot(eij,Uij);// factor for calculation of phys. visc.
+      // again control output for first interaction pair
       if(Org->ID==2 && Dest->ID==1) {
 	LOG(INFO)<<" eij :"<< eij;
 	LOG(INFO)<<" Uij :"<< Uij;
@@ -225,9 +260,13 @@ void Interaction::UpdateForces() {
       const double Fij_=abs(Fij);//as in Espagnol Fij defined >=0!
       if(Org->ID==2 && Dest->ID==1)
 	LOG(INFO)<<" Fij_ :"<< Fij_;
-      //velocity change rate due to physical viscosity
-      dUdt_visc=1/mi*(-1*((5.0*eta_ij)/3.0-zeta_ij)*Fij_/(d_i*d_j)*Uij-5.0*(zeta_ij+eta_ij/3)*Fij_/(d_i*d_j)*eijdotUij*eij);
+      // velocity change rate due to physical viscosity
+      // dUdt_visc=1/mi*(-1*((5.0*eta_ij)/3.0-zeta_ij)*Fij_/(d_i*d_j)*Uij-5.0*(zeta_ij+eta_ij/3)*Fij_/(d_i*d_j)*eijdotUij*eij);
+      // formulation from Ellero2007 paper (neglecting bulk viscosity)
+       dUdt_visc=1/mi*(-1*eta_ij/3.0*Fij_/(d_i*d_j)*(5.0*Uij+4.0*eijdotUij*eij));
+
     } 
+    // again control output for first interaction pair
     if(Org->ID==2 && Dest->ID==1)
       LOG(INFO)<<"dUdt_visc after : ("<<dUdt_visc[0]<<","<<dUdt_visc[1]<<")";
     
@@ -237,8 +276,12 @@ void Interaction::UpdateForces() {
     
     //energy change rate    
     //(physical viscosity  not (yet) taken into account in energy equation)
-    const double dedti=0.5*dot(dUdti,(Uj-Ui));
-    const double dedtj=0.5*dot(dUdtj,(Ui-Uj));
+
+    //first energy change rate contribution  due to thermal conduction (Cleary1999)
+    const double dedtij_cond=4.0*mj/(rhoi*rhoj)*ki*kj/((ki+kj)+1e-35)*(Ti-Tj)*Fij;
+    //now complete energy equation
+    const double dedti=0.5*dot(dUdti,(Uj-Ui))+dedtij_cond;
+    const double dedtj=0.5*dot(dUdtj,(Ui-Uj))-dedtij_cond;
     
     //add result to corresponding particle variable (so, an iteration over the interaction list corresponds to the required summation) 
     Org->dUdt += dUdti;

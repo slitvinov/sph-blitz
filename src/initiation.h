@@ -51,9 +51,22 @@ public:
   int initial_condition;
 
   ///\brief disable boundary condition marker:
+  ///
   ///- 0 boundary conditions enabled
   ///- 1 boundary conditions disabled
   int disable_boundary;
+
+  ///\brief isothermal boundaries (for "free-slip" and "wall" only)
+  /// 
+  /// 0 NOT isothermal
+  /// 1 isothermal
+  int isothermal_boundary;
+
+  ///\brief marker for pure heat conduction simulation setup
+  ///
+  ///- 1: pure heat conduction ON (i.e. no change of quantities other than internak energy)
+  ///- 0: pure heat conduction OFF (normal flow simulation taking int account all change rates)
+  int pure_conduction; 
 
   ///simulation mode (1: liquids, 2: gas dynamics)
   int simu_mode;
@@ -97,6 +110,15 @@ public:
   /// 0: used for post-processing of shocktube cases and wave propagation; format: x, y, rho, p, Ux, e, ID, m
   /// 1: used for visualization with SPLASH-program; format x, y, Ux, Uy, rho, e, p, h=supportlength/2, m, V, ID
   int splash_optimized_output;
+
+  ///\brief  marker for 12-digit timestamp in file name (standard: 8 digit)
+  ///
+  /// this is necessary as for some applications (like pure heat conduction)
+  /// the simulation time is so huge that the standard time stamp is
+  /// not sufficient
+  /// 0: standard timestamp (8 digits)
+  /// 1: extra large timestamp (12 digits)
+  int xxl_timestamp_marker;
 
   //timing control
   double Start_time;///<Simulation start time

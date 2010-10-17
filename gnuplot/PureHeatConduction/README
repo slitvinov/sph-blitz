@@ -1,0 +1,38 @@
+compProfiles.sh:
+----------------
+- has to be run with the timestamp of the desired instant (12 digits) as input argument
+  ./compProfiles xxxxxxxxxxxx
+- creates an .eps and .png called <<T_profilesxxxxxxxxxxxx._ _ _ >> for visual comparison of simu result and
+  exact solution at this instant (using files <<simuForPlotxxxxxxxxxxxx.dat>> and <<exactxxxxxxxxxxxx.dat>>)
+
+EnergyContentEvolution.sh:
+--------------------------
+- creates an .eps and .png called <<EnergyContentEvolution._ _ _ >> where energy content is plottetd versus simu-time
+  (using file: <<energyContentEvolution.dat>>)
+
+
+simulatedProfileOnly.sh:
+------------------------
+- has to be run with the timestamp of the desired instant (12 digits) as input argument
+  ./simulatedProfileOnly xxxxxxxxxxxx
+- only plots simulated profile for the desired instant in an .eps and .png file called <<T_profilexxxxxxxxxxxx._ _ _ >>
+  (using file <<simuForPlotxxxxxxxxxxxx.dat>>)
+
+ErrorResolution.sh:
+-------------------
+- plots the evolution of the Errors with variation of the resolution
+  (using file <<ErrorResolution.dat>>, which is created manually by copying the error data from the desired simulations
+   into a file called like this.)
+
+ErrorTimestep.sh:
+-------------------
+- plots the evolution of the Errors with variation of the timestep dt
+  (using file <<ErrorTimestep.dat>>, which is created manually by copying the error data from the desired simulations
+   into a file called like this.)
+
+
+tempErrEvolution.sh:
+--------------------
+- plots the evolution of the Errors with time 
+  (using tempErrEvolution.dat)
+

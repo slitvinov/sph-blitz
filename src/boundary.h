@@ -39,6 +39,25 @@ class Boundary
 	void Boundary_NE(spParticle prtl);
 
 public:
+	/// local copy of initialization-class isothermal boundary attribute
+	int isothermal_boundary;
+
+	///Temperature for x boundary RHS 
+	///(only used if isothermal boundary conditions are selected)
+	double TxBr;
+
+	///Temperature for x boundary LHS 
+	///(only used if isothermal boundary conditions are selected)
+	double TxBl;
+
+	///Temperature for y boundary top (up) 
+	///(only used if isothermal boundary conditions are selected)
+	double TyBu;
+
+	///Temperature for y boundary bottom side (down)
+	///(only used if isothermal boundary conditions are selected)
+	double TyBd;
+
 	///\brief boundary condition indicator left hand side
 	///
 	///- 0: wall boundary condition

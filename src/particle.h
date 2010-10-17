@@ -84,6 +84,8 @@ class Particle {
 
 	double eta; ///<(shear) viscosity of each particle
 	double zeta; ///<bulk viscosity of each particle
+	double k;///< thermal conductivity
+	double cv;///< heat capacity at constant volume 
 	//change rate for real particles
 	double drhodt; ///<density change rate for real particles
         double dedt; ///<internal energy change rate for real particles

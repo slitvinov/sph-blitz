@@ -152,33 +152,33 @@ void Hydrodynamics::UpdateChangeRate(const Initiation& ini) {
   ///- initiate the change rate of each real particle by calling ZeroChangeRate()
   ZeroChangeRate();	
 
+  if(ini.pure_conduction==1)// only heat conduction, no particle movement
     ///- iterate the interaction list
-  BOOST_FOREACH(spInteraction aux_interaction, interaction_list) {
+    BOOST_FOREACH(spInteraction aux_interaction, interaction_list) {
+      aux_interaction->UpdateEnergyPureConduction();
+    }
+  else //update velocity change rates etc.  as well...
+    BOOST_FOREACH(spInteraction aux_interaction, interaction_list) {
       aux_interaction->UpdateForces();
-  }
+    }
   //control output
   BOOST_FOREACH(spParticle prtl, particle_list) {
-    LOG_EVERY_N(INFO, 100) <<"dUdt: "<<prtl->dUdt[0] << " dUdt1: "<<prtl->dUdt[1];
+    LOG_EVERY_N(INFO, 1000) <<"dUdt: "<<prtl->dUdt[0] << " dUdt1: "<<prtl->dUdt[1];
   }
-
-
-ofstream tx2tFile("DerivativesDataN1");
-	if (tx2tFile.is_open())
-        {
-        BOOST_FOREACH(spParticle prtl, particle_list) {
-	  
-	  tx2tFile <<setprecision (9)<< ::setw( 5 )<<prtl->ID<< ::setw(20)<<prtl->dUdt[0]<<::setw(20)<<prtl->dUdt[1]<<::setw(20)<<prtl->dedt<<endl;
-	
-	  }
-	tx2tFile.close();
-	}
-		else cout << "Unable to open/create file";
-
-BOOST_FOREACH(spParticle prtl, particle_list) {
-    LOG_EVERY_N(INFO, 100000) <<"dUdt: "<<prtl->dUdt[0] << " dUdt1: "<<prtl->dUdt[1];
-  }
-
-
+    
+  // ofstream tx2tFile("DerivativesDataN1");
+  // 	if (tx2tFile.is_open())
+  //         {
+  //         BOOST_FOREACH(spParticle prtl, particle_list) {
+  
+  // 	  tx2tFile <<setprecision (9)<< ::setw( 5 )<<prtl->ID<< ::setw(20)<<prtl->dUdt[0]<<::setw(20)<<prtl->dUdt[1]<<::setw(20)<<prtl->dedt<<endl;
+  
+  // 	  }
+  // 	tx2tFile.close();
+  // 	}
+  // 		else cout << "Unable to open/create file";
+  
+  
   ///- include the gravity effects
   AddGravity(ini);
 }
@@ -280,7 +280,7 @@ void Hydrodynamics::UpdateState(const Initiation &ini) {
     if(ini.simu_mode==2)//gas dynamics mode equation of state
       {
 	prtl->p = prtl->mtl->get_p(prtl->rho,prtl->e);
-	prtl->Cs = prtl->mtl->get_Cs(prtl->p, prtl->rho);
+	//	prtl->Cs = prtl->mtl->get_Cs(prtl->p, prtl->rho);
       }
     //calculate temperature for each particle
     prtl->T = prtl->mtl->get_T(prtl->e);
@@ -316,11 +316,12 @@ void Hydrodynamics::UpdateVolume(ParticleManager &particles, spKernel weight_fun
 //----------------------------------------------------------------------------------------
 
 double Hydrodynamics::GetTimestepGas(const Initiation& ini) {
-  //maximum sound speed, particle velocity and density
- 
+  
   double dt_f=1.0e30;//time step due to force consideration 
   double dt_cv=1.0e30;//time step due to Courant and (artificial) Viscosity consideration (viscous diffusion)
-double dt_v_real=1.0e30;//time step due physical viscosity (viscous diffusion)
+  double dt_v_real=1.0e30;//time step due physical viscosity (viscous diffusion)
+  double dt_therm=1.0e30;// time step due to thermal conduction
+  double beta_therm=0.1;// factor for dt_therm (see Cleary1999)
   
   //predict the time step
   //iterate the partilce list, calculate theoretical max admissible time step
@@ -334,12 +335,22 @@ double dt_v_real=1.0e30;//time step due physical viscosity (viscous diffusion)
     assert(dt_cv>0.0);
     // dt_v_real according to HuAdams2007 (and Litvinov2010: "A splitting scheme for highly dissipative smoothed particle dynamics")
     dt_v_real=AMIN1(dt_v_real,0.25*pow(ini.supportlength/2,2)/(prtl->eta+1e-35));
+    assert(dt_v_real>0.0);
+    // dt_therm according to Cleary1999 
+    dt_therm=AMIN1(dt_therm,beta_therm*prtl->rho*prtl->cv*pow(ini.supportlength/2,2)/(prtl->k+1e-35));
+    assert(dt_therm>0.0);
   }
   
-  // reset mue_ab to zero (for next iterarion)
+  // reset mue_ab to zero (for next iteration)
   Zero_mue_ab_max();
   
-  const double dt = 0.25*AMIN1(dt_f, dt_cv,dt_v_real);
+  //find globally minimal admissible time step
+  double dt;
+  if(ini.pure_conduction==1)//if pure conduction problem (without prtl. mouvement)
+    dt=dt_therm;
+  else// if flow problem (including particle mouvement etc...)
+    dt = AMIN1(0.25*dt_f, 0.25*dt_cv,dt_v_real,dt_therm);
+  
   assert(dt>0.0);
   LOG(INFO) << "dt: " << dt; 
   return dt;

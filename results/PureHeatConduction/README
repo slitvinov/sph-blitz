@@ -1,0 +1,61 @@
+
+remarks concerning implementation:
+-------------------------------------
+The easiest way to implement the PURE heat conductuion would be to create a new Timesolver-class taking into account the following:
+As the interactions do never change (particles are immobilized), there is no need to recalculate the interactions every time-step (which is very time-consuming).  
+BUT: the PURE thermal conduction test-case is only an intermediate step towards heat conduction in a flow. And therefore I want to keep the implementationb of heat conduction as general as possible directly from the beginning.
+--> I just substitute the interaction-method: updateForces with UpdateEnergyPureConduction at the lowest level, i.e. in hydro::updateChangeRate. (-->I do not change hydro::updateChangeRateInclRho, i.e. for pure conduction , the density integration mode setting in the .tcl file needs to be "summation density" ...being aware that density mode does not have any sense (as rho does not change at first time,only e)
+parameter initiation.pureConducton controls if only conduction (with immobilized particles) or complete set of change rates is used.
+
+  
+  isothermal boundary condition implementation
+  --------------------------------------------
+  - implemented in "wall" and "free slip" boundary condition! 
+    (so that (only) difference between free-slip and symmetry is heatconduction BC:
+      symmetry=adiabatic and free-slip=isothermal)
+  - therefore boundary constructur has to be adapted
+  - adapt corresponding particle constructor (prtl, material) by copying k, (same for viscosity..) etc...
+  - adapt corners treatment: if there is an isothermal BC, all corners in contact with this boundary have to be
+    set to the same temperature!
+  - figure out a possibility to switch off the isothermal BC. i.e. to not set the temperature in the boundary-methods
+    ->flag/marker heat conduction on/off: can also be used to switch off consideration of heat conduction term in equations
+    -> implement this flag in initiation and copy it with boundary condtructor so it is locally accessible in boundary class!
+
+test-cases of slab with temperature jump (T_l=0, T_r=1) (see Cleary1999):
+-----------------------------------------
+
+1) adiabatic BC in x-direction, periodic in y-direction, 
+
+  1.a) 	temporal evolution of accuracy by comparison with analytical solution for initial phase
+	(foler <<40x20InitialPhase>>) dx=dy, domainsize=1x0.5, Nx=40 -> Ny=20, suplen=2dx (h=dx)
+
+  1.b) 	simulation until (almost) complete temperature equalization (simu time ~650 sec)
+	(folder <<40_20_until_completeEqualization>>) simu setup exactly as in 1.a 
+
+  1.c)	convergence study by varying resolution (with dx/h=const), results taken at simu time of 0.1 s, 
+	as greatest errors there (folder <<ResolutionVariationFor_t01>>)
+	for resolution study, original ratio between domainsize_x/domainsize_y=2 can not always be maintained.
+	This does not matter, as BC are peridoical in y-direction anyway. To make it easier, I took only 1 cell
+	(which has size of 1 supLen) in	y-direction for each simulation!
+
+  1.d) 	verification of time-stepping criterion for heat conduction
+	(folder <<40_20_dtVariation_t1>>)
+	simu setup exactly as in 1.a, series with variatioon of timeste dt, simutime=1.25sec (
+	to give error some time for evolution but to stay still in the range where analytical reference solution is valid
+	(as we do not only want to do a relative comparison (which would even work for bigger t, as analytical solution the same for each simu of the series, even though wrong) but also an absolute comparison against the correct solution.)
+	automatically determined timestep for this configuration dt=0.0625 (remains constant during one simulation)
+	and besides 1.25 s is multiple of dt=0.0625, so that this simulation time can be matched exactly. Every other dt
+	is also choosen in a way that 1.25=N_t*dt, where N_t is an integer!
+
+2) isothermal boundary conditions in x-direction(T_wall,l=1, T_wall,r=0), periodic in y-direction 
+    
+   as the dynamics of the heat conduction has already been verified in 1), there is no need to find a quantitative 
+   reference solution for the temporal evolution. However, it is known by theory that the final steady-state solution for this situation is a linear temperature profile (constant heat-flux). This is what will be checked by the test!
+   (at t=250 is almost totally the case)
+
+   
+
+
+
+
+

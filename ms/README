@@ -22,3 +22,10 @@ set term postscript eps enhanced
 set output "1dshock.eps"
 >>
 
+figures layout:
+if two side by side:
+eps: "Helvetica" 26, lw 8
+
+if alone:
+
+

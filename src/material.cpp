@@ -38,6 +38,7 @@ Material::Material(Initiation &ini, const int number)
   eta = ini.interp.eval("[return $material_eta"  + index);
   if (ini.simu_mode == 2) {
    zeta = ini.interp.eval("[return $material_zeta"  + index);
+   k = ini.interp.eval("[return $material_k"  + index);
   }
   LOG(INFO) << "Material object is created";
 }
@@ -53,6 +54,7 @@ void Material::show_properties()
 	LOG(INFO)<<"The heat capacity is  "<<cv<<" J/kg/K\n";
 	LOG(INFO)<<"The (shear) viscosity is "<<eta<<" Pa.s \n";
 	LOG(INFO)<<"The bulk viscosity is "<<zeta<<" Pa.s \n";
+	LOG(INFO)<<"The thermal conductivity is "<<k<<" W/K/m \n";
 	LOG(INFO)<<"The heat ratio is "<<gamma<<"\n";
 	LOG(INFO)<<"The reference pressure b0 is "<<b0<<" Pa\n";
 	LOG(INFO)<<"The reference density is "<<rho0<<" kg/m^3 \n";
@@ -120,6 +122,6 @@ double Material::get_e(const double T) const
 double Material::get_Cs(const double p, const double rho)
 {
   assert(rho>0.0);
-  assert(p>0.0);
+  assert(p>=0.0);
   return sqrt(gamma*p/rho);
 }

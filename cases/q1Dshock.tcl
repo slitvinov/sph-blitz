@@ -47,6 +47,14 @@ set T0 1.0
 set G_FORCE(0) 0.0
 set G_FORCE(1) 0.0
 
+
+# pure Heat Condution
+# all particles immobilized, no change in any parameters
+# except for internal energy
+# 1: pure conduction is ON
+# 0: pure conduction is OFF (i.e. all quantities may change)
+set PURE_CONDUCTION 0
+
 # artificial viscosity marker:
 # 2. art. visc. globally turned on
 # 1: incl. art. visc. for compression only (as needed for shock-tube case)
@@ -70,6 +78,13 @@ set PHYSICAL_VISCOSITY_MARKER 0
 #    format x, y, Ux, Uy, rho, e, p, h=supportlength/2, m, V, ID
 set SPLASH_OPTIMIZED_OUTPUT 0
 
+# marker for 12-digit time stamp in file name(standard: 8 digit)
+# this is necessary as for some applications (like pure heat conduction)
+# the simulation time is so huge that the standard time stamp is not sufficient
+# 0: standard timestamp (8 digits)
+# 1: extra large timestamp (12 digits)
+set XXL_TIMESTAMP_MARKER 0
+
 # boundary conditions
 #
 # type and velocity
@@ -77,7 +92,14 @@ set SPLASH_OPTIMIZED_OUTPUT 0
 # 1: periodic
 # 2: freeslip
 # 3: symmetry
-#
+
+# for simulations including heat conduction or for pure heat conduction
+# boundaries isothermal or not?
+# applies only to WALL and FREE_SLIP boundary conditions!!
+# isothermal or not (=adiabatic)
+# 1: isothermal (temperature as specified at corresponding boundary)
+# 0: NOT isothermal (wall is symmetric concerning temperature)
+set ISOTHERMAL_BOUNDARY 0
 
 # disable boundary conditions:
 # 1: boundary conditions disabled
@@ -107,7 +129,7 @@ set UyBu(1) 0.0
 # time control
 set Start_time 0.0		
 set End_time 0.2	
-set D_time 0.0025
+set D_time 0.001
 
 #marker for automatic time control
 # 0: autom. time conrtol switched off: specified dt used (see below) 
@@ -124,6 +146,8 @@ set material_name(0) Wall
 set material_type(0) 1
 set material_cv(0) 0.0
 set material_eta(0) 0.0
+set material_zeta(0) 0.0
+set material_k(0) 0.0
 set material_gamma(0) 0.0
 set material_b0(0) 0.0
 set material_rho0(0) 0.0
@@ -133,6 +157,8 @@ set material_name(1) Air
 set material_type(1) 1
 set material_cv(1) 717.645
 set material_eta(1) 0.0
+set material_zeta(1) 0.0
+set material_k(1) 0.0
 set material_gamma(1) 1.4
 set material_b0(1) 0.0
 set material_rho0(1) 0.0

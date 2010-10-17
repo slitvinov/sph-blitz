@@ -53,6 +53,12 @@ set T0 1.0
 set G_FORCE(0) 0.0
 set G_FORCE(1) 0.0
 
+# pure Heat Condution
+# all particles immobilized, no change in any parameters
+# except for internal energy
+# 1: pure conduction is ON
+# 0: pure conduction is OFF (i.e. all quantities may change)
+set PURE_CONDUCTION 0
 
 # artificial viscosity marker:
 # 2. art. visc. globally turned on
@@ -77,12 +83,28 @@ set PHYSICAL_VISCOSITY_MARKER 0
 #    format x, y, Ux, Uy, rho, e, p, h=supportlength/2, m, V, ID
 set SPLASH_OPTIMIZED_OUTPUT 0
 
+# marker for 12-digit time stamp in file name(standard: 8 digit)
+# this is necessary as for some applications (like pure heat conduction)
+# the simulation time is so huge that the standard time stamp is not sufficient
+# 0: standard timestamp (8 digits)
+# 1: extra large timestamp (12 digits)
+set XXL_TIMESTAMP_MARKER 0
+
 # boundary conditions
+
+# for simulations including heat conduction or for pure heat conduction
+# boundaries isothermal or not?
+# applies only to WALL and FREE_SLIP boundary conditions!!
+# isothermal or not (=adiabatic)
+# 1: isothermal (temperature as specified at corresponding boundary)
+# 0: NOT isothermal (wall is symmetric concerning temperature)
+set ISOTHERMAL_BOUNDARY 0
 
 # disable boundary conditions:
 # 1: boundary conditions disabled
 # 0: boundary conditions enabled
 set DISABLE_BOUNDARY 0
+
 # type and velocity
 set xBl 1
 set UxBl(0) 0.0

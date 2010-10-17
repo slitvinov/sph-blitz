@@ -37,6 +37,11 @@ class Interaction {
   double etaj;///<(shear) viscosity for particle j
   double zetai;///<bulk viscosity for particle i
   double zetaj;///<bulk viscosity for particle j
+  double ki;///<thermal conductivity for particls i
+  double kj;///<thermal conductivity for particle j
+  double Ti;///<Temperature of particle i
+  double Tj;///<Temperature of particle j
+
 
  public:
 
@@ -64,7 +69,9 @@ class Interaction {
   ///update forces
   void UpdateForces();
   void UpdateForcesAndRho();
-
+  ///update internal energy only (taking into account ony change rate due to heat coduction)
+  void UpdateEnergyPureConduction();
+    
   spParticle  getOrigin() const;
   spParticle  getDest() const;
   double getWij() const;

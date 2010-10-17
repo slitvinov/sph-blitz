@@ -156,7 +156,7 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
     ///\todo{change comments to doxygen format, best would probably be to make a list with all if/else statements)}
     //build interactions
     hydro.BuildInteractions(particles, weight_function, ini);
-    if(ite==1) //smooth density (only) at first time step  
+    if(ite==1) //smooth density  (at first time step only)
       hydro.UpdateDensity(ini, weight_function);
     else//update state without smoothing (p,c,...)
       hydro.UpdateState(ini);

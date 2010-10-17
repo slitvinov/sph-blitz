@@ -29,3 +29,18 @@ double AMIN1(const double a, const double b, const double c) {
   return c;
 }
 
+// d. Get the minimum with 4 arguments
+double AMIN1(const double a, const double b, const double c, const double d) {
+  double intermediateMin1; 
+  double intermediateMin2;
+  if (a < b)
+    intermediateMin1=a;
+  else  intermediateMin1=b;
+  if (c<d)
+    intermediateMin2=c;
+  else  intermediateMin2=d;
+  if (intermediateMin1<intermediateMin2)
+    return intermediateMin1;
+  return intermediateMin2;
+}
+

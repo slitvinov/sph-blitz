@@ -70,9 +70,22 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
   ///- give a new ID number
   ID = ID_max;
 
-    ///- set viscosities
+  ///- set viscosities (variable could also be
+  /// accessed via prtl->mtl->eta, but as eta will eventually be variable
+  // for each particle, I directly create an attribute of particle for it.
+  ///TODO{integrate a law: viscosity(T) in material and like this calculate an individual viscosity for each particle}
   eta = mtl->eta;//(shear)
   zeta=mtl->zeta;//(bulk)
+
+  ///- set thermal conductivity(variable could also be
+  /// accessed via prtl->mtl->k, but as k will eventually be variable
+  // for each particle, I directly create an attribute of particle for it.
+ ///TODO{integrate a law: thermal conductivity(T) in material and like this calculate an individual k for each particle}
+  k=mtl->k;
+  ///- set heat capacity for each particle (variable could also be
+  /// accessed via prtl->mtl->cv, but as cv will eventually be variable
+  // for each particle, I directly create an attribute of particle for it.
+  cv=mtl->cv;
 
   ///- initialize mue_ab_max to zero
   mue_ab_max=0;
@@ -141,6 +154,7 @@ Particle::Particle (spParticle RealParticle ) :
   //viscosities copied as well for ghost particles (as they can be variable)
   eta = RealParticle->eta;
   zeta=RealParticle->zeta;
+  k=RealParticle->k;
 	
 }
 //----------------------------------------------------------------------------------------
@@ -160,6 +174,8 @@ Particle::Particle (spParticle RealParticle , spMaterial material):
 
   ///- set viscosity
   eta = RealParticle->eta;
+  zeta= RealParticle->zeta;
+  k=RealParticle->k;
 
 
   ///- set states
@@ -172,8 +188,7 @@ Particle::Particle (spParticle RealParticle , spMaterial material):
   P = RealParticle->P; P_I = RealParticle->P_I; rho_I = rho;
   P_n = RealParticle->P_n; U_n = RealParticle->U_n; rho_n = RealParticle->rho_n;
   e_n = RealParticle->e_n; 
-//viscosities not copied for image particles (as in general different material than real particles)
-
+  
 }
 //----------------------------------------------------------------------------------------
 //					particle states copier for boundary particles
@@ -190,4 +205,5 @@ void Particle ::StatesCopier(spParticle RealParticle , const int type)
   //add viscosity copier (for the case of varaible viscosity)
   eta = RealParticle->eta;
   zeta=RealParticle->zeta;
+  k=RealParticle->k;
 }

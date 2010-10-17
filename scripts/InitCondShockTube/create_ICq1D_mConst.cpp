@@ -10,7 +10,7 @@
 using namespace std;
 
 int main () {
-  double m=0.000025;
+  double m=1.5625e-6;
   char inputfile[25]="1DST.dat";
   char Key_word[125];
   double vl=0,vr=0,pl=0,pr=0,rhol=0,rhor=0;
