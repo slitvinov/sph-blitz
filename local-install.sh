@@ -17,6 +17,11 @@ cd tcl/unix
 make install ${MAKE_FLAGS}
 cd "${WRKDIR}"
 
+# install tcllib
+cd tcllib
+"${PREFIX}"/bin/tclsh8.5 installer.tcl -no-gui -no-wait
+cd "${WRKDIR}"
+
 # compile and install blitz
 cd blitz
 ./configure --prefix="$PREFIX" --disable-doxygen CXX=${CXX:=g++}
@@ -28,6 +33,8 @@ cd glog
 ./configure --prefix="$PREFIX" CXX=${CXX:=g++}
 make install ${MAKE_FLAGS}
 cd "${WRKDIR}"
+
+
 
 ./configure --with-blitz="${PREFIX}" --with-tcl="${PREFIX}"/lib/ CXX=${CXX:=g++} 
 make ${MAKE_FLAGS}
