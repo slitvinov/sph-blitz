@@ -1102,6 +1102,7 @@ void Boundary::Boundary_W(spParticle prtl)
     case 0: 
       prtl->R[0] = - prtl->R[0]; 
       prtl->U = UxBl*2.0 - prtl->U;
+      prtl->T = xTl;
       break;
       //perodic
     case 1:
@@ -1130,6 +1131,7 @@ void Boundary::Boundary_E(spParticle prtl)
     case 0: 
       prtl->R[0] = box_size[0]*2.0 - prtl->R[0]; 
       prtl->U = UxBr*2.0 - prtl->U;
+      prtl->U = xTr;
       break;
       //perodic
     case 1:
@@ -1158,6 +1160,7 @@ void Boundary::Boundary_S(spParticle prtl)
     case 0: 
       prtl->R[1] = - prtl->R[1]; 
       prtl->U = UyBd*2.0 - prtl->U;
+      prtl->T = yTd;
       break;
       //perodic
     case 1:
@@ -1186,6 +1189,7 @@ void Boundary::Boundary_N(spParticle prtl)
     case 0: 
       prtl->R[1] = box_size[1]*2.0 - prtl->R[1]; 
       prtl->U = UyBu*2.0 - prtl->U;
+      prtl->T = yTu;
       break;
       //perodic
     case 1:
@@ -1215,6 +1219,7 @@ void Boundary::Boundary_SW(spParticle prtl)
       prtl->R = - prtl->R;
       prtl->U[0] = UyBd[0]*2.0 - prtl->U[0];
       prtl->U[1] = UxBl[1]*2.0 - prtl->U[1];
+      prtl->T = xTl;
       break;
       //perodic
     case 1:
@@ -1247,6 +1252,7 @@ void Boundary::Boundary_NW(spParticle prtl)
       prtl->R[1] = box_size[1]*2.0 - prtl->R[1]; 
       prtl->U[0] = UyBu[0]*2.0 - prtl->U[0];
       prtl->U[1] = UxBl[1]*2.0 - prtl->U[1];
+      prtl->T = xTl;
       break;
       //perodic
     case 1:
@@ -1281,6 +1287,7 @@ void Boundary::Boundary_NE(spParticle prtl)
       prtl->R = box_size*2.0 - prtl->R; 
       prtl->U[0] = UyBu[0]*2.0 - prtl->U[0];
       prtl->U[1] = UxBr[1]*2.0 - prtl->U[1];
+      prtl->T = xTr;
       break;
       //perodic
     case 1:
@@ -1313,6 +1320,7 @@ void Boundary::Boundary_SE(spParticle prtl)
       prtl->R[1] = - prtl->R[1]; 
       prtl->U[0] = UyBd[0]*2.0 - prtl->U[0];
       prtl->U[1] = UxBr[1]*2.0 - prtl->U[1];
+      prtl->T = xTr;
       break;
       //perodic
     case 1:
