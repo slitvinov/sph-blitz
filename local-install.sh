@@ -34,7 +34,5 @@ cd glog
 make install ${MAKE_FLAGS}
 cd "${WRKDIR}"
 
-
-
 ./configure --with-blitz="${PREFIX}" --with-tcl="${PREFIX}"/lib/ CXX=${CXX:=g++} 
 make ${MAKE_FLAGS}

@@ -1,3 +1,6 @@
+# \todo{change path finding}
+package require math::special
+
 # 1D shock configuration file
 # 1: liquids
 # 2: gas dynamics
@@ -132,14 +135,19 @@ proc getSolid { } {
     }
 }
 
+# see Cleary1999, equation (49)
+# in gnuplot:
+# beta = 2.4048
+# splot "output14/prtl00000000.dat" u 1:2:9, "" u 1:2:(besj0( beta*sqrt(($1-0.5)**2 + ($2-0.5)**2) / 0.5 ) )
+set beta 2.4048
 proc getTemperature { } {
     # x and y provided by the main program 
     set dx [expr {$x - $x0}]
     set dy [expr {$y - $y0}]
-    
+    set rad [ expr {sqrt($dx*$dx + $dy*$dy)}]
     if {[expr {pow($dx,2) + pow($dy,2) < pow($R,2)}]} { 
 	# inside
-	set T 1.0
+	set T [::math::special::J0 [expr {$beta*$rad/$R}]]
     } else {
 	# outside
 	set T 0.0
