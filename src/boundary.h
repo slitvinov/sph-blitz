@@ -47,6 +47,9 @@ public:
 	///- 3: symmetry boundary condition 
 	int  xBl;
 
+  /// temperature for the left hand side
+  double xTl;
+
         ///\brief boundary condition indicator right hand side
 	///
 	///- 0: wall boundary condition
@@ -54,6 +57,9 @@ public:
 	///- 2: free slip wall boundary condition
 	///- 3: symmetry boundary condition 
 	int xBr;
+  /// temperature for the right hand side
+  double xTr;
+
 
 	///\brief boundary condition indicator bottom side
 	///
@@ -62,6 +68,9 @@ public:
 	///- 2: free slip wall boundary condition
 	///- 3: symmetry boundary condition 
 	int yBd;
+  /// temperature for the bottom side
+  double yTd;
+
 
 	///\brief boundary condition indicator upper side
 	///
@@ -70,6 +79,9 @@ public:
 	///- 2: free slip wall boundary condition
 	///- 3: symmetry boundary condition 
 	int yBu;
+  /// temperature for the upper side
+  double yTu;
+
 
 
 	//boundary velocities

@@ -38,6 +38,15 @@ Boundary::Boundary(Initiation &ini, const ParticleManager &particles) {
   UyBu[0] = ini.interp->eval("[return $UyBu(0)]");
   UyBu[1] = ini.interp->eval("[return $UyBu(1)]");
 
+  if (ini.simu_mode == 3) {
+    /// read temperature of the wall from configuration file
+    if (xBr == 0) xTr = ini.interp->getval("xTr");
+    if (xBl == 0) xTl = ini.interp->getval("xTl");
+    if (yBd == 0) yTd = ini.interp->getval("yTd");
+    if (yBu == 0) yTu = ini.interp->getval("yTu");
+    LOG(INFO) << "Temperature of the walls (xr, xl, yd, yu) is " << xTr << ' ' << xTl << ' ' << 
+      yTd << ' ' << yTu;
+  }
 
   show_information();
 
