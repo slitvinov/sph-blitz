@@ -120,18 +120,3 @@ proc getSolid { } {
 	set issolid 0
     }
 }
-
-# set initial temperature
-proc getTemperature { } {
-    # x and y provided by the main program 
-    set dx [expr {$x - $x0}]
-    set dy [expr {$y - $y0}]
-    
-    if {[expr {pow($dx,2) + pow($dy,2) < pow($R,2)}]} { 
-	# inside  
-	set T 1.0
-    } else {
-	# outside
-	set T 0.0
-    }
-}

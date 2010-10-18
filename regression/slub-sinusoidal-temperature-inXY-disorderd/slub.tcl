@@ -40,7 +40,7 @@ set output_file_format_factor 1e4
 # number of cell
 set ncell $res_level
 set CELLS(0) $ncell
-set CELLS(1) [expr {int(0.5*$ncell)}]
+set CELLS(1) $ncell
 
 # sizer of the domain
 set L 1.0
@@ -83,13 +83,15 @@ set UxBr(0) 0.0
 set UxBr(1) 0.0
 set xTr 0.0
 
-set yBd $periodic
+set yBd $wall
 set UyBd(0) 0.0
 set UyBd(1) 0.0
+set yTd 0.0
 
-set yBu $periodic
+set yBu $wall
 set UyBu(0) 0.0
 set UyBu(1) 0.0
+set yTu 0.0
 
 set NUMBER_OF_MATERIALS 2
 set material_name(0) Air
@@ -113,8 +115,8 @@ set material_rho0(1) $material_rho0(0)
 set material_sound_speed(1) $material_sound_speed(0)
 
 set pi 3.1415926
+set initial_perturb 0.25
 proc getTemperature { } {
     # generate taylor-green initial conditions
-    set T [expr { sin($pi*$x/$L)}]
+    set T [expr { sin($pi*$x/$L) * sin($pi*$y/$L)}]
 }
-

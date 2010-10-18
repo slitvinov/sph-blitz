@@ -1,3 +1,4 @@
+package require math::geometry
 # 1D shock configuration file
 # 1: liquids
 # 2: gas dynamics
@@ -40,7 +41,7 @@ set output_file_format_factor 1e4
 # number of cell
 set ncell $res_level
 set CELLS(0) $ncell
-set CELLS(1) [expr {int(0.5*$ncell)}]
+set CELLS(1) $ncell
 
 # sizer of the domain
 set L 1.0
@@ -113,8 +114,33 @@ set material_rho0(1) $material_rho0(0)
 set material_sound_speed(1) $material_sound_speed(0)
 
 set pi 3.1415926
+set x0 [expr {0.5*$L}]
+set y0 [expr {0.5*$L}]
+set cosa [expr {cos($pi/4.0)}]
+set sina [expr {sin($pi/4.0)}]
+set a [expr { 1.0 / sqrt(2.0) * $L}]
+# form a sq. block
+set polygon [list $x0 0.0 $L $y0 $x0 $L 0.0 $y0]
 proc getTemperature { } {
-    # generate taylor-green initial conditions
-    set T [expr { sin($pi*$x/$L)}]
+    set point [list $x $y]
+    set isIn [math::geometry::pointInsidePolygon $point $polygon]
+    if { $isIn } {
+	set dx [expr {$x - $x0}]
+	set dy [expr {$y - $y0}]
+	set rotx [expr {$cosa*$dx - $sina*$dy - 0.5*$a}]
+	set roty [expr {$sina*$dx + $cosa*$dy - 0.5*$a}]
+	set T [expr { sin($pi*$rotx/$a) * sin($pi*$roty/$a)}]
+    } else {
+	set T 0.0
+    }
+}
+
+
+proc getSolid { } {
+    # particle position
+    set point [list $x $y]
+    # check if it is inside a polygon
+    set isIn [math::geometry::pointInsidePolygon $point $polygon]
+    set issolid [expr {!$isIn}]
 }
 

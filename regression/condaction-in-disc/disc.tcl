@@ -1,4 +1,3 @@
-#package require math::special
 package require math::special
 
 proc awksplit {text {split default}} {
