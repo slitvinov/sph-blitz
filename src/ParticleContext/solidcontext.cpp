@@ -39,8 +39,12 @@ void SolidContext::UpdatePosition(spParticle prtl, const Vec2d& newR) {
   prtl->R = newR;
 }
 
-void SolidContext::UpdateEnergy(spParticle , const double) const {
+void SolidContext::UpdateEnergy(spParticle prtl, const double newE) const {
   /// do nothing
+  if ( solidIDset.find(prtl->ID) == solidIDset.end()  )  {
+    // accelerate as usual
+    prtl->e = newE;
+  } 
 }
 
 /// check if particles should interact
