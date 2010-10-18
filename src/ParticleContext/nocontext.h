@@ -14,8 +14,11 @@ class NoContext : public ParticleContext {
   /// how we move particles depends on the position, velocity, and ID
   virtual void UpdatePosition(spParticle prtl, const Vec2d& newR) ;
 
-  /// get a new velocity of the particle based on the context
+  /// set a new velocity of the particle based on the context
   virtual void UpdateVelocity(spParticle prtl, const Vec2d& newU) const;
+
+  /// set a new energy of the particle based on the context
+  virtual void UpdateEnergy(spParticle prtl, const double newE) const;
 
   /// is particle interacting?
   virtual bool Interacting(spParticle Org, spParticle Dest) const;

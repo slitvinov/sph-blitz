@@ -21,6 +21,9 @@ class RotContext : public ParticleContext {
   /// update velocity as normal
   virtual void UpdateVelocity(spParticle prtl, const Vec2d& newU) const;
 
+  /// update energy
+  virtual void UpdateEnergy(spParticle prtl, const double newE) const;
+
   /// is particle interacting?
   virtual bool Interacting(spParticle Org, spParticle Dest) const;
 

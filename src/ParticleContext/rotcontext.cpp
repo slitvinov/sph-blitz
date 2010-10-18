@@ -91,6 +91,10 @@ void RotContext::UpdateVelocity(spParticle prtl, const Vec2d& newU) const {
   }
 }
 
+void RotContext::UpdateEnergy(spParticle prtl, const double newE) const {
+  /// do nothing with solid particles energy 
+}
+
 /// check if particles should interact
 bool RotContext::Interacting(spParticle Org, spParticle Dest) const {
   const bool orgIsNormal =  rotIDset.find(Org->ID) == rotIDset.end();

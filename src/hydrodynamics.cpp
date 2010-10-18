@@ -456,7 +456,7 @@ void Hydrodynamics::Predictor(const double dt) {
     }
     prtl->rho = (auxRho + prtl->rho_I)*0.5;
     ini.context->UpdateVelocity(prtl, (auxU+ prtl->U_I)*0.5);
-    prtl->e=(auxE+ prtl->e_I)*0.5;
+    ini.context->UpdateEnergy(prtl, (auxE+ prtl->e_I)*0.5);
   }
 }
 //----------------------------------------------------------------------------------------
@@ -471,7 +471,7 @@ void Hydrodynamics::Corrector(const double dt) {
     }
     prtl->rho = prtl->rho + prtl->drhodt*dt;
     ini.context->UpdateVelocity(prtl, prtl->U_I + prtl->dUdt*dt);
-    prtl->e = prtl->e_I + prtl->dedt*dt;
+    ini.context->UpdateEnergy(prtl, prtl->e_I + prtl->dedt*dt);
   }
 }
 //----------------------------------------------------------------------------------------
@@ -496,7 +496,7 @@ void Hydrodynamics::Predictor_summation(const double dt) {
       ini.context->UpdatePosition(prtl, (auxR + prtl->R_I)*0.5);
     }
     ini.context->UpdateVelocity(prtl, (auxU + prtl->U_I)*0.5);
-    prtl->e = (auxE + prtl->e_I)*0.5;
+    ini.context->UpdateEnergy(prtl, (auxE + prtl->e_I)*0.5);
   }
 }
 //----------------------------------------------------------------------------------------
@@ -512,7 +512,7 @@ void Hydrodynamics::Corrector_summation(const double dt) {
       ini.context->UpdatePosition(prtl, prtl->R_I + prtl->U*dt);
     }
     ini.context->UpdateVelocity(prtl, prtl->U_I + prtl->dUdt*dt);
-    prtl->e = prtl->e_I + prtl->dedt*dt;
+    ini.context->UpdateEnergy(prtl, prtl->e_I + prtl->dedt*dt);
   }
   //control output
   // ofstream tx2tFile("changeRatesN1");

@@ -19,6 +19,9 @@ class ParticleContext : public TimeObserver{
   virtual void UpdateVelocity(spParticle prtl, const Vec2d& newU) const = 0;
 
   /// get a new velocity of the particle based on the context
+  virtual void UpdateEnergy(spParticle prtl, const double newE) const = 0;
+
+  /// get a new velocity of the particle based on the context
   virtual bool Interacting(spParticle Org, spParticle Dest) const = 0;
 
   /// return context ID: 0 for nocontext and >0 for the special contextd

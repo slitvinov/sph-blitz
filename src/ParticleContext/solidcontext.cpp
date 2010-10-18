@@ -39,6 +39,10 @@ void SolidContext::UpdatePosition(spParticle prtl, const Vec2d& newR) {
   prtl->R = newR;
 }
 
+void SolidContext::UpdateEnergy(spParticle , const double) const {
+  /// do nothing
+}
+
 /// check if particles should interact
 bool SolidContext::Interacting(spParticle Org, spParticle Dest) const {
   const bool orgIsNormal =  solidIDset.find(Org->ID) == solidIDset.end();

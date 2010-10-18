@@ -19,6 +19,9 @@ class SolidContext : public ParticleContext {
   /// update velocity as normal
   virtual void UpdateVelocity(spParticle prtl, const Vec2d& newU) const;
 
+  /// set a new energy of the particle based on the context
+  virtual void UpdateEnergy(spParticle prtl, const double newE) const;
+
   /// is particle interacting?
   virtual bool Interacting(spParticle Org, spParticle Dest) const;
 
