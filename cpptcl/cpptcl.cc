@@ -856,6 +856,7 @@ Tcl_Interp * object::get_interp() const
 interpreter::interpreter()
 {
      interp_ =  Tcl_CreateInterp();
+     Tcl_Init(interp_);
      owner_ = true;
 }
 
