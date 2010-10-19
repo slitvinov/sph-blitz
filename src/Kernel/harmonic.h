@@ -4,7 +4,7 @@
 /// \brief  harmonic kernel
 
 /// Harmonic kernel class
-#include "Kernel/kernel.h"
+#include "src/Kernel/kernel.h"
 
 class Harmonic : public Kernel
 {

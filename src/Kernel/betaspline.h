@@ -3,7 +3,7 @@
 /// \file betaspline.h
 /// \brief Beta spline kernel function
 
-#include "Kernel/kernel.h"
+#include "src/Kernel/kernel.h"
 
 /// \brief   A concrete kernel class
 ///

@@ -10,7 +10,7 @@
 //----------------------------------------------------------------------------------------
 
 //local includes
-#include "Kernel/harmonic.h"
+#include "src/Kernel/harmonic.h"
 const double pi = 3.141592653589793238462643383279502884197;
 
 /// Harmonic kernel 

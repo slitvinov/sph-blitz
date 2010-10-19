@@ -9,7 +9,7 @@
 //		bskernel.cpp
 //----------------------------------------------------------------------------------------
 //local includes
-#include "Kernel/cubicspline1D.h"
+#include "src/Kernel/cubicspline1D.h"
 
 using namespace std;
 const double pi = 3.141592653589793238462643383279502884197;

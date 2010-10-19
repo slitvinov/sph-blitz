@@ -3,7 +3,7 @@
 /// \file quinticspline.h 
 /// \brief Quintic spline kernel
 
-#include "Kernel/kernel.h"
+#include "src/Kernel/kernel.h"
 
 
 /// Quintic spline class 

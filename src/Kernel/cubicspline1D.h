@@ -5,7 +5,7 @@
 
 /// CubicSpline class
 
-#include "Kernel/kernel.h"
+#include "src/Kernel/kernel.h"
 
 class CubicSpline1D : public Kernel
 {

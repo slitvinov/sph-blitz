@@ -8,7 +8,7 @@
 //		Most often used kernel.
 //		bskernel.cpp
 //----------------------------------------------------------------------------------------
-#include "Kernel/betaspline.h"
+#include "src/Kernel/betaspline.h"
 
 using namespace std;
 

@@ -9,7 +9,7 @@
 //		bskernel.cpp
 //----------------------------------------------------------------------------------------
 
-#include "Kernel/quinticspline.h"
+#include "src/Kernel/quinticspline.h"
 
 using namespace std;
 

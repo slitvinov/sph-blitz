@@ -13,7 +13,7 @@
 #include <glog/logging.h>
 
 // ***** local includes *****
-#include "Kernel/kernel.h"
+#include "src/Kernel/kernel.h"
 
 //constructor to inizialize the data members
 Kernel::Kernel(const double supportlength)

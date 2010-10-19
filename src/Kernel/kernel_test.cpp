@@ -1,7 +1,7 @@
 /// Kernels  test program 
-#include "Kernel/quinticspline.h"
-#include "Kernel/cubicspline.h"
-#include "Kernel/harmonic.h"
+#include "src/Kernel/quinticspline.h"
+#include "src/Kernel/cubicspline.h"
+#include "src/Kernel/harmonic.h"
 #include <boost/test/minimal.hpp>
 #include <blitz/vector.h>
 #include <blitz/array.h>

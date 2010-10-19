@@ -5,7 +5,7 @@
 /// \brief Kernel abstract base
 
 /// Kernel abstract base
-#include "vec2d.h"
+#include "src/vec2d.h"
 #include <blitz/array.h>
 
 class Kernel
