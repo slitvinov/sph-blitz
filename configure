@@ -5351,7 +5351,7 @@ fi
 done
 
 
-ac_config_files="$ac_config_files Makefile src/Makefile cpptcl/Makefile plugins/Makefile src/sandbox/Blitz/Makefile src/Timer/Makefile src/ParticleContext/Makefile"
+ac_config_files="$ac_config_files Makefile src/Makefile cpptcl/Makefile plugins/Makefile src/sandbox/Blitz/Makefile src/Timer/Makefile src/ParticleContext/Makefile src/tools/SPHProbe/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -6002,6 +6002,7 @@ do
     "src/sandbox/Blitz/Makefile") CONFIG_FILES="$CONFIG_FILES src/sandbox/Blitz/Makefile" ;;
     "src/Timer/Makefile") CONFIG_FILES="$CONFIG_FILES src/Timer/Makefile" ;;
     "src/ParticleContext/Makefile") CONFIG_FILES="$CONFIG_FILES src/ParticleContext/Makefile" ;;
+    "src/tools/SPHProbe/Makefile") CONFIG_FILES="$CONFIG_FILES src/tools/SPHProbe/Makefile" ;;
 
   *) { { $as_echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 $as_echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
