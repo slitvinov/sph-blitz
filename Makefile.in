@@ -166,8 +166,10 @@ top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
 # include boost and all subdirs
 EXTRA_DIST = boost
-SUBDIRS = src cpptcl plugins src/sandbox/Blitz src/Timer/ src/ParticleContext \
-	src/tools/SPHProbe
+SUBDIRS = src cpptcl plugins src/sandbox/Blitz \
+	src/Timer/ \
+	src/ParticleContext \
+	boost/libs/program_options/src
 
 all: all-recursive
 
@@ -588,6 +590,7 @@ uninstall-am:
 	mostlyclean mostlyclean-generic pdf pdf-am ps ps-am tags \
 	tags-recursive uninstall uninstall-am
 
+	src/tools/SPHProbe
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

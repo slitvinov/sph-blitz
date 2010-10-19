@@ -57,6 +57,7 @@ AC_OUTPUT(Makefile src/Makefile
 		   src/Timer/Makefile
 		   src/ParticleContext/Makefile
 		   src/tools/SPHProbe/Makefile
+		   boost/libs/program_options/src/Makefile
 		   )
 
 AC_MSG_NOTICE([================================================])
