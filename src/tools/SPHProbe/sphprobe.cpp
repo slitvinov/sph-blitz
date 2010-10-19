@@ -104,11 +104,16 @@ double getMin(const blast::vector<double>& vec) {
   return min;
 }
 
-
 /// read matrix from the data file
-blast::matrix<double> readMatrix(std::istream &is) {
+blast::matrix<double> readMatrix(const std::string& filename ) {
+  std::ifstream is(filename.c_str());
+  if (!is.is_open()) {
+    LOG(ERROR) << "cannot read file: " << filename;
+    exit(EXIT_FAILURE);
+  }
   // create a matrix to hold data from the file
   std::vector<std::vector<double> >  vec = readVector(is);
+  is.close();
   const long n = vec.size();
   const long m = (*vec.begin()).size();
   LOG(INFO) << "n = " << n;
@@ -123,13 +128,88 @@ blast::matrix<double> readMatrix(std::istream &is) {
   return data;
 }
 
+blast::matrix<double> getSPHApprox(const blast::matrix<double>& data, const double supportlength, 
+				   const blast::matrix<double> probe) {
+  /// find box size
+  const Vec2d min_box(getMin( blast::matrix_column<const blast::matrix<double> >(data, xidx)), 
+		      getMin( blast::matrix_column<const blast::matrix<double> >(data, yidx)));
+
+  const Vec2d max_box(getMax( blast::matrix_column<const blast::matrix<double> >(data, xidx)), 
+		      getMax( blast::matrix_column<const blast::matrix<double> >(data, yidx)));
+
+  LOG(INFO) << "min_box = " << min_box;
+  LOG(INFO) << "max_box = " << max_box;
+  BOOST_ASSERT(max_box(xidx) > min_box(xidx));
+  BOOST_ASSERT(max_box(yidx) > min_box(yidx));
+  const Vec2d box_size = max_box - min_box;
+  LOG(INFO) << "box_size = " << max_box;
+
+  /// create a matrix of cell lists 
+  blast::matrix<std::list<long> > cell_lists( floor( box_size(xidx) / supportlength ) + 1,  
+					      floor( box_size(yidx) / supportlength ) + 1);
+    
+  /// put particles in the cell lists
+  for (int iparticle = 0; iparticle<data.size1(); iparticle++) {
+    const double x = data(iparticle, xidx);
+    const double y = data(iparticle, yidx);
+    const int icell = floor( (x - min_box(xidx)) / supportlength );
+    const int jcell = floor( (y - min_box(yidx)) / supportlength );
+    cell_lists(icell, jcell).push_back( iparticle);
+  }
+    /// output matrix 
+  /// number of columns in particles configuration excluding x, y, rho, m
+  BOOST_ASSERT(data.size2() - 4 > 0);
+  blast::matrix<double> out = nullMat(probe.size1(), data.size2() - 4);
+  LOG(INFO) << "out.size1() = " << out.size1();
+  LOG(INFO) << "out.size2() = " << out.size2();
+
+  /// a pointer to Kernel function 
+  boost::scoped_ptr<Kernel> weight_function(new QuinticSpline(supportlength));
+  const double sup2 = supportlength * supportlength;
+
+  for (long iprobe=0; iprobe<probe.size1(); iprobe++) {
+    LOG(INFO) << "iprobe = " << iprobe;
+    /// a cell for the probe point
+    const double x = probe(iprobe, xidx);
+    const double y = probe(iprobe, yidx);
+    const int icell = floor( (x - min_box(xidx)) / supportlength );
+    const int jcell = floor( (y - min_box(yidx)) / supportlength );
+    LOG(INFO) << "icell = " << icell;
+    LOG(INFO) << "jcell = " << jcell;
+    // iterate in the neighboring cells
+    for (int i=std::max(icell-1, 0); i<std::min(icell+2, (int)cell_lists.size1()); i++) {
+      for (int j=std::max(jcell-1, 0); j<std::min(jcell+2, (int)cell_lists.size2()); j++) {
+	LOG(INFO) << "i = " << i;
+	LOG(INFO) << "j = " << j;
+
+	// iterate inside one cell
+	BOOST_FOREACH(const long id, cell_lists(i, j)) {
+	  const double xp = data(id, xidx);
+	  const double yp = data(id, yidx);
+	  const double r2 = pow(x - xp, 2) + pow(y - yp, 2);
+	  LOG(INFO) << "r2 = " << r2;
+	  if (r2<sup2) {
+	    const double w = weight_function->w(sqrt(r2));
+	    /// iterate for all fields
+	    for (int ifield=0; ifield<data.size2() - 4; ifield++) {
+	      const double mass = data(id, midx);
+	      const double rho = data(id, rhoidx);
+	      const double fieldvalue = data(id, ifield + 4);
+	      out(iprobe, ifield) += mass/rho * fieldvalue * w;
+	    }
+	  } // if (r2>sup2) {
+	} // BOOST_FOREACH(const long id, cell_lists(i, j)) {
+      }
+    }
+  } // for (long iprobe=1; iprobe<probe.size1(); iprobe++) {
+
+  return out;
+}
+
 
 int main(int ac, char* av[]) {
   google::InitGoogleLogging(av[0]);
   LOG(INFO) << "sphprobe starts";
-  /// read parameters of the kernel
-  ///    cutoff, kernell type
-  ///    times t1, t2
   po::options_description desc("Allowed options");
   desc.add_options()
     ("help,h", "print help message")
@@ -223,114 +303,19 @@ int main(int ac, char* av[]) {
   }
   LOG(INFO) << "probe_file = " << probe_file;
   
-  const std::string partfile = c1;
-  std::ifstream is(partfile.c_str());
-  if (!is.is_open()) {
-    LOG(ERROR) << "cannot read file: " << partfile;
-    return EXIT_FAILURE;
+  const blast::matrix<double> probe = readMatrix(probe_file);
+
+  const blast::matrix<double> data1 = readMatrix(c1);
+  const blast::matrix<double> out1 = getSPHApprox(data1, supportlength, probe);
+
+  if (t2<tout) {
+    const blast::matrix<double> data2 = readMatrix(c2);
+    const blast::matrix<double> out2 = getSPHApprox(data2, supportlength, probe);
+    const blast::matrix<double> out = ( (tout - t1)*out1 + (t2-tout)*out2 ) / (t2 - t1);
+    printXYOut(probe, out, std::cout);
+  } else {
+     printXYOut(probe, out1, std::cout);
   }
 
-  const blast::matrix<double> data = readMatrix(is);
-  is.close();
-  /// x, y, rho, m, field1
-  
-  if (data.size2() < 5) {
-    LOG(ERROR) << "not enough columns in the input file" ;
-    LOG(ERROR) << "I found " << data.size2() << " but at least 5 is required ";
-    return(EXIT_FAILURE);
-  }
-
-  /// find box size
-  const Vec2d min_box(getMin( blast::matrix_column<const blast::matrix<double> >(data, xidx)), 
-		      getMin( blast::matrix_column<const blast::matrix<double> >(data, yidx)));
-
-  const Vec2d max_box(getMax( blast::matrix_column<const blast::matrix<double> >(data, xidx)), 
-		      getMax( blast::matrix_column<const blast::matrix<double> >(data, yidx)));
-
-  LOG(INFO) << "min_box = " << min_box;
-  LOG(INFO) << "max_box = " << max_box;
-  BOOST_ASSERT(max_box(xidx) > min_box(xidx));
-  BOOST_ASSERT(max_box(yidx) > min_box(yidx));
-  const Vec2d box_size = max_box - min_box;
-  LOG(INFO) << "box_size = " << max_box;
-
-  /// create a matrix of cell lists 
-  blast::matrix<std::list<long> > cell_lists( floor( box_size(xidx) / supportlength ) + 1,  
-					      floor( box_size(yidx) / supportlength ) + 1);
-    
-  /// put particles in the cell lists
-  for (int iparticle = 0; iparticle<data.size1(); iparticle++) {
-    const double x = data(iparticle, xidx);
-    const double y = data(iparticle, yidx);
-    const int icell = floor( (x - min_box(xidx)) / supportlength );
-    const int jcell = floor( (y - min_box(yidx)) / supportlength );
-    cell_lists(icell, jcell).push_back( iparticle);
-  }
-  //  printCellsOn(cell_lists, std::);
-
-  /// read probe file to matrix
-  std::ifstream pstream (probe_file.c_str());
-  if (!pstream.is_open()) {
-    LOG(ERROR) << "cannot read file: " << probe_file;
-    return EXIT_FAILURE;
-  }
-  const blast::matrix<double> probe = readMatrix(pstream);
-  LOG(INFO) << "probe.size1() = " << probe.size1();
-  LOG(INFO) << "probe.size2() = " << probe.size2();
-  pstream.close();
-
-
-  /// output matrix 
-  /// number of columns in particles configuration excluding x, y, rho, m
-  BOOST_ASSERT(data.size2() - 4 > 0);
-  blast::matrix<double> out = nullMat(probe.size1(), data.size2() - 4);
-  LOG(INFO) << "out.size1() = " << out.size1();
-  LOG(INFO) << "out.size2() = " << out.size2();
-
-  /// a pointer to Kernel function 
-  boost::scoped_ptr<Kernel> weight_function(new QuinticSpline(supportlength));
-  const double sup2 = supportlength * supportlength;
-
-  for (long iprobe=0; iprobe<probe.size1(); iprobe++) {
-    LOG(INFO) << "iprobe = " << iprobe;
-    /// a cell for the probe point
-    const double x = probe(iprobe, xidx);
-    const double y = probe(iprobe, yidx);
-    const int icell = floor( (x - min_box(xidx)) / supportlength );
-    const int jcell = floor( (y - min_box(yidx)) / supportlength );
-    LOG(INFO) << "icell = " << icell;
-    LOG(INFO) << "jcell = " << jcell;
-    // iterate in the neighboring cells
-    for (int i=std::max(icell-1, 0); i<std::min(icell+2, (int)cell_lists.size1()); i++) {
-      for (int j=std::max(jcell-1, 0); j<std::min(jcell+2, (int)cell_lists.size2()); j++) {
-	LOG(INFO) << "i = " << i;
-	LOG(INFO) << "j = " << j;
-
-	// iterate inside one cell
-	BOOST_FOREACH(const long id, cell_lists(i, j)) {
-	  const double xp = data(id, xidx);
-	  const double yp = data(id, yidx);
-	  const double r2 = pow(x - xp, 2) + pow(y - yp, 2);
-	  LOG(INFO) << "r2 = " << r2;
-	  if (r2<sup2) {
-	    const double w = weight_function->w(sqrt(r2));
-	    /// iterate for all fields
-	    for (int ifield=0; ifield<data.size2() - 4; ifield++) {
-	      const double mass = data(id, midx);
-	      const double rho = data(id, rhoidx);
-	      const double fieldvalue = data(id, ifield + 4);
-	      out(iprobe, ifield) += mass/rho * fieldvalue * w;
-	    }
-	  } // if (r2>sup2) {
-	} // BOOST_FOREACH(const long id, cell_lists(i, j)) {
-      }
-    }
-  } // for (long iprobe=1; iprobe<probe.size1(); iprobe++) {
-
-  printXYOut(probe, out, std::cout);
-
-  /// project to the grid
-  /// approximate in time
-  /// output 
   return EXIT_SUCCESS;
 }
