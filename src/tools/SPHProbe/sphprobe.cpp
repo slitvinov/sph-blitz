@@ -115,7 +115,12 @@ blast::matrix<double> readMatrix(const std::string& filename ) {
   std::vector<std::vector<double> >  vec = readVector(is);
   is.close();
   const long n = vec.size();
+  if (n==0) {
+    LOG(ERROR) << "I did not find any points in the file: " << filename;
+    exit(EXIT_FAILURE);
+  }
   const long m = (*vec.begin()).size();
+  BOOST_ASSERT(m>0);
   LOG(INFO) << "n = " << n;
   LOG(INFO) << "m = " << m;
   blast::matrix<double> data (n, m);
@@ -304,7 +309,6 @@ int main(int ac, char* av[]) {
   LOG(INFO) << "probe_file = " << probe_file;
   
   const blast::matrix<double> probe = readMatrix(probe_file);
-
   const blast::matrix<double> data1 = readMatrix(c1);
   const blast::matrix<double> out1 = getSPHApprox(data1, supportlength, probe);
 
@@ -314,7 +318,7 @@ int main(int ac, char* av[]) {
     const blast::matrix<double> out = ( (tout - t1)*out1 + (t2-tout)*out2 ) / (t2 - t1);
     printXYOut(probe, out, std::cout);
   } else {
-     printXYOut(probe, out1, std::cout);
+    printXYOut(probe, out1, std::cout);
   }
 
   return EXIT_SUCCESS;
