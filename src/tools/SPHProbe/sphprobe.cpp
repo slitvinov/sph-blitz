@@ -261,6 +261,8 @@ int main(int ac, char* av[]) {
     LOG(INFO) << "default value for the tout is used";
   }
   LOG(INFO) << "tout = " << tout;
+  BOOST_ASSERT(tout>=t1);
+  BOOST_ASSERT(tout<=t2);
 
 
   std::string kernel_type;
@@ -314,9 +316,13 @@ int main(int ac, char* av[]) {
   if (t2>=tout) {
     const blast::matrix<double> data2 = readMatrix(c2);
     const blast::matrix<double> out2 = getSPHApprox(data2, supportlength, probe);
-    const blast::matrix<double> out = ( (tout - t1)*out1 + (t2-tout)*out2 ) / (t2 - t1);
+    //    const blast::matrix<double> out = ( (tout - t1)*out1 + (t2-tout)*out2 ) / (t2 - t1);
+    LOG(INFO) << "t1, t2, tout: " << t1 << ' ' <<  t2 << ' ' <<  tout;
+    const blast::matrix<double> out =  ( (t2 - tout) * out1 + (tout - t1) * out2 ) / (t2 - t1);
+    LOG(INFO) << "ouput time interpolation";
     printXYOut(probe, out, std::cout);
   } else {
+    LOG(INFO) << "ouput without time  interpolation";
     printXYOut(probe, out1, std::cout);
   }
 
