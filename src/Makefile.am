@@ -22,6 +22,7 @@ nomain=	boundary.cpp boundary.h \
 	material.cpp material.h \
 	Output/output.cpp Output/output.h \
 	Output/tecplotoutput.cpp Output/tecplotoutput.h \
+	Output/plainoutput.cpp Output/plainoutput.h \
 	particle.cpp \
 	particle.h particlemanager.cpp particlemanager.h \
 	vec2d.h \

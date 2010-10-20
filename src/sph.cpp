@@ -17,6 +17,7 @@
 #include "src/Interaction/interaction.h"
 #include "src/initiation.h"
 #include "src/Output/tecplotoutput.h"
+#include "src/Output/plainoutput.h"
 #include "src/boundary.h"
 #include "src/Kernel/quinticspline.h"
 #include "src/Kernel/cubicspline.h"
@@ -160,6 +161,8 @@ int main(int argc, char *argv[]) {
   boost::shared_ptr<Output> output; 
   if (ini.OutputType == "Tecplot") {
     output = boost::make_shared<TecplotOutput>();
+  } else if (ini.OutputType == "Plain") {
+    output = boost::make_shared<PlainOutput>();
   } else {
     LOG(ERROR) << "Unknown ouput type: " << ini.OutputType;
     exit(EXIT_FAILURE);

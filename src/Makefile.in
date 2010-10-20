@@ -58,7 +58,8 @@ libsph_a_LIBADD =
 am__objects_1 = boundary.$(OBJEXT) glbfunc.$(OBJEXT) \
 	hydrodynamics.$(OBJEXT) initiation.$(OBJEXT) \
 	material.$(OBJEXT) output.$(OBJEXT) tecplotoutput.$(OBJEXT) \
-	particle.$(OBJEXT) particlemanager.$(OBJEXT) kernel.$(OBJEXT) \
+	plainoutput.$(OBJEXT) particle.$(OBJEXT) \
+	particlemanager.$(OBJEXT) kernel.$(OBJEXT) \
 	quinticspline.$(OBJEXT) cubicspline.$(OBJEXT) \
 	cubicspline1D.$(OBJEXT) betaspline.$(OBJEXT) \
 	harmonic.$(OBJEXT) particlegenerator.$(OBJEXT) \
@@ -229,6 +230,7 @@ nomain = boundary.cpp boundary.h \
 	material.cpp material.h \
 	Output/output.cpp Output/output.h \
 	Output/tecplotoutput.cpp Output/tecplotoutput.h \
+	Output/plainoutput.cpp Output/plainoutput.h \
 	particle.cpp \
 	particle.h particlemanager.cpp particlemanager.h \
 	vec2d.h \
@@ -400,6 +402,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/particlegenerator.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/particlemanager.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/particlemanager_test.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plainoutput.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/quinticspline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rotcontext.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/solidcontext.Po@am__quote@
@@ -450,6 +453,20 @@ tecplotoutput.obj: Output/tecplotoutput.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Output/tecplotoutput.cpp' object='tecplotoutput.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tecplotoutput.obj `if test -f 'Output/tecplotoutput.cpp'; then $(CYGPATH_W) 'Output/tecplotoutput.cpp'; else $(CYGPATH_W) '$(srcdir)/Output/tecplotoutput.cpp'; fi`
+
+plainoutput.o: Output/plainoutput.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT plainoutput.o -MD -MP -MF $(DEPDIR)/plainoutput.Tpo -c -o plainoutput.o `test -f 'Output/plainoutput.cpp' || echo '$(srcdir)/'`Output/plainoutput.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/plainoutput.Tpo $(DEPDIR)/plainoutput.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Output/plainoutput.cpp' object='plainoutput.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o plainoutput.o `test -f 'Output/plainoutput.cpp' || echo '$(srcdir)/'`Output/plainoutput.cpp
+
+plainoutput.obj: Output/plainoutput.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT plainoutput.obj -MD -MP -MF $(DEPDIR)/plainoutput.Tpo -c -o plainoutput.obj `if test -f 'Output/plainoutput.cpp'; then $(CYGPATH_W) 'Output/plainoutput.cpp'; else $(CYGPATH_W) '$(srcdir)/Output/plainoutput.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/plainoutput.Tpo $(DEPDIR)/plainoutput.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Output/plainoutput.cpp' object='plainoutput.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o plainoutput.obj `if test -f 'Output/plainoutput.cpp'; then $(CYGPATH_W) 'Output/plainoutput.cpp'; else $(CYGPATH_W) '$(srcdir)/Output/plainoutput.cpp'; fi`
 
 kernel.o: Kernel/kernel.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT kernel.o -MD -MP -MF $(DEPDIR)/kernel.Tpo -c -o kernel.o `test -f 'Kernel/kernel.cpp' || echo '$(srcdir)/'`Kernel/kernel.cpp
