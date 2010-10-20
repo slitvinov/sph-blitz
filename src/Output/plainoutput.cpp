@@ -50,9 +50,10 @@ PlainOutput::~PlainOutput() {
 }
 
 void PlainOutput::PrintOneParticle(spParticle prtl, const Initiation& ini, std::ostream& o) {
-    o << prtl->R[0] << "  " << prtl->R[1]
-      << "  " << prtl->U[0] << "  " << prtl->U[1] 
-      << "  " << prtl->dUdt[0] << "  " << prtl->dUdt[1] 
-      << "  " << ini.context->ContextID(prtl)
-      << "  " << prtl->rho << "  " << prtl->e << '\n';
+  o << prtl->R[0] << "  " << prtl->R[1]
+    << "  " << prtl->rho << " " << prtl->m 
+    << "  " << prtl->U[0] << "  " << prtl->U[1] 
+    << "  " << prtl->dUdt[0] << "  " << prtl->dUdt[1] 
+    << "  " << ini.context->ContextID(prtl)
+    << "  " << prtl->e << '\n';
 }

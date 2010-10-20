@@ -36,8 +36,12 @@ if  [catch {set OUTDIR output$res_level}] {
     set OUTDIR output$res_level
 } 
 
+set OutputType Plain
+set output_file_format_factor 1e6
+
+
 # number of cell
-set ncell $res_level
+set ncell [expr {int(2.0/3.0*$res_level)}]
 set CELLS(0) $ncell
 set CELLS(1) [expr {int(0.5*$ncell)}]
 

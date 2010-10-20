@@ -3,6 +3,9 @@
 # 2: gas dynamics
 set SIMULATION_MODE 1
 
+set OutputType Plain
+set output_file_format_factor 1e6
+
 
 # possible values are 
 # QuinticSpline, BetaSpline, CubicSpline

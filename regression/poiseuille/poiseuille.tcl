@@ -12,6 +12,7 @@ if  [catch {set OUTDIR output$res_level}] {
     set OUTDIR output$res_level
 } 
 set OutputType Plain
+set output_file_format_factor 1e6
 
 # possible values are 
 # QuinticSpline, BetaSpline, CubicSpline
