@@ -39,7 +39,7 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
 
   ///<li>defining header for tecplot(plot software)
   out<<"title='particle position' \n";
-  if( ini.simu_mode==1 || ini.simu_mode==3)
+  if( ini.simu_mode==1)
     out<<"variables=x, y, Ux, Uy, Fx, Fy, contextID, rho\n";
   if (ini.simu_mode==2) {
     if (ini.splash_optimized_output==0)
@@ -60,7 +60,7 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
       if(hydro.materials[i]->material_name == prtl->mtl->material_name) {
         j ++;
         a++;
-        if( ini.simu_mode == 1 || ini.simu_mode == 3) {
+        if( ini.simu_mode == 1) {
           if(j == 1)  {
             out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
           }
@@ -68,7 +68,7 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
 	      << "  " << prtl->U[0] << "  " << prtl->U[1] 
 	      << "  " << prtl->dUdt[0] << "  " << prtl->dUdt[1] 
 	      << "  " << ini.context->ContextID(prtl)
-	      << "  " << prtl->rho << "  " << prtl->e << '\n';
+	      << "  " << prtl->rho << '\n';
         }
 	if (ini.simu_mode == 2) {
 	  if (ini.splash_optimized_output==0)
@@ -110,7 +110,7 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
       if(hydro.materials[i]->material_name == prtl->mtl->material_name) { 
 	j ++;
 	b++;
-	if( ini.simu_mode == 1 || ini.simu_mode == 3) {
+	if( ini.simu_mode == 1) {
 	  if(j == 1)  {
 	    //out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
 	  }

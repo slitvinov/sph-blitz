@@ -28,6 +28,10 @@ const int yidx = 1;
 const int rhoidx = 2;
 const int midx = 3;
 
+/// number of required fields to do SPH approximation
+/// x, y, rho, mass
+const int nreqfields = 4;
+
 std::vector<double> readRow(std::string row) {
   std::vector<double> retval;
   std::istringstream is(row);
@@ -141,30 +145,27 @@ blast::matrix<double> getSPHApprox(const blast::matrix<double>& data, const doub
 
   const Vec2d max_box(getMax( blast::matrix_column<const blast::matrix<double> >(data, xidx)), 
 		      getMax( blast::matrix_column<const blast::matrix<double> >(data, yidx)));
-
   LOG(INFO) << "min_box = " << min_box;
   LOG(INFO) << "max_box = " << max_box;
   BOOST_ASSERT(max_box(xidx) > min_box(xidx));
   BOOST_ASSERT(max_box(yidx) > min_box(yidx));
   const Vec2d box_size = max_box - min_box;
   LOG(INFO) << "box_size = " << max_box;
-
   /// create a matrix of cell lists 
-  blast::matrix<std::list<long> > cell_lists( floor( box_size(xidx) / supportlength ) + 1,  
-					      floor( box_size(yidx) / supportlength ) + 1);
-    
+  blast::matrix<std::list<long> > cell_lists(floor( box_size(xidx) / supportlength ) + 1,  
+					     floor( box_size(yidx) / supportlength ) + 1);
   /// put particles in the cell lists
   for (int iparticle = 0; iparticle<data.size1(); iparticle++) {
     const double x = data(iparticle, xidx);
     const double y = data(iparticle, yidx);
     const int icell = floor( (x - min_box(xidx)) / supportlength );
     const int jcell = floor( (y - min_box(yidx)) / supportlength );
+    /// regestre a particle ID in the cell list
     cell_lists(icell, jcell).push_back( iparticle);
   }
-    /// output matrix 
   /// number of columns in particles configuration excluding x, y, rho, m
-  BOOST_ASSERT(data.size2() - 4 > 0);
-  blast::matrix<double> out = nullMat(probe.size1(), data.size2() - 4);
+  BOOST_ASSERT(data.size2() - nreqfields > 0);
+  blast::matrix<double> out = nullMat(probe.size1(), data.size2() - nreqfields);
   LOG(INFO) << "out.size1() = " << out.size1();
   LOG(INFO) << "out.size2() = " << out.size2();
 
@@ -186,7 +187,6 @@ blast::matrix<double> getSPHApprox(const blast::matrix<double>& data, const doub
       for (int j=std::max(jcell-1, 0); j<std::min(jcell+2, (int)cell_lists.size2()); j++) {
 	LOG(INFO) << "i = " << i;
 	LOG(INFO) << "j = " << j;
-
 	// iterate inside one cell
 	BOOST_FOREACH(const long id, cell_lists(i, j)) {
 	  const double xp = data(id, xidx);
@@ -196,10 +196,10 @@ blast::matrix<double> getSPHApprox(const blast::matrix<double>& data, const doub
 	  if (r2<sup2) {
 	    const double w = weight_function->w(sqrt(r2));
 	    /// iterate for all fields
-	    for (int ifield=0; ifield<data.size2() - 4; ifield++) {
+	    for (int ifield=0; ifield<data.size2() - nreqfields; ifield++) {
 	      const double mass = data(id, midx);
 	      const double rho = data(id, rhoidx);
-	      const double fieldvalue = data(id, ifield + 4);
+	      const double fieldvalue = data(id, ifield + nreqfields);
 	      out(iprobe, ifield) += mass/rho * fieldvalue * w;
 	    }
 	  } // if (r2>sup2) {
@@ -311,8 +311,7 @@ int main(int ac, char* av[]) {
   const blast::matrix<double> probe = readMatrix(probe_file);
   const blast::matrix<double> data1 = readMatrix(c1);
   const blast::matrix<double> out1 = getSPHApprox(data1, supportlength, probe);
-
-  if (t2<tout) {
+  if (t2>=tout) {
     const blast::matrix<double> data2 = readMatrix(c2);
     const blast::matrix<double> out2 = getSPHApprox(data2, supportlength, probe);
     const blast::matrix<double> out = ( (tout - t1)*out1 + (t2-tout)*out2 ) / (t2 - t1);
