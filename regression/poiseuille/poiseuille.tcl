@@ -11,6 +11,7 @@ if  [catch {set OUTDIR output$res_level}] {
     set res_level 1
     set OUTDIR output$res_level
 } 
+set OutputType Plain
 
 # possible values are 
 # QuinticSpline, BetaSpline, CubicSpline

@@ -148,6 +148,7 @@ void TecplotOutput::OutputParticle(const Hydrodynamics &hydro, const Boundary &b
       }
     }
   }
+  out.close();
   LOG(INFO)<<"output particle method successfully executed for time"<<Time;
   LOG(INFO)<<"particles on real  particle list  "<<f;
   LOG(INFO)<<"particles on real  particle list with same mat name "<<a;

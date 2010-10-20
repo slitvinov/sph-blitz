@@ -14,6 +14,7 @@ public:
   virtual void OutputParticle(const Hydrodynamics &hydro,
 		      const Boundary &boundary, 
 		      const double Time, const Initiation &ini) ;
-
+private:
+  void PrintOneParticle(spParticle prtl, const Initiation& ini, std::ostream& o);
 };
 #endif // SRC_OUTPUT_PLAINOUTPUT_H
