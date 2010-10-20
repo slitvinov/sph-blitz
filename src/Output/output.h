@@ -1,18 +1,19 @@
-#ifndef OUTPUT_H
-#define OUTPUT_H
+#ifndef SRC_OUTPUT_OUTPUT_H
+#define SRC_OUTPUT_OUTPUT_H
 /// \file output.h 
 /// \brief Output the computational results
 /// Output class 
 class Output {
-public:
   ///constructor
+public:
   Output();
+  virtual ~Output();
   ///output particle positions respected different materials
-  void OutputParticle(const Hydrodynamics &hydro,
+  virtual void OutputParticle(const Hydrodynamics &hydro,
 		      const Boundary &boundary, 
-		      const double Time, const Initiation &ini);
+		      const double Time, const Initiation &ini) = 0;
   ///Output real particle data for restart the computation
-  void OutRestart(const Hydrodynamics &hydro, 
+  virtual void OutputRestart(const Hydrodynamics &hydro, 
 		  const double Time, const Initiation& ini);
 };
-#endif //OUTPUT_H
+#endif // SRC_OUTPUT_OUTPUT_H

@@ -249,7 +249,7 @@ int main(int ac, char* av[]) {
   if (vm.count("t2")) {
     t2 = vm["t2"].as<double>();
   } else {
-    t2 = 1.0;
+    t2 = t1;
   }
   LOG(INFO) << "t2 = " << t2;
 
@@ -292,14 +292,15 @@ int main(int ac, char* av[]) {
   }
   LOG(INFO) << "c1 = " << c1;
 
-  std::string c2;
+  std::string c2; 
+  bool c2isgiven;
   if (vm.count("c2")) {
     c2= vm["c2"].as<std::string>();
+    c2isgiven = true;
+    LOG(INFO) << "c2 = " << c2;
   } else {
-    LOG(ERROR) << "particle configuration must be given (--c2 parameter)";
-    return EXIT_FAILURE;
+    c2isgiven = false;
   }
-  LOG(INFO) << "c2 = " << c2;
 
   std::string probe_file;
   if (vm.count("probe")) {
@@ -313,7 +314,7 @@ int main(int ac, char* av[]) {
   const blast::matrix<double> probe = readMatrix(probe_file);
   const blast::matrix<double> data1 = readMatrix(c1);
   const blast::matrix<double> out1 = getSPHApprox(data1, supportlength, probe);
-  if (t2>=tout) {
+  if ( (t2>=tout) && (c2isgiven) ) {
     const blast::matrix<double> data2 = readMatrix(c2);
     const blast::matrix<double> out2 = getSPHApprox(data2, supportlength, probe);
     //    const blast::matrix<double> out = ( (tout - t1)*out1 + (t2-tout)*out2 ) / (t2 - t1);

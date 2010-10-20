@@ -4,26 +4,25 @@
 /// \author changes by: Andreas Mattes
 #include <glog/logging.h>
 #include <boost/smart_ptr/make_shared.hpp>
-
 // main page for doxygen is in a separate file
-#include "main.doxygen"
+#include "src/main.doxygen"
 
 // ***** local includes *****
-#include "particlemanager.h"
-#include "hydrodynamics.h"
-#include "TimeSolver/gastimesolverLeapFrog.h"
-#include "TimeSolver/gastimesolverPredCorr.h"
-#include "TimeSolver/hydrotimesolver.h"
-#include "vec2d.h"
-#include "Interaction/interaction.h"
-#include "initiation.h"
-#include "output.h"
-#include "boundary.h"
-#include "Kernel/quinticspline.h"
-#include "Kernel/cubicspline.h"
-#include "Kernel/cubicspline1D.h"
-#include "Kernel/betaspline.h"
-#include "Kernel/harmonic.h"
+#include "src/particlemanager.h"
+#include "src/hydrodynamics.h"
+#include "src/TimeSolver/gastimesolverLeapFrog.h"
+#include "src/TimeSolver/gastimesolverPredCorr.h"
+#include "src/TimeSolver/hydrotimesolver.h"
+#include "src/vec2d.h"
+#include "src/Interaction/interaction.h"
+#include "src/initiation.h"
+#include "src/Output/tecplotoutput.h"
+#include "src/boundary.h"
+#include "src/Kernel/quinticspline.h"
+#include "src/Kernel/cubicspline.h"
+#include "src/Kernel/cubicspline1D.h"
+#include "src/Kernel/betaspline.h"
+#include "src/Kernel/harmonic.h"
 
 //using namespace std;
 
@@ -154,11 +153,17 @@ int main(int argc, char *argv[]) {
 
   //BuildBoundaryParticle moved here from boundary constructor in order to be able to switch it of for the 1D case
   if  (!ini.disable_boundary) {
-    
     boundary.BuildBoundaryParticle(particles, hydro);
   }
 
-  Output output; ///- initialize output class (should be the last to be initialized)
+///- initialize output class (should be the last to be initialized)
+  boost::shared_ptr<Output> output; 
+  if (ini.OutputType == "Tecplot") {
+    output = boost::make_shared<TecplotOutput>();
+  } else {
+    LOG(ERROR) << "Unknown ouput type: " << ini.OutputType;
+    exit(EXIT_FAILURE);
+  }
 
   if (ini.simu_mode == 1 || ini.simu_mode == 3) {
     ini.VolumeMass(hydro, particles, weight_function); //predict particle volume and mass
@@ -173,7 +178,7 @@ int main(int argc, char *argv[]) {
   double Time = ini.Start_time;
 
   //output initial conditions
-  output.OutputParticle(hydro, boundary, Time, ini); //particle positions and velocites
+  output->OutputParticle(hydro, boundary, Time, ini); //particle positions and velocites
 
   ///\n computation loop starts 
   while(Time < ini.End_time) {
@@ -199,8 +204,8 @@ int main(int argc, char *argv[]) {
     //control output
     LOG(INFO)<<"time is "<<Time<<"\n";
     ///- output results after a time interval\n\n
-    output.OutputParticle(hydro, boundary, Time, ini); //particle positions and velocites
-    output.OutRestart(hydro, Time, ini); //restarting file
+    output->OutputParticle(hydro, boundary, Time, ini); //particle positions and velocites
+    output->OutputRestart(hydro, Time, ini); //restarting file
   }
 
   LOG(INFO) << "sph program successfully ends";

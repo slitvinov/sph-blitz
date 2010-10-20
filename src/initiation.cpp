@@ -65,6 +65,13 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   density_mode = interp->getval("DENSITY_MODE");
   assert(density_mode == 1 || density_mode == 2);
   kernel_type = static_cast<std::string>(interp->getval("KERNEL_TYPE"));
+  if (interp->exist("OutputType")) {
+      OutputType = static_cast<std::string>(interp->getval("OutputType"));
+  } else {
+    OutputType = "Tecplot";
+  }
+  LOG(INFO) << "read OutputType: " << OutputType;
+     
   // for harmonic kernel we need a parameter n
   if (kernel_type == "Harmonic") {
     harmonic_n = interp->getval("harmonic_n");

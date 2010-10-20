@@ -31,7 +31,7 @@ set DENSITY_MODE 1
 # number of cell
 # number of cell
 set ncell [expr {$res_level * 4}]
-set CELLS(0) 4
+set CELLS(0) [expr {int(0.5*$ncell)}]
 set CELLS(1) $ncell
 
 #possible integration schemes

@@ -11,3 +11,4 @@ for res in $reslist; do
     touch /tmp/sph.INFO /tmp/sph.ERROR
     cp /tmp/sph.INFO /tmp/sph.ERROR output$res/
 done
+

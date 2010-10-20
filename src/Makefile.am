@@ -20,7 +20,9 @@ nomain=	boundary.cpp boundary.h \
 	hydrodynamics.cpp hydrodynamics.h \
 	initiation.cpp initiation.h \
 	material.cpp material.h \
-	output.cpp output.h particle.cpp \
+	Output/output.cpp Output/output.h \
+	Output/tecplotoutput.cpp Output/tecplotoutput.h \
+	particle.cpp \
 	particle.h particlemanager.cpp particlemanager.h \
 	vec2d.h \
 	Kernel/kernel.cpp Kernel/kernel.h \

@@ -29,6 +29,15 @@ public:
   /// QuinticSpline, BetaSpline, CubicSpline, CubicSpline1D
   std::string kernel_type;
 
+  /// output type
+  /// supported values are
+  // Tecplot
+  // Plain 
+  // Smash 
+  // H5Part
+  // Punto
+  std::string OutputType;
+
   ///\brief number of materials
   ///
   ///- the no. zero material is always the wall
