@@ -22,6 +22,11 @@ set DENSITY_MODE 1
 # 1: use restart file
 set INITIAL_CONDITION 0
 
+# external mass initialization marker
+# 0: mass initialization within simulation program (by smoothing)
+# 1: mass initialized externally (via initialization file)
+set EXTERNAL_MASS_INITIALIZATION 0
+
 # number of cells in X and Y directions
 # 130 cells in x direction are good for supportlength =0.03 (for m=cte=0.001875)
 # xx cells in x direction are good for supportlength =xx (for dx=cte=0.05)
@@ -75,6 +80,14 @@ set epsilon_artVis 0.1
 # 1: physical viscosity included
 # 0: no physical viscosity
 set PHYSICAL_VISCOSITY_MARKER 0
+
+# flag for variable viscosity and thermal conductivity
+# 0: simulation with constant values (specified below as material properties)
+# 1: simulation with variable eta, k (according to Sutherland law 
+#    (see White1974) with parameters material_eta_0, material_S_0,
+#     material_T_0 to be specified both for eta and k in materials
+#      section below 
+set VARIABLE_ETA_AND_K 0
 
 # marker to choose output format
 # 0: used for post-processing of shocktube cases and wave propagation

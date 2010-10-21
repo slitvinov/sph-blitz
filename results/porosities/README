@@ -1,5 +1,6 @@
 literature:
 
+
 simulation of porosities mentionned in abstract of review paper:
 Progress in Computational Fluid Dynamics, an International Journal
   	Issue:  	Volume 7, Number 2-4 / 2007
@@ -7,3 +8,64 @@ Progress in Computational Fluid Dynamics, an International Journal
 Smooth particle hydrodynamics: status and future potential 
 
 (but unfortunatley I can't access this)
+
+1) A PORE-SCALE NUMERICAL MODEL FOR FLOW
+THROUGH POROUS MEDIA (1999)
+YI ZHU, PATRICK J. FOX AND JOSEPH P. MORRIS
+ - simulates (quasi) incompressible SPH flow through porous media:
+   the term "porous media" means in this case: a periodic arrangement of circles (representing the solid).
+ - Describes a way of implementing curved boundary conditions
+ - for the case of this incompressible flow the pressure variation is MUC smaller than hydrostatic pressure->
+   can give inaccurate results in SPH and therefore only use of dynamic pressure, but I think this does not apply to 
+   compressible flows as first our pressure is not to high, and our equation of state is connected to temperature 
+  (and a smaller p would therefore influence temperature as well...)???
+
+
+2) Parallel simulations of pore-scale flow through
+porous media(1999)
+J.P. Morris, Y. Zhu, P.J. Fox
+ - essentially the same as 1), but with emphasis on code parallelization!
+
+3) Modeling Low Reynolds Number Incompressible Flows Using SPH (1997)
+Joseph P. Morris, Patrick J. Fox, and Yi Zhu
+ - fundamentals for 1) and 2) especially boundary conditions
+
+4) Simulation of Pore-Scale Dispersion in Periodic
+Porous Media Using Smoothed Particle Hydrodynamics (2002)
+Yi Zhu and Patrick J. Fox
+ - application of 1),2)
+
+
+
+5) SPH as an Inverse Numerical Tool for the Prediction of Diffusive
+Properties in Porous Media (2007)
+Antonio C.M. Sousa and Fangming Jiang
+ - nothing completely new!
+
+6) Porous Flow in Particle-Based Fluid Simulations (2008)
+Toon Lenaerts, Bart Adams, Philip Dutre
+ - do not model porosities explicitely but by so called "porous particles" containing properties characteristic for 
+   porosities ...
+
+7) Mesoscale SPH modeling of fluid flow in isotropic porous media
+Fangming Jianga, Mónica S.A. Oliveira and Antonio C.M. Sousa
+Computer Physics Communications
+Volume 176, Issue 7, 1 April 2007, Pages 471-480 
+ - linked to 5): no access to article
+
+8) Pore scale modeling of immiscible and miscible ﬂuid ﬂows using smoothed particle hydrodynamics
+   Tartakovsky, A.M., Meakin, P.
+   Adv. Water Resour. 29(10), 1464–1478 (2006)
+  - Article not accessible
+
+9) Modelling of Power-law Fluid Flow Through Porous
+Media Using Smoothed Particle Hydrodynamics (2008)
+Mehran Vakilha, Mehrdad T. Manzari
+ - gives short overview of porosities in SPH
+ - use boundary particle modeling according to 10)
+
+10) 
+
+
+
+

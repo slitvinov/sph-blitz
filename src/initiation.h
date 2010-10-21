@@ -77,11 +77,22 @@ public:
   ///- 0: no physical viscosity
   int physical_viscosity_marker; 
 
+  ///\brief marker for temperature dependend viscosity and thermal conduction
+  ///
+  /// 1: variable viscosity/conductivity taken into account (Sutherland law)
+  /// 0: constant viscosity/conductivity (takes values specified in .tcl file)
+  int variableEtaAndK;
+
   ///\brief artificial viscosity marker:
-  ///- 2. art. visc. globally turned on
+  ///- 2: art. visc. globally turned on
   ///- 1: incl. art. visc. for compression only (as needed for shock-tube case)
   ///- 0: no artificial viscosity
   int artificial_viscosity_marker; 
+
+  ///\brief external mass initialization marker
+  ///- 0: mass initialization within simulation program (by smoothing)
+  ///- 1: mass initialized externally (via initialization file)
+  int external_mass_initialization;
 
   ///\brief density mode marker
   ///
@@ -92,17 +103,17 @@ public:
   double supportlength;
   /// parameter n for harmonic kerenel
   double harmonic_n;
-  ///the compuational domain size
+  /// the compuational domain size
   Vec2d box_size;
   ///cell size
   double cell_size;
-  ///the inital particle distance
+  /// the inital particle distance
   double delta;
-  ///the ration between smoothing length and inital particle distance
+  /// the ration between smoothing length and inital particle distance
   int hdelta;
-  ///cells matrix for real particles
+  /// cells matrix for real particles
   int x_cells, y_cells;
-  ///g force on particles
+  /// g force on particles
   Vec2d g_force;
 
   ///\brief marker to choose output format
@@ -128,7 +139,7 @@ public:
   /// 0: autom. time conrtol switched off
   /// 1: autom time control activated!
   double autom_dt_control;
-  double manually_choosen_dt;///<Time-step (specified in .tcl-configuration file) which is applied if autom. dt-control is turned off
+  double manually_choosen_dt;///<Timestep (specified in .tcl-configuration file) which is applied if autom. dt-control is turned off
 
 
   Vec2d U0;///<inital flow speed (if initial condition is defined here)w

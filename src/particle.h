@@ -6,6 +6,8 @@
 #include "vec2d.h"
 #include "glbtype.h"
 #include <stdint.h>
+#include "initiation.h"
+
 
 /// Particle class 
 class Particle {
@@ -15,7 +17,7 @@ class Particle {
 	Particle (Vec2d position, Vec2d velocity, double density, 
 		  double pressure, double temperature, spMaterial material);
 
-	///construct a real particle including mass (used forgasdynamcis where mass 
+	///construct a real particle including mass (used for gasdynamcis where mass initialized via external file
 	Particle (Vec2d position, Vec2d velocity, double density, 
 		    double pressure, double mass,double temperature, 
 		  spMaterial material);

@@ -22,21 +22,26 @@ set DENSITY_MODE 1
 # 1: use restart file
 set INITIAL_CONDITION 0
 
+# external mass initialization marker
+# 0: mass initialization within simulation program (by smoothing)
+# 1: mass initialized externally (via initialization file)
+set EXTERNAL_MASS_INITIALIZATION 1
+
 # number of cells in X and Y directions
 # 130 cells in x direction are good for supportlength =0.03 (for m=cte=0.001875)
 
-set CELLS(0) 130
+set CELLS(0) 156
 set CELLS(1) 1
 
 # size of one cell
 # ->make sure that cell size >= support length
-set CELL_SIZE 0.03
+set CELL_SIZE 0.025
 
 # support length of the kernel 
 # -> make sure that support length > particle spacing
 # (0.03 is not bad for m=cte=0.001875)
 
-set SUPPORT_LENGTH 0.03
+set SUPPORT_LENGTH 0.025
 
 # number of particles in one cell size
 # not used in 1D shock 
@@ -77,6 +82,14 @@ set epsilon_artVis 0.1
 # 1: physical viscosity included
 # 0: no physical viscosity
 set PHYSICAL_VISCOSITY_MARKER 0
+
+# flag for variable viscosity and thermal conductivity
+# 0: simulation with constant values (specified below as material properties)
+# 1: simulation with variable eta, k (according to Sutherland law 
+#    (see White1974) with parameters material_eta_0, material_S_0,
+#     material_T_0 to be specified both for eta and k in materials
+#      section below 
+set VARIABLE_ETA_AND_K 0
 
 # marker to choose output format
 # 0: used for post-processing of shocktube cases and wave propagation
@@ -144,6 +157,8 @@ set material_name(0) Wall
 set material_type(0) 1
 set material_cv(0) 0.0
 set material_eta(0) 0.0
+set material_zeta(0) 0.0
+set material_k(0) 0.0
 set material_gamma(0) 0.0
 set material_b0(0) 0.0
 set material_rho0(0) 0.0
@@ -153,6 +168,8 @@ set material_name(1) Air
 set material_type(1) 1
 set material_cv(1) 717.645
 set material_eta(1) 0.0
+set material_zeta(1) 0.0
+set material_k(1) 0.0
 set material_gamma(1) 1.4
 set material_b0(1) 0.0
 set material_rho0(1) 0.0

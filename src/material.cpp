@@ -27,7 +27,7 @@ Material::Material(Initiation &ini, const int number)
   // to have array in the return string for tcl
   // example [return A(1)]
   const std::string index = boost::str(boost::format("(%i)]") % number);
-
+  // read material properties from .tcl input file
   material_name = std::string(ini.interp.eval("[return $material_name" + index));
   material_type = ini.interp.eval("[return $material_type"  + index);
   cv = ini.interp.eval("[return $material_cv"  + index);
@@ -35,10 +35,26 @@ Material::Material(Initiation &ini, const int number)
   b0 = ini.interp.eval("[return $material_b0"  + index);
   rho0 = ini.interp.eval("[return $material_rho0"  + index);
   a0 = ini.interp.eval("[return $material_a0"  + index);
-  eta = ini.interp.eval("[return $material_eta"  + index);
+  //local copy of variable eta and k flag
+  variableEtaAndK=ini.variableEtaAndK;
   if (ini.simu_mode == 2) {
-   zeta = ini.interp.eval("[return $material_zeta"  + index);
-   k = ini.interp.eval("[return $material_k"  + index);
+    if(variableEtaAndK==0) {
+      //read eta, zeta, k from .tcl file (are considered constant during simulation)
+      eta = ini.interp.eval("[return $material_eta"  + index);
+      zeta = ini.interp.eval("[return $material_zeta"  + index);
+      k = ini.interp.eval("[return $material_k"  + index);
+    }
+    else {
+      // read reference values for sutherland law
+      // for viscosity
+      eta_0=ini.interp.eval("[return $material_eta_0"  + index);
+      T_0_eta=ini.interp.eval("[return $material_T_0_eta"  + index);
+      S_eta=ini.interp.eval("[return $material_S_eta"  + index);
+      // for thermal conductivity
+      k_0=ini.interp.eval("[return $material_k_0"  + index);
+      T_0_k=ini.interp.eval("[return $material_T_0_k"  + index);
+      S_k=ini.interp.eval("[return $material_S_k"  + index);
+    }
   }
   LOG(INFO) << "Material object is created";
 }
@@ -125,3 +141,34 @@ double Material::get_Cs(const double p, const double rho)
   assert(p>=0.0);
   return sqrt(gamma*p/rho);
 }
+//----------------------------------------------------------------------------------------
+//	       	get viscosity (either constant or f(T, depending on user settings)))
+//---------------------------------------------------------------------------------------
+double Material::get_eta(const double T)
+{
+  assert(T>=0.0);
+  // set constant viscosity (as specified in .tcl file) if this option is choosen
+  if(variableEtaAndK==0)    
+    return eta;
+  //if specified in .tcl file: calculate variable viscosity and conductivity
+  else 
+    //Sutherland law for eta, (1-36) from White1974 
+    eta=eta_0*pow(T/T_0_eta,1.5)*(T_0_eta+S_eta)/(T+S_eta);  
+}
+
+//----------------------------------------------------------------------------------------
+//	       	get conductivity (either constant or f(T, depending on user settings)))
+//---------------------------------------------------------------------------------------
+double Material::get_k(const double T)
+{
+  assert(T>=0.0);
+  // set constant conductivity (as specified in .tcl file) if this option is choosen
+  if(variableEtaAndK==0) 
+    return k;
+  //if specifide in .tcl file: calculate variable conductivity
+  else 
+    //Sutherland law for k, (1-44b) from White1974 
+    return k_0*pow(T/T_0_k,1.5)*(T_0_k+S_k)/(T+S_k);
+  ///TODO{think about cv(T) and bulk viscosity zeta (T) (for completeness)}
+}
+

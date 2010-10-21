@@ -83,7 +83,9 @@ void Interaction::RenewInteraction(spKernel weight_function) {
   zetai=Org->zeta;
   etaj=Dest->eta;
   zetaj=Dest->zeta;
-  assert(rrij>0.0);
+  ki=Org->k;
+  kj=Dest->k;
+  assert(rij>0.0);
   rrij = 1.0/rij;
   Vi=Org->V;
   Vj=Dest->V;
@@ -224,14 +226,15 @@ void Interaction::UpdateForces() {
     Org->mue_ab_max=AMAX1(Org->mue_ab_max,mue_ab);
     Dest->mue_ab_max=AMAX1(Dest->mue_ab_max,mue_ab);
     
-    //initialize vector for velocity change rate due to physical viscosity
-    Vec2d  dUdt_visc(0,0);
+    //initialize vectors for velocity change rate due to physical viscosity
+    Vec2d  dUdti_visc(0,0);
+    Vec2d  dUdtj_visc(0,0);
     // control output for one interaction pair
-    if(Org->ID==2 && Dest->ID==1)
-      LOG(INFO)<<"dUdt_visc before (should always be zero) : ("<<dUdt_visc[0]<<","<<dUdt_visc[1]<<")";
+    // if(Org->ID==2 && Dest->ID==1)
+    //   LOG(INFO)<<"dUdt_visc before (should always be zero) : ("<<dUdt_visc[0]<<","<<dUdt_visc[1]<<")";
     if (ini.physical_viscosity_marker==1) {
-      // physical viscosity implementation according to espagnol2003 (eq. 30)
-      // where Fij is defined as >= 0 (gradW(r)=-F(r)*r) contary to Monaghan 
+      // physical viscosity implementation according to espanol2003 (eq. 30)
+      // where Fij is defined as >= 0 (gradW(r)=-F(r)*r) contrary to Monaghan 
       // where Fij<=0 (gradW(r)=F(r)*r)
       
       const double d_i=1/Vi;// inverse of particle volume (partice number density)
@@ -252,36 +255,86 @@ void Interaction::UpdateForces() {
       // again control output for first interaction pair
       if(Org->ID==2 && Dest->ID==1) {
 	LOG(INFO)<<" eij :"<< eij;
+	LOG(INFO)<<" Ri :"<< Org->R;
+	LOG(INFO)<<" Rj :"<< Dest->R;
 	LOG(INFO)<<" Uij :"<< Uij;
 	LOG(INFO)<<" Ui :"<< Org->U;
 	LOG(INFO)<<" Uj :"<< Dest->U;
 	LOG(INFO)<<" eijdotUij :"<< eijdotUij;
       }
-      const double Fij_=abs(Fij);//as in Espagnol Fij defined >=0!
+      const double Fij_=abs(Fij);//as in Espanol Fij defined >=0!
       if(Org->ID==2 && Dest->ID==1)
 	LOG(INFO)<<" Fij_ :"<< Fij_;
       // velocity change rate due to physical viscosity
-      // dUdt_visc=1/mi*(-1*((5.0*eta_ij)/3.0-zeta_ij)*Fij_/(d_i*d_j)*Uij-5.0*(zeta_ij+eta_ij/3)*Fij_/(d_i*d_j)*eijdotUij*eij);
-      // formulation from Ellero2007 paper (neglecting bulk viscosity)
-       dUdt_visc=1/mi*(-1*eta_ij/3.0*Fij_/(d_i*d_j)*(5.0*Uij+4.0*eijdotUij*eij));
+      dUdti_visc=1/mi*(-1*((5.0*eta_ij)/3.0-zeta_ij)*Fij_/(d_i*d_j)*Uij
+		      -5.0*(zeta_ij+eta_ij/3)*Fij_/(d_i*d_j)*eijdotUij*eij);
+      // velocity change rate due to physical viscosity
+      dUdtj_visc=1/mj*(((5.0*eta_ij)/3.0-zeta_ij)*Fij_/(d_i*d_j)*Uij
+		       +5.0*(zeta_ij+eta_ij/3)*Fij_/(d_i*d_j)*eijdotUij*eij);
+
+      // formulation from Ellero2007 paper
+      // (neglecting bulk viscosity)(is even more wrong)
+      // dUdti_visc=1/mi*(-1*eta_ij/3.0*Fij_/(d_i*d_j)*(5.0*Uij+4.0*eijdotUij*eij));
 
     } 
     // again control output for first interaction pair
-    if(Org->ID==2 && Dest->ID==1)
-      LOG(INFO)<<"dUdt_visc after : ("<<dUdt_visc[0]<<","<<dUdt_visc[1]<<")";
+    // if(Org->ID==2 && Dest->ID==1)
+    //   LOG(INFO)<<"dUdt_visc after : ("<<dUdt_visc[0]<<","<<dUdt_visc[1]<<")";
     
     // calculate total velocity change rate (due to pressure, art. visc and physical visc.)
-    const Vec2d dUdti=-mj*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij+dUdt_visc;
-    const Vec2d dUdtj=mi*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij-dUdt_visc;
+    // const Vec2d dUdti=-mj*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij+dUdti_visc;
+    // const Vec2d dUdtj=mi*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij+dUdtj_visc;
+    
+    // //energy change rate    
+    // //(physical viscosity  automatically taken into account in energy equation
+    // // by multiplying complete velocity change rate with 0.5 and scalar product v_ij)
+
+    // //first energy change rate contribution  due to thermal conduction (Cleary1999)
+    // const double dedtij_cond=4.0*mj/(rhoi*rhoj)*ki*kj/((ki+kj)+1e-35)*(Ti-Tj)*Fij;
+    // //now complete energy equation
+    // const double dedti=0.5*dot(dUdti,(Uj-Ui))+dedtij_cond;
+    // const double dedtj=0.5*dot(dUdtj,(Ui-Uj))-dedtij_cond;
+
+    //------------------------------------------------------------------------------
+    //try to separate the single contributions
+
+
+    // calculate total velocity change rate (due to pressure, art. visc and physical visc.)
+    //velocity change rate due to pressure
+    const Vec2d dUdti_p=-mj*(pi/pow(rhoi,2)+pj/pow(rhoj,2))*gradWij;
+    const Vec2d dUdtj_p=mi*(pi/pow(rhoi,2)+pj/pow(rhoj,2))*gradWij;
+    //velocity change rate due to artificial viscosity
+    const Vec2d dUdti_artVisc=-mj*piij*gradWij;
+    const Vec2d dUdtj_artVisc=mi*piij*gradWij;
+    //velocity change rate due to physical viscosity already determined above
+     
+    //total velocity change rate
+    const Vec2d dUdti=dUdti_p+dUdti_artVisc+dUdti_visc;
+    const Vec2d dUdtj=dUdtj_p+dUdtj_artVisc+dUdtj_visc;
     
     //energy change rate    
-    //(physical viscosity  not (yet) taken into account in energy equation)
+    
+    //energy change rate contribution  due to thermal conduction (Cleary1999)
+    const double dedti_cond=4.0*mj/(rhoi*rhoj)*ki*kj/((ki+kj)+1e-35)*(Ti-Tj)*Fij;
+    const double dedtj_cond=4.0*mi/(rhoi*rhoj)*ki*kj/((ki+kj)+1e-35)*(Tj-Ti)*Fij;
+    //energy change rate contribution due to pressure
+    const double dedti_p=0.5*dot(dUdti_p,(Uj-Ui));
+    const double dedtj_p=0.5*dot(dUdtj_p,(Ui-Uj));
+    //energy change rate contribution due to artificial viscosity
+    const double dedti_artVisc=0.5*dot(dUdti_artVisc,(Uj-Ui));
+    const double dedtj_artVisc=0.5*dot(dUdtj_artVisc,(Ui-Uj));
+    //energy change rate contribution due to phsyical viscosity
+    const double dedti_visc=0.5*dot(dUdti_visc,(Uj-Ui));
+    const double dedtj_visc=0.5*dot(dUdtj_visc,(Ui-Uj));
+    
+    //now complete energy change rate
+    const double dedti=dedti_p+dedti_artVisc+dedti_visc;
+    const double dedtj=dedtj_p+dedtj_artVisc+dedtj_visc;
 
-    //first energy change rate contribution  due to thermal conduction (Cleary1999)
-    const double dedtij_cond=4.0*mj/(rhoi*rhoj)*ki*kj/((ki+kj)+1e-35)*(Ti-Tj)*Fij;
-    //now complete energy equation
-    const double dedti=0.5*dot(dUdti,(Uj-Ui))+dedtij_cond;
-    const double dedtj=0.5*dot(dUdtj,(Ui-Uj))-dedtij_cond;
+
+    //end try to separate single contributions
+    //-------------------------------------------------------------------------
+
     
     //add result to corresponding particle variable (so, an iteration over the interaction list corresponds to the required summation) 
     Org->dUdt += dUdti;

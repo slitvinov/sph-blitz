@@ -20,6 +20,11 @@ set DENSITY_MODE 1
 # 1: use restart file
 set INITIAL_CONDITION 0
 
+# external mass initialization marker
+# 0: mass initialization within simulation program (by smoothing)
+# 1: mass initialized externally (via initialization file)
+set EXTERNAL_MASS_INITIALIZATION 0
+
 # number of cells in X and Y directions
 set CELLS(0) 24
 set CELLS(1) 24
@@ -71,6 +76,14 @@ set epsilon_artVis 0.1
 # 1: physical viscosity included
 # 0: no physical viscosity
 set PHYSICAL_VISCOSITY_MARKER 1
+
+# flag for variable viscosity and thermal conductivity
+# 0: simulation with constant values (specified below as material properties)
+# 1: simulation with variable eta, k (according to Sutherland law 
+#    (see White1974) with parameters material_eta_0, material_S_0,
+#     material_T_0 to be specified both for eta and k in materials
+#      section below 
+set VARIABLE_ETA_AND_K 0
 
 # marker to choose output format
 # 0: used for post-processing of shocktube cases and wave propagation
@@ -130,8 +143,8 @@ set UyBu(1) 0.0
 
 # time  control 
 set Start_time 0.0		
-set End_time 0.5	
-set D_time 0.0015
+set End_time 0.0003	
+set D_time 0.000015
 
 #marker for automatic time control
 # 0: autom. time conrtol switched off: specified dt used (see below) 
@@ -160,7 +173,7 @@ set material_a0(0) 0.0
 set material_name(1) Air
 set material_type(1) 1
 set material_cv(1) 717.645
-set material_eta(1) 0.10
+set material_eta(1) 10.0
 set material_zeta(1) 0.0
 set material_k(1) 0
 set material_gamma(1) 1.4

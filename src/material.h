@@ -28,11 +28,18 @@ public:
 	double zeta;///<bulk viscosity
 	double k;///<thermal conductivity
 	double gamma; ///<ratio of specific heats (adiabatic index)
+	double eta_0; ///<parameter for Sutherland-law for variable viscosity
+	double T_0_eta; ///<parameter for Sutherland-law for variable viscosity
+	double S_eta; ///<parameter for Sutherland-law for variable viscosity
+	double k_0; ///<parameter for Sutherland-law for variable condictivity
+	double T_0_k; ///<parameter for Sutherland-law for variable condictivity
+	double S_k; ///<parameter for Sutherland-law for variable  condictivity
 
 	double nu; ///<kinetice viscosity
 	double b0;///<reference pressure
 	double rho0;///<reference density
 	double a0; ///<reference <b>sound speed??? was not commented</b>
+	int variableEtaAndK;///< local copy of variable eta/k variable from Initiation class
 
 	///constructor
 	/// imaterial is a number of material in input file
@@ -65,6 +72,10 @@ public:
 	double get_T(const double p, const double rho) const;
 	///get sound speed
 	double get_Cs(const double p, const double rho);
+	///get viscosity (returen either constant viscosity or eta(T), depending on teh selected settings
+	double get_eta(const double T);
+	///get conductivity (returen either constant viscosity or eta(T), depending on teh selected settings
+	double get_k(const double T);
 
 };
 

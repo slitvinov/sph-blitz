@@ -1,0 +1,3 @@
+<<create_ICCompressibleCouette.cpp>> creates a uniform particle distribution with initial particle 
+properties as specified in the top passage of the program.
+The created file <<CompressibleCouette.ivs>> is written into the <<src/cases>>-folder 

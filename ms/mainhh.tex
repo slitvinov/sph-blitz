@@ -9,7 +9,7 @@
 \usepackage{parcolumns}
 \usepackage{pstricks}
 \usepackage{enumerate}% to be able to customize enumeration lists 
-\usepackage{subfigure}
+\usepackage[tight]{subfigure}%tight für weniger platz zwischen figures, see subfigrue docu
 % \usepackage{multicol}
 %\usepackage[rflt]{floatflt}
 
@@ -25,6 +25,11 @@
   {1.5ex \@plus .2ex}%
   {\normalfont\normalsize\bfseries}}
 \makeatother
+
+%modification of page-margins
+\addtolength{\hoffset}{-1.3cm}
+\addtolength{\textwidth}{3.5cm}
+%\addtolength{\textheight}{0cm}
 
 %to change section numbering depth to 3 (default 2)
 \setcounter{secnumdepth}{3}
@@ -565,7 +570,8 @@ Remark: For none of the found applications of any of the above models, the visco
 
 All these models seem not very appropriate for implementation here, as they are either not suitable a priori or require additional effort during computation and implementation.
 \cite{LitvinovPersCom} suggests therefore to implement a viscosity formulation borrowed from the Smoothed Dissipative Particle Dynamics Method \cite{Espanol2003}, which is a combination of SPH and Dissipative Particle Dynamics (DPD). This form is explicitly applicable to compressible flows, as it is derived from the compressible formulation of the viscous force expression.
-Neglecting the so called rotational viscosity, an expression for the continuous formulation of the viscous force (respective acceleration in this case) with spatially constant viscosity is given by equation (\ref{eq:continuousViscousExpression_const}) \cite{deGroot1962}
+Neglecting the so called rotational viscosity, an expression for the continuous formulation of the viscous force (respective acceleration in this case) with spatially constant viscosity is given by  \cite{deGroot1962}:
+
 \begin{equation}
 \label{eq:continuousViscousExpression_const}
 \left(\frac{d{\bf v}}{dt}\right)_{\mathit{visc}}=\frac{\eta}{\rho}\Delta {\bf v}+\frac{1}{\rho}\left(\zeta +\frac{\eta}{3}\right)\left(\nabla \nabla \cdot {\bf v}\right)
@@ -573,14 +579,16 @@ Neglecting the so called rotational viscosity, an expression for the continuous 
 $\eta$ designates the shear viscosity and $\zeta$ the bulk viscosity or volume viscosity.
 Again neglecting rotational viscosity, a mor general continuous expression, which takes into account spatial variation of the viscosities, is the following one
 
+
 \begin{equation}
-\label{eq:SPH_ViscousExpression_const}
+\label{eq:continuousViscousExpression_variable}
 \left(\frac{d{\bf v}}{dt}\right)_{\mathit{visc}}=\frac{\eta}{\rho}\Delta {\bf v}+\frac{1}{\rho}\left(\zeta +\frac{\eta}{3}\right)\left(\nabla \nabla \cdot {\bf v}\right)
 \end{equation}
 
+
 A corresponding SPH form of equation (\ref{eq:continuousViscousExpression_const}), i.e. for spatially constant viscosity, is derived by \cite{Espanol2003} and reads as follows
 \begin{equation}
-\label{eq:continuousViscousExpression_variable}
+\label{eq:SPH_ViscousExpression_const}
 \left(\frac{d{\bf v}_i}{dt}\right)_{\mathit{visc}}=\frac{1}{m_i}\left( \left(\frac{5\eta}{3}-\zeta\right)\sum_j\frac{F_{ij}}{d_i d_j}{\bf v_{ij}}+5\left(\zeta+\frac{\eta}{3}\right) \sum_j\frac{F_{ij}}{d_i d_j}{\bf e}_{ij} {\bf e}_{ij}{\bf \cdot v}_{ij}\right)
 \end{equation}
 $d$ is the particle density and therefore defined as $d=1/V$ where $V$ is the particle volume. $F$ results from a reformulation of the expression for the smoothing function, namely
@@ -597,6 +605,25 @@ The discretized expression of equation (\ref{eq:continuousViscousExpression_vari
 e=mc^2
 \end{equation}
 
+In general, it is necessary to take into account the viscous dissipation in the energy equation as well, by adding an appropriate term. This is for the same reason already mentionned in the artifivial viscosity section (\ref{sec:ArtVisc}). In \cite{Espanol2003} the viscous heating term for the constant viscosity (equation (\ref{eq:SPH_ViscousExpression_const})) is given as 
+\begin{equation}
+\label{eq:ViscHeating_ConstPhysicalViscosity}
+ \left(\frac{de}{dt}\right)_{\mathit{visc}}=-\frac{1}{m_i}\left(\left(\frac{5\eta}{6}-\frac{\zeta}{2}\right)\sum_j\frac{F_{ij}}{d_i d_j}{\bf v}_{ij}+\frac{5}{2} \left(\zeta+\frac{\eta}{3}\right) \sum_j\frac{F_{ij}}{d_i d_j}{\bf e}_{ij} {\bf e}_{ij}{\bf \cdot v}_{ij}\right)
+\end{equation}
+
+%muss alles noch ausformuliert werden, v.a. noch nicht 100% sicher, ob das so passt, da in espanol in entropy equation integriert! vielleicht noch ein paar worte zu der schematik: multipliziere als skalarprodukt mit v_ij und mal 0.5. (der Rest, den Monaghan2005 auf seite 1742 oben vorschlägt steht im wieder spruch zu seinen eigenen frühren papers und hat auch einen einheitenfehler!!!
+As $ F\leq 0$, equation (\ref{eq:ViscHeating_ConstPhysicalViscosity}) ensures that the contribution of dissipation to the internal energy is always positive.
+
+A simple law for the temperature dependance of viscosity and thermal conductivity is the one from Sutherland \cite{White1974}.
+\begin{equation}
+\eta=\eta_0 \left(\frac{T}{T_0}\right)^{\frac{3}{2}}\frac{T_0+S}{T+S}
+\end{equation}
+The constants are $\eta_0=1.716E^{-6}Pa s$(in anderson 1.78 10-5), $T_0=272.77K$ and $S=110.222K$ for air. This relation is valid in a temperature range from $166K$ to $1900K$ with an error of $\leq2\%$.
+An equivalent relation exists for the thermal conductivity 
+\begin{equation}
+k=k_0 \left(\frac{T}{T_0}\right)^{\frac{3}{2}}\frac{T_0+S}{T+S}
+\end{equation}
+Here, the constants for air are $k_0=2.4128W/(K m)$(in anderson 1.78 10-5), $T_0=272.77K$ and $S=194.111K$ and the temperature range for a  $\leq2\%$ error is from $166K$ to $1000K$. Values for other fluids can be found in \cite{White1974}.
 
 \subsection{Heat conduction Implementation}
 \label{sec:HeatCondImplementation}
@@ -1672,6 +1699,53 @@ WORK IN PROGRESS
 
 \subsection{2D SPH code}
 
+\subsubsection{Shocktube Problem}
+\paragraph{Simulation Setup}
+
+Table (\ref{tab:SimuSettings_Shock}) resumes the settings and parameter values used to obtain the results presented in section (\ref{sec:2DSPHcodeResults_Shock}). 
+
+
+
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:SimuSettings_Shock}
+\centering
+
+\begin{tabular}[c]{|l c|l c|l c|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+\multicolumn{2}{|c|}{\textbf{Base Quantity}} & \multicolumn{2}{|c|}{\textbf{Base Unit}} & \multicolumn{2}{|c|}{\textbf{Base Dimension}}\\
+\hline
+Name & Symbol & Name & Symbol & Name & Symbol\\
+\hline
+\hline
+length & $l$ & meter & $m$ & length & {\bf L}\\
+
+mass & $m$ & kilogram & $kg$ & mass & {\bf M} \\
+
+time & $t$ & second & $s$ & time & {\bf T}\\
+
+electric current & {$I$, $i$} & ampere & $A$ & electric current & {\bf I}\\
+
+thermodynamic temperature & $T$ & kelvin & $K$ & thermodynamic temperature & $a$\\
+
+amount of substance & $n$ & mole & $mol$ & amount of substances & {\bf N}\\
+
+luminous intensity & $I_V$ & candela & $cd$ & luminous intensity & {\bf J}\\
+\hline
+\hline
+\end{tabular}
+\caption[]{Shock--tube simulation settings for the 2D--code}
+
+\end{table}
+
+
+\paragraph{Validation Methods}
+
+
+\subsubsection{1D wave}
+\subsubsection{Taylor--Green}
+\subsubsection{Pure Heat Conduction}
+
 \chapter{Results}
 This chapter presents the results obtained with the developed codes. The focus clearly lies on the 2D code which is finally used to simulate the porosity configuration. However, as the 1D code has be introduced in the chapter before, an example of its application to the 1D shock-tube--problem is shown in the following section. It serves for a first qualitative discussion of the shock--tube results that can be obtained with SPH.
 The 2D code result section mainly features the results of the previously introduced test--cases (\ref{sec:testCases}) and finally a simulation of the flow in a porosity.
@@ -1681,20 +1755,21 @@ The 2D code result section mainly features the results of the previously introdu
 As mentionned above, the 1D SPH--code, which only serves demonstration purposes and does not have any practical use, incorporates the simulation setup for the shock-tube--problem. The code is developed to get familiarized with the SPH implementation and to provide a very simple playground to experiment and find the right set of SPH equations for compressible flows. Figure (\ref{fig:1DSPHresults}) shows the results of a simulation with a constant smoothing length of $h=0.0065$ and a constant mass particle distribution, i.e. with different particle spacings on the LHS and RHS of the shock--tube problem (see paragraph (\ref{sec:1DSPHcode_functions_setupSim})) for an introduction of the two shock--tube--specific particle distributions, namely with constant mass or constant spacing. The complete simulation settings for this example can be found in section (\ref{sec:simuSetup1DSPHcode}). 
 
 \begin{figure}[!htbp]
+
 \centering
 \label{fig:1DSPHresults}
 \subfigure[]{
 \label{fig:1DSPHreultsVelocity}
-\includegraphics[width=5.7cm,height=5cm]{Graphics/results/1DCode/velocity}}
+\includegraphics[width=7cm]{Graphics/results/1DCode/velocity}}
 \subfigure[]{
 \label{fig:1DSPHreultsDensity}
-\includegraphics[width=5.7cm,height=5cm]{Graphics/results/1DCode/density}}
+\includegraphics[width=7cm]{Graphics/results/1DCode/density}}
 \subfigure[]{
 \label{fig:1DSPHreultsPressure}
-\includegraphics[width=5.7cm,height=5cm]{Graphics/results/1DCode/pressure}}
+\includegraphics[width=7cm]{Graphics/results/1DCode/pressure}}
 \subfigure[]{
 \label{fig:1DSPHreultsEnergy}
-\includegraphics[width=5.7cm,height=5cm]{Graphics/results/1DCode/energy}}
+\includegraphics[width=7cm]{Graphics/results/1DCode/energy}}
 
 \caption[Example of a shock-tube result obtained with the 1D SPH--code]{Example of a shock-tube result obtained with the 1D SPH--code for a simulation time of $t=0.2$ contrasted with the exact analytical solution (see section (\ref{sec:TestCases_1DshockTube})): (\subref{fig:1DSPHreultsVelocity}) velocity profile; (\subref{fig:1DSPHreultsDensity}) density profile; (\subref{fig:1DSPHreultsPressure}) pressure profile;(\subref{fig:1DSPHreultsEnergy}) profile of the internal energy.}
 
@@ -1723,6 +1798,458 @@ The first qualitative evaluation of the simulation results implies that the equa
 \section{2D SPH code}
 \label{sec:2DSPHcodeResults}
 \subsection{shock--tube test case}
+\label{sec:2DSPHcodeResults_Shock}
+
+\subsubsection{Verification of timestep criteria}
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_1D_CS_dx_const}
+
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_dx_const_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/WholeDomainRho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_dx_const_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area3Rho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_dx_const_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area2Rho}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_dx_const_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/WholeDomainU}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_dx_const_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area3U}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_dx_const_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area2U}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_dx_const_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/WholeDomainE}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_dx_const_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area3E}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_dx_const_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area2E}}
+
+\caption[Convergence Shock-tube 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying supoprt length and a constant particle spacing of $dx=0.0025$}
+
+\end{figure}
+
+\subsubsection{Resolution Study - spacing held constant}
+\paragraph{1D constant spacing particle distribution}
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_1D_CS_dx_const}
+
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_dx_const_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/WholeDomainRho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_dx_const_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area3Rho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_dx_const_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area2Rho}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_dx_const_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/WholeDomainU}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_dx_const_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area3U}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_dx_const_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area2U}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_dx_const_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/WholeDomainE}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_dx_const_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area3E}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_dx_const_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area2E}}
+
+\caption[Convergence Shock-tube 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying supoprt length and a constant particle spacing of $dx=0.0025$}
+
+\end{figure}
+
+\paragraph{2D constant spacing particle distribution}
+
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_q1D_CS_dx_const}
+
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_q1D_CS_dx_const_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/WholeDomainRho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_q1D_CS_dx_const_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area3Rho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_q1D_CS_dx_const_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area2Rho}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_q1D_CS_dx_const_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/WholeDomainU}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_q1D_CS_dx_const_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area3U}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_q1D_CS_dx_const_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area2U}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_q1D_CS_dx_const_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/WholeDomainE}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_q1D_CS_dx_const_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area3E}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_q1D_CS_dx_const_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area2E}}
+
+\caption[Convergence Shock-tube with 2D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying supoprt length and a constant particle spacing of $dx=0.005$}
+
+\end{figure}
+
+\paragraph{1D constant mass particle distribution}
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_1D_CM_dx_const}
+
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CM_dx_const_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/WholeDomainRho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CM_dx_const_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/Area3Rho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CM_dx_const_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/Area2Rho}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CM_dx_const_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/WholeDomainU}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CM_dx_const_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/Area3U}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CM_dx_const_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/Area2U}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CM_dx_const_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/WholeDomainE}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CM_dx_const_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/Area3E}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CM_dx_const_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/Area2E}}
+
+\caption[Convergence Shock-tube with 2D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying supoprt length and a constant particle spacing of $dx=0.005$}
+
+\end{figure}
+
+\paragraph{2D constant mass particle distribution}
+
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_1D_CM_dx_const}
+
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CM_dx_const_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/WholeDomainRho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CM_dx_const_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area3Rho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CM_dx_const_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area2Rho}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CM_dx_const_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/WholeDomainU}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CM_dx_const_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area3U}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CM_dx_const_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area2U}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CM_dx_const_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/WholeDomainE}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CM_dx_const_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area3E}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CM_dx_const_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area2E}}
+
+\caption[Convergence Shock-tube with 2D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying supoprt length and a constant particle mass of $m=2.5\cdot10^{-5}$}
+
+\end{figure}
+\subsubsection{Resolution Study - ratio smoothinglength/spacing held constant}
+\paragraph{1D constant spacing particle distribution}
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_1D_CS_ratioConst}
+
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/WholeDomainRho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area3Rho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area2Rho}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/WholeDomainU}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area3U}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area2U}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/WholeDomainE}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area3E}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area2E}}
+
+\caption[Convergence Shock-tube 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of support length to spacing of 5 ($h/m=8$)}
+
+\end{figure}
+
+\paragraph{2D constant spacing particle distribution}
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_1D_CS_ratioConst}
+
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/WholeDomainRho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area3Rho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area2Rho}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/WholeDomainU}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area3U}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area2U}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/WholeDomainE}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area3E}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area2E}}
+
+\caption[Convergence Shock-tube with 2D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of support length to spacing of 5 ($h/m=8$)}
+
+\end{figure}
+
+\paragraph{1D constant mass particle distribution}
+
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_1D_CM_ratioConst}
+
+\subfigure[]{
+\label{fig:2DSPHresults_1D_CM_ratioConst_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/WholeDomainRho}}
+\subfigure[]{
+\label{fig:2DSPHresults_1D_CM_ratioConst_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area3Rho}}
+\subfigure[]{
+\label{fig:2DSPHresults_1D_CM_ratioConst_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area2Rho}}
+\subfigure[]{
+\label{fig:2DSPHresults_1D_CM_ratioConst_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/WholeDomainU}}
+\subfigure[]{
+\label{fig:2DSPHresults_1D_CM_ratioConst_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area3U}}
+\subfigure[]{
+\label{fig:2DSPHresults_1D_CM_ratioConst_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area2U}}
+\subfigure[]{
+\label{fig:2DSPHresults_1D_CM_ratioConst_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/WholeDomainE}}
+\subfigure[]{
+\label{fig:2DSPHresults_1D_CM_ratioConst_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area3E}}
+\subfigure[]{
+\label{fig:2DSPHresults_1D_CM_ratioConst_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area2E}}
+
+\caption[Convergence Shock-tube 1D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of support length to mass of 16 ($h/m=8$)}
+
+\end{figure}
+
+
+\paragraph{2D constant mass particle distribution}
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_1D_CS_ratioConst}
+
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/WholeDomainRho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area3Rho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area2Rho}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/WholeDomainU}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area3U}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area2U}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/WholeDomainE}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area3E}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area2E}}
+
+\caption[Convergence Shock-tube with 2D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of support length to spacing of 5 ($h/m=8$)}
+
+\end{figure}
+\subsubsection{Perturbation Study}
+\paragraph{1D constant spacing particle distribution}
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_1D_CS_ratioConst}
+
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/WholeDomainRho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area3Rho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area2Rho}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/WholeDomainU}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area3U}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area2U}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/WholeDomainE}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area3E}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area2E}}
+
+\caption[Perturbation influence shock-tube with 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position}
+
+\end{figure}
+
+
+\paragraph{2D constant spacing particle distribution}
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_1D_CS_ratioConst}
+
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/WholeDomainRho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area3Rho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area2Rho}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/WholeDomainU}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area3U}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area2U}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/WholeDomainE}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area3E}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area2E}}
+
+\caption[Perturbation influence shock-tube with 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position}
+
+\end{figure}
+\paragraph{1D constant mass particle distribution}
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_1D_CS_ratioConst}
+
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/WholeDomainRho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area3Rho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area2Rho}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/WholeDomainU}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area3U}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area2U}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/WholeDomainE}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area3E}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area2E}}
+
+\caption[Perturbation influence shock-tube with 1D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position}
+
+\end{figure}
+
+\paragraph{2D constant mass particle distribution}
 DONE -- NOT YET INTEGRATED IN REPORT
 \subsection{linear acoustic waves}
 

@@ -58,8 +58,8 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
 //	
 //----------------------------------------------------------------------------------------
 Particle::Particle (Vec2d position, Vec2d velocity, double density, 
-		    double pressure, double mass,double temperature, 
-		   spMaterial material) 
+		    double pressure, double mass, double temperature, 
+		    spMaterial material) 
   : bd(0),
     mtl(material)
 {
@@ -70,28 +70,20 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
   ///- give a new ID number
   ID = ID_max;
 
-  ///- set viscosities (variable could also be
-  /// accessed via prtl->mtl->eta, but as eta will eventually be variable
-  // for each particle, I directly create an attribute of particle for it.
-  ///TODO{integrate a law: viscosity(T) in material and like this calculate an individual viscosity for each particle}
-  eta = mtl->eta;//(shear)
+  ///- set viscosities and conductivity 
+  
+  ///TODO{integrate  viscosity(T), calculate individual eta for each particle: DONE}
+  eta = mtl->get_eta(temperature);//(shear) (either constant or variable, depending on selection)
   zeta=mtl->zeta;//(bulk)
-
-  ///- set thermal conductivity(variable could also be
-  /// accessed via prtl->mtl->k, but as k will eventually be variable
-  // for each particle, I directly create an attribute of particle for it.
- ///TODO{integrate a law: thermal conductivity(T) in material and like this calculate an individual k for each particle}
-  k=mtl->k;
-  ///- set heat capacity for each particle (variable could also be
-  /// accessed via prtl->mtl->cv, but as cv will eventually be variable
-  // for each particle, I directly create an attribute of particle for it.
+  k = mtl->get_k(temperature);//thermal conductivity (constant or variable, depending on selection)
   cv=mtl->cv;
-
+  
+ 
   ///- initialize mue_ab_max to zero
   mue_ab_max=0;
   ///- set particle position
   R = position; 
-	
+  
   ///- set states
   rho = density; m=mass; p = pressure; T = temperature; Cs = mtl->get_Cs(p, rho);  U = velocity; U_I = U;
 	
@@ -158,7 +150,7 @@ Particle::Particle (spParticle RealParticle ) :
 	
 }
 //----------------------------------------------------------------------------------------
-//							creat an image particle
+//							create an image particle
 //----------------------------------------------------------------------------------------
 Particle::Particle (spParticle RealParticle , spMaterial material): 
   bd(1), 

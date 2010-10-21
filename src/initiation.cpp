@@ -70,12 +70,18 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
     assert(physical_viscosity_marker==0||physical_viscosity_marker==1);
     artificial_viscosity_marker=interp.eval("[return $ARTIFICIAL_VISCOSITY_MARKER]");
     assert(artificial_viscosity_marker==0||artificial_viscosity_marker==1||artificial_viscosity_marker==2);
+    // read marker for variable viscosity and conductivity
+    variableEtaAndK=interp.eval("[return $VARIABLE_ETA_AND_K]");
+    assert(variableEtaAndK==0||variableEtaAndK==1);
     // read pure_conduction marker
     pure_conduction = interp.eval("[return $PURE_CONDUCTION]");
     assert( (pure_conduction==0)||(pure_conduction==1));
     // read isothermal BC marker
     isothermal_boundary = interp.eval("[return $ISOTHERMAL_BOUNDARY]");
     assert( (isothermal_boundary==0)||(isothermal_boundary==1));
+    //extermal mass initialization marker
+    external_mass_initialization=interp.eval("[return $EXTERNAL_MASS_INITIALIZATION]");
+    assert(external_mass_initialization==0||external_mass_initialization==1);
     // read autom. dt control marker
     autom_dt_control=interp.eval("[return $AUTOMATIC_DT_CONTROL_MARKER]");
     assert(autom_dt_control==0||autom_dt_control==1);

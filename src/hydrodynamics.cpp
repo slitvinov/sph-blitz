@@ -284,6 +284,11 @@ void Hydrodynamics::UpdateState(const Initiation &ini) {
       }
     //calculate temperature for each particle
     prtl->T = prtl->mtl->get_T(prtl->e);
+    // update values of viscosity and conductivity (which change with T)
+    prtl->eta = prtl->mtl->get_eta(prtl->T);
+    prtl->k = prtl->mtl->get_k(prtl->T);
+    
+    // update values of viscosity and conductivity (which change with T)
   }
 
 }
@@ -337,7 +342,8 @@ double Hydrodynamics::GetTimestepGas(const Initiation& ini) {
     dt_v_real=AMIN1(dt_v_real,0.25*pow(ini.supportlength/2,2)/(prtl->eta+1e-35));
     assert(dt_v_real>0.0);
     // dt_therm according to Cleary1999 
-    dt_therm=AMIN1(dt_therm,beta_therm*prtl->rho*prtl->cv*pow(ini.supportlength/2,2)/(prtl->k+1e-35));
+    ///\TODO{dt_thermhas an optimum value, i.e. results deteriorate slightly (at least for pure conduction if dt<dttherm...
+    dt_therm=AMIN1(dt_therm,beta_therm*prtl->rho*prtl->cv*pow(ini.supportlength/2,2)/(prtl->k+1));
     assert(dt_therm>0.0);
   }
   

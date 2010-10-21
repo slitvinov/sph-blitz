@@ -96,10 +96,17 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     hydro.BuildInteractions(particles, weight_function, ini);
     ///calculate density (by summation)
     hydro.UpdateDensity(ini, weight_function);
+
+
+    //renew interaction (so that local copies of particle variables 
+    //in interaction are updated everytime a particle variable changes)
+    //hydro.UpdateInteractions(weight_function);
+    // not needed because rho is not locally copied into interaction
+
     ///update the state of the boundary particles (by copying the real particles' state)
     if  (ini.disable_boundary != 1)   
       boundary.BoundaryCondition(particles);
-    ///calculate change rate
+    ///calculate change rate for each particle (
     hydro.UpdateChangeRate(ini);
     
     if(ite==1)  
@@ -107,7 +114,15 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     else 
       hydro.AdvanceStandardStep(dt);
 
-    //udate particle volume (this is neccerary each time the particle position has changed)
+    //udate particle volume (this is neccerary each time the particle position has changed) (interaction list is build in UpdateVolume)
+
+    // update Volume (builds its own local interaction list and therefore
+    // does not use the one created by hydro.BuildInteractions.
+    // This is logical, because after the particles have moved, the simple 
+    // updating of the interaction list with hydro.UpdateInteractions
+    // (where the local copies of theparticle's varaibles in interaction are
+    // updated) would of course not take into account particles that have 
+    // become new neighbours now through their movement! 
     hydro.UpdateVolume(particles, weight_function);
     
     if  (ini.disable_boundary != 1)
@@ -160,6 +175,11 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
       hydro.UpdateDensity(ini, weight_function);
     else//update state without smoothing (p,c,...)
       hydro.UpdateState(ini);
+   
+    //renew interaction (so that local copies of particle variables 
+    //in interaction are updated everytime a particle variable changes)
+    hydro.UpdateInteractions(weight_function);
+    
     //if boundary condition applicable: update boundary particle states
     if(ini.disable_boundary != 1)   
       boundary.BoundaryCondition(particles);
