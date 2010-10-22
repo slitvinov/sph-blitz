@@ -8,6 +8,7 @@
 #include "src/main.doxygen"
 
 // ***** local includes *****
+#include "src/Utilities/utilities.h"
 #include "src/particlemanager.h"
 #include "src/hydrodynamics.h"
 #include "src/TimeSolver/gastimesolverLeapFrog.h"
@@ -19,11 +20,7 @@
 #include "src/Output/tecplotoutput.h"
 #include "src/Output/plainoutput.h"
 #include "src/boundary.h"
-#include "src/Kernel/quinticspline.h"
-#include "src/Kernel/cubicspline.h"
-#include "src/Kernel/cubicspline1D.h"
-#include "src/Kernel/betaspline.h"
-#include "src/Kernel/harmonic.h"
+#include "src/Kernel/kernel.h"
 
 //using namespace std;
 
@@ -79,27 +76,7 @@ int main(int argc, char *argv[]) {
   }
 
   /// choose a kernel
-  spKernel weight_function;
-  if  (ini.kernel_type == "CubicSpline")   {
-    weight_function = boost::make_shared<CubicSpline>(ini.supportlength); 
-  } 
-  else if (ini.kernel_type == "BetaSpline")   {
-    weight_function = boost::make_shared<BetaSpline>(ini.supportlength); 
-  } 
-  else if (ini.kernel_type == "QuinticSpline")   {
-    weight_function = boost::make_shared<QuinticSpline>(ini.supportlength);
-  } 
-  else if (ini.kernel_type == "CubicSpline1D")   {
-    weight_function = boost::make_shared<CubicSpline1D>(ini.supportlength);
-  }
-  else if (ini.kernel_type == "Harmonic")   {
-    weight_function = boost::make_shared<Harmonic>(ini.supportlength, ini.harmonic_n);
-  }
-  else {
-    LOG(ERROR) << " unknown kernel type (KERNEL_TYPE in configuration file)\n" 
-	       << " KERNEL_TYPE: " << ini.kernel_type;
-    exit(EXIT_FAILURE);
-  }
+   spKernel weight_function = chooseKernelType(ini);
   
   assert(weight_function != NULL);
   weight_function->show_information();

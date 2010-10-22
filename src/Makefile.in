@@ -70,7 +70,7 @@ am__objects_1 = boundary.$(OBJEXT) glbfunc.$(OBJEXT) \
 	interactionangular.$(OBJEXT) timer.$(OBJEXT) \
 	timesolver.$(OBJEXT) hydrotimesolver.$(OBJEXT) \
 	gastimesolverLeapFrog.$(OBJEXT) \
-	gastimesolverPredCorr.$(OBJEXT)
+	gastimesolverPredCorr.$(OBJEXT) utilities.$(OBJEXT)
 am_libsph_a_OBJECTS = $(am__objects_1)
 libsph_a_OBJECTS = $(am_libsph_a_OBJECTS)
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
@@ -256,6 +256,7 @@ nomain = boundary.cpp boundary.h \
 	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
 	TimeSolver/gastimesolverLeapFrog.cpp TimeSolver/gastimesolverLeapFrog.h \
 	TimeSolver/gastimesolverPredCorr.cpp TimeSolver/gastimesolverPredCorr.h \
+	Utilities/utilities.h Utilities/utilities.cpp \
 	main.doxygen
 
 sph_SOURCES = sph.cpp $(nomain)
@@ -411,6 +412,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tecplotoutput.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timesolver.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/utilities.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -761,6 +763,20 @@ gastimesolverPredCorr.obj: TimeSolver/gastimesolverPredCorr.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TimeSolver/gastimesolverPredCorr.cpp' object='gastimesolverPredCorr.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o gastimesolverPredCorr.obj `if test -f 'TimeSolver/gastimesolverPredCorr.cpp'; then $(CYGPATH_W) 'TimeSolver/gastimesolverPredCorr.cpp'; else $(CYGPATH_W) '$(srcdir)/TimeSolver/gastimesolverPredCorr.cpp'; fi`
+
+utilities.o: Utilities/utilities.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT utilities.o -MD -MP -MF $(DEPDIR)/utilities.Tpo -c -o utilities.o `test -f 'Utilities/utilities.cpp' || echo '$(srcdir)/'`Utilities/utilities.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/utilities.Tpo $(DEPDIR)/utilities.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Utilities/utilities.cpp' object='utilities.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o utilities.o `test -f 'Utilities/utilities.cpp' || echo '$(srcdir)/'`Utilities/utilities.cpp
+
+utilities.obj: Utilities/utilities.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT utilities.obj -MD -MP -MF $(DEPDIR)/utilities.Tpo -c -o utilities.obj `if test -f 'Utilities/utilities.cpp'; then $(CYGPATH_W) 'Utilities/utilities.cpp'; else $(CYGPATH_W) '$(srcdir)/Utilities/utilities.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/utilities.Tpo $(DEPDIR)/utilities.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Utilities/utilities.cpp' object='utilities.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o utilities.obj `if test -f 'Utilities/utilities.cpp'; then $(CYGPATH_W) 'Utilities/utilities.cpp'; else $(CYGPATH_W) '$(srcdir)/Utilities/utilities.cpp'; fi`
 
 kernel_test.o: Kernel/kernel_test.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT kernel_test.o -MD -MP -MF $(DEPDIR)/kernel_test.Tpo -c -o kernel_test.o `test -f 'Kernel/kernel_test.cpp' || echo '$(srcdir)/'`Kernel/kernel_test.cpp

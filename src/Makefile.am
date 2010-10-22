@@ -48,6 +48,7 @@ nomain=	boundary.cpp boundary.h \
 	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
 	TimeSolver/gastimesolverLeapFrog.cpp TimeSolver/gastimesolverLeapFrog.h \
 	TimeSolver/gastimesolverPredCorr.cpp TimeSolver/gastimesolverPredCorr.h \
+	Utilities/utilities.h Utilities/utilities.cpp \
 	main.doxygen
 
 sph_SOURCES=sph.cpp $(nomain)

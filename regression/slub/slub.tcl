@@ -6,7 +6,7 @@ set SIMULATION_MODE 3
 
 # possible values are 
 # QuinticSpline, BetaSpline, CubicSpline
-set KERNEL_TYPE QuinticSpline
+set KERNEL_TYPE BetaSpline
 
 # disable boundary conditions:
 # 1: boundary conditions disabled
