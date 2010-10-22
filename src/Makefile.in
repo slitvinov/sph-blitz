@@ -48,12 +48,14 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__objects_1 = boundary.$(OBJEXT) glbfunc.$(OBJEXT) \
 	hydrodynamics.$(OBJEXT) initiation.$(OBJEXT) \
-	interaction.$(OBJEXT) material.$(OBJEXT) output.$(OBJEXT) \
-	particle.$(OBJEXT) particlemanager.$(OBJEXT) kernel.$(OBJEXT) \
+	material.$(OBJEXT) output.$(OBJEXT) particle.$(OBJEXT) \
+	particlemanager.$(OBJEXT) kernel.$(OBJEXT) \
 	quinticspline.$(OBJEXT) cubicspline.$(OBJEXT) \
 	cubicspline1D.$(OBJEXT) betaspline.$(OBJEXT) \
-	harmonic.$(OBJEXT) timesolver.$(OBJEXT) \
-	hydrotimesolver.$(OBJEXT) gastimesolverLeapFrog.$(OBJEXT) \
+	harmonic.$(OBJEXT) interaction.$(OBJEXT) \
+	interactioncomp.$(OBJEXT) interactionin.$(OBJEXT) \
+	timesolver.$(OBJEXT) hydrotimesolver.$(OBJEXT) \
+	gastimesolverLeapFrog.$(OBJEXT) \
 	gastimesolverPredCorr.$(OBJEXT) cpptcl.$(OBJEXT)
 am_kernel_test_OBJECTS = $(am__objects_1) kernel_test.$(OBJEXT)
 kernel_test_OBJECTS = $(am_kernel_test_OBJECTS)
@@ -186,10 +188,9 @@ top_srcdir = @top_srcdir@
 AM_CXXFLAGS = -I${top_srcdir} 
 nomain = boundary.cpp boundary.h \
 	glbtype.h glbfunc.cpp glbfunc.h \
-	hydrodynamics.cpp hydrodynamics.h initiation.cpp \
-	initiation.h interaction.cpp interaction.h \
-	material.cpp \
-	material.h \
+	hydrodynamics.cpp hydrodynamics.h \
+	initiation.cpp initiation.h \
+	material.cpp material.h \
 	output.cpp output.h particle.cpp \
 	particle.h particlemanager.cpp particlemanager.h \
 	vec2d.h \
@@ -199,6 +200,9 @@ nomain = boundary.cpp boundary.h \
 	Kernel/cubicspline1D.cpp Kernel/cubicspline1D.h \
 	Kernel/betaspline.h Kernel/betaspline.cpp \
 	Kernel/harmonic.h Kernel/harmonic.cpp \
+	Interaction/interaction.cpp  Interaction/interaction.h \
+	Interaction/interactioncomp.cpp  Interaction/interactioncomp.h \
+	Interaction/interactionin.cpp  Interaction/interactionin.h \
 	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
 	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
 	TimeSolver/gastimesolverLeapFrog.cpp TimeSolver/gastimesolverLeapFrog.h \
@@ -318,6 +322,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hydrotimesolver.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/initiation.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interaction.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interactioncomp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interactionin.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kernel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kernel_test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/material.Po@am__quote@
@@ -427,6 +433,48 @@ harmonic.obj: Kernel/harmonic.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kernel/harmonic.cpp' object='harmonic.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o harmonic.obj `if test -f 'Kernel/harmonic.cpp'; then $(CYGPATH_W) 'Kernel/harmonic.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/harmonic.cpp'; fi`
+
+interaction.o: Interaction/interaction.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT interaction.o -MD -MP -MF $(DEPDIR)/interaction.Tpo -c -o interaction.o `test -f 'Interaction/interaction.cpp' || echo '$(srcdir)/'`Interaction/interaction.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/interaction.Tpo $(DEPDIR)/interaction.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Interaction/interaction.cpp' object='interaction.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o interaction.o `test -f 'Interaction/interaction.cpp' || echo '$(srcdir)/'`Interaction/interaction.cpp
+
+interaction.obj: Interaction/interaction.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT interaction.obj -MD -MP -MF $(DEPDIR)/interaction.Tpo -c -o interaction.obj `if test -f 'Interaction/interaction.cpp'; then $(CYGPATH_W) 'Interaction/interaction.cpp'; else $(CYGPATH_W) '$(srcdir)/Interaction/interaction.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/interaction.Tpo $(DEPDIR)/interaction.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Interaction/interaction.cpp' object='interaction.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o interaction.obj `if test -f 'Interaction/interaction.cpp'; then $(CYGPATH_W) 'Interaction/interaction.cpp'; else $(CYGPATH_W) '$(srcdir)/Interaction/interaction.cpp'; fi`
+
+interactioncomp.o: Interaction/interactioncomp.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT interactioncomp.o -MD -MP -MF $(DEPDIR)/interactioncomp.Tpo -c -o interactioncomp.o `test -f 'Interaction/interactioncomp.cpp' || echo '$(srcdir)/'`Interaction/interactioncomp.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/interactioncomp.Tpo $(DEPDIR)/interactioncomp.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Interaction/interactioncomp.cpp' object='interactioncomp.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o interactioncomp.o `test -f 'Interaction/interactioncomp.cpp' || echo '$(srcdir)/'`Interaction/interactioncomp.cpp
+
+interactioncomp.obj: Interaction/interactioncomp.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT interactioncomp.obj -MD -MP -MF $(DEPDIR)/interactioncomp.Tpo -c -o interactioncomp.obj `if test -f 'Interaction/interactioncomp.cpp'; then $(CYGPATH_W) 'Interaction/interactioncomp.cpp'; else $(CYGPATH_W) '$(srcdir)/Interaction/interactioncomp.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/interactioncomp.Tpo $(DEPDIR)/interactioncomp.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Interaction/interactioncomp.cpp' object='interactioncomp.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o interactioncomp.obj `if test -f 'Interaction/interactioncomp.cpp'; then $(CYGPATH_W) 'Interaction/interactioncomp.cpp'; else $(CYGPATH_W) '$(srcdir)/Interaction/interactioncomp.cpp'; fi`
+
+interactionin.o: Interaction/interactionin.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT interactionin.o -MD -MP -MF $(DEPDIR)/interactionin.Tpo -c -o interactionin.o `test -f 'Interaction/interactionin.cpp' || echo '$(srcdir)/'`Interaction/interactionin.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/interactionin.Tpo $(DEPDIR)/interactionin.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Interaction/interactionin.cpp' object='interactionin.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o interactionin.o `test -f 'Interaction/interactionin.cpp' || echo '$(srcdir)/'`Interaction/interactionin.cpp
+
+interactionin.obj: Interaction/interactionin.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT interactionin.obj -MD -MP -MF $(DEPDIR)/interactionin.Tpo -c -o interactionin.obj `if test -f 'Interaction/interactionin.cpp'; then $(CYGPATH_W) 'Interaction/interactionin.cpp'; else $(CYGPATH_W) '$(srcdir)/Interaction/interactionin.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/interactionin.Tpo $(DEPDIR)/interactionin.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Interaction/interactionin.cpp' object='interactionin.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o interactionin.obj `if test -f 'Interaction/interactionin.cpp'; then $(CYGPATH_W) 'Interaction/interactionin.cpp'; else $(CYGPATH_W) '$(srcdir)/Interaction/interactionin.cpp'; fi`
 
 timesolver.o: TimeSolver/timesolver.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT timesolver.o -MD -MP -MF $(DEPDIR)/timesolver.Tpo -c -o timesolver.o `test -f 'TimeSolver/timesolver.cpp' || echo '$(srcdir)/'`TimeSolver/timesolver.cpp

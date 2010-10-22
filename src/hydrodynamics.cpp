@@ -16,7 +16,7 @@
 #include "glbfunc.h"
 #include "Kernel/kernel.h"
 #include "particlemanager.h"
-#include "interaction.h"
+#include "Interaction/interaction.h"
 #include "initiation.h"
 using namespace std;
 
@@ -50,8 +50,15 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   LOG(INFO) << "update of b0 is finished";
 
   ///<li>biuld the real particles
-  // particles.BuildRealParticle(materials, particle_list, ini);
-particles.BuildRealParticleGasDyn(materials, particle_list, ini);
+  if (ini.simu_mode == 1) {
+    particles.BuildRealParticle(materials, particle_list, ini);
+  }  else if (ini.simu_mode == 2) {
+    particles.BuildRealParticleGasDyn(materials, particle_list, ini);
+  } else {
+    LOG(ERROR) << "Unknown SIMULATION_MODE: " << ini.simu_mode;
+    LOG(ERROR) << "check configuration file";
+    std::exit(EXIT_FAILURE);
+  }
   LOG(INFO) << "Hydrodynamics object is created";
 }
 

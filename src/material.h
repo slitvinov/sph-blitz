@@ -25,8 +25,10 @@ public:
 
 	double cv;///<heat capacity
 	double eta;///<(shear) viscosity
+
 	double zeta;///<bulk viscosity
 	double k;///<thermal conductivity
+
 	double gamma; ///<ratio of specific heats (adiabatic index)
 	double eta_0; ///<parameter for Sutherland-law for variable viscosity
 	double T_0_eta; ///<parameter for Sutherland-law for variable viscosity

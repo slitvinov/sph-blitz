@@ -4,10 +4,9 @@ AM_CXXFLAGS=-I${top_srcdir}
 
 nomain=	 boundary.cpp boundary.h \
 	glbtype.h glbfunc.cpp glbfunc.h \
-	hydrodynamics.cpp hydrodynamics.h initiation.cpp \
-	initiation.h interaction.cpp interaction.h \
-	material.cpp \
-	material.h \
+	hydrodynamics.cpp hydrodynamics.h \
+	initiation.cpp initiation.h \
+	material.cpp material.h \
 	output.cpp output.h particle.cpp \
 	particle.h particlemanager.cpp particlemanager.h \
 	vec2d.h \
@@ -17,6 +16,9 @@ nomain=	 boundary.cpp boundary.h \
 	Kernel/cubicspline1D.cpp Kernel/cubicspline1D.h \
 	Kernel/betaspline.h Kernel/betaspline.cpp \
 	Kernel/harmonic.h Kernel/harmonic.cpp \
+	Interaction/interaction.cpp  Interaction/interaction.h \
+	Interaction/interactioncomp.cpp  Interaction/interactioncomp.h \
+	Interaction/interactionin.cpp  Interaction/interactionin.h \
 	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
 	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
 	TimeSolver/gastimesolverLeapFrog.cpp TimeSolver/gastimesolverLeapFrog.h \

@@ -15,7 +15,7 @@
 #include "TimeSolver/gastimesolverPredCorr.h"
 #include "TimeSolver/hydrotimesolver.h"
 #include "vec2d.h"
-#include "interaction.h"
+#include "Interaction/interaction.h"
 #include "initiation.h"
 #include "output.h"
 #include "boundary.h"

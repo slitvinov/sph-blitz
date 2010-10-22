@@ -3,12 +3,16 @@
 /// \file interaction.h 
 /// \brief Defines interaction between particles
 
-#include "glbtype.h"
+#include "src/glbtype.h"
 
 class Initiation;
 
 /// Defines interaction between particles
 class Interaction {
+protected:
+  /// destructor 
+  virtual ~Interaction();
+
   /// local reference to initiation object
   const Initiation& ini;
 
@@ -43,8 +47,7 @@ class Interaction {
   double Tj;///<Temperature of particle j
 
 
- public:
-
+public:
   ///constructor
   Interaction(const spParticle prtl_org, const spParticle prtl_dest, 
               spKernel weight_function, const double dstc,
@@ -67,7 +70,9 @@ class Interaction {
   void SummationDensity();
 
   ///update forces
-  void UpdateForces();
+  virtual void UpdateForces() = 0; 
+
+  // update forces and rho
   void UpdateForcesAndRho();
   ///update internal energy only (taking into account ony change rate due to heat coduction)
   void UpdateEnergyPureConduction();
@@ -77,10 +82,6 @@ class Interaction {
   double getWij() const;
   Vec2d getGradWij() const;
   double get_rij() const;
-
-  /// destructor 
-  ~Interaction();
-
 };
 
 #endif //INTERACTION_H
