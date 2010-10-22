@@ -31,7 +31,7 @@ const int midx = 3;
 
 /// number of required fields to do SPH approximation
 /// x, y, rho, mass
-const int nreqfields = 4;
+//const int nreqfields = 3;
 
 std::vector<double> readRow(std::string row) {
   std::vector<double> retval;
@@ -134,7 +134,6 @@ blast::matrix<double> readMatrix(const std::string& filename ) {
       data(i, j) = vec[i][j];
     }
   }
-  LOG(INFO) << data;
   return data;
 }
 
@@ -167,8 +166,8 @@ blast::matrix<double> getSPHApprox(const blast::matrix<double>& data,
     cell_lists(icell, jcell).push_back( iparticle);
   }
   /// number of columns in particles configuration excluding x, y, rho, m
-  BOOST_ASSERT(data.size2() - nreqfields > 0);
-  blast::matrix<double> out = nullMat(probe.size1(), data.size2() - nreqfields);
+  BOOST_ASSERT(data.size2() > 0);
+  blast::matrix<double> out = nullMat(probe.size1(), data.size2());
   LOG(INFO) << "out.size1() = " << out.size1();
   LOG(INFO) << "out.size2() = " << out.size2();
 
@@ -179,6 +178,7 @@ blast::matrix<double> getSPHApprox(const blast::matrix<double>& data,
 
   for (long iprobe=0; iprobe<probe.size1(); iprobe++) {
     LOG(INFO) << "iprobe = " << iprobe;
+    /// first column is used for mass
     /// a cell for the probe point
     const double x = probe(iprobe, xidx);
     const double y = probe(iprobe, yidx);
@@ -200,10 +200,12 @@ blast::matrix<double> getSPHApprox(const blast::matrix<double>& data,
 	  if (r2<sup2) {
 	    const double w = weight_function->w(sqrt(r2));
 	    /// iterate for all fields
-	    for (int ifield=0; ifield<data.size2() - nreqfields; ifield++) {
-	      const double mass = data(id, midx);
-	      const double rho = data(id, rhoidx);
-	      const double fieldvalue = data(id, ifield + nreqfields);
+            const double mass = data(id, midx);
+            const double rho = data(id, rhoidx);
+            // zero column used for rho
+            out(iprobe, 0) += mass * w;
+    	    for (int ifield=2; ifield<data.size2(); ifield++) {
+	      const double fieldvalue = data(id, ifield);
 	      out(iprobe, ifield) += mass/rho * fieldvalue * w;
 	    }
 	  } // if (r2>sup2) {

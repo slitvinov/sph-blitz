@@ -13,7 +13,7 @@
 
 void test_kernel(const Kernel& weight_function , const double supportlength) {
 
-  const double eps  = 5e-3;
+  const double eps  = 5e-5;
   const double pi = boost::math::constants::pi<double>();
  
   // create an array with kernel values

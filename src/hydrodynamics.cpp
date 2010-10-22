@@ -321,12 +321,11 @@ void Hydrodynamics::UpdateState(const Initiation &ini) {
 //								calculate partilce volume
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::UpdateVolume(ParticleManager &particles, spKernel weight_function) {
-  double reciprocV; //the inverse of volume or volume
   ///<ul><li> iterate particles on the particle list
   BOOST_FOREACH(spParticle prtl_org, particle_list) {
     //<li>build the nearest particle list
     const std::list<spParticle> NNP_list = particles.BuildNNP(prtl_org->R);
-    reciprocV = 0.0; 
+    double reciprocV = 0.0; 
     //<li>iterate this Nearest Neighbor spParticle list
     BOOST_FOREACH(spParticle prtl_dest ,NNP_list) {
       ///<ul><li>sum the weights for all of these particles (because they are the inverse of a volume!)</ul>
@@ -334,7 +333,6 @@ void Hydrodynamics::UpdateVolume(ParticleManager &particles, spKernel weight_fun
     }
     ///<li>calculate volume
     prtl_org->V = 1.0/reciprocV;
-		
     ///<li>clear the NNP_list</ul></ul>
   }
 

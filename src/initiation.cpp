@@ -262,7 +262,7 @@ void Initiation::DefineBodyForce() {
     useCompiledBodyForce = true;
     LOG(INFO) << "I find cBodyForce. Be hold";
     LOG(INFO) << "a path to plugin directory " << PLUGIN_PATH;
-    LOG(INFO) << "try to source compile.tcl and compile  plugin";
+    LOG(INFO) << "try to source compile.tcl and compile the plugin";
     const std::string ctcl = std::string(PLUGIN_PATH) 
       + std::string("/compile.tcl");
     interp->eval("source " + ctcl);

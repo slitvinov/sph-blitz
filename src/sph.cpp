@@ -145,33 +145,25 @@ int main(int argc, char *argv[]) {
     exit(EXIT_FAILURE);
   }
 
+  //for 2D particle distribution BC is needed
+  if  (!ini.disable_boundary)
+    boundary.BoundaryCondition(particles); //repose the boundary condition
+
   if (ini.simu_mode == 1 || ini.simu_mode == 3) {
     ini.VolumeMass(hydro, particles, weight_function); //predict particle volume and mass
   }
-
-  //for 2D particle distribution BC is needed
-  ///\todo{define a variable which controls the use of boundary conditions and solve it smarter than just testing  if  (ini.kernel_type != "CubicSpline1D")! done: disable_boundary marker! }
-  if  (!ini.disable_boundary)
-    boundary.BoundaryCondition(particles); //repose the boundary condition
-     
   //start time
   double Time = ini.Start_time;
-
   //output initial conditions
   output->OutputParticle(hydro, boundary, Time, ini); //particle positions and velocites
-
   ///\n computation loop starts 
   while(Time < ini.End_time) {
-		
     // adjust the last D_time(=output time) in a way that there is an output at last timestep
     if(Time + ini.D_time >=  ini.End_time) ini.D_time = ini.End_time - Time; 
-		
     //set the machine random seed
     srand( static_cast<unsigned int>(time( NULL ) ));
-		
     //control output
     LOG(INFO)<< "new output intervall begins:output interval time:" << ini.D_time;
-		  
     ///- call the time slover (who iterates over one output time interval)
     if(ini.density_mode==1)  //summation density
       timesolver->TimeIntegral_summation(hydro, particles, boundary, Time, 
@@ -179,7 +171,6 @@ int main(int argc, char *argv[]) {
     else//continuity density (density integrated)
       timesolver->TimeIntegral(hydro, particles, boundary, Time, 
 				      ini.D_time, ini, weight_function);
-		
     // hydro.UpdateState(ini);///to update p,T,Cs to new values before output 
     //control output
     LOG(INFO)<<"time is "<<Time<<"\n";

@@ -6,7 +6,8 @@ set SIMULATION_MODE 3
 
 # possible values are 
 # QuinticSpline, BSpline, CubicSpline
-set KERNEL_TYPE BSpline
+#set KERNEL_TYPE BSpline
+set KERNEL_TYPE QuinticSpline
 
 # disable boundary conditions:
 # 1: boundary conditions disabled
@@ -67,7 +68,7 @@ set G_FORCE(1) 0.0
 set Start_time 0.0
 set End_time 0.1
 # time between output
-set D_time 0.1
+set D_time 0.05
 
 # boundary conditions
 set wall 0 
