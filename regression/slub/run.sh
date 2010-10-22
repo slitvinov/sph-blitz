@@ -26,7 +26,7 @@ fi
 # copy executable
 cp ${SPH} sph
 
-reslist="30 60 90"
+reslist="30 40 60 90 100 120"
 for res in $reslist; do
     SPH_TCL="set res_level $res" ./sph slub
     touch /tmp/sph.INFO /tmp/sph.ERROR
@@ -36,12 +36,13 @@ for res in $reslist; do
     sphfile=$(awk 'NR==3{print $2}' output$res/time.dat)
 
     kernel_type=$(getval output$res/config.tcl "KERNEL_TYPE")
+    printf "%s:%i: kernel_type = %s\n" "$0" $LINENO $kernel_type > "/dev/stderr"
     L=$(getval output$res/config.tcl "L")
     sl=$(getval output$res/config.tcl "SUPPORT_LENGTH")
+    printf "%s:%i: sl = %s\n" "$0" $LINENO $sl > "/dev/stderr"
 
-    seq $(float_eval 1.0/6.0*$sl) $(float_eval 1.0/3.0*$sl) $L | awk -v L=$L -v sl=$sl '{print $1, 0.25*L}' > probe.$res
+    seq $(float_eval 1.0/6.0*$sl) $(float_eval 1.0/3.0*$sl) $L | awk -v L=$L -v sl=$sl '{print $1, 1.0/6.0*sl}' > probe.$res
     ./infslab.awk -v k_l=1.0 -v rho_l=1e3 -v cv_l=1.0 -v Tl=0.0 -v Tr=1.0 -v xm=0.5 -v t=$time probe.$res > prof.$res.ref
-    #"${SPHPROBE}" --probe probe.$res --c1 "${sphfile}" --ktype "${kernel_type}" --sl $sl | awk '{print $1, $10}' > prof.$res
     "${SPHPROBE}" --probe probe.$res --c1 "${sphfile}" --ktype "${kernel_type}" --sl $sl | awk '{print $1, $10}' > prof.$res
 done
 

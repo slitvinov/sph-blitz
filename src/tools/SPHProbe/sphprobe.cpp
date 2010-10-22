@@ -282,7 +282,7 @@ int main(int ac, char* av[]) {
   if (vm.count("sl")) {
     supportlength = vm["sl"].as<double>();
   } else {
-    LOG(ERROR) << "supprt length must be given";
+    LOG(ERROR) << "support length must be given";
     return(EXIT_FAILURE);
   }
   BOOST_ASSERT(supportlength > 0.0);

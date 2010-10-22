@@ -105,7 +105,7 @@ void Hydrodynamics::UpdateDensity(ParticleManager &particles,
   ///- iterate the interaction list
   BOOST_FOREACH(spInteraction pair, interaction_list) {
     pair->SummationDensity();	
-  };
+  }
   LOG(INFO)<<"density after smoothing";
 
   ///- calulate new pressure by calling UpdateState() Method

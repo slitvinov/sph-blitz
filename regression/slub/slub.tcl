@@ -43,7 +43,7 @@ set output_file_format_factor 1e6
 # number of cell
 set ncell [expr {int(2.0/3.0*$res_level)}]
 set CELLS(0) $ncell
-set CELLS(1) [expr {int(0.5*$ncell)}]
+set CELLS(1) $ncell
 
 # sizer of the domain
 set L 1.0
