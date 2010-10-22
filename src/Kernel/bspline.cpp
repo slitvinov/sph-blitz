@@ -1,4 +1,4 @@
-/// \file betaspline.cpp
+/// \file bspline.cpp
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 ///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
 
@@ -8,14 +8,14 @@
 //		Most often used kernel.
 //		bskernel.cpp
 //----------------------------------------------------------------------------------------
-#include "src/Kernel/betaspline.h"
+#include "src/Kernel/bspline.h"
 #include <boost/math/constants/constants.hpp>
 
 using namespace std;
 
 /// pi
 const double pi = boost::math::constants::pi<double>();
-BetaSpline::BetaSpline(double supportlength)
+BSpline::BSpline(double supportlength)
     : Kernel(supportlength)
 {
     ///-  initialize the auxiliary factors
@@ -36,7 +36,7 @@ BetaSpline::BetaSpline(double supportlength)
 // We take this from Monaghan & Lattenzio (1985)
 // but used a doubled smoothing length for the definition of the interaction radius.
 //----------------------------------------------------------------------------------------
-double BetaSpline::w(double distance) const
+double BSpline::w(double distance) const
 {
     // dist/supportlength is often needed
     double normedDist = distance * reciprocH;
@@ -65,14 +65,14 @@ double BetaSpline::w(double distance) const
 // We take this from Monaghan & Lattenzio (1985)
 // but used a doubled smoothing length for the definition of the interaction radius.
 //----------------------------------------------------------------------------------------
-Vec2d BetaSpline::gradW(double distance, const Vec2d& distanceVector) const
+Vec2d BSpline::gradW(double distance, const Vec2d& distanceVector) const
 {
     return F(distance)*distanceVector;
 }
 //----------------------------------------------------------------------------------------
 //				Calculates the kernel derivation to distance
 //----------------------------------------------------------------------------------------
-double BetaSpline::F(double distance) const
+double BSpline::F(double distance) const
 {
     // dist/supportlength is often needed
     double normedDist = 2.0*distance * reciprocH;
@@ -97,6 +97,6 @@ double BetaSpline::F(double distance) const
 }
 
 
-void BetaSpline::show_information() const {
-  std::cerr << "(kernel) BetaSpline\n";
+void BSpline::show_information() const {
+  std::cerr << "(kernel) BSpline\n";
 }

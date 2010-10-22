@@ -26,7 +26,7 @@ public:
 
   ///kernel type
   /// possible values are
-  /// QuinticSpline, BetaSpline, CubicSpline, CubicSpline1D
+  /// QuinticSpline, BSpline, CubicSpline, CubicSpline1D
   std::string kernel_type;
 
   /// output type

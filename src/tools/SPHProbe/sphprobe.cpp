@@ -8,7 +8,7 @@
 #include "src/Kernel/quinticspline.h"
 #include "src/Kernel/cubicspline.h"
 #include "src/Kernel/cubicspline1D.h"
-#include "src/Kernel/betaspline.h"
+#include "src/Kernel/bspline.h"
 #include "src/Kernel/harmonic.h"
 #include <boost/scoped_ptr.hpp>
 #include <boost/foreach.hpp>

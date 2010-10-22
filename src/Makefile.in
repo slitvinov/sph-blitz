@@ -61,14 +61,13 @@ am__objects_1 = boundary.$(OBJEXT) glbfunc.$(OBJEXT) \
 	plainoutput.$(OBJEXT) particle.$(OBJEXT) \
 	particlemanager.$(OBJEXT) kernel.$(OBJEXT) \
 	quinticspline.$(OBJEXT) cubicspline.$(OBJEXT) \
-	cubicspline1D.$(OBJEXT) betaspline.$(OBJEXT) \
-	harmonic.$(OBJEXT) particlegenerator.$(OBJEXT) \
-	nocontext.$(OBJEXT) solidcontext.$(OBJEXT) \
-	particlecontext.$(OBJEXT) rotcontext.$(OBJEXT) \
-	interaction.$(OBJEXT) interactioncond.$(OBJEXT) \
-	interactioncomp.$(OBJEXT) interactionin.$(OBJEXT) \
-	interactionangular.$(OBJEXT) timer.$(OBJEXT) \
-	timesolver.$(OBJEXT) hydrotimesolver.$(OBJEXT) \
+	cubicspline1D.$(OBJEXT) bspline.$(OBJEXT) harmonic.$(OBJEXT) \
+	particlegenerator.$(OBJEXT) nocontext.$(OBJEXT) \
+	solidcontext.$(OBJEXT) particlecontext.$(OBJEXT) \
+	rotcontext.$(OBJEXT) interaction.$(OBJEXT) \
+	interactioncond.$(OBJEXT) interactioncomp.$(OBJEXT) \
+	interactionin.$(OBJEXT) interactionangular.$(OBJEXT) \
+	timer.$(OBJEXT) timesolver.$(OBJEXT) hydrotimesolver.$(OBJEXT) \
 	gastimesolverLeapFrog.$(OBJEXT) \
 	gastimesolverPredCorr.$(OBJEXT) utilities.$(OBJEXT)
 am_libsph_a_OBJECTS = $(am__objects_1)
@@ -238,7 +237,7 @@ nomain = boundary.cpp boundary.h \
 	Kernel/quinticspline.cpp Kernel/quinticspline.h \
 	Kernel/cubicspline.cpp Kernel/cubicspline.h \
 	Kernel/cubicspline1D.cpp Kernel/cubicspline1D.h \
-	Kernel/betaspline.h Kernel/betaspline.cpp \
+	Kernel/bspline.h Kernel/bspline.cpp \
 	Kernel/harmonic.h Kernel/harmonic.cpp \
 	ParticleGenerator/particlegenerator.h ParticleGenerator/particlegenerator.cpp \
 	ParticleContext/nocontext.cpp ParticleContext/nocontext.h \
@@ -377,8 +376,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/betaspline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boundary.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bspline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cubicspline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cubicspline1D.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gastimesolverLeapFrog.Po@am__quote@
@@ -526,19 +525,19 @@ cubicspline1D.obj: Kernel/cubicspline1D.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o cubicspline1D.obj `if test -f 'Kernel/cubicspline1D.cpp'; then $(CYGPATH_W) 'Kernel/cubicspline1D.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/cubicspline1D.cpp'; fi`
 
-betaspline.o: Kernel/betaspline.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT betaspline.o -MD -MP -MF $(DEPDIR)/betaspline.Tpo -c -o betaspline.o `test -f 'Kernel/betaspline.cpp' || echo '$(srcdir)/'`Kernel/betaspline.cpp
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/betaspline.Tpo $(DEPDIR)/betaspline.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kernel/betaspline.cpp' object='betaspline.o' libtool=no @AMDEPBACKSLASH@
+bspline.o: Kernel/bspline.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT bspline.o -MD -MP -MF $(DEPDIR)/bspline.Tpo -c -o bspline.o `test -f 'Kernel/bspline.cpp' || echo '$(srcdir)/'`Kernel/bspline.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/bspline.Tpo $(DEPDIR)/bspline.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kernel/bspline.cpp' object='bspline.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o betaspline.o `test -f 'Kernel/betaspline.cpp' || echo '$(srcdir)/'`Kernel/betaspline.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o bspline.o `test -f 'Kernel/bspline.cpp' || echo '$(srcdir)/'`Kernel/bspline.cpp
 
-betaspline.obj: Kernel/betaspline.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT betaspline.obj -MD -MP -MF $(DEPDIR)/betaspline.Tpo -c -o betaspline.obj `if test -f 'Kernel/betaspline.cpp'; then $(CYGPATH_W) 'Kernel/betaspline.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/betaspline.cpp'; fi`
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/betaspline.Tpo $(DEPDIR)/betaspline.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kernel/betaspline.cpp' object='betaspline.obj' libtool=no @AMDEPBACKSLASH@
+bspline.obj: Kernel/bspline.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT bspline.obj -MD -MP -MF $(DEPDIR)/bspline.Tpo -c -o bspline.obj `if test -f 'Kernel/bspline.cpp'; then $(CYGPATH_W) 'Kernel/bspline.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/bspline.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/bspline.Tpo $(DEPDIR)/bspline.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kernel/bspline.cpp' object='bspline.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o betaspline.obj `if test -f 'Kernel/betaspline.cpp'; then $(CYGPATH_W) 'Kernel/betaspline.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/betaspline.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o bspline.obj `if test -f 'Kernel/bspline.cpp'; then $(CYGPATH_W) 'Kernel/bspline.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/bspline.cpp'; fi`
 
 harmonic.o: Kernel/harmonic.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT harmonic.o -MD -MP -MF $(DEPDIR)/harmonic.Tpo -c -o harmonic.o `test -f 'Kernel/harmonic.cpp' || echo '$(srcdir)/'`Kernel/harmonic.cpp

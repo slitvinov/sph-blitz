@@ -1,6 +1,6 @@
 /// Kernels  test program 
 #include "src/Kernel/quinticspline.h"
-#include "src/Kernel/betaspline.h"
+#include "src/Kernel/bspline.h"
 #include "src/Kernel/cubicspline.h"
 #include "src/Kernel/harmonic.h"
 #include <boost/test/minimal.hpp>
@@ -83,7 +83,7 @@ int test_main( int, char *[] )     {
   //QuinticSpline q_weight_function(supportlength);
   //test_kernel(q_weight_function, supportlength);
 
-  BetaSpline b_weight_function(supportlength);
+  BSpline b_weight_function(supportlength);
   test_kernel(b_weight_function, supportlength);
 
   //  std::cerr << "Testing CubicSpline kernel\n";

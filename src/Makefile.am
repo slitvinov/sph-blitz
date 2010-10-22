@@ -30,7 +30,7 @@ nomain=	boundary.cpp boundary.h \
 	Kernel/quinticspline.cpp Kernel/quinticspline.h \
 	Kernel/cubicspline.cpp Kernel/cubicspline.h \
 	Kernel/cubicspline1D.cpp Kernel/cubicspline1D.h \
-	Kernel/betaspline.h Kernel/betaspline.cpp \
+	Kernel/bspline.h Kernel/bspline.cpp \
 	Kernel/harmonic.h Kernel/harmonic.cpp \
 	ParticleGenerator/particlegenerator.h ParticleGenerator/particlegenerator.cpp \
 	ParticleContext/nocontext.cpp ParticleContext/nocontext.h \

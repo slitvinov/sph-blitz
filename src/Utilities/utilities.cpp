@@ -6,7 +6,7 @@
 #include "src/Kernel/quinticspline.h"
 #include "src/Kernel/cubicspline.h"
 #include "src/Kernel/cubicspline1D.h"
-#include "src/Kernel/betaspline.h"
+#include "src/Kernel/bspline.h"
 #include "src/Kernel/harmonic.h"
 
 spKernel chooseKernelType(const Initiation& ini) {
@@ -21,8 +21,8 @@ spKernel chooseKernelType(const std::string& kernel_type,
   if  (kernel_type == "CubicSpline")   {
     weight_function = boost::make_shared<CubicSpline>(supportlength); 
   } 
-  else if (kernel_type == "BetaSpline")   {
-    weight_function = boost::make_shared<BetaSpline>(supportlength); 
+  else if (kernel_type == "BSpline")   {
+    weight_function = boost::make_shared<BSpline>(supportlength); 
   } 
   else if (kernel_type == "QuinticSpline")   {
     weight_function = boost::make_shared<QuinticSpline>(supportlength);

@@ -1,6 +1,6 @@
 #ifndef BETASPLINE_H
 #define BETASPLINE_H
-/// \file betaspline.h
+/// \file bspline.h
 /// \brief Beta spline kernel function
 
 #include "src/Kernel/kernel.h"
@@ -9,12 +9,12 @@
 ///
 ///    	see Monaghan & Lattanzio (1985) most often used kernel
 ///	implemented in	bskernel.cpp
-class BetaSpline : public Kernel
+class BSpline : public Kernel
 {
 
 public:
     ///constructor to initialize the data members and
-    BetaSpline(double supportlength);
+    BSpline(double supportlength);
 
     ///\brief Calculates the kernel value for the given distance of two particles.
     ///
