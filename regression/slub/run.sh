@@ -35,13 +35,14 @@ for res in $reslist; do
     time=$(awk 'NR==2{print $1}' output$res/time.dat) 
     sphfile=$(awk 'NR==2{print $2}' output$res/time.dat)
 
+    kernel_type=$(getval output$res/config.tcl "KERNEL_TYPE")
     L=$(getval output$res/config.tcl "L")
     sl=$(getval output$res/config.tcl "SUPPORT_LENGTH")
 
     n=300
     seq 1 $n | awk -v n=$n -v L=$L -v sl=$sl '{print L/(n+1)*$1, sl}' > probe.$res
     ./infslab.awk -v k_l=1.0 -v rho_l=1e3 -v cv_l=1.0 -v Tl=0.0 -v Tr=1.0 -v xm=0.5 -v t=$time probe.$res > prof.$res.ref
-    ${SPHPROBE} --probe probe.$res --c1 ${sphfile} --sl $sl | awk '{print $1, $8}' > prof.$res
+    "${SPHPROBE}" --probe probe.$res --c1 "${sphfile}" --ktype "${kernel_type}" --sl $sl | awk '{print $1, $8}' > prof.$res
 done
 
 PYTHONPATH=../ python slub.py $(proflist) > conv.dat

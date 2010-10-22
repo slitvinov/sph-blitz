@@ -4,6 +4,7 @@
 #include <fstream>
 #include <list>
 #include <math.h>
+#include "src/Utilities/utilities.h"
 #include "src/Kernel/quinticspline.h"
 #include "src/Kernel/cubicspline.h"
 #include "src/Kernel/cubicspline1D.h"
@@ -137,7 +138,9 @@ blast::matrix<double> readMatrix(const std::string& filename ) {
   return data;
 }
 
-blast::matrix<double> getSPHApprox(const blast::matrix<double>& data, const double supportlength, 
+blast::matrix<double> getSPHApprox(const blast::matrix<double>& data, 
+                                   const std::string& kernel_type,
+                                   const double supportlength, 
 				   const blast::matrix<double> probe) {
   /// find box size
   const Vec2d min_box(getMin( blast::matrix_column<const blast::matrix<double> >(data, xidx)), 
@@ -170,7 +173,8 @@ blast::matrix<double> getSPHApprox(const blast::matrix<double>& data, const doub
   LOG(INFO) << "out.size2() = " << out.size2();
 
   /// a pointer to Kernel function 
-  boost::scoped_ptr<Kernel> weight_function(new QuinticSpline(supportlength));
+  /// harmonic parameter is not used
+  boost::shared_ptr<Kernel> weight_function = chooseKernelType(kernel_type, supportlength, 3.0);
   const double sup2 = supportlength * supportlength;
 
   for (long iprobe=0; iprobe<probe.size1(); iprobe++) {
@@ -313,11 +317,10 @@ int main(int ac, char* av[]) {
   
   const blast::matrix<double> probe = readMatrix(probe_file);
   const blast::matrix<double> data1 = readMatrix(c1);
-  const blast::matrix<double> out1 = getSPHApprox(data1, supportlength, probe);
+  const blast::matrix<double> out1 = getSPHApprox(data1, kernel_type, supportlength, probe);
   if ( (t2>=tout) && (c2isgiven) ) {
     const blast::matrix<double> data2 = readMatrix(c2);
-    const blast::matrix<double> out2 = getSPHApprox(data2, supportlength, probe);
-    //    const blast::matrix<double> out = ( (tout - t1)*out1 + (t2-tout)*out2 ) / (t2 - t1);
+    const blast::matrix<double> out2 = getSPHApprox(data2, kernel_type, supportlength, probe);
     LOG(INFO) << "t1, t2, tout: " << t1 << ' ' <<  t2 << ' ' <<  tout;
     const blast::matrix<double> out =  ( (t2 - tout) * out1 + (tout - t1) * out2 ) / (t2 - t1);
     LOG(INFO) << "ouput time interpolation";
