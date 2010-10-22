@@ -19,6 +19,7 @@
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/vector.hpp>
 #include <glog/logging.h>
+#include <gsl/gsl_spline.h>
 #include "src/vec2d.h"
 namespace po = boost::program_options;
 namespace blast = boost::numeric::ublas;
@@ -220,6 +221,11 @@ blast::matrix<double> getSPHApprox(const blast::matrix<double>& data,
 int main(int ac, char* av[]) {
   google::InitGoogleLogging(av[0]);
   LOG(INFO) << "sphprobe starts";
+
+
+  gsl_interp_accel *acc 
+      = gsl_interp_accel_alloc ();
+
   po::options_description desc("Allowed options");
   desc.add_options()
     ("help,h", "print help message")

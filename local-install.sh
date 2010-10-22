@@ -41,5 +41,5 @@ make install ${MAKE_FLAGS}
 cd "${WRKDIR}"
 
 
-./configure --with-blitz="${PREFIX}" --with-tcl="${PREFIX}"/lib/ CXX=${CXX:=g++} 
+./configure --with-blitz="${PREFIX}" --with-tcl="${PREFIX}"/lib/ --with-gsl-prefix="${PREFIX}" CXX=${CXX:=g++} 
 make ${MAKE_FLAGS}

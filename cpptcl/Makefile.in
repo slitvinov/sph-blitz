@@ -36,7 +36,8 @@ subdir = cpptcl
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ac_check_blitz.m4 \
-	$(top_srcdir)/m4/tcl.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/gsl.m4 $(top_srcdir)/m4/tcl.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -106,6 +107,9 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 GREP = @GREP@
+GSL_CFLAGS = @GSL_CFLAGS@
+GSL_CONFIG = @GSL_CONFIG@
+GSL_LIBS = @GSL_LIBS@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@

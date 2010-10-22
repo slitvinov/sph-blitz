@@ -35,7 +35,8 @@ subdir = src/tools/SPHProbe
 DIST_COMMON = README $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ac_check_blitz.m4 \
-	$(top_srcdir)/m4/tcl.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/gsl.m4 $(top_srcdir)/m4/tcl.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -45,9 +46,11 @@ binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
 am_sphprobe_OBJECTS = sphprobe-sphprobe.$(OBJEXT)
 sphprobe_OBJECTS = $(am_sphprobe_OBJECTS)
+am__DEPENDENCIES_1 =
 sphprobe_DEPENDENCIES = ${top_builddir}/src/libsph.a \
 	${top_builddir}/cpptcl/libcpptcl.a \
-	${top_builddir}/boost/libs/program_options/src/libboost_program_options.a
+	${top_builddir}/boost/libs/program_options/src/libboost_program_options.a \
+	$(am__DEPENDENCIES_1)
 sphprobe_LINK = $(CXXLD) $(sphprobe_CXXFLAGS) $(CXXFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I.@am__isrc@
@@ -95,6 +98,9 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 GREP = @GREP@
+GSL_CFLAGS = @GSL_CFLAGS@
+GSL_CONFIG = @GSL_CONFIG@
+GSL_LIBS = @GSL_LIBS@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -166,9 +172,10 @@ top_srcdir = @top_srcdir@
 sphprobe_SOURCES = sphprobe.cpp sphprobe.h
 sphprobe_LDADD = ${top_builddir}/src/libsph.a \
 	${top_builddir}/cpptcl/libcpptcl.a \
-	${top_builddir}/boost/libs/program_options/src/libboost_program_options.a
+	${top_builddir}/boost/libs/program_options/src/libboost_program_options.a \
+	${GSL_LIBS}
 
-sphprobe_CXXFLAGS = -I${top_srcdir}
+sphprobe_CXXFLAGS = -I${top_srcdir} ${GSL_CFLAGS}
 all: all-am
 
 .SUFFIXES:

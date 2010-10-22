@@ -39,6 +39,9 @@ if test "$GXX" = yes; then
   CPPFLAGS="$CPPFLAGS -isystem$BLITZ_INCDIR"
 fi
 
+# check for gsl library
+AX_PATH_GSL
+
 # TODO: 
 # link to  google log 
 # assuming it is in the same directory as blitz++
