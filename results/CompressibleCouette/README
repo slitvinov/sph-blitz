@@ -1,0 +1,61 @@
+ 
+Literature on compressible Couette:
+
+1) Anderson: general description
+
+2) Laminar flow analysis
+ By David F. Rogers:
+chaper 6.3 (p.199, google books): Analytical Solutions of the Compressible NS-Equations - Couette flow
+ - describes some special cases with analytical solutions
+
+
+prepare simulation setup:
+----------------------------
+
+Domain size: 1x1
+boundary conditions in x-direction: periodic
+boundary conditions in y-direction: isothermal no-slip walls (T_upper=1, T_bottom=0)
+
+number of particles: 60x60 (=3600) (like for Taylor-Geen) ->dx=dy=0.01666
+supportlength: (like for Taylor-Geen) supLen/dx=2.5
+
+
+particle initialization:
+------------------------
+
+
+
+
+code modifications:
+---------------------
+law for eta(T) (->Southerland) (equation 15.3, Anderson, fundamentals of aerodynamics)
+law for k(T)
+law for cv(T) -> not yet implemented
+->parameters for Sutherland law are read into material variable!
+
+
+integrating dissipation in energy equation. ideas:
+----------------------------------------
+
+Monaghan gives a roadmap to obtain the viscous heating therm from the viscous force/acceleration
+expression (Monaghan2005, section 8.2, before eq (8.13))
+1: taking scalar product of viscous force term with v_ij
+2:multiplying with m_a (if viscousl acceleration (and not force) is taken
+3: summing over all a
+(there is a *0.5 also added to the viscous term)
+
+In Espanol we see a similar pattern if we compare the viscous heating term with the viscous force term:
+its taking the scalar product with v_ij as well and *0.5.
+
+Unit analysis: eq(31): viscous heating term has units [W]
+
+But there is no summing over a, this is becaus the viscous heating term is expressed for the entropy equation,
+(monaghan also shows no summing over a in his entropy equation!)
+Might be that the sum_a in equation (8.13) of Monaghan is wrong, because he has the same equation without sum_a as (2.22) 
+in MonaghanGingold1983 (a consideration of units also indicates that sum_a is too much)
+in Monaghan eq (8.13) (or general in internal energy equation) it has to be added as [W/kg]
+
+->divide expression for viscous heating from espanol by m_i!!!!
+
+
+ 
