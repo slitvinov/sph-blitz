@@ -8,7 +8,7 @@ package require math::special
 set SIMULATION_MODE 3
 
 # possible values are 
-# QuinticSpline, BetaSpline, CubicSpline
+# QuinticSpline, BSpline, CubicSpline
 set KERNEL_TYPE QuinticSpline
 
 # disable boundary conditions:

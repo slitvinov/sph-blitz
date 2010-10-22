@@ -4,7 +4,7 @@
 set SIMULATION_MODE 2
 
 # possible values are 
-# QuinticSpline, BetaSpline, CubicSpline, CubicSpline1D
+# QuinticSpline, BSpline, CubicSpline, CubicSpline1D
 set KERNEL_TYPE CubicSpline1D
 
 #possible integration schemes

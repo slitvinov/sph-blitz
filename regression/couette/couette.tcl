@@ -8,7 +8,7 @@ set output_file_format_factor 1e6
 
 
 # possible values are 
-# QuinticSpline, BetaSpline, CubicSpline
+# QuinticSpline, BSpline, CubicSpline
 set KERNEL_TYPE QuinticSpline
 
 # disable boundary conditions:

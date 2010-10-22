@@ -4,7 +4,7 @@
 set SIMULATION_MODE 1
 
 # possible values are 
-# QuinticSpline, BetaSpline, CubicSpline
+# QuinticSpline, BSpline, CubicSpline
 set KERNEL_TYPE QuinticSpline
 
 #possible density treatments
