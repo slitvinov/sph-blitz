@@ -3,6 +3,7 @@
 #include "src/Kernel/cubicspline.h"
 #include "src/Kernel/harmonic.h"
 #include <boost/test/minimal.hpp>
+#include <boost/math/constants/constants.hpp>
 #include <blitz/vector.h>
 #include <blitz/array.h>
 #include <numeric>
@@ -12,7 +13,7 @@
 void test_kernel(const Kernel& weight_function , const double supportlength) {
 
   const double eps  = 5e-3;
-  const double pi = 3.141592653589793;
+  const double pi = boost::math::constants::pi<double>();
  
   // create an array with kernel values
  const int numSamples = 2000;  // Number of samples

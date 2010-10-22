@@ -10,13 +10,15 @@
 //----------------------------------------------------------------------------------------
 
 #include "src/Kernel/quinticspline.h"
+#include <boost/math/constants/constants.hpp>
+
 
 using namespace std;
 
 //----------------------------------------------------------------------------------------
 //										constructor
 //----------------------------------------------------------------------------------------
-const double pi = 3.141592653589793238462643383279502884197;
+const double pi = boost::math::constants::pi<double>();
 
 QuinticSpline::QuinticSpline(const double supportlength)
   : Kernel(supportlength), 

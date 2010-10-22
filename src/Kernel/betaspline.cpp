@@ -9,11 +9,12 @@
 //		bskernel.cpp
 //----------------------------------------------------------------------------------------
 #include "src/Kernel/betaspline.h"
+#include <boost/math/constants/constants.hpp>
 
 using namespace std;
 
 /// pi
-const double pi = 3.141592653589793238462643383279502884197;
+const double pi = boost::math::constants::pi<double>();
 BetaSpline::BetaSpline(double supportlength)
     : Kernel(supportlength)
 {

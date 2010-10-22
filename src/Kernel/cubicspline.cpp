@@ -11,9 +11,11 @@
 
 //local includes
 #include "src/Kernel/cubicspline.h"
+#include <boost/math/constants/constants.hpp>
+
 
 using namespace std;
-const double pi = 3.141592653589793238462643383279502884197;
+const double pi = boost::math::constants::pi<double>();
 
 /// Cubic spline kernel (see Liu eq. (3.6)
 CubicSpline::CubicSpline(const double supportlength)

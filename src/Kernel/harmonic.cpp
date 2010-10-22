@@ -11,7 +11,8 @@
 
 //local includes
 #include "src/Kernel/harmonic.h"
-const double pi = 3.141592653589793238462643383279502884197;
+#include <boost/math/constants/constants.hpp>
+const double pi = boost::math::constants::pi<double>();
 
 /// Harmonic kernel 
 /// (see J. Comput. Phys., Academic Press Inc Elsevier Science, 2008, 227, 8523-8540)
