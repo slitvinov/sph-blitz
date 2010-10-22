@@ -113,7 +113,7 @@ set XXL_TIMESTAMP_MARKER 0
 # applies only to WALL and FREE_SLIP boundary conditions!!
 # isothermal or not (=adiabatic)
 # 1: isothermal (temperature as specified at corresponding boundary)
-# 0: NOT isothermal (wall is symmetric concerning temperature)
+# 0: NOT isothermal (wall is symmetric concerning temperature->adiabatic)
 set ISOTHERMAL_BOUNDARY 0
 
 # disable boundary conditions:

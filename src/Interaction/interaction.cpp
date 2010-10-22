@@ -202,6 +202,36 @@ void Interaction::UpdateForcesAndRho() {
   };
 }
 
+void Interaction::UpdateEnergyPureConduction(){
+ LOG_EVERY_N(INFO, 100000) << "Interaction::UpdateForces()";
+ //define pair values change in sub time steps
+ const double rhoi = Org->rho; 
+ const double rhoj = Dest->rho;
+ 
+ //energy change rate    
+ //(physical viscosity  not (yet) taken into account in energy equation)
+ 
+ //first energy change rate contribution  due to thermal conduction (Cleary1999)
+ const double dedtij_cond=4.0*mj/(rhoi*rhoj)*ki*kj/(ki+kj)*(Ti-Tj)*Fij;
+ //now complete energy equation
+ const double dedti=+dedtij_cond;
+ const double dedtj=-dedtij_cond;
+ 
+ //add result to particle's energy variable (so, an iteration over the interaction list corresponds to the required summation
+ Org->dedt+=dedti;
+ Dest->dedt+=dedtj;
+
+ //reset pressure to a positive value: 
+ //pressure is actually not important (as not taken into account for 
+ //pure conduction). However, as I wanted to implement the pureConduction case
+ //in a way which can easily be extended to a flow problem, the program 
+ //runs all the methods (which are not used for the pure conduction).
+ // to prevent a program interuption due to an assertion of p (<0),
+ // I reset p here to a value >0 foe each iteration.
+ Org->p=1000.0;
+ Dest->p=1000.0;
+}
+
 Interaction::~Interaction() {
   LOG_EVERY_N(INFO, 100000) << "Interaction destroyed" ;
 }
