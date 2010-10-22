@@ -26,7 +26,7 @@ fi
 # copy executable
 cp ${SPH} sph
 
-reslist="30 40 50 60 80 90 100 120"
+reslist="30 60 90"
 for res in $reslist; do
     SPH_TCL="set res_level $res" ./sph slub
     touch /tmp/sph.INFO /tmp/sph.ERROR
@@ -39,12 +39,10 @@ for res in $reslist; do
     L=$(getval output$res/config.tcl "L")
     sl=$(getval output$res/config.tcl "SUPPORT_LENGTH")
 
-    n=500
-    seq 1 $n | awk -v n=$n -v L=$L -v sl=$sl '{print L/(n+1)*$1, 0.25*L}' > probe.$res
+    seq $(float_eval 1.0/6.0*$sl) $(float_eval 1.0/3.0*$sl) $L | awk -v L=$L -v sl=$sl '{print $1, 0.25*L}' > probe.$res
     ./infslab.awk -v k_l=1.0 -v rho_l=1e3 -v cv_l=1.0 -v Tl=0.0 -v Tr=1.0 -v xm=0.5 -v t=$time probe.$res > prof.$res.ref
     #"${SPHPROBE}" --probe probe.$res --c1 "${sphfile}" --ktype "${kernel_type}" --sl $sl | awk '{print $1, $10}' > prof.$res
-    "${SPHPROBE}" --probe probe.$res --c1 "${sphfile}" --ktype "${kernel_type}" --sl $sl > prof.$res
-    exit
+    "${SPHPROBE}" --probe probe.$res --c1 "${sphfile}" --ktype "${kernel_type}" --sl $sl | awk '{print $1, $10}' > prof.$res
 done
 
 PYTHONPATH=../ python slub.py $(proflist) > conv.dat
