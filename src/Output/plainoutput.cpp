@@ -2,6 +2,7 @@
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 /// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>,
 #include <fstream>
+#include <iostream>
 #include <boost/foreach.hpp>
 #include <boost/format.hpp>
 #include <glog/logging.h>
@@ -13,14 +14,13 @@
 #include "src/boundary.h"
 #include "src/ParticleContext/particlecontext.h"
 
-using namespace std;
-
-PlainOutput::PlainOutput() {
+PlainOutput::PlainOutput():
+  isFirst(true) {
   LOG(INFO) << "Create PlainOutput object\n";
 }
 
 void PlainOutput::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary,
-                            const double Time, const Initiation &ini) {
+				 const double Time, const Initiation &ini) {
   LOG(INFO) << "Output::OutputParticle";
   ///<ul><li>produce output file name
   const double Itime = Time*ini.output_file_format_factor;
@@ -29,13 +29,29 @@ void PlainOutput::OutputParticle(const Hydrodynamics &hydro, const Boundary &bou
   const std::string file_list = boost::str(boost::format("%08d") % static_cast<int>(Itime));
   const std::string file_name = ini.outdir + "/prtl" + file_list + ".dat";
 
-  ofstream out(file_name.c_str());
+
+  std::ofstream out(file_name.c_str());
   if (!out.is_open()) {
-    LOG(INFO) << "Cannot open file: " << file_name;
+    LOG(ERROR) << "Cannot open file: " << file_name;
     exit(EXIT_FAILURE);
   }
-  /// check if file is OK
-  
+
+  const std::string timefilename = ini.outdir + "/time.dat";
+  std::ofstream timef;
+  if (isFirst) {
+    timef.open(timefilename.c_str());
+    isFirst = false;
+  } else {
+    timef.open(timefilename.c_str(), std::ios::app);
+  }
+  if (!timef.is_open()) {
+    LOG(ERROR) << "Cannot open file: " << file_name;
+    exit(EXIT_FAILURE);
+  }
+  timef << Time << ' ' << file_name << '\n';
+  LOG(INFO) << "writing time and related file name to: " << timefilename;
+  timef.close();
+
   BOOST_FOREACH(spParticle prtl, hydro.particle_list) {
     PrintOneParticle(prtl, ini, out);
   }

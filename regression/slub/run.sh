@@ -10,24 +10,38 @@ function proflist() {
 source ../../scripts/getval.sh
 source ../../scripts/float.sh
 
+SPH=../../src/sph
+if [[ ! -x "$SPH" ]]; then
+    printf "%s:%i: %s must be compiled\n" "$0" $LINENO "$SPH"
+    exit 2
+fi
+
+SPHPROBE=../../src/tools/SPHProbe/sphprobe
+if [[ ! -x "${SPHPROBE}" ]]; then
+    printf "%s:%i: %s must be compiled for postprocesing\n" "$0" $LINENO "${SPHPROBE}" > "/dev/stderr"
+    printf "%s:%i: try make -C ../../src/tools/SPHProbe\n" "$0" $LINENO > "/dev/stderr"
+    exit 2
+fi
+
 # copy executable
-cp ../../src/sph sph
+cp ${SPH} sph
+
 reslist="30 40 50 60 80 90 100 120"
 for res in $reslist; do
-    #SPH_TCL="set res_level $res" ./sph slub
+    SPH_TCL="set res_level $res" ./sph slub
     touch /tmp/sph.INFO /tmp/sph.ERROR
     cp /tmp/sph.INFO /tmp/sph.ERROR output$res/
 
-    aux_time=$(echo output$res/prtl001*.dat | awk -v FS="prtl" '{print $2}'  | tr -d '.dat' | sed 's/^0*//')
-    ff=$(getval output$res/config.tcl "output_file_format_factor")
-    time=$(float_eval "$aux_time/$ff")
+    time=$(awk 'NR==2{print $1}' output$res/time.dat) 
+    sphfile=$(awk 'NR==2{print $2}' output$res/time.dat)
+
     L=$(getval output$res/config.tcl "L")
     sl=$(getval output$res/config.tcl "SUPPORT_LENGTH")
 
-    n=50
+    n=300
     seq 1 $n | awk -v n=$n -v L=$L -v sl=$sl '{print L/(n+1)*$1, sl}' > probe.$res
     ./infslab.awk -v k_l=1.0 -v rho_l=1e3 -v cv_l=1.0 -v Tl=0.0 -v Tr=1.0 -v xm=0.5 -v t=$time probe.$res > prof.$res.ref
-    ../../src/tools/SPHProbe/sphprobe --probe probe.$res --c1 output$res/prtl001*.dat --sl $sl | awk '{print $1, $8}' > prof.$res
+    ${SPHPROBE} --probe probe.$res --c1 ${sphfile} --sl $sl | awk '{print $1, $8}' > prof.$res
 done
 
 PYTHONPATH=../ python slub.py $(proflist) > conv.dat

@@ -16,5 +16,8 @@ public:
 		      const double Time, const Initiation &ini) ;
 private:
   void PrintOneParticle(spParticle prtl, const Initiation& ini, std::ostream& o);
+  // a flag 
+  // true: if the first snapshot is not yet written
+  bool isFirst;
 };
 #endif // SRC_OUTPUT_PLAINOUTPUT_H
