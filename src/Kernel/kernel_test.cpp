@@ -43,7 +43,8 @@ void test_kernel(const Kernel& weight_function , const double supportlength) {
  double s =  std::accumulate(w.begin(), w.end(), 0.0);
  s = s - 0.5*w(0) - 0.5*w(numSamples);
  s = 2.0 * pi * dx * s;
- BOOST_REQUIRE( abs(s - 1.0) < eps );
+ std::cerr << "s = " << s << std::endl;
+ BOOST_REQUIRE( fabs(s - 1.0) < eps );
 
  // integrate the derivative of the kernel
  w = blitz::Array<double, 1>(weight_function.F(x)*x*x);
@@ -51,7 +52,7 @@ void test_kernel(const Kernel& weight_function , const double supportlength) {
  s = s - 0.5*w(0) - 0.5*w(numSamples);
  s = pi * dx * s;
  std::cerr << "s = " << s << std::endl;
- BOOST_REQUIRE( abs(s - 1.0) < eps );
+ BOOST_REQUIRE( fabs(s - 1.0) < eps );
 
  // cumulative sum of the derivatives
  blitz::Array<double, 1> cumsum(numSamples);

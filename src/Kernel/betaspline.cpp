@@ -22,7 +22,7 @@ BetaSpline::BetaSpline(double supportlength)
     reciprocH = 1.0 / supportlength;
     
     ///- normalize to 1.0
-    norm = 60.0 / 7.0 / pi;
+    norm = 40.0 / 7.0 / pi;
       
     factorW     = norm * pow(reciprocH, 2);
     factorGradW = -3.0*norm * pow(reciprocH, 3);
