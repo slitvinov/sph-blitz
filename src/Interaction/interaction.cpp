@@ -40,10 +40,6 @@ Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest,
   Wij = weight_function->w(rij);
   gradWij=weight_function->gradW(rij,/*Dest->R-Org->R*/eij);
   Fij = weight_function->F(rij)*rrij; //for Kernel weight fuction
-   LOG_EVERY_N(INFO, 100000) << "Interaction created,interaction pair: " 
-			     <<Org->ID<<"  "<<Dest->ID<<"org_x: "
-			     <<Org->R[0]<<"  Dest_x: "<<Dest->R[0] 
-			     <<"  org_y: "<<Org->R[1]<<"Dest_y: "<<Dest->R[1];
 }
 
 //-------------------getter for origin-----------------

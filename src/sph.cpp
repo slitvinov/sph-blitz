@@ -91,7 +91,9 @@ int main(int argc, char *argv[]) {
   // int boundCond=0;
   // if (boundCond!=0) 
   //--> does not work, as instance of boundary class is needed for many methods...
-    Boundary boundary(ini, particles); ///< - initiate boundary conditions and boundary particles
+  Boundary boundary(ini, particles); ///< - initiate boundary conditions and boundary particles
+  LOG(INFO) << "check consistency of the particles configuration";
+  boundary.RunAwayCheck(hydro);
   
   /// a smart pointer to timesolver
   spTimeSolver timesolver;
@@ -146,11 +148,15 @@ int main(int argc, char *argv[]) {
   }
 
   //for 2D particle distribution BC is needed
-  if  (!ini.disable_boundary)
-    boundary.BoundaryCondition(particles); //repose the boundary condition
+  if  (!ini.disable_boundary) {
+    boundary.BuildBoundaryParticle(particles, hydro);
+  }
 
   if (ini.simu_mode == 1 || ini.simu_mode == 3) {
     ini.VolumeMass(hydro, particles, weight_function); //predict particle volume and mass
+    if  (!ini.disable_boundary) {
+      boundary.BuildBoundaryParticle(particles, hydro);
+    }
   }
   //start time
   double Time = ini.Start_time;

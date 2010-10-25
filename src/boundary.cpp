@@ -74,8 +74,8 @@ void Boundary::RunAwayCheck(Hydrodynamics &hydro) {
        p++) {
     spParticle prtl = *p;
     if (fabs(prtl->R[0]) >= 2.0*box_size[0] || fabs(prtl->R[1]) >= 2.0*box_size[1]) {
-      std::cerr << "Boundary: the particles run out too far away from the domain! \n";
-      std::cerr << __FILE__ << ':' << __LINE__ << std::endl;
+      LOG(ERROR) << "Boundary: the particles run out too far away from the domain! \n";
+      prtl->show_information();
       exit(EXIT_FAILURE);
     }
     ///- only checking real particles (for all boundaries)

@@ -10,6 +10,7 @@
 // ***** local includes *****
 #include "material.h"
 #include "particle.h"
+#include <glog/logging.h>
 
 int64_t Particle ::ID_max = 0;
 
@@ -48,6 +49,7 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
   // m = 0.0; // for 2D shock tube mass is initialized from the external
   V = 0.0; e = mtl->get_e(T); e_I = e;
   R_I = R; P_I = P; rho_I = rho;
+  dUdt = 0.0;
   //  rho_n = rho; e_n = e; 
 
 }
@@ -81,7 +83,7 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
   ///- set conservative values (mass and volume determined lateron) and their  intermediate values
   // m = 0.0; // for 2D shock tube mass is initialized from the external
   V = 0.0; e = mtl->get_e(T); e_I = e;
-  R_I = R; P_I = P; rho_I = rho;
+  R_I = R; P_I = P; rho_I = rho;   dUdt = 0.0;
   //  rho_n = rho; e_n = e; 
 }
 
@@ -104,11 +106,10 @@ Particle::Particle (double x, double y, double u, double v,
 //----------------------------------------------------------------------------------------
 //						creat a ghost particle 
 //----------------------------------------------------------------------------------------
-Particle::Particle (spParticle RealParticle ) : 
+Particle::Particle (spParticle RealParticle):
   bd(1), 
   mtl(RealParticle->mtl)
 {
-  assert(RealParticle->m > 0.0);
   ///- give a new ID number
   ID = 0;
 
@@ -132,7 +133,6 @@ Particle::Particle (spParticle RealParticle ) :
 
   eta = RealParticle->eta;
   zeta=RealParticle->zeta;
-  assert(m>0.0);
 }
 //----------------------------------------------------------------------------------------
 //							creat an image particle
@@ -182,4 +182,19 @@ void Particle ::StatesCopier(spParticle RealParticle , const int)
   k_thermal = RealParticle->k_thermal;
   eta = RealParticle->eta;
   zeta=RealParticle->zeta;
+}
+
+void Particle::show_information() const {
+  LOG(INFO) 
+      << "particle information" 
+      << "\nR = " << R 
+      << "\nU = " << U 
+      << "\ndUdt = " << dUdt
+      << "\nbd = " << bd 
+      << "\nm = " << m 
+      << "\nV = " << V 
+      << "\nrho = " << rho
+      << "\ne = " << e
+      << "\neta = " << eta
+      << "\np = " << p;
 }

@@ -64,6 +64,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini):
     LOG(ERROR) << "check configuration file";
     std::exit(EXIT_FAILURE);
   }
+
   LOG(INFO) << "Hydrodynamics object is created";
 }
 
@@ -107,7 +108,6 @@ void Hydrodynamics::UpdateDensity(ParticleManager &particles,
     pair->SummationDensity();	
   }
   LOG(INFO)<<"density after smoothing";
-
   ///- calulate new pressure by calling UpdateState() Method
   UpdateState(ini);
 }
@@ -162,32 +162,10 @@ void Hydrodynamics::UpdateChangeRate(const Initiation& ini) {
   LOG(INFO) << " Hydrodynamics::UpdateChangeRate(ini)";
   ///- initiate the change rate of each real particle by calling ZeroChangeRate()
   ZeroChangeRate();	
-
     ///- iterate the interaction list
   BOOST_FOREACH(spInteraction aux_interaction, interaction_list) {
       aux_interaction->UpdateForces();
   }
-  //control output
-  //BOOST_FOREACH(spParticle prtl, particle_list) {
-  //    LOG_EVERY_N(INFO, 100) <<"dUdt: "<<prtl->dUdt[0] << " dUdt1: "<<prtl->dUdt[1];
-  //  }
-
-
-  // ofstream tx2tFile("DerivativesDataN1");
-  //   if (tx2tFile.is_open())
-  //     {
-  //       BOOST_FOREACH(spParticle prtl, particle_list) {
-  // 	  tx2tFile <<setprecision (9)<< ::setw( 5 )<<prtl->ID<< ::setw(20)<<prtl->dUdt[0]<<::setw(20)<<prtl->dUdt[1]<<::setw(20)<<prtl->dedt<<endl;
-  // 	}
-  // 	tx2tFile.close();
-  //     }
-  //   else cout << "Unable to open/create file";
-      
-  //     BOOST_FOREACH(spParticle prtl, particle_list) {
-  // 	LOG_EVERY_N(INFO, 100000) <<"dUdt: "<<prtl->dUdt[0] << " dUdt1: "<<prtl->dUdt[1];
-  //     }
-
-
   ///- include the gravity effects
   AddGravity(ini);
 }
@@ -507,15 +485,6 @@ void Hydrodynamics::Corrector_summation(const double dt) {
     ini.context->UpdateVelocity(prtl, prtl->U_I + prtl->dUdt*dt);
     ini.context->UpdateEnergy(prtl, prtl->e_I + prtl->dedt*dt);
   }
-  //control output
-  // ofstream tx2tFile("changeRatesN1");
-  // if (tx2tFile.is_open()) {
-  //   BOOST_FOREACH(spParticle prtl, particle_list) {
-  //     tx2tFile<<"\n R_x: "<<prtl->R[0]<<"  U_x: "<<prtl->U[0]<<"  e: "<<prtl->e<<"  dUdt: "<<prtl->dUdt[0]<<" dedt "<<prtl->dedt<<"  ID  "<<prtl->ID<<"\n";
-  //   } 
-    
-  // }
-  // tx2tFile.close();
 }
 
 //everything that comes below is new:
@@ -526,22 +495,6 @@ void Hydrodynamics::AdvanceFirstStep(const double dt) {
     prtl->e = prtl->e + prtl->dedt*0.5*dt;
     prtl->R = prtl->R + prtl->U*dt;
   }
-
-  // control output:
-
-  // ofstream t2x2tFile("PositionsVeloN1");
-  // if (t2x2tFile.is_open()) {
-  //   BOOST_FOREACH(spParticle prtl, particle_list) {
-  //     t2x2tFile <<setprecision (9)<< ::setw( 5 )<<prtl->ID
-  // 		<<::setw(15)<<prtl->R[0]<< ::setw(15)
-  // 		<<prtl->U[0]<<::setw(15)<<prtl->U[1]
-  // 		<<::setw(15)<<prtl->e<<endl;
-  //   }
-  //   t2x2tFile.close();
-  // } else {
-  //   cout << "Unable to open/create file";
-  // }
-
 }
 
 

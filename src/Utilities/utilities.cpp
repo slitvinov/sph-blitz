@@ -1,8 +1,10 @@
 /// \file utilities.cpp
 #include <glog/logging.h>
 #include <boost/smart_ptr/make_shared.hpp>
+#include <boost/foreach.hpp>
 #include "src/Utilities/utilities.h"
 #include "src/initiation.h"
+#include "src/particle.h"
 #include "src/Kernel/quinticspline.h"
 #include "src/Kernel/cubicspline.h"
 #include "src/Kernel/cubicspline1D.h"
@@ -39,4 +41,34 @@ spKernel chooseKernelType(const std::string& kernel_type,
     exit(EXIT_FAILURE);
   }
   return weight_function;
+}
+
+void checkVelocity(const Initiation& ini, 
+                   const std::list<spParticle>& particle_list) {
+  const double dt = ini.timer->get_dt();
+  BOOST_FOREACH(spParticle prtl, particle_list) {
+    const double speed = v_abs(prtl->U);
+    if (speed * dt > ini.supportlength) {
+      LOG(ERROR) << "Velocity is too big";
+      prtl->show_information();
+      exit(EXIT_FAILURE);
+    }
+  }
+}
+
+void checkForces(const Initiation& ini, 
+                 const std::list<spParticle>& particle_list) {
+  BOOST_FOREACH(spParticle prtl, particle_list) {
+    checkForces(ini, prtl);
+  }
+}
+
+void checkForces(const Initiation& ini, spParticle prtl) {
+  const double force = v_abs(prtl->dUdt);
+  const double dt = ini.timer->get_dt();
+  if (force * dt * dt > ini.supportlength) {
+    LOG(ERROR) << "Force is too big";
+    prtl->show_information();
+    exit(EXIT_FAILURE);
+  }
 }
