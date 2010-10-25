@@ -14,7 +14,6 @@
 
 @SET_MAKE@
 
-
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
@@ -31,8 +30,8 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = plugins_test$(EXEEXT)
-subdir = plugins
+bin_PROGRAMS = test_gsl$(EXEEXT)
+subdir = src/sandbox/gsl
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ac_check_blitz.m4 \
@@ -42,16 +41,15 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
-am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
+am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
-am_plugins_test_OBJECTS = plugins_test.$(OBJEXT)
-plugins_test_OBJECTS = $(am_plugins_test_OBJECTS)
-plugins_test_DEPENDENCIES =
-plugins_test_LINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
-	$(plugins_test_LDFLAGS) $(LDFLAGS) -o $@
-binSCRIPT_INSTALL = $(INSTALL_SCRIPT)
-SCRIPTS = $(bin_SCRIPTS)
+am_test_gsl_OBJECTS = test_gsl-test_gsl.$(OBJEXT)
+test_gsl_OBJECTS = $(am_test_gsl_OBJECTS)
+am__DEPENDENCIES_1 =
+test_gsl_DEPENDENCIES = $(am__DEPENDENCIES_1)
+test_gsl_LINK = $(CXXLD) $(test_gsl_CXXFLAGS) $(CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -60,8 +58,8 @@ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
-SOURCES = $(plugins_test_SOURCES)
-DIST_SOURCES = $(plugins_test_SOURCES)
+SOURCES = $(test_gsl_SOURCES)
+DIST_SOURCES = $(test_gsl_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -164,15 +162,11 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-plugins_test_SOURCES = plugins_test.cpp
-plugins_test_LDADD = -ldl
-plugins_test_LDFLAGS = -Wl,-R $(abs_top_srcdir)/plugins/
+test_gsl_SOURCES = test_gsl.cpp
 
-# lib_LTLIBRARIES=libbforce.la
-# libbforce_la_SOURCES=bodyforce.cpp bodyforce.h
-# libbforce_la_LDFLAGS=-avoid-version -module -shared
-bin_SCRIPTS = compile.tcl
-EXTRA_DIST = compile.tmp.tcl
+# to have bound checking for blitz vectors
+test_gsl_LDADD = ${GSL_LIBS}
+test_gsl_CXXFLAGS = ${GSL_CFLAGS}
 all: all-am
 
 .SUFFIXES:
@@ -186,9 +180,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign  plugins/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign  src/sandbox/gsl/Makefile'; \
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign  plugins/Makefile
+	  $(AUTOMAKE) --foreign  src/sandbox/gsl/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -229,28 +223,9 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
-plugins_test$(EXEEXT): $(plugins_test_OBJECTS) $(plugins_test_DEPENDENCIES) 
-	@rm -f plugins_test$(EXEEXT)
-	$(plugins_test_LINK) $(plugins_test_OBJECTS) $(plugins_test_LDADD) $(LIBS)
-install-binSCRIPTS: $(bin_SCRIPTS)
-	@$(NORMAL_INSTALL)
-	test -z "$(bindir)" || $(MKDIR_P) "$(DESTDIR)$(bindir)"
-	@list='$(bin_SCRIPTS)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  if test -f $$d$$p; then \
-	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
-	    echo " $(binSCRIPT_INSTALL) '$$d$$p' '$(DESTDIR)$(bindir)/$$f'"; \
-	    $(binSCRIPT_INSTALL) "$$d$$p" "$(DESTDIR)$(bindir)/$$f"; \
-	  else :; fi; \
-	done
-
-uninstall-binSCRIPTS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(bin_SCRIPTS)'; for p in $$list; do \
-	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
-	  echo " rm -f '$(DESTDIR)$(bindir)/$$f'"; \
-	  rm -f "$(DESTDIR)$(bindir)/$$f"; \
-	done
+test_gsl$(EXEEXT): $(test_gsl_OBJECTS) $(test_gsl_DEPENDENCIES) 
+	@rm -f test_gsl$(EXEEXT)
+	$(test_gsl_LINK) $(test_gsl_OBJECTS) $(test_gsl_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -258,7 +233,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plugins_test.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_gsl-test_gsl.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -273,6 +248,20 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+test_gsl-test_gsl.o: test_gsl.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_gsl_CXXFLAGS) $(CXXFLAGS) -MT test_gsl-test_gsl.o -MD -MP -MF $(DEPDIR)/test_gsl-test_gsl.Tpo -c -o test_gsl-test_gsl.o `test -f 'test_gsl.cpp' || echo '$(srcdir)/'`test_gsl.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/test_gsl-test_gsl.Tpo $(DEPDIR)/test_gsl-test_gsl.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='test_gsl.cpp' object='test_gsl-test_gsl.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_gsl_CXXFLAGS) $(CXXFLAGS) -c -o test_gsl-test_gsl.o `test -f 'test_gsl.cpp' || echo '$(srcdir)/'`test_gsl.cpp
+
+test_gsl-test_gsl.obj: test_gsl.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_gsl_CXXFLAGS) $(CXXFLAGS) -MT test_gsl-test_gsl.obj -MD -MP -MF $(DEPDIR)/test_gsl-test_gsl.Tpo -c -o test_gsl-test_gsl.obj `if test -f 'test_gsl.cpp'; then $(CYGPATH_W) 'test_gsl.cpp'; else $(CYGPATH_W) '$(srcdir)/test_gsl.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/test_gsl-test_gsl.Tpo $(DEPDIR)/test_gsl-test_gsl.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='test_gsl.cpp' object='test_gsl-test_gsl.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_gsl_CXXFLAGS) $(CXXFLAGS) -c -o test_gsl-test_gsl.obj `if test -f 'test_gsl.cpp'; then $(CYGPATH_W) 'test_gsl.cpp'; else $(CYGPATH_W) '$(srcdir)/test_gsl.cpp'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -349,9 +338,9 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS) $(SCRIPTS)
+all-am: Makefile $(PROGRAMS)
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"; do \
+	for dir in "$(DESTDIR)$(bindir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -402,7 +391,7 @@ install-data-am:
 
 install-dvi: install-dvi-am
 
-install-exec-am: install-binPROGRAMS install-binSCRIPTS
+install-exec-am: install-binPROGRAMS
 
 install-html: install-html-am
 
@@ -433,7 +422,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS uninstall-binSCRIPTS
+uninstall-am: uninstall-binPROGRAMS
 
 .MAKE: install-am install-strip
 
@@ -441,25 +430,15 @@ uninstall-am: uninstall-binPROGRAMS uninstall-binSCRIPTS
 	clean-generic ctags distclean distclean-compile \
 	distclean-generic distclean-tags distdir dvi dvi-am html \
 	html-am info info-am install install-am install-binPROGRAMS \
-	install-binSCRIPTS install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am install-man \
-	install-pdf install-pdf-am install-ps install-ps-am \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-binPROGRAMS \
-	uninstall-binSCRIPTS
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-man install-pdf \
+	install-pdf-am install-ps install-ps-am install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
+	uninstall-am uninstall-binPROGRAMS
 
-
-compile.tcl: compile.tmp.tcl
-	sed \
-	-e 's,{CXX},$(CXX),g' \
-	-e 's,{CPPFLAGS},$(CXXFLAGS),g' \
-	-e 's,{CXXFLAGS},$(CXXFLAGS),g' \
-	-e 's,{LDFLAGS},$(LDFLAGS),g' \
-	-e 's,{LIBS},$(LDFLAGS),g' \
-	$< > $@
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

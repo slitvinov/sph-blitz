@@ -57,6 +57,7 @@ AC_CHECK_FUNCS([pow sqrt])
 AC_OUTPUT(Makefile src/Makefile 
 		   cpptcl/Makefile plugins/Makefile 
 		   src/sandbox/Blitz/Makefile
+		   src/sandbox/gsl/Makefile
 		   src/Timer/Makefile
 		   src/ParticleContext/Makefile
 		   src/tools/SPHProbe/Makefile
