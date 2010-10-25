@@ -119,11 +119,6 @@ void Hydrodynamics::UpdateDensity(const Initiation &ini, spKernel  weight_functi
   ///- initiate zero density
   LOG(INFO)<<"Hydrodynamics::UpdateDensity(ini, weight_function)";
   Self_density(weight_function);
-
-  // BOOST_FOREACH(spParticle prtl, particle_list){
-  //   LOG_EVERY_N(INFO,100) << setprecision (9)<<prtl->ID<<"    "<<prtl->rho<<endl;
-  // }
-
   ///- iterate the interaction list
   assert(interaction_list.size()>0);
   BOOST_FOREACH(spInteraction pair, interaction_list) {

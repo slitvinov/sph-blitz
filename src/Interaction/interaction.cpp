@@ -100,6 +100,8 @@ void Interaction::SummationDensity() {
   //summation according to: rho_i=sum{m_j*W_ij} (here only the contribution of the pair in question)
   /// shell note be called with interaction of the particle
   /// with itself
+  assert(mj>0.0);
+  assert(mi>0.0);
   assert(Org->ID > Dest->ID);
   Org->rho += mj*Wij;//changed from mi to mj (07/19/10)
   Dest->rho += mi*Wij; //changed from mj to mi (07/19/10)

@@ -24,9 +24,11 @@ void InteractionIn::UpdateForces() {
   if (ini.context->Interacting(Org, Dest)) {
       const double rhoi = Org->rho; 
       const double rhoj = Dest->rho;
+      assert(mi>0.0);
       const double Vi = mi/rhoi; 
-      const double Vj = mj/rhoj;
       assert(Vi>0.0);
+      assert(mj>0.0);
+      const double Vj = mj/rhoj;
       assert(Vj>0.0);
       const double Vi2 = Vi*Vi; 
       const double Vj2 = Vj*Vj;

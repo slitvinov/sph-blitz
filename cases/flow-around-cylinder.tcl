@@ -6,6 +6,7 @@ set SIMULATION_MODE 1
 # possible values are 
 # QuinticSpline, BSpline, CubicSpline
 set KERNEL_TYPE QuinticSpline
+set OutputType Plain
 
 #possible density treatments
 #1: summation density (density obtained by smoothing)
