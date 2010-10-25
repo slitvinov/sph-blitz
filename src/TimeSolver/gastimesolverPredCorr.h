@@ -19,8 +19,8 @@ public:
                               Boundary &boundary, double &Time, const double D_time, 
                               const Initiation &ini, spKernel weight_function);
   void TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
-                              Boundary &boundary, double &Time, const double D_time, 
-                              const Initiation &ini, spKernel weight_function);
+                    Boundary &boundary, double &Time, const double D_time, 
+                    const Initiation &ini, spKernel weight_function);
 
   void show_information() const;
 };
