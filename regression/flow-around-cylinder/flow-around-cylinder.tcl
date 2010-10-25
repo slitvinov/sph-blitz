@@ -59,7 +59,7 @@ set G_FORCE(1) 0.0
 
 set NUMBER_OF_MATERIALS 2
 set Start_time 0.0
-set End_time 1e4
+set End_time 5e3
 # time between output
 set D_time 1e3
 
