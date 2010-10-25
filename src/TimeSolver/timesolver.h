@@ -13,7 +13,6 @@ class ParticleManager;
 class Boundary;
 class Initiation;
 
-
 /// Time solver abstract base class 
 class TimeSolver : boost::noncopyable {
  public:
