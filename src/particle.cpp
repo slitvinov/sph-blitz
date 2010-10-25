@@ -60,32 +60,24 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
 //----------------------------------------------------------------------------------------
 Particle::Particle (Vec2d position, Vec2d velocity, double density, 
 		    double pressure, double mass,double temperature, 
-		   spMaterial material) 
+                    spMaterial material) 
   : bd(0),
-    mtl(material)
-{
-
+    mtl(material) {
   ///- increase the total particle number
   ID_max++;
-	
   ///- give a new ID number
   ID = ID_max;
-
   ///- set particle thermal condactivity
   k_thermal = mtl->k_thermal;
-
     ///- set viscosities
   eta = mtl->eta;//(shear)
   zeta=mtl->zeta;//(bulk)
-
   ///- initialize mue_ab_max to zero
   mue_ab_max=0;
   ///- set particle position
   R = position; 
-	
   ///- set states
   rho = density; m=mass; p = pressure; T = temperature; Cs = mtl->get_Cs(p, rho);  U = velocity; U_I = U;
-	
   ///- set conservative values (mass and volume determined lateron) and their  intermediate values
   // m = 0.0; // for 2D shock tube mass is initialized from the external
   V = 0.0; e = mtl->get_e(T); e_I = e;
@@ -99,18 +91,13 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
 Particle::Particle (double x, double y, double u, double v, 
 		   spMaterial material) : 
   bd(1),
-  mtl(material)
-{
-
+  mtl(material) {
   ///- give a new ID number
   ID = 0;
-
   ///- set particle position
   R[0] = x; R[1] = y; 
-	
   ///- set states
   U[0] = u; U[1] = v;
-
   ///- set states value to avoid error
   rho = 0.0, p = 0.0, T = 0.0;
 }
@@ -121,6 +108,7 @@ Particle::Particle (spParticle RealParticle ) :
   bd(1), 
   mtl(RealParticle->mtl)
 {
+  assert(RealParticle->m > 0.0);
   ///- give a new ID number
   ID = 0;
 
@@ -144,7 +132,7 @@ Particle::Particle (spParticle RealParticle ) :
 
   eta = RealParticle->eta;
   zeta=RealParticle->zeta;
-	
+  assert(m>0.0);
 }
 //----------------------------------------------------------------------------------------
 //							creat an image particle
@@ -176,7 +164,7 @@ Particle::Particle (spParticle RealParticle , spMaterial material):
   //  rho_n = RealParticle->rho_n;
   //  e_n = RealParticle->e_n; 
 //viscosities not copied for image particles (as in general different material than real particles)
-
+  assert(m>0.0);
 }
 //----------------------------------------------------------------------------------------
 //					particle states copier for boundary particles

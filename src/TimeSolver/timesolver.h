@@ -7,6 +7,13 @@
 /// either with the summation density approach or with the continuity density approach
 //-----------------------------------------------------------------------
 #include <boost/utility.hpp>
+#include "src/glbtype.h"
+class Hydrodynamics;
+class ParticleManager;
+class Boundary;
+class Initiation;
+
+
 /// Time solver abstract base class 
 class TimeSolver : boost::noncopyable {
  public:
