@@ -6,6 +6,14 @@ set SIMULATION_MODE 1
 # possible values are 
 # QuinticSpline, BSpline, CubicSpline
 set KERNEL_TYPE QuinticSpline
+# output directory
+# if res_level is not given set OUTDIR to output0
+# to set the level of resolution variable use
+# SPH_TCL="set res_level 2" ./sph ./couette 
+if  [catch {set OUTDIR output$res_level}] {
+    set res_level 1
+    set OUTDIR output$res_level
+} 
 set OutputType Plain
 
 #possible density treatments
@@ -21,8 +29,8 @@ set INITIAL_CONDITION	0
 set DENSITY_MODE 1
 
 # number of cell
-set ncell 16
-set CELLS(0) $ncell
+set ncell [expr {$res_level * 8}]
+set CELLS(0) [expr {2*$ncell}]
 set CELLS(1) $ncell
 
 #possible integration schemes
@@ -32,7 +40,7 @@ set INTEGRATION_SCHEME 2
 
 # size of the domain
 set L 0.1
-set SUPPORT_LENGTH [expr {$L / $ncell}]
+set SUPPORT_LENGTH [expr {0.5 * $L / $ncell}]
 set CELL_SIZE $SUPPORT_LENGTH
 
 # the number of particles in one support length
@@ -51,9 +59,9 @@ set G_FORCE(1) 0.0
 
 set NUMBER_OF_MATERIALS 2
 set Start_time 0.0
-set End_time 1e6
+set End_time 1e4
 # time between output
-set D_time 1e2
+set D_time 1e3
 
 # factor to create output file name 
 set output_file_format_factor 1.0
@@ -77,11 +85,11 @@ set xBr $periodic
 set UxBr(0) 0.0
 set UxBr(1) 0.0
 
-set yBd $periodic
+set yBd $symmetry
 set UyBd(0) 0.0
 set UyBd(1) 0.0
 
-set yBu $periodic
+set yBu $symmetry
 set UyBu(0) 0.0
 set UyBu(1) 0.0
 
@@ -106,7 +114,7 @@ set material_sound_speed(1) $material_sound_speed(0)
 
 set R 2e-2
 set x0 [expr {0.5*$L}]
-set y0 [expr {0.5*$L}]
+set y0 0.0
 
 # make particles solid outside of the disc
 proc getSolid { } {

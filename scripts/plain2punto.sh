@@ -9,7 +9,6 @@ else
 fi
 
 for file in $(ls -1 "${dir}"/prtl[0-9]*.*); do
-    #printf "file: %s\n" $file > "/dev/stderr"
-    cat "$file" 
+    cat "$file"
     printf "\n"
 done   > ${dir}/punto.dat
