@@ -74,8 +74,8 @@ void Boundary::RunAwayCheck(Hydrodynamics &hydro) {
        p++) {
     spParticle prtl = *p;
     if (fabs(prtl->R[0]) >= 2.0*box_size[0] || fabs(prtl->R[1]) >= 2.0*box_size[1]) {
-      std::cerr << "Boundary: the particles run out too far away from the domain! \n";
-      std::cerr << __FILE__ << ':' << __LINE__ << std::endl;
+      LOG(ERROR) << "Boundary: the particles run out too far away from the domain! \n";
+      prtl->show_information();
       exit(EXIT_FAILURE);
     }
     ///- only checking real particles (for all boundaries)
@@ -247,15 +247,12 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
       for (std::list<spParticle>::const_iterator  p11 = particles.cell_lists(x_clls - 2,j).begin(); 
            p11 != particles.cell_lists(x_clls - 2,j).end(); 
            p11++) {
-                    
         //the original real particle
         spParticle prtl_old = *p11;
 	///create a new particle identical to old particle ("copy")(boost creates smart pointer and the corresponding object)
         spParticle prtl = boost::make_shared<Particle>(prtl_old);
-
         ///boundary condition (modify properties of copied particle according to boundary condition)
         Boundary_W(prtl);
-                
         //in which cell
         prtl->cell_i = 0; prtl->cell_j = j; 
         //insert its position on the particle list

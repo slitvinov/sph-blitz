@@ -35,6 +35,9 @@ public:
   ///particle states copier for boundary particles
   void StatesCopier(spParticle RealParticle , const int type);
 
+  /// print particles information
+  virtual void show_information() const;
+
   /// \brief boundary particle or not
   ///
   ///- 0: inside the boundary

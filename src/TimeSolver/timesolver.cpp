@@ -13,25 +13,15 @@
 #include <glog/logging.h>
 // ***** localincludes *****
 
-#include "hydrodynamics.h"
-#include "particlemanager.h"
 #include "timesolver.h"
-#include "initiation.h"
-#include "boundary.h"
-
-
-using namespace std;
-	  	
 
 //----------------------------------------------------------------------------------------	
 //              constructor
 //-----------------------------------------------------------------------------
 TimeSolver::TimeSolver() {
- LOG(INFO) << "\n constructor of base TimeSolver";
+ LOG(INFO) << "constructor of base TimeSolver called";
 }
 
 TimeSolver::~TimeSolver() {
-
- LOG(INFO) << "destructor of base TimeSolver is called";
-
+ LOG(INFO) << "destructor of base TimeSolver called";
 }

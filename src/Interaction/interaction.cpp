@@ -40,10 +40,6 @@ Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest,
   Wij = weight_function->w(rij);
   gradWij=weight_function->gradW(rij,/*Dest->R-Org->R*/eij);
   Fij = weight_function->F(rij)*rrij; //for Kernel weight fuction
-   LOG_EVERY_N(INFO, 100000) << "Interaction created,interaction pair: " 
-			     <<Org->ID<<"  "<<Dest->ID<<"org_x: "
-			     <<Org->R[0]<<"  Dest_x: "<<Dest->R[0] 
-			     <<"  org_y: "<<Org->R[1]<<"Dest_y: "<<Dest->R[1];
 }
 
 //-------------------getter for origin-----------------
@@ -100,6 +96,8 @@ void Interaction::SummationDensity() {
   //summation according to: rho_i=sum{m_j*W_ij} (here only the contribution of the pair in question)
   /// shell note be called with interaction of the particle
   /// with itself
+  assert(mj>0.0);
+  assert(mi>0.0);
   assert(Org->ID > Dest->ID);
   Org->rho += mj*Wij;//changed from mi to mj (07/19/10)
   Dest->rho += mi*Wij; //changed from mj to mi (07/19/10)

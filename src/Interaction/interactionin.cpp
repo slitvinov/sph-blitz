@@ -15,21 +15,27 @@
 #include "src/ParticleContext/particlecontext.h"
 #include "src/particle.h"
 #include "src/initiation.h"
+#include "src/Utilities/utilities.h"
 
 //----------------------------------------------------------------------------------------
 //					update pair forces
 //----------------------------------------------------------------------------------------
 void InteractionIn::UpdateForces() {
   ///  \todo{This is very slow}
+  assert(Org->ID != Dest->ID);
   if (ini.context->Interacting(Org, Dest)) {
+    
       const double rhoi = Org->rho; 
       const double rhoj = Dest->rho;
+      assert(mi>0.0);
       const double Vi = mi/rhoi; 
-      const double Vj = mj/rhoj;
       assert(Vi>0.0);
+      assert(mj>0.0);
+      const double Vj = mj/rhoj;
       assert(Vj>0.0);
       const double Vi2 = Vi*Vi; 
       const double Vj2 = Vj*Vj;
+      assert(etai + etaj > 0.0);
       const double shear_rij = 2.0*etai*etaj/(etai + etaj);
       const Vec2d Uij = Org->U - Dest->U;
       const double pi = Org->p; 
@@ -41,7 +47,13 @@ void InteractionIn::UpdateForces() {
       const Vec2d dPdti = dPdti_visc  + dPdti_pre;
       Org->dUdt += dPdti*rmi;
       Dest->dUdt -= dPdti*rmj;
+      /// this test can be removed
+      checkForces(ini, Org);
+      if (Dest->bd == 0) {
+        checkForces(ini, Dest);
+      }
   }
+  
 }
 
 InteractionIn::InteractionIn(const spParticle prtl_org, const spParticle prtl_dest, 

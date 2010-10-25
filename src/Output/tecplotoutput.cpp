@@ -21,7 +21,7 @@ TecplotOutput::TecplotOutput() {
 
 void TecplotOutput::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary,
                             const double Time, const Initiation &ini) {
-  LOG(INFO) << "Output::OutputParticle";
+  std::cerr << "Output::OutputParticle\n";
   ///<ul><li>produce output file name
   const double Itime = Time*ini.output_file_format_factor;
 

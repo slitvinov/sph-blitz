@@ -9,11 +9,12 @@
 #include <glog/logging.h>
 
 // ***** localincludes *****
-#include "hydrodynamics.h"
-#include "particlemanager.h"
-#include "TimeSolver/hydrotimesolver.h"
-#include "initiation.h"
-#include "boundary.h"
+#include "src/hydrodynamics.h"
+#include "src/particlemanager.h"
+#include "src/TimeSolver/hydrotimesolver.h"
+#include "src/initiation.h"
+#include "src/boundary.h"
+#include "src/Utilities/utilities.h"
 
 using namespace std;
 
@@ -39,7 +40,7 @@ void HydroTimeSolver::show_information() const {
 void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, 
 					     ParticleManager &particles, 
 					     Boundary &boundary, 
-					     double &Time, double D_time, 
+					     double &Time, const double D_time, 
 					     const Initiation &ini, 
 					     spKernel weight_function) {
   LOG(INFO) << "Start TimeIntegral_summation";
@@ -72,12 +73,17 @@ void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
 	  
     //predictor and corrector method used
     ///<li>the prediction step
+    checkVelocity(ini, hydro.particle_list);
+    LOG(INFO) << "checkVelocity passed";
+    checkForces(ini, hydro.particle_list);
+    LOG(INFO) << "checkForces passed";
     hydro.BuildInteractions(particles, weight_function, ini);///<ol><li> rebuild interactions
     hydro.UpdateDensity(ini, weight_function);///<li> hydro.UpdateDensity
     
     boundary.BoundaryCondition(particles);///<li> boundary.BoundaryCondition
     //control output
     hydro.UpdateChangeRate(ini);///<li> hydro.UpdateChangeRate
+    checkForces(ini, hydro.particle_list);
 	  
     hydro.Predictor_summation(dt);///<li>hydro.Predictor_summation</ol>
     ///<li> the correction step without update the interaction list
@@ -91,6 +97,7 @@ void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
     LOG(INFO)<<"change rate for corrector:";
     hydro.UpdateChangeRate(ini); ///<li>hydro.UpdateChangeRate
     hydro.Corrector_summation(dt);///<li>hydro.Corrector_summation</ol>
+    checkVelocity(ini, hydro.particle_list);
 
     ///<li> renew boundary particles
     boundary.RunAwayCheck(hydro);///<ol><li>boundary.RunAwayCheck

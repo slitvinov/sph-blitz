@@ -16,11 +16,11 @@ public:
   GasTimeSolverPredCorr();
   /// advance time interval D_time with summation for density
   void TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 
-                              Boundary &boundary, double &Time, double D_time, 
+                              Boundary &boundary, double &Time, const double D_time, 
                               const Initiation &ini, spKernel weight_function);
   void TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
-                              Boundary &boundary, double &Time, double D_time, 
-                              const Initiation &ini, spKernel weight_function);
+                    Boundary &boundary, double &Time, const double D_time, 
+                    const Initiation &ini, spKernel weight_function);
 
   void show_information() const;
 };

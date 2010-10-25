@@ -21,14 +21,14 @@ PlainOutput::PlainOutput():
 
 void PlainOutput::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary,
 				 const double Time, const Initiation &ini) {
-  LOG(INFO) << "Output::OutputParticle";
+
   ///<ul><li>produce output file name
   const double Itime = Time*ini.output_file_format_factor;
 
   /// generate file name with leading zeros
   const std::string file_list = boost::str(boost::format("%08d") % static_cast<int>(Itime));
   const std::string file_name = ini.outdir + "/prtl" + file_list + ".dat";
-
+  std::cerr << "Write snapshot to " << file_name << '\n';
 
   std::ofstream out(file_name.c_str());
   if (!out.is_open()) {
