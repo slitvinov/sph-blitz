@@ -243,10 +243,10 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
     }
     /// <li> calculate volume as reciprocal value of weight function
     assert(partilceVolume  > 0.0);
-    const double reciprocV = 1.0/partilceVolume;
     /// <li> save volume and mass in the respective particle list node (whih is each a spParticle object with all the particle properties) 
-    prtl_org->V = reciprocV;
-    prtl_org->m = prtl_org->rho*reciprocV;
+    prtl_org->V = partilceVolume;
+    prtl_org->m = prtl_org->rho*partilceVolume;
+    assert(prtl_org->m > 0.0);
     LOG_EVERY_N(INFO, 1000) <<std::setprecision(10)
 			    << "prtl ID"<<prtl_org->ID
 			    <<"prtl m  = " << prtl_org->m;
