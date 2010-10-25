@@ -30,7 +30,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = sphprobe$(EXEEXT)
+bin_PROGRAMS = sphprobe$(EXEEXT) norm$(EXEEXT)
 subdir = src/tools/SPHProbe
 DIST_COMMON = README $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -44,9 +44,18 @@ CONFIG_CLEAN_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
-am_sphprobe_OBJECTS = sphprobe-sphprobe.$(OBJEXT)
-sphprobe_OBJECTS = $(am_sphprobe_OBJECTS)
+am_norm_OBJECTS = norm-norm.$(OBJEXT) norm-utils.$(OBJEXT)
+norm_OBJECTS = $(am_norm_OBJECTS)
 am__DEPENDENCIES_1 =
+norm_DEPENDENCIES = ${top_builddir}/src/libsph.a \
+	${top_builddir}/cpptcl/libcpptcl.a \
+	${top_builddir}/boost/libs/program_options/src/libboost_program_options.a \
+	$(am__DEPENDENCIES_1)
+norm_LINK = $(CXXLD) $(norm_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am_sphprobe_OBJECTS = sphprobe-sphprobe.$(OBJEXT) \
+	sphprobe-utils.$(OBJEXT)
+sphprobe_OBJECTS = $(am_sphprobe_OBJECTS)
 sphprobe_DEPENDENCIES = ${top_builddir}/src/libsph.a \
 	${top_builddir}/cpptcl/libcpptcl.a \
 	${top_builddir}/boost/libs/program_options/src/libboost_program_options.a \
@@ -65,8 +74,8 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(sphprobe_SOURCES)
-DIST_SOURCES = $(sphprobe_SOURCES)
+SOURCES = $(norm_SOURCES) $(sphprobe_SOURCES)
+DIST_SOURCES = $(norm_SOURCES) $(sphprobe_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -169,13 +178,20 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-sphprobe_SOURCES = sphprobe.cpp sphprobe.h
+sphprobe_SOURCES = sphprobe.cpp utils.cpp utils.h
+norm_SOURCES = norm.cpp utils.cpp utils.h
 sphprobe_LDADD = ${top_builddir}/src/libsph.a \
 	${top_builddir}/cpptcl/libcpptcl.a \
 	${top_builddir}/boost/libs/program_options/src/libboost_program_options.a \
 	${GSL_LIBS}
 
 sphprobe_CXXFLAGS = -I${top_srcdir} ${GSL_CFLAGS}
+norm_LDADD = ${top_builddir}/src/libsph.a \
+	${top_builddir}/cpptcl/libcpptcl.a \
+	${top_builddir}/boost/libs/program_options/src/libboost_program_options.a \
+	${GSL_LIBS}
+
+norm_CXXFLAGS = -I${top_srcdir} ${GSL_CFLAGS}
 all: all-am
 
 .SUFFIXES:
@@ -232,6 +248,9 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+norm$(EXEEXT): $(norm_OBJECTS) $(norm_DEPENDENCIES) 
+	@rm -f norm$(EXEEXT)
+	$(norm_LINK) $(norm_OBJECTS) $(norm_LDADD) $(LIBS)
 sphprobe$(EXEEXT): $(sphprobe_OBJECTS) $(sphprobe_DEPENDENCIES) 
 	@rm -f sphprobe$(EXEEXT)
 	$(sphprobe_LINK) $(sphprobe_OBJECTS) $(sphprobe_LDADD) $(LIBS)
@@ -242,7 +261,10 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/norm-norm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/norm-utils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphprobe-sphprobe.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphprobe-utils.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -258,6 +280,34 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
+norm-norm.o: norm.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(norm_CXXFLAGS) $(CXXFLAGS) -MT norm-norm.o -MD -MP -MF $(DEPDIR)/norm-norm.Tpo -c -o norm-norm.o `test -f 'norm.cpp' || echo '$(srcdir)/'`norm.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/norm-norm.Tpo $(DEPDIR)/norm-norm.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='norm.cpp' object='norm-norm.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(norm_CXXFLAGS) $(CXXFLAGS) -c -o norm-norm.o `test -f 'norm.cpp' || echo '$(srcdir)/'`norm.cpp
+
+norm-norm.obj: norm.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(norm_CXXFLAGS) $(CXXFLAGS) -MT norm-norm.obj -MD -MP -MF $(DEPDIR)/norm-norm.Tpo -c -o norm-norm.obj `if test -f 'norm.cpp'; then $(CYGPATH_W) 'norm.cpp'; else $(CYGPATH_W) '$(srcdir)/norm.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/norm-norm.Tpo $(DEPDIR)/norm-norm.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='norm.cpp' object='norm-norm.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(norm_CXXFLAGS) $(CXXFLAGS) -c -o norm-norm.obj `if test -f 'norm.cpp'; then $(CYGPATH_W) 'norm.cpp'; else $(CYGPATH_W) '$(srcdir)/norm.cpp'; fi`
+
+norm-utils.o: utils.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(norm_CXXFLAGS) $(CXXFLAGS) -MT norm-utils.o -MD -MP -MF $(DEPDIR)/norm-utils.Tpo -c -o norm-utils.o `test -f 'utils.cpp' || echo '$(srcdir)/'`utils.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/norm-utils.Tpo $(DEPDIR)/norm-utils.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils.cpp' object='norm-utils.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(norm_CXXFLAGS) $(CXXFLAGS) -c -o norm-utils.o `test -f 'utils.cpp' || echo '$(srcdir)/'`utils.cpp
+
+norm-utils.obj: utils.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(norm_CXXFLAGS) $(CXXFLAGS) -MT norm-utils.obj -MD -MP -MF $(DEPDIR)/norm-utils.Tpo -c -o norm-utils.obj `if test -f 'utils.cpp'; then $(CYGPATH_W) 'utils.cpp'; else $(CYGPATH_W) '$(srcdir)/utils.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/norm-utils.Tpo $(DEPDIR)/norm-utils.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils.cpp' object='norm-utils.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(norm_CXXFLAGS) $(CXXFLAGS) -c -o norm-utils.obj `if test -f 'utils.cpp'; then $(CYGPATH_W) 'utils.cpp'; else $(CYGPATH_W) '$(srcdir)/utils.cpp'; fi`
+
 sphprobe-sphprobe.o: sphprobe.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sphprobe_CXXFLAGS) $(CXXFLAGS) -MT sphprobe-sphprobe.o -MD -MP -MF $(DEPDIR)/sphprobe-sphprobe.Tpo -c -o sphprobe-sphprobe.o `test -f 'sphprobe.cpp' || echo '$(srcdir)/'`sphprobe.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/sphprobe-sphprobe.Tpo $(DEPDIR)/sphprobe-sphprobe.Po
@@ -271,6 +321,20 @@ sphprobe-sphprobe.obj: sphprobe.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='sphprobe.cpp' object='sphprobe-sphprobe.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sphprobe_CXXFLAGS) $(CXXFLAGS) -c -o sphprobe-sphprobe.obj `if test -f 'sphprobe.cpp'; then $(CYGPATH_W) 'sphprobe.cpp'; else $(CYGPATH_W) '$(srcdir)/sphprobe.cpp'; fi`
+
+sphprobe-utils.o: utils.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sphprobe_CXXFLAGS) $(CXXFLAGS) -MT sphprobe-utils.o -MD -MP -MF $(DEPDIR)/sphprobe-utils.Tpo -c -o sphprobe-utils.o `test -f 'utils.cpp' || echo '$(srcdir)/'`utils.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/sphprobe-utils.Tpo $(DEPDIR)/sphprobe-utils.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils.cpp' object='sphprobe-utils.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sphprobe_CXXFLAGS) $(CXXFLAGS) -c -o sphprobe-utils.o `test -f 'utils.cpp' || echo '$(srcdir)/'`utils.cpp
+
+sphprobe-utils.obj: utils.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sphprobe_CXXFLAGS) $(CXXFLAGS) -MT sphprobe-utils.obj -MD -MP -MF $(DEPDIR)/sphprobe-utils.Tpo -c -o sphprobe-utils.obj `if test -f 'utils.cpp'; then $(CYGPATH_W) 'utils.cpp'; else $(CYGPATH_W) '$(srcdir)/utils.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/sphprobe-utils.Tpo $(DEPDIR)/sphprobe-utils.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils.cpp' object='sphprobe-utils.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sphprobe_CXXFLAGS) $(CXXFLAGS) -c -o sphprobe-utils.obj `if test -f 'utils.cpp'; then $(CYGPATH_W) 'utils.cpp'; else $(CYGPATH_W) '$(srcdir)/utils.cpp'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
