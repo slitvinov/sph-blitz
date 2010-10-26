@@ -1,9 +1,13 @@
 
+all: VelocDecayAnalysisTG_const_dt_timestamp10000_ms VelocDecayAnalysisTG_const_dt
 # all:  VelocDecayAnalysisTG_const_dt VelocProfileComparisonTG VelocDecayAnalysisTGautomFileRecognition
 
 # VelocProfileComparisonTG: VelocProfileComparisonTG.cpp
 
 VelocDecayAnalysisTG_const_dt: VelocDecayAnalysisTG_const_dt.cpp
+
+VelocDecayAnalysisTG_const_dt_timestamp10000_ms: VelocDecayAnalysisTG_const_dt_timestamp10000_ms.cpp
+
 
 # VelocDecayAnalysisTGautomFileRecognition: VelocDecayAnalysisTGautomFileRecognition.cpp
 
@@ -13,6 +17,8 @@ VelocDecayAnalysisTG_const_dt: VelocDecayAnalysisTG_const_dt.cpp
 clean:
 #	-rm exactResAndErrTG
 	-rm VelocDecayAnalysisTG_const_dt
+	-rm VelocDecayAnalysisTG_const_dt_timestamp10000_ms
+
 #	-rm VelocDecayAnalysisTGautomFileRecognition
 
 

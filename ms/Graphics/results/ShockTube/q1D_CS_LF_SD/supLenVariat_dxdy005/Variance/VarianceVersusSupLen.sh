@@ -1,0 +1,42 @@
+#! /bin/bash
+
+#eps solid for solid (not dashed) lines, momochrome (instead of color),... 
+
+
+
+gnuplot << EOF
+set terminal postscript eps enhanced color "Helvetia" 26
+set output "VariancePart1.eps"
+
+set grid;
+set key top right;
+set format y "10^{%L}"
+set logscale y;
+set xlabel "Supportlength"; set ylabel "Variance";
+plot [0.015:0.045][:] 'VarianceVersusSuplen.dat' u 1:2 title 'x-position' with linespoints lw 8, 'VarianceVersusSuplen.dat' u 1:3 title 'density' with linespoints lw 8, 'VarianceVersusSuplen.dat' u 1:5 title 'velocity' with linespoints lw 8;
+
+
+set terminal png
+set output "VariancePart1.png"
+replot
+
+reset
+
+set terminal postscript eps enhanced color "Helvetia" 26
+set output "VariancePart2.eps"
+
+set grid;
+set key top right;
+set format y "10^{%L}"
+set logscale y;
+set xlabel "Supportlength"; set ylabel "Variance";
+plot [0.015:0.045][:] 'VarianceVersusSuplen.dat' u 1:4 title 'pressure' with linespoints lw 8, 'VarianceVersusSuplen.dat' u 1:6 title 'energy' with linespoints lw 8;
+
+set terminal png
+set output "VariancePart2.png"
+replot
+
+reset
+
+
+EOF

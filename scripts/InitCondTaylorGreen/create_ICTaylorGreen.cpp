@@ -25,7 +25,7 @@ int main () {
   cout<<"dx=dy="<<dx<<endl;
   cout<<"N"<<N<<endl;
   const double gamma=1.4;
-  const double M_ref=0.1;
+  const double M_ref=0.5;
   const double p_ref=1/(gamma*pow(M_ref,2));
   double U=0.04;
     

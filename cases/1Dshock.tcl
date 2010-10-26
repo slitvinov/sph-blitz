@@ -30,18 +30,18 @@ set EXTERNAL_MASS_INITIALIZATION 1
 # number of cells in X and Y directions
 # 130 cells in x direction are good for supportlength =0.03 (for m=cte=0.001875)
 
-set CELLS(0) 156
+set CELLS(0) 120
 set CELLS(1) 1
 
 # size of one cell
 # ->make sure that cell size >= support length
-set CELL_SIZE 0.025
+set CELL_SIZE 0.03
 
 # support length of the kernel 
 # -> make sure that support length > particle spacing
 # (0.03 is not bad for m=cte=0.001875)
 
-set SUPPORT_LENGTH 0.025
+set SUPPORT_LENGTH 0.03
 
 # number of particles in one cell size
 # not used in 1D shock 

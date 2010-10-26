@@ -131,7 +131,7 @@ int main (){
   const double dt_exact=timeInterval/tempResFact;
   
   // simulation time
-  const double simuTime=(fileCounter+1)*timeInterval; // "+1" as outputfiles start at t=0
+  const double simuTime=fileCounter*timeInterval; 
   // vector array to save (t, U_max) for different times
   vector < vector <double> > U_max_exact;
   for(int i=0;i*dt_exact<simuTime;i++) {

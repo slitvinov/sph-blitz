@@ -106,8 +106,6 @@ void InteractionComp::UpdateForces() {
   Vec2d  dUdti_visc(0,0);
   Vec2d  dUdtj_visc(0,0);
   // control output for one interaction pair
-  // if(Org->ID==2 && Dest->ID==1)
-  //   LOG(INFO)<<"dUdt_visc before (should always be zero) : ("<<dUdt_visc[0]<<","<<dUdt_visc[1]<<")";
   if (ini.physical_viscosity_marker==1) {
     // physical viscosity implementation according to espanol2003 (eq. 30)
     // where Fij is defined as >= 0 (gradW(r)=-F(r)*r) contrary to Monaghan 
@@ -154,9 +152,12 @@ void InteractionComp::UpdateForces() {
     
   } 
   // again control output for first interaction pair
-  // if(Org->ID==2 && Dest->ID==1)
-  //   LOG(INFO)<<"dUdt_visc after : ("<<dUdt_visc[0]<<","<<dUdt_visc[1]<<")";
-  
+  if(Org->ID==2 && Dest->ID==1) {
+    LOG(INFO)<<"dUdti_visc after : ("<<dUdti_visc[0]<<","<<dUdti_visc[1]<<")";
+    LOG(INFO)<<"dUdtj_visc after : ("<<dUdtj_visc[0]<<","<<dUdtj_visc[1]<<")";
+  }
+
+
   // calculate total velocity change rate (due to pressure, art. visc and physical visc.)
   // const Vec2d dUdti=-mj*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij+dUdti_visc;
   // const Vec2d dUdtj=mi*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij+dUdtj_visc;
@@ -202,6 +203,9 @@ void InteractionComp::UpdateForces() {
   //energy change rate contribution due to phsyical viscosity
   const double dedti_visc=0.5*dot(dUdti_visc,(Uj-Ui));
   const double dedtj_visc=0.5*dot(dUdtj_visc,(Ui-Uj));
+  if(Org->ID==2 && Dest->ID==1) {
+    LOG(INFO)<<"dedti_visc: "<< dedti_visc<<","<< "dedtj_visc: "<<dedtj_visc;
+  }
   
   //now complete energy change rate
   const double dedti=dedti_p+dedti_artVisc+dedti_visc;
@@ -226,7 +230,7 @@ InteractionComp::InteractionComp(const spParticle prtl_org, const spParticle prt
   Interaction(prtl_org, prtl_dest, weight_function, dstc, ini)
 {
   assert(ini.simu_mode ==2);
-  LOG_EVERY_N(INFO, 100) << "Create compressible interaction";
+  LOG_EVERY_N(INFO, 100000) << "Create compressible interaction";
 };
 
 InteractionComp::~InteractionComp() {

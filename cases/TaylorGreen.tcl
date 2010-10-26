@@ -26,14 +26,14 @@ set INITIAL_CONDITION 0
 set EXTERNAL_MASS_INITIALIZATION 0
 
 # number of cells in X and Y directions
-set CELLS(0) 24
-set CELLS(1) 24
+set CELLS(0) 30
+set CELLS(1) 30
 
 # size of one cell (must NOT be inferior to supportlegth!)
-set CELL_SIZE 0.0416666666666666
+set CELL_SIZE 0.0333333333333333333
 
 # support length of the kernel
-set SUPPORT_LENGTH 0.0416666666666666
+set SUPPORT_LENGTH 0.03333333333333333333333
 
 # number of particles in one cell size
 #( not used as paricle positions initialized from external file) 
@@ -143,8 +143,8 @@ set UyBu(1) 0.0
 
 # time  control 
 set Start_time 0.0		
-set End_time 0.0003	
-set D_time 0.000015
+set End_time 2e-06	
+set D_time 1.1e-8
 
 #marker for automatic time control
 # 0: autom. time conrtol switched off: specified dt used (see below) 
@@ -173,7 +173,7 @@ set material_a0(0) 0.0
 set material_name(1) Air
 set material_type(1) 1
 set material_cv(1) 717.645
-set material_eta(1) 10.0
+set material_eta(1) 1000
 set material_zeta(1) 0.0
 set material_k(1) 0
 set material_gamma(1) 1.4

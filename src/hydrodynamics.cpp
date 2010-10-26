@@ -341,16 +341,17 @@ double Hydrodynamics::GetTimestepGas(const Initiation& ini) {
   BOOST_FOREACH(spParticle prtl, particle_list) {
     assert(prtl != NULL);
     //dt_f according to Monaghan 1992 ("smoothed particle hydrodynamics") (sec.10.3)
+    ///\TODO{In a different paper they took as "force per unit mass" the entire dU/dt, and not only the BODY-force, what is correct? to be sure I implemented the most restricting, but which can be punishing in terms of calculation time...}
     dt_f=AMIN1(dt_f, sqrt(ini.supportlength/2/(v_abs(prtl->dUdt)+1e-35)));//to prevent singularity
     //dt_cv according to Monaghan 1992 ("smoothed particle hydrodynamics") (sec.10.3)
     dt_cv=AMIN1(dt_cv,ini.supportlength/2/(prtl->Cs+0.6*(ini.alpha_artVis*prtl->Cs+ini.beta_artVis*prtl->mue_ab_max)));
     assert(dt_cv>0.0);
-    // dt_v_real according to HuAdams2007 (and Litvinov2010: "A splitting scheme for highly dissipative smoothed particle dynamics")
-    dt_v_real=AMIN1(dt_v_real,0.25*pow(ini.supportlength/2,2)/(prtl->eta+1e-35));
+    // dt_v_real according to HuAdams2007 (and Litvinov2010: "A splitting scheme for highly dissipative smoothed particle dynamics"); actually factor 0.125 is from Ellero2007
+    dt_v_real=AMIN1(dt_v_real,0.125*pow(ini.supportlength/2,2)/(prtl->eta/prtl->rho+1e-35));
     assert(dt_v_real>0.0);
     // dt_therm according to Cleary1999 
     ///\TODO{dt_thermhas an optimum value, i.e. results deteriorate slightly (at least for pure conduction if dt<dttherm...
-    dt_therm=AMIN1(dt_therm,beta_therm*prtl->rho*prtl->cv*pow(ini.supportlength/2,2)/(prtl->k+1));
+    dt_therm=AMIN1(dt_therm,beta_therm*prtl->rho*prtl->cv*pow(ini.supportlength/2,2)/(prtl->k+1e-35));
     assert(dt_therm>0.0);
   }
   
@@ -365,6 +366,10 @@ double Hydrodynamics::GetTimestepGas(const Initiation& ini) {
     dt = AMIN1(0.25*dt_f, 0.25*dt_cv,dt_v_real,dt_therm);
   
   assert(dt>0.0);
+  LOG(INFO) << "0.25*dt_f: " << 0.25*dt_f; 
+  LOG(INFO) << "0.25*dt_cv: " << 0.25*dt_cv; 
+  LOG(INFO) << "dt_v_real: " << dt_v_real; 
+  LOG(INFO) << "dt_therm: " << dt_therm; 
   LOG(INFO) << "dt: " << dt; 
   return dt;
 }

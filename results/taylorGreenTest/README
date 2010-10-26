@@ -220,13 +220,76 @@ possibilities (some seem more correct than others)
 
 running taylor Green --  TROUBLE SHOOTING:
 
-  run with: 
-    const int N_x=60;
-    const double M_ref=0.1;
-    double U=0.04;
+  First set:
+    *run with: 
+     const int N_x=60;
+     const double M_ref=0.1;
+     double U=0.04;
+     set material_eta(1) 10.0   ->Re 0.004
 
-set material_eta(1) 10.0   ->Re 0.004
+     komsiche Hügel/wellen bei rendering von Druck (ab 1. Zeitschritt), simu "explodiert" ab timestamp:00000195 
 
+    *try with higher density rho=1000 (instead of 1)->Re=u*l/kine_visc; kine_visc=eta/rho=10/1000=0.01(Re=4)
+     --> simu more stable (at least til end of 00000303, no "explosion") , immer noch wellen in Druckrendering
+    => jedoch: in beiden fällen zerstreut sich druckprofil von beginn an ziemlich stark, das ist wohl auch der 
+     grund für die hügel!
+ 
+    *selbes wie 1. run, jedoch M=0.5 um unterschied in Mach zu merken...
+     --> keine Wellen mehr, wirbel (in Druck) fangen an zu "franzeln" bei 00000217 und einen schritt später 
+	  zu explodieren (bei 00000238)
+    =>Vermutung: das ist wahrscheinlich nicht direkt den macheffekten zuzuschreiben, sondern nur dem Druck zu verdanken:
+      höhere Mach->kleinerer absoluter druckwert->>besser für sph (gibt einige refs, die sagen hohe abs druckwerte
+      nicht gut für sph->pressure correction etc...)
+
+  NOCH kleinere RE:
+   *eta 1000->Re=0.04*1/10000=4e-6
+    --> timestep so klein, dass timestamp in 1/100 millisec anstatt in millisec angegeben werden muss!
+
+    die ersten paar mal ganz gut, zwischen zehn und elf (d.h timestamp 00000019 wobei 1/100 millisec!!!schritte)
+    siehe Graph: in results/...
+    decay ist tendenziell richtig, allerdings nicht quantitativ und auch nicht so wirklich exponentiell (soweit erkennbar)
+
+   *selbes mit anderer suplen suplen=0.033 (=2dx, anstatt2.5dx)
+    explodiert ungefähr beim selben (00001805...)
+  
+   *selbes mut suplen=0.05(=3dx)
+    ...explodiert erst später (00002812)
+	gerade gemerkt, dass außerdem dt immer gleich, auch nachdem explodiert ist, sollte er nicht sich der
+	gegebenen Situatuin anpassen? Antwort: konstant passt, denn formel für dt_max,visc=0.25*h^2/kin_visc
+    
+   *mit kleinerem timestep dt_neu=0.5*dt_alt (und suplen0.05)
+      ...explodiert nicht (zumindest bis 00004062)! scheint (zumindest teilweise) also am Zeitschreitt gelegen zu 
+       haben, d.h. zeitliche diskretisierung zu groß! Komisch, denn das benutzte kriterium kam von HuAdams2007
+       Aus anderer Quelle (Ellero2007): dt_max,visc=0.125*h^2/kin_visc (was genau meinem entspricht)
+       ...längere simulationszeit:
+      sieht qualitativ richtig aus exponentielles abklingen mit asymptote 0. poblem nur: quatitativer Vergleich mitten	
+      analytischer Lösung für inkompressiblen Fall: SCHRECKLICH
+      - kann an kompressibilitätseffekten liegen
+      - kann an falscher Re-Definition liegen: simu war mit u_0=0.04, l=1, rho=1, eta=10000-->Re=u*l/(eta/rho)=4e-5
+      -> wenn verglichen mit einer Referenzlösung mit Re=9.5e-5-> quasi exact!!!
+   *run same simulation not taking into account dissipation in enery equation!
+    (suppose it should not make any difference for this small Re: viscous forces only depend on velocity, 
+      density and smoothing function, and density for very small Re unchanged as particle positions unchanged)
+      ->result: NO CHANGE AT ALL, as expected
+   *run same configuration only with constant p initiailzation (p=1=cosnt instead of p around 2.8 variable (for M_ref=0.5)
+
+   *mit constanter p initialisierung (denn druckwerte mitten drin ändern sich direkt im ersten zwitschritt...)
+    ->NO CHANGE NEITHER
+
+    versuch der reproduktion von "schwingendem Taylor green"
+
+   *try again with smaller supportlength (supLen=0.0416666666)
+    --> decay is a LITTLE BIT steeper but BY FAR not as much as it should theretically be!
+   * try with supportlength=0.033
+    --> decay has become steeper again! (still FAR away from exact solution-> a reference solution with Re=9 would match)
+   * higher resolution with same ratio suplen/dx of 2!(N=10000)
+    -> there is literally no difference to the case with N=3600!-> numers of particles seems sufficient! (at least
+      for this low Re where no change in particle position)
+
+--> increase Re (again N3600, suplen0.0333): eta=1000-->Re4e-4
+    -> selber Sache: schönes exponentielles Abklingen, Ergebnisse identisch mit Re_ref=9e-4!
+      => da muss irgendwo ein konstanter faktor dazwischen sein!!!!!!!!!!
+ 
 
 Ellero2007:
 

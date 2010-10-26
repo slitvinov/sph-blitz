@@ -81,7 +81,7 @@ What I will do now:
     
 The actual perurbation study
 ----------------------------
- - as already mentionned above pick one simulation (good results, aceptable calculation time) for each ofthe four cases: 
+ - as already mentionned above pick one simulation (good results, acceptable calculation time) for each ofthe four cases: 
    1D/2D particle distribution const mass/spacing pick one simulation
 
     for 2D I tried the worst case: not summation density approach but continuity density approach:

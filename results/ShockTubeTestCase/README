@@ -1,3 +1,6 @@
+SCHOCKTUBETESTCASE
+
+
 Remarks on the evaluation of the simulation results:
 
 - the error of simulated data compared to the exact solution is measured by the L_1, L_2 and L_inf norm norm
@@ -45,3 +48,5 @@ See "A shock-capturing SPH scheme based on adaptive kernel estimation" + referen
 As for the further use of this program (porosities,...) we probably will not encounter any strong shocks any more,
 this "trick" is not implemented in the code. Perhaps I should mention the artificial heat conduction term anyway
 in the thesis, to show that the origin of this little error in p is known and the error therefore controllable.
+
+END SCHOCKTUBETESTCASE

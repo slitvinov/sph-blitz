@@ -1,5 +1,6 @@
 \documentclass{report}
 
+\usepackage{appendix}%for additional appendix options
 \usepackage{float} %when using [H]: figure placed at exact spot
 \usepackage{graphicx}
 \usepackage{verbatim} % for multi-line comments
@@ -721,6 +722,7 @@ $C$ being a constant.
 To principally make its meaning clear, it can be interpreted as follows:
 the numerically possible propagation - in terms of distance - of any information during one timestep, which is $\propto\delta x$, must be superior to the physical propagation of phenomena of the underlying problem, which is $\propto u\delta$, $u$ being a propagation velocity charactieristic to the problem. If this is not given, the simulation can not correctly reproduce the physical behaviour. 
 %IS THIS INTERPRETATION RIGHT?????
+%some say the inverse, which I do not think is right (e.g. Ellero2007, page 9 pdf) This condition ensures that there is no numerical propagation of signals faster than the speed of sound c. Ich denke, das ist doch genau umgekehrt, denn wenn die numerische propagation < schallgesch wäre, dann kann man sich mit schallgeschw fortbewegende phsyikalische phänomene gar nicht abbilden...
 
 The principle of the CFL-Condition can also be applied to SPH \cite{Monaghan1989}, which is not a finite difference scheme, but where a characteristic numerical propagation can still be described using the smoothing length as length scale: in one timestep information can propagate at maximum a distance of $\kappa h$, which corresponds to the support length. On the other hand, the characteristic propagation speed for the physical problem is the soundspeed $c$. 
 In addition to the Courant-condition, two more criteria that influence the timestep selection must be considered \cite{Monaghan1992}, one based on the force per unit mass $f$ and the other based on the viscosity, be it physical or artificial.
@@ -737,6 +739,8 @@ These three conditions can be written as \cite{Monaghan1989,Monaghan1992}
 \end{equation}
 
 where equation (\ref{eq:dtForce}) defines the maximum admissible timestep regarding the forces and equation (\ref{eq:dtCourantVisc}) the maximum admissible timestep for the combined Courant and viscosity criterion. The indices $i,j$ go over all particles, the parameters $\alpha$ and $\beta$ are the same as for the artificial viscosity (see section (\ref{sec:ArtVisc})) and $\mu_{ij}$ is the viscosity. In the case of an exclusively artificial viscosity, $\mu_{ij}$ is given by equation (\ref{eq:FactArtVis}).
+
+Remark: Equation (\ref{eq:dtForce}) has no square root in \cite{Monaghan1992}. Tests with this formulation however yielded a timestep which seemed much too small for a given configuration (and even constantly getting smaller during the simulation, example shock--tube prolem). Therefore the formulation including the square root \cite{Monaghan1989} was adopted which resulted in not to restrictively small, yet still stable timesteps.
 
 %FOLLOWING A COMMENT SECTION:
 \begin{comment}
@@ -1211,7 +1215,6 @@ A variation of the conventional process box is the symbol for the call of an ext
 \end{figure}
 
 
-
 % \begin{multicols} [colwidths={1=0.6\textwidth,2=0.35\textwidth}] {2}  
 %  
 % \colchunk{hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh}
@@ -1659,7 +1662,7 @@ WORK IN PROGRESS
 WORK IN PROGRESS
 
 
-\section{Simulation Setup and validation methods for different test cases}
+\section{Simulation Setup and post-processing for different test cases}
 \label{sec:simuSetupTestCases}
 To provide users with a quick and complete overview of all the settings employed for the different test cases, they are summarized in two tables for each test case -- one with general simulation settings and one with information on the initial particle distribution and particle properties. This is all contained in the respective simulation setup paragraph. 
 Furthermore, there is a paragraph entitled validation methods for each test case. It introduces the respective post--processing procedure and the logic of validation. 
@@ -1700,6 +1703,8 @@ WORK IN PROGRESS
 \subsection{2D SPH code}
 
 \subsubsection{Shocktube Problem}
+\label{sec:2Dshock_simuSetup&Co}
+
 \paragraph{Simulation Setup}
 
 Table (\ref{tab:SimuSettings_Shock}) resumes the settings and parameter values used to obtain the results presented in section (\ref{sec:2DSPHcodeResults_Shock}). 
@@ -1737,9 +1742,45 @@ luminous intensity & $I_V$ & candela & $cd$ & luminous intensity & {\bf J}\\
 \caption[]{Shock--tube simulation settings for the 2D--code}
 
 \end{table}
+Remark:Exactly as for the 1D code, no boundary conditions in x-direction are used, i.e the edges of the shock--tube are open. In this context, it has to be considered that the 2D SPH code only supports positive particle positions and in order to give the particles enough space at the edge, to move, the shock--tube is treated in a domain going from $x=1$ to $x=3$ instead of $-1\leq x\leq1$. 
+
+As far as the particle distribution is concerned, 4 different cases have to be distinguished for the shock--tube problem. These are either a constant spacing or a constant mass initialization (see also section (\ref{sec:1DSPHcode_functions_setupSim})) combined with either a 1D or 2D particle distribution.
+Figure (\ref{fig:schematicOf_CS_CM_distribution}) resumes the two initialization options for teh case of a purely 1D particle distribution.
+
+FIGURE WITH 1D CS CM PARTICLE DISTRIBUTION
+
+Initiation parameters for 1D constant spacing TABLE
+(with parameters valid for constant spacing1D/q1D)
 
 
-\paragraph{Validation Methods}
+TABLE for 1D constant mass
+
+
+For the constant mass initialization it is not obvious to find a convenient 2D particle distribution (at least not for the density ratio $\rho_l/\rho_r=8$, which is employed in the previous cases). The reason for this is the following:
+To respect the initial density ratio with an constant mass approach ($m_l=m_r$) and supposing $dx=dy$ the initial particle spacings for the left and right hand side need to be in 2D:$dx_r=\sqrt{rho_l/rho_r} dx_l$
+At the same time, the number of particles in y direction calculated by $N_{l/r}=cell_size/dy_{l/r}$ must 
+be an integer for both sides, as particles have to be placed in the cells in a way that allows for a periodical continuation of the domain in y direction.
+For a density ratio of 8, an appropriate particle distribution could not be found. One possibility to avoid this problem, or better to diminuish the effects of the conflict at the cell limit, is to increase the domain size in y direction. But increasing the number of cells in $y$ direction would lead to a considerable increase in calculation time, which is not accepted here. So, it was decided to choose a different density ratio for the reference shock tube case; one which is a square number. As 9 is the closest square number to the original density ration of 8, I picked this one.
+This way, both sides can be filled with particles in a way that allows for a periodical continuation of the domain in y direction. And the validity of the study is not affected, as the exact solution, of course, is also calculated for this new shock tube configuration with $\rho_l/\rho_r=9$. 
+
+TABLE 2D const mass
+
+With the 2D constant mass particle initialization for a shock-tube though, an additional discontinuous element is added to rthe simulation: 2 of 3 particle lines from the high density section end at the contact discotinuity without being continued in the low density section. This is not expected to be favouralbe for the simulation results, in a sense that the perfect uniformity in the second direction is lost.
+
+
+(mention somewhere that simulations are not always performed with optimum cell size in order to get reasonably small variation possibilities of support length)
+
+\paragraph{Validation Method}
+To quantify the errors of the shock--tube simulations, the exact results of the problem are calculated according to section (\ref{sec:TestCases_1DshockTube}). Based on this reference, the $L_1, L_2,L_{\infty}$ errors are computed according to equation (\ref{eq:NormDefinition}).
+The characteristic values used to normalize the results are for the density an internal enegry their respective initial values on the high pressure side ($\rho_{\mathit{char}}=\rho_4, e_{\mathit{char}}=e_4$) and for the velocity the one induced by the shock ($u_{\mathit{char}}=u_2=u_3$)
+These errors are calculated taking into account the whole domain ($x=-0.5$ to $x=0.5$). 
+As the simulation is expected to resolve the discontinuous shock front only within two to three smoothing lengths, this will essentially influence the global error data. Monaghan \cite{Monaghan2005} therefore states that to evaluate the accuracy of an allogrithm for the shock-tube problem one should rather focus on the after--shock values than on the shock resolution. Therefore two further error norm calculations are conducted: one taking into account only the area between shock and contact discontinuity (area 2 in figure (\ref{fig:shockTubeT1}), and another for the area between contact discontinuity and rarefaction (area 3 in figure (\ref{fig:shockTubeT1}). In oder not to capture any inaccuricies due to low resolution of the area edges, a margin of $2h$ is given at each edge.
+
+All this is technicaly realized by programs contained in the folder {\tt sph-blitz/scripts/postProcessingShockTube} with slighty different procedures for simulations with 1D paricle distributions and 2D particle distribution. While for the 1D particle distribution the exact solution can be evaluated directly at each particle's position, the simulation results of the 2D particle distribution cases are first averaged in the second ($y$) dimension. This way a representative 1D particle distribution, where the particles assume the averaged positions and properties of the original 2D distribution, is obtained and the exact solution can be computed. In order to quantify the difference in properties of the particles in y direction which theoretically should be zero and which would be lost by the averaging, also the variance is computed for each couple of particles that is averaged.
+
+The exact post-processing procedure for each case, including which exact programs to run and how to run them, is explained in a very detailed manner in {\tt sph-blitz/scripts/postProcessingShockTube/README}. If a visualization of the post-processed data is finally desired, there are appropriate scripts in the folder {\tt sph-blitz/gnuplot/shockTube\_1D} or {\tt shochTube\_q1D} depending on wheter the particle distribution is 1D or 2D (q1D for quasi-1D, due to 2D particle distribution).
+Again the local {\tt README} provides all necessary information on how to run the scripts and what output they produce.
+
 
 
 \subsubsection{1D wave}
@@ -1749,6 +1790,8 @@ luminous intensity & $I_V$ & candela & $cd$ & luminous intensity & {\bf J}\\
 \chapter{Results}
 This chapter presents the results obtained with the developed codes. The focus clearly lies on the 2D code which is finally used to simulate the porosity configuration. However, as the 1D code has be introduced in the chapter before, an example of its application to the 1D shock-tube--problem is shown in the following section. It serves for a first qualitative discussion of the shock--tube results that can be obtained with SPH.
 The 2D code result section mainly features the results of the previously introduced test--cases (\ref{sec:testCases}) and finally a simulation of the flow in a porosity.
+
+As it is not practical to label every result with all the settings used in the simulation to generate it, these settings are summarized for each test--case in the corresponding paragraph of section (\ref{sec:simuSetupTestCases}).
 
 \section{1D SPH code}
 \label{sec:1DSPHcodeResults}
@@ -1797,48 +1840,110 @@ The first qualitative evaluation of the simulation results implies that the equa
 
 \section{2D SPH code}
 \label{sec:2DSPHcodeResults}
+
+The 2D SPH code underwent extensive testing at the various stages of development. After modification towards compressible fow capabilities, the shock--tube test case was investigated and propagation of acoustic waves was analyzed. In a subsequent step viscosity implementation has been tested by the taylor-green flow and independently of any flow problem the implemented heat conduction model was verified by a pure conduction test--problem. The compressible couette flow in which different phenomena are combined concludes the testing.
+
 \subsection{shock--tube test case}
 \label{sec:2DSPHcodeResults_Shock}
+The shock--tube case is used to conduct several series of simulations aimed at the verification of the modified code and at assessing its convergence behaviour (IST DAS NICHT ABHÄNGIG VOM TESTFALL??) as well as the robustness versus perturbabtions in particle positions. 
+First, the automatic time step control is exemplarily tested. Then the influence of the two approximation parameters $h$ and $dx$ on the simulation results is shown by means of a resolution study, which consists of two parts. One part where the smoothing length $h$ is varied at constant $dx$ and another part, where the resolution is increased at a constant ratio of $h/dx$. Ultimately, the perturbation study consists of a set of simulations with increasingly perturbed initial particle positions.
+
+All the above tests are conducted for the four cases:
+\begin{itemize}
+ \item 1D particle distribution with constant spacing
+  \item 2D particle distribution with constant spacing
+ \item 1D particle distribution with constant mass
+  \item 2D particle distribution with constant mass
+\end{itemize}
+
+Unless otherwise stated the simulation time for each shock--tube simulation is $t=0.2$. Other simulation settings as well as the entire set of initial conditions can be found in section (\ref{sec:2Dshock_simuSetup&Co}).
+
+The nature of an exemplary shock--tube simulation result including explanations is already given in section (\ref{sec:1DSPHcodeResults}). It is still the same for the 2D code and therefore is not repeated at this place. Instead focus lies clearly on the evaluation of the error norms and profiles are shown only where they exhibit a particularity. However, the complete set of figures for each simulation run constituting the following analyzes can be found in the corresponding {\tt results} folder of {\tt sph-blitz}. The path to the respective folder is given for each of the following sets of simulation.
+
+
 
 \subsubsection{Verification of timestep criteria}
+
+In section (\ref{sec:TmeStepChoice}) the criteria for a stable time step choice have been presented. In order to be sure that for the further studies of results, all errors are due to spatial discretization, the applied time stepping criteria are tested for correctness. As the shock--simulation includes artificial, but no real viscosity and no thermal conduction, the criteria in question are equations (\ref{eq:dtForce}) and (\ref{eq:dtCourantVisc}). Figure (\ref{fig:2DSPHresults_1D_CStimeVerif}) shows the evolution of the L-errors (see section (\ref{sec:employedNormDefinition})) for $\rho, u, e$ with varying time step evaluated in the whole domain and in areas 2 and 3 only (see section (\ref{sec:2Dshock_simuSetup&Co}). 
+The errors taking into account the whole domain are generally higher than the ones that only focus on the after-rarefaction (area 3) and after-shock (area 2) values. The $L_{\infty}$ error which is not an integral error measure but the maximum value of each particle-wise error is naturally the biggest one, followed by the $L_2$ and then the $L_1$ errors. For the shock--tube case the global $L_{\infty}$ error is entirely determined by the shock--front, where the errors are locally biggest due to the finite shock resolution. Evaluated only for areas 2 or 3 the $L_{\infty}$ error captures often either oscillation maxima or the hangover of the non-exact shock or rarefaction resolution (rarefaction resolution non exact due to initial smoothing of density field) which reaches into the corresponding area.
+
+The considerable increase of the error-values in area 2, particularly in the velocity field, starting at a timestep size of around $dt\geq0.0025$ show that temporal instability is indicated first in the after-shock area. A look at the plotted velocity-profile in figure (\ref{fig:2DSPHresults_dt_variat_oscillationU}) of one of these simulations confirms this, by showing severe oscillations directly after the shock area. It will turn out that the inaccuracy observed in the rarefaction in the same figure is particular to the constant spacing particle initiation, at least in 1D, and has nothing to do with temporal resolution.
+
+\begin{figure}[!htbp]
+
+\centering
+\label{fig:2DSPHresults_dt_variat_oscillationU}
+\includegraphics[width=7cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03_dt03_Oscillations/Err_u00200000}
+\caption[Velocity oscillations due to temporal instability]{Velocity profile after $t=0.2$ for a timestep of $dt=0.002985$, which shows severe oscillations in the after--shock area due to a too big timestep $dt$. The support length of the simulation is $0.03$ with an 1D particle distibution of constant spacing of $dx=0.005$ }
+
+\end{figure}
+
+Concerning the temporal resolution test again, values of $dt<0.0025$ can be considered as stable for this configuration and a look at the automatically determined timestep ($dt=0.00198083$) shows it is just below this critical value, including a decend safety margin.
+
+The residual errors in figure (\ref{fig:2DSPHresults_1D_CStimeVerif}) for $dt<0.0025$ can therefore be attributed to the spatial discretization error due to $dx$ (or better $h/dx$) and integral approximation error due to $h$. All results leading to figure (\ref{fig:2DSPHresults_1D_CStimeVerif}) can be found in {\tt sph-blitz/results/ShockTubeTestCase/1DpartDist\_constSpace\_LeapFrog/dtVariat\_dx005\_SupLen03}.
+
+Another verification has also been conducted for a 2D constant spacing particle resolution. The time stepping criteria worked fine for this case as well. 
+
+
+
+
 \begin{figure}[H]
 \centering
-\label{fig:2DSPHresults_1D_CS_dx_const}
+\label{fig:2DSPHresults_1D_CStimeVerif}
+
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CStimeVerif_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/WholeDomainRho}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CStimeVerif_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area3Rho}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CStimeVerif_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area2Rho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CStimeVerif_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/WholeDomainU}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CStimeVerif_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area3U}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CStimeVerif_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area2U}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CStimeVerif_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/WholeDomainE}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CStimeVerif_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area3E}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CStimeVerif_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area2E}}
+
+\caption[Convergence Shock-tube 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying time step $dt$. The support length is $0.03$ with an 1D particle distibution of constant spacing of $dx=0.005$}
+
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_tempRes_vProfile}
 
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CS_dx_const_wholeRho}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/WholeDomainRho}}
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_dx_const_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area3Rho}}
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_dx_const_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area2Rho}}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_dx_const_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/WholeDomainU}}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_dx_const_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area3U}}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_dx_const_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area2U}}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_dx_const_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/WholeDomainE}}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_dx_const_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area3E}}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_dx_const_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area2E}}
-
-\caption[Convergence Shock-tube 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying supoprt length and a constant particle spacing of $dx=0.0025$}
-
 \end{figure}
 
+
+
 \subsubsection{Resolution Study - spacing held constant}
+The purpose of this set of simulations is to evaluate the influence of a smoothinglength variation with a constant particle distance. There is expected to be an optimum value for $h$ in this case: For small $h$, the ratio $h/dx$ and therefore the number of neighbouring particles in the supoprt domain of a certain particle will be to small to ensure a correct discrete representation of the integral interpolant. On the other hand, greater smoothinglengths mean a worse resolution of local phenomena and here especially shocks, which will increase the error considerably. 
+
+
 \paragraph{1D constant spacing particle distribution}
+
+Having a look at figure (\ref{fig:2DSPHresults_1D_CS_dx_const}), one sees the above anticipated tendency. Especially the integral errors ($L_1,L_2$) calculated for the whole domain show a clear minimum at a supportlength of around 0.025. 
+This means that the number of neighnouring particles is 8. 
+The increase of the errors for medium support lengths in area 3 is due to a drift of the inaccuracy in the rarefaction wave into area 3. Otherwise this inaccuracy, which is always present for this set of simulations, is not taken into account for area 3 but only in the global error calculation. 
+
 \begin{figure}[H]
 \centering
 \label{fig:2DSPHresults_1D_CS_dx_const}
@@ -1875,45 +1980,82 @@ The first qualitative evaluation of the simulation results implies that the equa
 
 \end{figure}
 
+
+
 \paragraph{2D constant spacing particle distribution}
 
-\begin{figure}[H]
+The same procedure as in the paragraph just above is now conducted with a 2D particle distributio of a spacing of $dx=dy=0.005$ and again it is found out that the optimum support length ist around 0.025, like for the corresponding 1D particle distribution. Otherwise the results look the same as in figure (\ref{fig:2DSPHresults_1D_CS_dx_const}) and are therefore only presented in the Appendix.
+
+When having a look at the evolution of the particle positions during a simulation, which is displayed in figure (\ref{fig:2DSPHresults_CS_drifting}) it is remarkable that the particles at the contact discontinuity drift away from their originally perfectly lined up position. However this behaviour seems stable for support lengths $\geq0.02$ (at least within the simulation time of 0.2)(figure (\ref{fig:2DSPHresults_CS_drifting_suplen02}) and is visually not detectable anymore for a support length 0f $\geq0.35$. In the simulation with a supportlength of 0.015 particles around the contact discontinuity are comletely drifting  away from their original position, forming a bizzare structure - it seems as if they were attracted by the symetrically drifting particles of the next row (figure (\ref{fig:2DSPHresults_CS_drifting_suplen015}). 
+The drifting is probably an expression of what Monaghan \cite{Monaghan2005} (shocks in 2D/3D can be noise - at least with current allgorithms) and Rasio \& Shapiro \cite{Rasio1991} (in >1D there is a much bigger effect of numerical noise for shock tube simulation) state in their papers.
+
+\begin{figure}[!htbp]
 \centering
-\label{fig:2DSPHresults_q1D_CS_dx_const}
+\label{fig:2DSPHresults_CS_drifting}
+\subfigure[supportlength 015]{
+\label{fig:2DSPHresults_CS_drifting_suplen015}
+\includegraphics[width=7cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Drifting/suplen015/x_y_plane00200653}}
+\subfigure[supportlength 02]{
+\label{fig:2DSPHresults_CS_drifting_suplen02}
+\includegraphics[width=7cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Drifting/suplen02/x_y_plane00200841}}
 
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_q1D_CS_dx_const_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/WholeDomainRho}}
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_q1D_CS_dx_const_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area3Rho}}
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_q1D_CS_dx_const_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area2Rho}}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_q1D_CS_dx_const_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/WholeDomainU}}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_q1D_CS_dx_const_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area3U}}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_q1D_CS_dx_const_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area2U}}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_q1D_CS_dx_const_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/WholeDomainE}}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_q1D_CS_dx_const_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area3E}}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_q1D_CS_dx_const_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area2E}}
-
-\caption[Convergence Shock-tube with 2D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying supoprt length and a constant particle spacing of $dx=0.005$}
+\caption[particle drifting for 2D distribution]{particle drifting originating at the contact discontinuity for different support lengths}
 
 \end{figure}
 
+It is/are not only the particle positions that loose their perfect uniformity in the y- direction, but also the particle properties. This scattering is quantified by a variance calculation which shows results unequal zero in the contact discontinuity area.
+Figure (\ref{fig:2DSPHresults_CS_variance}) shows exemplarily the variances of $\rho$ and $v$ along the shock--tube with significant amplitudes in the above mentionned area.
+
+\begin{figure}[!htbp]
+\centering
+\label{fig:2DSPHresults_CS_variance}
+\subfigure[supportlength 015]{
+\label{fig:2DSPHresults_CS_variance_suplen015}
+\includegraphics[width=7cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Variance/suplen015/VarianceSupLen015}}
+\subfigure[supportlength 02]{
+\label{fig:2DSPHresults_CS_variance_suplen02}
+\includegraphics[width=7cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Variance/suplen02/VarianceSupLen02}}
+
+\caption[]{variance evolution along the shock--tube for the averaging of velocity and density at different supportlengths}
+
+\end{figure}
+
+The trend, that has been observed for the drifting, namely a decreasing effect with greater supportlength can roughly also be observed for the scattering of the x-position as well as all particle properties (figure (\ref{fig:2DSPHresults_CS_varianceVersusSuplen}).
+
+\begin{figure}[!htbp]
+\centering
+\label{fig:2DSPHresults_CS_varianceVersusSuplen}
+\subfigure[part 1]{
+\label{fig:2DSPHresults_CS_varianceVersusSuplenPart1}
+\includegraphics[width=7cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Variance/VariancePart1}}
+\subfigure[part 2]{
+\label{fig:2DSPHresults_CS_varianceVersusSuplenPart2}
+\includegraphics[width=7cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Variance/VariancePart2}}
+
+\caption[]{Evolution of variance with varying support length for all averaged quantities}
+
+\end{figure}
+
+This tendency of weakening with greater supportlength together with the fact that the particle drifting is symmetrical to the horizontal middle-line of the domain invokes the speculation that the non uniformity in the second direction might be caused by the peridoical boundary conditions in y-direction.
+
+
+ 
+Despite of this change in properties in the second direction, the final results for the qD shock--tube problem, i.e. the averaged values, are very accurate and totally comparable to the corresponding simulation simulation with purely 1D particle distribution. Sometimes the averaged 2D results are even more accurate.
+ 
+
+   
 \paragraph{1D constant mass particle distribution}
+For the following set of simulations, all particles, no matter if LHS or RHS of the shock tube, have the same mass of $m=0.001875$ which results in a spacing on the LHS of $dx_l=0.001875$ and $dx_r=0.015$ on the RHS to reproduce the initial density values. 
+The globally optimum support length for this configuration is 0.025 (figure (\ref{fig:2DSPHresults_1D_CM_dx_const}), but even in this case small oscillations are already present in the velocity profile after the shock--front. These oscillations get quickly bigger with even smaller support length and simultaneously the accuracy of the after shock-values deteriorates considerably, which can be seen clearly in the error evolution in area 3 in figure (\ref{fig:2DSPHresults_1D_CM_dx_const}). 
+This is due to the insufficient number of neighbouring particles in the RHS of the shock tube, where the particle distance is eight times higher than in the LHS. For a supportlength of 0.02 there are barely 2 neighbouring particles which contribute to the interpolation on the RHS and for a supportlength of 0.015 there is just no neighbour any more and the interpolation is limited to the proper contribution of the particle itself, which is of course erroneous. 
+
+The inaccuracy in the rarefaction, which was encountered for a constant spacing particle distributions both in 1D and 2D (see e.g. figure (\ref{figureBeiDT})) does not develop in the case of a 1D constant mass particle distribution. This might be the reason why 
+in literature SPH shock--tube simulations are mostly found using the constant mass initialization approach \cite{Monaghan1983,Monaghan2005,Liu2003}, which also seems the physically more logical one.
+
+For an example for the profiles of $\rho, p, u, e$ refer to figure (\ref{fig:1DSPHresults}) in the result section of the 1D code. 
+
+
+
 \begin{figure}[H]
 \centering
 \label{fig:2DSPHresults_1D_CM_dx_const}
@@ -1946,47 +2088,20 @@ The first qualitative evaluation of the simulation results implies that the equa
 \label{fig:2DSPHresults_1D_CM_dx_const_2E}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/Area2E}}
 
-\caption[Convergence Shock-tube with 2D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying supoprt length and a constant particle spacing of $dx=0.005$}
+\caption[Convergence Shock-tube with 1D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying supoprt length and a constant particle spacing mass of $m=0.001875$ leading to a spacing on the LHS of $dx_l=0.001875$ and $dx_r=0.015$ on the RHS}
 
 \end{figure}
 
 \paragraph{2D constant mass particle distribution}
+The employed particle mass $m=2.5e-5$ corresponds to a spacing of $dx_l=dy_l=0.005$ on the LHS and of $dx_r=dy_r=0.015$ on the RHS.
+Simlations with this 2D constant mass marticle distribution give the best results for a support length of 0.03. However due to the discontiutity of the particle distribution in y direction at the interface, there is a very weak drifting of the interface particles on the high density side in y direction. This phenomenon increases with smaller supportlength - a tendency that has already been observed for the 2D constant spacing particle initialization. 
+Besides, for most of the simulated cases there is again an inaccuracy in the velocity profile  within the rarefaction wave. The same has already been observed for 1D and 2D constant spacing initializations but not for 1D constant mass initializations.
+The mentionned inaccuracy only disappeares for supportlenghts $\geq0.4$.
 
-\begin{figure}[H]
-\centering
-\label{fig:2DSPHresults_1D_CM_dx_const}
+The error evolution for the above discussed set of simulations can be found in the appendix, as there is no remarkable difference to the ones already shown. Due to the appearing inaccuracy in the rarefaction the figures look more like the ones from the constant spacing initialization than the one for 1D constant mass. 
 
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CM_dx_const_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/WholeDomainRho}}
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CM_dx_const_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area3Rho}}
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CM_dx_const_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area2Rho}}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CM_dx_const_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/WholeDomainU}}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CM_dx_const_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area3U}}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CM_dx_const_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area2U}}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CM_dx_const_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/WholeDomainE}}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CM_dx_const_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area3E}}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CM_dx_const_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area2E}}
 
-\caption[Convergence Shock-tube with 2D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying supoprt length and a constant particle mass of $m=2.5\cdot10^{-5}$}
 
-\end{figure}
 \subsubsection{Resolution Study - ratio smoothinglength/spacing held constant}
 \paragraph{1D constant spacing particle distribution}
 \begin{figure}[H]
@@ -2406,6 +2521,82 @@ Finding an appropriate formulation for the physical viscosity, i.e. compressible
 Besides finding the error in the viscosity implementation, one big test--case remains: the compressible Couette--flow, which combines all phenomena.
 If this gives the right results, the final simulation of a porous configuration may be conducted. I am really curious if this will work out... we will know by december.
 
+% starting from here: appendix%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+\appendixpage
+\addappheadtotoc
+\chapter{Additional Shock--Tube Results 2D Code}
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_q1D_CS_dx_const}
+
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_q1D_CS_dx_const_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/WholeDomainRho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_q1D_CS_dx_const_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area3Rho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_q1D_CS_dx_const_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area2Rho}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_q1D_CS_dx_const_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/WholeDomainU}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_q1D_CS_dx_const_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area3U}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_q1D_CS_dx_const_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area2U}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_q1D_CS_dx_const_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/WholeDomainE}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_q1D_CS_dx_const_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area3E}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_q1D_CS_dx_const_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area2E}}
+
+\caption[Convergence Shock-tube with 2D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying supoprt length and a constant particle spacings of $dx=dy=0.005$}
+
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_q1D_CM_dx_const}
+
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_q1D_CM_dx_const_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/WholeDomainRho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_q1D_CM_dx_const_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area3Rho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_q1D_CM_dx_const_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area2Rho}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_q1D_CM_dx_const_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/WholeDomainU}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_q1D_CM_dx_const_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area3U}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_q1D_CM_dx_const_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area2U}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_q1D_CM_dx_const_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/WholeDomainE}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_q1D_CM_dx_const_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area3E}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_q1D_CM_dx_const_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area2E}}
+
+\caption[Convergence Shock-tube with 2D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying supoprt length and a constant particle mass of $m=2.5\cdot10^{-5}$, leading to a particle spacing of $dx_l=dy_l=0.005$ on the LHS and of $dx_r=dy_r=0.015$ on the RHS}
+
+\end{figure}
 
 \listoffigures
 
