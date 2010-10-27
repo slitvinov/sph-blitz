@@ -10,7 +10,7 @@ source ../../scripts/float.sh
 cp ../../src/sph sph
 reslist="1 2 3"
 for res in $reslist; do
-    #SPH_TCL="set res_level $res" ./sph flow-around-cylinder
+    SPH_TCL="set res_level $res" ./sph flow-around-cylinder
     # copy log files
     touch /tmp/sph.INFO /tmp/sph.ERROR
     cp /tmp/sph.INFO /tmp/sph.ERROR output$res/
