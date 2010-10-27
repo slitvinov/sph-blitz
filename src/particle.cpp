@@ -164,7 +164,7 @@ Particle::Particle (spParticle RealParticle , spMaterial material):
   //  rho_n = RealParticle->rho_n;
   //  e_n = RealParticle->e_n; 
 //viscosities not copied for image particles (as in general different material than real particles)
-  assert(m>0.0);
+  // assert(m>0.0);
 }
 //----------------------------------------------------------------------------------------
 //					particle states copier for boundary particles
