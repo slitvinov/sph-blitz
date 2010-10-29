@@ -1,4 +1,4 @@
-// \file boundary.cpp
+/// \file boundary.cpp
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 /// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>
 #include <glog/logging.h>
@@ -1244,7 +1244,7 @@ void Boundary::Boundary_SW(spParticle prtl)
       prtl->U[1] = UxBl[1]*2.0 - prtl->U[1];
       //besides set temperature if isothermal boundary
       if(isothermal_boundary==1)
-	prtl->T=TxBl;
+	prtl->T=TyBd;
       break;
       //perodic
     case 1:
@@ -1282,7 +1282,7 @@ void Boundary::Boundary_NW(spParticle prtl)
       prtl->U[1] = UxBl[1]*2.0 - prtl->U[1];
       //besides set temperature if isothermal boundary
       if(isothermal_boundary==1)
-	prtl->T=TxBl;
+	prtl->T=TyBu;
       break;
       //perodic
     case 1:
@@ -1322,7 +1322,7 @@ void Boundary::Boundary_NE(spParticle prtl)
       prtl->U[1] = UxBr[1]*2.0 - prtl->U[1];
       //besides set temperature if isothermal boundary
       if(isothermal_boundary==1)
-	prtl->T=TxBr;
+	prtl->T=TyBu;
       break;
       //perodic
     case 1:
@@ -1360,7 +1360,8 @@ void Boundary::Boundary_SE(spParticle prtl)
     prtl->U[1] = UxBr[1]*2.0 - prtl->U[1];
     //besides set temperature if isothermal boundary
     if(isothermal_boundary==1)
-      prtl->T=TxBr;
+      ///\TODO{as only either horizontal walls or vertical walls can be isothermal boundary conditions (when at different temperatures) I have to construct a switch which takes into account T=TxBr (if vertical walls isothermal) and T=TyBd (if horizontal wall isothermal!!! and the equivalent for all corners}
+      prtl->T=TyBd;
     break;
     //perodic
   case 1:

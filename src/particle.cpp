@@ -6,6 +6,8 @@
 //				Particle data type definition
 //				particle.cpp
 //----------------------------------------------------------------
+#include <glog/logging.h>
+
 
 // ***** local includes *****
 #include "material.h"
@@ -78,7 +80,7 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
   k = mtl->get_k(temperature);//thermal conductivity (constant or variable, depending on selection)
   cv=mtl->cv;
   
- 
+  LOG_EVERY_N(INFO,100)<<"particle eta: "<<eta;
   ///- initialize mue_ab_max to zero
   mue_ab_max=0;
   ///- set particle position

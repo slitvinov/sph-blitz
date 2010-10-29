@@ -125,11 +125,15 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     // become new neighbours now through their movement! 
     hydro.UpdateVolume(particles, weight_function);
     
-    if  (ini.disable_boundary != 1)
+    if  (ini.disable_boundary != 1) {
       ///run away check before cell link lists are updated (due to index purposes)
       boundary.RunAwayCheck(hydro);  
+      /// reapply boundary conditions, so they are up-to-date in output-file
+      boundary.BoundaryCondition(particles);
+    }
     ///update of cell linked lists
     particles.UpdateCellLinkedLists();
+
   }
 }
 ///time integration including density (continuity density approach)
@@ -196,7 +200,10 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
     
     //perform run away check before updating linked lists (due to possible index issues)
     if  (ini.disable_boundary != 1)   
-      boundary.RunAwayCheck(hydro); 
+      boundary.RunAwayCheck(hydro); {
+      /// reapply boundary conditions, so they are up-to-date in output-file
+      boundary.BoundaryCondition(particles);
+    }
     //update cell linked list
     particles.UpdateCellLinkedLists();
   }

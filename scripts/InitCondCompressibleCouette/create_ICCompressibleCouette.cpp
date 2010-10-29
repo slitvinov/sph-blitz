@@ -12,19 +12,19 @@ using namespace std;
 int main () {
   const double rho=1.0;
   const double p=1.0;
-  const double m=0;// m is initialized as zero, will be calculated in simulation
+  const double m=0;// m is initialized to zero, will be calculated in simulation
   double x=0;
   double y=0;
-  const double domain_size_x=1.0;
-  const double domain_size_y=domain_size_x;
-  const int N_x=60;
-  const int N_y=N_x;
+  const double domain_size_x=0.0333333333333333333333;
+  const double domain_size_y=0.5;//domain_size_x/2;
+  const int N_x=2;
+  const int N_y=30;
   const int N=N_x*N_y;
   const double dx=domain_size_x/N_x;
   const double dy=dx;
   cout<<"dx=dy="<<dx<<endl;
   cout<<"N"<<N<<endl;
-  const double gamma=1.4;
+  const double gamma=1.5;
   
   double x_array[N];
   double y_array[N];

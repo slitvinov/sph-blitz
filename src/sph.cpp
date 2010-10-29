@@ -194,6 +194,7 @@ int main(int argc, char *argv[]) {
     //control output
     LOG(INFO)<<"time is "<<Time<<"\n";
     ///- output results after a time interval\n\n
+
     output.OutputParticle(hydro, boundary, Time, ini); //particle positions and velocites
     output.OutRestart(hydro, Time, ini); //restarting file
   }

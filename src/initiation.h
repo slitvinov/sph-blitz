@@ -131,6 +131,15 @@ public:
   /// 1: extra large timestamp (12 digits)
   int xxl_timestamp_marker;
 
+
+  ///\brief  marker to switch timestamp  unit of outputfiles
+  ///
+  /// becomes necessary for simulations with very small dt,
+  /// for example due to high viscosity values 
+  /// 0: standard (timestamp unit [ms])
+  /// 1: high resolution (timestamp unit [1e-10s])
+  int high_res_timestamp_marker;
+
   //timing control
   double Start_time;///<Simulation start time
   double End_time;///<Simulation end time

@@ -151,9 +151,14 @@ double Material::get_eta(const double T)
   if(variableEtaAndK==0)    
     return eta;
   //if specified in .tcl file: calculate variable viscosity and conductivity
-  else 
+  else {
     //Sutherland law for eta, (1-36) from White1974 
-    eta=eta_0*pow(T/T_0_eta,1.5)*(T_0_eta+S_eta)/(T+S_eta);  
+    eta=eta_0*pow(T/T_0_eta,1.5)*(T_0_eta+S_eta)/(T+S_eta); 
+    LOG_EVERY_N(INFO,10000)<<"T: "<<T<<"T_0_eta: "<<T_0_eta<<" S_eta: "<<S_eta;
+    LOG_EVERY_N(INFO,10000)<<"eta_0: "<<eta_0;
+    LOG_EVERY_N(INFO,10000)<<"eta from get eta: "<<eta;
+    return eta;
+  } 
 }
 
 //----------------------------------------------------------------------------------------

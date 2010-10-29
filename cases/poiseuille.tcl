@@ -6,6 +6,14 @@ set KERNEL_TYPE QuinticSpline
 
 set INITIAL_CONDITION	0
 
+# marker to switch timestamp unit
+# (becomes necessary for simulations with very small dt,
+# for example due to high viscosity values)
+#
+# 0: standard (timestamp unit [ms])
+# 1: high resolution (timestamp unit [1e-10s])
+set HIGH_RES_TIMESTAMP_MARKER 0
+
 # number of cell
 set ncell 8
 set CELLS(0) $ncell

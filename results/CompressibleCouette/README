@@ -57,5 +57,37 @@ in Monaghan eq (8.13) (or general in internal energy equation) it has to be adde
 
 ->divide expression for viscous heating from espanol by m_i!!!!
 
+FIRST SIMULATION RUNS: CONSTANT VISCOSITY; NO HEAT CONDUCTION (domain=6*30 prtl, supLen=0.033333, summation density)
+--> not exactly linear profile, steady state not reached after 5 seconds. Errors in the density profile close to the walls 
+    after a certain simulation time:
+    Reason for density-errors: the wall particles are not in the same (distorted) row as the regular particles, as
+    the wall particles are copied and their position adapted according to the boundary condition. ->The rho-result
+    obtained with summation density is therefore different close to the walls than in the rest of the domain.
+
+     In the initial phase (at least until t=5) the density also diminuishes and then increases again in the whole domain,
+     together with the propagation of the velocity throughout the domain, this is probably also attributable to 
+      the particle movement (when the particles are initially moved out of their regular grid)
+
+    FIRST TRY: bigger simulation time to try and find steady state
+    -> even at t=20 steady state not reached yet! (velocity profile oscillates around the linear state...)
+    might be that the oscillations are caused (at least partly) by the weird particle 
+    properties (density, energy, ressure) of the closest particle to the walls???? 
+      
+    TRY integrating density to see if there is still density error (but as derivative of smoothing function probably
+    even more sensitive to particle disorder, not sure, if it wil get better)!-> no difference (at least not better)
+
+    TRY higher Re (eta=1000) to see if velocity profile developes correctly when particle movement neglectable
+    --> it works just fine (velocity profile gets perfectly linear, without any oscillation, neither density, nor energy 
+	of closest particle to wall assumes weird values => it really seeams to be a-particle disorder issue!!!
+    (little issue in this higr Re simulation though: in the first 2-3 steps, the particles close to the moving wall
+    do not all have exactly the same velocity value for same y-position...!(fixed, update of boundary conditions before
+    output was not implemented in continuity density approach!)
+    
+    -> perhaps effect of particle disorder might reduce when using different methods for bilding up boundary conditions
+      (perhaps different placement of particles (always ficed position), perhaps other velocity assignment (not mirrored but
+      interpolated, see	BasaQuinlan, but I think that is not really the problem because error is not that much in 
+      velocity but ruther in density, energy...???)
+    
+
 
  

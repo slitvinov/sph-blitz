@@ -98,6 +98,14 @@ set SPLASH_OPTIMIZED_OUTPUT 0
 # 1: extra large timestamp (12 digits)
 set XXL_TIMESTAMP_MARKER 0
 
+# marker to switch timestamp unit
+# (becomes necessary for simulations with very small dt,
+# for example due to high viscosity values)
+#
+# 0: standard (timestamp unit [ms])
+# 1: high resolution (timestamp unit [1e-10s])
+set HIGH_RES_TIMESTAMP_MARKER 0
+
 # boundary conditions
 #
 # type and velocity

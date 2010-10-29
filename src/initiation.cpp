@@ -48,7 +48,9 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   // assert(simu_mode==1||simu_mode==2); (already tested in sph.cpp)
   density_mode = interp.eval("[return $DENSITY_MODE]");
   assert(density_mode == 1 || density_mode == 2);
-   kernel_type = static_cast<std::string>(interp.eval("[return $KERNEL_TYPE]"));
+  high_res_timestamp_marker = interp.eval("[return $HIGH_RES_TIMESTAMP_MARKER]");
+  assert( (high_res_timestamp_marker == 0) || (high_res_timestamp_marker == 1));
+  kernel_type = static_cast<std::string>(interp.eval("[return $KERNEL_TYPE]"));
   // for harmonic kernel we need a parameter n
   if (kernel_type == "Harmonic") {
     harmonic_n = interp.eval("[return $harmonic_n]");
@@ -191,7 +193,7 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
   ///mass initiation is different from 1DSPH code: 
   ///here: mass is calculated by summing up the kernel function contributions for easch particle, which gives a kind of the inverse volume taken by each particle (not perfectly true at the discontinuity). together with rho (from initialization) a mass for each particle can be obtained.
   ///within the discontinuity zone, this mass varies because of the smoothing effect of the kernel summation.
-  ///The mass for each particle  stays constant during the simuation.
+  ///The mass for each particle  stays constant during the simulation.
 
   /// <ul><li>iterate particles on the particle list
   BOOST_FOREACH(spParticle prtl_org, hydro.particle_list) {

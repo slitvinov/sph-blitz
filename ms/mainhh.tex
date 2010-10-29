@@ -1935,14 +1935,15 @@ Another verification has also been conducted for a 2D constant spacing particle 
 
 
 \subsubsection{Resolution Study - spacing held constant}
+\label{sec:2DSPH_results_shock_resSTudy_dx=const}
 The purpose of this set of simulations is to evaluate the influence of a smoothinglength variation with a constant particle distance. There is expected to be an optimum value for $h$ in this case: For small $h$, the ratio $h/dx$ and therefore the number of neighbouring particles in the supoprt domain of a certain particle will be to small to ensure a correct discrete representation of the integral interpolant. On the other hand, greater smoothinglengths mean a worse resolution of local phenomena and here especially shocks, which will increase the error considerably. 
 
 
 \paragraph{1D constant spacing particle distribution}
 
-Having a look at figure (\ref{fig:2DSPHresults_1D_CS_dx_const}), one sees the above anticipated tendency. Especially the integral errors ($L_1,L_2$) calculated for the whole domain show a clear minimum at a supportlength of around 0.025. 
-This means that the number of neighnouring particles is 8. 
+Having a look at figure (\ref{fig:2DSPHresults_1D_CS_dx_const}), one sees the above anticipated tendency. Especially the integral errors ($L_1,L_2$) calculated for the whole domain show a clear minimum at a supportlength of around 0.025, which means that the number of neighnouring particles is 8. 
 The increase of the errors for medium support lengths in area 3 is due to a drift of the inaccuracy in the rarefaction wave into area 3. Otherwise this inaccuracy, which is always present for this set of simulations, is not taken into account for area 3 but only in the global error calculation. 
+If the supportlength becomes too big, not only the shock resolution gets poorer, but also the after--shock velocity profile becomes bumpy.
 
 \begin{figure}[H]
 \centering
@@ -2040,7 +2041,8 @@ This tendency of weakening with greater supportlength together with the fact tha
 
 
  
-Despite of this change in properties in the second direction, the final results for the qD shock--tube problem, i.e. the averaged values, are very accurate and totally comparable to the corresponding simulation simulation with purely 1D particle distribution. Sometimes the averaged 2D results are even more accurate.
+Despite of this change in properties in the second direction, the final results for the qD shock--tube problem, i.e. the averaged values, are very accurate and totally comparable to the corresponding simulation simulation with purely 1D particle distribution. Sometimes (but rarely) the averaged 2D results are even more accurate.
+Nevertheless the 2D particle distribution leads to slightly greater oscillations in the velocity profile than for the comparable 1D distribution.
  
 
    
@@ -2088,7 +2090,7 @@ For an example for the profiles of $\rho, p, u, e$ refer to figure (\ref{fig:1DS
 \label{fig:2DSPHresults_1D_CM_dx_const_2E}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/Area2E}}
 
-\caption[Convergence Shock-tube with 1D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying supoprt length and a constant particle spacing mass of $m=0.001875$ leading to a spacing on the LHS of $dx_l=0.001875$ and $dx_r=0.015$ on the RHS}
+\caption[Convergence Shock-tube with 1D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying supoprt length and a constant particle spacing mass of $m=0.001875$ leading to a spacing on the LHS of $dx_l=0.001875$ and $dx_r=0.015$ on the RHS. The simulation is evaluated at $t=0.2$}
 
 \end{figure}
 
@@ -2103,155 +2105,83 @@ The error evolution for the above discussed set of simulations can be found in t
 
 
 \subsubsection{Resolution Study - ratio smoothinglength/spacing held constant}
+In this section, the resolution is gradually increased by simultaneously diminuishing both the supportlength and the particle spacing in a way that their ratio remains constant. This means that the number of nearest neighbour particles remains constant. 
+The convergence towards the exact solution is tested and the convergence ratio for each of the above mentionned four cases is determined. Having determined an optimum ratio of supportlength to particle spacing above, it is used here to obtain the highest possible accuracy for the simulation. In another set of simulations, at least for the purely 1D particle distributions, a non-optimum ratio is employed to verify the robustness of the method (kann man das sagen, ist das Robustness verification? Gibt es in der Numerik eine eigene, spezielle Definition von Robustness).
+
 \paragraph{1D constant spacing particle distribution}
+The simulations are conducted for a ratio of supportlength to particle spacing of 5 and the resolution is increased from a supportlength of 0.025 to 0.005, which corresponds to a number of particles from $N=401$ to $N02001$. 
+Figure (\ref{fig:2DSPHresults_1D_CS_ratioConst}) shows the quantitative evaluation of this set of simulation by means of the L-norm errors. The $L_1$ error shows roughly a first order convergence for all investigated quantities $\rho, u, e$ in all areas whereas the $L_2$ convergence is slightly lower.  (WARUM?)
+The $L_{\inf}$ error of all quantities in the global domain are constant and caused by the non-discontinuous shock-resolution.
+
+By the way, the inaccuracy in the rarefaction already encountered in section (\ref{sec:2DSPH_results_shock_resSTudy_dx=const}) n for constant spacing particle distribution does not disappear but remains of about the same size, even for the highest resolution. 
+
+Außerdem, wie war das mit der Konvergenz? bei h/dx=const, convergierts dann gegen 0 oder bleibt ein resideller Fehler wegen Disktretisierungseffekt (dx). Müsste doch davon abhängen, on Diskretisierungsfehler von (h/dx) oder dx absolut abhängt!
+
+ERWÄHNEN WIE DIE KONVERGENZ FÜR ANDERE RATIO h/dx IST!!! (noch machen)!
+ 
+
 \begin{figure}[H]
 \centering
 \label{fig:2DSPHresults_1D_CS_ratioConst}
 
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/WholeDomainRho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/WholeDomainRho}}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area3Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/Area3Rho}}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area2Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/Area2Rho}}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/WholeDomainU}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/WholeDomainU}}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area3U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/Area3U}}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area2U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/Area2U}}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/WholeDomainE}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/WholeDomainE}}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area3E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/Area3E}}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area2E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/Area2E}}
 
-\caption[Convergence Shock-tube 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of support length to spacing of 5 ($h/m=8$)}
+\caption[Convergence Shock-tube 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of support length to spacing of 5 evaluated at $t=0.2$}
 
 \end{figure}
 
 \paragraph{2D constant spacing particle distribution}
-\begin{figure}[H]
-\centering
-\label{fig:2DSPHresults_1D_CS_ratioConst}
+Exactly like the corresponding 1D particle distribution, the 2D distribution showed optimum results for a ratio $h/dx=2.5$ (supportlength/dx=5, muss mir noch ne Abkürzung für supportlength einfallen lassen, damit ich sie nicht immer ausschreiben muss, evtl $l_s$???) which is also taken for this set of simulations. The supportlength variation ranges from 0.025 to 0.005 which leads to a number of particles from $N=1995$ for the lowest resolution to $N=9995$ for the highest simulation. As for higher resolution not only the number of particles becomes higher but also the timestep, which is coupled to $h$, becomes smaller, the time needed for the simulation increases considerably. (2h30 on my (old) computer for the highest resolution case)
 
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/WholeDomainRho}}
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area3Rho}}
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area2Rho}}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/WholeDomainU}}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area3U}}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area2U}}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/WholeDomainE}}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area3E}}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area2E}}
+The convergence behaviour for this case of a 2D particle distribution with constant spacing is essentially the same as for the corresponding 1D case. i.e. about first order convergence. Therefore the graphical evaluation of the results is presented in the appendix.
 
-\caption[Convergence Shock-tube with 2D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of support length to spacing of 5 ($h/m=8$)}
+In section (\ref{sec:2DSPH_results_shock_resSTudy_dx=const}), it has turned out that the 2D particle distribution result shows more velocity-oscillations in the aftershock area than one obtained with a 1D distribution. While these osciallations vanish for the 1D distribution with increasing resolution, they remain clearly visible in the velocity profile for the 2D distribution, even at the highest simualated resolution. They just become more and more confined to the area directly after the shock and at the contact discontinuity. 
 
-\end{figure}
-
+ 
 \paragraph{1D constant mass particle distribution}
+For the convergence test of the 1D constant mass particel distribution, a constant ratio $l_s/m=16$ has been taken, leading to ratios of $l_s/dx_l=$ on the LHS and $l_s/dx_r=$ on the RHS of the shock-tube problem. Again, the convergence rate is about first order as already for all cases before. The corresponding figure is shown in the Appendix. 
 
-\begin{figure}[H]
-\centering
-\label{fig:2DSPHresults_1D_CM_ratioConst}
+At the highest simulated resolution with $l_s=0.005$, corresponding to 3599 particles, the simulation result has a good quality. The shock is resolved very well, as its resolution scales with $l_s$ and the aftershock values are matched very accurately.
 
-\subfigure[]{
-\label{fig:2DSPHresults_1D_CM_ratioConst_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/WholeDomainRho}}
-\subfigure[]{
-\label{fig:2DSPHresults_1D_CM_ratioConst_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area3Rho}}
-\subfigure[]{
-\label{fig:2DSPHresults_1D_CM_ratioConst_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area2Rho}}
-\subfigure[]{
-\label{fig:2DSPHresults_1D_CM_ratioConst_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/WholeDomainU}}
-\subfigure[]{
-\label{fig:2DSPHresults_1D_CM_ratioConst_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area3U}}
-\subfigure[]{
-\label{fig:2DSPHresults_1D_CM_ratioConst_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area2U}}
-\subfigure[]{
-\label{fig:2DSPHresults_1D_CM_ratioConst_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/WholeDomainE}}
-\subfigure[]{
-\label{fig:2DSPHresults_1D_CM_ratioConst_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area3E}}
-\subfigure[]{
-\label{fig:2DSPHresults_1D_CM_ratioConst_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area2E}}
+VIELLEICHT NOCHMAL DIE 4 BILDER VON EINER HOCHAUFLÖSENDEN SCHOCK-SIMULATION (WÄRE ABER ÄHNLICH ZU 1DSPH!!!)
 
-\caption[Convergence Shock-tube 1D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of support length to mass of 16 ($h/m=8$)}
-
-\end{figure}
+AUẞERDEM KONVERGENZTEST NOCH FÜR NICHT-OPTIMALE RATIO SUPlEN/DX...->ROBUSTNESS
 
 
 \paragraph{2D constant mass particle distribution}
-\begin{figure}[H]
-\centering
-\label{fig:2DSPHresults_1D_CS_ratioConst}
+Finally, the convergence of a 2D constant mass particle distribution has been examined using a constant ratio $l_s/\sqrt{m}=6$ found to be optimal in section (\ref{sec:2DSPH_results_shock_resSTudy_dx=const}) and a variation of $l_s$ from 0.3 to 0.1, corresponding to 3994 particles in the highest resolution.
+The obtained convergence ratio is again around 1 order as can be seen from the figure in the Appendix. 
 
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/WholeDomainRho}}
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area3Rho}}
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area2Rho}}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/WholeDomainU}}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area3U}}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area2U}}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/WholeDomainE}}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area3E}}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area2E}}
+The inaccuracy in the rarefaction that has been observed in section (\ref{sec:2DSPH_results_shock_resSTudy_dx=const}) for a 2D constant mass particle distribution does not disappear with higher resolution. 
+%vielleicht noch erwähnen dass eine weitere simulation durchgeführt wurde mit relativ größerer supLen (in Anlehnung an Resultate von 1D const mass distribution). i.e. ratio suplen/sqrt(m)=8 with supLen=0.01: Ergebnis: fehler in der rarefaktion ist weg! 
+ 
 
-\caption[Convergence Shock-tube with 2D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of support length to spacing of 5 ($h/m=8$)}
-
-\end{figure}
 \subsubsection{Perturbation Study}
 \paragraph{1D constant spacing particle distribution}
 \begin{figure}[H]
@@ -2597,6 +2527,118 @@ If this gives the right results, the final simulation of a porous configuration 
 \caption[Convergence Shock-tube with 2D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying supoprt length and a constant particle mass of $m=2.5\cdot10^{-5}$, leading to a particle spacing of $dx_l=dy_l=0.005$ on the LHS and of $dx_r=dy_r=0.015$ on the RHS}
 
 \end{figure}
+
+
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_1D_CS_ratioConst}
+
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/WholeDomainRho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area3Rho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area2Rho}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/WholeDomainU}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area3U}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area2U}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/WholeDomainE}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area3E}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area2E}}
+
+\caption[Convergence Shock-tube with 2D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of support length to spacing of 5 evaluated at $t=0.2$. }
+
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_1D_CM_ratioConst}
+
+\subfigure[]{
+\label{fig:2DSPHresults_1D_CM_ratioConst_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/WholeDomainRho}}
+\subfigure[]{
+\label{fig:2DSPHresults_1D_CM_ratioConst_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area3Rho}}
+\subfigure[]{
+\label{fig:2DSPHresults_1D_CM_ratioConst_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area2Rho}}
+\subfigure[]{
+\label{fig:2DSPHresults_1D_CM_ratioConst_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/WholeDomainU}}
+\subfigure[]{
+\label{fig:2DSPHresults_1D_CM_ratioConst_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area3U}}
+\subfigure[]{
+\label{fig:2DSPHresults_1D_CM_ratioConst_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area2U}}
+\subfigure[]{
+\label{fig:2DSPHresults_1D_CM_ratioConst_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/WholeDomainE}}
+\subfigure[]{
+\label{fig:2DSPHresults_1D_CM_ratioConst_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area3E}}
+\subfigure[]{
+\label{fig:2DSPHresults_1D_CM_ratioConst_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area2E}}
+
+\caption[Convergence Shock-tube 1D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of support length to mass of 16 }
+
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_1D_CS_ratioConst}
+
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/WholeDomainRho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area3Rho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area2Rho}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/WholeDomainU}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area3U}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area2U}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/WholeDomainE}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area3E}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_1D_CS_ratioConst_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area2E}}
+
+\caption[Convergence Shock-tube with 2D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of $l_s/\sqrt{m}=6$. The simuation is evaluated at $t=0.2$.}
+
+\end{figure}
+
+
 
 \listoffigures
 

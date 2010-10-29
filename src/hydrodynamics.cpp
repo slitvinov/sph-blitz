@@ -91,7 +91,8 @@ void Hydrodynamics::UpdateInteractions(spKernel weight_function) {
 void Hydrodynamics::UpdateDensity(ParticleManager &particles, 
 				  spKernel weight_function, 
 				  const Initiation &ini) {
-  ///- obtain the interaction pairs
+ LOG(INFO)<<"Hydrodynamics::UpdateDensity(ParticleManager, spKernel, Initiation)"; 
+ ///- obtain the interaction pairs
   particles.BuildInteraction(interaction_list, particle_list, weight_function, ini);
   ///- initiate by calling Zero_density method
   Self_density(weight_function);
@@ -115,7 +116,7 @@ void Hydrodynamics::UpdateDensity(ParticleManager &particles,
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::UpdateDensity(const Initiation &ini, spKernel  weight_function) {
   ///- initiate zero density
-  LOG(INFO)<<"Hydrodynamics::UpdateDensity";
+  LOG(INFO)<<"Hydrodynamics::UpdateDensity(Initiation, spKernel)";
   Self_density(weight_function);
   ///- iterate the interaction list
   BOOST_FOREACH(spInteraction pair, interaction_list) {

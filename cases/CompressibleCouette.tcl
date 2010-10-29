@@ -13,7 +13,7 @@ set INTEGRATION_SCHEME 1
 # possible density treatments
 # 1: summation density (density obtained by smoothing)
 # 2: continuity density (density is integrated)
-set DENSITY_MODE 1
+set DENSITY_MODE 2
 
 # initial conditions flag 
 # 0: use initial 
@@ -26,14 +26,14 @@ set INITIAL_CONDITION 0
 set EXTERNAL_MASS_INITIALIZATION 0
 
 # number of cells in X and Y directions
-set CELLS(0) 24
-set CELLS(1) 24
+set CELLS(0) 1
+set CELLS(1) 15
 
-# size of one cell (must NOT be inferior to supportlegth!)
-set CELL_SIZE 0.0416666666666666
+# size of one cell (must NOT be inferior to supportlength!)
+set CELL_SIZE 0.033333333333333333333333
 
 # support length of the kernel
-set SUPPORT_LENGTH 0.0416666666666666
+set SUPPORT_LENGTH 0.0333333333333333333333333
 
 # number of particles in one cell size
 #( not used as paricle positions initialized from external file) 
@@ -83,7 +83,7 @@ set PHYSICAL_VISCOSITY_MARKER 1
 #    (see White1974) with parameters material_eta_0, material_S_0,
 #     material_T_0 to be specified both for eta and k in materials
 #      section below 
-set VARIABLE_ETA_AND_K 1
+set VARIABLE_ETA_AND_K 0
 
 # marker to choose output format
 # 0: used for post-processing of shocktube cases and wave propagation
@@ -98,6 +98,14 @@ set SPLASH_OPTIMIZED_OUTPUT 1
 # 0: standard timestamp (8 digits)
 # 1: extra large timestamp (12 digits)
 set XXL_TIMESTAMP_MARKER 0
+
+# marker to switch timestamp unit
+# (becomes necessary for simulations with very small dt,
+# for example due to high viscosity values)
+#
+# 0: standard (timestamp unit [ms])
+# 1: high resolution (timestamp unit [1e-10s])
+set HIGH_RES_TIMESTAMP_MARKER 1
 
 # boundary conditions
 #
@@ -114,7 +122,7 @@ set XXL_TIMESTAMP_MARKER 0
 # isothermal or not (=adiabatic)
 # 1: isothermal (temperature as specified at corresponding boundary)
 # 0: NOT isothermal (wall is symmetric concerning temperature)
-set ISOTHERMAL_BOUNDARY 1
+set ISOTHERMAL_BOUNDARY 0
 
 # disable boundary conditions:
 # 1: boundary conditions disabled
@@ -137,18 +145,18 @@ set TxBr 0.0
 set yBd 0
 set UyBd(0) 0.0
 set UyBd(1) 0.0
-set TyBd 0.0
+set TyBd 2.0
 
 # upper boundary
 set yBu 0
 set UyBu(0) 0.04
 set UyBu(1) 0.0
-set TyBu 1.0
+set TyBu 2.0
 
 # time  control 
 set Start_time 0.0		
-set End_time 0.0003	
-set D_time 0.000015
+set End_time 3e-4	
+set D_time 2e-7
 
 #marker for automatic time control
 # 0: autom. time conrtol switched off: specified dt used (see below) 
@@ -165,37 +173,37 @@ set NUMBER_OF_MATERIALS 2
 set material_name(0) Wall
 set material_type(0) 1
 set material_cv(0) 1
-set material_eta(0) 0.0
+set material_eta(0) 1000.0
 set material_zeta(0) 0.0
 set material_k(0) 0
-set material_gamma(0) 1.4
+set material_gamma(0) 1.5
 set material_b0(0) 0.0
 set material_rho0(0) 0.0
 set material_a0(0) 0.0
 #for Sutherland law for variable viscosity and thermal conductivity:
-set material_eta_0(0) 1.716e-6
-set material_T_0eta(0) 272.77
-set material_S_eta(0) 110.222
+set material_eta_0(0) 0.1
+set material_T_0_eta(0) 2.0
+set material_S_eta(0) 1.0
 set material_k_0(0) 2.4128
-set material_T_0k(0) 272.77
+set material_T_0_k(0) 272.77
 set material_S_k(0) 194.111
 
-#bulk viscosity neglected (zeta=0)
+
 # viscosity eta is DYNAMIC VISCOSITY [Pa s]
 set material_name(1) Air
 set material_type(1) 1
 set material_cv(1) 1
-set material_eta(1) 10.0
+set material_eta(1) 1000.0
 set material_zeta(1) 0.0
 set material_k(1) 0
-set material_gamma(1) 1.4
+set material_gamma(1) 1.5
 set material_b0(1) 0.0
 set material_rho0(1) 0.0
 set material_a0(1) 0.0
 #for Sutherland law for variable viscosity and thermal conductivity:
-set material_eta_0(1) 1.716e-6
-set material_T_0eta(1) 272.77
-set material_S_eta(1) 110.222
+set material_eta_0(1) 0.1
+set material_T_0_eta(1) 2.0
+set material_S_eta(1) 1.0
 set material_k_0(1) 2.4128
-set material_T_0k(1) 272.77
+set material_T_0_k(1) 272.77
 set material_S_k(1) 194.111

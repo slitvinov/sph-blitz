@@ -22,8 +22,13 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
                             const double Time, const Initiation &ini) {
   LOG(INFO) << "Output::OutputParticle";
   ///<ul><li>produce output file name
-  const double Itime = Time*1.0e10;
 
+  /// create timestamp with correct unit (depending on user selection)
+  double Itime;// variable for time(stamp)
+  if(ini.high_res_timestamp_marker==0)//normal unit [ms]
+    Itime = Time*1.0e6;
+  else// high resolution unit [1e-10]
+    Itime = Time*1.0e10;
   /// generate file name with leading zeros
   string file_list;
   if (ini.xxl_timestamp_marker==0)//standard timestamp of 8 digits
