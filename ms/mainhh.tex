@@ -387,51 +387,132 @@ especially robust and efficient for problems with variable smoothing
 length~\cite{Liu2003}.
 % and therefore are implemented in many astrophysical applications, as h=variable essential due to the huge variation of quantities
 
+
+
+
+
+
+
+
+
+
+
+
+
 \subsection{Boundary condition implementation}
 \label{sec:boundaryConditionImplementation}
 For particles at the edge of the calculation domain, the summation interpolation does not
-give exact results, as the integral, respectively the sum, is truncated due to
+give exact results, as the integral (or better the sum) is truncated due to
 the simple fact that outside the domain there are no
-particles~\cite{Liu2003}. 
-%(find better citation...) 
-This effect is called the {\bf particle deficiency
-problem}.\cite{Liu2003}. In cases where the region of interest is far from the edge of the domain and where erroneous information from the edges do not propagate to the region of interest during the time in consideration, there is no need to take this
-problem into account. 
-The 1D shock-tube simulation described in sections (\ref{sec:1DSPHcodeResults}) and (\ref{sec:2DSPHcodeResults}) is an example of such a case.  
-But for other applications the edges play an important role, or the calculation domain has to be continued periodically. In these cases it is necessary to define specific boundary
+particles~\cite{Liu2003}. (find better citation...) This effect is called the
+the particle deficiency
+problem.\cite{Liu2003}. In cases where the region of interest is far from boundaries
+and where information from the domain edges does not propagate to the region of interest
+in the time of interest, there is no need to consider this
+problem. 
+The 1D shock tube simulation with 1D particle distribution described further below
+(PERHAPS LINK TO SECTION)is an example of such a case.  
+
+But for many applications precise boundary conditions have to be applied and it is therefore necessary to treat the edges of the domain in a special manner, depending on the desired boundary condition. This often includes the placement of so--called virtual particles or ghost particles within the distance of one supportlength outside the domain, which are assigned properties according to the boundary condition to implement.
+These virtual particles, that were originally used by \cite{Libersky1993}, then contribute to the calculation of the quantities of the real particles inside the domain. Thus the particle deficiency problem can be solved. 
+ Following paragraphs which detail this and alternative concepts for the different types of boundary conditions
+
+\paragraph{periodical boundary condition}
+The periodical boundary condition is relatively easy to implement and consists of placing a copy of all real particles within one supportlength to one domain edge right in front of the opposite domain edge.
+
+
+
+\paragraph{symmetrical boundary conditions}
+A way of setting up symmetrical boundary conditions is mirroring all real particles within one supportlength to the domain edge at the latter.
+
+\paragraph{solid--wall}
+For solid wall conditions, beside the fact of avoiding the particle deficiency problem, a second issue is to prevent particle penetration into the wall.
+There are two types of solid wall conditions: a free-slip condition, which is appropriate for inviscid flow, and a no--slip condition which has to be applyied for modelling solid walls in viscous flow simulations. The free-slip wall condition does essentially not differ from the symmetry condition, except for the case where thermal boundary conditions may be applied as well. While the symmetrical BC is by condtruction always adiabatic, the free-slip wall provides the possibility to implement an isothermal BC by fixing the boundary particle's temperature.
+
+As wall boundary conditions in this project are mainly needed for viscous flow simulations, the no--slip condition is of special interest. In this case an additional issue is to reproduce this no--slip condition. A good overview on solid wall boundary implementations for (incompressible) viscous flows is given in \cite{Yildiz2009}. 
+According to \cite{Yildiz2009} and personal research such no-slip solid walls are mainly applied for SPH-simulations of low Reynolds-number and for incompressible or weakly-compressible fluid--models. 
+
+The problem of particles penetrating the solid walls can be adressed by either implementng a reflection law or a repulsive force at the boundary. Monaghan originally linked the repulsive force in a form similar to Leonard-Jones potential to boundary particles placed directly ON the boundary \cite{Monaghan1994} but this approach turned out to produce considerable perturbatios in the real particle movement paralell to walls \cite{Monaghan2005}. An improved approach by Monaghan uses a different force model \cite{Monaghan2004} that gives remedy to these perturbations. Due to the fact, that the boundary particles are placed exclusively on the boundary, an error in density due to the particle deficiency problem can still aoccurr and appropriate correction methods might be applied \cite{Monaghan2004}. Concerning the no--slip condition, Monaghan claims, that it can be achieved with his model by including the boundary particles, which have the velocity of the boundary, in the viscous force calculations. 
+
+A different approach for modelling solid--walls consists in placing ghost particles outside the domain up to a distance of one supportlength to the boundary. The particle deficiency problem is therefore solved, but no explicit measure is taken to prevent particles from penetrating into the solid wall in case the ``normal'' interaction forces produced by the ghost particles are not sufficient.
+
+ These methods differ in their complexity and efficiency 
+\begin{enumerate}
+  \item in the way the ghost particles are placed, and
+\item in the way their velocities (or in general properties) are assigned to prevent particle penetration and ensure the no--slip condition.
+ \end{enumerate}
+
+Concerning the first point, different options are imaginable. Ghost particles can either be placed once during the simulation setup and then maintained (fixed to the wall they represent) for the entire simulation. Or they can be recreated every timestep by mirroring the positions of the corresponding real particles at the boundary. In the easiest case of a linear/plane boundary this corresponds to the ghost particle placement for periodical or symmetrical boundary conditions as mentionned above.
+For more complex geometries however mirroring can only be applied with restrictions, so that a fixed ghost particle placement once at the beginning of the simualation, as done for example by \cite{Morris1997, Morris1999}, is more convenient. Only sophistcated approaches, such as \cite{Yildit2009} recreate ghost particles by mirroring for complex geometries at every timestep.
+
+The easiest way of velocity assignment for ghost particles to obtain a no--slip condition is by simply immobilizing them relative to the boundary they are to represent \cite{Morris1997}, i.e. all ghost particles have the same velocity which is zero for a non-moving boundary or the corresponding boundary velocity for a boundary in motion.This gives a first order no--slip condition. A velocity assignment leading to a more accurate no--slip condition can be done by either mirroring or extrapolating the corresponding real particle profile. \cite{Basa2009} tested these different approaches in a poisseuille channel and found out that discrepancies with the exact solution mainly occurr right at the boundary during the initial phase.  According to these tests, mirroring of velocities is the least accurate method, followed by linear and then quadratic extrapolation. 
+
+In combining these options one can reconstruct some boundary treatment approaches already mentionned in literature.
+\begin{itemize}
+
+ \item An approach where the ghost particles are created each timestep by mirroring the positions of the real particles is adopted in the 2D code for modelling of solid walls with no--slip or free--slip conditions at the edges of the computational domain.
+The ghost particles have the same properties as their real counterparts
+except for the velocity. Depending on the type of boundary condition they are
+supposed to represent, different velocities are assigned to them \cite{Hu2006}.
+
+No--slip velocity boundary condition:
+\begin{equation}
+v_{virtual}=2v_{wall}-v_{real}.
+\end{equation}
+
+Free slip velocity boundary condition:
+\begin{equation}
+v_{virtual}^{tangential}=v_{real}^{tangential}.
+\end{equation}
+
+FIGURE: ILLUSTRATION OF VELOCITY ASSIGNMENT FOR VIRTUAL BOUNDARY PARTICLES
+
+\item The approach from Morris \cite{Morris1999} combines a fixed ghost particle positionning with an linearly interpolated velocity and is apllied in the original publication for modelling porosities in a low Reynolds-Number incompressible flow.
+This way of modelling boundary conditions is implemented for the porosity representation within the calculation domain. 
+To form a curved bondary, ghost particles are set up in layery parallel to the boundary with the first layer directly at the boundary. 
+Note: for porosity representation this leads to the problem of filling the remaining space with real particles of constant density. Suggested solution \cite{Morris1997}: Placing regular lattice real particles in places where there are no porosities and first leting particle configuration relax before applying driving force! (or directly setup the porosity ghostparticles to gether with the real particles in a single regular lattice: leads to inaccurate curved surface representation for low resolutions \cite{Monaghan1997})
+
+The velocity of the ghost particles is assigned according to the following principle:
+blablabla!!!
+
+\end{itemize}
+
+
+As already indicated above, the ghost particle approach alone might not completely prevent a penetration of real particles into the boundary. For this reason \cite{Liu2002} has combined the boundary particle concept from Monaghan with the ghost particle concept by simultaneous use of both particle types.  NOTE: This approach can be kept in mind for the porosity implementation if it turns out that the pure ghost-particle appraoch leads to boundary penetration ENDNOTE
+
+
+begin alter text:-------------------------------
+
+ To address the second issue, different approaches have been conceived that include strong repulsive forces at the boundary.
+
 conditions. This can be accomplished by a special boundary treatment which
-often includes so--called virtual particles or {\bf ghost
-particles}~\cite{Liu2003}. The first ones to come up with this idea were
+often includes  The first ones to come up with this idea were
 \cite{LIBERSKY1993}. Virtual particles are used to model solid walls by
 placing them inside the solid body, mirrored at the surface. For each real
 particle whose support domain interferes with the wall, one such particle is
 built. Virtual particles have the same properties as their real counterpart
 except for the velocity. Depending on the type of boundary condition they are
-supposed to represent, different velocities are assigned to them \cite{Hu2006}.
+supposed to represent, different velocities are assigned to them.\cite{Hu2006}.
 
 No--slip velocity boundary condition:
 
 \begin{equation}
-{\bf v_{virtual}}=2{\bf v_{wall}}-{\bf v_{real}}
+v_{virtual}=2v_{wall}-v_{real}.
 \end{equation}
 
 Free slip velocity boundary condition:
 
 \begin{equation}
-{\bf v_{virtual}^{tangential}}={\bf v_{real}^{tangential}}
+v_{virtual}^{tangential}=v_{real}^{tangential}.
 \end{equation}
 
-%FIGURE: ILLUSTRATION OF VELOCITY ASSIGNMENT FOR VIRTUAL BOUNDARY PARTICLES
+FIGURE: ILLUSTRATION OF VELOCITY ASSIGNMENT FOR VIRTUAL BOUNDARY PARTICLES
 
-%For the treatment of periodic boundary conditions, no ghost particles are
-%needed. Particles leaving the calculation domain on one side are simply
-%reinserted on the opposite side (with the same properties).
-%obige aussage Falsch, schließlich müssen partikel trotzdem kopiert werden, um als nachbar-particle für interpolation zur verfügung zu stehen
+For the treatment of periodic boundary conditions, no ghost particles are
+needed. Particles leaving the calculation domain on one side are simply
+reinserted on the opposite side (with the same properties).
 
-%außerdem muss in diesen Abschnitt
-% A) die Geschichte mit linearer, quadratischer iterpolation besser als Spiegelung der GEschwidnigkeit für viskose Randschichten in der Anfangsphase (steht irgendwo in meiner README)
-% B) die Randedingungen für die Wärmeleitung, sofern noch andere implementiert als periodisch und symmetrisch(=adiabat), beide funktionieren ja automatisch
-
+end alter text-------------------------------------------
 
 \subsection{Equation of state}
 
