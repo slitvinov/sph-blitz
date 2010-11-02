@@ -19,6 +19,8 @@ nomain=	 boundary.cpp boundary.h \
 	Interaction/interaction.cpp  Interaction/interaction.h \
 	Interaction/interactioncomp.cpp  Interaction/interactioncomp.h \
 	Interaction/interactionin.cpp  Interaction/interactionin.h \
+	SolidObstacles/solidObstacles.cpp  SolidObstacles/solidObstacles.h \		SolidObstacles/cavity.cpp  SolidObstacles/cavity.h \
+	SolidObstacles/noObstacles.cpp  SolidObstacles/noObstacles.h \
 	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
 	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
 	TimeSolver/gastimesolverLeapFrog.cpp TimeSolver/gastimesolverLeapFrog.h \

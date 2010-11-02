@@ -17,10 +17,11 @@
 #include "Kernel/kernel.h"
 #include "particlemanager.h"
 #include "Interaction/interaction.h"
+#include "SolidObstacles/solidObstacles.h"
 #include "initiation.h"
 using namespace std;
 
-Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
+Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini, spSolidObstacles obstacles) {
   LOG(INFO) << "Run constructor of Hydrodynamics class";
   /// <ul><li>copy properties from initiation class
   /// <li>create material matrix
@@ -53,7 +54,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   if (ini.simu_mode == 1) {
     particles.BuildRealParticle(materials, particle_list, ini);
   }  else if (ini.simu_mode == 2) {
-    particles.BuildRealParticleGasDyn(materials, particle_list, ini);
+    particles.BuildRealParticleGasDyn(materials, particle_list, ini, obstacles);
   } else {
     LOG(ERROR) << "Unknown SIMULATION_MODE: " << ini.simu_mode;
     LOG(ERROR) << "check configuration file";
@@ -568,7 +569,6 @@ void Hydrodynamics::UpdateUe2Half(const double dt) {
     prtl->e = prtl->e + prtl->dedt*0.5*dt;
   }
 }
-
 
 void Hydrodynamics::UpdateUeRho2Half(const double dt) {
 /// <ul><li>iterate the real partilce list

@@ -17,7 +17,7 @@ class Particle {
 	Particle (Vec2d position, Vec2d velocity, double density, 
 		  double pressure, double temperature, spMaterial material);
 
-	///construct a real particle including mass (used for gasdynamcis where mass initialized via external file
+	///construct a real particle* including mass (used for gasdynamcis where mass initialized via external file, *: constructor also used for these ghost partices which form a <<SolidObstacle>> within the calculation domain. So, in case one would like to evolute the density, they have an ID and they can interact like a normal particle (i.e. they can be origin and destination of an interaction). The fact of being a ghost particle is marked later (directly after the particle's construction) by setting the flag <<solidObstacle_ghostParticle>>. 
 	Particle (Vec2d position, Vec2d velocity, double density, 
 		    double pressure, double mass,double temperature, 
 		  spMaterial material);
@@ -39,11 +39,30 @@ class Particle {
 	///particle states copier for boundary particles
 	void StatesCopier(spParticle RealParticle , const int type);
 
+	/// increments value of density depending on particle's type
+	/// i.e. modification if real particle or ghost prtl with density evolution
+	/// no modification if ghost particle and no density evolution selected
+	// method is needed for summation density approach
+	void increment_rho_depOnType(double rho_increment);
+
+	/// sets value of density depending on particle's type
+	/// i.e. modification if real particle or ghost prtl with density evolution
+	/// no modification if ghost particle and no density evolution selected
+	// method is needed for continuity density approach
+	void set_rho_depOnType(double rho_);
+
+
 	/// \brief boundary particle or not (click for mor info)
 	///
 	///- 0: inside the boundary
 	///- 1: on the boundary
 	const int bd; 
+
+	///\brief indicates if this is a ghost particle formong a solid obstacle
+	///
+	/// 0: NOT a ghostparticle for solid obstacle (can be any other particle type: real particle, boundary particle ghost particle for te boundary conditions at the domein edge...)
+	/// 1: this is a ghost particle forming a solid obstacle (other than the  ones at the domain edes) (i.e cavity, porisity,...)
+	int solidObstacle_ghostParticle;
 
 	///a shared pointer  to the material
 	spMaterial mtl; 
@@ -100,7 +119,7 @@ class Particle {
 	///- a wall particle has zero ID
 	///- an ghost particle (for periodic boundary condition)
 	///has a negtive ID of its corresponding real particle
-	///\todo{at least this is not true for my simulation where all ghost particles have ID=0!!!!}
+	///\todo{this is not true: all ghost particles have ID=0!!!!}
 	int64_t ID;
 	
 	///maximum ID number for non-ghost particles (real or wall particles) in the simulation

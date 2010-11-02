@@ -46,7 +46,7 @@ void InteractionComp::UpdateForces() {
   const Vec2d Uij = Ui - Uj;
   const double UijdotRij=dot(Uij,(Org->R - Dest->R));
   
-  //pair focres or change rate
+  //pair forces or change rate
   //Vec2d dPdti, dUdti, dUdtj; //mometum&velocity change rate
   const double supportlength = ini.supportlength;
   assert(supportlength>0.0);

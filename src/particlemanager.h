@@ -6,6 +6,7 @@
 #include <list>
 #include "vec2d.h"
 #include "particle.h"
+#include "SolidObstacles/solidObstacles.h"
 
 class Hydrodynamics;
 class Initiation;
@@ -53,7 +54,7 @@ public:
   ///build the initial particles and the linked lists for gas dynamcis
   void BuildRealParticleGasDyn(vecMaterial materials, 
 					std::list<spParticle >& particle_list, 
-			       Initiation &ini);
+			       Initiation &ini, spSolidObstacles &obstacles);
 
   ///buid the initial wall particles and the linked lists
   void BuildWallParticle(Hydrodynamics &hydro, Boundary &boundary);

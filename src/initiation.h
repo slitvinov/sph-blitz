@@ -21,10 +21,16 @@ public:
   std::string Project_name;
   //the ivs file name
   std::string Ivs_file_name;
-
-  ///kernel type
+  
+  /// type of solid obstacle in calculation domain 
+  /// (in addition to boundaries at the domain edges)
   /// possible values are
-  /// QuinticSpline, BetaSpline, CubicSpline, CubicSpline1D
+  /// NoObstacles, Cavity, Porosities
+  std::string SolidObstacles_type;
+
+  /// kernel type
+  /// possible values are
+  /// , BetaSpline, CubicSpline, CubicSpline1D
   std::string kernel_type;
 
   ///\brief number of materials
@@ -170,6 +176,6 @@ public:
   void show_information() const;
   ///predict the particle volume and mass
   void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, 
-		  spKernel weight_function);
+		  spKernel weight_function, spSolidObstacles obstacles);
 };
 #endif

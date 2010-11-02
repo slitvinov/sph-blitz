@@ -54,8 +54,9 @@ am__objects_1 = boundary.$(OBJEXT) glbfunc.$(OBJEXT) \
 	cubicspline1D.$(OBJEXT) betaspline.$(OBJEXT) \
 	harmonic.$(OBJEXT) interaction.$(OBJEXT) \
 	interactioncomp.$(OBJEXT) interactionin.$(OBJEXT) \
-	timesolver.$(OBJEXT) hydrotimesolver.$(OBJEXT) \
-	gastimesolverLeapFrog.$(OBJEXT) \
+	solidObstacles.$(OBJEXT) cavity.$(OBJEXT) \
+	noObstacles.$(OBJEXT) timesolver.$(OBJEXT) \
+	hydrotimesolver.$(OBJEXT) gastimesolverLeapFrog.$(OBJEXT) \
 	gastimesolverPredCorr.$(OBJEXT) cpptcl.$(OBJEXT)
 am_kernel_test_OBJECTS = $(am__objects_1) kernel_test.$(OBJEXT)
 kernel_test_OBJECTS = $(am_kernel_test_OBJECTS)
@@ -203,6 +204,8 @@ nomain = boundary.cpp boundary.h \
 	Interaction/interaction.cpp  Interaction/interaction.h \
 	Interaction/interactioncomp.cpp  Interaction/interactioncomp.h \
 	Interaction/interactionin.cpp  Interaction/interactionin.h \
+	SolidObstacles/solidObstacles.cpp  SolidObstacles/solidObstacles.h \		SolidObstacles/cavity.cpp  SolidObstacles/cavity.h \
+	SolidObstacles/noObstacles.cpp  SolidObstacles/noObstacles.h \
 	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
 	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
 	TimeSolver/gastimesolverLeapFrog.cpp TimeSolver/gastimesolverLeapFrog.h \
@@ -311,6 +314,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/betaspline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boundary.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cavity.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cpptcl.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cubicspline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cubicspline1D.Po@am__quote@
@@ -327,11 +331,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kernel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kernel_test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/material.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/noObstacles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/particle.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/particlemanager.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/particlemanager_test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/quinticspline.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/solidObstacles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spParticle.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sph.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timesolver.Po@am__quote@
@@ -475,6 +481,48 @@ interactionin.obj: Interaction/interactionin.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Interaction/interactionin.cpp' object='interactionin.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o interactionin.obj `if test -f 'Interaction/interactionin.cpp'; then $(CYGPATH_W) 'Interaction/interactionin.cpp'; else $(CYGPATH_W) '$(srcdir)/Interaction/interactionin.cpp'; fi`
+
+solidObstacles.o: SolidObstacles/solidObstacles.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT solidObstacles.o -MD -MP -MF $(DEPDIR)/solidObstacles.Tpo -c -o solidObstacles.o `test -f 'SolidObstacles/solidObstacles.cpp' || echo '$(srcdir)/'`SolidObstacles/solidObstacles.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/solidObstacles.Tpo $(DEPDIR)/solidObstacles.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SolidObstacles/solidObstacles.cpp' object='solidObstacles.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o solidObstacles.o `test -f 'SolidObstacles/solidObstacles.cpp' || echo '$(srcdir)/'`SolidObstacles/solidObstacles.cpp
+
+solidObstacles.obj: SolidObstacles/solidObstacles.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT solidObstacles.obj -MD -MP -MF $(DEPDIR)/solidObstacles.Tpo -c -o solidObstacles.obj `if test -f 'SolidObstacles/solidObstacles.cpp'; then $(CYGPATH_W) 'SolidObstacles/solidObstacles.cpp'; else $(CYGPATH_W) '$(srcdir)/SolidObstacles/solidObstacles.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/solidObstacles.Tpo $(DEPDIR)/solidObstacles.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SolidObstacles/solidObstacles.cpp' object='solidObstacles.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o solidObstacles.obj `if test -f 'SolidObstacles/solidObstacles.cpp'; then $(CYGPATH_W) 'SolidObstacles/solidObstacles.cpp'; else $(CYGPATH_W) '$(srcdir)/SolidObstacles/solidObstacles.cpp'; fi`
+
+cavity.o: SolidObstacles/cavity.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT cavity.o -MD -MP -MF $(DEPDIR)/cavity.Tpo -c -o cavity.o `test -f 'SolidObstacles/cavity.cpp' || echo '$(srcdir)/'`SolidObstacles/cavity.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/cavity.Tpo $(DEPDIR)/cavity.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SolidObstacles/cavity.cpp' object='cavity.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o cavity.o `test -f 'SolidObstacles/cavity.cpp' || echo '$(srcdir)/'`SolidObstacles/cavity.cpp
+
+cavity.obj: SolidObstacles/cavity.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT cavity.obj -MD -MP -MF $(DEPDIR)/cavity.Tpo -c -o cavity.obj `if test -f 'SolidObstacles/cavity.cpp'; then $(CYGPATH_W) 'SolidObstacles/cavity.cpp'; else $(CYGPATH_W) '$(srcdir)/SolidObstacles/cavity.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/cavity.Tpo $(DEPDIR)/cavity.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SolidObstacles/cavity.cpp' object='cavity.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o cavity.obj `if test -f 'SolidObstacles/cavity.cpp'; then $(CYGPATH_W) 'SolidObstacles/cavity.cpp'; else $(CYGPATH_W) '$(srcdir)/SolidObstacles/cavity.cpp'; fi`
+
+noObstacles.o: SolidObstacles/noObstacles.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT noObstacles.o -MD -MP -MF $(DEPDIR)/noObstacles.Tpo -c -o noObstacles.o `test -f 'SolidObstacles/noObstacles.cpp' || echo '$(srcdir)/'`SolidObstacles/noObstacles.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/noObstacles.Tpo $(DEPDIR)/noObstacles.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SolidObstacles/noObstacles.cpp' object='noObstacles.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o noObstacles.o `test -f 'SolidObstacles/noObstacles.cpp' || echo '$(srcdir)/'`SolidObstacles/noObstacles.cpp
+
+noObstacles.obj: SolidObstacles/noObstacles.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT noObstacles.obj -MD -MP -MF $(DEPDIR)/noObstacles.Tpo -c -o noObstacles.obj `if test -f 'SolidObstacles/noObstacles.cpp'; then $(CYGPATH_W) 'SolidObstacles/noObstacles.cpp'; else $(CYGPATH_W) '$(srcdir)/SolidObstacles/noObstacles.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/noObstacles.Tpo $(DEPDIR)/noObstacles.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SolidObstacles/noObstacles.cpp' object='noObstacles.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o noObstacles.obj `if test -f 'SolidObstacles/noObstacles.cpp'; then $(CYGPATH_W) 'SolidObstacles/noObstacles.cpp'; else $(CYGPATH_W) '$(srcdir)/SolidObstacles/noObstacles.cpp'; fi`
 
 timesolver.o: TimeSolver/timesolver.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT timesolver.o -MD -MP -MF $(DEPDIR)/timesolver.Tpo -c -o timesolver.o `test -f 'TimeSolver/timesolver.cpp' || echo '$(srcdir)/'`TimeSolver/timesolver.cpp

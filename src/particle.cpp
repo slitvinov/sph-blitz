@@ -56,14 +56,15 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
 
 
 //----------------------------------------------------------------------------------------
-//							real particle (constructor for gas dynamicss mode (as mass initilaized from external file and so hs to be assigned in within the construtor)
-//	
+//							real* particle (constructor for gas dynamicss mode (as mass initialized from external file and so hs to be assigned in within the construtor)
+//
+//* constructor also used for these ghost particles forming <<SolidObstacles>>.	
 //----------------------------------------------------------------------------------------
 Particle::Particle (Vec2d position, Vec2d velocity, double density, 
 		    double pressure, double mass, double temperature, 
 		    spMaterial material) 
   : bd(0),
-    mtl(material)
+    mtl(material),solidObstacle_ghostParticle(0)
 {
 
   ///- increase the total particle number
@@ -119,7 +120,8 @@ Particle::Particle (double x, double y, double u, double v,
   rho = 0.0, p = 0.0, T = 0.0;
 }
 //----------------------------------------------------------------------------------------
-//						creat a ghost particle 
+//	     	creat a ghost particle (from a copy of a real particle) 
+//                (used for boundary conditions at the domain edges)
 //----------------------------------------------------------------------------------------
 Particle::Particle (spParticle RealParticle ) : 
   bd(1), 
@@ -185,7 +187,7 @@ Particle::Particle (spParticle RealParticle , spMaterial material):
   
 }
 //----------------------------------------------------------------------------------------
-//					particle states copier for boundary particles
+//					particle states copier (for boundary/ghost particles)
 //----------------------------------------------------------------------------------------
 void Particle ::StatesCopier(spParticle RealParticle , const int type)
 {
@@ -201,3 +203,24 @@ void Particle ::StatesCopier(spParticle RealParticle , const int type)
   zeta=RealParticle->zeta;
   k=RealParticle->k;
 }
+
+void Particle::increment_rho_depOnType(double rho_increment)
+{
+  // if particle is real particle or if particle is ghost particle but
+  // a density evolution is selected, increment particle's rho to value in question
+  if (solidObstacle_ghostParticle==0&&solidObstacle_ghostParticle==2)
+    rho=rho+rho_increment;
+  // otherwise (i.e if ghost particle without density evolution)
+  // do not modify particle's rho value!
+}
+
+void Particle::set_rho_depOnType(double rho_)
+{
+  // if particle is real particle or if particle is ghost particle but
+  // a density evolution is selected, set particle's rho to value in question
+  if (solidObstacle_ghostParticle==0&&solidObstacle_ghostParticle==2)
+    rho=rho_;
+  // otherwise (i.e if ghost particle without density evolution)
+  // do not modify particle's rho value!
+}
+

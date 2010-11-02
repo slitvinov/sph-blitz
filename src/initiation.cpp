@@ -55,6 +55,8 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   if (kernel_type == "Harmonic") {
     harmonic_n = interp.eval("[return $harmonic_n]");
   }
+  SolidObstacles_type = static_cast<std::string>(interp.eval("[return $SOLID_OBSTACLES]"));
+  //assertion made in sph.cpp
   
   /// if gas dynamics
   if (simu_mode == 2) {
@@ -187,7 +189,7 @@ void Initiation::show_information() const
 //					predict the particle volume and mass
 //----------------------------------------------------------------------------------------
 void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, 
-			    spKernel weight_function)
+			    spKernel weight_function, spSolidObstacles obstacles)
 {
   LOG(INFO)<<"Initiation::VolumeMass starts";
   ///mass initiation is different from 1DSPH code: 
@@ -196,6 +198,7 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
   ///The mass for each particle  stays constant during the simulation.
 
   /// <ul><li>iterate particles on the particle list
+  double mass; // local variable to save one particles m for assignment to ghost prtl
   BOOST_FOREACH(spParticle prtl_org, hydro.particle_list) {
     ///\todo{initialize particle mass via initiation file...}
     //prtl_org->m=0.001875;
@@ -220,7 +223,21 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
     prtl_org->V = reciprocV;
     prtl_org->m = prtl_org->rho*reciprocV;
     LOG_EVERY_N(INFO, 1000) <<std::setprecision(10)<< "prtl ID"<<prtl_org->ID<<"prtl m  = " << prtl_org->m;
-    
+    //
+    mass=prtl_org->m;
   }
+  
+  // in case of SolidObstacles where not the entire obstacle is filled with particles
+  // (i.e. particles only to 1 supportlength of obstacle surface), the mass 
+  // initialization by smoothing is not working for the ghost particles
+  // (as they are not on the particle list! (and even if they were, they
+  // would not have enough neighbours...
+  // Therefore: iterate ghost particle list and initiate every ghostparticle
+  // with the same constant mass that has been calculated above
+  // if(density_evol_solObs_ghost_prtl==0) {
+    BOOST_FOREACH(spParticle ghost_prtlSolObs, obstacles->ghost_prtl_SolObs_list ) {
+      ghost_prtlSolObs->m=mass;
+    }
+    //  }
   LOG(INFO)<<"Initiation::VolumeMass ends";
 }

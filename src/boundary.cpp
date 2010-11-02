@@ -206,7 +206,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
            p10++) {
                 
         //the original real particle
-        spParticle prtl_old = *p10;
+        spParticle prtl_old = *p10;//make a new one
         spParticle prtl = boost::make_shared<Particle >(prtl_old, hydro.materials[0]);
 
         //boundary condition
@@ -214,7 +214,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
         //in which cell
         prtl->cell_i = 0; prtl->cell_j = j; 
-        //insert its poistion on the particle list
+        //insert its poistion on the boundary particle list
         boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
         //insert the position into corresponding cell list
         particles.cell_lists(0,j).insert(particles.cell_lists(0,j).begin(), prtl);
@@ -237,7 +237,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
         //in which cell
         prtl->cell_i = 0; prtl->cell_j = j; 
-        //insert its poistion on the particle list
+        //insert its poistion on the boundary particle list
         boundary_particle_list.insert(boundary_particle_list.begin(), prtl);
         //insert the position into corresponding cell list
         particles.cell_lists(0,j).insert(particles.cell_lists(0,j).begin(), prtl);

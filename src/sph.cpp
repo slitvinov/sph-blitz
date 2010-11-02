@@ -24,6 +24,9 @@
 #include "Kernel/cubicspline1D.h"
 #include "Kernel/betaspline.h"
 #include "Kernel/harmonic.h"
+#include "SolidObstacles/solidObstacles.h"
+#include "SolidObstacles/noObstacles.h"
+#include "SolidObstacles/cavity.h"
 
 //using namespace std;
 
@@ -106,9 +109,27 @@ int main(int argc, char *argv[]) {
   assert(weight_function != NULL);
   weight_function->show_information();
 
-  ParticleManager particles(ini); ///< - initiate the particle manager
-  Hydrodynamics hydro(particles, ini); ///< - create materials, forces and real particles
+  //define the solid obstacle type depending on user selection in.tcl file
+  ///\todo{think about defining the SolidObstacles class in hydrodynamics constructor only...but for the moment I don't know where else I will need methods of this class, terefore I define it at the highest level}
+ spSolidObstacles obstacles;
+  if  (ini.SolidObstacles_type == "NoObstacles")   {
+    obstacles = boost::make_shared<NoObstacles>(ini); 
+  } 
+  else if (ini.SolidObstacles_type == "Cavity")   {
+    obstacles = boost::make_shared<Cavity>(ini); 
+  } 
+  //  else if (ini.SolidObstacles_type == "Porosities")   {
+  //obstacles = boost::make_shared<Porosities>(ini);
+  //  }
+  else {
+    LOG(ERROR) << " unknown solidObstacle type (SOLID_OBSTACLES in configuration file)\n" 
+	       << " SOLID_OBSTACLES: " << ini.SolidObstacles_type;
+    exit(EXIT_FAILURE);
+  }
 
+  ParticleManager particles(ini); ///< - initiate the particle manager
+  Hydrodynamics hydro(particles, ini,obstacles); ///< - create materials, forces and real particles
+  
   //define variable which indicates if the particle distribution for 1D simulation is purely 1D (where no bounady conditions are needed) or 2D (need to implement periodic BC in y-direction) 
   ///\todo{this is only a temporary solution, when code works, the variable can either be moved into external initiation file, or the purely 1D case can be  removed completely (but not as long as the 2D particle distribution does not work!!!)} 
   //0 means: no BC (for 1D particle distribution)
@@ -116,7 +137,7 @@ int main(int argc, char *argv[]) {
   // int boundCond=0;
   // if (boundCond!=0) 
   //--> does not work, as instance of boundary class is needed for many methods...
-    Boundary boundary(ini, particles); ///< - initiate boundary conditions and boundary particles
+  Boundary boundary(ini, particles); ///< - initiate boundary conditions and boundary particles
   
   /// a smart pointer to timesolver
   spTimeSolver timesolver;
@@ -153,12 +174,12 @@ int main(int argc, char *argv[]) {
   //BuildBoundaryParticle moved here from boundary constructor in order to be able to switch it of for the 1D case
   if  (ini.disable_boundary != 1)
     boundary.BuildBoundaryParticle(particles, hydro);
-
+  
   Output output; ///- initialize output class (should be the last to be initialized)
   //predict particle volume and mass (if mass not initialized externally)
- if(ini.external_mass_initialization==0)
-    ini.VolumeMass(hydro, particles, weight_function); //predict particle volume and mass
-
+  if(ini.external_mass_initialization==0)
+    ini.VolumeMass(hydro, particles, weight_function, obstacles); //predict particle volume and mass
+  
   //for 2D particle distribution BC is needed
   ///\todo{define a variable which controls the use of boundary conditions and solve it smarter than just testing  if  (ini.kernel_type != "CubicSpline1D")! done: disable_boundary marker! }
   if  (ini.disable_boundary != 1)

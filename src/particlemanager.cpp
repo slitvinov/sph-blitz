@@ -161,7 +161,7 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
   for (std::list<spParticle >::const_iterator p = particle_list.begin(); 
        p != particle_list.end();
        p++) {
-      /// <ul><li> choose origin particle 
+      /// <ul><li> choose origin particle (from (real) particle list)
       spParticle prtl_org = *p;
       if(prtl_org->bd == 0)
 	{
@@ -175,7 +175,7 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
 	      for (std::list<spParticle >::const_iterator p1 = cell_lists(k,m).begin(); 
 		   p1 != cell_lists(k,m).end();
 		   p1++) {
-		// destination particle
+		// destination particle 
 		spParticle prtl_dest = *p1;
 		
 		///<ul><li>calculate distance between particle in question 
@@ -185,7 +185,11 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
 		///support length to determine if there is interaction or not??</b>
 		const double dstc = v_sq(prtl_org->R - prtl_dest->R);
 		assert(supportlengthsquare>0.0);
-		if( (dstc < supportlengthsquare) && (prtl_org->ID > prtl_dest->ID)) {
+		// only add to interaction list if org_ID>dest_ID for a purely real
+		// particle pair, or anytime if dest is ghost particle 
+		// (because ghost particle can never by org)
+		if( (dstc < supportlengthsquare) &&
+		    ((prtl_org->ID > prtl_dest->ID)||prtl_dest->solidObstacle_ghostParticle ==1)) {
 		  /// choose the type of interaction
 		  if (ini.simu_mode == 1) {
 		    spInteraction pair = 
@@ -354,7 +358,7 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 //----------------------------------------------------------------------------------------
 void ParticleManager::BuildRealParticleGasDyn(vecMaterial materials, 
 					std::list<spParticle >& particle_list, 
-					Initiation &ini)
+					      Initiation &ini, spSolidObstacles &obstacles)
 {
 	
   LOG(INFO) << "Start BuildRealParticleGasDyn\n";
@@ -373,6 +377,20 @@ void ParticleManager::BuildRealParticleGasDyn(vecMaterial materials,
       	exit(EXIT_FAILURE);
       }
       else LOG(INFO)<<"Initialtion: Read real particle data from "<< inputfile <<" \n"; 
+      
+      // depending on obstacle type cut off header of.ivs file
+      // (which contains info about obstacle geometry)
+      // if cavity: cut off first lie
+      // if porosity: cut off ??? lines
+      // if noObstacle: mo need to cut off a line
+      if(ini.SolidObstacles_type=="Cavity") {
+	// very "elegant" way of cutting off first 2 lines of file
+	string garbage;
+	getline(fin,garbage);
+      }
+      else if (ini.SolidObstacles_type=="Porosities") {
+	
+      } 
       //read the real particle number
       int N;
       fin>>N;
@@ -380,29 +398,53 @@ void ParticleManager::BuildRealParticleGasDyn(vecMaterial materials,
       // read the particle data
       for(int n = 0; n < N; n++)
 	{ 
-          Vec2d position;
+	  	  Vec2d position;
           Vec2d velocity;
- 	 
-	  fin>>position[0]>>position[1]>>velocity[0]>>velocity[1]>>density>>pressure>>mass;
 	  
+	  fin>>position[0]>>position[1]>>velocity[0]>>velocity[1]>>density>>pressure>>mass;
+
 	  Temperature=materials[material_no]->get_T(pressure,density);
 	  spParticle prtl = boost::make_shared<Particle> ( position, velocity, density, pressure, mass, Temperature, materials[material_no]);
-	  //insert its position on the particle list
-	  particle_list.insert(particle_list.begin(), prtl);
-					
-	  //where is the particle
-	  const int i = int (prtl->R[0] / cll_sz)+1;//so, a particle at position x=0 is insertet in cell nr. 1 (second cell), as cell nr 0 (first cell reserved forboundary particles)
+	  // test if particle is located in a sloid obstacle (SolObs.), and if so,
+	  // set the corresponding flag which makes it a ghost particle for SolObs.
+	  // and insert particle in the list for ghost particles of SolObs 
+	  // and in the cell list
+	  if(obstacles->prtl_in_solid(prtl->R)==1) {
+	    obstacles->set_ghostPrtlSolidObstacle_flag(prtl);
+	    obstacles->ghost_prtl_SolObs_list.insert(obstacles->ghost_prtl_SolObs_list.begin(),prtl);
+	    //--------addparticle to cell list---------------------
+	    //where is the particle
+	  const int i = int (prtl->R[0] / cll_sz)+1;//so, a particle at position x=0 is insertet in cell nr. 1 (second cell), as cell nr 0 (first cell) reserved for boundary/ghost particles
 	  const int j = int (prtl->R[1] / cll_sz)+1;
 					
 	  prtl->cell_i = i; prtl->cell_j = j; 
-	  //insert the position into corresponding cell list
+	  // insert particle into corresponding cell list 
+	  // (no matter if real prtl or ghost-prtl-SolObs.)
 	  cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
-	  LOG_EVERY_N(INFO,100) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no (starts at 0 (for boundary particle, 1 is first real particle cell)): "<<prtl->cell_i;
+	  LOG_EVERY_N(INFO,100) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no (starts at 0 (for boundary/ghost particles at domaine edges, 1 is first real particle cell)): "<<prtl->cell_i;
+	  }
+	  // for the moment ghost particles are not inserted in particle list
+
+	  // if te particle is not inside the solid obstacle-> it's a real particle
+	  else if (obstacles->prtl_in_solid(prtl->R)==0) {
+	    //insert particle in the (real) particle list
+	    particle_list.insert(particle_list.begin(), prtl);
+	    //--------add particle to cell list---------------------
+	    //where is the particle
+	    const int i = int (prtl->R[0] / cll_sz)+1;//so, a particle at position x=0 is insertet in cell nr. 1 (second cell), as cell nr 0 (first cell) reserved for boundary/ghost particles
+	    const int j = int (prtl->R[1] / cll_sz)+1;
+	    prtl->cell_i = i; prtl->cell_j = j; 
+	    // insert particle into corresponding cell list 
+	    // (no matter if real prtl or ghost-prtl-SolObs.)
+	    cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
+	    LOG_EVERY_N(INFO,100) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no (starts at 0 (for boundary/ghost particles at domaine edges, 1 is first real particle cell)): "<<prtl->cell_i;
+	  }
+	  // for the time being, particles that are further inside the solid obstacle
+	  // than 1 supportlength are not taken into account at all (they have
+	  // to be taken into account as soon as density is going to be evolved...)
 	};
-      
       fin.close();
-      
-   LOG(INFO) << "ParticleManager::BuildRealParticleGasDyn ends";
+      LOG(INFO) << "ParticleManager::BuildRealParticleGasDyn ends";
 }
 
 

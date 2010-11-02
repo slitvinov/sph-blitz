@@ -97,7 +97,7 @@ public:
 	Vec2d UyBd;///<bottom side boundary velocity
 	Vec2d UyBu;///<upper side boundary velocity
 
-	///boundary particle lists
+	///boundary particle list
 	std::list<spParticle > boundary_particle_list; ///boundary particle list for all boundray particles
 
 	///constructor
