@@ -1785,6 +1785,7 @@ WORK IN PROGRESS
 
 \subsubsection{Shocktube Problem}
 \label{sec:2Dshock_simuSetup&Co}
+Simulation setups and post-processing methods for the sock--tube problem are given both for a 1D and 2D particle distibution. As furthermore, a perturbation study to assess the influence of a initially non uniform particle distribution is conducted, the method to obtain these initial particle placements and particularities for the postprocessing in this case are presented. 
 
 \paragraph{Simulation Setup}
 
@@ -1850,17 +1851,44 @@ With the 2D constant mass particle initialization for a shock-tube though, an ad
 
 
 (mention somewhere that simulations are not always performed with optimum cell size in order to get reasonably small variation possibilities of support length)
+\linebreak                                                                                                                                   
+ \linebreak                                                                                                                                   
+                                                                                                                                              
+ To obtain an initially perturbed particle field for the perturbation--study, essentially two questions have to be addressed: how exactly should the initial particle distribution be perturbed and how should initialization of their properties, especially their densities, work.         
+                                                                                                                                              
+ Inspiration on this issue is found in literature, where the effect of disordered particles on the SPH method has already been subject of some scientific publications.                                                                                                                      
+ First one should keep in mind a finding by Monaghan \cite{Monaghan2005}, who observed that the actual error in an SPH simulation due to disordered particles is generally less than the one that is estimated when conducting theoretical error considerations with the SPH equations. He sees the reason for this in the fact that SPH particles do not produce short wavelength disorders during a simulation, at least if the particle spacing is much smaller than the dominant lenght scale. Therefore, if for the following perturbation study a randomly perturbed particle field is generated, this is supposed to be the worst case for a real SPH simulation.                                                                  
+                                                                                                                                              
+ Concerning the particle initialization problem, three interesting papers have been found. Rasio and Shapiro \cite{Rassi1991} calculated a 1D shoch--tube problem with a randomly distributed 3D particle distribution, but it is not specified how this distribution is generated. As he further assumes constant mass particles, it must be supposed that he admitts density fluctuations in the initial particle configuration.          
+ In a different paper \cite{Graham2007}, the influence of a random particle initialization for viscous flows is investigated. The approach is to perturb particles from their original position on a regular cartesian grid with a uniformly distributed perturbation of a certain width - the width being a measure of randomness.                                                                                                         
+ Finally Quinlan and Basa \cite{Quinlan2006} which study the truncation error of SPH, randomize the initial particle position with a normaly distributed perturbation from a cartesion grid position. In their case particles also have equal mass and the density is calculated with the SPH smoothing (IST DAS DER RICHTIGE BEGRIFF?) formula (see equation (\ref{eq:SumDensity})).                                                       
+                                                                                                                                              
+ The approach adopted in this project is the following. The particle position is randomized from the original regular grid position by a uniformly distributed perturbation in x-direction and for a 2D particle field also independently in y-direction . The advantage of the uniform perturbation is seen in the fact that the maximum vaule of perturbation is clearly determined, whereas for a normal perturbation, very high values might sporadically occurr thus potentially even leading to a coincidence of two particle positions.                                             
+ Thus, the uniform perturbation ensures a higher control of particle positions and for a width of the distribution $<0.5dx$ a coincidence or a overlap of two particles can never happen. As far as the mass initialization is concerned, the initial density value for the shock--tube problem should show no perturbations. The perturbations in particle spacing are therefore compensated by a different and individual mass for each particle. While for 1D particle distribution, the calculation of the respective particle mass can be easily performed by $m=\rho*dx$, for the 2D perturbed particle distribution it is not trivial to assign each particle distribution an area $dx dy$. Constructing the area $dx dy$ by employing the mean distance to the neighbours in each direction ($dx=1/2(dx^-+dx^+),dy=1/2(dy^-+dy^+)$ would not (AT LEAST I THINK SO) result in the exact reproduction of the complete domain as $\sum dxdy\neq domain size$. See respective consideration in Appendix!
+ Therefore a similar approach of Quinlan \cite{Quinlan2006} is used, onyl the other way round. Based on the initialized density, the mass of each particle is obtained by application of the SPH smoothing formula: First the volume associated to each particle is calculated according to
+ \begin{equation}
+  V_i=\frac{1}{\sum_j W_{ij}}
+ \end{equation}
+ and then the particle mass coresponding to the desired volume is calculated with $m_i=\rho_i V_i$. According to \cite{Espanol2003}, in this case the usm of the particle volumes is not exactly the domain volume either, but the error is very small.
+
+ To be consistent this approach of mass initialization is adopted for the perturbation study of both the 1D and 2D particle distributions.
+
+ These perturbed initial conditions are created by programs named according to the underlying unperturbed distribution with the suffix {\tt RAND} to indicate random particle distribution. They are located in the same folder as the initial condition generators for the unperturbed distributions. The perturbance level can be commanded by the perturbation factor {\tt fac} in the programs themselves, where {\tt fac} is the relative width of the uniformly distributed perturbation to the particle spacing: $\mathit{fac}=\mathit{pert_{max}}/dx$.
+
 
 \paragraph{Validation Method}
 To quantify the errors of the shock--tube simulations, the exact results of the problem are calculated according to section (\ref{sec:TestCases_1DshockTube}). Based on this reference, the $L_1, L_2,L_{\infty}$ errors are computed according to equation (\ref{eq:NormDefinition}).
 The characteristic values used to normalize the results are for the density an internal enegry their respective initial values on the high pressure side ($\rho_{\mathit{char}}=\rho_4, e_{\mathit{char}}=e_4$) and for the velocity the one induced by the shock ($u_{\mathit{char}}=u_2=u_3$)
-These errors are calculated taking into account the whole domain ($x=-0.5$ to $x=0.5$). 
+These errors are once calculated taking into account the whole domain ($x=-0.5$ to $x=0.5$). 
 As the simulation is expected to resolve the discontinuous shock front only within two to three smoothing lengths, this will essentially influence the global error data. Monaghan \cite{Monaghan2005} therefore states that to evaluate the accuracy of an allogrithm for the shock-tube problem one should rather focus on the after--shock values than on the shock resolution. Therefore two further error norm calculations are conducted: one taking into account only the area between shock and contact discontinuity (area 2 in figure (\ref{fig:shockTubeT1}), and another for the area between contact discontinuity and rarefaction (area 3 in figure (\ref{fig:shockTubeT1}). In oder not to capture any inaccuricies due to low resolution of the area edges, a margin of $2h$ is given at each edge.
 
 All this is technicaly realized by programs contained in the folder {\tt sph-blitz/scripts/postProcessingShockTube} with slighty different procedures for simulations with 1D paricle distributions and 2D particle distribution. While for the 1D particle distribution the exact solution can be evaluated directly at each particle's position, the simulation results of the 2D particle distribution cases are first averaged in the second ($y$) dimension. This way a representative 1D particle distribution, where the particles assume the averaged positions and properties of the original 2D distribution, is obtained and the exact solution can be computed. In order to quantify the difference in properties of the particles in y direction which theoretically should be zero and which would be lost by the averaging, also the variance is computed for each couple of particles that is averaged.
 
 The exact post-processing procedure for each case, including which exact programs to run and how to run them, is explained in a very detailed manner in {\tt sph-blitz/scripts/postProcessingShockTube/README}. If a visualization of the post-processed data is finally desired, there are appropriate scripts in the folder {\tt sph-blitz/gnuplot/shockTube\_1D} or {\tt shochTube\_q1D} depending on wheter the particle distribution is 1D or 2D (q1D for quasi-1D, due to 2D particle distribution).
 Again the local {\tt README} provides all necessary information on how to run the scripts and what output they produce.
+
+For the perturbation study, the post-processing procedure is exactly the same if the particle distribution is 1D. In the case of a 2D distribution there is a slight technical difference in the program that calculates the averaged values in the second direction. For details refer to the {\tt README} in the corresponding folder, whcih is the same as for the post--processing in the unperturbed case.
+
 
 
 
@@ -2536,6 +2564,15 @@ If this gives the right results, the final simulation of a porous configuration 
 \appendix
 \appendixpage
 \addappheadtotoc
+
+\chapter{Consideration concerning domain volume}
+ Let the disturbed particle distance be $dx=dx_{\mathit{orig}}+dx'$, d$y=dy_{\mathit{orig}}+dy'$ where $dx,y_{\mathit{reg}}$ is the (mean) distance to the neighbour particles in the corresponding direction for the regular distribution
+ and where $dx'$, $dy'$ are the perturbations of the mean distance to the neighbour particles in the corresponding direction:
+ $dx'=1/2(dx^-'+dx^+')$,$dy'=1/2(dy^-'+dy^+')$ with $<dx'>=<dy'>=0$ (mean is 0).
+ in 1D if $\sumdx_{\mathit{reg}}=domainsize$, the averaged (denoted <>)perturbed distribution gives: $\Sum<dx>=\sum<dx_{\mathit{reg}}+dx'>=\sum<dx_{\mathit{reg}}>+<dx'>=\sum<dx_{\mathit{reg}}>+0=\sumdx_{\mathit{reg}}=domainsize$
+ in 2D if $\sumdx_{\mathit{reg}}dy_{\mathit{reg}}=domainsize$, the averaged (denoted <>)perturbed distribution gives:    $\sum<dxdy>=\sum</dx_{\mathit{reg}}+dx')(dy_{\mathit{reg}}+dy')>)=\sum(<dx_{\mathit{reg}}dy_{\mathit{reg}}>+<dx_{\mathit{reg}}dy'>+<dy_{\mathit{reg}}dx'>+<dx'dy>)=\sum(dx_{\mathit{reg}}dy_{\mathit{reg}})+\sum(<dx'dy'>)=domainsize+sum(<dx'dy'>)$
+ and $<dx'*dy'>\neq0$ the only question is: is the sum over a big number N of $<dx'*dy'> =0$? I don't know but I don't think so...
+
 \chapter{Additional Shock--Tube Results 2D Code}
 \begin{figure}[H]
 \centering
