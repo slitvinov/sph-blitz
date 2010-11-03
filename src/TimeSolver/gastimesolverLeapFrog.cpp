@@ -107,7 +107,7 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     if  (ini.disable_boundary != 1)   
       boundary.BoundaryCondition(particles);
     ///calculate change rate for each particle (
-    hydro.UpdateChangeRate(ini);
+    hydro.UpdateChangeRate(ini, Time);
     
     if(ite==1)  
       hydro.AdvanceFirstStep(dt);
@@ -174,8 +174,10 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
     
     ///\todo{change comments to doxygen format, best would probably be to make a list with all if/else statements)}
     //build interactions
+    
     hydro.BuildInteractions(particles, weight_function, ini);
-    if(ite==1) //smooth density  (at first time step only)
+    if(ite==1&&ini.smoothDensityProfile==1)
+      //smooth density  (at first time step only) (state updated within method)
       hydro.UpdateDensity(ini, weight_function);
     else//update state without smoothing (p,c,...)
       hydro.UpdateState(ini);
@@ -188,7 +190,7 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
     if(ini.disable_boundary != 1)   
       boundary.BoundaryCondition(particles);
     //update change rates for U, e AND rho
-    hydro.UpdateChangeRateInclRho(ini);
+    hydro.UpdateChangeRateInclRho(ini, Time);
     
     if(ite==1)  
       hydro.AdvanceFirstStepInclRho(dt);

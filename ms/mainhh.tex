@@ -66,7 +66,7 @@ fact, nowadays, SPH is employed to simulate problems in different fields,
 such as elasticity and fracture of solids, liquid flows and gas
 dynamics~\cite{Monaghan2005}.
 The initial developement of the method dates back to 1977, when Gingold and
-Monaghan ~\cite{Gingold1977} tempted to compute an astrophysical gas dynamics problem with a new, compared to grid based methods more efficient approach. Independently and simultaneously, work in this field was also carried out by Lucy who came up with the same idea~\cite{Lucy1977}. One main advantage of SPH, which also is the reason why SPH was applied first to astrophysical problems, lies in the fact that it is a particle method and therefore does not need any room-fixed grid for the underlying numerical scheme. Instead
+Monaghan ~\cite{Gingold1977} tempted to compute an astrophysical (gas dynamics - I am not sure if it's actualy a gas dynamics problem) problem with a new, compared to grid based methods more efficient approach. Independently and simultaneously, work in this field was also carried out by Lucy who came up with the same idea~\cite{Lucy1977}. One main advantage of SPH, which also is the reason why SPH was applied first to astrophysical problems, lies in the fact that it is a particle method and therefore does not need any room-fixed grid for the underlying numerical scheme. Instead
 the base for the calculation of derivatives are discrete points, the particles, which move with the fluid (Lagrangian approach). Dealing with high density variations and huge calculation domains, astrophysical problems, when simulated with grid-based methods, 
 required a considerable effort in terms of mesh-refinemend. For particle methods like SPH whereas, density variations are principally resolved naturally by a more or less dense particle spacing and calculation is only performed at places where there is matter, i.e. particles.
 Another advantage is the relative ease of the
@@ -832,6 +832,8 @@ ADD paragraph for dt limitation due to physical viscosity and heat conduction
 BESIDES: dt restriction due to thermal conduction
 \end{comment}
 %COMMENT SECTION ENDS
+
+BESIDES: dt restriction due to gravity effet should already be included in $dt_f$. Anyway: the question is what forces have to be taken into account in this condition? Only body--forces or the entire forces on the particle???
 
 The applicable time step for the simulation corresponds to the minimum of the above two, including a security factor 
 \begin{equation}
@@ -1888,6 +1890,7 @@ The exact post-processing procedure for each case, including which exact program
 Again the local {\tt README} provides all necessary information on how to run the scripts and what output they produce.
 
 For the perturbation study, the post-processing procedure is exactly the same if the particle distribution is 1D. In the case of a 2D distribution there is a slight technical difference in the program that calculates the averaged values in the second direction. For details refer to the {\tt README} in the corresponding folder, whcih is the same as for the post--processing in the unperturbed case.
+In order to get a more reliable and less arbitrary result, the error--norms presented in the results section for the perturbation study are averaged values for 5 realizations with newly created initial particle distributions of the same perturbation factor. (I know this is probably not enough to get rid of the randomness but given the simulation time needed for especially the 2D cases, I chose 5 as better than nothing)
 
 
 
@@ -2292,37 +2295,61 @@ The inaccuracy in the rarefaction that has been observed in section (\ref{sec:2D
  
 
 \subsubsection{Perturbation Study}
+Beginning with an unperturbed particle distribution, the initial particle positions are more and more perturbed for subsequent simulations in a way explained in section (\ref{sec:2Dshock_simuSetup&Co}). To quantify the effect of this perturbation, the $L_1, L_2,$ and $L_{\infty}$ error--norms are evaluated. For each perturbation--factor, 5 different simulations with 5 newly generated particle distributions of this same perturbation factor are conducted and the error norms are averaged.
+
+
 \paragraph{1D constant spacing particle distribution}
+Generally a perturbed particle initialization leads to less smooth and results and profiles with many ``riffles''. As an example, the energy profiles of a heavily perturbed and an unpertured simulation are shown in figure (\ref{fig:2DSPHresults_perturbationComparisonProfiles}).
+
+\begin{figure}[!htbp]
+
+\centering
+\label{fig:2DSPHresults_perturbationComparisonProfiles}
+\subfigure[]{
+\label{{fig:2DSPHresults_perturbationComparisonProfiles_perturbed}}
+\includegraphics[width=7cm]{Graphics/results/1DCode/velocity}}
+\subfigure[]{
+\label{fig:2DSPHresults_perturbationComparisonProfiles_UNperturbed}
+\includegraphics[width=7cm]{Graphics/results/1DCode/density}}
+
+
+\caption[Comparison of perturbed and unperturbed energy profiles]{Example of an energy profile obtained with a 1D constant spacing particle distribution for a simulation time of $t=0.2$: (\subref{fig:2DSPHresults_perturbationComparisonProfiles_perturbed}) initial particle distribution with a perturbation factor of $0.3$; (\subref{fig:2DSPHresults_perturbationComparisonProfiles_UNperturbed}) unperturbed particle initialization}
+
+\end{figure}
+
+ The perturbation study based on a 1D constant mass particle distribution yields the following results (figure (\ref{fig:2DSPHresults_1D_CS_pertStudy}). Especially when looking at the after--shock and after--rarefaction areas, the effect of the perturbation can be noticed by principally increased  errors. In the whole domain, the general error, which is mainly due to the shock--resolution, is already so high that the additional relative error due to the perturbation is small.
+
+
 \begin{figure}[H]
 \centering
-\label{fig:2DSPHresults_1D_CS_ratioConst}
+\label{fig:2DSPHresults_1D_CS_pertStudy}
 
 \subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_wholeRho}
+\label{fig:2DSPHresults_1D_CS_pertStudy_wholeRho}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/WholeDomainRho}}
 \subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_3Rho}
+\label{fig:2DSPHresults_1D_CS_pertStudy_3Rho}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area3Rho}}
 \subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_2Rho}
+\label{fig:2DSPHresults_1D_CS_pertStudy_2Rho}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area2Rho}}
 \subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_wholeU}
+\label{fig:2DSPHresults_1D_CS_pertStudy_wholeU}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/WholeDomainU}}
 \subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_3U}
+\label{fig:2DSPHresults_1D_CS_pertStudy_3U}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area3U}}
 \subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_2U}
+\label{fig:2DSPHresults_1D_CS_pertStudy_2U}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area2U}}
 \subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_wholeE}
+\label{fig:2DSPHresults_1D_CS_pertStudy_wholeE}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/WholeDomainE}}
 \subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_3E}
+\label{fig:2DSPHresults_1D_CS_pertStudy_3E}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area3E}}
 \subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_2E}
+\label{fig:2DSPHresults_1D_CS_pertStudy_2E}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area2E}}
 
 \caption[Perturbation influence shock-tube with 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position}
@@ -2331,72 +2358,71 @@ The inaccuracy in the rarefaction that has been observed in section (\ref{sec:2D
 
 
 \paragraph{2D constant spacing particle distribution}
-\begin{figure}[H]
-\centering
-\label{fig:2DSPHresults_1D_CS_ratioConst}
 
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/WholeDomainRho}}
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area3Rho}}
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area2Rho}}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/WholeDomainU}}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area3U}}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area2U}}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/WholeDomainE}}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area3E}}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area2E}}
 
-\caption[Perturbation influence shock-tube with 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position}
 
-\end{figure}
 \paragraph{1D constant mass particle distribution}
+
+In section (\ref{sec:2Dshock_simuSetup&Co}) it was mentionned that the mass initialization of the particles for the resolution study is done employing the SPH interpolation fromula, contrary to all the shock-tube results presented in previous sections, where mass was initialized in 1D according to $m=\rho dx$ and in 2D $m=\rho dx dy$. While this makes no difference for a constant spacing initialization, the use of the 
+kernel interpolation leads to a relatively strong irregularity in the mass profile close to the contact discontinuity (CD) if the particles are distributed according to a constant mass initialization. This  influences the simulation result compared to an initialization using $m=\rho dx dy$ and leads to higher errors.  
+
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:2D_shock_m_smoothed_versus_rhodx}
+\centering
+
+\begin{tabular}[c]{|l| c|l| c|l| c|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+\multicolumn{2}{|c|}{\textbf{$L_1$--error}} & \multicolumn{2}{|c|}{\textbf{$L_2$--error}} & \multicolumn{2}{|c|}{\textbf{$L_{\infty}$--error}}\\
+\hline
+smoothed & $\rho dx$ & smoothed & $\rho dx$& smoothed & $\rho dx$\\
+\hline
+\hline
+length & $l$ & meter & $m$ & length & {\bf L}\\
+
+mass & $m$ & kilogram & $kg$ & mass & {\bf M} \\
+
+time & $t$ & second & $s$ & time & {\bf T}\\
+
+\hline
+\hline
+\end{tabular}
+\caption[]{Comparisons of error values for simulations with an unperturbed constant mass particle distribution for the two mass initialization methods smoothing and $\rho dx$}
+
+\end{table}
+
+In the case of the 1D constant mass initialization the effect of a perturbed particle position is vislible in figure (\ref{fig:2DSPHresults_1D_CM_pertStudy}). 
+Especially for the after--shock (area 2) and after--rarefaction (area 2) values a clear and monotoneous increase in the error can be observed. Again the niveau of the global error, which is mainly due to the non-discontinuous shock resolution, is already relatively high compared to the error induced by the particle disorder. Thus the latter can be perceived only weakly considering the whole domain.
 \begin{figure}[H]
 \centering
-\label{fig:2DSPHresults_1D_CS_ratioConst}
+\label{fig:2DSPHresults_1D_CM_pertStudy}
 
 \subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_wholeRho}
+\label{fig:2DSPHresults_1D_CM_pertStudy_wholeRho}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/WholeDomainRho}}
 \subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_3Rho}
+\label{fig:2DSPHresults_1D_CM_pertStudy_3Rho}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area3Rho}}
 \subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_2Rho}
+\label{fig:2DSPHresults_1D_CM_pertStudy_2Rho}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area2Rho}}
 \subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_wholeU}
+\label{fig:2DSPHresults_1D_CM_pertStudy_wholeU}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/WholeDomainU}}
 \subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_3U}
+\label{fig:2DSPHresults_1D_CM_pertStudy_3U}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area3U}}
 \subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_2U}
+\label{fig:2DSPHresults_1D_CM_pertStudy_2U}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area2U}}
 \subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_wholeE}
+\label{fig:2DSPHresults_1D_CM_pertStudy_wholeE}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/WholeDomainE}}
 \subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_3E}
+\label{fig:2DSPHresults_1D_CM_pertStudy_3E}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area3E}}
 \subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_2E}
+\label{fig:2DSPHresults_1D_CM_pertStudy_2E}
 \includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area2E}}
 
 \caption[Perturbation influence shock-tube with 1D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position}
@@ -2568,9 +2594,9 @@ If this gives the right results, the final simulation of a porous configuration 
 \chapter{Consideration concerning domain volume}
  Let the disturbed particle distance be $dx=dx_{\mathit{orig}}+dx'$, d$y=dy_{\mathit{orig}}+dy'$ where $dx,y_{\mathit{reg}}$ is the (mean) distance to the neighbour particles in the corresponding direction for the regular distribution
  and where $dx'$, $dy'$ are the perturbations of the mean distance to the neighbour particles in the corresponding direction:
- $dx'=1/2(dx^-'+dx^+')$,$dy'=1/2(dy^-'+dy^+')$ with $<dx'>=<dy'>=0$ (mean is 0).
- in 1D if $\sumdx_{\mathit{reg}}=domainsize$, the averaged (denoted <>)perturbed distribution gives: $\Sum<dx>=\sum<dx_{\mathit{reg}}+dx'>=\sum<dx_{\mathit{reg}}>+<dx'>=\sum<dx_{\mathit{reg}}>+0=\sumdx_{\mathit{reg}}=domainsize$
- in 2D if $\sumdx_{\mathit{reg}}dy_{\mathit{reg}}=domainsize$, the averaged (denoted <>)perturbed distribution gives:    $\sum<dxdy>=\sum</dx_{\mathit{reg}}+dx')(dy_{\mathit{reg}}+dy')>)=\sum(<dx_{\mathit{reg}}dy_{\mathit{reg}}>+<dx_{\mathit{reg}}dy'>+<dy_{\mathit{reg}}dx'>+<dx'dy>)=\sum(dx_{\mathit{reg}}dy_{\mathit{reg}})+\sum(<dx'dy'>)=domainsize+sum(<dx'dy'>)$
+ $dx'=1/2(dx'^-+dx'^+)$,$dy'=1/2(dy'^-+dy'^+)$ with $<dx'>=<dy'>=0$ (mean is 0).
+ in 1D if $\sum dx_{\mathit{reg}}=domainsize$, the averaged (denoted <>)perturbed distribution gives: $\sum <dx>=\sum <dx_{\mathit{reg}}+dx'>=\sum <dx_{\mathit{reg}}>+<dx'>=\sum<dx_{\mathit{reg}}>+0=\sum dx_{\mathit{reg}}=domainsize$
+ in 2D if $\sum dx_{\mathit{reg}}dy_{\mathit{reg}}=domainsize$, the averaged (denoted <>)perturbed distribution gives:    $\sum <dxdy>=\sum </dx_{\mathit{reg}}+dx')(dy_{\mathit{reg}}+dy')>)=\sum (<dx_{\mathit{reg}}dy_{\mathit{reg}}>+<dx_{\mathit{reg}}dy'>+<dy_{\mathit{reg}}dx'>+<dx'dy>)=\sum (dx_{\mathit{reg}}dy_{\mathit{reg}})+\sum (<dx'dy'>)=domainsize+sum(<dx'dy'>)$
  and $<dx'*dy'>\neq0$ the only question is: is the sum over a big number N of $<dx'*dy'> =0$? I don't know but I don't think so...
 
 \chapter{Additional Shock--Tube Results 2D Code}
@@ -2753,6 +2779,44 @@ If this gives the right results, the final simulation of a porous configuration 
 \includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area2E}}
 
 \caption[Convergence Shock-tube with 2D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of $l_s/\sqrt{m}=6$. The simuation is evaluated at $t=0.2$.}
+
+\end{figure}
+
+
+
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_2D_CS_pertStudy}
+
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_2D_CS_pertStudy_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/WholeDomainRho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_2D_CS_pertStudy_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area3Rho}}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_2D_CS_pertStudy_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area2Rho}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_2D_CS_pertStudy_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/WholeDomainU}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_2D_CS_pertStudy_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area3U}}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_2D_CS_pertStudy_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area2U}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_2D_CS_pertStudy_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/WholeDomainE}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_2D_CS_pertStudy_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area3E}}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_2D_CS_pertStudy_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area2E}}
+
+\caption[Perturbation influence shock-tube with 2D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position}
 
 \end{figure}
 

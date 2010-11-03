@@ -136,7 +136,7 @@ void Hydrodynamics::UpdateDensity(const Initiation &ini, spKernel  weight_functi
 //				calculate interaction with updating interaction list
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, spKernel weight_function, 
-				     const Initiation& ini) {
+				     const Initiation& ini, const double Time) {
   LOG(INFO) << " Hydrodynamics::UpdateChangeRate(particles, weight_function, ini)";
   ///- initiate change rate of each real particle by calling ZerpChangeRate()
   ZeroChangeRate();
@@ -151,12 +151,12 @@ void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, spKernel weight
   }
   
   ///- include the gravity effects by calling AddGravity()
-  AddGravity(ini);
+  AddGravity(ini, Time);
 }
 //----------------------------------------------------------------------------------------
 //				calculate interaction without updating interaction list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateChangeRate(const Initiation& ini) {
+void Hydrodynamics::UpdateChangeRate(const Initiation& ini, const double Time) {
   LOG(INFO) << " Hydrodynamics::UpdateChangeRate(ini)";
   ///- initiate the change rate of each real particle by calling ZeroChangeRate()
   ZeroChangeRate();	
@@ -189,10 +189,10 @@ void Hydrodynamics::UpdateChangeRate(const Initiation& ini) {
   
   
   ///- include the gravity effects
-  AddGravity(ini);
+  AddGravity(ini, Time);
 }
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateChangeRateInclRho(const Initiation& ini) {
+void Hydrodynamics::UpdateChangeRateInclRho(const Initiation& ini, const double Time) {
   LOG(INFO) << " Hydrodynamics::UpdateChangeRateInclRho(ini)";
   ///- initiate the change rate of each real particle by calling ZeroChangeRate()
   ZeroChangeRate();	
@@ -207,7 +207,7 @@ void Hydrodynamics::UpdateChangeRateInclRho(const Initiation& ini) {
   }
 
   ///- include the gravity effects
-  AddGravity(ini);
+  AddGravity(ini, Time);
 }
 //						initiate particle change rate
 //----------------------------------------------------------------------------------------
@@ -267,14 +267,15 @@ void Hydrodynamics::Zero_mue_ab_max() {
 //----------------------------------------------------------------------------------------
 //							add the gravity effects
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::AddGravity(const Initiation &ini) {
+void Hydrodynamics::AddGravity(const Initiation &ini, const double Time) {
   LOG(INFO) << "Hydrodynamics::AddGravity starts";
   LOG(INFO) << "ini.gravity = " << ini.g_force;
-  ///- iterate particles on the real particle list
-  BOOST_FOREACH(spParticle prtl, particle_list) {
-    ///- to each particles dUdt: add the gravity effects
-    prtl->dUdt = prtl->dUdt + ini.g_force;
-  }
+  if(Time>=ini.g_force_delay)
+    ///if gravity starting time passed iterate particles on the real particle list
+    BOOST_FOREACH(spParticle prtl, particle_list) {
+      ///- to each particles dUdt: add the gravity effects
+      prtl->dUdt = prtl->dUdt + ini.g_force;
+     }
 }
 //----------------------------------------------------------------------------------------
 //							calculate states from conservatives
@@ -289,9 +290,9 @@ void Hydrodynamics::UpdateState(const Initiation &ini) {
     if(ini.simu_mode==2)//gas dynamics mode equation of state
       {
 	prtl->p = prtl->mtl->get_p(prtl->rho,prtl->e);
-	//	prtl->Cs = prtl->mtl->get_Cs(prtl->p, prtl->rho);
       }
-    //calculate temperature for each particle
+    //calculate soundspeed and temperature for each particle
+    prtl->Cs = prtl->mtl->get_Cs(prtl->p, prtl->rho);
     prtl->T = prtl->mtl->get_T(prtl->e);
     // update values of viscosity and conductivity (which change with T)
     prtl->eta = prtl->mtl->get_eta(prtl->T);
@@ -299,7 +300,6 @@ void Hydrodynamics::UpdateState(const Initiation &ini) {
     
     // update values of viscosity and conductivity (which change with T)
   }
-
 }
 //----------------------------------------------------------------------------------------
 //								calculate partilce volume

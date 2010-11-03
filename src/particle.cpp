@@ -92,7 +92,7 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
 	
   ///- set conservative values (mass and volume determined lateron) and their  intermediate values
   // m = 0.0; // for 2D shock tube mass is initialized from the external
- V = 0.0; e = mtl->get_e(T); e_I = e;
+  V = 0.0; e = mtl->get_e(T); e_I = e;
   R_I = R; P_I = P; rho_I = rho;
   P_n = P; U_n = U; rho_n = rho; e_n = e; 
 
@@ -106,7 +106,6 @@ Particle::Particle (double x, double y, double u, double v,
   bd(1),
   mtl(material)
 {
-
   ///- give a new ID number
   ID = 0;
 
@@ -133,10 +132,12 @@ Particle::Particle (spParticle RealParticle ) :
   ///- point to its real particle
   rl_prtl = RealParticle ;
 
+  ///- set solidObstacle_ghostParticle attribute to zero (even for mirrored ghost particles) as they do not need to be considered anyway
+  solidObstacle_ghostParticle=0;
+
   ///- set viscosity
   // eta = mtl->eta;
   
-
   ///- set states
   R = RealParticle->R; rho = RealParticle->rho; p = RealParticle->p; T = RealParticle->T;
   Cs =RealParticle->Cs; U = RealParticle->U; U_I = RealParticle->U_I;
@@ -166,7 +167,8 @@ Particle::Particle (spParticle RealParticle , spMaterial material):
 
   ///- point to its real particle
 
-
+  ///- set solidObstacle_ghostParticle attribute to zero (even for mirrored ghost particles) as they do not need to be considered anyway
+  solidObstacle_ghostParticle=0;
 
   ///- set viscosity
   eta = RealParticle->eta;
@@ -198,7 +200,7 @@ void Particle ::StatesCopier(spParticle RealParticle , const int type)
   e = RealParticle->e; e_I=RealParticle->e_I;
   rho_I = RealParticle->rho_I;
   Cs =RealParticle->Cs; U = RealParticle->U; U_I = RealParticle->U_I;
-  //add viscosity copier (for the case of varaible viscosity)
+  //add viscosity copier (for the case of variable viscosity)
   eta = RealParticle->eta;
   zeta=RealParticle->zeta;
   k=RealParticle->k;
@@ -206,10 +208,12 @@ void Particle ::StatesCopier(spParticle RealParticle , const int type)
 
 void Particle::increment_rho_depOnType(double rho_increment)
 {
+  
   // if particle is real particle or if particle is ghost particle but
   // a density evolution is selected, increment particle's rho to value in question
-  if (solidObstacle_ghostParticle==0&&solidObstacle_ghostParticle==2)
+  if (solidObstacle_ghostParticle==0||solidObstacle_ghostParticle==2) 
     rho=rho+rho_increment;
+  
   // otherwise (i.e if ghost particle without density evolution)
   // do not modify particle's rho value!
 }

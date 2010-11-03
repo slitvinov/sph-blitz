@@ -77,6 +77,13 @@ public:
   ///simulation mode (1: liquids, 2: gas dynamics)
   int simu_mode;
 
+  ///\brief flag to turn on/off smoothing of initial density profile
+  ///
+  ///(only useful for initially discontinuous density profile like for shock-tube)
+  /// 0: NO smoothing of initial density profile
+  /// 1: smoothing of initial density profile
+  int smoothDensityProfile;
+
   ///\brief physical viscosity marker:
   ///
   ///- 1: including physical viscosity
@@ -121,6 +128,8 @@ public:
   int x_cells, y_cells;
   /// g force on particles
   Vec2d g_force;
+  ///\brief temporal delay for beginning of g-force action
+  double g_force_delay;
 
   ///\brief marker to choose output format
   /// 

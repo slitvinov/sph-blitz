@@ -10,7 +10,8 @@ public:
   ///output particle positions respected different materials
   void OutputParticle(const Hydrodynamics &hydro,
 		      const Boundary &boundary, 
-		      const double Time, const Initiation &ini);
+		      const double Time, const Initiation &ini, 
+		      const spSolidObstacles &obstacles);
   ///Output real particle data for restart the computation
   void OutRestart(const Hydrodynamics &hydro, 
 		  const double Time, const Initiation& ini);

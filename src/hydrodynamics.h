@@ -48,14 +48,15 @@ class Hydrodynamics
   ///initiate particle change rate
   void ZeroChangeRate();
   ///add the gravity effects
-  void AddGravity(const Initiation& ini);
+  void AddGravity(const Initiation& ini, const double Time);
   ///calculate interaction with updating interaction list
   void UpdateChangeRate(ParticleManager &particles, 
 			spKernel weight_function,
-			const Initiation& ini);
+			const Initiation& ini,
+			const double Time);
   ///calculate interaction without updating interaction list
-  void UpdateChangeRate(const Initiation& ini);
-  void UpdateChangeRateInclRho(const Initiation& ini);
+  void UpdateChangeRate(const Initiation& ini, const double Time);
+  void UpdateChangeRateInclRho(const Initiation& ini, const double Time);
   ///initiate particle density to zero
   void Zero_density();
   /// initiate particle density to the contributions of the 

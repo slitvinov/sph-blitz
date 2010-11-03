@@ -15,6 +15,13 @@ set INTEGRATION_SCHEME 1
 # 2: continuity density (density is integrated)
 set DENSITY_MODE 1
 
+# brief flag to turn on/off smoothing of initial density profile
+# (only useful for initially discontinuous density profile like for shock-tube
+# and if continuity density approach is selected)
+# 0: no smoothing of initial density profile
+# 1: smoothing of initial density profile
+set SMOOTH_DENSITY_PROFILE 0
+
 # initial conditions flag 
 # 0: use initial 
 # 1: use restart file

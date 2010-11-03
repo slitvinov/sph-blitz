@@ -65,7 +65,7 @@ void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManag
     
     boundary.BoundaryCondition(particles);///<li> boundary.BoundaryCondition
     //control output
-    hydro.UpdateChangeRate(ini);///<li> hydro.UpdateChangeRate
+    hydro.UpdateChangeRate(ini, Time);///<li> hydro.UpdateChangeRate
 	  
     hydro.Predictor_summation(dt);///<li>hydro.Predictor_summation</ol>
     ///<li> the correction step without update the interaction list
@@ -77,7 +77,7 @@ void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManag
     boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
     //control output
     LOG(INFO)<<"change rate for corrector:";
-    hydro.UpdateChangeRate(ini); ///<li>hydro.UpdateChangeRate
+    hydro.UpdateChangeRate(ini, Time); ///<li>hydro.UpdateChangeRate
     hydro.Corrector_summation(dt);///<li>hydro.Corrector_summation</ol>
 
     ///<li> renew boundary particles
@@ -114,14 +114,14 @@ void HydroTimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &partic
     //predictor and corrector method used
     ///<li> the prediction step
     hydro.BuildInteractions(particles, weight_function, ini);///<ol><li>hydro.BuildInteractions
-    hydro.UpdateChangeRate(ini);///<li>hydro.UpdateChangeRate
+    hydro.UpdateChangeRate(ini, Time);///<li>hydro.UpdateChangeRate
     hydro.Predictor(dt);///<li>hydro.Predictor
     hydro.UpdateState(ini);///<li>hydro.UpdateState</ol>
 
     ///<li> the correction step without update the interaction list
     hydro.UpdateInteractions(weight_function);///<ol><li>hydro.UpdatePair
     boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
-    hydro.UpdateChangeRate(ini);///<li>hydro.UpdateChangeRate
+    hydro.UpdateChangeRate(ini, Time);///<li>hydro.UpdateChangeRate
     hydro.Corrector(dt);///<li>hydro.Corrector
     hydro.UpdateState(ini);///<li>hydro.UpdateState</ol>
     ///<li> renew boundary particles

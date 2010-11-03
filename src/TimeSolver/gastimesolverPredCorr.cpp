@@ -73,7 +73,7 @@ void GasTimeSolverPredCorr::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     if  (ini.disable_boundary != 1)   
       boundary.BoundaryCondition(particles);
 	
-    hydro.UpdateChangeRate(ini);///<li> hydro.UpdateChangeRate
+    hydro.UpdateChangeRate(ini, Time);///<li> hydro.UpdateChangeRate
 	  
     hydro.Predictor_summation(dt);///<li>hydro.Predictor_summation</ol>
 	  
@@ -91,7 +91,7 @@ void GasTimeSolverPredCorr::TimeIntegral_summation(Hydrodynamics &hydro, Particl
       boundary.BoundaryCondition(particles);
     //control output
     LOG(INFO)<<"change rate for corrector:";
-    hydro.UpdateChangeRate(ini); ///<li>hydro.UpdateChangeRate
+    hydro.UpdateChangeRate(ini, Time); ///<li>hydro.UpdateChangeRate
     hydro.Corrector_summation(dt);///<li>hydro.Corrector_summation</ol>
     particles.UpdateCellLinkedLists();///<li>particles.UpdateCellLinkedLists  
     ///update the state of the boundary particles (by copying the real particles' state)
@@ -131,7 +131,7 @@ void GasTimeSolverPredCorr::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
     if(ite % 10 == 0) cout<<"N= "<<ite<<" Time: " <<Time<<"  dt: "<<dt<<"\n";
 
     hydro.BuildInteractions(particles, weight_function,ini);///<ol><li>hydro.BuildPair
-    hydro.UpdateChangeRate(ini);///<li>hydro.UpdateChangeRate
+    hydro.UpdateChangeRate(ini, Time);///<li>hydro.UpdateChangeRate
     hydro.Predictor(dt);///<li>hydro.Predictor
     hydro.UpdateState(ini);///<li>hydro.UpdateState</ol>
      ///<li> the correction step without update the interaction list
@@ -139,7 +139,7 @@ void GasTimeSolverPredCorr::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
     ///update the state of the boundary particles (by copying the real particles' state)
     if  (ini.disable_boundary != 1)   
        boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
-    hydro.UpdateChangeRate(ini);///<li>hydro.UpdateChangeRate
+    hydro.UpdateChangeRate(ini, Time);///<li>hydro.UpdateChangeRate
     hydro.Corrector(dt);///<li>hydro.Corrector
     hydro.UpdateState(ini);///<li>hydro.UpdateState</ol>
     if  (ini.disable_boundary != 1)

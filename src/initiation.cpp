@@ -65,6 +65,8 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
     //assert(integration_scheme == 1 || integration_scheme == 2);
     splash_optimized_output = interp.eval("[return $SPLASH_OPTIMIZED_OUTPUT]");
     assert(splash_optimized_output==0||splash_optimized_output==1);
+    smoothDensityProfile=interp.eval("[return $SMOOTH_DENSITY_PROFILE]");
+    assert(smoothDensityProfile==0||smoothDensityProfile==1);
     /// read parameters of artificial viscosity 
     alpha_artVis = interp.eval("[return $alpha_artVis]");
     beta_artVis = interp.eval("[return $beta_artVis]");
@@ -110,6 +112,8 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   
   g_force[0] = interp.eval ("[return $G_FORCE(0)]");
   g_force[1] = interp.eval ("[return $G_FORCE(1)]");
+  
+  g_force_delay=interp.eval ("[return $g_force_delay]");
   
   number_of_materials = interp.eval("[return $NUMBER_OF_MATERIALS]");
   assert(number_of_materials > 0);
@@ -198,7 +202,8 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
   ///The mass for each particle  stays constant during the simulation.
 
   /// <ul><li>iterate particles on the particle list
-  double mass; // local variable to save one particles m for assignment to ghost prtl
+  double mass; // local variable to save one particle's m for assignment to ghost prtl
+  double volume; // local variable to save one particle's V for assignment to ghost prtl
   BOOST_FOREACH(spParticle prtl_org, hydro.particle_list) {
     ///\todo{initialize particle mass via initiation file...}
     //prtl_org->m=0.001875;
@@ -223,8 +228,9 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
     prtl_org->V = reciprocV;
     prtl_org->m = prtl_org->rho*reciprocV;
     LOG_EVERY_N(INFO, 1000) <<std::setprecision(10)<< "prtl ID"<<prtl_org->ID<<"prtl m  = " << prtl_org->m;
-    //
+    //save mass and volume for assignment to ghost particles
     mass=prtl_org->m;
+    volume=prtl_org->V;
   }
   
   // in case of SolidObstacles where not the entire obstacle is filled with particles
@@ -233,10 +239,12 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles,
   // (as they are not on the particle list! (and even if they were, they
   // would not have enough neighbours...
   // Therefore: iterate ghost particle list and initiate every ghostparticle
-  // with the same constant mass that has been calculated above
+  // with the same constant mass that has been calculated above!
+  // same for volume!
   // if(density_evol_solObs_ghost_prtl==0) {
     BOOST_FOREACH(spParticle ghost_prtlSolObs, obstacles->ghost_prtl_SolObs_list ) {
       ghost_prtlSolObs->m=mass;
+      ghost_prtlSolObs->V=volume;
     }
     //  }
   LOG(INFO)<<"Initiation::VolumeMass ends";

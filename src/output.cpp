@@ -11,6 +11,7 @@
 #include "output.h"
 #include "initiation.h"
 #include "boundary.h"
+#include "glbtype.h"
 
 using namespace std;
 
@@ -19,7 +20,7 @@ Output::Output() {
 }
 
 void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary,
-                            const double Time, const Initiation &ini) {
+                            const double Time, const Initiation &ini, const spSolidObstacles &obstacles) {
   LOG(INFO) << "Output::OutputParticle";
   ///<ul><li>produce output file name
 
@@ -94,7 +95,7 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
 	       << ::setw(17)<<ini.supportlength/2
 	       <<"  "<<prtl->m
 	       <<"  "<<prtl->V
-	       <<"  "<<prtl->ID
+	       <<"  "<<prtl->ID<<"  "<<prtl->solidObstacle_ghostParticle
 	       <<"\n";
 	}
       }
@@ -142,10 +143,41 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
 	       << ::setw(17)<<ini.supportlength/2
 	       <<"  "<<prtl->m
 	       <<"  "<<prtl->V
-	       <<"  "<<prtl->ID
+	       <<"  "<<prtl->ID<<"  "<<prtl->solidObstacle_ghostParticle
 	       <<"\n";
 	}
       }
+    }
+  }
+  
+  if (ini.simu_mode == 2) {
+    out<<" --------------------------ghost particles------------";
+    BOOST_FOREACH(spParticle prtl, obstacles->ghost_prtl_SolObs_list) {
+      if (ini.splash_optimized_output==0)
+	out<<setprecision(9)
+	   << ::setw(17)<<prtl->R[0] 
+	   << ::setw(17)<<prtl->R[1] 
+	   << ::setw(17) <<prtl->rho 
+	   << ::setw(17)<<prtl->p
+	   << ::setw(17)<<prtl->U[0]
+	   << ::setw(17)<<prtl->e
+	   <<"  "<<prtl->ID
+	   <<"  "<<prtl->m
+	   <<"\n";
+      else
+	out<<setprecision(9)
+	   << ::setw(17)<<prtl->R[0] 
+	   << ::setw(17)<<prtl->R[1] 
+	   << ::setw(17)<<prtl->U[0]
+	   << ::setw(17)<<prtl->U[1]
+	   << ::setw(17) <<prtl->rho 
+	   << ::setw(17)<<prtl->e
+	   << ::setw(17)<<prtl->p
+	   << ::setw(17)<<ini.supportlength/2
+	   <<"  "<<prtl->m
+	   <<"  "<<prtl->V
+	   <<"  "<<prtl->ID<<"  "<<prtl->solidObstacle_ghostParticle
+	   <<"\n";
     }
   }
   LOG(INFO)<<"output particle method successfully executed for time"<<Time;
