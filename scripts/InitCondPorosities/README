@@ -1,0 +1,61 @@
+#########################################################################
+
+Initial conditions generator for porosities
+
+#########################################################################
+
+
+1)cavity
+---------
+1.a)Geometrical situation:
+---------------------
+By default the positon of the cavity is centered inn the domain in x-direction. Therefore the geometry 
+of the cavity can be entirely described by the following three parameters: 
+# y_surface: the y-coordinate of the surface of the cavity
+# depth: the depth of the cavity (from surface to bottom)
+# width: the width of the cavity
+(the origin of the coordinate system is the left-bottom corner of the domain
+
+******************************
+*                            *      ***: calculation domain
+*                            *
+*                            *
+*     fluid                  *
+*                            *
+*                            *
+*                            *
+*                            *
+*________            ________*_ _
+* ######|          ^ |###### * ^
+*      #|          | |#      * |
+* wall #|          | |#      * |
+*      #|    depth | |#      * |
+*      #|          | |#      * |
+*      #|          | |#      * | y-surface
+*      #|          v |#      * |
+*      #|____________|#      * |
+*      ##### width ####      * |
+*       <------------>       * v
+******************************- -
+
+1.b) the initial condition generator program:
+     -if desired, modify the three parametres (y_surface, depth, width) as well as other parameters (domain_size...)
+     in <<create_ICCavity.cpp>>
+     -type <<make>> to compile
+     -run the program: <<./create_ICCavity>>
+      This does the following: it creates a uniform particle distribution for the entire domain, i.e. the wall 
+      and fluid part       (ghost- and real particles) are initialized with the same DURCHGEHENDEM
+      regular particle lattice. The differnce of the particle types is only made in the simulatio program,
+      where according to the information (y_surface, depth, width) particles are assigned their respective type.
+      The wall part of the domain does not need to be filled completely with (ghost) particles, but only to a
+      distance of one smoothinglength to the wall-surface. This is only taken into account by the 
+      simulation programm, which sorts out the not-needed particlles. Like this, if the smoothing length
+      is changed (at constant particle spacing) one does not have to recreate a new .ivs file every time.
+     -the initial paricle distribution as well as the information (y_surface, depth, width)
+      is written into the file <<Cavity.ivs>> which is created by the program in the <<sph-blitz/cases/>> folder
+      .ivs file structure:
+       first line: y_surface | depth | width
+       second line: N_particles
+       next lines: particle information (one line for each particle): x|y|vx|vy|rho|p|m
+    
+
