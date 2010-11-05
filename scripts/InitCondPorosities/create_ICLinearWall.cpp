@@ -57,7 +57,7 @@ int main () {
   }
   
   ofstream out("../../cases/LinearWall.ivs");
-  // output first line of .ivs file (geometrical data for cavity)
+  // output first line of .ivs file (geometrical data for wall)
   out <<setprecision (6)
       <<"   "<<y_wall
       <<endl;

@@ -168,8 +168,8 @@ set SOLID_OBSTACLES NoObstacles
 
 # time  control 
 set Start_time 0.0		
-set End_time 1	
-set D_time 1e-3
+set End_time 3
+set D_time 1e-2
 
 #marker for automatic time control
 # 0: autom. time conrtol switched off: specified dt used (see below) 

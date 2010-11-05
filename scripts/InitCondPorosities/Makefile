@@ -1,6 +1,7 @@
-all: create_ICCavity create_ICLinearWall_Poiseuille_domainEdgeBC
+all: create_ICCavity create_ICLinearWall_Poiseuille_domainEdgeBC create_ICLinearWall_Poiseuille_SolObs1BC
 
 create_ICCavity: create_ICCavity.cpp
+create_ICLinearWall_Poiseuille_SolObs1BC: create_ICLinearWall_Poiseuille_SolObs1BC.cpp
 
 create_ICLinearWall_Poiseuille_domainEdgeBC: create_ICLinearWall_Poiseuille_domainEdgeBC.cpp
 
@@ -9,3 +10,4 @@ create_ICLinearWall_Poiseuille_domainEdgeBC: create_ICLinearWall_Poiseuille_doma
 clean:
 	-rm create_ICCavity
 	-rm create_ICLinearWall_Poiseuille_domainEdgeBC
+	-rm create_ICLinearWall_Poiseuille_SolObs1BC
