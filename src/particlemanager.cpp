@@ -378,19 +378,22 @@ void ParticleManager::BuildRealParticleGasDyn(vecMaterial materials,
       }
       else LOG(INFO)<<"Initialtion: Read real particle data from "<< inputfile <<" \n"; 
       
+      ///\todo{the reading of the .ivs file header, which depends on the SolidObstacles-type could be integrated into the corresponding SolidObjects-class... still have to find out how one can hand a fileszream object from one function to another}
       // depending on obstacle type cut off header of.ivs file
       // (which contains info about obstacle geometry)
-      // if cavity: cut off first lie
+      // if cavity: cut off first line
       // if porosity: cut off ??? lines
       // if noObstacle: mo need to cut off a line
-      if(ini.SolidObstacles_type=="Cavity") {
-	// very "elegant" way of cutting off first 2 lines of file
-	string garbage;
-	getline(fin,garbage);
-      }
-      else if (ini.SolidObstacles_type=="Porosities") {
+
+      obstacles->cut_ivs_file_header(fin);
+      // if(ini.SolidObstacles_type=="Cavity") {
+      // 	// very "elegant" way of cutting off first line of file
+      // 	string garbage;
+      // 	getline(fin,garbage);
+      // }
+      // else if (ini.SolidObstacles_type=="Porosities") {
 	
-      } 
+      // } 
       //read the real particle number
       int N;
       fin>>N;

@@ -55,8 +55,9 @@ am__objects_1 = boundary.$(OBJEXT) glbfunc.$(OBJEXT) \
 	harmonic.$(OBJEXT) interaction.$(OBJEXT) \
 	interactioncomp.$(OBJEXT) interactionin.$(OBJEXT) \
 	solidObstacles.$(OBJEXT) cavity.$(OBJEXT) \
-	noObstacles.$(OBJEXT) timesolver.$(OBJEXT) \
-	hydrotimesolver.$(OBJEXT) gastimesolverLeapFrog.$(OBJEXT) \
+	noObstacles.$(OBJEXT) linearWall.$(OBJEXT) \
+	timesolver.$(OBJEXT) hydrotimesolver.$(OBJEXT) \
+	gastimesolverLeapFrog.$(OBJEXT) \
 	gastimesolverPredCorr.$(OBJEXT) cpptcl.$(OBJEXT)
 am_kernel_test_OBJECTS = $(am__objects_1) kernel_test.$(OBJEXT)
 kernel_test_OBJECTS = $(am_kernel_test_OBJECTS)
@@ -204,8 +205,10 @@ nomain = boundary.cpp boundary.h \
 	Interaction/interaction.cpp  Interaction/interaction.h \
 	Interaction/interactioncomp.cpp  Interaction/interactioncomp.h \
 	Interaction/interactionin.cpp  Interaction/interactionin.h \
-	SolidObstacles/solidObstacles.cpp  SolidObstacles/solidObstacles.h \		SolidObstacles/cavity.cpp  SolidObstacles/cavity.h \
+	SolidObstacles/solidObstacles.cpp  SolidObstacles/solidObstacles.h \
+	SolidObstacles/cavity.cpp  SolidObstacles/cavity.h \
 	SolidObstacles/noObstacles.cpp  SolidObstacles/noObstacles.h \
+	SolidObstacles/linearWall.cpp  SolidObstacles/linearWall.h \
 	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
 	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
 	TimeSolver/gastimesolverLeapFrog.cpp TimeSolver/gastimesolverLeapFrog.h \
@@ -330,6 +333,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interactionin.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kernel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kernel_test.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/linearWall.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/material.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/noObstacles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output.Po@am__quote@
@@ -523,6 +527,20 @@ noObstacles.obj: SolidObstacles/noObstacles.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SolidObstacles/noObstacles.cpp' object='noObstacles.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o noObstacles.obj `if test -f 'SolidObstacles/noObstacles.cpp'; then $(CYGPATH_W) 'SolidObstacles/noObstacles.cpp'; else $(CYGPATH_W) '$(srcdir)/SolidObstacles/noObstacles.cpp'; fi`
+
+linearWall.o: SolidObstacles/linearWall.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT linearWall.o -MD -MP -MF $(DEPDIR)/linearWall.Tpo -c -o linearWall.o `test -f 'SolidObstacles/linearWall.cpp' || echo '$(srcdir)/'`SolidObstacles/linearWall.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/linearWall.Tpo $(DEPDIR)/linearWall.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SolidObstacles/linearWall.cpp' object='linearWall.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o linearWall.o `test -f 'SolidObstacles/linearWall.cpp' || echo '$(srcdir)/'`SolidObstacles/linearWall.cpp
+
+linearWall.obj: SolidObstacles/linearWall.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT linearWall.obj -MD -MP -MF $(DEPDIR)/linearWall.Tpo -c -o linearWall.obj `if test -f 'SolidObstacles/linearWall.cpp'; then $(CYGPATH_W) 'SolidObstacles/linearWall.cpp'; else $(CYGPATH_W) '$(srcdir)/SolidObstacles/linearWall.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/linearWall.Tpo $(DEPDIR)/linearWall.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SolidObstacles/linearWall.cpp' object='linearWall.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o linearWall.obj `if test -f 'SolidObstacles/linearWall.cpp'; then $(CYGPATH_W) 'SolidObstacles/linearWall.cpp'; else $(CYGPATH_W) '$(srcdir)/SolidObstacles/linearWall.cpp'; fi`
 
 timesolver.o: TimeSolver/timesolver.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT timesolver.o -MD -MP -MF $(DEPDIR)/timesolver.Tpo -c -o timesolver.o `test -f 'TimeSolver/timesolver.cpp' || echo '$(srcdir)/'`TimeSolver/timesolver.cpp

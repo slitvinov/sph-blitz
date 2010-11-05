@@ -27,6 +27,7 @@
 #include "SolidObstacles/solidObstacles.h"
 #include "SolidObstacles/noObstacles.h"
 #include "SolidObstacles/cavity.h"
+#include "SolidObstacles/linearWall.h"
 
 //using namespace std;
 
@@ -121,6 +122,9 @@ int main(int argc, char *argv[]) {
   //  else if (ini.SolidObstacles_type == "Porosities")   {
   //obstacles = boost::make_shared<Porosities>(ini);
   //  }
+  else if (ini.SolidObstacles_type == "LinearWall")   {
+    obstacles = boost::make_shared<LinearWall>(ini); 
+  } 
   else {
     LOG(ERROR) << " unknown solidObstacle type (SOLID_OBSTACLES in configuration file)\n" 
 	       << " SOLID_OBSTACLES: " << ini.SolidObstacles_type;

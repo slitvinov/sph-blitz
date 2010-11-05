@@ -432,7 +432,7 @@ There are two types of solid wall conditions: a free-slip condition, which is ap
 As wall boundary conditions in this project are mainly needed for viscous flow simulations, the no--slip condition is of special interest. In this case an additional issue is to reproduce this no--slip condition. A good overview on solid wall boundary implementations for (incompressible) viscous flows is given in \cite{Yildiz2009}. 
 According to \cite{Yildiz2009} and personal research such no-slip solid walls are mainly applied for SPH-simulations of low Reynolds-number and for incompressible or weakly-compressible fluid--models. 
 
-The problem of particles penetrating the solid walls can be adressed by either implementng a reflection law or a repulsive force at the boundary. Monaghan originally linked the repulsive force in a form similar to Leonard-Jones potential to boundary particles placed directly ON the boundary \cite{Monaghan1994} but this approach turned out to produce considerable perturbatios in the real particle movement paralell to walls \cite{Monaghan2005}. An improved approach by Monaghan uses a different force model \cite{Monaghan2004} that gives remedy to these perturbations. Due to the fact, that the boundary particles are placed exclusively on the boundary, an error in density due to the particle deficiency problem can still aoccurr and appropriate correction methods might be applied \cite{Monaghan2004}. Concerning the no--slip condition, Monaghan claims, that it can be achieved with his model by including the boundary particles, which have the velocity of the boundary, in the viscous force calculations. 
+The problem of particles penetrating the solid walls can be adressed by either implementing a reflection law or a repulsive force at the boundary. Monaghan originally linked the repulsive force in a form similar to Leonard-Jones potential to boundary particles placed directly ON the boundary \cite{Monaghan1994} but this approach turned out to produce considerable perturbatios in the real particle movement paralell to walls \cite{Monaghan2005}. An improved approach by Monaghan uses a different force model \cite{Monaghan2004} that gives remedy to these perturbations. Due to the fact, that the boundary particles are placed exclusively on the boundary, an error in density due to the particle deficiency problem can still aoccurr and appropriate correction methods might be applied \cite{Monaghan2004}. Concerning the no--slip condition, Monaghan claims, that it can be achieved with his model by including the boundary particles, which have the velocity of the boundary, in the viscous force calculations. 
 
 A different approach for modelling solid--walls consists in placing ghost particles outside the domain up to a distance of one supportlength to the boundary. The particle deficiency problem is therefore solved, but no explicit measure is taken to prevent particles from penetrating into the solid wall in case the ``normal'' interaction forces produced by the ghost particles are not sufficient.
 
@@ -445,10 +445,11 @@ A different approach for modelling solid--walls consists in placing ghost partic
 Concerning the first point, different options are imaginable. Ghost particles can either be placed once during the simulation setup and then maintained (fixed to the wall they represent) for the entire simulation. Or they can be recreated every timestep by mirroring the positions of the corresponding real particles at the boundary. In the easiest case of a linear/plane boundary this corresponds to the ghost particle placement for periodical or symmetrical boundary conditions as mentionned above.
 For more complex geometries however mirroring can only be applied with restrictions, so that a fixed ghost particle placement once at the beginning of the simualation, as done for example by \cite{Morris1997, Morris1999}, is more convenient. Only sophistcated approaches, such as \cite{Yildit2009} recreate ghost particles by mirroring for complex geometries at every timestep.
 
-The easiest way of velocity assignment for ghost particles to obtain a no--slip condition is by simply immobilizing them relative to the boundary they are to represent \cite{Morris1997}, i.e. all ghost particles have the same velocity which is zero for a non-moving boundary or the corresponding boundary velocity for a boundary in motion.This gives a first order no--slip condition. A velocity assignment leading to a more accurate no--slip condition can be done by either mirroring or extrapolating the corresponding real particle profile. \cite{Basa2009} tested these different approaches in a poisseuille channel and found out that discrepancies with the exact solution mainly occurr right at the boundary during the initial phase.  According to these tests, mirroring of velocities is the least accurate method, followed by linear and then quadratic extrapolation. 
+The easiest way of velocity assignment for ghost particles to obtain a no--slip condition is by simply immobilizing them relative to the boundary they are to represent \cite{Morris1997}, i.e. all ghost particles have the same velocity which is zero for a non-moving boundary or the corresponding boundary velocity for a boundary in motion. This appraoch gives a first order no--slip condition. A velocity assignment leading to a more accurate no--slip condition can be done by either mirroring or extrapolating the corresponding real particle profile. \cite{Basa2009} tested these different approaches in a poisseuille channel and found out that discrepancies with the exact solution mainly occurr right at the boundary during the initial phase.  According to these tests, mirroring of velocities is the least accurate method, followed by linear and then quadratic extrapolation. 
 
 In combining these options one can reconstruct some boundary treatment approaches already mentionned in literature.
 \begin{itemize}
+\item the easiest approach is already essentially mentioned in the paragraph above and consists in a set of ghost particles created at the beginning of the simulation, that is maintained and where the particles have zero velocity relative to the wall they represent. This approach is implemented in the 2D code and tested as one potential method for modelling of no--slip boundary conditions around solid objects within the domain (NOT for the wall boundary condition at the domain edges).
 
  \item An approach where the ghost particles are created each timestep by mirroring the positions of the real particles is adopted in the 2D code for modelling of solid walls with no--slip or free--slip conditions at the edges of the computational domain.
 The ghost particles have the same properties as their real counterparts
@@ -474,6 +475,8 @@ Note: for porosity representation this leads to the problem of filling the remai
 
 The velocity of the ghost particles is assigned according to the following principle:
 blablabla!!!
+
+
 
 \end{itemize}
 
@@ -917,7 +920,7 @@ This section introduces the different test cases, which are used to validate the
 
 The reason why this section is placed already here is, that the test problems are sometimes referred to from the code section (\ref{sec:1DSPHcode}),(\ref{sec:2DSPHcode}) and it is preferable if they are introduced before.
 
-Details on initializing the flow--field, running the simulations and post--processing are not given in this section but only in section (\ref{sec:simuSetupTestCases}), after having introduced the numerical codes. The present section merely povides the basis by introducing equations and the general ideas necessary to perform the actual simulation and the post-processing.
+Details on initializing the flow--field, running the simulations and post--processing are not given in this section but only in section (\ref{sec:simuSetupTestCases}), after having introduced the numerical codes. The present section merely povides the basics by introducing equations and the general ideas necessary to perform the actual simulation and the post-processing.
 
 \subsection{1D shock--tube}
 \label{sec:TestCases_1DshockTube}
@@ -1182,6 +1185,7 @@ The first wave is now completely reflected from the RHS wall.
 %To get a visual idea of this problem, refer to figure LABEL (show to situations with wave trains...)
 
 \subsection{Taylor--Green flow}
+The taylor green flow is a good test case to verify the viscosity implementation. As the problem consists of an infinite 2D domain, it can numerically be realized by periodical boundary conditions and viscosity can be tested without any interference with no--slip solid wall boundary conditions. The latter are an issue for SPH and are therefore tested separately with a poiseuille test--case (\ref{sec:genIntroPoiseuille})
 
 WORK IN PROGRESS 
 
@@ -1206,6 +1210,23 @@ e_{\mathit{domain}}=\frac{1}{N_{\mathit{prtl}}}\sum_i e_i
 WORK IN PROGRESS 
 
 \subsection{compressible Couette--flow}
+
+\subsection{Poiseuille}
+\label{sec:genIntroPoiseuille}
+ The flow models themselves already being tested by all the above cases, the poiseuille flow is primarily used to test the no--slip boundary conditions. 
+
+A 2D Poiseuille flow consists of a flow in a channel of infinite length in one dimension, in this case the x direction. The channel is confined  in the transverse direction (y-direction) by two walls, which here have a distance of $2d$. The fluid in this channel is initialy at rest and for $t\geq0$ a pressure gradient in x--direction $\delta p/\delta x $ or equivalent a body force (force per unit mass) of value $g=1/\rho \delta p/\delta x$ \cite{Sigalotti2003} in the same direction are applied and lead to the evolution of a flow. The (incompressible) steady state solution of this flow is a parabolic profile of the velocity in x direction, here denoted $U$, and given by equation (\ref{eq:Poiseuille_steadyState_U}) something wrong with \cite{Basa2009}-equation, better ref is \cite{Sigalotti2003}.
+\begin{equation}
+\label{eq:Poiseuille_steadyState_U}
+ U(y,t=\infty)=\frac{g \rho}{2 \eta}(d^2-y^2)
+\end{equation}
+The origin of the coordinate system is supposed at the centerline of the channel.
+A theoretical solution for the temporal evolution of the (incompressible) Poiseuille velocity profile is given by \cite{Sigalotti2003}
+\begin{equation}
+\label{eq:Poiseuille_Series}
+ U(y,t)=1-\frac{32}{\pi^3}\left(\frac{y}{d}\right)^2 -\sum_{n=0}^\infty \frac{16(-1)^n d^2 g \rho}{eta \pi^3 (2 n +1)^3}\cos \left(\frac{(2n+1)\pi y}{2 d} \right)\exp \left(- \frac{(2n+1)^2\pi^2\eta t}{4d^2\rho} \right)
+\end{equation}
+ 
 
 WORK IN PROGRESS
 
@@ -1809,17 +1830,6 @@ Name & Symbol & Name & Symbol & Name & Symbol\\
 \hline
 length & $l$ & meter & $m$ & length & {\bf L}\\
 
-mass & $m$ & kilogram & $kg$ & mass & {\bf M} \\
-
-time & $t$ & second & $s$ & time & {\bf T}\\
-
-electric current & {$I$, $i$} & ampere & $A$ & electric current & {\bf I}\\
-
-thermodynamic temperature & $T$ & kelvin & $K$ & thermodynamic temperature & $a$\\
-
-amount of substance & $n$ & mole & $mol$ & amount of substances & {\bf N}\\
-
-luminous intensity & $I_V$ & candela & $cd$ & luminous intensity & {\bf J}\\
 \hline
 \hline
 \end{tabular}
@@ -1898,12 +1908,16 @@ In order to get a more reliable and less arbitrary result, the error--norms pres
 \subsubsection{1D wave}
 \subsubsection{Taylor--Green}
 \subsubsection{Pure Heat Conduction}
+\subsubsection{Compressible Couette}
+\subsubsection{Poiseuille}
+The Poiseuille test case is needed to verify the boundary condition implementation that is used to generate a no--slip surface for the solid Obstacles, which model porosities. These boundary condition models are different from the ones used for the domain edges and therefore have to be tested sepatarely. 
+
 
 \chapter{Results}
 This chapter presents the results obtained with the developed codes. The focus clearly lies on the 2D code which is finally used to simulate the porosity configuration. However, as the 1D code has be introduced in the chapter before, an example of its application to the 1D shock-tube--problem is shown in the following section. It serves for a first qualitative discussion of the shock--tube results that can be obtained with SPH.
 The 2D code result section mainly features the results of the previously introduced test--cases (\ref{sec:testCases}) and finally a simulation of the flow in a porosity.
 
-As it is not practical to label every result with all the settings used in the simulation to generate it, these settings are summarized for each test--case in the corresponding paragraph of section (\ref{sec:simuSetupTestCases}).
+As it is not practical to label every result with all the settings used in the simulation generating it, these settings are summarized for each test--case in the corresponding paragraph of section (\ref{sec:simuSetupTestCases}).
 
 \section{1D SPH code}
 \label{sec:1DSPHcodeResults}
@@ -1942,12 +1956,6 @@ The first qualitative evaluation of the simulation results implies that the equa
  
 %More exact results (falsch, peaks gehn zwar weg, aber dafür rarefaction nur verschmiert aufgelöst!!!) for the shock-tube problem can be obtained by smoothing all initially discontinuous quantities ($\rho, u, e$) at the beginnig of the calculation. This was originally proposed by \cite{Monaghan1997}. Applying a variable smoothing length also improves the results\cite{Monaghan2005}. 
 
-
-
-
-
-
-
 %...Monaghan05 p.1739... not shock width important but pre and after shock values...
 
 \section{2D SPH code}
@@ -1971,8 +1979,6 @@ All the above tests are conducted for the four cases:
 Unless otherwise stated the simulation time for each shock--tube simulation is $t=0.2$. Other simulation settings as well as the entire set of initial conditions can be found in section (\ref{sec:2Dshock_simuSetup&Co}).
 
 The nature of an exemplary shock--tube simulation result including explanations is already given in section (\ref{sec:1DSPHcodeResults}). It is still the same for the 2D code and therefore is not repeated at this place. Instead focus lies clearly on the evaluation of the error norms and profiles are shown only where they exhibit a particularity. However, the complete set of figures for each simulation run constituting the following analyzes can be found in the corresponding {\tt results} folder of {\tt sph-blitz}. The path to the respective folder is given for each of the following sets of simulation.
-
-
 
 \subsubsection{Verification of timestep criteria}
 
@@ -2566,18 +2572,105 @@ Order of convergence reduced with implementation of isothermal boundaries from s
 \subsection{Compressible Couette--flow}
 STILL TO BE DONE
 
+\subsection{Porosities}
+\subsubsection{Test of no--slip boundary condition for solid Obstacles}
+The boundary conditions implemented to model no--slip boundary conditions at the surface of solid obstacles are different from the ones implemented for the boundaries at the domain edges. As test--case serves a Poiseuille flow 
+-steady state und anfangsbedingung, wobei meistens wohl fehler am anfang aber steady state wohl wichtiger für die Porositäts simulation...
+Ähnlcihes gemacht von: \cite{Basa2009} allerdings mit immer erneuerten bundary particles... was ja für gekurvte nicht so einfach sit. deshalb hier: test mit constanten boundary particles und unterschiedlichen geschwindigkeitszuwesungen
 
-\begin{comment}
-In the Figure~\ref{fig:1dshock} one can see \ldots
 
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.95\textwidth]{img/1dshock.eps}
-  \caption{An example of a figure}
-  \label{fig:1dshock}
+Test for initial phase and (quasi) steady state
+
+for each simulation profiles and L errors
+
+Simulation setup: eta=1, rho=1, p=1,$\gamma=1.4$, 2d=L=1,g=1->uCenter=0.125, $Re=U_0 L \rho/\eta=0.125$, $M=U_0/c=U_0/\sqrt{\gamma p/\rho}=0.1056$->incompressible still valid (see how much $\rho$ varies...)
+1) boundary conditions as implemented for no--slip walls at domain edges
+(mirroring ghostparticles each step and inverting velocity) designated method 1 in the folllwing
+(just to assess accuracy of these BC)
+\begin{figure}[!htbp]
+\centering
+\label{fig:Porosities_LinearWall_domainEdgeBC}
+\subfigure[at $t=0.01$]{
+\label{fig:Porosities_LinearWall_domainEdgeBC_t0_01}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen2dx_t1sec/U_profiles000000010156}}
+\subfigure[at $t=0.1$]{
+\label{fig:Porosities_LinearWall_domainEdgeBC_t0_1}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen2dx_t1sec/U_profiles000000100546}}
+\subfigure[at $t=0.5$]{
+\label{fig:Porosities_LinearWall_domainEdgeBC_0_5}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen2dx_t1sec/U_profiles000000500332}}
+\subfigure[at $t=1.0$]{
+\label{fig:Porosities_LinearWall_domainEdgeBC_t1}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen2dx_t1sec/U_profiles000001000065}}
+
+\caption[Velocity profiles Poiseuille flow]{Velocity profiles for a poiseuille flow with no--slip boundary conditions as implemented at the domain edges (i.e. ghostparticles recreated enact timestep by mirroring and antiysmmetrical velocity assignment). The solution labelled exact is the incompressible series solution given by equation (\ref{eq:Poiseuille_Series}).  \subref{fig:Porosities_LinearWall_domainEdgeBC_t1} shows the situation after a steady-state solution has essnetially established with the theoretical centerline velocity of $U_0=0.125$}
+
 \end{figure}
 
-\end{comment}
+
+
+The no--slip boundary condition is always respected very accurately and the exact velocity profile in the vicinity of the wall is matched at any time.
+The global errors however are relatively high when approaching the steady state. The $L_\infty$ error, which is reached directly at the centerline at $t=1$ is $L_\infty=0.0421$, i.e the maximum error is around 4\%. In this context, one has to keep in mind, that the reference solution is incompressible. Although the compressibility effect of the acceleration is relatively small ($M=0.1$), there is a much higher influence on density by viscous heating. Figure (\ref{fig:Porosities_LinearWall_domainEdgeBC_Energy}) shows that after $t=1$, the internal energy in the wall areas has risen by $8\%$ (and as heat conduction is turned off, it stays there) influencing the density in these areas (figure (\ref{fig:Porosities_LinearWall_domainEdgeBC_tDensity}). The incompresibility assumption is therefore not exactly justified any more, even with relatively low mach number. This explains to a certain extent the discrepancy between simulation and reference solution. Considering this and comparing the result with SPH poiseuille simulations in literature, where for example Morris \cite{Morris1997} found a steady state error of $0.7\%$ for an incompressible simulation (and with a different viscosity model), the $4\%$ error is acceptable. This can be taken as a further validation of the viscosity model (in this case the model even holds for considerably displaced paricles!)
+
+  
+\begin{figure}[!htbp]
+\centering
+\label{fig:Porosities_LinearWall_domainEdgeBC_EnergyDensity}
+\subfigure[energy]{
+\label{fig:Porosities_LinearWall_domainEdgeBC_Energy}
+\includegraphics[height=7cm,angle=-90]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen2dx_t1sec/Energy}}
+\subfigure[density]{
+\label{fig:Porosities_LinearWall_domainEdgeBC_tDensity}
+\includegraphics[height=7cm,angle=-90]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen2dx_t1sec/Density}}
+
+\caption[Energy and Density Profiles Poiseuille]{Profiles of energy and density for the poiseuille flow.}
+
+\end{figure}
+
+
+
+ 
+
+
+
+2)boundary condition option 1 for solid Obstacles within calculation domain
+( ghostparticles created once at beginning of simulation and maintained at same position, velocity of ghost particles zero) designated method 2 in the following
+
+probably density deviation close to boundaries not so high as boundary density does not evolve!
+
+3) boundary condition option 2 for solid Obstacles within calculation domain
+ ghostparticles created once at beginning of simulation and maintained at same position, velocity assigned by linear extrapolation according to \cite{Morris1009, Morris1999} designated method 3 in the following
+alreday done for weakly compressible equation of state (and different viscosity model) in \cite{Morris1997} with good agreement at the boundaries (even for initial phase) and in general... 
+
+
+
+The following table (\ref{tab:2DSPH_LinearWall_Poiseuille_Errors}) resumes the errors for the three no--slip wall implementation methods. The errors are shown in the initial phase ($t=0.01$) as this is when the potential inaccuracy in the velocity profile occurrs. 
+ 
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:2DSPH_LinearWall_Poiseuille_Errors}
+\centering
+
+\begin{tabular}[c]{||l||r|r|r||} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+ &{\bf Method 1} & {\bf Method 2} & {\bf Method 3}\\
+\hline
+\hline
+$L_1$&0.2334 & 0.2334 & 0.2334 \\
+
+\hline
+$L_2$&0.2334 & 0.2334 & 0.2334 \\
+
+\hline
+$L_\infty$&0.2334 & 0.2334 & 0.2334 \\
+\hline
+\hline
+\end{tabular}
+\caption[]{L-norm errors at the initial phase (at $t=0.01$) of the Poiseuille flow 
+for different implementation methods of the no--slip boundary condition }
+\end{table}
+
+test (visually if particle penetration occurrs) if no. mention, that no nee for additional repulsive forces...
 
 \chapter{Conclusion}
 \label{sec:conclusion}
