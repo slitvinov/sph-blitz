@@ -64,7 +64,7 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
 		    double pressure, double mass, double temperature, 
 		    spMaterial material) 
   : bd(0),
-    mtl(material),solidObstacle_ghostParticle(0)
+    mtl(material),solidObstacle_ghostParticle(0),d_realPart_solObs(0)
 {
 
   ///- increase the total particle number
@@ -72,6 +72,12 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
 	
   ///- give a new ID number
   ID = ID_max;
+
+  ///- initialize solidObstacle tangent with zero-vectors
+  // for origin
+  SolObs_tangent.push_back(null_vector);
+  //for direction
+  SolObs_tangent.push_back(null_vector);
 
   ///- set viscosities and conductivity 
   
@@ -86,6 +92,7 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
   mue_ab_max=0;
   ///- set particle position
   R = position; 
+  ///
   
   ///- set states
   rho = density; m=mass; p = pressure; T = temperature; Cs = mtl->get_Cs(p, rho);  U = velocity; U_I = U;

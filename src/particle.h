@@ -4,10 +4,12 @@
 #ifndef PARTICLE_H
 #define PARTICLE_H
 #include "vec2d.h"
+#include "initiation.h"
 #include "glbtype.h"
 #include <stdint.h>
-#include "initiation.h"
+#include <vector>
 
+using namespace std;
 
 /// Particle class 
 class Particle {
@@ -111,6 +113,19 @@ class Particle {
 	double drhodt; ///<density change rate for real particles
         double dedt; ///<internal energy change rate for real particles
 	Vec2d dUdt;///<acceleration change for real particles <b>or is it the other wa round</b>
+
+	///\brief solid Obstacle tangent plane ( line in 2D) for this particle
+	///
+	/// consists of two 2D vectors, the first giving the origin of the line (x,y)
+	/// and the second giving the direction (x,y) (orientation does not matter).
+	/// If the particle is not within one supportlength to the solidObstacle,
+	/// no tangent plane is needed. In this case the default values are (0,0) (0,0)
+	vector <Vec2d> SolObs_tangent;
+
+	///\brief distance from this (real) particle to solidObstacle surface
+	///
+	/// distance given as absolute value (always positive)
+       	double d_realPart_solObs;
 
 
 	///\brief ID number (click for more info)

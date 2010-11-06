@@ -11,6 +11,8 @@
 /// A type for two dimensional vector
 typedef blitz::TinyVector<double,2> Vec2d;
 
+/// defines the null-vector (0,0)
+const Vec2d null_vector(0,0);
 /// Return the absolute value of the vector (the length)
 inline double v_abs(const Vec2d &v) {
   return sqrt(v[0]*v[0] + v[1]*v[1]);
