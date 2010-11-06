@@ -45,6 +45,15 @@ void InteractionComp::UpdateForces() {
   const Vec2d Uj = Dest->U;
   const Vec2d Uij = Ui - Uj;
   const double UijdotRij=dot(Uij,(Org->R - Dest->R));
+
+  // for solidObstacle ghost particles (whose actual velocity is zero),
+  // a virtual velocity is assigned 
+  // in order to better match the no-slip boundary condition
+  // (see Morris1997, Morris1999)
+  // this virtual velocity is used for the physical viscosity calculation.
+  // if the corresponding particle is a real particle and not a ghost
+  // particle the virtual velocity variable is set equal to the real velocity
+  // this is done within the method  
   
   //pair forces or change rate
   //Vec2d dPdti, dUdti, dUdtj; //mometum&velocity change rate
