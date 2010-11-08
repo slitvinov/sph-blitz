@@ -13,7 +13,7 @@ public:
   ///constructor
   InteractionComp(const spParticle prtl_org, const spParticle prtl_dest, 
 		  spKernel weight_function, const double dstc,
-		  const Initiation& ini);
+		  const Initiation& ini, const spSolidObstacles obstacles);
   virtual ~InteractionComp();
   void UpdateForces();
 };

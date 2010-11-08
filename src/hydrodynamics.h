@@ -24,6 +24,9 @@ class Hydrodynamics
   ///the interaction (particle pair) list
   std::list<spInteraction> interaction_list;
   
+  ///local reference to SolidObstacles object
+  const spSolidObstacles obstacles;
+
  public:
   ///the materials used
   /// store a shared pointers to the 

@@ -7,6 +7,7 @@
 #include "vec2d.h"
 #include "particle.h"
 #include "SolidObstacles/solidObstacles.h"
+#include "glbtype.h"
 
 class Hydrodynamics;
 class Initiation;
@@ -24,6 +25,8 @@ class ParticleManager {
   Vec2d box_size; ///<computational domain size
   double cll_sz; ///<cell size
 
+  const spSolidObstacles obstacles;///<local reference to SolidObstacles
+
   int initial_condition; ///<initial condition marker
 
   double delta; ///<the inital particle distance
@@ -35,7 +38,7 @@ public:
   /// cell linked list in 2-d array
   blast::matrix<std::list<spParticle > > cell_lists;
   /// default constructor
-  explicit ParticleManager(const Initiation &ini);
+  explicit ParticleManager(const Initiation &ini, spSolidObstacles obstacles);
 
   /// constructor to create ParticleManager without help of Initiation object.
   /// This constructor is used only for testing
@@ -54,7 +57,7 @@ public:
   ///build the initial particles and the linked lists for gas dynamcis
   void BuildRealParticleGasDyn(vecMaterial materials, 
 					std::list<spParticle >& particle_list, 
-			       Initiation &ini, spSolidObstacles &obstacles);
+			       Initiation &ini);
 
   ///buid the initial wall particles and the linked lists
   void BuildWallParticle(Hydrodynamics &hydro, Boundary &boundary);

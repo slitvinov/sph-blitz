@@ -36,7 +36,7 @@ void HydroTimeSolver::show_information() const {
 //					advance time interval D_time with summation for density
 //					predictor and corrector method used
 //----------------------------------------------------------------------------------------
-void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary, double &Time, double D_time,	const Initiation &ini, spKernel weight_function)
+void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary, double &Time, double D_time,	const Initiation &ini, spKernel weight_function, spSolidObstacles obstacles)
 {
   LOG(INFO) << "Start TimeIntegral_summation";
   double integeral_time = 0.0;
@@ -88,7 +88,7 @@ void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManag
 }
 
 
-void HydroTimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary, double &Time, double D_time, const Initiation &ini, spKernel weight_function)
+void HydroTimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary, double &Time, double D_time, const Initiation &ini, spKernel weight_function, spSolidObstacles obstacles)
 {
   LOG(INFO) << "Start TimeIntegral_summation";
   double integeral_time = 0.0;

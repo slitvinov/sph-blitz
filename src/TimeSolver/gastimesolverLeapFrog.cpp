@@ -40,10 +40,13 @@ void GasTimeSolverLeapFrog::show_information() const {
 //					predictor and corrector method used
 //----------------------------------------------------------------------------------------
 ///time integration without density (summation density approach)
-void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 
-                                           Boundary &boundary,
-                                           double &Time, double D_time,
-                                           const Initiation &ini, spKernel weight_function)
+void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro,
+						   ParticleManager &particles, 
+						   Boundary &boundary,
+						   double &Time, double D_time,
+						   const Initiation &ini,
+						   spKernel weight_function,
+						   spSolidObstacles obstacles)
 {
   double integeral_time = 0.0;
   /// loop as long as time < output interval
@@ -88,7 +91,7 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
       {
 	hydro.UpdateUe2Half(dt);
 	
-	if  (ini.disable_boundary != 1)//check if boundary disabled
+	if(ini.disable_boundary != 1)//check if boundary disabled
 	  ///build the boundary particles
 	  boundary.BuildBoundaryParticle(particles,hydro);
       }
@@ -102,6 +105,10 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     //in interaction are updated everytime a particle variable changes)
     //hydro.UpdateInteractions(weight_function);
     // not needed because rho is not locally copied into interaction
+
+    // just before updateing state of boundary particles for force calculation:
+    // set tangent plane to solidObstacle surface for each real particle
+    obstacles->set_all_solObs_tangents(hydro);
 
     ///update the state of the boundary particles (by copying the real particles' state)
     if  (ini.disable_boundary != 1)   
@@ -137,10 +144,13 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
   }
 }
 ///time integration including density (continuity density approach)
-void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
+void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro,
+					 ParticleManager &particles, 
 					 Boundary &boundary,
 					 double &Time, double D_time,
-					 const Initiation &ini, spKernel weight_function)
+					 const Initiation &ini,
+					 spKernel weight_function,
+					 spSolidObstacles obstacles)
 {
   double integeral_time = 0.0;
   while(integeral_time < D_time) {
@@ -186,6 +196,10 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
     //in interaction are updated everytime a particle variable changes)
     hydro.UpdateInteractions(weight_function);
     
+    // just before updateing state of boundary particles for force calculation:
+    // set tangent plane to solidObstacle surface for each real particle
+    obstacles->set_all_solObs_tangents(hydro);
+
     //if boundary condition applicable: update boundary particle states
     if(ini.disable_boundary != 1)   
       boundary.BoundaryCondition(particles);

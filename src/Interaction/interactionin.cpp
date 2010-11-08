@@ -15,6 +15,7 @@
 #include "particle.h"
 #include "initiation.h"
 #include "glbfunc.h"
+#include "SolidObstacles/solidObstacles.h"
 
 
 //----------------------------------------------------------------------------------------
@@ -57,8 +58,8 @@ void InteractionIn::UpdateForces() {
 
 InteractionIn::InteractionIn(const spParticle prtl_org, const spParticle prtl_dest, 
 	      spKernel weight_function, const double dstc,
-	      const Initiation& ini): 
-  Interaction(prtl_org, prtl_dest, weight_function, dstc, ini)
+			     const Initiation& ini, const spSolidObstacles obstacles): 
+  Interaction(prtl_org, prtl_dest, weight_function, dstc, ini, obstacles)
 {
   assert(ini.simu_mode == 1);
   LOG_EVERY_N(INFO, 10000) << "Create incompressible interaction";

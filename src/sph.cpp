@@ -131,8 +131,8 @@ int main(int argc, char *argv[]) {
     exit(EXIT_FAILURE);
   }
 
-  ParticleManager particles(ini); ///< - initiate the particle manager
-  Hydrodynamics hydro(particles, ini,obstacles); ///< - create materials, forces and real particles
+  ParticleManager particles(ini, obstacles); ///< - initiate the particle manager
+  Hydrodynamics hydro(particles, ini, obstacles); ///< - create materials, forces and real particles
   
   //define variable which indicates if the particle distribution for 1D simulation is purely 1D (where no bounady conditions are needed) or 2D (need to implement periodic BC in y-direction) 
   ///\todo{this is only a temporary solution, when code works, the variable can either be moved into external initiation file, or the purely 1D case can be  removed completely (but not as long as the 2D particle distribution does not work!!!)} 
@@ -210,10 +210,12 @@ int main(int argc, char *argv[]) {
     ///- call the time slover (who iterates over one output time interval)
     if(ini.density_mode==1)  //summation density
       timesolver->TimeIntegral_summation(hydro, particles, boundary, Time, 
-				      ini.D_time, ini, weight_function);
+					 ini.D_time, ini, weight_function,
+					 obstacles);
     else//continuity density (density integrated)
       timesolver->TimeIntegral(hydro, particles, boundary, Time, 
-				      ini.D_time, ini, weight_function);
+			       ini.D_time, ini, weight_function,
+			       obstacles);
 		
     // hydro.UpdateState(ini);///to update p,T,Cs to new values before output 
     //control output

@@ -139,8 +139,14 @@ Particle::Particle (spParticle RealParticle ) :
   ///- point to its real particle
   rl_prtl = RealParticle ;
 
-  ///- set solidObstacle_ghostParticle attribute to zero (even for mirrored ghost particles) as they do not need to be considered anyway
-  solidObstacle_ghostParticle=0;
+  ///- set solidObstacle_ghostParticle attribute to the corresponding value
+  /// of the particle to copy
+  /// in the case that particle to copy is a ghost_prtl for
+  /// SolidObstacles within the domain (these particles are in particle_list
+  /// and therefore ghost particles for the domain edges can be created
+  /// for them as well) the corresponding attribut needs to be set to 
+  /// the corresponding value)
+  solidObstacle_ghostParticle=RealParticle->solidObstacle_ghostParticle;
 
   ///- set viscosity
   // eta = mtl->eta;

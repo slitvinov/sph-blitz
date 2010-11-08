@@ -15,6 +15,7 @@
 #include "particle.h"
 #include "initiation.h"
 #include "glbfunc.h"
+#include "SolidObstacles/solidObstacles.h"
 
 
 //----------------------------------------------------------------------------------------
@@ -46,14 +47,25 @@ void InteractionComp::UpdateForces() {
   const Vec2d Uij = Ui - Uj;
   const double UijdotRij=dot(Uij,(Org->R - Dest->R));
 
+  
   // for solidObstacle ghost particles (whose actual velocity is zero),
   // a virtual velocity is assigned 
   // in order to better match the no-slip boundary condition
   // (see Morris1997, Morris1999)
-  // this virtual velocity is used for the physical viscosity calculation.
+  // this virtual velocity is (only) used for the physical viscosity calculation.
   // if the corresponding particle is a real particle and not a ghost
-  // particle the virtual velocity variable is set equal to the real velocity
+  // particle, the virtual velocity variable is set equal to the real velocity
   // this is done within the method  
+  // NOTE: the virtual velocity is only assigned to 
+  // destination particles of interactions as a ghost particle interacting with a real
+  // particle is always the destination particle of an interaction pair (by construction
+  // of the interaction pairs within the program)
+
+  const Vec2d Uj_virt=obstacles->set_virtual_velocity(Org, Dest);
+  // LOG_EVERY_N(INFO,1)<<Ui;
+  // LOG_EVERY_N(INFO,1)<<Uj_virt;
+  const Vec2d Uij_virt=Ui-Uj_virt;
+  const double UijdotRij_virt=dot(Uij_virt,(Org->R - Dest->R));
   
   //pair forces or change rate
   //Vec2d dPdti, dUdti, dUdtj; //mometum&velocity change rate
@@ -66,7 +78,7 @@ void InteractionComp::UpdateForces() {
   //const double drhodti=mj*dot((Ui-Uj),gradWij);
   //const double drhodtj=mi*dot((Uj-Ui),((-1)*gradWij));
   
-  const double hij=supportlength/2.0;//=0.5*(hi+hj)for later (variable smoothing length);
+  const double hij=supportlength/2.0;//=0.5*(hi+hj) if variable smoothing length implemented;
   const double cij=0.5*(Org->Cs+Dest->Cs);
   const double rhoij=0.5*(rhoi+rhoj);
   
@@ -134,26 +146,26 @@ void InteractionComp::UpdateForces() {
     const  double zeta_ij=0.5*(zetai+zetaj);
     if(Org->ID==2 && Dest->ID==1)
       LOG(INFO)<<" zeta_ij :"<< zeta_ij;
-    const double eijdotUij=dot(eij,Uij);// factor for calculation of phys. visc.
+    const double eijdotUij_virt=dot(eij,Uij_virt);// factor for calculation of phys. visc.
     // again control output for first interaction pair
     if(Org->ID==2 && Dest->ID==1) {
       LOG(INFO)<<" eij :"<< eij;
       LOG(INFO)<<" Ri :"<< Org->R;
       LOG(INFO)<<" Rj :"<< Dest->R;
-      LOG(INFO)<<" Uij :"<< Uij;
+      LOG(INFO)<<" Uij_virt :"<< Uij_virt;
       LOG(INFO)<<" Ui :"<< Org->U;
-      LOG(INFO)<<" Uj :"<< Dest->U;
-      LOG(INFO)<<" eijdotUij :"<< eijdotUij;
+      LOG(INFO)<<" Uj_virt :"<< Uj_virt;
+      LOG(INFO)<<" eijdotUij_virt :"<< eijdotUij_virt;
     }
     const double Fij_=abs(Fij);//as in Espanol Fij defined >=0!
     if(Org->ID==2 && Dest->ID==1)
       LOG(INFO)<<" Fij_ :"<< Fij_;
     // velocity change rate due to physical viscosity
-    dUdti_visc=1/mi*(-1*((5.0*eta_ij)/3.0-zeta_ij)*Fij_/(d_i*d_j)*Uij
-		     -5.0*(zeta_ij+eta_ij/3)*Fij_/(d_i*d_j)*eijdotUij*eij);
+    dUdti_visc=1/mi*(-1*((5.0*eta_ij)/3.0-zeta_ij)*Fij_/(d_i*d_j)*Uij_virt
+		     -5.0*(zeta_ij+eta_ij/3)*Fij_/(d_i*d_j)*eijdotUij_virt*eij);
     // velocity change rate due to physical viscosity
-    dUdtj_visc=1/mj*(((5.0*eta_ij)/3.0-zeta_ij)*Fij_/(d_i*d_j)*Uij
-		     +5.0*(zeta_ij+eta_ij/3)*Fij_/(d_i*d_j)*eijdotUij*eij);
+    dUdtj_visc=1/mj*(((5.0*eta_ij)/3.0-zeta_ij)*Fij_/(d_i*d_j)*Uij_virt
+		     +5.0*(zeta_ij+eta_ij/3)*Fij_/(d_i*d_j)*eijdotUij_virt*eij);
     
     // formulation from Ellero2007 paper
     // (neglecting bulk viscosity)(is even more wrong)
@@ -235,8 +247,8 @@ void InteractionComp::UpdateForces() {
 
 InteractionComp::InteractionComp(const spParticle prtl_org, const spParticle prtl_dest, 
 				 spKernel weight_function, const double dstc,
-				 const Initiation& ini): 
-  Interaction(prtl_org, prtl_dest, weight_function, dstc, ini)
+				 const Initiation& ini,const spSolidObstacles obstacles): 
+  Interaction(prtl_org, prtl_dest, weight_function, dstc, ini, obstacles)
 {
   assert(ini.simu_mode ==2);
   LOG_EVERY_N(INFO, 100000) << "Create compressible interaction";

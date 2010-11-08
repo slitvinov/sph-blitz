@@ -17,11 +17,13 @@ public:
   /// advance time interval D_time with summation for density
   void TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 
                               Boundary &boundary, double &Time, double D_time, 
-                              const Initiation &ini, spKernel weight_function);
+                              const Initiation &ini, spKernel weight_function,
+			      spSolidObstacles obstacles);
 /// advance time interval D_time with integration for density (has still to be implemented)
-void TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
-                              Boundary &boundary, double &Time, double D_time, 
-                              const Initiation &ini, spKernel weight_function);
+  void TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
+		  Boundary &boundary, double &Time, double D_time, 
+		  const Initiation &ini, spKernel weight_function,
+		  spSolidObstacles obstacles);
 
   /// show some information about the solver
   void show_information() const;

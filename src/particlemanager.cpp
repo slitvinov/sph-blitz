@@ -27,7 +27,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //									constructor
 //----------------------------------------------------------------------------------------
-ParticleManager::ParticleManager(const Initiation &ini)
+ParticleManager::ParticleManager(const Initiation &ini, spSolidObstacles obstacles): obstacles (obstacles)
 {
   
   ///- copy properties from class Initiation
@@ -195,13 +195,13 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
 		    spInteraction pair = 
 		      boost::make_shared<InteractionIn>(prtl_org, prtl_dest, 
 							weight_function, sqrt(dstc),
-							ini);
+							ini, obstacles);
 		    interactions.push_back(pair);
 		  } else if (ini.simu_mode == 2) {
 		    spInteraction pair = 
 		      boost::make_shared<InteractionComp>(prtl_org, prtl_dest, 
 							  weight_function, sqrt(dstc),
-							  ini);
+							  ini, obstacles);
 		    interactions.push_back(pair);
 		  } else {
 		    std::cerr << __FILE__ << ':' << __LINE__ << " unknown simulation mode (check SIMULATION_MODE)";
@@ -358,7 +358,7 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 //----------------------------------------------------------------------------------------
 void ParticleManager::BuildRealParticleGasDyn(vecMaterial materials, 
 					std::list<spParticle >& particle_list, 
-					      Initiation &ini, spSolidObstacles &obstacles)
+					      Initiation &ini)
 {
 	
   LOG(INFO) << "Start BuildRealParticleGasDyn\n";

@@ -15,6 +15,8 @@ protected:
 
   /// local reference to initiation object
   const Initiation& ini;
+  /// local reference to SolidObstacles object
+  const spSolidObstacles obstacles;
 
 
   //particle pair
@@ -51,7 +53,7 @@ public:
   ///constructor
   Interaction(const spParticle prtl_org, const spParticle prtl_dest, 
               spKernel weight_function, const double dstc,
-              const Initiation& ini);
+              const Initiation& ini, const spSolidObstacles obstacles);
 	
 
   ///\brief renew pair parameters and changing pair values

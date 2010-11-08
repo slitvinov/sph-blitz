@@ -21,7 +21,7 @@
 #include "initiation.h"
 using namespace std;
 
-Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini, spSolidObstacles obstacles) {
+Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini, spSolidObstacles obstacles):obstacles(obstacles) {
   LOG(INFO) << "Run constructor of Hydrodynamics class";
   /// <ul><li>copy properties from initiation class
   /// <li>create material matrix
@@ -54,7 +54,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini, spSoli
   if (ini.simu_mode == 1) {
     particles.BuildRealParticle(materials, particle_list, ini);
   }  else if (ini.simu_mode == 2) {
-    particles.BuildRealParticleGasDyn(materials, particle_list, ini, obstacles);
+    particles.BuildRealParticleGasDyn(materials, particle_list, ini);
   } else {
     LOG(ERROR) << "Unknown SIMULATION_MODE: " << ini.simu_mode;
     LOG(ERROR) << "check configuration file";
@@ -144,6 +144,14 @@ void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, spKernel weight
   ///- obtain the interaction pairs
   particles.BuildInteraction(interaction_list, particle_list, weight_function, ini);
 
+  // ///- for each (real) particle set up a possible solidObstacles tangent line 
+  // ///   (for later calculation of virtual velocity of ghost particles)
+  // /// therefore: iterate the particle list
+  // BOOST_FOREACH(spParticle prtl, particle_list) {
+  //   obstacles->set__solObs_tangent(prtl);
+  // }
+  //=>(is now done in timesolvers before boundary particles are updated...)
+
   ///- iterate the interaction list
   BOOST_FOREACH(spInteraction pair, interaction_list) {
     ///- calculate for eahc pair the pair forces or change rate
@@ -160,21 +168,34 @@ void Hydrodynamics::UpdateChangeRate(const Initiation& ini, const double Time) {
   LOG(INFO) << " Hydrodynamics::UpdateChangeRate(ini)";
   ///- initiate the change rate of each real particle by calling ZeroChangeRate()
   ZeroChangeRate();	
-
+  
   if(ini.pure_conduction==1)// only heat conduction, no particle movement
     ///- iterate the interaction list
     BOOST_FOREACH(spInteraction aux_interaction, interaction_list) {
       aux_interaction->UpdateEnergyPureConduction();
     }
-  else //update velocity change rates etc.  as well...
+  
+  else {
+    //update velocity change rates etc.  as well...
+    
+    // ///- for each (real) particle set up a possible solidObstacles tangent line 
+    // ///   (for later calculation of virtual velocity of ghost particles)
+    // /// therefore: iterate the particle list
+    // BOOST_FOREACH(spParticle prtl, particle_list) {
+    //   obstacles->set__solObs_tangent(prtl);
+    // }
+    //=>(is now done in timesolvers before boundary particles are updated...)
+
+    ///- now calculate forces and energy contributions for each interaction pair
     BOOST_FOREACH(spInteraction aux_interaction, interaction_list) {
       aux_interaction->UpdateForces();
     }
-  //control output
-  BOOST_FOREACH(spParticle prtl, particle_list) {
-    LOG_EVERY_N(INFO, 1000) <<"dUdt: "<<prtl->dUdt[0] << " dUdt1: "<<prtl->dUdt[1];
+    //control output
+    BOOST_FOREACH(spParticle prtl, particle_list) {
+      LOG_EVERY_N(INFO, 1000) <<"dUdt: "<<prtl->dUdt[0] << " dUdt1: "<<prtl->dUdt[1];
+    }
   }
-    
+  
   // ofstream tx2tFile("DerivativesDataN1");
   // 	if (tx2tFile.is_open())
   //         {
@@ -195,17 +216,27 @@ void Hydrodynamics::UpdateChangeRate(const Initiation& ini, const double Time) {
 void Hydrodynamics::UpdateChangeRateInclRho(const Initiation& ini, const double Time) {
   LOG(INFO) << " Hydrodynamics::UpdateChangeRateInclRho(ini)";
   ///- initiate the change rate of each real particle by calling ZeroChangeRate()
-  ZeroChangeRate();	
-
-    ///- iterate the interaction list
+  ZeroChangeRate();
+  
+  // ///- for each (real) particle set up a possible solidObstacles tangent line 
+  // ///   (for later calculation of virtual velocity of ghost particles)
+  // /// therefore: iterate the particle list
+  // BOOST_FOREACH(spParticle prtl, particle_list) {
+  //   obstacles->set_solObs_tangent(prtl);
+  // }
+  
+  //=>(is now done in timesolvers before boundary particles are updated...)
+  
+  
+  ///- iterate the interaction list
   BOOST_FOREACH(spInteraction aux_interaction, interaction_list) {
-      aux_interaction->UpdateForcesAndRho();
+    aux_interaction->UpdateForcesAndRho();
   }
   //control output
   BOOST_FOREACH(spParticle prtl, particle_list) {
     LOG_EVERY_N(INFO, 1000) <<"dUdt: "<<prtl->dUdt[0] << " dUdt1: "<<prtl->dUdt[1];
   }
-
+  
   ///- include the gravity effects
   AddGravity(ini, Time);
 }
@@ -218,7 +249,7 @@ void Hydrodynamics::ZeroChangeRate() {
     prtl->dedt = 0.0;
     prtl->drhodt = 0.0;
     (prtl->dUdt) = 0.0;
-
+    
   }
 }
 //----------------------------------------------------------------------------------------

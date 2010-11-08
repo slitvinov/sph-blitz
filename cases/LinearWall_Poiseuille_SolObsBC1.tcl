@@ -13,7 +13,7 @@ set INTEGRATION_SCHEME 1
 # possible density treatments
 # 1: summation density (density obtained by smoothing)
 # 2: continuity density (density is integrated)
-set DENSITY_MODE 2
+set DENSITY_MODE 1
 
 # brief flag to turn on/off smoothing of initial density profile
 # (only useful for initially discontinuous density profile like for shock-tube
@@ -129,7 +129,7 @@ set HIGH_RES_TIMESTAMP_MARKER 0
 
 # for simulations including heat conduction or for pure heat conduction
 # boundaries isothermal or not?
-# applies only to WALL and FREE_SLIP boundary conditions!!
+# applies only to WALL and FREE_SLIP boundary conditions at domain edges!!
 # isothermal or not (=adiabatic)
 # 1: isothermal (temperature as specified at corresponding boundary)
 # 0: NOT isothermal (wall is symmetric concerning temperature->adiabatic)
@@ -156,7 +156,7 @@ set UyBd(0) 0.0
 set UyBd(1) 0.0
 
 # upper boundary
-set yBu 0
+set yBu 3
 set UyBu(0) 0.0
 set UyBu(1) 0.0
 
@@ -169,7 +169,7 @@ set SOLID_OBSTACLES LinearWall
 # time  control 
 set Start_time 0.0		
 set End_time 3	
-set D_time 1e-3
+set D_time 1e-6
 
 #marker for automatic time control
 # 0: autom. time conrtol switched off: specified dt used (see below) 

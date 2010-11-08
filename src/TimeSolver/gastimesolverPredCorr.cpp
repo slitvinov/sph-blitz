@@ -37,10 +37,13 @@ void GasTimeSolverPredCorr::show_information() const {
 //					predictor and corrector method used
 //----------------------------------------------------------------------------------------
 ///time integration without density (summation density approach)
-void GasTimeSolverPredCorr::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, 
-                                           Boundary &boundary,
-                                           double &Time, double D_time,
-                                           const Initiation &ini, spKernel weight_function)
+void GasTimeSolverPredCorr::TimeIntegral_summation(Hydrodynamics &hydro,
+						   ParticleManager &particles, 
+						   Boundary &boundary,
+						   double &Time, double D_time,
+						   const Initiation &ini,
+						   spKernel weight_function,
+						   spSolidObstacles obstacles)
 {
   double integeral_time = 0.0;
 	
@@ -102,10 +105,13 @@ void GasTimeSolverPredCorr::TimeIntegral_summation(Hydrodynamics &hydro, Particl
 }
 
 ///time integration including density (continuity density approach)
-void GasTimeSolverPredCorr::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
-                                           Boundary &boundary,
-                                           double &Time, double D_time,
-                                           const Initiation &ini, spKernel weight_function)
+void GasTimeSolverPredCorr::TimeIntegral(Hydrodynamics &hydro,
+					 ParticleManager &particles, 
+					 Boundary &boundary,
+					 double &Time, double D_time,
+					 const Initiation &ini,
+					 spKernel weight_function,
+					 spSolidObstacles obstacles)
 {
   double integeral_time = 0.0;
 	

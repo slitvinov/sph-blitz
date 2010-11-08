@@ -15,6 +15,8 @@
 #include "particle.h"
 #include "initiation.h"
 #include "glbfunc.h"
+#include "SolidObstacles/solidObstacles.h"
+
 
 //----------------------------------------------------------------------------------------
 //					constructor
@@ -22,8 +24,8 @@
 Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest, 
 			 spKernel weight_function, 
 			 const double dstc,
-			 const Initiation& ini):
-  ini(ini),   Org(prtl_org), Dest(prtl_dest), mi(Org->m), mj(Dest->m), 
+			 const Initiation& ini, const spSolidObstacles obstacles):
+  ini(ini), obstacles (obstacles), Org(prtl_org), Dest(prtl_dest), mi(Org->m), mj(Dest->m), 
   rmi(1.0/mi), rmj(1.0/mj),   etai(Org->eta), etaj(Dest->eta),
   zetai(Org->zeta), zetaj(Dest->zeta),   rij(dstc) {
 
@@ -130,6 +132,25 @@ void Interaction::UpdateForcesAndRho() {
   const Vec2d Uj = Dest->U;
   const Vec2d Uij = Ui - Uj;
   const double UijdotRij=dot(Uij,(Org->R - Dest->R));
+
+  // for solidObstacle ghost particles (whose actual velocity is zero),
+  // a virtual velocity is assigned 
+  // in order to better match the no-slip boundary condition
+  // (see Morris1997, Morris1999)
+  // this virtual velocity is (only) used for the physical viscosity calculation
+  // (density is calculated with the real velcoities (i.e. zero for ghost prtl)).
+  // if the corresponding particle is a real particle and not a ghost
+  // particle, the virtual velocity variable is set equal to the real velocity
+  // this is done within the method  
+  // NOTE: the virtual velocity is only assigned to 
+  // destination particles of interactions as a ghost particle interacting with a real
+  // particle is always the destination particle of an interaction pair (by construction
+  // of the interaction pairs within the program)
+
+  const Vec2d Uj_virt=obstacles->set_virtual_velocity(Org, Dest);
+  const Vec2d Uij_virt=Ui-Uj_virt;
+  const double UijdotRij_virt=dot(Uij_virt,(Org->R - Dest->R));
+  
   
   //pair focres or change rate
   //Vec2d dPdti, dUdti, dUdtj; //mometum&velocity change rate
@@ -141,6 +162,7 @@ void Interaction::UpdateForcesAndRho() {
     /// particle must not be that far 
     assert(rij<=2.0*supportlength);
     
+    //
     const double drhodti=mj*dot((Ui-Uj),gradWij);
     const double drhodtj=mi*dot((Uj-Ui),((-1)*gradWij));
     
@@ -212,26 +234,26 @@ void Interaction::UpdateForcesAndRho() {
       const  double zeta_ij=0.5*(zetai+zetaj);
       if(Org->ID==2 && Dest->ID==1)
 	LOG(INFO)<<" zeta_ij :"<< zeta_ij;
-      const double eijdotUij=dot(eij,Uij);// factor for calculation of phys. visc.
+      const double eijdotUij_virt=dot(eij,Uij_virt);// factor for calculation of phys. visc.
       // again control output for first interaction pair
       if(Org->ID==2 && Dest->ID==1) {
 	LOG(INFO)<<" eij :"<< eij;
 	LOG(INFO)<<" Ri :"<< Org->R;
 	LOG(INFO)<<" Rj :"<< Dest->R;
-	LOG(INFO)<<" Uij :"<< Uij;
+	LOG(INFO)<<" Uij_virt :"<< Uij_virt;
 	LOG(INFO)<<" Ui :"<< Org->U;
-	LOG(INFO)<<" Uj :"<< Dest->U;
-	LOG(INFO)<<" eijdotUij :"<< eijdotUij;
+	LOG(INFO)<<" Uj_virt :"<<Uj_virt;
+	LOG(INFO)<<" eijdotUij_virt :"<< eijdotUij_virt;
       }
       const double Fij_=abs(Fij);//as in Espanol Fij defined >=0!
       if(Org->ID==2 && Dest->ID==1)
 	LOG(INFO)<<" Fij_ :"<< Fij_;
       // velocity change rate due to physical viscosity
-      dUdti_visc=1/mi*(-1*((5.0*eta_ij)/3.0-zeta_ij)*Fij_/(d_i*d_j)*Uij
-		       -5.0*(zeta_ij+eta_ij/3)*Fij_/(d_i*d_j)*eijdotUij*eij);
+      dUdti_visc=1/mi*(-1*((5.0*eta_ij)/3.0-zeta_ij)*Fij_/(d_i*d_j)*Uij_virt
+		       -5.0*(zeta_ij+eta_ij/3)*Fij_/(d_i*d_j)*eijdotUij_virt*eij);
       // velocity change rate due to physical viscosity
-      dUdtj_visc=1/mj*(((5.0*eta_ij)/3.0-zeta_ij)*Fij_/(d_i*d_j)*Uij
-		       +5.0*(zeta_ij+eta_ij/3)*Fij_/(d_i*d_j)*eijdotUij*eij);
+      dUdtj_visc=1/mj*(((5.0*eta_ij)/3.0-zeta_ij)*Fij_/(d_i*d_j)*Uij_virt
+		       +5.0*(zeta_ij+eta_ij/3)*Fij_/(d_i*d_j)*eijdotUij_virt*eij);
       
       // formulation from Ellero2007 paper
       // (neglecting bulk viscosity)(is even more wrong)
