@@ -192,8 +192,15 @@ int main(int argc, char *argv[]) {
   //start time
   double Time = ini.Start_time;
 
-  //output initial conditions
+  //output initial particle configuration
   output.OutputParticle(hydro, boundary, Time, ini, obstacles); //particle positions and velocites
+
+  // just to be sure that for the beginning of the actual computation loop 
+  // all change rates are zero (as they were not always explicitely initialized:
+  // they were not always exactly zero. Did only affect determination
+  // of first time step, which is done before any change rates are calculated.
+  // Before actual calculation of change rates they were reset to 0 anyway...)
+  hydro.ZeroChangeRate();
 
   ///\n computation loop starts 
   while(Time < ini.End_time) {
@@ -221,7 +228,9 @@ int main(int argc, char *argv[]) {
     //control output
     LOG(INFO)<<"time is "<<Time<<"\n";
     ///- output results after a time interval\n\n
-
+    ///  if leapfrog intetration: calculate values at full step for output
+    hydro.UpdateValuesForOutput(ini, timesolver->dt);
+    
     output.OutputParticle(hydro, boundary, Time, ini, obstacles); //particle positions and velocites
     output.OutRestart(hydro, Time, ini); //restarting file
   }

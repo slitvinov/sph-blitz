@@ -49,7 +49,6 @@ public:
   ///- 2: predictor corrector
   int integration_scheme;
 
-
   /// \brief initial condition marker:
   ///
   ///- 0 initialize from the .tcl file (+.ivs file for gas dynamics); 
@@ -73,6 +72,19 @@ public:
   ///- 1: pure heat conduction ON (i.e. no change of quantities other than internak energy)
   ///- 0: pure heat conduction OFF (normal flow simulation taking int account all change rates)
   int pure_conduction; 
+
+  ///\brief virtual velocity assignment type for ghost particles of solid Obstacles
+  ///
+  /// virtual velocity is used to calculate viscous forces and therefore
+  /// influences quality of no--slip condition
+  /// 0: solid Obstacles have zero real velocity AND ZERO virtual velocity
+  /// 1: solid Obstacles have zero real vleocity AND virtual velocity
+  ///    according to Morris1999
+  int solObs_virt_veloc_type;
+
+  /// limit for distance solObs surfacs <-> real particle for 
+  /// virtual velocity calculation according to Morris1999
+  double d_realPart_solObs_min;
 
   ///simulation mode (1: liquids, 2: gas dynamics)
   int simu_mode;

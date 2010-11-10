@@ -447,6 +447,7 @@ void ParticleManager::BuildRealParticleGasDyn(vecMaterial materials,
 	  // to be taken into account as soon as density is going to be evolved...)
 	};
       fin.close();
+
       LOG(INFO) << "ParticleManager::BuildRealParticleGasDyn ends";
 }
 

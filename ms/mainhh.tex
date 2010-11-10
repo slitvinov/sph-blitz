@@ -418,24 +418,26 @@ But for many applications precise boundary conditions have to be applied and it 
 These virtual particles, that were originally used by \cite{Libersky1993}, then contribute to the calculation of the quantities of the real particles inside the domain. Thus the particle deficiency problem can be solved. 
  Following paragraphs which detail this and alternative concepts for the different types of boundary conditions
 
-\paragraph{periodical boundary condition}
+\subsubsection{periodical boundary condition}
 The periodical boundary condition is relatively easy to implement and consists of placing a copy of all real particles within one supportlength to one domain edge right in front of the opposite domain edge.
 
 
 
-\paragraph{symmetrical boundary conditions}
-A way of setting up symmetrical boundary conditions is mirroring all real particles within one supportlength to the domain edge at the latter.
+\subsubsection{symmetrical boundary conditions}
+A way of setting up symmetrical boundary conditions is mirroring all real particles including their properties within one supportlength to the domain edge at the latter. Thus, basically a no slip wall is modelled. In case that thermal conduction is included in the code, the symmetrical nature of the ghost particle properties results in an adiabatic boundary condition.
 
-\paragraph{solid--wall}
+\subsubsection{solid--wall}
 For solid wall conditions, beside the fact of avoiding the particle deficiency problem, a second issue is to prevent particle penetration into the wall.
+Furthermore different temperature boundary conditions must be implemented for simuations including heat--conduction, which is the case here.
+\paragraph{no--slip velocity boundary conditon}
 There are two types of solid wall conditions: a free-slip condition, which is appropriate for inviscid flow, and a no--slip condition which has to be applyied for modelling solid walls in viscous flow simulations. The free-slip wall condition does essentially not differ from the symmetry condition, except for the case where thermal boundary conditions may be applied as well. While the symmetrical BC is by condtruction always adiabatic, the free-slip wall provides the possibility to implement an isothermal BC by fixing the boundary particle's temperature.
 
 As wall boundary conditions in this project are mainly needed for viscous flow simulations, the no--slip condition is of special interest. In this case an additional issue is to reproduce this no--slip condition. A good overview on solid wall boundary implementations for (incompressible) viscous flows is given in \cite{Yildiz2009}. 
 According to \cite{Yildiz2009} and personal research such no-slip solid walls are mainly applied for SPH-simulations of low Reynolds-number and for incompressible or weakly-compressible fluid--models. 
 
-The problem of particles penetrating the solid walls can be adressed by either implementing a reflection law or a repulsive force at the boundary. Monaghan originally linked the repulsive force in a form similar to Leonard-Jones potential to boundary particles placed directly ON the boundary \cite{Monaghan1994} but this approach turned out to produce considerable perturbatios in the real particle movement paralell to walls \cite{Monaghan2005}. An improved approach by Monaghan uses a different force model \cite{Monaghan2004} that gives remedy to these perturbations. Due to the fact, that the boundary particles are placed exclusively on the boundary, an error in density due to the particle deficiency problem can still aoccurr and appropriate correction methods might be applied \cite{Monaghan2004}. Concerning the no--slip condition, Monaghan claims, that it can be achieved with his model by including the boundary particles, which have the velocity of the boundary, in the viscous force calculations. 
+The problem of particles penetrating the solid walls can be adressed by either implementing a reflection law or a repulsive force at the boundary. Monaghan originally linked the repulsive force in a form similar to Leonard-Jones potential to boundary particles placed directly ON the boundary \cite{Monaghan1994} but this approach turned out to produce considerable perturbatios in the real particle movement paralell to walls \cite{Monaghan2005}. An improved approach by Monaghan uses a different force model \cite{Monaghan2004} that gives remedy to these perturbations. Due to the fact, that the boundary particles are placed exclusively on the boundary, an error in density due to the particle deficiency problem can still occurr and appropriate correction methods might be applied \cite{Monaghan2004}. The above methods only address the particle penetration problem and not yet the no--slip condition. Concerning this no--slip condition, Monaghan claims, that it can be achieved with his model by including the boundary particles, which have the velocity of the boundary, in the viscous force calculations. This way the tangentiel velocity of the real particles close to the boundary is influenced correspondingly. One application of this approach is for example \cite{Cleary2002} 
 
-A different approach for modelling solid--walls consists in placing ghost particles outside the domain up to a distance of one supportlength to the boundary. The particle deficiency problem is therefore solved, but no explicit measure is taken to prevent particles from penetrating into the solid wall in case the ``normal'' interaction forces produced by the ghost particles are not sufficient.
+A different approach for modelling solid--walls consists in placing ghost particles outside the domain up to a distance of one supportlength to the boundary. The particle deficiency problem is therefore solved, but no explicit measure is taken to prevent particles from penetrating into the solid wall in case the ``normal'' interaction forces produced by the ghost particles are not sufficient. In this case however it is realtively easy to procude a no--slip condition by assigning these ghost particles a virtual velocity that is taken into account for the viscous force calculation.
 
  These methods differ in their complexity and efficiency 
 \begin{enumerate}
@@ -443,18 +445,18 @@ A different approach for modelling solid--walls consists in placing ghost partic
 \item in the way their velocities (or in general properties) are assigned to prevent particle penetration and ensure the no--slip condition.
  \end{enumerate}
 
-Concerning the first point, different options are imaginable. Ghost particles can either be placed once during the simulation setup and then maintained (fixed to the wall they represent) for the entire simulation. Or they can be recreated every timestep by mirroring the positions of the corresponding real particles at the boundary. In the easiest case of a linear/plane boundary this corresponds to the ghost particle placement for periodical or symmetrical boundary conditions as mentionned above.
+Concerning the first point, different options are imaginable. Ghost particles can either be placed once during the simulation setup and then maintained (fixed to the wall they represent) for the entire simulation. Or they can be recreated every timestep by mirroring the positions of the corresponding real particles at the boundary. In the easiest case of a linear/plane boundary this corresponds to the ghost particle placement for periodical or symmetrical boundary conditions as mentionned above and implemented in this code fro the boundaries at the domain edges.
 For more complex geometries however mirroring can only be applied with restrictions, so that a fixed ghost particle placement once at the beginning of the simualation, as done for example by \cite{Morris1997, Morris1999}, is more convenient. Only sophistcated approaches, such as \cite{Yildit2009} recreate ghost particles by mirroring for complex geometries at every timestep.
 
-The easiest way of velocity assignment for ghost particles to obtain a no--slip condition is by simply immobilizing them relative to the boundary they are to represent \cite{Morris1997}, i.e. all ghost particles have the same velocity which is zero for a non-moving boundary or the corresponding boundary velocity for a boundary in motion. This appraoch gives a first order no--slip condition. A velocity assignment leading to a more accurate no--slip condition can be done by either mirroring or extrapolating the corresponding real particle profile. \cite{Basa2009} tested these different approaches in a poisseuille channel and found out that discrepancies with the exact solution mainly occurr right at the boundary during the initial phase.  According to these tests, mirroring of velocities is the least accurate method, followed by linear and then quadratic extrapolation. 
+The easiest way of velocity assignment for ghost particles to obtain a no--slip condition is by simply immobilizing them relative to the boundary they are to represent \cite{Morris1997}, i.e. all ghost particles have the same velocity which is zero for a non-moving boundary or the corresponding boundary velocity for a boundary in motion. This appraoch gives a first order no--slip condition. A velocity assignment leading to a more accurate no--slip condition can be done by either mirroring or extrapolating the corresponding real particle velocity profile. \cite{Basa2009} tested these different approaches in a poisseuille channel and found out that discrepancies with the exact solution mainly occurr right at the boundary during the initial phase.  According to these tests, mirroring of velocities is the least accurate of these more sophisticated methods, followed by linear and then quadratic extrapolation. 
 
 In combining these options one can reconstruct some boundary treatment approaches already mentionned in literature.
 \begin{itemize}
-\item the easiest approach is already essentially mentioned in the paragraph above and consists in a set of ghost particles created at the beginning of the simulation, that is maintained and where the particles have zero velocity relative to the wall they represent. This approach is implemented in the 2D code and tested as one potential method for modelling of no--slip boundary conditions around solid objects within the domain (NOT for the wall boundary condition at the domain edges).
+\item the easiest approach is already essentially mentioned in the paragraph above and consists in a set of ghost particles created at the beginning of the simulation, that is maintained and where the particles have zero velocity relative to the wall they represent. This approach is implemented in the 2D code and tested as one potential method for modelling of no--slip boundary conditions around solid objects within the domain (NOT for the wall boundary condition at the domain edges). This method is refered to as {\bf Method 1} in the rest of the document.
 
- \item An approach where the ghost particles are created each timestep by mirroring the positions of the real particles is adopted in the 2D code for modelling of solid walls with no--slip or free--slip conditions at the edges of the computational domain.
+ \item An approach where the ghost particles are created each timestep by mirroring the positions of the real particles is adopted in the 2D code for modelling of solid walls with no--slip or free--slip conditions at the edges of the computational domain. This method is refered to as {\bf Method 2} in the rest of the document.
 The ghost particles have the same properties as their real counterparts
-except for the velocity. Depending on the type of boundary condition they are
+except for the velocity (and enery/temperature for isothermal BC). Depending on the type of boundary condition they are
 supposed to represent, different velocities are assigned to them \cite{Hu2006}.
 
 No--slip velocity boundary condition:
@@ -470,13 +472,12 @@ v_{virtual}^{tangential}=v_{real}^{tangential}.
 FIGURE: ILLUSTRATION OF VELOCITY ASSIGNMENT FOR VIRTUAL BOUNDARY PARTICLES
 
 \item The approach from Morris \cite{Morris1999} combines a fixed ghost particle positionning with an linearly interpolated velocity and is apllied in the original publication for modelling porosities in a low Reynolds-Number incompressible flow.
-This way of modelling boundary conditions is implemented for the porosity representation within the calculation domain. 
-To form a curved bondary, ghost particles are set up in layery parallel to the boundary with the first layer directly at the boundary. 
-Note: for porosity representation this leads to the problem of filling the remaining space with real particles of constant density. Suggested solution \cite{Morris1997}: Placing regular lattice real particles in places where there are no porosities and first leting particle configuration relax before applying driving force! (or directly setup the porosity ghostparticles to gether with the real particles in a single regular lattice: leads to inaccurate curved surface representation for low resolutions \cite{Monaghan1997})
+This way of modelling boundary conditions is implemented for the porosity representation within the calculation domain and is referred to as {\bf Method 3}.
+To form a curved bondary, ghost particles are set up in layers parallel to the boundary with the first layer directly at the boundary. 
+Note: for porosity representation this leads to the problem of filling the remaining space regularly with real particles so that constant density is achieved. Suggested solution \cite{Morris1997}: Placing regular lattice real particles in places where there are no porosities and first leting particle configuration relax before applying driving force! (or directly setup the porosity ghostparticles to gether with the real particles in a single regular lattice: leads to inaccurate curved surface representation for low resolutions \cite{Monaghan1997})
 
 The velocity of the ghost particles is assigned according to the following principle:
 blablabla!!!
-
 
 
 \end{itemize}
@@ -485,38 +486,33 @@ blablabla!!!
 As already indicated above, the ghost particle approach alone might not completely prevent a penetration of real particles into the boundary. For this reason \cite{Liu2002} has combined the boundary particle concept from Monaghan with the ghost particle concept by simultaneous use of both particle types.  NOTE: This approach can be kept in mind for the porosity implementation if it turns out that the pure ghost-particle appraoch leads to boundary penetration ENDNOTE
 
 
-begin alter text:-------------------------------
 
- To address the second issue, different approaches have been conceived that include strong repulsive forces at the boundary.
+\paragraph{Adiabatic temperature boundary condition}
+Method 2 gives an adiabatic boundary condition by construction if the real particle's temperature is mirrored as well. 
+For Methods 1 and 3 where ghost particles have no direct real counterpart, the mirroring of temperature is not easily possible. To achieve an adiabatic boundary condition Cleary \cite{Cleary1999}, who used boundary particles only on the wall surface and besides treated a pure conduction problem, suggests to integrate the energy equation for boundary particles and real particles combined. Total energy will be conserved this way within the calculation domain because of the symmetry of the conduction term \ref{eq:}.
+For a flow problem I AM NOT SURE ABOUT THE CONSERVATION PROPERTIES OF TOTAL ENEGRY WITH PHYSICAL VISCOSITY MODEL...
+Wenn Enerie koserviert wird, dann kann man analog zu Cleary1999 einfach die erste reihe ghost particles in die energy berechnung mit einbinden (also auch als origin einer interaction, technich einfach zur particle list hinzufügen und aber keine u, rho updaten...).???
 
-conditions. This can be accomplished by a special boundary treatment which
-often includes  The first ones to come up with this idea were
-\cite{LIBERSKY1993}. Virtual particles are used to model solid walls by
-placing them inside the solid body, mirrored at the surface. For each real
-particle whose support domain interferes with the wall, one such particle is
-built. Virtual particles have the same properties as their real counterpart
-except for the velocity. Depending on the type of boundary condition they are
-supposed to represent, different velocities are assigned to them.\cite{Hu2006}.
+...lasse adiabate Implementierung vorerst weg, da für porositäte isotherm wahrscheinlich sowieso exakter ist.
 
-No--slip velocity boundary condition:
+\paragraph{Isothermal temperature boundary condition}
+An isothermal condition can be generated by assigning all the ghost particles constituting the boundary the same desired temperature \cite{Cleary1999} (however in their appraoch they only had particles on the boundary and no ghost particle layer of one supportlength). If the constant temperature idea of Monaghan is expanded to all ghost particles, this should result in first order accuracy for the temperature boundary conditionin analogy to the no--slip velocity condition. This aproach is implemented for the solid-wall boundary conditions at the domain edge.
 
+A more accurate approach could be achieved by adapting the idea of Morris for the velocity assignment \cite{Morris1997, Morris999} to the temperature values. The analogy is that in both cases a certain value has to be maintained at the wall surface. If $a$ is a real particle close to the wall, $b$ a ghost particle constituting this wall, and $w$ denoting the wall, then a possible temperature interpolation formula for a fixed wall temperature would be:
 \begin{equation}
-v_{virtual}=2v_{wall}-v_{real}.
+ \label{eq:IsothermalBC_T_interpolation}
+T_b=T_w+d_b/d_a(T_a-T_w)
 \end{equation}
 
-Free slip velocity boundary condition:
 
-\begin{equation}
-v_{virtual}^{tangential}=v_{real}^{tangential}.
-\end{equation}
+\paragraph{Evolution of density for ghost particles}
+While Method 2 automatically evolves density values of ghost particles in the wall by the copying process. Methods 1 and 3 have by default a constant density. Morris \cite{Morris1997, Morris1999} suggests that evolving the density of the ghost particles may give better results. This however makes only sense if the continuity density approach is employed, as for the summation density appraoch the density in the wall area remains the same due to the fixed particle positions. 
 
-FIGURE: ILLUSTRATION OF VELOCITY ASSIGNMENT FOR VIRTUAL BOUNDARY PARTICLES
+(Wenn continuity density approach verwendet wird sieht man schön den Unterschied zwischen masse auf basis der Partikelmasse (die ja erhalten wird) und Masse aufgrund von rho*V, wenn rho sich mit integration entwickelt. rho entwiclekt sich dann losgelöst vom volumen und der Partikelmasse (denn volumen bleibt ja fix da positionen fix)
+und fürht dazu das rho*V nicht mehr m gibt. Wenn die dichte wieder mit direct summation gesmootht wird, ist die gesamtmasse aber wieder hergestellt (Morris1999), allerdings auch die ganze dichteentwicklung verloren (das mag für den weakly kompressiblen fall, wo das ja bis jetzt nur gemacht wurde,  nicht schlimm sein...) aber hier...???
 
-For the treatment of periodic boundary conditions, no ghost particles are
-needed. Particles leaving the calculation domain on one side are simply
-reinserted on the opposite side (with the same properties).
 
-end alter text-------------------------------------------
+
 
 \subsection{Equation of state}
 
@@ -737,30 +733,33 @@ used \cite{Monaghan2005}. However, for SPH simulations, the conservation propert
 (linear and angular momentum) of the integrator are more important than its
 order \cite{Monaghan2005}.
 
-Thus, a standard leap--frog scheme is one possibility to perform the integration in
+Thus, a standard leap--frog scheme (laut wiki, 2. ordnung und enthält monent und drehmoment exact...WIE SIEHTS EIGENTLICH MIT VARAIBLEM DT FÜR LEAPFROG AUS? IST DER DANN NOCH EXAKT???) is one possibility to perform the integration in
 time. The initial time step is done according to the following algorithm where
 ${\bf S}$ is a vector with components  $\rho,v,e$.
+Here extended to a formulation with varaibel timestep (as implemented)
 
 For $n=0$:
 \begin{equation}
-{\bf S_{\frac{1}{2}}}={\bf S_0}+\frac{1}{2}dt\left(\frac{d{\bf S}}{dt}\right)_0
+{\bf S_{\frac{1}{2}}}={\bf S_0}+\frac{1}{2}dt_0\left(\frac{d{\bf S}}{dt}\right)_0
 \end{equation}
 \begin{equation}
-{\bf x_1}={\bf x_0}+{\bf v_{\frac{1}{2}}}dt .
+{\bf x_1}={\bf x_0}+{\bf v_{\frac{1}{2}}}dt_0 .
 \end{equation}
 
 For any further time step $n\ge1$:
 
 \begin{equation}
-{\bf S_n}={\bf S_{n-\frac{1}{2}}}+\frac{1}{2}dt\left(\frac{d{\bf S}}{dt}\right)_{n-1} \rightarrow
+{\bf S_n}={\bf S_{n-\frac{1}{2}}}+\frac{1}{2}dt_{n-1}\left(\frac{d{\bf S}}{dt}\right)_{n-1} \rightarrow
 \left(\frac{d{\bf S}}{dt}\right)_n 
 \end{equation}
 \begin{equation}
-{\bf S_{n+\frac{1}{2}}}={\bf S_{n-\frac{1}{2}}}+dt\left(\frac{d{\bf S}}{dt}\right)_n 
+{\bf S_{n+\frac{1}{2}}}={\bf S_{n-\frac{1}{2}}}+dt_n\left(\frac{d{\bf S}}{dt}\right)_n 
 \end{equation}
 \begin{equation}
-{\bf x_1}={\bf x_0}+{\bf v_{\frac{1}{2}}}dt .
+{\bf x_{n+1}}={\bf x_n}+{\bf v_{n+\frac{1}{2}}}dt_n .
 \end{equation}
+
+NOTE (muss noch irgendwo anders untergebracht werden!) für output werden alle real particle werte immer auf den nächsten vollen Zeitschritt upgedated. Dies ist ohne Implementierung einer weiteren großen Methode nicht für boundary particle möglich. Deshlab sind boundary particle werte für U,e, (und bei continuity density auch rho) immer ienen halben zeitschritt hinterher. Dies ist vor allem bei größeren simulationszeiten nihct weiter tragisch, zumal boundary particle werte nei für quantitatives post-processing hergenommen werden sondern nur für visualisierungen mit rendering in splash (wofür die präzission locker ausreicht...)
 
 Another possibility for time integration is a predictor corrector scheme, as
 used by \cite{Hu2007}.
@@ -2574,7 +2573,9 @@ Order of convergence reduced with implementation of isothermal boundaries from s
 STILL TO BE DONE
 
 \subsection{Porosities}
-\subsubsection{Test of no--slip boundary condition for solid Obstacles}
+
+\subsubsection{Test of boundary conditions for solid obstacles}
+
 The boundary conditions implemented to model a no--slip surface for solid obstacles are different from the ones implemented for the boundaries at the domain edges and therefore need to be tested separately. The quality of the boundary condition is assessed by observing the evolution of the velocity profile close to the wall in the initial phase of a Poiseuille flow. Although the focus lies on the boundary conditions, the Poiseuille flow is also used as additional validation of the viscosity implementation. 
 For SPH, Ähnlcihes gemacht von: \cite{Basa2009} allerdings mit immer erneuerten bundary particles... was ja für gekurvte nicht so einfach sit. deshalb hier: test mit constanten boundary particles und unterschiedlichen geschwindigkeitszuwesungen
 
@@ -2587,6 +2588,8 @@ Simulation setup: eta=1, rho=1, p=1,$\gamma=1.4$, 2d=L=1,g=1->uCenter=0.125, $Re
 1) boundary conditions as implemented for no--slip walls at domain edges
 (mirroring ghostparticles each step and inverting velocity) designated method 1 in the folllwing
 (just to assess accuracy of these BC)
+
+first row of ghost particles at $dx/2$ away from wall surface
 
 \begin{figure}[!htbp]
 \centering
@@ -2604,7 +2607,7 @@ Simulation setup: eta=1, rho=1, p=1,$\gamma=1.4$, 2d=L=1,g=1->uCenter=0.125, $Re
 \label{fig:Porosities_LinearWall_domainEdgeBC_t1}
 \includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen2dx_t3sec/U_profiles000001000065}}
 
-\caption[Velocity profiles Poiseuille flow]{Velocity profiles for a poiseuille flow with no--slip boundary conditions as implemented at the domain edges (i.e. ghostparticles recreated enact timestep by mirroring and antiysmmetrical velocity assignment). The solution labelled exact is the incompressible series solution given by equation (\ref{eq:Poiseuille_Series}).  \subref{fig:Porosities_LinearWall_domainEdgeBC_t1} shows the situation after a steady-state solution has essnetially established with the theoretical centerline velocity of $U_0=0.125$}
+\caption[Velocity profiles Poiseuille flow]{Velocity profiles for a poiseuille flow with no--slip boundary conditions as implemented at the domain edges (i.e. ghostparticles recreated enact timestep by mirroring and antiysmmetrical velocity assignment). The solution labelled exact is the incompressible series solution given by equation (\ref{eq:Poiseuille_Series}).  \subref{fig:Porosities_LinearWall_domainEdgeBC_t1} shows the situation after a steady-state solution has essentially established with the theoretical centerline velocity of $U_0=0.125$}
 
 \end{figure}
 
@@ -2613,7 +2616,7 @@ Simulation setup: eta=1, rho=1, p=1,$\gamma=1.4$, 2d=L=1,g=1->uCenter=0.125, $Re
 The no--slip boundary condition is always respected very accurately and the exact velocity profile in the vicinity of the wall is matched at any time.
 The global errors however are relatively high when approaching the steady state. The $L_\infty$ error, which is reached directly at the centerline at $t=1$ is $L_\infty=0.0421$, i.e the maximum error is around 4.2\%. In this context, one has to keep in mind, that the reference solution is incompressible. Although the compressibility effect of the acceleration is relatively small ($M=0.1$), there is a much higher influence on density by viscous heating. Figure (\ref{fig:Porosities_LinearWall_domainEdgeBC_Energy}) shows that after $t=1$, the internal energy in the wall areas has risen by $8\%$ (and as heat conduction is turned off, it stays there) influencing the density in these areas (figure (\ref{fig:Porosities_LinearWall_domainEdgeBC_tDensity}). The incompresibility assumption is therefore not exactly justified any more, even with relatively low mach number. This explains to a certain extent the discrepancy between simulation and reference solution. To test the influece of the density effect in the quality of the results, a further run is conducted, this time not taking into account the viscous heating term in the energy equation. At $t=1$ where before the energy and density variations were at their maximum 20\% and 2\% respectively, they vary now by a fraction of a percent. The $L_\infty$ error at the centerline however has only reduced to $L_\infty=0.0385$, which shows that an essential part of the steady state error is not as initially assumed due to the compressibility effect but due to the viscosity model.  
 Comparing the result with SPH poiseuille simulations in literature, where for example Morris \cite{Morris1997}, with a different viscosity model, found a steady state error of $0.7\%$ for an incompressible simulation, the $<4\%$ error is acceptable. This can be taken as a further validation of the viscosity model (in this case the model even holds for considerably displaced paricles!)
-A further observation is that the velocity profile of the simulation oscillates with very low frequency when it has (theoretically) reaches steady state. At around $t=1$ the centerline velocity reaches a maximun of $U_0=0.130$ and swings back to $U_0=0.128$ at around $t=1.9$ before it reaches a new maximun of $U_0>0.13$ at around $t=3$. These oscillations seem typical for the employed viscosity model in the compressibe context as they have been observed with the steady state of the couette flow. As for the couette flow it seems as if the oscillations were not originated in the velocity field but caused by density/pressure irregulatities which finally affect the velocity. This time however it is not a single layer of particles close to the wall which shows these irregularities but the area of particles around the chanel center line!
+A further observation is that the velocity profile of the simulation oscillates with very low frequency when it has (theoretically) reached steady state. At around $t=1$ the centerline velocity reaches a maximun of $U_0=0.130$ and swings back to $U_0=0.128$ at around $t=1.9$ before it reaches a new maximun of $U_0>0.13$ at around $t=3$. These oscillations seem typical for the employed viscosity model in the compressibe context (i think it's rather particle disorder, perhaps combined with compressibility that causes oscillations) as they have been observed with the steady state of the couette flow. As for the couette flow it seems as if the oscillations were not originated in the velocity field but caused by density/pressure irregulatities which finally affect the velocity. This time however it is not a single layer of particles close to the wall which shows these irregularities but the area of particles around the chanel center line!
 
 And besides in a even more severe form also for the Taylor green flow.
 
@@ -2640,12 +2643,15 @@ And besides in a even more severe form also for the Taylor green flow.
 2)boundary condition option 1 for solid Obstacles within calculation domain
 ( ghostparticles created once at beginning of simulation and maintained at same position, velocity of ghost particles zero) designated method 2 in the following
 
+For the preceding method zero velocity was reached at the solid--obstacle surface without
+an actual ghost particle being placed right there. This was due to the antisymmetrical velocity assignment for the ghost particles. With method 2, which implements zero ghost particle velocity, the no--slip condition (i.e. zero velocity reltaive to wall) is only reached at the position of the first row of ghost particles. For the particle assignment according to method 2 one has therefore to be careful with the particle placement and ensure the first row of ghost particles is placed directly at the surface of the obstacle. An immobilization of certain particles from a regular lattice has therefore to be done with care. But even when the ghost particle placement begins right at the surface, method 2 does not give exact results as there is a greater higher order error than for methods which implement a virtual ghost particle velocity. That means even though velocity is (by definition) exactly zero at the surface, the slope and curvature of the velocity profile close to the wall are more erroneous \cite{Morris1997, Basa2009}. 
 
-The simulation with this implementation of the no--slio boundary condition is examined at the same instants as above and gives the results as shown in figure (\ref{fig:Porosities_LinearWall_SolObsBC1}). Already in the initial phase there is a visible discrepancy in the wall area between the exact solution and the simulation caused by the fact that the velocity right at the wall is not exactly zero. This result was expected as an antisymetric velocity contribution from the area outside the wall is not available. The fact of the particle velocity at the wall not being exactly zero influences the whole domain in the further course of the simulation in a way that velocity values are generally higher than for the BC under 1)
-This shows clearly that the Method 2, using zero-velocity boundary particles, is not as exact as Method 1 which uses mirrored particles with antiysmmertic velocities relative to the real particles. A more accurate approach, which unlike Method 1 can also be used to model Solid Obstacles in the flow that in general may have a curved surface, is therefore desired and can be found in Method 3.
+Compared to method 1 this error is not easily quantifiable as method 1 evolves the density of ghost particles (and internal energy but as thermal conductivity is set to 0, it makes no difference what kind of temperature boundary condition there is) and method 2 keeps the ghostparticle density constant. The errors directly at the wall are therefore influenced by different density values and not exclusively attributable to the velociy boundary condition implementation. A later comparison of method 2 with Method 3 (see next paragraph), which both have no density evolution, will show that the latter is more accurate and therefore justifies the implememtation of a more sophisticated no--slip condition (method 3), that unlike Method 1 can also be used to model Solid Obstacles in the flow that in general may have a curved surface.
 
-Concerning the density and energy values close to the wall, which a priori are expected to differ from 1 due to the fact that ghost partcile's $\rho$ and $e$ values are not evolved, the following can be observed (see table (\ref{tab:2DSPH_LinearWall_Poiseuille_WallErrorsRho_e}): In the initial phase of the simulation and still at $t=1$, there is a considerable relative difference in these quantities for the row of particles closest to the wall. But this difference vanishes almost completely for even longe simulation times. Besides, already for second row of particles, the difference between these 2 Methods are very low, even in the initial phase.
-Thus an influence of the entire field by a lacking density or enegry evolution of ghost aprticles is not expected and its integration in the code is probably not essential, at least not for only low density variations of a couple of percent. 
+Concerning the density and energy values close to the wall, which due to the above reasons, are expected to differ from 1 (density also affects internal energy value), the following can be observed (see table (\ref{tab:2DSPH_LinearWall_Poiseuille_WallErrorsRho_e}) : 
+
+In the initial phase of the simulation and still at $t=1$, there is a considerable relative difference in these quantities for the row of particles closest to the wall (I here implicitely assume that method 1 gives the (more) exact density results)). But this difference vanishes almost completely for even longer simulation times. Besides, already for the second row of particles, the difference between these 2 Methods are very low, even in the initial phase.
+Thus an influence of the entire field by a lacking density or enegry evolution of ghost particles is not expected and its integration in the code is probably not that essential, at least not for only low density variations of a couple of percent. However if lateron quantities like heatflux at the wall need to be evaluated, it is certainly of advantage if the quantities directly at the wall are as exact as possibly. Therefore a density evolution will be (if time permits) implemented and briefly tested
 
 By the way even with a non-evolvong density at the boundaries it makes no difference at all whether the simulation is conducted with summation density or continuity density calculation, the obtained esults are exactly the same both ways.
 
@@ -2659,17 +2665,17 @@ By the way even with a non-evolvong density at the boundaries it makes no differ
  &&{\bf Density} & {\bf Energy} & {\bf Density}& {\bf Density}\\
 \hline
 \hline
-\multirow{2}{*}{{\bf Method 1}} &row 1&0.9878 & 2.6996 & 0.9252& 3.1386 \\
+\multirow{2}{*}{{\bf Method 1}} &$x=0.025$&0.9901 & 2.6918 & 0.9305& 3.1039 \\
 \hline
-&row 2&0.9925 &2.6841 &0.9360 & 3.0692\\
+&$x=0.05$&0.9932 &2.6746 &0.9403 & 3.0385\\
 \hline
-\multirow{2}{*}{{\bf Method 2}}&row 1&0.9957 & 0.2707& 0.9565 & 3.1597 \\
+\multirow{2}{*}{{\bf Method 2}}&$x=0.025$&0.9960 & 2.6984& 0.9580 & 3.1267 \\
 \hline
-&row 2&0.9922 & 2.6822 & 0.9368&3.0730 \\
+&$x=0.05$&0.9926 & 2.6741 & 0.9391&3.0419 \\
 \hline
 \hline
 \end{tabular}
-\caption[]{Density and internal energy evolution close to the wall for different methods. Row 1 designates the closest real particle row to the wall, row 2 the second closest.}
+\caption[]{Density and internal energy evolution close to the wall for different methods. The particle spacing for both simulations is $dx=dy=0.025$. As method 2 requires the ghost particles to be at the wall surface, the first real particle row is at $0.025$ away froom the wall, the second at $0.05$. For method 1 the first real particle row is placed at $0.0125$, the second them at $0.0375$ and so on. Density and energy values are linearly interpolated to obtain the comparable values at $0.025$ and $0.05$}
 \end{table}
 
 \begin{figure}[!htbp]
@@ -2677,16 +2683,16 @@ By the way even with a non-evolvong density at the boundaries it makes no differ
 \label{fig:Porosities_LinearWall_SolObsBC1}
 \subfigure[at $t=0.01$]{
 \label{fig:Porosities_LinearWall_SolObsBC1_t0_01}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen2dx_t3sec/U_profiles000000010156}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen2dx_t3sec_ghost_prtl_dx2_from_surface/U_profiles000000010156}}
 \subfigure[at $t=0.1$]{
 \label{fig:Porosities_LinearWall_SolObsBC1_t0_1}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen2dx_t3sec/U_profiles000000100546}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen2dx_t3sec_ghost_prtl_dx2_from_surface/U_profiles000000100546}}
 \subfigure[at $t=0.5$]{
 \label{fig:Porosities_LinearWall_SolObsBC1_0_5}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen2dx_t3sec/U_profiles000000500469}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen2dx_t3sec_ghost_prtl_dx2_from_surface/U_profiles000000500469}}
 \subfigure[at $t=1.0$]{
 \label{fig:Porosities_LinearWall_SolObsBC1_t1}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen2dx_t3sec/U_profiles000001000013}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen2dx_t3sec_ghost_prtl_dx2_from_surface/U_profiles000001000013}}
 
 \caption[Velocity profiles Poiseuille flow]{Velocity profiles for a poiseuille flow with no--slip boundary conditions as implemented at the domain edges (i.e. ghostparticles recreated enact timestep by mirroring and antiysmmetrical velocity assignment). The solution labelled exact is the incompressible series solution given by equation (\ref{eq:Poiseuille_Series}).  \subref{fig:Porosities_LinearWall_SolObsBC1_t1} shows the situation after a steady-state solution has essnetially established with the theoretical centerline velocity of $U_0=0.125$}
 
@@ -2700,10 +2706,32 @@ The same kind of oscillation in the steady state as described in 1) can be obser
 
 
 3) boundary condition option 2 for solid Obstacles within calculation domain
- ghostparticles created once at beginning of simulation and maintained at same position, velocity assigned by linear extrapolation according to \cite{Morris1009, Morris1999} designated method 3 in the following
+ ghostparticles created once at beginning of simulation and maintained at same position, velocity assigned by linear extrapolation according to \cite{Morris1009, Morris1999} designated method 3 in the following.
 alreday done for weakly compressible equation of state (and different viscosity model) in \cite{Morris1997} with good agreement at the boundaries (even for initial phase) and in general... 
 
-The following table (\ref{tab:2DSPH_LinearWall_Poiseuille_Errors}) resumes the errors for the three no--slip wall implementation methods. The errors are shown in the initial phase ($t=0.01$) as this is when the potential inaccuracy in the velocity profile occurrs. Differences in the error values are exclusively due to the different boundary conditions, as potential inaccuracies of the viscosity model are contained in all of them. Methods 2 and 3 do not evolve the density at the walls, and therefore, after a certain simulation time, have different densiy values in these areas than Method 1, which also could affect the errors. For $t=0.01$ however the viscous heating is still so low, that even for method 1, which fully evolves density and energy of the ghost particles, the variations in density are of the order of $10^{-8}$ and in energy $10^{-5}$.This is completely neglectable and the error norms shown in table (\ref{tab:2DSPH_LinearWall_Poiseuille_Errors}) can therefore definitely be considered as a valid indication of the boundary condition quality.
+\begin{figure}[!htbp]
+\centering
+\label{fig:Porosities_LinearWall_SolObsBC2}
+\subfigure[at $t=0.01$]{
+\label{fig:Porosities_LinearWall_SolObsBC2_t0_01}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC2_N4x40_suplen2dx_t3sec_ghost_prtl_dx2_from_surface/U_profiles000000010156}}
+\subfigure[at $t=0.1$]{
+\label{fig:Porosities_LinearWall_SolObsBC2_t0_1}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC2_N4x40_suplen2dx_t3sec_ghost_prtl_dx2_from_surface/U_profiles000000100546}}
+\subfigure[at $t=0.5$]{
+\label{fig:Porosities_LinearWall_SolObsBC2_0_5}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC2_N4x40_suplen2dx_t3sec_ghost_prtl_dx2_from_surface/U_profiles000000500501}}
+\subfigure[at $t=1.0$]{
+\label{fig:Porosities_LinearWall_SolObsBC2_t1}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC2_N4x40_suplen2dx_t3sec_ghost_prtl_dx2_from_surface/U_profiles000001000360}}
+
+\caption[Velocity profiles Poiseuille flow]{Velocity profiles for a poiseuille flow with no--slip boundary conditions as implemented at the domain edges (i.e. ghostparticles recreated enact timestep by mirroring and antiysmmetrical velocity assignment). The solution labelled exact is the incompressible series solution given by equation (\ref{eq:Poiseuille_Series}).  \subref{fig:Porosities_LinearWall_SolObsBC2_t1} shows the situation after a steady-state solution has essnetially established with the theoretical centerline velocity of $U_0=0.125$}
+
+\end{figure}
+
+
+
+The following table (\ref{tab:2DSPH_LinearWall_Poiseuille_Errors}) resumes the errors for the three no--slip wall implementation methods. The errors are shown in the initial phase ($t=0.01$) as this is when the potential inaccuracy in the velocity profile occurrs. Differences in the error values are exclusively due to the different boundary conditions, as potential inaccuracies of the viscosity model are contained in all of them. Methods 2 and 3 do not evolve the density at the walls, and therefore, after a certain simulation time, have different densiy values in these areas than Method 1, which also could affect the errors. For $t=0.01$ however the viscous heating is still so low, that even for method 1, which fully evolves density and energy of the ghost particles, the variations in density are of the order of $10^{-8}$ and in energy $10^{-5}$. This is completely neglectable and the error norms shown in table (\ref{tab:2DSPH_LinearWall_Poiseuille_Errors}) can therefore definitely be considered as a valid indication of the boundary condition quality.
  
 \begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
 \label{tab:2DSPH_LinearWall_Poiseuille_Errors}
@@ -2727,6 +2755,8 @@ for different implementation methods of the no--slip boundary condition }
 \end{table}
 
 test (visually if particle penetration occurrs) if no. mention, that no need for additional repulsive forces...
+
+\subsubsection{Test of temperature boundary conditions for solid Obstacles}
 
  \chapter{Conclusion}
 \label{sec:conclusion}

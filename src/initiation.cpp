@@ -57,7 +57,11 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   }
   SolidObstacles_type = static_cast<std::string>(interp.eval("[return $SOLID_OBSTACLES]"));
   //assertion made in sph.cpp
-  
+
+  solObs_virt_veloc_type=interp.eval("[return $SOLOBS_VIRT_VELOC_TYPE]");
+  assert(solObs_virt_veloc_type==0||solObs_virt_veloc_type==1);
+  d_realPart_solObs_min=interp.eval("[return $d_realPart_solObs_min]");
+  assert(d_realPart_solObs_min>=0);
   /// if gas dynamics
   if (simu_mode == 2) {
     //further markers exclusively applied to gas dynamics

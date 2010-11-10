@@ -52,22 +52,25 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro,
   /// loop as long as time < output interval
   while(integeral_time < D_time) {
     
-    ///<ul><li> call automatic time step control GasDyn or take manual dt (depending on preference specified in .tcl-file)
-    double dt;//time step
-    if(ini.autom_dt_control==1)
-      dt=hydro.GetTimestepGas(ini);
-    else
-      dt=ini.manually_choosen_dt;
+    // ///<ul><li> call automatic time step control GasDyn or take manual dt (depending on preference specified in .tcl-file)
+    // double dt;//time step
+    // if(ini.autom_dt_control==1)
+    //   dt=hydro.GetTimestepGas(ini);
+    // else
+    //   dt=ini.manually_choosen_dt;
     
-    //control output
-    LOG(INFO)<<"\n current timestep:"<<dt;
-    LOG(INFO)<<"\n current absolute integraltime:"<<Time;
-    LOG(INFO)<<"\n current (relative) integraltime:"<<integeral_time;
-    LOG(INFO)<<"\n current (absolute) iterations:"<<ite;
-    ite ++;
-    integeral_time =integeral_time+ dt;
+    // //control output
+    // LOG(INFO)<<"\n current timestep:"<<dt;
+    // LOG(INFO)<<"\n current absolute integraltime:"<<Time;
+    // LOG(INFO)<<"\n current (relative) integraltime:"<<integeral_time;
+    // LOG(INFO)<<"\n current (absolute) iterations:"<<ite;
+     ite ++;//increment number of iterations (MUST STAY HERE)
+    // integeral_time =integeral_time+ dt;
     
-    Time += dt;
+    // Time += dt;
+
+    //=>dt assignment moved just after update change rate so that change rates
+    // from current step are taken into account
 
     // try oscillating wall
 
@@ -82,14 +85,10 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro,
     //   boundary.UxBl[0]=0.05916*sin(14.86873023*Time);
     // if(Time>=2.112885637-1e-7)
     //   boundary.UxBl[0]=0;
-   
-
-    
-    ///<li>screen information for the iteration
-    if(ite % 10 == 0) cout<<"N="<<ite<<" Time: " <<Time<<"	dt: "<<dt<<"\n";
+    LOG(INFO)<<"ite is "<<ite;
     if(ite!=1)
       {
-	hydro.UpdateUe2Half(dt);
+	hydro.UpdateUe2FullStep(dt);
 	
 	if(ini.disable_boundary != 1)//check if boundary disabled
 	  ///build the boundary particles
@@ -111,11 +110,30 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro,
     obstacles->set_all_solObs_tangents(hydro);
 
     ///update the state of the boundary particles (by copying the real particles' state)
-    if  (ini.disable_boundary != 1)   
+    if(ini.disable_boundary != 1)   
       boundary.BoundaryCondition(particles);
     ///calculate change rate for each particle (
     hydro.UpdateChangeRate(ini, Time);
     
+    
+    ///<ul><li> call automatic time step control GasDyn or take manual dt (depending on preference specified in .tcl-file)
+    if(ini.autom_dt_control==1)
+      dt=hydro.GetTimestepGas(ini);
+    else
+      dt=ini.manually_choosen_dt;
+    
+    //control output
+    LOG(INFO)<<"\n current timestep:"<<dt;
+    LOG(INFO)<<"\n current absolute integraltime:"<<Time;
+    LOG(INFO)<<"\n current (relative) integraltime:"<<integeral_time;
+    LOG(INFO)<<"\n current (absolute) iterations:"<<ite;
+    integeral_time =integeral_time+ dt;
+    
+    Time += dt;
+        
+    ///<li>screen information for the iteration
+    if(ite % 10 == 0) cout<<"N="<<ite<<" Time: " <<Time<<"	dt: "<<dt<<"\n";
+
     if(ite==1)  
       hydro.AdvanceFirstStep(dt);
     else 
@@ -155,28 +173,9 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro,
   double integeral_time = 0.0;
   while(integeral_time < D_time) {
 
-    ///<ul><li> call automatic time step control GasDyn or take manual dt (depending on preference specified in .tcl-file)
-    double dt;//time step
-    if(ini.autom_dt_control==1)
-      dt=hydro.GetTimestepGas(ini);
-    else
-      dt=ini.manually_choosen_dt;
-        
-    //control output
-    LOG(INFO)<<"\n current timestep:"<<dt;
-    LOG(INFO)<<"\n current absolute integraltime:"<<Time;
-    LOG(INFO)<<"\n current (relative) integraltime:"<<integeral_time;
-    LOG(INFO)<<"\n current (absolute) iterations:"<<ite;
-    ite ++;
-    integeral_time =integeral_time+ dt;
-    Time += dt;
-    
-    ///<li>screen information for the iteration
-    if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
-			  <<Time<<"	dt: "<<dt<<"\n";
-    
+    ite ++;//increment number of iterations
     if(ite!=1) {
-      hydro.UpdateUeRho2Half(dt);
+      hydro.UpdateUeRho2FullStep(dt);
       if  (ini.disable_boundary != 1)//if not 1d (as in 1D now BC needed)
 	///build the boundary particles
 	boundary.BuildBoundaryParticle(particles,hydro);
@@ -205,6 +204,25 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro,
       boundary.BoundaryCondition(particles);
     //update change rates for U, e AND rho
     hydro.UpdateChangeRateInclRho(ini, Time);
+    
+
+    ///<ul><li> call automatic time step control GasDyn or take manual dt (depending on preference specified in .tcl-file)
+    if(ini.autom_dt_control==1)
+      dt=hydro.GetTimestepGas(ini);
+    else
+      dt=ini.manually_choosen_dt;
+        
+    //control output
+    LOG(INFO)<<"\n current timestep:"<<dt;
+    LOG(INFO)<<"\n current absolute integraltime:"<<Time;
+    LOG(INFO)<<"\n current (relative) integraltime:"<<integeral_time;
+    LOG(INFO)<<"\n current (absolute) iterations:"<<ite;
+    integeral_time =integeral_time+ dt;
+    Time += dt;
+ 
+    ///<li>screen information for the iteration
+    if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
+			  <<Time<<"	dt: "<<dt<<"\n";
     
     if(ite==1)  
       hydro.AdvanceFirstStepInclRho(dt);

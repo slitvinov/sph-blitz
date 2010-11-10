@@ -306,6 +306,8 @@ void Hydrodynamics::AddGravity(const Initiation &ini, const double Time) {
     BOOST_FOREACH(spParticle prtl, particle_list) {
       ///- to each particles dUdt: add the gravity effects
       prtl->dUdt = prtl->dUdt + ini.g_force;
+      //  LOG(INFO)<<"prtl with pos "<<prtl->R<<" has dUdt "<<prtl->dUdt<<" at time "<<Time;
+      
      }
 }
 //----------------------------------------------------------------------------------------
@@ -373,6 +375,7 @@ double Hydrodynamics::GetTimestepGas(const Initiation& ini) {
   //for each particle and retain the smallest of all
   BOOST_FOREACH(spParticle prtl, particle_list) {
     assert(prtl != NULL);
+    //   LOG(INFO)<<"am in GetTimestepGas, dUdt "<<prtl->dUdt<<" for prtl at position "<<prtl->R;
     //dt_f according to Monaghan 1992 ("smoothed particle hydrodynamics") (sec.10.3)
     ///\TODO{In a different paper they took as "force per unit mass" the entire dU/dt, and not only the BODY-force, what is correct? to be sure I implemented the most restricting, but which can be punishing in terms of calculation time...}
     dt_f=AMIN1(dt_f, sqrt(ini.supportlength/2/(v_abs(prtl->dUdt)+1e-35)));//to prevent singularity
@@ -531,11 +534,21 @@ void Hydrodynamics::Corrector_summation(const double dt) {
 
 //everything that comes below is new:
 void Hydrodynamics::AdvanceFirstStep(const double dt) {
+  LOG(INFO)<<"AdvanceFirstStep";
  ///<ul><li>iterate the real partilce list
   BOOST_FOREACH(spParticle prtl, particle_list) {
+
+    // save  values at n=0 in output variables so they
+    //can be updated to n+1 by UpdateChangeRatesForOutput()
+    prtl->U_output = prtl->U;
+    prtl->e_output = prtl->e;
+    
     prtl->U = prtl->U + prtl->dUdt*0.5*dt;
     prtl->e = prtl->e + prtl->dedt*0.5*dt;
     prtl->R = prtl->R + prtl->U*dt;
+
+    // LOG(INFO)<<"AdvanceFirstStep: ";
+    // LOG(INFO)<<"prtl with pos "<<prtl->R<<" has dUdt "<<prtl->dUdt<<" and U is advanced 0.5dt, new U "<<prtl->U;
   }
 
   // control output:
@@ -559,6 +572,13 @@ void Hydrodynamics::AdvanceFirstStep(const double dt) {
 void Hydrodynamics::AdvanceFirstStepInclRho(const double dt) {
  ///<ul><li>iterate the real partilce list
   BOOST_FOREACH(spParticle prtl, particle_list) {
+    LOG(INFO)<<"AdvanceFirstStepInclRho";
+    // save  values at n=0 in output variables so they
+    //can be updated to n+1 by UpdateChangeRatesForOutput()
+    prtl->U_output = prtl->U;
+    prtl->e_output = prtl->e;
+    prtl->rho_output = prtl->rho;
+
     prtl->rho = prtl->rho + prtl->drhodt*0.5*dt;
     prtl->U = prtl->U + prtl->dUdt*0.5*dt;
     prtl->e = prtl->e + prtl->dedt*0.5*dt;
@@ -566,6 +586,7 @@ void Hydrodynamics::AdvanceFirstStepInclRho(const double dt) {
   }
 }
 void Hydrodynamics::AdvanceStandardStep(const double dt) {
+  LOG(INFO)<<"AdvanceStandardStep";
  ///<ul><li>iterate the real partilce list
 ///<ul><li>update  U,e, by advancing 1 step starting at intermediate variables
 ///<li>update position by advancing one time step </ul>
@@ -578,6 +599,7 @@ void Hydrodynamics::AdvanceStandardStep(const double dt) {
 }
 
 void Hydrodynamics::AdvanceStandardStepInclRho(const double dt) {
+  LOG(INFO)<<"AdvanceStandardStepInclRho";
  ///<ul><li>iterate the real partilce list
 ///<ul><li>update rho, U,e, by advancing 1 step starting at intermediate variables
 ///<li>update position by advancing one time step </ul>
@@ -589,19 +611,26 @@ void Hydrodynamics::AdvanceStandardStepInclRho(const double dt) {
  }
 }
 
-void Hydrodynamics::UpdateUe2Half(const double dt) {
-///<ul><li>iterate the real partilce list 
-///<ul><li>write current values in intermediate variables
-///<li>update (overwrite) current values by advancing half a time step </ul>
+void Hydrodynamics::UpdateUe2FullStep(const double dt) {
+  LOG(INFO)<<"UpdateUe2FullStep";
+  ///<ul><li>iterate the real partilce list 
+  ///<ul><li>write current values in intermediate variables
+  ///<li>update (overwrite) current values by advancing half a time step </ul>
   BOOST_FOREACH(spParticle prtl, particle_list) {
     prtl->U_I=prtl->U;
     prtl->e_I=prtl->e;
     prtl->U = prtl->U + prtl->dUdt*0.5*dt;
     prtl->e = prtl->e + prtl->dedt*0.5*dt;
+
+    //set output variables to full step as well (step n) so they can be advanced
+    //to step (n+1) via UpdateValuesForOutput() method
+    prtl->U_output=prtl->U;
+    prtl->e_output=prtl->e;
   }
 }
 
-void Hydrodynamics::UpdateUeRho2Half(const double dt) {
+void Hydrodynamics::UpdateUeRho2FullStep(const double dt) {
+  LOG(INFO)<< "UpdateUeRho2FullStep";
 /// <ul><li>iterate the real partilce list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     prtl->U_I = prtl->U;
@@ -610,5 +639,44 @@ void Hydrodynamics::UpdateUeRho2Half(const double dt) {
     prtl->U = prtl->U + prtl->dUdt*0.5*dt;
     prtl->e = prtl->e + prtl->dedt*0.5*dt;
     prtl->rho = prtl->rho + prtl->drhodt*0.5*dt;
+
+    //set output variables to full step as well (step n) so they can be advanced
+    //to step (n+1) via UpdateValuesForOutput() method
+    prtl->U_output=prtl->U;
+    prtl->e_output=prtl->e;
+    prtl->rho_output=prtl->rho;
+  }
+}
+
+void Hydrodynamics::UpdateValuesForOutput(const Initiation& ini, const double dt) {
+  LOG(INFO)<< "UpdateValuesForOutput";
+  // if leap frog integration update values
+  if(ini.integration_scheme==1) {
+    // if summation density approach
+    if(ini.density_mode==1) {
+      // LOG(INFO)<<" am in UpdateValuesForOutput()";
+      BOOST_FOREACH(spParticle prtl, particle_list) {
+	prtl->U_output+=prtl->dUdt*dt;
+	prtl->e_output+=prtl->dedt*dt;
+	prtl->rho_output=prtl->rho;
+	//	LOG(INFO)<<"prtl R: "<<prtl->R<<" has U_I: "<<prtl->U_I<<" and dUdt "<<prtl->dUdt;
+      }
+    }
+    //if continuity density approach
+    else {
+      BOOST_FOREACH(spParticle prtl, particle_list) {
+	prtl->U_output+=prtl->dUdt*dt;
+	prtl->e_output+=prtl->dedt*dt;
+	prtl->rho_output+=prtl->drhodt*dt;
+      } 
+    }
+  }
+  // if no leapfrog integration: write current values in corresponding output variables
+  else {
+    BOOST_FOREACH(spParticle prtl, particle_list) {
+      prtl->U_output=prtl->U;
+      prtl->e_output=prtl->e;
+      prtl->rho_output=prtl->rho;
+    }
   }
 }

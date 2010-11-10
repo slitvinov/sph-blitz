@@ -103,6 +103,13 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
   R_I = R; P_I = P; rho_I = rho;
   P_n = P; U_n = U; rho_n = rho; e_n = e; 
 
+  // as dUdt was not always properly initialized to zero:
+  // initialize it explicitely (did only affect first time step choice)
+  //  dUdt=null_vector;
+  //-->I did alternatively make hydro.ZeroChangeRate() in sph.cpp just
+  // before the actual calculation loop starts, makes no difference in the end
+  // (as energy and density change
+
 }
 
 //----------------------------------------------------------------------------------------

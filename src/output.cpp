@@ -76,10 +76,10 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
 	    out<<setprecision(9)
 	       << ::setw(17)<<prtl->R[0] 
 	       << ::setw(17)<<prtl->R[1] 
-	       << ::setw(17) <<prtl->rho 
-	       << ::setw(17)<<prtl->p
-	       << ::setw(17)<<prtl->U[0]
-	       << ::setw(17)<<prtl->e
+	       << ::setw(17) <<prtl->rho_output 
+	       << ::setw(17)<<prtl->mtl->get_p(prtl->rho_output,prtl->e_output)
+	       << ::setw(17)<<prtl->U_output[0]
+	       << ::setw(17)<<prtl->e_output
 	       <<"  "<<prtl->ID
 	       <<"  "<<prtl->m
 	       <<"\n";
@@ -87,14 +87,14 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
 	    out<<setprecision(9)
 	       << ::setw(17)<<prtl->R[0] 
 	       << ::setw(17)<<prtl->R[1] 
-	       << ::setw(17)<<prtl->U[0]
-	       << ::setw(17)<<prtl->U[1]
-	       << ::setw(17) <<prtl->rho 
-	       << ::setw(17)<<prtl->e
-	       << ::setw(17)<<prtl->p
+	       << ::setw(17)<<prtl->U_output[0]
+	       << ::setw(17)<<prtl->U_output[1]
+	       << ::setw(17) <<prtl->rho_output 
+	       << ::setw(17)<<prtl->e_output
+	       << ::setw(17)<<prtl->mtl->get_p(prtl->rho_output,prtl->e_output)
 	       << ::setw(17)<<ini.supportlength/2
 	       <<"  "<<prtl->m
-	       <<"  "<<prtl->V
+	       <<"  "<<prtl->V// up-to-date as prtl position up-to-date and V only f(R,m)
 	       <<"  "<<prtl->ID
 	       <<"\n";
 	}
@@ -106,48 +106,48 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
     // }
 
     /// <li>iterate the boundary partilce list
-    BOOST_FOREACH(spParticle prtl, boundary.boundary_particle_list) {
-      g++;		
-      if(hydro.materials[i]->material_name == prtl->mtl->material_name) { 
-	j ++;
-	b++;
-	if( ini.simu_mode == 1) {
-	  if(j == 1)  {
-	    out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
-	  }
-	  out << prtl->R[0] << "  " << prtl->R[1]
-	      << "  " << prtl->U[0] << "  " << prtl->U[1]
-	      << "  " << prtl->rho << '\n';
-	}
-	if (ini.simu_mode == 2) {
-	  if (ini.splash_optimized_output==0)
-	    out<<setprecision(9)
-	       << ::setw(17)<<prtl->R[0] 
-	       << ::setw(17)<<prtl->R[1] 
-	       << ::setw(17) <<prtl->rho 
-	       << ::setw(17)<<prtl->p
-	       << ::setw(17)<<prtl->U[0]
-	       << ::setw(17)<<prtl->e
-	       <<"  "<<prtl->ID
-	       <<"  "<<prtl->m
-	       <<"\n";
-	  else
-	    out<<setprecision(9)
-	       << ::setw(17)<<prtl->R[0] 
-	       << ::setw(17)<<prtl->R[1] 
-	       << ::setw(17)<<prtl->U[0]
-	       << ::setw(17)<<prtl->U[1]
-	       << ::setw(17) <<prtl->rho 
-	       << ::setw(17)<<prtl->e
-	       << ::setw(17)<<prtl->p
-	       << ::setw(17)<<ini.supportlength/2
-	       <<"  "<<prtl->m
-	       <<"  "<<prtl->V
-	       <<"  "<<prtl->ID
-	       <<"\n";
-	}
-      }
-    }
+    // BOOST_FOREACH(spParticle prtl, boundary.boundary_particle_list) {
+    //   g++;		
+    //   if(hydro.materials[i]->material_name == prtl->mtl->material_name) { 
+    // 	j ++;
+    // 	b++;
+    // 	if( ini.simu_mode == 1) {
+    // 	  if(j == 1)  {
+    // 	    out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
+    // 	  }
+    // 	  out << prtl->R[0] << "  " << prtl->R[1]
+    // 	      << "  " << prtl->U[0] << "  " << prtl->U[1]
+    // 	      << "  " << prtl->rho << '\n';
+    // 	}
+    // 	if (ini.simu_mode == 2) {
+    // 	  if (ini.splash_optimized_output==0)
+    // 	    out<<setprecision(9)
+    // 	       << ::setw(17)<<prtl->R[0] 
+    // 	       << ::setw(17)<<prtl->R[1] 
+    // 	       << ::setw(17) <<prtl->rho
+    // 	       << ::setw(17)<<prtl->p
+    // 	       << ::setw(17)<<prtl->U[0]
+    // 	       << ::setw(17)<<prtl->e
+    // 	       <<"  "<<prtl->ID
+    // 	       <<"  "<<prtl->m
+    // 	       <<"\n";
+    // 	  else
+    // 	    out<<setprecision(9)
+    // 	       << ::setw(17)<<prtl->R[0] 
+    // 	       << ::setw(17)<<prtl->R[1] 
+    // 	       << ::setw(17)<<prtl->U[0]
+    // 	       << ::setw(17)<<prtl->U[1]
+    // 	       << ::setw(17) <<prtl->rho 
+    // 	       << ::setw(17)<<prtl->e
+    // 	       << ::setw(17)<<prtl->p
+    // 	       << ::setw(17)<<ini.supportlength/2
+    // 	       <<"  "<<prtl->m
+    // 	       <<"  "<<prtl->V// up-to-date as prtl position up-to-date and V only f(R,m)
+    // 	       <<"  "<<prtl->ID
+    // 	       <<"\n";
+    // 	}
+    //   }
+    // }
   }
   
   // if (ini.simu_mode == 2) {

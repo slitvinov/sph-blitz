@@ -22,6 +22,12 @@ class TimeSolver : boost::noncopyable {
 			    spSolidObstacles obstacles) = 0;
   /// print kernel type
   virtual void show_information() const = 0;
+  
+  /// variable for (last/currrent) timestep (must be globally declared 
+  /// as method  Hydrodynamics::UpdateValuesForOutput() needs dt as well in 
+  ///sph.cpp)
+  double dt;
+
 
  protected:
   /// constructor

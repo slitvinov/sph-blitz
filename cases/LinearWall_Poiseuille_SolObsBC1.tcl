@@ -166,10 +166,27 @@ set UyBu(1) 0.0
 # NoObstacles, Cavity, Porosities, LinearWall
 set SOLID_OBSTACLES LinearWall
 
+# virtual velocity assignment type for ghost particles of solid Obstacles
+# virtual velocity is used to calculate viscous forces and therefore
+# influences quality of no--slip condition
+# 0: solid Obstacles have zero real velocity AND ZERO virtual velocity
+# 1: solid Obstacles have zero real vleocity AND virtual velocity
+#    according to Morris1999
+set SOLOBS_VIRT_VELOC_TYPE 0
+
+# for virtual velocity calculation according to Morris1999:
+# lower limit for distance real-particle<->solObs surface
+# NOTE: this parameter does not mean that physically
+# distances < d_realPart_solObs_min are not possible, it only
+# delimits the value used for virt. velocity calculations
+# for porisity calculation Morris1999 suggests a value of
+# sqrt(3)/4*dx=0.433*dx
+set d_realPart_solObs_min 0.010825
+
 # time  control 
 set Start_time 0.0		
-set End_time 3	
-set D_time 1e-6
+set End_time 3.0	
+set D_time 3e-3
 
 #marker for automatic time control
 # 0: autom. time conrtol switched off: specified dt used (see below) 

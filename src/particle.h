@@ -104,6 +104,11 @@ class Particle {
 	double e_I;///<intermediate value of internal enegry (used in the integrator)
         double e_n; //intermediate volume, internal energy used in integrator
 
+	// variables for particle values at full timestep needed for output when
+	// leapfrog integration scheme applied
+	Vec2d U_output;///<U at full timestep for output (needed for leapfrog integration)
+	double e_output;///<e at full timestep for output (needed for leapfrog integration)
+	double rho_output;///<rho at full timestep for output (needed for leapfrog integration)
 
 	double eta; ///<(shear) viscosity of each particle
 	double zeta; ///<bulk viscosity of each particle

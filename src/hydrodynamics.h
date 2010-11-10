@@ -96,9 +96,14 @@ class Hydrodynamics
   void AdvanceFirstStepInclRho(const double dt);
   void AdvanceStandardStep(const double dt);
   void AdvanceStandardStepInclRho(const double dt);
-  void UpdateUe2Half(const double dt);
-  void UpdateUeRho2Half(const double dt);
-  
+  void UpdateUe2FullStep(const double dt);
+  void UpdateUeRho2FullStep(const double dt);
+
+  /// updates values of U, e (for summation density approach)
+  /// respectively U,e, rho (for continuity density appraoch)
+  /// to full step for output (only needed for leapfrog integrator,
+  /// outehrwise just write current values in output variables)
+  void UpdateValuesForOutput(const Initiation& ini, const double dt);
 };
 
 #endif //HYDRODYNAMICS_H
