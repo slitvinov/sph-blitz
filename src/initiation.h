@@ -86,6 +86,17 @@ public:
   /// virtual velocity calculation according to Morris1999
   double d_realPart_solObs_min;
 
+  /// thermal boundary condition type for solid obstacles
+  /// for the moment only isothermal BC implemented for solObs
+  /// 0: isothermal, ghost prtl left at const T as initialized from .ivs file
+  /// 1: isothermal, realized with constant ghost prtl. temperature T_w
+  /// 2: isothermal, realized with linear extrapolation around T_w
+  int solObs_thermal_BC_type;
+
+  /// wall temperature for isothermal solid Obstacles temperature
+  /// boundary condition 
+  double T_w_solObs_isothermal;
+
   ///simulation mode (1: liquids, 2: gas dynamics)
   int simu_mode;
 

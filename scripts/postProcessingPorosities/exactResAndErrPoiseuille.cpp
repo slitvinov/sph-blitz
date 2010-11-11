@@ -13,6 +13,16 @@
 using namespace std;
 
 int main (){
+
+  // values for exact solution------------------------------------
+  const double d=0.5; // L  the canal width
+  const double eta=1; // (dynamical) viscosity
+  const double rho=1; //density
+  const double g=0.1;// value of gravity force (acts in positive x-direction) 
+  const double n_max=1000;// number of summation terms taken into account for the series solution
+  const double PI=3.141592653589793238462643;
+  // END values for exact solution------------------------------------
+  
   
   int n_col=11;// number of columns in inputfile (11 for SPLASH optimized output)
   double dy_exact=0.005; // dx for exact solution (exactxxxxxxxxxxxx.dat) for plotting
@@ -126,13 +136,7 @@ int main (){
   // exact solution is: analytical solution for 2 semi infinite bodies
   // (taken from Cleary1999, NO from )
   //NOTE: v_x is denoted U in the following
-  const double d=0.5; // L  the canal width
-  const double eta=1; // (dynamical) viscosity
-  const double rho=1; //density
-  const double g=1;// value of gravity force (acts in positive x-direction) 
-  const double n_max=1000;// number of summation terms taken into account for the series solution
-  const double PI=3.141592653589793238462643;
-  
+
   vector <double> one_y_U_couple(2,0);
   // vector for all (y,U) couples
   vector <vector <double> > all_y_U_couples;

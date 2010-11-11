@@ -186,8 +186,8 @@ set d_realPart_solObs_min 0.010825
 
 # time  control 
 set Start_time 0.0		
-set End_time 1.5e-4
-set D_time 5e-5
+set End_time 3
+set D_time 5e-4
 
 #marker for automatic time control
 # 0: autom. time conrtol switched off: specified dt used (see below) 

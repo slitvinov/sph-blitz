@@ -357,98 +357,103 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 //                                      FOR COMPRESSIBLE SIMULATION
 //----------------------------------------------------------------------------------------
 void ParticleManager::BuildRealParticleGasDyn(vecMaterial materials, 
-					std::list<spParticle >& particle_list, 
+					      std::list<spParticle >& particle_list, 
 					      Initiation &ini)
 {
-	
+  
   LOG(INFO) << "Start BuildRealParticleGasDyn\n";
-
+  
   double density, pressure, Temperature, mass;
   int material_no;
-
+  
   ///initial particles either  from .rst file or from .ivs (Initial Values Shock tube)file
- 
+  
   const std::string inputfile =std::string(ini.Ivs_file_name);
-       material_no = 1; //number for Air (second line in cfg file (->index 1)
-      //check if the .ivs file exists
-      ifstream fin(inputfile.c_str(), ios::in);
-      if (!fin) {
-      	LOG(INFO)<<"Initialtion: Cannot open file: "<< inputfile <<" \n";
-      	exit(EXIT_FAILURE);
-      }
-      else LOG(INFO)<<"Initialtion: Read real particle data from "<< inputfile <<" \n"; 
+  material_no = 1; //number for Air (second line in cfg file (->index 1)
+  //check if the .ivs file exists
+  ifstream fin(inputfile.c_str(), ios::in);
+  if (!fin) {
+    LOG(INFO)<<"Initialtion: Cannot open file: "<< inputfile <<" \n";
+    exit(EXIT_FAILURE);
+  }
+  else LOG(INFO)<<"Initialtion: Read real particle data from "<< inputfile <<" \n"; 
+  
+  ///\todo{the reading of the .ivs file header, which depends on the SolidObstacles-type could be integrated into the corresponding SolidObjects-class... still have to find out how one can hand a fileszream object from one function to another, DONE}
+  // depending on obstacle type cut off header of.ivs file
+  // (which contains info about obstacle geometry)
+  // if cavity: cut off first line
+  // if porosity: cut off ??? lines
+  // if noObstacle: mo need to cut off a line
+  
+  obstacles->cut_ivs_file_header(fin);
+  
+  //read the real particle number
+  int N;
+  fin>>N;
+  
+  // read the particle data
+  for(int n = 0; n < N; n++) { 
+    Vec2d position;
+    Vec2d velocity;
+    //read particle data (one line) from .ivs file
+    fin>>position[0]>>position[1]>>velocity[0]>>velocity[1]>>density>>pressure>>mass;
+    
+    // calculate temperature
+    Temperature=materials[material_no]->get_T(pressure,density);
+    //create particle with the above properties
+    spParticle prtl = boost::make_shared<Particle> ( position, velocity,
+						     density, pressure,
+						     mass, Temperature,
+						     materials[material_no]);
+    
+    // test if particle is located in a sloid obstacle (SolObs.), and if so,
+    // set the corresponding flag which makes it a ghost particle for SolObs.
+    // and insert particle in the list for ghost particles of SolObs 
+    // and in the cell list
+    if(obstacles->prtl_in_solid(prtl->R)==1) {
+      //set flag
+      obstacles->set_ghostPrtlSolidObstacle_flag(prtl);
+      // set particles temperature to solid obstacle temperature
+      // (T will be modified afterwards if required by the thermal boundary condition)
+      obstacles->set_initial_Temperature_solObs_prtl(prtl);
+      //add particle to ghost particle list
+      obstacles->ghost_prtl_SolObs_list.insert(obstacles->ghost_prtl_SolObs_list.
+					       begin(),prtl);
       
-      ///\todo{the reading of the .ivs file header, which depends on the SolidObstacles-type could be integrated into the corresponding SolidObjects-class... still have to find out how one can hand a fileszream object from one function to another}
-      // depending on obstacle type cut off header of.ivs file
-      // (which contains info about obstacle geometry)
-      // if cavity: cut off first line
-      // if porosity: cut off ??? lines
-      // if noObstacle: mo need to cut off a line
-
-      obstacles->cut_ivs_file_header(fin);
-      // if(ini.SolidObstacles_type=="Cavity") {
-      // 	// very "elegant" way of cutting off first line of file
-      // 	string garbage;
-      // 	getline(fin,garbage);
-      // }
-      // else if (ini.SolidObstacles_type=="Porosities") {
-	
-      // } 
-      //read the real particle number
-      int N;
-      fin>>N;
-
-      // read the particle data
-      for(int n = 0; n < N; n++)
-	{ 
-	  	  Vec2d position;
-          Vec2d velocity;
-	  
-	  fin>>position[0]>>position[1]>>velocity[0]>>velocity[1]>>density>>pressure>>mass;
-
-	  Temperature=materials[material_no]->get_T(pressure,density);
-	  spParticle prtl = boost::make_shared<Particle> ( position, velocity, density, pressure, mass, Temperature, materials[material_no]);
-	  // test if particle is located in a sloid obstacle (SolObs.), and if so,
-	  // set the corresponding flag which makes it a ghost particle for SolObs.
-	  // and insert particle in the list for ghost particles of SolObs 
-	  // and in the cell list
-	  if(obstacles->prtl_in_solid(prtl->R)==1) {
-	    obstacles->set_ghostPrtlSolidObstacle_flag(prtl);
-	    obstacles->ghost_prtl_SolObs_list.insert(obstacles->ghost_prtl_SolObs_list.begin(),prtl);
-	    //--------addparticle to cell list---------------------
-	    //where is the particle
-	  const int i = int (prtl->R[0] / cll_sz)+1;//so, a particle at position x=0 is insertet in cell nr. 1 (second cell), as cell nr 0 (first cell) reserved for boundary/ghost particles
-	  const int j = int (prtl->R[1] / cll_sz)+1;
-					
-	  prtl->cell_i = i; prtl->cell_j = j; 
-	  // insert particle into corresponding cell list 
-	  // (no matter if real prtl or ghost-prtl-SolObs.)
-	  cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
-	  LOG_EVERY_N(INFO,100) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no (starts at 0 (for boundary/ghost particles at domaine edges, 1 is first real particle cell)): "<<prtl->cell_i;
-	  }
-	  // for the moment ghost particles are not inserted in particle list
-
-	  // if te particle is not inside the solid obstacle-> it's a real particle
-	  else if (obstacles->prtl_in_solid(prtl->R)==0) {
-	    //insert particle in the (real) particle list
-	    particle_list.insert(particle_list.begin(), prtl);
-	    //--------add particle to cell list---------------------
-	    //where is the particle
-	    const int i = int (prtl->R[0] / cll_sz)+1;//so, a particle at position x=0 is insertet in cell nr. 1 (second cell), as cell nr 0 (first cell) reserved for boundary/ghost particles
-	    const int j = int (prtl->R[1] / cll_sz)+1;
-	    prtl->cell_i = i; prtl->cell_j = j; 
-	    // insert particle into corresponding cell list 
-	    // (no matter if real prtl or ghost-prtl-SolObs.)
-	    cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
-	    LOG_EVERY_N(INFO,100) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no (starts at 0 (for boundary/ghost particles at domaine edges, 1 is first real particle cell)): "<<prtl->cell_i;
-	  }
-	  // for the time being, particles that are further inside the solid obstacle
-	  // than 1 supportlength are not taken into account at all (they have
-	  // to be taken into account as soon as density is going to be evolved...)
-	};
-      fin.close();
-
-      LOG(INFO) << "ParticleManager::BuildRealParticleGasDyn ends";
+      //--------add particle to cell list---------------------
+      //where is the particle
+      const int i = int (prtl->R[0] / cll_sz)+1;//so, a particle at position x=0 is insertet in cell nr. 1 (second cell), as cell nr 0 (first cell) reserved for boundary/ghost particles
+      const int j = int (prtl->R[1] / cll_sz)+1;
+      
+      prtl->cell_i = i; prtl->cell_j = j; 
+      // insert particle into corresponding cell list 
+      // (no matter if real prtl or ghost-prtl-SolObs.)
+      cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
+      LOG_EVERY_N(INFO,100) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no (starts at 0 (for boundary/ghost particles at domaine edges, 1 is first real particle cell)): "<<prtl->cell_i;
+    }
+    // for the moment ghost particles are not inserted in particle list
+    
+    // if te particle is not inside the solid obstacle-> it's a real particle
+    else if (obstacles->prtl_in_solid(prtl->R)==0) {
+      //insert particle in the (real) particle list
+      particle_list.insert(particle_list.begin(), prtl);
+      //--------add particle to cell list---------------------
+      //where is the particle
+      const int i = int (prtl->R[0] / cll_sz)+1;//so, a particle at position x=0 is insertet in cell nr. 1 (second cell), as cell nr 0 (first cell) reserved for boundary/ghost particles
+      const int j = int (prtl->R[1] / cll_sz)+1;
+      prtl->cell_i = i; prtl->cell_j = j; 
+      // insert particle into corresponding cell list 
+      // (no matter if real prtl or ghost-prtl-SolObs.)
+      cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
+      LOG_EVERY_N(INFO,100) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no (starts at 0 (for boundary/ghost particles at domaine edges, 1 is first real particle cell)): "<<prtl->cell_i;
+    }
+    // for the time being, particles that are further inside the solid obstacle
+    // than 1 supportlength are not taken into account at all (they have
+    // to be taken into account as soon as density is going to be evolved...)
+  };
+  fin.close();
+  
+  LOG(INFO) << "ParticleManager::BuildRealParticleGasDyn ends";
 }
 
 

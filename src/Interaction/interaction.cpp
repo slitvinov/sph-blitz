@@ -42,7 +42,7 @@ Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest,
   Wij = weight_function->w(rij);
   gradWij=weight_function->gradW(rij,/*Dest->R-Org->R*/eij);
   Fij = weight_function->F(rij)*rrij; //for Kernel weight fuction
-   LOG_EVERY_N(INFO, 100000) << "Interaction created,interaction pair: " 
+  LOG_EVERY_N(INFO, 100000) << "Interaction created,interaction pair: " 
 			     <<Org->ID<<"  "<<Dest->ID<<"org_x: "
 			     <<Org->R[0]<<"  Dest_x: "<<Dest->R[0] 
 			     <<"  org_y: "<<Org->R[1]<<"Dest_y: "<<Dest->R[1];
@@ -265,8 +265,7 @@ void Interaction::UpdateForcesAndRho() {
       LOG(INFO)<<"dUdti_visc after : ("<<dUdti_visc[0]<<","<<dUdti_visc[1]<<")";
       LOG(INFO)<<"dUdtj_visc after : ("<<dUdtj_visc[0]<<","<<dUdtj_visc[1]<<")";
     }
-    
-    
+        
     // calculate total velocity change rate (due to pressure, art. visc and physical visc.)
     //velocity change rate due to pressure
     const Vec2d dUdti_p=-mj*(pi/pow(rhoi,2)+pj/pow(rhoj,2))*gradWij;
@@ -315,7 +314,7 @@ void Interaction::UpdateForcesAndRho() {
 }
 
 void Interaction::UpdateEnergyPureConduction(){
- LOG_EVERY_N(INFO, 100000) << "Interaction::UpdateForces()";
+ LOG_EVERY_N(INFO, 100000) << "Interaction::UpdateEnergyPureConduction()";
  //define pair values change in sub time steps
  const double rhoi = Org->rho; 
  const double rhoj = Dest->rho;
@@ -340,8 +339,8 @@ void Interaction::UpdateEnergyPureConduction(){
  //runs all the methods (which are not used for the pure conduction).
  // to prevent a program interuption due to an assertion of p (<0),
  // I reset p here to a value >0 foe each iteration.
- Org->p=1000.0;
- Dest->p=1000.0;
+ Org->p=10000.0;
+ Dest->p=10000.0;
 }
 
 Interaction::~Interaction() {

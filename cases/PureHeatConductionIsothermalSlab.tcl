@@ -59,6 +59,12 @@ set T0 1.0
 set G_FORCE(0) 0.0
 set G_FORCE(1) 0.0
 
+# temporal delay of gravity force action
+# (can be useful to give the initial particle distribution some timeto relax
+# before the actual gravity force (which can simulate a pressure gradient) 
+# starts to act. (time in sec)
+set g_force_delay 0.0
+
 # pure Heat Condution
 # all particles immobilized, no change in any parameters
 # except for internal energy
@@ -121,7 +127,6 @@ set HIGH_RES_TIMESTAMP_MARKER 0
 # 1: periodic
 # 2: freeslip
 # 3: symmetry
-#
 
 # for simulations including heat conduction or for pure heat conduction
 # boundaries isothermal or not?
@@ -130,7 +135,6 @@ set HIGH_RES_TIMESTAMP_MARKER 0
 # 1: isothermal (temperature as specified at corresponding boundary)
 # 0: NOT isothermal
 set ISOTHERMAL_BOUNDARY 1
-
 
 # disable boundary conditions:
 # 1: boundary conditions disabled
@@ -161,11 +165,44 @@ set UyBu(0) 0.0
 set UyBu(1) 0.0
 set TyBu 0.0
 
+# type of solid obstacle in calculation domain 
+# (in addition to boundaries at the domain edges)
+# possible values are:
+# NoObstacles, Cavity, Porosities, LinearWall
+set SOLID_OBSTACLES NoObstacles
+
+# virtual velocity assignment type for ghost particles of solid Obstacles
+# virtual velocity is used to calculate viscous forces and therefore
+# influences quality of no--slip condition
+# 0: solid Obstacles have zero real velocity AND ZERO virtual velocity
+# 1: solid Obstacles have zero real vleocity AND virtual velocity
+#    according to Morris1999
+set SOLOBS_VIRT_VELOC_TYPE 0
+
+# for virtual velocity calculation according to Morris1999:
+# lower limit for distance real-particle<->solObs surface
+# NOTE: this parameter does not mean that physically
+# distances < d_realPart_solObs_min are not possible, it only
+# delimits the value used for virt. velocity calculations
+# for porisity calculation Morris1999 suggests a value of
+# sqrt(3)/4*dx=0.433*dx
+set d_realPart_solObs_min 0.010825
+
+# thermal boundary condition type for solid obstacles
+# for the moment only isothermal BC implemented for solObs
+# 0: isothermal, ghost prtl left at const T as initialized from .ivs file
+# 1: isothermal, realized with constant ghost prtl. temperature T_w
+# 2: isothermal, realized with linear extrapolation around T_w
+set solObs_thermal_BC_type 1
+
+# wall temperature for isothermal solid Obstacles temperature
+# boundary condition 
+set T_w_solObs_isothermal 1
+
 # time  control 
 set Start_time 0.0		
 set End_time 650.0
-set D_time 2.0
-
+set D_time 0.05
 
 #marker for automatic time control
 # 0: autom. time conrtol switched off: specified dt used (see below) 
