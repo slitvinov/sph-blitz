@@ -23,7 +23,7 @@ for res in $reslist; do
     n=100
     seq 1 $n | awk -v n=$n -v L=$L '{print 0.25*L, L/(n+1)*$1}' > probe.$res
     ./poiseuille.awk -v yidx=2  t=${time} probe.$res > prof.$res.ref
-    ../../src/tools/SPHProbe/sphprobe --probe probe.$res --c1 output$res/prtl00112*.dat --sl $sl | awk '{print $2, $3}' > prof.$res
+    ../../src/tools/SPHProbe/sphprobe  --probe probe.$res --c1 output$res/prtl00112*.dat --sl $sl | awk '{print $2, $5}' > prof.$res
 done
 
 printf "run.sh:$LINENO writing L2 norm in conv.dat\n" > "/dev/stderr"
