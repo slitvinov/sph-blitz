@@ -52,3 +52,15 @@ blast::matrix<double> readMatrix(const std::string& filename ) {
   LOG(INFO) << data;
   return data;
 }
+
+
+double m4prime(const double x, const double delta) {
+  const double s = fabs(x)/delta;
+  if (s<1) {
+    return 1.0 - 5.0*s*s/2.0 + 3.0*s*s*s/2.0;
+  } else if (s<2) {
+    return (1.0-s)*(2.0-s)*(2.0-s) / 2.0;
+  } else {
+    return 0.0;
+  }
+}

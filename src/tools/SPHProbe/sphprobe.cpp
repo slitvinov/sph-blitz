@@ -172,7 +172,6 @@ blast::matrix<double> getSPHApprox(const blast::matrix<double>& data,
   return out;
 }
 
-
 int main(int ac, char* av[]) {
   google::InitGoogleLogging(av[0]);
   LOG(INFO) << "sphprobe starts";

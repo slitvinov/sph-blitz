@@ -1,18 +1,21 @@
-bin_PROGRAMS=sphprobe norm
+bin_PROGRAMS=sphprobe norm test_utils
 sphprobe_SOURCES=sphprobe.cpp utils.cpp utils.h
 norm_SOURCES=norm.cpp utils.cpp utils.h
+test_utils_SOURCES= test_utils.cpp utils.h utils.cpp
 
 sphprobe_LDADD=${top_builddir}/src/libsph.a \
 	${top_builddir}/cpptcl/libcpptcl.a \
 	${top_builddir}/boost/libs/program_options/src/libboost_program_options.a \
 	${GSL_LIBS}
 sphprobe_CXXFLAGS=-I${top_srcdir} ${GSL_CFLAGS}
+
 norm_LDADD=${top_builddir}/src/libsph.a \
 	${top_builddir}/cpptcl/libcpptcl.a \
 	${top_builddir}/boost/libs/program_options/src/libboost_program_options.a \
 	${GSL_LIBS}
 norm_CXXFLAGS=-I${top_srcdir} ${GSL_CFLAGS}
 
+test_utils_CXXFLAGS=-I${top_srcdir} ${GSL_CFLAGS}
 
 ${top_builddir}/src/libsph.a:
 	cd ${top_builddir}/src; \
