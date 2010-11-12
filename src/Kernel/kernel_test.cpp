@@ -3,6 +3,7 @@
 #include "src/Kernel/bspline.h"
 #include "src/Kernel/cubicspline.h"
 #include "src/Kernel/harmonic.h"
+#include "src/Kernel/wavelet.h"
 #include <boost/test/minimal.hpp>
 #include <boost/math/constants/constants.hpp>
 #include <blitz/vector.h>
@@ -83,7 +84,7 @@ int test_main( int, char *[] )     {
   //QuinticSpline q_weight_function(supportlength);
   //test_kernel(q_weight_function, supportlength);
 
-  BSpline b_weight_function(supportlength);
+  Wavelet b_weight_function(supportlength);
   test_kernel(b_weight_function, supportlength);
 
   //  std::cerr << "Testing CubicSpline kernel\n";

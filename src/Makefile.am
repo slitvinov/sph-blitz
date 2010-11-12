@@ -32,6 +32,7 @@ nomain=	boundary.cpp boundary.h \
 	Kernel/cubicspline1D.cpp Kernel/cubicspline1D.h \
 	Kernel/bspline.h Kernel/bspline.cpp \
 	Kernel/harmonic.h Kernel/harmonic.cpp \
+	Kernel/wavelet.h Kernel/wavelet.cpp \
 	ParticleGenerator/particlegenerator.h ParticleGenerator/particlegenerator.cpp \
 	ParticleContext/nocontext.cpp ParticleContext/nocontext.h \
 	ParticleContext/solidcontext.cpp ParticleContext/solidcontext.h \

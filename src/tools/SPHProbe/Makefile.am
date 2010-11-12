@@ -1,5 +1,6 @@
 bin_PROGRAMS=sphprobe norm test_utils
-sphprobe_SOURCES=sphprobe.cpp utils.cpp utils.h
+sphprobe_SOURCES=sphprobe.cpp utils.cpp utils.h kernelwrapper.h sphkernelwrapper.h \
+	sphkernelwrapper.cpp
 norm_SOURCES=norm.cpp utils.cpp utils.h
 test_utils_SOURCES= test_utils.cpp utils.h utils.cpp
 

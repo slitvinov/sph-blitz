@@ -31,7 +31,7 @@ BSpline::BSpline(double supportlength)
 double BSpline::w(double distance) const
 {
     // dist/supportlength is often needed
-    double normedDist = distance * reciprocH;
+    const double normedDist = distance * reciprocH;
     // the beta-spline is composed of three functions, so we must determine, were we are
     if (normedDist < 0.5) {
     // we are in the inner region of the kernel
@@ -58,7 +58,7 @@ Vec2d BSpline::gradW(double distance, const Vec2d& distanceVector) const {
 //----------------------------------------------------------------------------------------
 double BSpline::F(double distance) const {
     // dist/supportlength is often needed
-    double normedDist = 2.0*distance * reciprocH;
+    const double normedDist = 2.0*distance * reciprocH;
     // the beta-spline is composed of three functions (so the derivate is also), 
     // we must determine, were we are
     if (normedDist < 1.0) 

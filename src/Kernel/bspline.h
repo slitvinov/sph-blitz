@@ -11,7 +11,6 @@
 ///	implemented in	bskernel.cpp
 class BSpline : public Kernel
 {
-
 public:
     ///constructor to initialize the data members and
     BSpline(double supportlength);

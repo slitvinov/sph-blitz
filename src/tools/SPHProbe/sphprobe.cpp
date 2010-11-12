@@ -4,12 +4,8 @@
 #include <fstream>
 #include <list>
 #include <math.h>
+#include "src/Kernel/kernel.h"
 #include "src/Utilities/utilities.h"
-#include "src/Kernel/quinticspline.h"
-#include "src/Kernel/cubicspline.h"
-#include "src/Kernel/cubicspline1D.h"
-#include "src/Kernel/bspline.h"
-#include "src/Kernel/harmonic.h"
 #include <boost/scoped_ptr.hpp>
 #include <boost/foreach.hpp>
 #include <boost/assert.hpp>
@@ -21,6 +17,7 @@
 #include <glog/logging.h>
 #include "src/vec2d.h"
 #include "src/tools/SPHProbe/utils.h"
+#include "src/tools/SPHProbe/kernelwrapper.h"
 
 namespace po = boost::program_options;
 

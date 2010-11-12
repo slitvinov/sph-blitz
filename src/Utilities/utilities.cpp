@@ -10,11 +10,11 @@
 #include "src/Kernel/cubicspline1D.h"
 #include "src/Kernel/bspline.h"
 #include "src/Kernel/harmonic.h"
+#include "src/Kernel/wavelet.h"
 
 spKernel chooseKernelType(const Initiation& ini) {
   return chooseKernelType(ini.kernel_type, ini.supportlength, ini.harmonic_n);
 }
-
 
 spKernel chooseKernelType(const std::string& kernel_type, 
                           const double supportlength, 
@@ -34,6 +34,9 @@ spKernel chooseKernelType(const std::string& kernel_type,
   }
   else if (kernel_type == "Harmonic")   {
     weight_function = boost::make_shared<Harmonic>(supportlength, harmonic_n);
+  }
+  else if (kernel_type == "Wavelet")   {
+    weight_function = boost::make_shared<Wavelet>(supportlength);
   }
   else {
     LOG(ERROR) << " unknown kernel type (KERNEL_TYPE in configuration file)\n" 

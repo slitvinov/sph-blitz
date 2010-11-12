@@ -63,12 +63,13 @@ am__objects_1 = boundary.$(OBJEXT) glbfunc.$(OBJEXT) \
 	particlemanager.$(OBJEXT) kernel.$(OBJEXT) \
 	quinticspline.$(OBJEXT) cubicspline.$(OBJEXT) \
 	cubicspline1D.$(OBJEXT) bspline.$(OBJEXT) harmonic.$(OBJEXT) \
-	particlegenerator.$(OBJEXT) nocontext.$(OBJEXT) \
-	solidcontext.$(OBJEXT) particlecontext.$(OBJEXT) \
-	rotcontext.$(OBJEXT) interaction.$(OBJEXT) \
-	interactioncond.$(OBJEXT) interactioncomp.$(OBJEXT) \
-	interactionin.$(OBJEXT) interactionangular.$(OBJEXT) \
-	timer.$(OBJEXT) timesolver.$(OBJEXT) hydrotimesolver.$(OBJEXT) \
+	wavelet.$(OBJEXT) particlegenerator.$(OBJEXT) \
+	nocontext.$(OBJEXT) solidcontext.$(OBJEXT) \
+	particlecontext.$(OBJEXT) rotcontext.$(OBJEXT) \
+	interaction.$(OBJEXT) interactioncond.$(OBJEXT) \
+	interactioncomp.$(OBJEXT) interactionin.$(OBJEXT) \
+	interactionangular.$(OBJEXT) timer.$(OBJEXT) \
+	timesolver.$(OBJEXT) hydrotimesolver.$(OBJEXT) \
 	gastimesolverLeapFrog.$(OBJEXT) \
 	gastimesolverPredCorr.$(OBJEXT) utilities.$(OBJEXT)
 am_libsph_a_OBJECTS = $(am__objects_1)
@@ -243,6 +244,7 @@ nomain = boundary.cpp boundary.h \
 	Kernel/cubicspline1D.cpp Kernel/cubicspline1D.h \
 	Kernel/bspline.h Kernel/bspline.cpp \
 	Kernel/harmonic.h Kernel/harmonic.cpp \
+	Kernel/wavelet.h Kernel/wavelet.cpp \
 	ParticleGenerator/particlegenerator.h ParticleGenerator/particlegenerator.cpp \
 	ParticleContext/nocontext.cpp ParticleContext/nocontext.h \
 	ParticleContext/solidcontext.cpp ParticleContext/solidcontext.h \
@@ -416,6 +418,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timesolver.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/utilities.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wavelet.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -556,6 +559,20 @@ harmonic.obj: Kernel/harmonic.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kernel/harmonic.cpp' object='harmonic.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o harmonic.obj `if test -f 'Kernel/harmonic.cpp'; then $(CYGPATH_W) 'Kernel/harmonic.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/harmonic.cpp'; fi`
+
+wavelet.o: Kernel/wavelet.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT wavelet.o -MD -MP -MF $(DEPDIR)/wavelet.Tpo -c -o wavelet.o `test -f 'Kernel/wavelet.cpp' || echo '$(srcdir)/'`Kernel/wavelet.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/wavelet.Tpo $(DEPDIR)/wavelet.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kernel/wavelet.cpp' object='wavelet.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o wavelet.o `test -f 'Kernel/wavelet.cpp' || echo '$(srcdir)/'`Kernel/wavelet.cpp
+
+wavelet.obj: Kernel/wavelet.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT wavelet.obj -MD -MP -MF $(DEPDIR)/wavelet.Tpo -c -o wavelet.obj `if test -f 'Kernel/wavelet.cpp'; then $(CYGPATH_W) 'Kernel/wavelet.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/wavelet.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/wavelet.Tpo $(DEPDIR)/wavelet.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Kernel/wavelet.cpp' object='wavelet.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o wavelet.obj `if test -f 'Kernel/wavelet.cpp'; then $(CYGPATH_W) 'Kernel/wavelet.cpp'; else $(CYGPATH_W) '$(srcdir)/Kernel/wavelet.cpp'; fi`
 
 particlegenerator.o: ParticleGenerator/particlegenerator.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT particlegenerator.o -MD -MP -MF $(DEPDIR)/particlegenerator.Tpo -c -o particlegenerator.o `test -f 'ParticleGenerator/particlegenerator.cpp' || echo '$(srcdir)/'`ParticleGenerator/particlegenerator.cpp

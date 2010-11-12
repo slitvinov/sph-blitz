@@ -54,7 +54,7 @@ norm_DEPENDENCIES = ${top_builddir}/src/libsph.a \
 norm_LINK = $(CXXLD) $(norm_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
 am_sphprobe_OBJECTS = sphprobe-sphprobe.$(OBJEXT) \
-	sphprobe-utils.$(OBJEXT)
+	sphprobe-utils.$(OBJEXT) sphprobe-sphkernelwrapper.$(OBJEXT)
 sphprobe_OBJECTS = $(am_sphprobe_OBJECTS)
 sphprobe_DEPENDENCIES = ${top_builddir}/src/libsph.a \
 	${top_builddir}/cpptcl/libcpptcl.a \
@@ -185,7 +185,9 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-sphprobe_SOURCES = sphprobe.cpp utils.cpp utils.h
+sphprobe_SOURCES = sphprobe.cpp utils.cpp utils.h kernelwrapper.h sphkernelwrapper.h \
+	sphkernelwrapper.cpp
+
 norm_SOURCES = norm.cpp utils.cpp utils.h
 test_utils_SOURCES = test_utils.cpp utils.h utils.cpp
 sphprobe_LDADD = ${top_builddir}/src/libsph.a \
@@ -275,6 +277,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/norm-norm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/norm-utils.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphprobe-sphkernelwrapper.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphprobe-sphprobe.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphprobe-utils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_utils-test_utils.Po@am__quote@
@@ -349,6 +352,20 @@ sphprobe-utils.obj: utils.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='utils.cpp' object='sphprobe-utils.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sphprobe_CXXFLAGS) $(CXXFLAGS) -c -o sphprobe-utils.obj `if test -f 'utils.cpp'; then $(CYGPATH_W) 'utils.cpp'; else $(CYGPATH_W) '$(srcdir)/utils.cpp'; fi`
+
+sphprobe-sphkernelwrapper.o: sphkernelwrapper.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sphprobe_CXXFLAGS) $(CXXFLAGS) -MT sphprobe-sphkernelwrapper.o -MD -MP -MF $(DEPDIR)/sphprobe-sphkernelwrapper.Tpo -c -o sphprobe-sphkernelwrapper.o `test -f 'sphkernelwrapper.cpp' || echo '$(srcdir)/'`sphkernelwrapper.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/sphprobe-sphkernelwrapper.Tpo $(DEPDIR)/sphprobe-sphkernelwrapper.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='sphkernelwrapper.cpp' object='sphprobe-sphkernelwrapper.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sphprobe_CXXFLAGS) $(CXXFLAGS) -c -o sphprobe-sphkernelwrapper.o `test -f 'sphkernelwrapper.cpp' || echo '$(srcdir)/'`sphkernelwrapper.cpp
+
+sphprobe-sphkernelwrapper.obj: sphkernelwrapper.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sphprobe_CXXFLAGS) $(CXXFLAGS) -MT sphprobe-sphkernelwrapper.obj -MD -MP -MF $(DEPDIR)/sphprobe-sphkernelwrapper.Tpo -c -o sphprobe-sphkernelwrapper.obj `if test -f 'sphkernelwrapper.cpp'; then $(CYGPATH_W) 'sphkernelwrapper.cpp'; else $(CYGPATH_W) '$(srcdir)/sphkernelwrapper.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/sphprobe-sphkernelwrapper.Tpo $(DEPDIR)/sphprobe-sphkernelwrapper.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='sphkernelwrapper.cpp' object='sphprobe-sphkernelwrapper.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sphprobe_CXXFLAGS) $(CXXFLAGS) -c -o sphprobe-sphkernelwrapper.obj `if test -f 'sphkernelwrapper.cpp'; then $(CYGPATH_W) 'sphkernelwrapper.cpp'; else $(CYGPATH_W) '$(srcdir)/sphkernelwrapper.cpp'; fi`
 
 test_utils-test_utils.o: test_utils.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_utils_CXXFLAGS) $(CXXFLAGS) -MT test_utils-test_utils.o -MD -MP -MF $(DEPDIR)/test_utils-test_utils.Tpo -c -o test_utils-test_utils.o `test -f 'test_utils.cpp' || echo '$(srcdir)/'`test_utils.cpp

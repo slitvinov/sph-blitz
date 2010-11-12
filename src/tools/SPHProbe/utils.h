@@ -7,6 +7,7 @@
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/vector.hpp>
 
+
 namespace blast = boost::numeric::ublas;
 std::vector<double> readRow(std::string row);
 std::vector<std::vector<double> > readVector(std::istream &is);

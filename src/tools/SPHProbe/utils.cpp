@@ -53,7 +53,6 @@ blast::matrix<double> readMatrix(const std::string& filename ) {
   return data;
 }
 
-
 double m4prime(const double x, const double delta) {
   const double s = fabs(x)/delta;
   if (s<1) {
@@ -64,3 +63,5 @@ double m4prime(const double x, const double delta) {
     return 0.0;
   }
 }
+
+
