@@ -43,12 +43,12 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
 	
   ///- set states
   rho = density; p = pressure; T = temperature; Cs = mtl->get_Cs(p, rho);
-  U = velocity; U_I = U;
+  U = velocity; U_I = U; U_output=U;
 	
   ///- set conservative values (mass and volume determined lateron) and their  intermediate values
   // m = 0.0; // for 2D shock tube mass is initialized from the external
- V = 0.0; e = mtl->get_e(T); e_I = e;
-  R_I = R; P_I = P; rho_I = rho;
+  V = 0.0; e = mtl->get_e(T); e_I = e; e_output=e;
+  R_I = R; P_I = P; rho_I = rho; rho_output=rho;
   P_n = P; U_n = U; rho_n = rho; e_n = e; 
 
 }
@@ -95,12 +95,12 @@ Particle::Particle (Vec2d position, Vec2d velocity, double density,
   ///
   
   ///- set states
-  rho = density; m=mass; p = pressure; T = temperature; Cs = mtl->get_Cs(p, rho);  U = velocity; U_I = U;
+  rho = density; m=mass; p = pressure; T = temperature; Cs = mtl->get_Cs(p, rho);  U = velocity; U_I = U; U_output=U;
 	
   ///- set conservative values (mass and volume determined lateron) and their  intermediate values
   // m = 0.0; // for 2D shock tube mass is initialized from the external
-  V = 0.0; e = mtl->get_e(T); e_I = e;
-  R_I = R; P_I = P; rho_I = rho;
+  V = 0.0; e = mtl->get_e(T); e_I = e; e_output=e;
+  R_I = R; P_I = P; rho_I = rho; rho_output=rho;
   P_n = P; U_n = U; rho_n = rho; e_n = e; 
 
   // as dUdt was not always properly initialized to zero:

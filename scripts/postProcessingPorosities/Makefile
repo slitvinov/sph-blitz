@@ -1,7 +1,8 @@
 
- all: exactResAndErrPoiseuille
+ all: exactResAndErrPoiseuille exactResAndErrThermalBC
 
 exactResAndErrPoiseuille: exactResAndErrPoiseuille.cpp
+exactResAndErrThermalBC: exactResAndErrThermalBC.cpp
 
 
 
@@ -9,3 +10,5 @@ exactResAndErrPoiseuille: exactResAndErrPoiseuille.cpp
 
 clean:
 	-rm exactResAndErrPoiseuille
+	-rm exactResAndErrThermalBC
+

@@ -96,14 +96,21 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro,
       }
     ///build interactions
     hydro.BuildInteractions(particles, weight_function, ini);
-    ///calculate density (by summation)
+    ///calculate density (by summation) (and included in method: update state afterwards
     hydro.UpdateDensity(ini, weight_function);
 
 
     //renew interaction (so that local copies of particle variables 
     //in interaction are updated everytime a particle variable changes)
-    //hydro.UpdateInteractions(weight_function);
+    hydro.UpdateInteractions(weight_function);
     // not needed because rho is not locally copied into interaction
+    //=> now needed as eta, zeta, k T-dependand and after density update T might change!
+    ///\{todo=> alternative would be to remove update of eta, zeta, k from interaction 
+    // constructor and method renewInteraction and to assign values locally in
+    // the corresponding updateForces method!
+    // this way the iteration over all interactions at this place could be avoided
+    // but as I did not know how this would affect incompressible implementation I 
+    // let it like thos for the moment}
 
     // just before updateing state of boundary particles for force calculation:
     // set tangent plane to solidObstacle surface for each real particle

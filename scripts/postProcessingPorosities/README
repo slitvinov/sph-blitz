@@ -1,9 +1,13 @@
 #####################################################
 
-post-processing Pure Heat Conduction 
+post-processing Porosities
 
 #####################################################
 
+
+
+Poiseuille
+-----------
 
 after a simulation  has been conducted and as
 long as the results still are in the directory <<sph-blitz/src/outdata>>:
@@ -18,47 +22,31 @@ long as the results still are in the directory <<sph-blitz/src/outdata>>:
    to save them at a different location before!!!
 
 
-2. run the c++ program <<exactResAndErrPureHeat.cpp>> in a shell placed in this
+2. run the c++ program <<exactResAndErrPoiseuille.cpp>> in a shell placed in this
 (/sph-blitz/scripts/postProcessing) directory
 
  This will perform the following action:
 
-
   - program asks user for timestamp of inputfile (prtlxxxxxxxx.dat, xxxxxxxx=timestamp)
     to be post-processed.
 
-  - Program calculates the exact solution for the heat-conduction problem at every particle`s
+  - program asks for the centerline position of the poiseuille channel (if neeed positions are translated
+    within the prorgam so that eact solution calculation always works)
+ 
+  - Program calculates the exact solution for the Poiseuille flow problem at every particle`s
     position x and computes error norms L_1, L_2, L_oo (like for shock tube case
     which are written in a file called <<ErrorNormsxxxxxxxx.dat >> in the <<ResultsInProgress>> folder
-    Program also calculates the total energy content of the system (represented by=1/N_i*sum(e_i)) (and as c_v=1: e=T)
-    and writes it into same output file! (this allows for the test of the energy conservation (to test the adiabatic BC)
     
-
-    Remark: keep in mind that the particle distribution is 2D! However, as the particles do not move and the domain is
-    therefore perfectly identicalin the second direction, the T -values are exactly the same in the second direction
-    (verified with simulation data!). An averaging in the second (y) direction is therefore not necessary and the value of one
-    arbitrary row can be considered representative!
-    In the program this is done as follows: when the result file containing the particle data is read,
-    the y value of the first real particle is saved and all further particles' y is compared against the first particle's y.
-    If they are the same, the particle is retained, otherwise it's omitted. This ensures, that exactly one row of particles 
-    is read and used for the norm-calculation ( actually it would not matter for the orm calculation,
-    if all particles were taken into account. But anyway...)
+    Remark: keep in mind that the particle distribution is 2D! However as the simulation result should be identical
+    in the second direction (y direction) only particles with different y values are taken into account. (The y position
+    may nevertheless vary slightly due to rounding errors and other inaccuracies, in this case the particles
+    are taken into account (by construction of the post processing program). This does not influence the post-processing
 
   - Besides program outputs exact solution for this instant (always with the same spatial resolution, which 
     shall be chosen small enough for a smooth plot) in a file <<exactxxxxxxxx.dat >> which can then be 
     used for plotting purposes.
-    file structure: x, T_exact
+    file structure: y, U_exact
 
-    NOTE: the used reference solution is the analytical solution of the heat conduction equation
-	  for 2 semi-infinite bodies. For the case of the slab (with finite length and boundary condition at the edges)
-	  it is therefore only valid, as long as the Temperature at the edges of the slab has not changed!!!
-	  Estimation of the instant t_max for which the simulation can still be compared to the reference solution:
-	  from cleary1999 we know, that the expected errors lie in the order of magnitude from 1% - 0.1%.
-	  So, we assume that the admissible temperature change at the edges (calculated with exact solution) 
-	  should be another 2 orders of magnitude inferior to these errors in order to not affect them:
-	  for the value of the error function in the exact solution, this means: erf(w)>~0.99999 . 
-	  Tables show, that this is the case for w>~3.2 and with w being w=(x-x_m)/(2sqrt(alpha*t))
-	  ->t<=6 time units for the reference solution to be valid!
 
    - Finally program creates a file <<ResultsInProgress/simuForPlotxxxxxxxxxxxx.dat>> from <<src/prtlxxxxxxxxxxxx.dat>>
      (where xxxxxxxxxxxx is the timestamp specified to the program). The <<simuForPlotxxxxxxxxxxxx.dat>> file, 
@@ -70,20 +58,58 @@ long as the results still are in the directory <<sph-blitz/src/outdata>>:
      simuForPlotxxxxxxxxxxxx.dat-fle , even if the error calculation does not apply for this case.... 
      error calculation
 
-2 1/2: if desired: <<energyContentPureHeat.cpp>> calculates the energy content for all the prtlxxxxxxxxxxxx.dat files
-	present in the <<sph-blitz/src/outdata>> folder provided the simulation had a constant output timestep
-	The user is asked to enter the used output timeinterval (in sec. (exactly as specified in .tcl file))
-	The data are written into <<engeryCntentEvolution.dat>>
-	NOTE: this program only works if output-interval for simulation is multiple of timestep
+Isotnermal Boundary condition testing
+--------------------------------------
 
-2 3/4:  if desired: <<temporalErrorEvolution.cpp>> calculates the temporal evolution of the error norms and 
-	output is written in <<tempErrEvolution.dat>>. 
-	The user is asked to provide the output-file interval (in sec) (as specified in .tcl file) 
-	works only if outputinteral is multiole of dt.
-	
+1. run the shell script <<prepareDirectory.sh>> in a shell placed in this
+(/sph-blitz/scripts/postProcessingShockTube) directory
+  
+    actions performed: see above
 
-3.  for each Temperature profile that is plotted with gnuplot, 
-    a file <<ResultsInProgress/simuForPlotxxxxxxxxxxxx.dat>> has to be created from <<src/prtlxxxxxxxxxxxx.dat>>
-    This is automatically done by running the program <<exactResAndErrPureHeat.cpp>>
-    further post-processing (visualization) with gnuplot (go to the resultsInProgress folder and run the appropriate script)
+
+2. run the c++ program <<exactResAndErrThermalBC.cpp>> in a shell placed in this
+(/sph-blitz/scripts/postProcessing) directory
+
+  - program asks user for timestamp of inputfile (prtlxxxxxxxx.dat, xxxxxxxx=timestamp)
+    to be post-processed.
+
+  - program asks for the y-position of the isothermal wall (if neeed positions are translated
+    within the prorgam so that eact solution calculation always works)
+
+  - Program calculates the exact solution for the heat-conduction problem at every particle`s
+    position y and computes error norms L_1, L_2, L_oo (like for shock tube case
+    which are written in a file called <<ErrorNormsxxxxxxxx.dat >> in the <<ResultsInProgress>> folder
+   
+    Remark: keep in mind that the particle distribution is 2D! However, as the particles do not move and the domain is
+    therefore perfectly identicalin the second direction, the T -values are exactly the same in the second direction
+    (verified with simulation data!). An averaging in the second (x) direction is therefore not necessary and the value of one
+    arbitrary row can be considered representative!
+    In the program this is done as follows: when the result file containing the particle data is read,
+    the y value of the first real particle is saved and all further particles' y is compared against the first particle's y.
+    If they are the same, the particle is retained, otherwise it's omitted. This ensures, that exactly one row of particles 
+    is read and used for the norm-calculation ( actually it would not matter for the norm calculation,
+    if all particles were taken into account. But anyway...for plotting it's an advantage if only one row
+    of particles is used, otherwise the plotting program would produce a mess when trying to connect particles with lines )
+
+  - Besides program outputs exact solution for this instant (always with the same spatial resolution, which 
+    shall be chosen small enough for a smooth plot) in a file <<exactxxxxxxxx.dat >> which can then be 
+    used for plotting purposes.
+    file structure: x, T_exact
+
+    NOTE: the used reference solution is the analytical solution of the heat conduction equation
+	  for a semi-infinite body with isothermal BC. For the present simulation configuration
+	  (uniform domain at T_0 and two LinearWalls at y=0(.25) and y=1(.25) with T_w) this solution is only
+	  valid as long as temperature at domaiin center has not changed yet...
+
+
+   - Finally program creates a file <<ResultsInProgress/simuForPlotxxxxxxxxxxxx.dat>> from <<src/prtlxxxxxxxxxxxx.dat>>
+     (where xxxxxxxxxxxx is the timestamp specified to the program). The <<simuForPlotxxxxxxxxxxxx.dat>> file, 
+     which contains only particles of one row is then used for plotting the T-profile with gnuplot.
+     (direct plotting from <<prtlxxxxxxxxxxxx.dat>> would include boundary
+     particles and besides plot all particle rows, which would lead to weird lines in the plot when plotting with lines,
+     as gnuplot attempts to connect all data points...)
+     Therefore, if a T-profile is to be plotted with gnuplot, always run this program before to create the
+     simuForPlotxxxxxxxxxxxx.dat-fle , even if the error calculation does not apply for this case.... 
  
+
+

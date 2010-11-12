@@ -27,7 +27,7 @@ Interaction::Interaction(const spParticle prtl_org, const spParticle prtl_dest,
 			 const Initiation& ini, const spSolidObstacles obstacles):
   ini(ini), obstacles (obstacles), Org(prtl_org), Dest(prtl_dest), mi(Org->m), mj(Dest->m), 
   rmi(1.0/mi), rmj(1.0/mj),   etai(Org->eta), etaj(Dest->eta),
-  zetai(Org->zeta), zetaj(Dest->zeta),   rij(dstc) {
+  zetai(Org->zeta), zetaj(Dest->zeta),  ki(Org->k), kj(Dest->k), rij(dstc) {
 
   assert(prtl_dest != NULL);
   assert(prtl_org != NULL);
@@ -83,6 +83,7 @@ void Interaction::RenewInteraction(spKernel weight_function) {
   zetai=Org->zeta;
   etaj=Dest->eta;
   zetaj=Dest->zeta;
+  ki=Org->k, kj=Dest->k,
   assert(rrij>0.0);
   rrij = 1.0/rij;
   Vi=Org->V;
@@ -113,6 +114,12 @@ void Interaction::UpdateForcesAndRho() {
   //define pair values change in sub time steps
   const double rhoi = Org->rho; 
   const double rhoj = Dest->rho;
+
+ //set temperatures to local variables (for destination temperature use solidObstacles
+  // method which assigns temperature according to temperature boundary condition
+  // in case destination particle is ghost particle for solid obstacle)
+  const double Ti=Org->T;
+  const double Tj=obstacles->set_Temperature_SolObs_isothermal(Org,Dest); 
   
   /// make sure density is OK
   assert(rhoi>0.0);
@@ -313,34 +320,39 @@ void Interaction::UpdateForcesAndRho() {
   };
 }
 
-void Interaction::UpdateEnergyPureConduction(){
- LOG_EVERY_N(INFO, 100000) << "Interaction::UpdateEnergyPureConduction()";
- //define pair values change in sub time steps
- const double rhoi = Org->rho; 
- const double rhoj = Dest->rho;
- 
- //energy change rate    
- //(physical viscosity  not (yet) taken into account in energy equation)
- 
- //first energy change rate contribution  due to thermal conduction (Cleary1999)
- const double dedtij_cond=4.0*mj/(rhoi*rhoj)*ki*kj/(ki+kj)*(Ti-Tj)*Fij;
- //now complete energy equation
- const double dedti=+dedtij_cond;
- const double dedtj=-dedtij_cond;
- 
- //add result to particle's energy variable (so, an iteration over the interaction list corresponds to the required summation
- Org->dedt+=dedti;
- Dest->dedt+=dedtj;
-
- //reset pressure to a positive value: 
- //pressure is actually not important (as not taken into account for 
- //pure conduction). However, as I wanted to implement the pureConduction case
- //in a way which can easily be extended to a flow problem, the program 
- //runs all the methods (which are not used for the pure conduction).
- // to prevent a program interuption due to an assertion of p (<0),
- // I reset p here to a value >0 foe each iteration.
- Org->p=10000.0;
- Dest->p=10000.0;
+void Interaction::UpdateEnergyPureConduction() {
+  LOG_EVERY_N(INFO, 100000) << "Interaction::UpdateEnergyPureConduction()";
+  //define pair values change in sub time steps
+  const double rhoi = Org->rho; 
+  const double rhoj = Dest->rho;
+  
+  //set temperatures to local variables (for destination temperature use solidObstacles
+  // method which assigns temperature according to temperature boundary condition
+  // in case destination particle is ghost particle for solid obstacle)
+  const double Ti=Org->T;
+  const double Tj=obstacles->set_Temperature_SolObs_isothermal(Org,Dest);
+  
+  //energy change rate    
+  
+  //first energy change rate contribution  due to thermal conduction (Cleary1999)
+  const double dedtij_cond=4.0*mj/(rhoi*rhoj)*ki*kj/(ki+kj)*(Ti-Tj)*Fij;
+  //now complete energy equation
+  const double dedti=+dedtij_cond;
+  const double dedtj=-dedtij_cond;
+  
+  //add result to particle's energy variable (so, an iteration over the interaction list corresponds to the required summation
+  Org->dedt+=dedti;
+  Dest->dedt+=dedtj;
+  
+  //reset pressure to a positive value: 
+  //pressure is actually not important (as not taken into account for 
+  //pure conduction). However, as I wanted to implement the pureConduction case
+  //in a way which can easily be extended to a flow problem, the program 
+  //runs all the methods (which are not used for the pure conduction).
+  // to prevent a program interuption due to an assertion of p (<0),
+  // I reset p here to a value >0 foe each iteration.
+  Org->p=1000.0;
+  Dest->p=1000.0;
 }
 
 Interaction::~Interaction() {

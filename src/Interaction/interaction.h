@@ -45,8 +45,9 @@ protected:
   double zetaj;///<bulk viscosity for particle j
   double ki;///<thermal conductivity for particls i
   double kj;///<thermal conductivity for particle j
-  double Ti;///<Temperature of particle i
-  double Tj;///<Temperature of particle j
+  // double Ti;///<Temperature of particle i
+  //double Tj;///<Temperature of particle j
+  //=>became local variables in corresponding updateXXX functions...
 
 
 public:

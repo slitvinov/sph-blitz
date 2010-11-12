@@ -27,6 +27,12 @@ void InteractionComp::UpdateForces() {
   //define pair values change in sub time steps
   const double rhoi = Org->rho; 
   const double rhoj = Dest->rho;
+
+  //set temperatures to local variables (for destination temperature use solidObstacles
+  // method which assigns temperature according to temperature boundary condition
+  // in case destination particle is ghost particle for solid obstacle)
+  const double Ti=Org->T;
+  const double Tj=obstacles->set_Temperature_SolObs_isothermal(Org,Dest); 
   
   /// make sure density is OK
   assert(rhoi>0.0);

@@ -75,6 +75,18 @@ void GasTimeSolverPredCorr::TimeIntegral_summation(Hydrodynamics &hydro,
     ///<li>update the state of the boundary particles (by copying the real particles' state)
     if  (ini.disable_boundary != 1)   
       boundary.BoundaryCondition(particles);
+
+   //renew interaction (so that local copies of particle variables 
+    //in interaction are updated everytime a particle variable changes)
+    hydro.UpdateInteractions(weight_function);
+    // not needed because rho is not locally copied into interaction
+    //=> now needed as eta, zeta, k T-dependand and after density update T might change!
+    ///\{todo=> alternative would be to remove update of eta, zeta, k from interaction 
+    // constructor and method renewInteraction and to assign values locally in
+    // the corresponding updateForces method!
+    // this way the iteration over all interactions at this place could be avoided
+    // but as I did not know how this would affect incompressible implementation I 
+    // let it like thos for the moment}
 	
     hydro.UpdateChangeRate(ini, Time);///<li> hydro.UpdateChangeRate
 	  
@@ -94,6 +106,18 @@ void GasTimeSolverPredCorr::TimeIntegral_summation(Hydrodynamics &hydro,
       boundary.BoundaryCondition(particles);
     //control output
     LOG(INFO)<<"change rate for corrector:";
+
+    //renew interaction (so that local copies of particle variables 
+    //in interaction are updated everytime a particle variable changes)
+    hydro.UpdateInteractions(weight_function);
+    // not needed because rho is not locally copied into interaction
+    //=> now needed as eta, zeta, k T-dependand and after density update T might change!
+    ///\{todo=> alternative would be to remove update of eta, zeta, k from interaction 
+    // constructor and method renewInteraction and to assign values locally in
+    // the corresponding updateForces method!
+    // this way the iteration over all interactions at this place could be avoided
+    // but as I did not know how this would affect incompressible implementation I 
+    // let it like thos for the moment}
     hydro.UpdateChangeRate(ini, Time); ///<li>hydro.UpdateChangeRate
     hydro.Corrector_summation(dt);///<li>hydro.Corrector_summation</ol>
     particles.UpdateCellLinkedLists();///<li>particles.UpdateCellLinkedLists  

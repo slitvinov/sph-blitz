@@ -329,6 +329,7 @@ void Hydrodynamics::UpdateState(const Initiation &ini) {
     prtl->T = prtl->mtl->get_T(prtl->e);
     // update values of viscosity and conductivity (which change with T)
     prtl->eta = prtl->mtl->get_eta(prtl->T);
+    ///\todo{if bulk viscosity zeta becomes variable (=f(T)) it has to be updated here as well!}
     prtl->k = prtl->mtl->get_k(prtl->T);
     
     // update values of viscosity and conductivity (which change with T)

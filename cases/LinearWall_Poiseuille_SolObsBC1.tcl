@@ -183,6 +183,17 @@ set SOLOBS_VIRT_VELOC_TYPE 0
 # sqrt(3)/4*dx=0.433*dx
 set d_realPart_solObs_min 0.010825
 
+# thermal boundary condition type for solid obstacles
+# for the moment only isothermal BC implemented for solObs
+# 0: isothermal, ghost prtl left at const T as initialized from .ivs file
+# 1: isothermal, realized with constant ghost prtl. temperature T_w
+# 2: isothermal, realized with linear extrapolation around T_w
+set solObs_thermal_BC_type 1
+
+# wall temperature for isothermal solid Obstacles temperature
+# boundary condition 
+set T_w_solObs_isothermal 1
+
 # time  control 
 set Start_time 0.0		
 set End_time 3.0	
