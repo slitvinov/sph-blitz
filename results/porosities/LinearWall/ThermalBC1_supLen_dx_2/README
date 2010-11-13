@@ -1,0 +1,6 @@
+For resolution study: the number of particles in x direction was held constant at 2
+(domainsize in x direction was the minimum possible of one supportlength) 
+In order to get a representative number of particles for the resolution study, not the actual number of particle
+is taken (whic would sclae linearly with dx) but an equivalent number of particles supposing the number would have 
+in the second direction as well! (nONSENSE for pure heat conduction I also took only the number particles in one
+direction (which scaled with dx) and it gae a clear 2nd order convergence!)
