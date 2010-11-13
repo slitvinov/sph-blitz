@@ -66,6 +66,16 @@ Isotnermal Boundary condition testing
   
     actions performed: see above
 
+1.5 if necessary: run <<timeInterpolation.cpp>> if a linear interpolation in time is desired to obtain the results
+    at a precise instant:
+    
+    actions performed:
+
+    - user is asked to provide timestamps of two <<prtlxxxxxxxx.dat>> files (which still are in <<src/outdata>>)
+    - user is asked timestamp resolution
+    - unser is asked instant for interpolation (in sec)
+    - program writes results in a file <<prtlxxxxxxxx.dat>> in <<src/outdata>>
+    => interpolated file can be treated as a regular simulation output file for post-processing in point 2)
 
 2. run the c++ program <<exactResAndErrThermalBC.cpp>> in a shell placed in this
 (/sph-blitz/scripts/postProcessing) directory

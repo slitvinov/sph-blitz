@@ -18,7 +18,7 @@ int main (){
   const double d=0.5; // L  the canal width
   const double eta=1; // (dynamical) viscosity
   const double rho=1; //density
-  const double g=0.1;// value of gravity force (acts in positive x-direction) 
+  const double g=1.0;// value of gravity force (acts in positive x-direction) 
   const double n_max=1000;// number of summation terms taken into account for the series solution
   const double PI=3.141592653589793238462643;
   // END values for exact solution------------------------------------

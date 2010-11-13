@@ -114,7 +114,7 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro,
 
     // just before updateing state of boundary particles for force calculation:
     // set tangent plane to solidObstacle surface for each real particle
-    obstacles->set_all_solObs_tangents(hydro);
+    obstacles->set_all_solObs_tangentsAndDistances(hydro);
 
     ///update the state of the boundary particles (by copying the real particles' state)
     if(ini.disable_boundary != 1)   
@@ -204,7 +204,7 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro,
     
     // just before updateing state of boundary particles for force calculation:
     // set tangent plane to solidObstacle surface for each real particle
-    obstacles->set_all_solObs_tangents(hydro);
+    obstacles->set_all_solObs_tangentsAndDistances(hydro);
 
     //if boundary condition applicable: update boundary particle states
     if(ini.disable_boundary != 1)   

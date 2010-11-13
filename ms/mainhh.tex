@@ -1247,7 +1247,7 @@ A theoretical solution for the temporal evolution of the (incompressible) Poiseu
 A semi infinite body with constant initial temperature $T_0$  and a constant temperature boundary condition at the edge ($T_w$) has the solution
 \begin{equation}
 \label{eq:SemiInfBodySolution}
- T(x,t)=T_w+erf\left(\frac{x}{2\sqrt{at}} \right)\left(T_0-T_w)
+ T(x,t)=T_w+erf \left(\frac{x}{2 \sqrt{at}} \right) \left(T_0-T_w \right)
 \end{equation}
 
 \section{1D SPH code}
@@ -2600,6 +2600,7 @@ STILL TO BE DONE
 \subsection{Porosities}
 
 \subsubsection{Test of boundary conditions for solid obstacles}
+\label{sec:TestSolobs_noSlip_BC}
 
 The boundary conditions implemented to model a no--slip surface for solid obstacles are different from the ones implemented for the boundaries at the domain edges and therefore need to be tested separately. The quality of the boundary condition is assessed by observing the evolution of the velocity profile close to the wall in the initial phase of a Poiseuille flow. Although the focus lies on the boundary conditions, the Poiseuille flow is also used as additional validation of the viscosity implementation. 
 For SPH, Ähnlcihes gemacht von: \cite{Basa2009} allerdings mit immer erneuerten bundary particles... was ja für gekurvte nicht so einfach sit. deshalb hier: test mit constanten boundary particles und unterschiedlichen geschwindigkeitszuwesungen
@@ -2734,17 +2735,6 @@ alreday done for weakly compressible equation of state (and different viscosity 
 
 This method is tested to find out if compared to method 2 a further improvement in the no--slip BC accurary can be achieved. Visually the results for the instants shown under 1) do not differ from the preceding ones. A quantitative consideration is given in table (\ref{tab:2DSPH_LinearWall_Poiseuille_Errors}), which resumes the errors for the three no--slip wall implementation methods. The errors are shown in the initial phase ($t=0.01$) as this is when the potential inaccuracy in the velocity profile occurrs. Differences in the error values are exclusively due to the different boundary conditions, as potential inaccuracies of the viscosity model are contained in all of them. Methods 2 and 3 do not evolve the density at the walls, and therefore, after a certain simulation time, have different densiy values in these areas than Method 1, which also could affect the errors. For $t=0.01$ however the viscous heating is still so low, that even for method 1, which fully evolves density and energy of the ghost particles, the variations in density are of the order of $10^{-8}$ and in energy $10^{-5}$. This is completely neglectable and the error norms shown in table (\ref{tab:2DSPH_LinearWall_Poiseuille_Errors}) can therefore definitely be considered as a valid indication of the boundary condition quality.
 
-The $L_\infty$ error in table (\ref{tab:2DSPH_LinearWall_Poiseuille_Errors}) is significantly higher than the integral errors $L_1, L_2$ for all methods. This indicates that the maximum error occurrs in a very narrow area compared to the rest of the domain and a closer look at the results confirms that this area is the one close to the wall surface, where the velocity profile evolves.
-Globally the error level is by almost a factor three higher for the no--slip implementation method 1 than for methods 2 and 3. While this tendency has been expected for method 3 \cite{Basa2009}, it is surprising that the simple method 2 yields such good results compared to method 1. Furthermore it is interesting to note that method 2 is essentially as exact as method 3 although \cite{Morris1997} claims an advantage for 3.
-
-A look at an even earlier instant ($t=0.001$) (see table \ref{tab:2DSPH_LinearWall_Poiseuille_Errors_t0_001}) confirms the above findings and shows clear advantages for method 2.
-
-As the original application of method 3 has been at a Reynolds number of $Re=0.0125$, which is an order of magnitude inferior to the above simulations, a last test for the 3 no--slip methods at this Re is performed to see if the above found tendencies depend on the Reynolds number. The new Reynolds number is reached by diminuishing the body force from $g=1$ to $g=0.1$, otherwise the same values as above are used. At the instants $t=0.01$ and $t=0.001$ the simulation with $Re=0.0125$ gives exactly the same errors as the corresponding simulation with $Re=0.125$ and therefore the tendencies remain tthe same. 
-
-Despite the unexpectedly good performance of method 2 in the reproduction of a no--slip boundary condition, method 3 might have potential advantages in the prevention of particle penetration into the solid obstacle, which is not an issue for the Poiseuille case due to the flow purely parallel to the wall. For the porosity simulation however there are cases where particles approach the solid obstacle surface with a significant normal velocity component. In this case the virtual velocity assignment for ghost particles creates a higher repulsive force than a zero velocity ghost particle (due to the viscous term in the momentum equation, not the pressure term, which is independent of relative velocity)??????
-And besides the performance of method 2 for curved surfaces has not been assessed whereas method 3 is proven and tested in this field \cite{Morris1997, Morris1999}
-
-
 
 \begin{figure}[!htbp]
 \centering
@@ -2766,53 +2756,107 @@ And besides the performance of method 2 for curved surfaces has not been assesse
 
 \end{figure}
 
- 
+For Method 3 two different particle placements are examined. One where the first row of ghost particles is placed at $dx/2$ away from the solid Obstacle surface (Method 3a) and one where the they are placed starting directly on the surface (Method 3b)
+
+The $L_\infty$ error in table (\ref{tab:2DSPH_LinearWall_Poiseuille_Errors}) is significantly higher than the integral errors $L_1, L_2$ for all methods. This indicates that the maximum error occurrs in a very narrow area compared to the rest of the domain and a closer look at the results confirms that this area is the one close to the wall surface, where the velocity profile evolves.
+
+
  
 \begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
 \label{tab:2DSPH_LinearWall_Poiseuille_Errors_t0_001}
 \centering
-\begin{tabular}[c]{||l||r|r|r||} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\begin{tabular}[c]{||l||r|r|r|r||} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
 \hline
 \hline
- &{\bf Method 1} & {\bf Method 2} & {\bf Method 3}\\
+ &{\bf Method 1} & {\bf Method 2} & {\bf Method 3 a}& {\bf Method 3 b}\\
 \hline
 \hline
-$L_1$&0.000225192 & 7.21856e-05 & 7.506e-05\\
+$L_1$&0.000225192 & 7.21856e-05 & 0.000213864& 7.21856e-05\\
 \hline
-$L_2$&0.000343085 & 0.000111466 & 0.000110658 \\
+$L_2$&0.000343085 & 0.000111466 & 0.00033031& 0.000111466 \\
 \hline
-$L_\infty$&0.000688176 & 0.000233044 & 0.00023123 \\
+$L_\infty$&0.000688176 & 0.000233044 & 0.000689288& 0.000233044\\
 \hline
 \hline
 \end{tabular}
   
-  
-\caption[]{L-norm errors at the initial phase (at $t=0.01$) of the Poiseuille flow 
-for different implementation methods of the no--slip boundary condition at $Re=0.125$ }
+  \caption[]{L-norm errors at the initial phase (at $t=0.01$) of the Poiseuille flow 
+for different implementation methods of the no--slip boundary condition at $Re=0.125$ and with a supportlength of $l_s=2dx$ }
 \end{table}
+
+
+Globally the error level is by almost a factor three higher for the no--slip implementations method 1 and 3a than for methods 2 and 3b.
+Concerning methods 2 and 3b one can state that for the used supportlength of $l_s=2dx$
+these reduce exactly to the same: directly at the boundary surface the ghost particle velocity is zero and the second row of ghost particles, where the (virtual) velocity values differ is just not in the influence domain of a real particle any more. This explains the literally identical error values for this couple. On the other hand methods 1 and 3a are almost identical as well for a supportlengt of $l_s=2dx$. They both have the first ghost particle placement at $dx/2$ away from the wall and the velocity assignment is done by mirroring and inverting at the wall surface (Method 1) or by linear extrapolation (Method 3) which is essentially the same in this case (es wäre verschieden wenn meherer reihen ghost particles geschwindigkeiten zugeteilt bekämen). The only difference consists of the exact particle positions (recreating at each timestep versus fixed placement) wich explaines why the results are not exactly identical.
+
+When a bigger ratio of $l_s/dx$ is selected, the methods should all give different results as then the second row of ghost particles also influences the real particles closest to the wall. In order to get a more distinct impression of the performance of the different methods a new set of simulations is performed with a high ratio of $l_s/dx=4$. This is the value taken in \cite{Morris1999} for the low Reynolds porisity simulation (with a quintic spline kernel). (more common values $l_s/dx=2.5$ performed best for acoustical wave, $l_s/dx=3$ Morris1997...)
+
+
+ 
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:2DSPH_LinearWall_Poiseuille_Errors_t0_001}
+\centering
+\begin{tabular}[c]{||l||r|r|r|r||} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+ &{\bf Method 1} & {\bf Method 2} & {\bf Method 3 a}& {\bf Method 3 b}\\
+\hline
+\hline
+$L_1$&0.000261756 & 0.000608367 & 0.000236978& 0.000218436\\
+\hline
+$L_2$&0.000454589 & 0.00131986 & 0.000363545& 0.000285322 \\
+\hline
+$L_\infty$&0.00168448  & 0.00468108 & 0.000994612& 0.000592871\\
+\hline
+\hline
+\end{tabular}
+
+  \caption[]{L-norm errors at the initial phase (at $t=0.01$) of the Poiseuille flow 
+for different implementation methods of the no--slip boundary condition at $Re=0.125$ and for a supportength $l_s=4dx$}
+\end{table}
+Now there are clear differences in the accuracy of the different methods. By far the most inaccurate one is Method 2 with zero virtual ghost particle velocity followed by method 1 with only around a third of the error. Again around 40\% less in local error ($L_\infty$) is produced by method 3a, which now confirms that linear extrapolation of velocity is more accurate than mirroring \cite{Basa2009}. Another 40\% improvement is obtained by placing the first row of ghost particles directly on the wall surface.
+For a supportlength $\geq2sx$ method 3b is therefore the method of choice for the modelling of a no--slip boundary condition. At least for a simple case as the poiseuille channel however, a supportlength of $2dx$ is sufficient to accurately represent the flow and even gives globally less error  (with the same number of particles) than the bigger supportlength simulation.
+
+A point where method 3 might have potential advantages even for smaller supportlengths is the prevention of particle penetration into the solid obstacle, which is not an issue for the Poiseuille case due to the flow purely parallel to the wall. For the porosity simulation however there are cases where particles approach the solid obstacle surface with a significant normal velocity component. In this case the virtual velocity assignment for ghost particles creates a higher repulsive force than a zero velocity ghost particle (due to the viscous term in the momentum equation, not the pressure term, which is independent of relative velocity)??????
+And besides the performance of method 2 for curved surfaces has not been assessed whereas method 3 is proven and tested in this field \cite{Morris1997, Morris1999}
+\linebreak
+Folgendes kann wahrscheinlich auskommentiert werden:
+\linebreak
+%\begin{comment}
+As the original application of method 3 has been at a Reynolds number of $Re=0.0125$, which is an order of magnitude inferior to the above simulations, a last test for the 3 no--slip methods at this Re is performed to see if the above found tendencies depend on the Reynolds number. The new Reynolds number is reached by diminuishing the body force from $g=1$ to $g=0.1$, otherwise the same values as above are used. At the instants $t=0.01$ and $t=0.001$ the simulation with $Re=0.0125$ gives exactly the same errors as the corresponding simulation with $Re=0.125$ and therefore the tendencies remain the same. 
+\linebreak
+Und zwar bis hierhin
+%\end{comment}
+\linebreak
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%following table put in comment
+\begin{comment}
 
 \begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
 \label{tab:2DSPH_LinearWall_Poiseuille_Errors_t0_001}
 \centering
-\begin{tabular}[c]{||l||r|r|r||} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\begin{tabular}[c]{||l||r|r|r|r||} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
 \hline
 \hline
- &{\bf Method 1} & {\bf Method 2} & {\bf Method 3}\\
+ &{\bf Method 1} & {\bf Method 2} & {\bf Method 3 a}& {\bf Method 3 a}\\
 \hline
 \hline
-$L_1$&3.73746e-05 & 1.23141e-05 & 2.52299e-05\\
+$L_1$&3.73746e-05 & 1.23141e-05 & 3.73765e-05& 1.23141e-05\\
 \hline
-$L_2$&0.000111057 & 2.08792e-05 & 7.16984e-05 \\
+$L_2$&0.000111057 & 2.08792e-05 & 0.000111063& 2.08792e-05\\
 \hline
-$L_\infty$&0.000463243 & 6.36603e-05 & 0.000299756 \\
+$L_\infty$&0.000463243 & 6.36603e-05 & 0.000463269& 6.36603e-05\\
 \hline
 \hline
 \end{tabular}
-  
-  
+   
 \caption[]{L-norm errors at the initial phase (at $t=0.001$) of the Poiseuille flow 
 for different implementation methods of the no--slip boundary condition at $Re=0.125$}
 \end{table}
+
+ \end{comment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%above table put in comment
 
 test (visually if particle penetration occurrs) if no. mention, that no need for additional repulsive forces...
 
@@ -2821,45 +2865,106 @@ test (visually if particle penetration occurrs) if no. mention, that no need for
 For the solid Obstacles an isothermal temperature boundary condition is implemented according to the two options mentionned in section (\ref{sec:BC_solid_Wall_isothermal})
 
 In this section Method 1 designates the isothermal boundary condition implementation with constant temperature ghost particles and Method 2 the one using the temerature extrapolation formula (equation (\ref{eq:IsothermalBC_T_extrapolation})).
+As it turned out in section (\ref{sec:TestSolobs_noSlip_BC}) for Method 2 a placement of particles directly at the surface of the solid obstacle is advantageous and therefore method 2 is only examined with this particle placing. Thus, both methods have the same underlying initial particle distribution in this section. 
 
-Their accuracy is tested in a pure conduction problem as it was done in section (\ref{sec:pureHeat_Results_isothermal_slab} for the boundary condition at the domain edges. This time the evolution of the temperature profile right at the boundary is quantitatively assessed by comparing the simulation result with the theoretical solution of a semi infinite body with constant temperature boundary condition (see equation (\ref{eq:SemiInfBodySolution})).
-As the simulation setup is a uniformly initialized domain with two walls at constant temperature, the semi--infinite solution can only be applied to the instant where the temperature influence from the walls has reached the center of the domain. For the given settings (domainsize in y=1, k=1,...) this interference is definitely neglectable for $t\leq 1$. (T at center $10^{-130}$). As the wall positions from Poiseuille are adopted the temperature gradient is this time in y direction and not in x as it was for pure heat conduction.
+The accuracy of the isothermal boundary condition methods is tested in a pure conduction problem as it was done in section (\ref{sec:pureHeat_Results_isothermal_slab} for the boundary condition at the domain edges. This time the evolution of the temperature profile right at the boundary is quantitatively assessed by comparing the simulation result with the theoretical solution of a semi infinite body with constant temperature boundary condition (see equation (\ref{eq:SemiInfBodySolution})).
+As the simulation setup is a uniformly initialized domain with two walls at constant temperature, the semi--infinite solution can only be applied to the instant where the temperature influence from the walls has reached the center of the domain. For the given settings (domainsize in y=1, k=1,...) this interference is definitely neglectable for $t\leq 1$ (T at center $10^{-130}$). As the wall positions from Poiseuille are adopted the temperature gradient is this time in y direction and not in x as it was for pure heat conduction.
 
-Having in mind the test results for the analog(ous?) no--slip velocity boundary conditions, the simple constant wall temperature assignment is expected to perform as well as the more complex extrapolation approach. 
+Having in mind the test results for the analog(ous?) no--slip velocity boundary conditions, one expects that for a supportlength of $l_s=2dx$ no big difference in the results can be noticed (confirmed by table...). Therefore the simulations are run with $l_s=4dx$ here as well. 
 
 Furthermore the behaviour of the isothermal BC with varying resolution is examined. Cleary \cite{Cleary1999} found out that an isothermal boundary condition (implemented with constant temperature boundary particles ON the boundary surface only) reduced the order of convergence for a pure heat conduction problem from 2 to 1. It is interesting to see, if this also holds for a constant temperature boundary implementation with ghost particles (Method 1) and besides how the extrapolated temperature boundary condition (Method 2) performs.
 
 Test with Method 1) 
-The Temperature profile is shown in figure (\ref{fig:SolObs_Thermal_BC1_profile})
+
+As already observed for the no--slip velocity condition, one can see that for constant spacing (constant particle number) a bigger supportlength deteriorates generally the results (figure (\ref{})
+A fist simulation is performed with $l_s=4dx$ and a spacing of $dx=0.025$ of which the Temperature profile is shown in figure (\ref{fig:SolObs_Thermal_BC1_profile}).
 
 \begin{figure}[!htbp]
 \centering
 \label{fig:SolObs_Thermal_BC1_profile}
-
+\subfigure[$l_s/dx=2$]{
 \includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/ThermalBC1_N2x39_suplen2dx/T_profiles000000999999}}
-
-\caption[Temperature Profile at wall]{Temperature profile at $t=1$ for a pure conduction problem with isothermal boundary conditions for solid obstacles realized with Method 1. The simulation is conducted in a domain 0(.25) to 1(.25) with 2x39=78 particles giving a distance $dx=dy=0.025$, the supportlength is 0.05.
-The solution labelled exact is the theoretical solution of a semi infinite body with constant temperature boundary condition n given by equation (\ref{eq:SemiInfBodySolution}). }
+\subfigure[$l_s/dx=4$]{
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/ThermalBC1_N2x39_suplen4dx/T_profiles000000999999}}
+\caption[Temperature Profile at wall]{Temperature profile at $t=1$ for a pure conduction problem with isothermal boundary conditions for solid obstacles realized with Method 1. The simulation is conducted in a domain 0(.25) to 1(.25) with 2x39=78 particles giving a distance $dx=dy=0.025$, the supportlength is once 0.05, once 0.1.
+The solution labelled exact is the theoretical solution of a semi infinite body with constant temperature boundary condition given by equation (\ref{eq:SemiInfBodySolution}). }
 
 \end{figure}
 
-The behaviour of this boundary condition implementation with higher spatial resolution is asses by teh following error plottings (figure (\ref{fig:SolObs_Thermal_BC1_ResolutionError}))
+To examine the behaviour of this boundary condition implementation with higher spatial resolution, a set of simulations is performed with a constant ratio $l_s=4dx$. Figure (\ref{fig:SolObs_Thermal_BC1_ResolutionError}) summarizes the quantitative results. One recognizes a clear first order convergence due to the isothermal boundary condition as found by \cite{Cleary1999}.
+
 
 wenn ich als Resolution-mass Partikelzahl angebe ist doch das konvergenzverhalten was anderes als mit dx ($N~dx^2$), oder? was nimmt man da??? Cleary1999 sowie rest der Literatur nimmt Teilchenanzahl!
 
-ACHTING: bei Resolution vergrösserung immer darafu achten dass erste ghost particle direct auf boundary!!!!!
 
 \begin{figure}[!htbp]
 \centering
 \label{fig:SolObs_Thermal_BC1_ResolutionError}
 
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/ThermalBC1_N2x39_suplen2dx/T_profiles000000999999}}
+\includegraphics[width=11cm]{Graphics/results/Porosities/LinearWall/ThermalBC1_Resolution/ErrorResolution}
 
-\caption[Temperature Profile at wall]{Temperature profile at $t=1$ for a pure conduction problem with isothermal boundary conditions for solid obstacles realized with Method 1. The simulation is conducted in a domain 0(.25) to 1(.25) with 2x39=78 particles giving a distance $dx=dy=0.025$, the supportlength is 0.05.
-The solution labelled exact is the theoretical solution of a semi infinite body with constant temperature boundary condition n given by equation (\ref{eq:SemiInfBodySolution}). }
+\caption[Error resolution ]{Error evolution with increasing spatial resolution for a pure conduction problem with isothermal boundary conditions for solid obstacles realized with Method 1. The increase in resolution is achieved with a constant ratio $l_s/dx=4$.
+The number of particles given corresponds to the number of particles in one direction (the particle number of the second direction was not increased and therefore $N \propto dx$) }
 
 \end{figure}
 
+
+Test with Method 2) 
+
+
+Visually one can hardly notice any difference in the temperature profiles for the two boundary condition methods.. Therefore it is not shown again at this place. However, the L-norm errors show a clear advantage for method 2 at this resolution (see table (\ref{tab:2DSPH_LinearWall_ThermalBC_Errors_supLen2.5dx})). A further variation of method 2 is tested where the first row of boundary particles is placed directly at the boundary surface (Method 2 b) and not as before at $dx/2$ away (Method 2 a). In the case of a supportlength of $2dx$ the latter is exactly the same as Method 1 as the particle on the boundary has exactly $T_w$ and the second row of ghost particles does just not have any influence on the real particles any more.
+
+
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:2DSPH_LinearWall_ThermalBC_Errors_supLen2.5dx}
+\centering
+\begin{tabular}[c]{||l||r|r||} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+ &{\bf Method 1} & {\bf Method 2} \\
+\hline
+\hline
+$L_1$&0.00151539 &  0.00108916  \\
+\hline
+$L_2$&0.0032994 & 0.00220855  \\
+\hline
+$L_\infty$&0.0101702 & 0.00714104  \\
+\hline
+\hline
+\end{tabular}
+
+
+\caption[]{L-norm errors at the initial phase (at $t=1$) of the pure heat conduction problem with isothermal boundaries for the two boundary implementation methods at a spatial resolution of $dx=dy=0.025$ and a supportlength of $l_s=2dx$ }
+\end{table}
+
+A comparison of a set of simulationsn with $dx=dy=0.025$ and a supportlength of $l_s=2.5dx$ should show a difference 
+
+
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:2DSPH_LinearWall_ThermalBC_Errors_supLen2.5dx}
+\centering
+\begin{tabular}[c]{||l||r|r|r||} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+ &{\bf Method 1} & {\bf Method 2 a} & {\bf Method 2 b}\\
+\hline
+\hline
+$L_1$&0.00151539 &  0.00108916 & 0.00151539 \\
+\hline
+$L_2$&0.0032994 & 0.00220855 & 0.0032994 \\
+\hline
+$L_\infty$&0.0101702 & 0.00714104 & 0.0101702 \\
+\hline
+\hline
+\end{tabular}
+
+
+\caption[]{L-norm errors at the initial phase (at $t=1$) of the pure heat conduction problem with isothermal boundaries for the two boundary implementation methods at a spatial resolution of $dx=dy=0.025$ and a supportlength of $l_s=2dx$ }
+\end{table}
+
+
+
+ The same resolution study as for method 1 has been conducted for method 2 to investigate possible differences in their convergence behaviour. In a first attempt the minimum admissible distance $d_a$ which is needed for the extrapolation of temperature according to equation (\ref{eq:IsothermalBC_T_extrapolation}) is evolved depending on x (see EQUATION...), as it was done for the equivalent no--slip velocity boundary implementation.
 
 
  \chapter{Conclusion}

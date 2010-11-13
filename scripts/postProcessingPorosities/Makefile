@@ -1,8 +1,9 @@
 
- all: exactResAndErrPoiseuille exactResAndErrThermalBC
+ all: exactResAndErrPoiseuille exactResAndErrThermalBC timeInterpolation
 
 exactResAndErrPoiseuille: exactResAndErrPoiseuille.cpp
 exactResAndErrThermalBC: exactResAndErrThermalBC.cpp
+timeInterpolation: timeInterpolation.cpp
 
 
 
@@ -11,4 +12,5 @@ exactResAndErrThermalBC: exactResAndErrThermalBC.cpp
 clean:
 	-rm exactResAndErrPoiseuille
 	-rm exactResAndErrThermalBC
+	-rm timeInterpolation
 

@@ -33,14 +33,14 @@ set INITIAL_CONDITION 0
 set EXTERNAL_MASS_INITIALIZATION 0
 
 # number of cells in X and Y directions
-set CELLS(0) 2
-set CELLS(1) 30
+set CELLS(0) 1
+set CELLS(1) 15
 
 # size of one cell (must NOT be inferior to supportlegth!)
-set CELL_SIZE 0.05
+set CELL_SIZE 0.1
 
 # support length of the kernel
-set SUPPORT_LENGTH 0.05
+set SUPPORT_LENGTH 0.1
 
 # number of particles in one cell size
 #( not used as paricle positions initialized from external file) 
