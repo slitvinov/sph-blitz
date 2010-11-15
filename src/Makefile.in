@@ -56,8 +56,8 @@ am__objects_1 = boundary.$(OBJEXT) glbfunc.$(OBJEXT) \
 	interactioncomp.$(OBJEXT) interactionin.$(OBJEXT) \
 	solidObstacles.$(OBJEXT) cavity.$(OBJEXT) \
 	noObstacles.$(OBJEXT) linearWall.$(OBJEXT) \
-	timesolver.$(OBJEXT) hydrotimesolver.$(OBJEXT) \
-	gastimesolverLeapFrog.$(OBJEXT) \
+	porosities.$(OBJEXT) timesolver.$(OBJEXT) \
+	hydrotimesolver.$(OBJEXT) gastimesolverLeapFrog.$(OBJEXT) \
 	gastimesolverPredCorr.$(OBJEXT) cpptcl.$(OBJEXT)
 am_kernel_test_OBJECTS = $(am__objects_1) kernel_test.$(OBJEXT)
 kernel_test_OBJECTS = $(am_kernel_test_OBJECTS)
@@ -209,6 +209,7 @@ nomain = boundary.cpp boundary.h \
 	SolidObstacles/cavity.cpp  SolidObstacles/cavity.h \
 	SolidObstacles/noObstacles.cpp  SolidObstacles/noObstacles.h \
 	SolidObstacles/linearWall.cpp  SolidObstacles/linearWall.h \
+	SolidObstacles/porosities.cpp  SolidObstacles/porosities.h \
 	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
 	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
 	TimeSolver/gastimesolverLeapFrog.cpp TimeSolver/gastimesolverLeapFrog.h \
@@ -340,6 +341,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/particle.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/particlemanager.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/particlemanager_test.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/porosities.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/quinticspline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/solidObstacles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spParticle.Po@am__quote@
@@ -541,6 +543,20 @@ linearWall.obj: SolidObstacles/linearWall.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SolidObstacles/linearWall.cpp' object='linearWall.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o linearWall.obj `if test -f 'SolidObstacles/linearWall.cpp'; then $(CYGPATH_W) 'SolidObstacles/linearWall.cpp'; else $(CYGPATH_W) '$(srcdir)/SolidObstacles/linearWall.cpp'; fi`
+
+porosities.o: SolidObstacles/porosities.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT porosities.o -MD -MP -MF $(DEPDIR)/porosities.Tpo -c -o porosities.o `test -f 'SolidObstacles/porosities.cpp' || echo '$(srcdir)/'`SolidObstacles/porosities.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/porosities.Tpo $(DEPDIR)/porosities.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SolidObstacles/porosities.cpp' object='porosities.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o porosities.o `test -f 'SolidObstacles/porosities.cpp' || echo '$(srcdir)/'`SolidObstacles/porosities.cpp
+
+porosities.obj: SolidObstacles/porosities.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT porosities.obj -MD -MP -MF $(DEPDIR)/porosities.Tpo -c -o porosities.obj `if test -f 'SolidObstacles/porosities.cpp'; then $(CYGPATH_W) 'SolidObstacles/porosities.cpp'; else $(CYGPATH_W) '$(srcdir)/SolidObstacles/porosities.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/porosities.Tpo $(DEPDIR)/porosities.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SolidObstacles/porosities.cpp' object='porosities.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o porosities.obj `if test -f 'SolidObstacles/porosities.cpp'; then $(CYGPATH_W) 'SolidObstacles/porosities.cpp'; else $(CYGPATH_W) '$(srcdir)/SolidObstacles/porosities.cpp'; fi`
 
 timesolver.o: TimeSolver/timesolver.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT timesolver.o -MD -MP -MF $(DEPDIR)/timesolver.Tpo -c -o timesolver.o `test -f 'TimeSolver/timesolver.cpp' || echo '$(srcdir)/'`TimeSolver/timesolver.cpp

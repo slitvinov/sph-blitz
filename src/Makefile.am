@@ -23,6 +23,7 @@ nomain=	 boundary.cpp boundary.h \
 	SolidObstacles/cavity.cpp  SolidObstacles/cavity.h \
 	SolidObstacles/noObstacles.cpp  SolidObstacles/noObstacles.h \
 	SolidObstacles/linearWall.cpp  SolidObstacles/linearWall.h \
+	SolidObstacles/porosities.cpp  SolidObstacles/porosities.h \
 	TimeSolver/timesolver.cpp TimeSolver/timesolver.h \
 	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
 	TimeSolver/gastimesolverLeapFrog.cpp TimeSolver/gastimesolverLeapFrog.h \
