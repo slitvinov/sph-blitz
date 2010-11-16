@@ -56,7 +56,7 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   } else {
     initial_perturb = interp->getval("initial_perturb");
     LOG(INFO) << "found initial_perturb: " << initial_perturb;
-    assert( (initial_perturb > 0) && (initial_perturb < 0.5) );
+    assert( (initial_perturb >= 0) && (initial_perturb < 0.5) );
   }
   simu_mode = interp->getval("SIMULATION_MODE");
   // (already tested in sph.cpp) 

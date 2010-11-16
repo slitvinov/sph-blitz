@@ -35,10 +35,11 @@ if  [catch {set OUTDIR output$res_level}] {
     set res_level 10
     set OUTDIR output$res_level
 } 
-set output_file_format_factor 1e4
+set output $res_level
+set OutputType Plain
 
 # number of cell
-set ncell $res_level
+set ncell [expr {int(2.0/3.0*$res_level)}]
 set CELLS(0) $ncell
 set CELLS(1) $ncell
 
@@ -62,9 +63,9 @@ set G_FORCE(0) 0.0
 set G_FORCE(1) 0.0
 
 set Start_time 0.0
-set End_time 1.5
+set End_time 1.0
 # time between output
-set D_time 0.2
+set D_time 0.02
 
 # boundary conditions
 set wall 0 

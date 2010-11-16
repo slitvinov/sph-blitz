@@ -7,7 +7,8 @@ set SIMULATION_MODE 3
 
 # possible values are 
 # QuinticSpline, BSpline, CubicSpline
-set KERNEL_TYPE QuinticSpline
+set KERNEL_TYPE BSpline
+set OutputType Plain
 
 # disable boundary conditions:
 # 1: boundary conditions disabled
@@ -39,7 +40,7 @@ if  [catch {set OUTDIR output$res_level}] {
 set output_file_format_factor 1e4
 
 # number of cell
-set ncell $res_level
+set ncell [expr {int(2.0/3.0*$res_level)}]
 set CELLS(0) $ncell
 set CELLS(1) $ncell
 
@@ -55,7 +56,7 @@ set CELL_RATIO  3
 set U0(0) 0.0
 set U0(1) 0.0
 
-set rho0 10.0
+set rho0 1000.0
 set p0 1.0
 set T0 1.0
 
@@ -63,9 +64,9 @@ set G_FORCE(0) 0.0
 set G_FORCE(1) 0.0
 
 set Start_time 0.0
-set End_time 1.5
+set End_time 50
 # time between output
-set D_time 0.2
+set D_time 50
 
 # boundary conditions
 set wall 0 

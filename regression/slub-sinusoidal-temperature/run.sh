@@ -16,7 +16,7 @@ function timep() {
 cp ../../src/sph sph
 reslist="30"
 for res in $reslist; do
-    #SPH_TCL="set res_level $res" ./sph slub
+    SPH_TCL="set res_level $res" ./sph slub
     touch /tmp/sph.INFO /tmp/sph.ERROR
     cp /tmp/sph.INFO /tmp/sph.ERROR output$res/
 
