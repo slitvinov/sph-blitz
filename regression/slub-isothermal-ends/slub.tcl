@@ -6,7 +6,9 @@ set SIMULATION_MODE 3
 
 # possible values are 
 # QuinticSpline, BSpline, CubicSpline
-set KERNEL_TYPE QuinticSpline
+set KERNEL_TYPE BSpline
+set OutputType Plain
+set output_file_format_factor 1e6
 
 # disable boundary conditions:
 # 1: boundary conditions disabled
@@ -38,9 +40,9 @@ if  [catch {set OUTDIR output$res_level}] {
 set output_file_format_factor 1e4
 
 # number of cell
-set ncell $res_level
+set ncell [expr {int(2.0/3.0*$res_level)}]
 set CELLS(0) $ncell
-set CELLS(1) [expr {int(0.5*$ncell)}]
+set CELLS(1) 3
 
 # sizer of the domain
 set L 1.0

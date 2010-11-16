@@ -6,7 +6,7 @@ set SIMULATION_MODE 3
 
 # possible values are 
 # QuinticSpline, BSpline, CubicSpline
-set KERNEL_TYPE QuinticSpline
+set KERNEL_TYPE BSpline
 
 # disable boundary conditions:
 # 1: boundary conditions disabled
@@ -74,19 +74,19 @@ set freeslip 2
 set symmetry 3
 
 # type and velocity
-set xBl $wall
+set xBl $symmetry
 set UxBl(0) 0.0
 set UxBl(1) 0.0
 
-set xBr $wall
+set xBr $symmetry
 set UxBr(0) 0.0
 set UxBr(1) 0.0
 
-set yBd $wall
+set yBd $periodic
 set UyBd(0) 0.0
 set UyBd(1) 0.0
 
-set yBu $wall
+set yBu $periodic
 set UyBu(0) 0.0
 set UyBu(1) 0.0
 
