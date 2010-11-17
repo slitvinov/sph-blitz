@@ -305,8 +305,8 @@ void Interaction::UpdateForcesAndRho() {
     }
     
     // now complete energy change rate
-    const double dedti=dedti_p+dedti_artVisc+dedti_visc;
-    const double dedtj=dedtj_p+dedtj_artVisc+dedtj_visc;
+    const double dedti=dedti_p+dedti_artVisc+dedti_visc+ dedti_cond;
+    const double dedtj=dedtj_p+dedtj_artVisc+dedtj_visc+ dedtj_cond;
   
     // add result to corresponding particle variable 
     // (so, an iteration over the interaction list corresponds

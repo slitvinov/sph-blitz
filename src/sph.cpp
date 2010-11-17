@@ -28,6 +28,7 @@
 #include "SolidObstacles/noObstacles.h"
 #include "SolidObstacles/cavity.h"
 #include "SolidObstacles/linearWall.h"
+#include "SolidObstacles/porosities.h"
 
 //using namespace std;
 
@@ -119,9 +120,9 @@ int main(int argc, char *argv[]) {
   else if (ini.SolidObstacles_type == "Cavity")   {
     obstacles = boost::make_shared<Cavity>(ini); 
   } 
-  //  else if (ini.SolidObstacles_type == "Porosities")   {
-  //obstacles = boost::make_shared<Porosities>(ini);
-  //  }
+  else if (ini.SolidObstacles_type == "Porosities")   {
+    obstacles = boost::make_shared<Porosities>(ini);
+  }
   else if (ini.SolidObstacles_type == "LinearWall")   {
     obstacles = boost::make_shared<LinearWall>(ini); 
   } 

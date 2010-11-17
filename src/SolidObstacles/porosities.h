@@ -34,15 +34,15 @@ public:
   void show_information() const;
   
  private:
-  /// Number of zylinders (to model a porous media)
-  int N_zyl;
-    /// vector of Vec2d which contains the center positions of all zylinders
-  /// (one component of the vector is a Vec2d with coordinates of 1 zyl. center)
-  vector <Vec2d> all_Zyl_centers;
-  /// Vetor of double which contains radii of all zylinders
-  /// (position of center and radius of one zylinder are in the same
+  /// Number of cylinders (to model a porous media)
+  int N_cyl;
+    /// vector of Vec2d which contains the center positions of all cylinders
+  /// (one component of the vector is a Vec2d with coordinates of 1 cyl. center)
+  vector <Vec2d> all_Cyl_centers;
+  /// Vetor of double which contains radii of all cylinders
+  /// (position of center and radius of one cylinder are in the same
   /// component of the corresponding vector data structure)
-  vector <double> all_Zyl_radii;
+  vector <double> all_Cyl_radii;
 };
 
 #endif //POROSITIES_H

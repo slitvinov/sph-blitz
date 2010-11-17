@@ -56,17 +56,23 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
     harmonic_n = interp.eval("[return $harmonic_n]");
   }
   SolidObstacles_type = static_cast<std::string>(interp.eval("[return $SOLID_OBSTACLES]"));
+  output_SolObs_Ghost_prtl=0;
+  if(SolidObstacles_type != "NoObstacles") {
+    output_SolObs_Ghost_prtl= interp.eval("[return $OUTPUT_SOLOBS_GHOST_PRTL]");
+    assert(output_SolObs_Ghost_prtl == 0 || output_SolObs_Ghost_prtl == 1);
+    solObs_virt_veloc_type=interp.eval("[return $SOLOBS_VIRT_VELOC_TYPE]");
+    assert(solObs_virt_veloc_type==0||solObs_virt_veloc_type==1);
+    d_realPart_solObs_min=interp.eval("[return $d_realPart_solObs_min]");
+    assert(d_realPart_solObs_min>=0);
+    solObs_thermal_BC_type=interp.eval("[return $solObs_thermal_BC_type]");
+    assert(solObs_thermal_BC_type==0||solObs_thermal_BC_type==1
+	   ||solObs_thermal_BC_type==2);
+    T_w_solObs_isothermal=interp.eval("[return $T_w_solObs_isothermal]");
+    assert(T_w_solObs_isothermal>=0);
+  }
   //assertion made in sph.cpp
-
-  solObs_virt_veloc_type=interp.eval("[return $SOLOBS_VIRT_VELOC_TYPE]");
-  assert(solObs_virt_veloc_type==0||solObs_virt_veloc_type==1);
-  d_realPart_solObs_min=interp.eval("[return $d_realPart_solObs_min]");
-  assert(d_realPart_solObs_min>=0);
-  solObs_thermal_BC_type=interp.eval("[return $solObs_thermal_BC_type]");
-  assert(solObs_thermal_BC_type==0||solObs_thermal_BC_type==1
-	 ||solObs_thermal_BC_type==2);
-  T_w_solObs_isothermal=interp.eval("[return $T_w_solObs_isothermal]");
-  assert(T_w_solObs_isothermal>=0);
+  
+ 
 
   /// if gas dynamics
   if (simu_mode == 2) {

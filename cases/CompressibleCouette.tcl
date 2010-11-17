@@ -13,7 +13,7 @@ set INTEGRATION_SCHEME 1
 # possible density treatments
 # 1: summation density (density obtained by smoothing)
 # 2: continuity density (density is integrated)
-set DENSITY_MODE 2
+set DENSITY_MODE 1
 
 # brief flag to turn on/off smoothing of initial density profile
 # (only useful for initially discontinuous density profile like for shock-tube
@@ -59,6 +59,11 @@ set T0 1.0
 set G_FORCE(0) 0.0
 set G_FORCE(1) 0.0
 
+# temporal delay of gravity force action
+# (can be useful to give the initial particle distribution some timeto relax
+# before the actual gravity force (which can simulate a pressure gradient) 
+# starts to act. (time in sec)
+set g_force_delay 0.0
 
 # pure Heat Condution
 # all particles immobilized, no change in any parameters
@@ -90,7 +95,7 @@ set PHYSICAL_VISCOSITY_MARKER 1
 #    (see White1974) with parameters material_eta_0, material_S_0,
 #     material_T_0 to be specified both for eta and k in materials
 #      section below 
-set VARIABLE_ETA_AND_K 0
+set VARIABLE_ETA_AND_K 1
 
 # marker to choose output format
 # 0: used for post-processing of shocktube cases and wave propagation
@@ -129,7 +134,7 @@ set HIGH_RES_TIMESTAMP_MARKER 1
 # isothermal or not (=adiabatic)
 # 1: isothermal (temperature as specified at corresponding boundary)
 # 0: NOT isothermal (wall is symmetric concerning temperature)
-set ISOTHERMAL_BOUNDARY 0
+set ISOTHERMAL_BOUNDARY 1
 
 # disable boundary conditions:
 # 1: boundary conditions disabled
@@ -152,13 +157,19 @@ set TxBr 0.0
 set yBd 0
 set UyBd(0) 0.0
 set UyBd(1) 0.0
-set TyBd 2.0
+set TyBd 1.0
 
 # upper boundary
 set yBu 0
 set UyBu(0) 0.04
 set UyBu(1) 0.0
 set TyBu 2.0
+
+# type of solid obstacle in calculation domain 
+# (in addition to boundaries at the domain edges)
+# possible values are:
+# NoObstacles, Cavity, Porosities, LinearWall
+set SOLID_OBSTACLES NoObstacles
 
 # time  control 
 set Start_time 0.0		
@@ -188,12 +199,12 @@ set material_b0(0) 0.0
 set material_rho0(0) 0.0
 set material_a0(0) 0.0
 #for Sutherland law for variable viscosity and thermal conductivity:
-set material_eta_0(0) 0.1
-set material_T_0_eta(0) 2.0
+set material_eta_0(0) 1000
+set material_T_0_eta(0) 1.0
 set material_S_eta(0) 1.0
-set material_k_0(0) 2.4128
-set material_T_0_k(0) 272.77
-set material_S_k(0) 194.111
+set material_k_0(0) 1000
+set material_T_0_k(0) 1
+set material_S_k(0) 1
 
 
 # viscosity eta is DYNAMIC VISCOSITY [Pa s]
@@ -208,9 +219,9 @@ set material_b0(1) 0.0
 set material_rho0(1) 0.0
 set material_a0(1) 0.0
 #for Sutherland law for variable viscosity and thermal conductivity:
-set material_eta_0(1) 0.1
-set material_T_0_eta(1) 2.0
+set material_eta_0(1) 1000
+set material_T_0_eta(1) 1.0
 set material_S_eta(1) 1.0
-set material_k_0(1) 2.4128
-set material_T_0_k(1) 272.77
-set material_S_k(1) 194.111
+set material_k_0(1) 1000
+set material_T_0_k(1) 1
+set material_S_k(1) 1

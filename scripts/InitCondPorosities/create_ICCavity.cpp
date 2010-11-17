@@ -11,7 +11,11 @@ using namespace std;
 
 int main () {
 
-  //parametres defining the cavity geometry (see README)
+  // parametres defining the cavity geometry (see README)
+  // !!! in order for the cavity geometryto be represented as accurate
+  // as possible, ensure that cavity geometry is selected 
+  // in a way that there are particles right at the solid wall surfaces!!!
+  
   const double y_surface=0.5;
   const double depth=0.4;
   const double width=0.48;

@@ -15,7 +15,7 @@ YI ZHU, PATRICK J. FOX AND JOSEPH P. MORRIS
  - simulates (quasi) incompressible SPH flow through porous media:
    the term "porous media" means in this case: a periodic arrangement of circles (representing the solid).
  - Describes a way of implementing curved boundary conditions
- - for the case of this incompressible flow the pressure variation is MUC smaller than hydrostatic pressure->
+ - for the case of this incompressible flow the pressure variation is MUCH smaller than hydrostatic pressure->
    can give inaccurate results in SPH and therefore only use of dynamic pressure, but I think this does not apply to 
    compressible flows as first our pressure is not to high, and our equation of state is connected to temperature 
   (and a smaller p would therefore influence temperature as well...)???

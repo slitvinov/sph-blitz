@@ -1,4 +1,11 @@
-all: create_ICCavity create_ICLinearWall_Poiseuille_domainEdgeBC create_ICLinearWall_Poiseuille_SolObsBC1 create_ICLinearWall_Poiseuille_SolObsBC2 create_ICLinearWall_thermal_SolObsBC_on_wall create_ICLinearWall_thermal_SolObsBC_dx2_from_wall
+BLITZ_PATH =../../blitz/
+GLOG_PATH=../../prefix-thirdparty/include/
+GLOG_LIB=../../prefix-thirdparty/lib/
+CFLAGS=-I$(BLITZ_PATH) -I$(GLOG_PATH) -L$(GLOG_LIB) /home/oliver/sph-blitz/prefix-thirdparty/lib/libglog.a -pthread 
+
+
+
+all: create_ICCavity create_ICLinearWall_Poiseuille_domainEdgeBC create_ICLinearWall_Poiseuille_SolObsBC1 create_ICLinearWall_Poiseuille_SolObsBC2 create_ICLinearWall_thermal_SolObsBC_on_wall create_ICLinearWall_thermal_SolObsBC_dx2_from_wall create_ICPorosities_uniformSqareLattice create_ICPorosities_SqareLatticeRealPrtl_CircularCyl
 
 create_ICCavity: create_ICCavity.cpp
 
@@ -12,6 +19,12 @@ create_ICLinearWall_thermal_SolObsBC_dx2_from_wall: create_ICLinearWall_thermal_
 
 create_ICLinearWall_Poiseuille_domainEdgeBC: create_ICLinearWall_Poiseuille_domainEdgeBC.cpp
 
+create_ICPorosities_uniformSqareLattice: create_ICPorosities_uniformSqareLattice.cpp
+
+create_ICPorosities_SqareLatticeRealPrtl_CircularCyl:create_ICPorosities_SqareLatticeRealPrtl_CircularCyl.cpp
+	g++ -o create_ICPorosities_SqareLatticeRealPrtl_CircularCyl create_ICPorosities_SqareLatticeRealPrtl_CircularCyl.cpp	$(CFLAGS)
+
+
 .PHONY: clean
 
 clean:
@@ -21,3 +34,5 @@ clean:
 	-rm create_ICLinearWall_Poiseuille_SolObsBC2
 	-rm create_ICLinearWall_thermal_SolObsBC_on_wall
 	-rm create_ICLinearWall_thermal_SolObsBC_dx2_from_wall
+	-rm create_ICPorosities_uniformSqareLattice
+	-rm create_ICPorosities_SqareLatticeRealPrtl_CircularCyl

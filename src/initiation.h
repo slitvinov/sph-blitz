@@ -97,6 +97,16 @@ public:
   /// boundary condition 
   double T_w_solObs_isothermal;
 
+  ///\brief flag to select whether ghost particles for solid obstacles shall be contained in putput files or not
+  ///
+  /// 0: NO output of ghost particles for solid obstacles
+  /// 1: output of solid obstacle ghost particles in prtlXXX.dat
+  /// in this case ghost particles are marked by an ID=-1 in the output file
+  /// (NOTE: their actual ID within the program is still an individual positive number
+  /// as they are generated with the same constructor as real particles. It is only
+  /// for the output that their ID is set to -1 for identification purposes)
+  int output_SolObs_Ghost_prtl;
+
   ///simulation mode (1: liquids, 2: gas dynamics)
   int simu_mode;
 

@@ -194,6 +194,17 @@ set solObs_thermal_BC_type 1
 # boundary condition 
 set T_w_solObs_isothermal 1
 
+# flag to select whether ghost particles for solid obstacles shall
+# be contained in putput files or not
+# 0: NO output of ghost particles for solid obstacles
+# 1: output of solid obstacle ghost particles in prtlXXX.dat
+# in this case ghost particles are marked by an ID=-1 in the output file
+# (NOTE: their actual ID within the program is still an individual
+# positive number as they are generated with the same constructor
+# as real particles. It is only for the output that their ID is 
+# set to -1 for identification purposes)
+set OUTPUT_SOLOBS_GHOST_PRTL  0
+
 # time  control 
 set Start_time 0.0		
 set End_time 3.0	

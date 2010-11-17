@@ -87,6 +87,15 @@ FIRST SIMULATION RUNS: CONSTANT VISCOSITY; NO HEAT CONDUCTION (domain=6*30 prtl,
       (perhaps different placement of particles (always ficed position), perhaps other velocity assignment (not mirrored but
       interpolated, see	BasaQuinlan, but I think that is not really the problem because error is not that much in 
       velocity but ruther in density, energy...???)
+
+actual simulations:
+-------------------
+
+  with supLen/dx=2: oscillations for small viscosities (high Re)
+  and no oscillations (except for little effect in p) for high viscosities 
+  (e.g. eta=1000, Re=U*l*rho/eta=0.04*1*1/1000=4e-5)
+  try of variable eta in high viscosity configuration (together with hot/cold wall and thermal conduction as otherwise
+  no T gradient producable)
     
 
 
