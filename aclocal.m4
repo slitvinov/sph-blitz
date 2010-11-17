@@ -867,5 +867,4 @@ AC_SUBST([am__untar])
 ]) # _AM_PROG_TAR
 
 m4_include([m4/ac_check_blitz.m4])
-m4_include([m4/gsl.m4])
 m4_include([m4/tcl.m4])

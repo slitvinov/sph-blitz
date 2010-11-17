@@ -1,6 +1,4 @@
 lib_LIBRARIES=libcpptcl.a
-
-
 libcpptcl_a_SOURCES=cpptcl.cc cpptcl.h
 # add a preprocessor variable to find dump.tcl file
 # TODO: should be changed in the future
