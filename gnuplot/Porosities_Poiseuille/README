@@ -1,0 +1,8 @@
+ 
+ 
+compProfiles.sh:
+----------------
+- has to be run with the timestamp of the desired instant (12 digits) as input argument
+  ./compProfiles xxxxxxxxxxxx
+- creates an .eps and .png called <<U_profilesxxxxxxxxxxxx._ _ _ >> for visual comparison of simu result and
+  exact solution at this instant (using files <<simuForPlotxxxxxxxxxxxx.dat>> and <<exactxxxxxxxxxxxx.dat>>)

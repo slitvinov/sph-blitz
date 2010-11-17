@@ -1,0 +1,15 @@
+ 
+compProfiles.sh:
+----------------
+- has to be run with the timestamp of the desired instant (12 digits) as input argument
+  ./compProfiles xxxxxxxxxxxx
+- creates an .eps and .png called <<T_profilesxxxxxxxxxxxx._ _ _ >> for visual comparison of simu result and
+  exact solution at this instant (using files <<simuForPlotxxxxxxxxxxxx.dat>> and <<exactxxxxxxxxxxxx.dat>>)
+
+
+ErrorResolution.sh:
+-------------------
+- plots the evolution of the Errors with variation of the resolution
+  (using file <<ErrorResolution.dat>>, which is created manually by copying the error data from the desired simulations
+   into a file called like this.) (file structure: N_part, L_1, L_2, L_inf)
+
