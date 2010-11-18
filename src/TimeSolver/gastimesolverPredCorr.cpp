@@ -74,7 +74,7 @@ void GasTimeSolverPredCorr::TimeIntegral_summation(Hydrodynamics &hydro,
  
     ///<li>update the state of the boundary particles (by copying the real particles' state)
     if  (ini.disable_boundary != 1)   
-      boundary.BoundaryCondition(particles);
+      boundary.BoundaryCondition(particles,Time);
 
    //renew interaction (so that local copies of particle variables 
     //in interaction are updated everytime a particle variable changes)
@@ -98,12 +98,12 @@ void GasTimeSolverPredCorr::TimeIntegral_summation(Hydrodynamics &hydro,
 
     ///update the state of the boundary particles (by copying the real particles' state)
     if  (ini.disable_boundary != 1)   
-      boundary.BoundaryCondition(particles);
+      boundary.BoundaryCondition(particles,Time);
     hydro.UpdateInteractions(weight_function);///<li> update interactions
     hydro.UpdateDensity(ini, weight_function);///<li>hydro.UpdateDensity
     ///update the state of the boundary particles (by copying the real particles' state)
     if  (ini.disable_boundary != 1)   
-      boundary.BoundaryCondition(particles);
+      boundary.BoundaryCondition(particles,Time);
     //control output
     LOG(INFO)<<"change rate for corrector:";
 
@@ -123,7 +123,7 @@ void GasTimeSolverPredCorr::TimeIntegral_summation(Hydrodynamics &hydro,
     particles.UpdateCellLinkedLists();///<li>particles.UpdateCellLinkedLists  
     ///update the state of the boundary particles (by copying the real particles' state)
     if  (ini.disable_boundary != 1)   
-      boundary.BuildBoundaryParticle(particles, hydro);
+      boundary.BuildBoundaryParticle(particles, hydro, Time);
 
  }
 }
@@ -168,7 +168,7 @@ void GasTimeSolverPredCorr::TimeIntegral(Hydrodynamics &hydro,
     hydro.UpdateInteractions(weight_function);///<ol><li>hydro.UpdatePair
     ///update the state of the boundary particles (by copying the real particles' state)
     if  (ini.disable_boundary != 1)   
-       boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
+      boundary.BoundaryCondition(particles,Time);///<li>boundary.BoundaryCondition
     hydro.UpdateChangeRate(ini, Time);///<li>hydro.UpdateChangeRate
     hydro.Corrector(dt);///<li>hydro.Corrector
     hydro.UpdateState(ini);///<li>hydro.UpdateState</ol>
@@ -176,6 +176,6 @@ void GasTimeSolverPredCorr::TimeIntegral(Hydrodynamics &hydro,
     boundary.RunAwayCheck(hydro);///<ol><li>boundary.RunAwayCheck
     particles.UpdateCellLinkedLists();///<li>particles.UpdateCellLinkedLists
     if  (ini.disable_boundary != 1)
-      boundary.BuildBoundaryParticle(particles, hydro);///<li> rebuild boundary particles
+      boundary.BuildBoundaryParticle(particles, hydro, Time);///<li> rebuild boundary particles
   }
 }

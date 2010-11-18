@@ -92,7 +92,7 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro,
 	
 	if(ini.disable_boundary != 1)//check if boundary disabled
 	  ///build the boundary particles
-	  boundary.BuildBoundaryParticle(particles,hydro);
+	  boundary.BuildBoundaryParticle(particles,hydro, Time);
       }
     ///build interactions
     hydro.BuildInteractions(particles, weight_function, ini);
@@ -118,7 +118,7 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro,
 
     ///update the state of the boundary particles (by copying the real particles' state)
     if(ini.disable_boundary != 1)   
-      boundary.BoundaryCondition(particles);
+      boundary.BoundaryCondition(particles, Time);
     ///calculate change rate for each particle (
     hydro.UpdateChangeRate(ini, Time);
     
@@ -161,7 +161,7 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro,
       ///run away check before cell link lists are updated (due to index purposes)
       boundary.RunAwayCheck(hydro);  
       /// reapply boundary conditions, so they are up-to-date in output-file
-      boundary.BoundaryCondition(particles);
+      boundary.BoundaryCondition(particles,Time);
     }
     ///update of cell linked lists
     particles.UpdateCellLinkedLists();
@@ -185,7 +185,7 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro,
       hydro.UpdateUeRho2FullStep(dt);
       if  (ini.disable_boundary != 1)//if not 1d (as in 1D now BC needed)
 	///build the boundary particles
-	boundary.BuildBoundaryParticle(particles,hydro);
+	boundary.BuildBoundaryParticle(particles,hydro, Time);
     }
     
     ///\todo{change comments to doxygen format, best would probably be to make a list with all if/else statements)}
@@ -208,7 +208,7 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro,
 
     //if boundary condition applicable: update boundary particle states
     if(ini.disable_boundary != 1)   
-      boundary.BoundaryCondition(particles);
+      boundary.BoundaryCondition(particles,Time);
     //update change rates for U, e AND rho
     hydro.UpdateChangeRateInclRho(ini, Time);
     
@@ -243,7 +243,7 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro,
     if  (ini.disable_boundary != 1)   
       boundary.RunAwayCheck(hydro); {
       /// reapply boundary conditions, so they are up-to-date in output-file
-      boundary.BoundaryCondition(particles);
+      boundary.BoundaryCondition(particles,Time);
     }
     //update cell linked list
     particles.UpdateCellLinkedLists();

@@ -192,7 +192,7 @@ set solObs_thermal_BC_type 1
 
 # wall temperature for isothermal solid Obstacles temperature
 # boundary condition 
-set T_w_solObs_isothermal 1
+set T_w_solObs_isothermal 2
 
 # flag to select whether ghost particles for solid obstacles shall
 # be contained in putput files or not
@@ -208,7 +208,7 @@ set OUTPUT_SOLOBS_GHOST_PRTL  0
 # time  control 
 set Start_time 0.0		
 set End_time 3.0	
-set D_time 5e-4
+set D_time 1e-2
 
 #marker for automatic time control
 # 0: autom. time control switched off: specified dt used (see below) 
@@ -233,13 +233,13 @@ set material_rho0(0) 0.0
 set material_a0(0) 0.0
 
 #bulk viscosity neglected (zeta=0)
-# viscosity eta is DYNAMIC VISCOSITY [Pa s]
+# viscosity eta is DYNAMIC VISCOSITY [Pa s] (eta war 1)
 set material_name(1) Air
 set material_type(1) 1
-set material_cv(1) 717.645
-set material_eta(1) 1
+set material_cv(1) 1
+set material_eta(1) 0.0147
 set material_zeta(1) 0.0
-set material_k(1) 0
+set material_k(1) 0.03
 set material_gamma(1) 1.4
 set material_b0(1) 0.0
 set material_rho0(1) 0.0

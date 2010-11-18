@@ -173,7 +173,8 @@ void Boundary::RunAwayCheck(Hydrodynamics &hydro) {
 //----------------------------------------------------------------------------------------
 //                        build boundary particles
 //----------------------------------------------------------------------------------------
-void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &hydro)
+void Boundary::BuildBoundaryParticle(ParticleManager &particles,
+				     Hydrodynamics &hydro, double &Time)
 {
   /// <ul><li>clear boundary particles list
   boundary_particle_list.clear();
@@ -210,7 +211,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
         spParticle prtl = boost::make_shared<Particle >(prtl_old, hydro.materials[0]);
 
         //boundary condition
-        Boundary_W(prtl);
+        Boundary_W(prtl,Time);
 
         //in which cell
         prtl->cell_i = 0; prtl->cell_j = j; 
@@ -233,7 +234,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
         spParticle prtl = boost::make_shared<Particle>(prtl_old);
 
         //boundary condition
-        Boundary_W(prtl);
+        Boundary_W(prtl,Time);
 
         //in which cell
         prtl->cell_i = 0; prtl->cell_j = j; 
@@ -257,7 +258,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
         spParticle prtl = boost::make_shared<Particle>(prtl_old);
 
         ///boundary condition (modify properties of copied particle accroding to boundary condition)
-        Boundary_W(prtl);
+        Boundary_W(prtl,Time);
                 
         //in which cell
         prtl->cell_i = 0; prtl->cell_j = j; 
@@ -806,7 +807,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 //----------------------------------------------------------------------------------------
 //                            boundary condition
 //----------------------------------------------------------------------------------------
-void Boundary::BoundaryCondition(ParticleManager &particles) {
+void Boundary::BoundaryCondition(ParticleManager &particles, double &Time) {
   int kb, ku, mb, mu;
   //default: no coner need to be considered
   kb = 0; mb = x_clls;
@@ -834,7 +835,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles) {
         prtl->StatesCopier(prtl->rl_prtl, 0);
 
         //boundary condition
-        Boundary_W(prtl);
+        Boundary_W(prtl, Time);
       }
     }
     /// <ul> <li>the perodic or symmetry conditions </ul>
@@ -849,7 +850,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles) {
         prtl->StatesCopier(prtl->rl_prtl, 1);
 
         //boundary condition
-        Boundary_W(prtl);
+        Boundary_W(prtl,Time);
       }
     }
 
@@ -1097,7 +1098,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles) {
 //----------------------------------------------------------------------------------------
 //            implement west side boundary by modifying particle states
 //----------------------------------------------------------------------------------------
-void Boundary::Boundary_W(spParticle prtl)
+void Boundary::Boundary_W(spParticle prtl, double& Time)
 {
   //the rigid wall conditions    
   switch(xBl) {
@@ -1112,6 +1113,8 @@ void Boundary::Boundary_W(spParticle prtl)
       //perodic
     case 1:
       prtl->R[0] = prtl->R[0] - box_size[0];
+      //modify particle velocity to generate a linear wave at west end (for cavity simulation
+      // prtl->U[0]=prtl->U[0]+0.061*sin(25.635*time);
       break;
       //free slip wall
     case 2: 

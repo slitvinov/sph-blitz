@@ -32,15 +32,15 @@ set INITIAL_CONDITION 0
 # 1: mass initialized externally (via initialization file)
 set EXTERNAL_MASS_INITIALIZATION 0
 
-# number of cells in X and Y directions
-set CELLS(0) 16
-set CELLS(1) 32
+# number of cells in x and y directions (for later cells(0)=15->size_x=1)
+set CELLS(0) 1
+set CELLS(1) 20
 
 # size of one cell (must NOT be inferior to supportlegth!)
-set CELL_SIZE 0.0625
+set CELL_SIZE 0.1
 
 # support length of the kernel
-set SUPPORT_LENGTH 0.06
+set SUPPORT_LENGTH 0.08
 
 # number of particles in one cell size
 #( not used as paricle positions initialized from external file) 
@@ -56,14 +56,14 @@ set p0 0.5
 set T0 1.0
 
 # gravity force
-set G_FORCE(0) 8
+set G_FORCE(0) 0.8
 set G_FORCE(1) 0.0
 
 # temporal delay of gravity force action
 # (can be useful to give the initial particle distribution some timeto relax
 # before the actual gravity force (which can simulate a pressure gradient) 
 # starts to act. (time in sec)
-set g_force_delay 1e-4
+set g_force_delay 0
 
 # pure Heat Condution
 # all particles immobilized, no change in any parameters
@@ -192,7 +192,7 @@ set solObs_thermal_BC_type 1
 
 # wall temperature for isothermal solid Obstacles temperature
 # boundary condition 
-set T_w_solObs_isothermal 1
+set T_w_solObs_isothermal 1.9
 
 # flag to select whether ghost particles for solid obstacles shall
 # be contained in putput files or not
@@ -203,11 +203,11 @@ set T_w_solObs_isothermal 1
 # positive number as they are generated with the same constructor
 # as real particles. It is only for the output that their ID is 
 # set to -1 for identification purposes)
-set OUTPUT_SOLOBS_GHOST_PRTL  0
+set OUTPUT_SOLOBS_GHOST_PRTL 1
 
 # time  control 
 set Start_time 0.0		
-set End_time 1e-1	
+set End_time 1	
 set D_time 2e-3
 
 #marker for automatic time control
@@ -232,10 +232,10 @@ set material_b0(0) 0.0
 set material_rho0(0) 0.0
 set material_a0(0) 0.0
 #for Sutherland law for variable viscosity and thermal conductivity:
-set material_eta_0(0) 1000
+set material_eta_0(0) 8.66e-3
 set material_T_0_eta(0) 1.0
 set material_S_eta(0) 0.5
-set material_k_0(0) 1000
+set material_k_0(0) 0.01856
 set material_T_0_k(0) 1
 set material_S_k(0) 0.5
 
@@ -244,7 +244,7 @@ set material_S_k(0) 0.5
 set material_name(1) Air
 set material_type(1) 1
 set material_cv(1) 1
-set material_eta(1) 1
+set material_eta(1) 0.0147
 set material_zeta(1) 0.0
 set material_k(1) 0
 set material_gamma(1) 1.5
@@ -252,9 +252,9 @@ set material_b0(1) 0.0
 set material_rho0(1) 0.0
 set material_a0(1) 0.0
 #for Sutherland law for variable viscosity and thermal conductivity:
-set material_eta_0(1) 1000
+set material_eta_0(1) 8.66e-3
 set material_T_0_eta(1) 1.0
 set material_S_eta(1) 0.5
-set material_k_0(1) 1000
+set material_k_0(1) 0.01856
 set material_T_0_k(1) 1
 set material_S_k(1) 0.5
