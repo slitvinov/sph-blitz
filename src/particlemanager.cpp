@@ -241,113 +241,112 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 					std::list<spParticle >& particle_list, 
 					Initiation &ini)
 {
-	
   LOG(INFO) << "Start BuildRealParticle\n";
-
+  
   double density, pressure, Temperature;
   int material_no;
-
+  
   ///initial particles either from .tlc file or from .rst file 
- 
-      //initialize particles from the file .tlc
-      if(initial_condition==0) {	
-	//initialize the real particles inside the boundary
-        LOG(INFO) << "Run simu_mode = 1, initial_condition = 0 version of BuildRealParticle";
-	for(int i = 1; i < x_clls - 1; i++) {
-	  for(int j = 1; j < y_clls - 1; j++) {
-            LOG(INFO) << "cell (" << i << ", " << j << ")";
-	    //create a new real particle
-	    for(int k = 0; k < hdelta; k++) {
-	      for(int m = 0; m < hdelta; m++) {
-                const Vec2d position((i - 1)*cll_sz + (k + 0.5)*delta, 
-                                     (j - 1)*cll_sz + (m + 0.5)*delta);
-		material_no = 1;
-		const Vec2d velocity = ini.U0;
-		Temperature = ini.T0;
-		density = materials[material_no]->rho0;
-		pressure = materials[material_no]->get_p(density);
-		const Vec2d c_cntr(4.0, 4.0);
-		if(v_abs(position - c_cntr) <= 1.0) {
-		  material_no = 2;
-		  pressure += ini.p0;
-		  density = materials[material_no]->get_rho(pressure);
-		}
-		//create a new real particle
-                LOG_EVERY_N(INFO, 100) << "Create a particle with position: " << position;
-		spParticle prtl = boost::make_shared<Particle>(position, velocity, 
-							       density, pressure, 
-							       Temperature, 
-							       materials[material_no]);
-		prtl->cell_i = i; prtl->cell_j = j; 
-		//insert particle in the particle list
-		particle_list.push_back(prtl);
-                LOG_EVERY_N(INFO, 100) << "The particle is insertet into the particle list";
-		//insert the position into corresponding cell list
-		cell_lists(i,j).push_back(prtl);
-                LOG_EVERY_N(INFO, 100) << "The particle is inserted into the cell list";
-	      } // m loop
-	    } // k loop
-	  } // j loop
-	} // i loop
-        LOG(INFO) << "End of  simu_mode = 1, initial_condition = 0 version of BuildRealParticle";
-      } /// initial_condition==0 condition
-	
-      //initialize real particles from the non-dimensional restart file .rst
-      if(initial_condition==1) {	
-	//the restart file name
-	const std::string inputfile = ini.Project_name + ".rst";
-	//check if the restart exist
-	ifstream fin(inputfile.c_str(), ios::in);
-	if (!fin.good()) {
-	  LOG(INFO) <<"Initialtion: Cannot open "<< inputfile <<" \n";
-	  exit(EXIT_FAILURE);
-	}
-        
-	LOG(INFO) << "Initialtion: Read real particle data from "<< inputfile <<" \n"; 
-
-	//reading the new starting time
-	fin>>ini.Start_time;
-	//change the starting and ending time
-	ini.End_time += ini.Start_time;
-	//read the real particle number
-        int N;
-	fin>>N;
-	//read the particle data
-	for(int n = 0; n < N; n++) { 
-          Vec2d position;
-          Vec2d velocity;
-          std::string material_name;
-	  fin>>material_name>>position[0]>>position[1]>>velocity[0]>>velocity[1]
-	     >>density>>pressure>>Temperature;
-          assert(density > 0.0);
-	  //find the right material number
-	  material_no = -1;
-	  for(int k = 0;  k <= ini.number_of_materials; k++) 
-	    if(material_name == materials[k]->material_name) material_no = k;
-	  if(material_no != -1) {	
+  
+  //initialize particles from the file .tlc
+  if(initial_condition==0) {	
+    //initialize the real particles inside the boundary
+    LOG(INFO) << "Run simu_mode = 1, initial_condition = 0 version of BuildRealParticle";
+    for(int i = 1; i < x_clls - 1; i++) {
+      for(int j = 1; j < y_clls - 1; j++) {
+	LOG(INFO) << "cell (" << i << ", " << j << ")";
+	//create a new real particle
+	for(int k = 0; k < hdelta; k++) {
+	  for(int m = 0; m < hdelta; m++) {
+	    const Vec2d position((i - 1)*cll_sz + (k + 0.5)*delta, 
+				 (j - 1)*cll_sz + (m + 0.5)*delta);
+	    material_no = 1;
+	    const Vec2d velocity = ini.U0;
+	    Temperature = ini.T0;
+	    density = materials[material_no]->rho0;
 	    pressure = materials[material_no]->get_p(density);
-	    spParticle prtl = boost::make_shared<Particle> ( position, velocity, density, pressure, Temperature, 
-					   materials[material_no]);
-	    //insert its poistion on the particle list
-	    particle_list.insert(particle_list.begin(), prtl);
-					
-	    //where is the particle
-	    const int  i = int (prtl->R[0] / cll_sz) + 1;
-	    const int j = int (prtl->R[1] / cll_sz) + 1;
-					
+	    const Vec2d c_cntr(4.0, 4.0);
+	    if(v_abs(position - c_cntr) <= 1.0) {
+	      material_no = 2;
+	      pressure += ini.p0;
+	      density = materials[material_no]->get_rho(pressure);
+	    }
+	    //create a new real particle
+	    LOG_EVERY_N(INFO, 100) << "Create a particle with position: " << position;
+	    spParticle prtl = boost::make_shared<Particle>(position, velocity, 
+							   density, pressure, 
+							   Temperature, 
+							   materials[material_no]);
 	    prtl->cell_i = i; prtl->cell_j = j; 
+	    //insert particle in the particle list
+	    particle_list.push_back(prtl);
+	    LOG_EVERY_N(INFO, 100) << "The particle is insertet into the particle list";
 	    //insert the position into corresponding cell list
-	    cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
-
-	  } else {
-	    LOG(INFO)<<"The material in the restart file is not used by the program! \n";
-	    exit(EXIT_FAILURE);
-	  }
-	}
-	fin.close();
-	LOG(INFO)<<"Initialtion of Read real particle data from "<< inputfile <<"done! \n"; 
+	    cell_lists(i,j).push_back(prtl);
+	    LOG_EVERY_N(INFO, 100) << "The particle is inserted into the cell list";
+	  } // m loop
+	} // k loop
+      } // j loop
+    } // i loop
+    LOG(INFO) << "End of  simu_mode = 1, initial_condition = 0 version of BuildRealParticle";
+  } /// initial_condition==0 condition
+  
+  //initialize real particles from the non-dimensional restart file .rst
+  if(initial_condition==1) {	
+    //the restart file name
+    const std::string inputfile = ini.Project_name + ".rst";
+    //check if the restart exist
+    ifstream fin(inputfile.c_str(), ios::in);
+    if (!fin.good()) {
+      LOG(INFO) <<"Initialtion: Cannot open "<< inputfile <<" \n";
+      exit(EXIT_FAILURE);
+    }
+    
+    LOG(INFO) << "Initialtion: Read real particle data from "<< inputfile <<" \n"; 
+    
+    //reading the new starting time
+    fin>>ini.Start_time;
+    //change the starting and ending time
+    ini.End_time += ini.Start_time;
+    //read the real particle number
+    int N;
+    fin>>N;
+    //read the particle data
+    for(int n = 0; n < N; n++) { 
+      Vec2d position;
+      Vec2d velocity;
+      std::string material_name;
+      fin>>material_name>>position[0]>>position[1]>>velocity[0]>>velocity[1]
+	 >>density>>pressure>>Temperature;
+      assert(density > 0.0);
+      //find the right material number
+      material_no = -1;
+      for(int k = 0;  k <= ini.number_of_materials; k++) 
+	if(material_name == materials[k]->material_name) material_no = k;
+      if(material_no != -1) {	
+	pressure = materials[material_no]->get_p(density);
+	spParticle prtl = boost::make_shared<Particle> ( position, velocity, density, pressure, Temperature, 
+							 materials[material_no]);
+	//insert its poistion on the particle list
+	particle_list.insert(particle_list.begin(), prtl);
+	
+	//where is the particle
+	const int  i = int (prtl->R[0] / cll_sz) + 1;
+	const int j = int (prtl->R[1] / cll_sz) + 1;
+	
+	prtl->cell_i = i; prtl->cell_j = j; 
+	//insert the position into corresponding cell list
+	cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
+	
+      } else {
+	LOG(INFO)<<"The material in the restart file is not used by the program! \n";
+	exit(EXIT_FAILURE);
       }
-          
+    }
+    fin.close();
+    LOG(INFO)<<"Initialtion of Read real particle data from "<< inputfile <<"done! \n"; 
+  }
+  
   LOG(INFO) << "ParticleManager::BuildRealParticle ends";
 }
 
@@ -367,95 +366,189 @@ void ParticleManager::BuildRealParticleGasDyn(vecMaterial materials,
   int material_no;
   
   ///initial particles either  from .rst file or from .ivs (Initial Values Shock tube)file
-  
-  const std::string inputfile =std::string(ini.Ivs_file_name);
-  material_no = 1; //number for Air (second line in cfg file (->index 1)
-  //check if the .ivs file exists
-  ifstream fin(inputfile.c_str(), ios::in);
-  if (!fin) {
-    LOG(INFO)<<"Initialtion: Cannot open file: "<< inputfile <<" \n";
-    exit(EXIT_FAILURE);
+  //initial particles from .ivs file
+  if(initial_condition==0) {
+    const std::string inputfile =std::string(ini.Ivs_file_name);
+    material_no = 1; //number for Air (second line in cfg file (->index 1)
+    //check if the .ivs file exists
+    ifstream fin(inputfile.c_str(), ios::in);
+    if (!fin) {
+      LOG(INFO)<<"Initialtion: Cannot open file: "<< inputfile <<" \n";
+      exit(EXIT_FAILURE);
+    }
+    else LOG(INFO)<<"Initialtion: Read real particle data from "<< inputfile <<" \n"; 
+    
+    ///\todo{the reading of the .ivs file header, which depends on the SolidObstacles-type could be integrated into the corresponding SolidObjects-class... still have to find out how one can hand a fileszream object from one function to another, DONE}
+    // depending on obstacle type cut off header of.ivs file
+    // (which contains info about obstacle geometry)
+    // if cavity: cut off first line
+    // if porosity: cut off ??? lines
+    // if noObstacle: no need to cut off a line
+    
+    obstacles->cut_ivs_file_header(fin);
+    
+    //read the real particle number
+    int N;
+    fin>>N;
+    
+    // read the particle data
+    for(int n = 0; n < N; n++) { 
+      Vec2d position;
+      Vec2d velocity;
+      //read particle data (one line) from .ivs file
+      fin>>position[0]>>position[1]>>velocity[0]>>velocity[1]>>density>>pressure>>mass;
+      
+      // calculate temperature
+      Temperature=materials[material_no]->get_T(pressure,density);
+      //create particle with the above properties
+      spParticle prtl = boost::make_shared<Particle> ( position, velocity,
+						       density, pressure,
+						       mass, Temperature,
+						       materials[material_no]);
+      
+      // test if particle is located in a sloid obstacle (SolObs.), and if so,
+      // set the corresponding flag which makes it a ghost particle for SolObs.
+      // and insert particle in the list for ghost particles of SolObs 
+      // and in the cell list
+      if(obstacles->prtl_in_solid(prtl->R)==1) {
+	//set flag
+	obstacles->set_ghostPrtlSolidObstacle_flag(prtl);
+	// set particles temperature to solid obstacle temperature
+	// (T will be modified afterwards if required by the thermal boundary condition)
+	obstacles->set_initial_Temperature_solObs_prtl(prtl);
+	//add particle to ghost particle list
+	obstacles->ghost_prtl_SolObs_list.insert(obstacles->ghost_prtl_SolObs_list.
+						 begin(),prtl);
+	
+	//--------add particle to cell list---------------------
+	//where is the particle
+	const int i = int (prtl->R[0] / cll_sz)+1;//so, a particle at position x=0 is insertet in cell nr. 1 (second cell), as cell nr 0 (first cell) reserved for boundary/ghost particles
+	const int j = int (prtl->R[1] / cll_sz)+1;
+	
+	prtl->cell_i = i; prtl->cell_j = j; 
+	// insert particle into corresponding cell list 
+	// (no matter if real prtl or ghost-prtl-SolObs.)
+	cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
+	LOG_EVERY_N(INFO,100) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no (starts at 0 (for boundary/ghost particles at domaine edges, 1 is first real particle cell)): "<<prtl->cell_i;
+      }
+      // for the moment ghost particles are not inserted in particle list
+      
+      // if te particle is not inside the solid obstacle-> it's a real particle
+      else if (obstacles->prtl_in_solid(prtl->R)==0) {
+	//insert particle in the (real) particle list
+	particle_list.insert(particle_list.begin(), prtl);
+	//--------add particle to cell list---------------------
+	//where is the particle
+	const int i = int (prtl->R[0] / cll_sz)+1;//so, a particle at position x=0 is insertet in cell nr. 1 (second cell), as cell nr 0 (first cell) reserved for boundary/ghost particles
+	const int j = int (prtl->R[1] / cll_sz)+1;
+	prtl->cell_i = i; prtl->cell_j = j; 
+	// insert particle into corresponding cell list 
+	// (no matter if real prtl or ghost-prtl-SolObs.)
+	cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
+	LOG_EVERY_N(INFO,100) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no (starts at 0 (for boundary/ghost particles at domaine edges, 1 is first real particle cell)): "<<prtl->cell_i;
+      }
+      // for the time being, particles that are further inside the solid obstacle
+      // than 1 supportlength are not taken into account at all (they have
+      // to be taken into account as soon as density is going to be evolved...)
+    };
+    fin.close();
   }
-  else LOG(INFO)<<"Initialtion: Read real particle data from "<< inputfile <<" \n"; 
-  
-  ///\todo{the reading of the .ivs file header, which depends on the SolidObstacles-type could be integrated into the corresponding SolidObjects-class... still have to find out how one can hand a fileszream object from one function to another, DONE}
-  // depending on obstacle type cut off header of.ivs file
-  // (which contains info about obstacle geometry)
-  // if cavity: cut off first line
-  // if porosity: cut off ??? lines
-  // if noObstacle: mo need to cut off a line
-  
-  obstacles->cut_ivs_file_header(fin);
-  
-  //read the real particle number
-  int N;
-  fin>>N;
-  
-  // read the particle data
-  for(int n = 0; n < N; n++) { 
-    Vec2d position;
-    Vec2d velocity;
-    //read particle data (one line) from .ivs file
-    fin>>position[0]>>position[1]>>velocity[0]>>velocity[1]>>density>>pressure>>mass;
+  else { // i.e. if initial_condition==1: initialize from restart (.rst) file
     
-    // calculate temperature
-    Temperature=materials[material_no]->get_T(pressure,density);
-    //create particle with the above properties
-    spParticle prtl = boost::make_shared<Particle> ( position, velocity,
-						     density, pressure,
-						     mass, Temperature,
-						     materials[material_no]);
-    
-    // test if particle is located in a sloid obstacle (SolObs.), and if so,
-    // set the corresponding flag which makes it a ghost particle for SolObs.
-    // and insert particle in the list for ghost particles of SolObs 
-    // and in the cell list
-    if(obstacles->prtl_in_solid(prtl->R)==1) {
-      //set flag
-      obstacles->set_ghostPrtlSolidObstacle_flag(prtl);
-      // set particles temperature to solid obstacle temperature
-      // (T will be modified afterwards if required by the thermal boundary condition)
-      obstacles->set_initial_Temperature_solObs_prtl(prtl);
-      //add particle to ghost particle list
-      obstacles->ghost_prtl_SolObs_list.insert(obstacles->ghost_prtl_SolObs_list.
-					       begin(),prtl);
-      
-      //--------add particle to cell list---------------------
-      //where is the particle
-      const int i = int (prtl->R[0] / cll_sz)+1;//so, a particle at position x=0 is insertet in cell nr. 1 (second cell), as cell nr 0 (first cell) reserved for boundary/ghost particles
-      const int j = int (prtl->R[1] / cll_sz)+1;
-      
-      prtl->cell_i = i; prtl->cell_j = j; 
-      // insert particle into corresponding cell list 
-      // (no matter if real prtl or ghost-prtl-SolObs.)
-      cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
-      LOG_EVERY_N(INFO,100) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no (starts at 0 (for boundary/ghost particles at domaine edges, 1 is first real particle cell)): "<<prtl->cell_i;
+    //the restart file name
+    const std::string inputfile = ini.Project_name + ".rst";
+    //check if the restart exist
+    ifstream fin(inputfile.c_str(), ios::in);
+    if (!fin.good()) {
+      LOG(INFO) <<"Initialtion: Cannot open "<< inputfile <<" \n";
+      exit(EXIT_FAILURE);
     }
-    // for the moment ghost particles are not inserted in particle list
     
-    // if te particle is not inside the solid obstacle-> it's a real particle
-    else if (obstacles->prtl_in_solid(prtl->R)==0) {
-      //insert particle in the (real) particle list
-      particle_list.insert(particle_list.begin(), prtl);
-      //--------add particle to cell list---------------------
-      //where is the particle
-      const int i = int (prtl->R[0] / cll_sz)+1;//so, a particle at position x=0 is insertet in cell nr. 1 (second cell), as cell nr 0 (first cell) reserved for boundary/ghost particles
-      const int j = int (prtl->R[1] / cll_sz)+1;
-      prtl->cell_i = i; prtl->cell_j = j; 
-      // insert particle into corresponding cell list 
-      // (no matter if real prtl or ghost-prtl-SolObs.)
-      cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
-      LOG_EVERY_N(INFO,100) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no (starts at 0 (for boundary/ghost particles at domaine edges, 1 is first real particle cell)): "<<prtl->cell_i;
+    LOG(INFO) << "Initialtion: Read real particle data from "<< inputfile <<" \n"; 
+    
+    //reading the new starting time
+    fin>>ini.Start_time;
+    //change the starting and ending time
+    ini.End_time += ini.Start_time;
+    //read the real particle number
+    int N;
+    fin>>N;
+    // read the particle data
+    for(int n = 0; n < N; n++) { 
+      Vec2d position;
+      Vec2d velocity;
+      std::string material_name;
+      fin>>material_name>>position[0]>>position[1]>>velocity[0]>>velocity[1]
+	 >>density>>pressure>>Temperature>>mass;
+      
+      assert(density > 0.0);
+      //find the right material number
+      // material_no = -1;
+      material_no = 1;
+      // LOG(INFO)<<"number of materials"<<ini.number_of_materials;
+      // for(int k = 0;  k <= ini.number_of_materials; k++) 
+      // 	if(material_name == materials[k]->material_name) material_no = k;
+      // LOG(INFO)<<"material nr"<<material_no;
+      if(material_no != -1) {	
+	//pressure = materials[material_no]->get_p(density, );
+	spParticle prtl = boost::make_shared<Particle> ( position, velocity, density,
+							 pressure, mass, Temperature, 
+							 materials[material_no]);
+	// test if particle is located in a sloid obstacle (SolObs.), and if so,
+	// set the corresponding flag which makes it a ghost particle for SolObs.
+	// and insert particle in the list for ghost particles of SolObs 
+	// and in the cell list
+	if(obstacles->prtl_in_solid(prtl->R)==1) {
+	 
+	  //set flag
+	  obstacles->set_ghostPrtlSolidObstacle_flag(prtl);
+	  // set particles temperature to solid obstacle temperature
+	  // (T will be modified afterwards if required by the thermal boundary condition)
+	  obstacles->set_initial_Temperature_solObs_prtl(prtl);
+	  //add particle to ghost particle list
+	  obstacles->ghost_prtl_SolObs_list.insert(obstacles->ghost_prtl_SolObs_list.
+						   begin(),prtl);
+	  
+	  //--------add (ghost) particle to cell list---------------------
+	  //where is the particle
+	  const int i = int (prtl->R[0] / cll_sz)+1;//so, a particle at position x=0 is insertet in cell nr. 1 (second cell), as cell nr 0 (first cell) reserved for boundary/ghost particles
+	  const int j = int (prtl->R[1] / cll_sz)+1;
+	  
+	  prtl->cell_i = i; prtl->cell_j = j; 
+	  // insert particle into corresponding cell list 
+	  // (no matter if real prtl or ghost-prtl-SolObs.)
+	  cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
+	  LOG(INFO) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no (starts at 0 (for boundary/ghost particles at domaine edges, 1 is first real particle cell)): "<<prtl->cell_i;
+	}
+	// for the moment ghost particles are not inserted in particle list
+	
+	// if te particle is not inside the solid obstacle-> it's a real particle
+	else if (obstacles->prtl_in_solid(prtl->R)==0) {
+	  //insert particle in the (real) particle list
+	  particle_list.insert(particle_list.begin(), prtl);
+	  //--------add particle to cell list---------------------
+	  //where is the particle
+	  const int i = int (prtl->R[0] / cll_sz)+1;//so, a particle at position x=0 is insertet in cell nr. 1 (second cell), as cell nr 0 (first cell) reserved for boundary/ghost particles
+	  const int j = int (prtl->R[1] / cll_sz)+1;
+	  prtl->cell_i = i; prtl->cell_j = j; 
+	  // insert particle into corresponding cell list 
+	  // (no matter if real prtl or ghost-prtl-SolObs.)
+	  cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
+	}
+	// for the time being, particles that are further inside the solid obstacle
+	// than 1 supportlength are not taken into account at all (they have
+	// to be taken into account as soon as density is going to be evolved...)
+      } 
+      else {
+	LOG(INFO)<<"The material in the restart file is not used by the program! \n";
+	exit(EXIT_FAILURE);
+      }
     }
-    // for the time being, particles that are further inside the solid obstacle
-    // than 1 supportlength are not taken into account at all (they have
-    // to be taken into account as soon as density is going to be evolved...)
-  };
-  fin.close();
-  
+    fin.close();
+  LOG(INFO)<<"Initialtion of Read real particle data from "<< inputfile <<"done! \n"; 
+  }
   LOG(INFO) << "ParticleManager::BuildRealParticleGasDyn ends";
 }
-
 
 
 //----------------------------------------------------------------------------------------

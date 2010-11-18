@@ -190,7 +190,7 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
 //--------------------------------------------------------------------------------------------
 //		Output real particle data for restart the computation
 //--------------------------------------------------------------------------------------------
-void Output::OutRestart(const Hydrodynamics &hydro, const double Time, const Initiation& ini) {
+void Output::OutRestart(const Hydrodynamics &hydro, const double Time, const Initiation& ini, const spSolidObstacles &obstacles) {
   ///- output non-dimensional data
   std::string outputfile = ini.Project_name + ".rst";
   ofstream out(outputfile.c_str());
@@ -200,6 +200,9 @@ void Output::OutRestart(const Hydrodynamics &hydro, const double Time, const Ini
   BOOST_FOREACH(spParticle prtl, hydro.particle_list) {
     if(prtl->bd == 0) n ++;
   }
+  BOOST_FOREACH(spParticle prtl, obstacles->ghost_prtl_SolObs_list) {
+    n ++;
+  }
   
   ///- out reinitiation Time
   out<<Time<<"\n";
@@ -208,9 +211,24 @@ void Output::OutRestart(const Hydrodynamics &hydro, const double Time, const Ini
   //iterate the partilce list
   BOOST_FOREACH(spParticle prtl, hydro.particle_list) {
     if(prtl->bd == 0)  {
-      out<<prtl->mtl->material_name<<"  "<<prtl->R[0]<<"  "<<prtl->R[1]<<"  "<<prtl->U[0]<<"  "<<prtl->U[1]
-	 <<"  "<<prtl->rho<<"  "<<prtl->p<<"  "<<prtl->T<<"  \n";
+      //if liquid mode: use liquid particle costructor, therefore output without mass
+      if(ini.simu_mode==1)
+	out<<prtl->mtl->material_name<<"  "<<prtl->R[0]<<"  "<<prtl->R[1]<<"  "<<prtl->U[0]<<"  "<<prtl->U[1]
+	   <<"  "<<prtl->rho<<"  "<<prtl->p<<"  "<<prtl->T<<"  \n";
+      else //if simumode==2gasdynamics mode: output including mass
+	out<<prtl->mtl->material_name<<"  "<<prtl->R[0]<<"  "<<prtl->R[1]<<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"  "<<prtl->rho<<"  "<<prtl->p<<"  "<<prtl->T<<"  "<<prtl->m<<"  \n";
     }
   }
-  out.close();
+  //also output ghost particles for solid obstacles
+ BOOST_FOREACH(spParticle prtl, obstacles->ghost_prtl_SolObs_list) {
+   {
+     //if liquid mode: use liquid particle costructor, therefore output without mass
+     if(ini.simu_mode==1)
+       out<<prtl->mtl->material_name<<"  "<<prtl->R[0]<<"  "<<prtl->R[1]<<"  "<<prtl->U[0]<<"  "<<prtl->U[1]
+	  <<"  "<<prtl->rho<<"  "<<prtl->p<<"  "<<prtl->T<<"  \n";
+     else //if simumode==2gasdynamics mode: output including mass
+       out<<prtl->mtl->material_name<<"  "<<prtl->R[0]<<"  "<<prtl->R[1]<<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"  "<<prtl->rho<<"  "<<prtl->p<<"  "<<prtl->T<<"  "<<prtl->m<<"  \n";
+   }
+ }
+ out.close();
 }

@@ -139,33 +139,33 @@ void InteractionComp::UpdateForces() {
     // where Fij<=0 (gradW(r)=F(r)*r)
     
     const double d_i=1/Vi;// inverse of particle volume (partice number density)
-    if(Org->ID==2 && Dest->ID==1)
-      LOG(INFO)<<"d_i :"<<d_i;
+    // if(Org->ID==2 && Dest->ID==1)
+    //   LOG(INFO)<<"d_i :"<<d_i;
     const double d_j=1/Vj;// inverse of particle volume (partice number density)
-    if(Org->ID==2 && Dest->ID==1)
-      LOG(INFO)<<"d_j :"<<d_j;
+    // if(Org->ID==2 && Dest->ID==1)
+    //   LOG(INFO)<<"d_j :"<<d_j;
     // mean shear viscosity (in case of non-constant viscosity)
     const  double eta_ij=0.5*(etai+etaj); 
-    if(Org->ID==2 && Dest->ID==1)
-      LOG(INFO)<<" eta_ij :"<< eta_ij;
+    // if(Org->ID==2 && Dest->ID==1)
+    //   LOG(INFO)<<" eta_ij :"<< eta_ij;
     // mean bulk viscosity (in case of non-constant viscosity)
     const  double zeta_ij=0.5*(zetai+zetaj);
-    if(Org->ID==2 && Dest->ID==1)
-      LOG(INFO)<<" zeta_ij :"<< zeta_ij;
+    // if(Org->ID==2 && Dest->ID==1)
+    //   LOG(INFO)<<" zeta_ij :"<< zeta_ij;
     const double eijdotUij_virt=dot(eij,Uij_virt);// factor for calculation of phys. visc.
     // again control output for first interaction pair
-    if(Org->ID==2 && Dest->ID==1) {
-      LOG(INFO)<<" eij :"<< eij;
-      LOG(INFO)<<" Ri :"<< Org->R;
-      LOG(INFO)<<" Rj :"<< Dest->R;
-      LOG(INFO)<<" Uij_virt :"<< Uij_virt;
-      LOG(INFO)<<" Ui :"<< Org->U;
-      LOG(INFO)<<" Uj_virt :"<< Uj_virt;
-      LOG(INFO)<<" eijdotUij_virt :"<< eijdotUij_virt;
-    }
+    // if(Org->ID==2 && Dest->ID==1) {
+    //   LOG(INFO)<<" eij :"<< eij;
+    //   LOG(INFO)<<" Ri :"<< Org->R;
+    //   LOG(INFO)<<" Rj :"<< Dest->R;
+    //   LOG(INFO)<<" Uij_virt :"<< Uij_virt;
+    //   LOG(INFO)<<" Ui :"<< Org->U;
+    //   LOG(INFO)<<" Uj_virt :"<< Uj_virt;
+    //   LOG(INFO)<<" eijdotUij_virt :"<< eijdotUij_virt;
+    // }
     const double Fij_=abs(Fij);//as in Espanol Fij defined >=0!
-    if(Org->ID==2 && Dest->ID==1)
-      LOG(INFO)<<" Fij_ :"<< Fij_;
+    // if(Org->ID==2 && Dest->ID==1)
+    //   LOG(INFO)<<" Fij_ :"<< Fij_;
     // velocity change rate due to physical viscosity
     dUdti_visc=1/mi*(-1*((5.0*eta_ij)/3.0-zeta_ij)*Fij_/(d_i*d_j)*Uij_virt
 		     -5.0*(zeta_ij+eta_ij/3)*Fij_/(d_i*d_j)*eijdotUij_virt*eij);
@@ -179,10 +179,10 @@ void InteractionComp::UpdateForces() {
     
   } 
   // again control output for first interaction pair
-  if(Org->ID==2 && Dest->ID==1) {
-    LOG(INFO)<<"dUdti_visc after : ("<<dUdti_visc[0]<<","<<dUdti_visc[1]<<")";
-    LOG(INFO)<<"dUdtj_visc after : ("<<dUdtj_visc[0]<<","<<dUdtj_visc[1]<<")";
-  }
+  // if(Org->ID==2 && Dest->ID==1) {
+  //   LOG(INFO)<<"dUdti_visc after : ("<<dUdti_visc[0]<<","<<dUdti_visc[1]<<")";
+  //   LOG(INFO)<<"dUdtj_visc after : ("<<dUdtj_visc[0]<<","<<dUdtj_visc[1]<<")";
+  // }
 
 
   // calculate total velocity change rate (due to pressure, art. visc and physical visc.)

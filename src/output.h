@@ -14,6 +14,6 @@ public:
 		      const spSolidObstacles &obstacles);
   ///Output real particle data for restart the computation
   void OutRestart(const Hydrodynamics &hydro, 
-		  const double Time, const Initiation& ini);
+		  const double Time, const Initiation& ini,const spSolidObstacles &obstacles);
 };
 #endif //OUTPUT_H

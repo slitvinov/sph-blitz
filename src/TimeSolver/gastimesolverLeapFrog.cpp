@@ -136,15 +136,17 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro,
     LOG(INFO)<<"\n current (absolute) iterations:"<<ite;
     integeral_time =integeral_time+ dt;
     
-    Time += dt;
-        
     ///<li>screen information for the iteration
     if(ite % 10 == 0) cout<<"N="<<ite<<" Time: " <<Time<<"	dt: "<<dt<<"\n";
 
-    if(ite==1)  
+    if(ite==1&&Time==0)//Time==0 condition needed as if initialization from .rst file
+      //no first leap-frog step needed (as quantities are output in 
+      //.rst shifted by dt/2)  
       hydro.AdvanceFirstStep(dt);
     else 
       hydro.AdvanceStandardStep(dt);
+    //increment absolute integration time
+    Time += dt;
 
     //udate particle volume (this is neccerary each time the particle position has changed) (interaction list is build in UpdateVolume)
 

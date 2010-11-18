@@ -30,7 +30,7 @@ class SolidObstacles
   /// \brief checks if the particle (given by its coordinates) lies within the solid obstacle
   ///
   /// returns the following values:
-  /// 0: if particle is located outslde the wall (i.e real particle)
+  /// 0: if particle is located outside the wall (i.e real particle)
   /// 1: if particle located inside the solid wall wih a distance of <=
   /// one supportlength to the wall surface(i.e particle is ghost particle)
   /// 2: if particle is located further inside the solid obstacle:

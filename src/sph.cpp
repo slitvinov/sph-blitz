@@ -235,7 +235,7 @@ int main(int argc, char *argv[]) {
     hydro.UpdateValuesForOutput(ini, timesolver->dt);
     
     output.OutputParticle(hydro, boundary, Time, ini, obstacles); //particle positions and velocites
-    output.OutRestart(hydro, Time, ini); //restarting file
+    output.OutRestart(hydro, Time, ini, obstacles); //restarting file
   }
 
   LOG(INFO) << "sph program successfully ends";

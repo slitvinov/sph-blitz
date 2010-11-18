@@ -24,7 +24,7 @@ set SMOOTH_DENSITY_PROFILE 0;
 
 # initial conditions flag 
 # 0: use initial 
-# 1: use restart file
+# 1: use restart file 
 set INITIAL_CONDITION 0
 
 # external mass initialization marker
@@ -33,7 +33,7 @@ set INITIAL_CONDITION 0
 set EXTERNAL_MASS_INITIALIZATION 0
 
 # number of cells in x and y directions (for later cells(0)=15->size_x=1)
-set CELLS(0) 1
+set CELLS(0) 10
 set CELLS(1) 20
 
 # size of one cell (must NOT be inferior to supportlegth!)
