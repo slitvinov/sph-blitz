@@ -17,17 +17,17 @@ int main () {
   // in a way that there are particles right at the solid wall surfaces!!!
   
   const double y_surface=1.39;//bottom of cavity will be 0.19
-  const double depth=0.0;
-  const double width=0.0;
+  const double depth=0.6;
+  const double width=0.3;
   //
   const double rho=1.0;
   const double p=1.0;
   const double m=0;// m is initialized to zero, will be calculated in simulation
   double x=0;
   double y=0;
-  const double domain_size_x=0.1;
+  const double domain_size_x=1.0;
   const double domain_size_y=2.0;
-  const int N_x=5;
+  const int N_x=50;
   const int N_y=100;
   const int N=N_x*N_y;
   const double dx=domain_size_x/N_x;

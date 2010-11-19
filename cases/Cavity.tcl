@@ -192,7 +192,7 @@ set solObs_thermal_BC_type 1
 
 # wall temperature for isothermal solid Obstacles temperature
 # boundary condition 
-set T_w_solObs_isothermal 1.9
+set T_w_solObs_isothermal 2
 
 # flag to select whether ghost particles for solid obstacles shall
 # be contained in putput files or not
@@ -207,8 +207,8 @@ set OUTPUT_SOLOBS_GHOST_PRTL 1
 
 # time  control 
 set Start_time 0.0		
-set End_time 1	
-set D_time 2e-3
+set End_time 2	
+set D_time 5e-3
 
 #marker for automatic time control
 # 0: autom. time conrtol switched off: specified dt used (see below) 
@@ -246,7 +246,7 @@ set material_type(1) 1
 set material_cv(1) 1
 set material_eta(1) 0.0147
 set material_zeta(1) 0.0
-set material_k(1) 0
+set material_k(1) 0.0315
 set material_gamma(1) 1.5
 set material_b0(1) 0.0
 set material_rho0(1) 0.0

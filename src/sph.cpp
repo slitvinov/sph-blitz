@@ -233,7 +233,8 @@ int main(int argc, char *argv[]) {
     ///- output results after a time interval\n\n
     ///  if leapfrog intetration: calculate values at full step for output
     hydro.UpdateValuesForOutput(ini, timesolver->dt);
-    
+    //to ensure that boundary particle positions are up to date for output
+    boundary.BuildBoundaryParticle(particles,hydro, Time);
     output.OutputParticle(hydro, boundary, Time, ini, obstacles); //particle positions and velocites
     output.OutRestart(hydro, Time, ini, obstacles); //restarting file
   }

@@ -1979,8 +1979,8 @@ The situation is modelled for the simulation by one cavity centered in the calcu
   \label{fig:PorositiesCavitiesSimuDomain}
 \end{figure}
 
-The particles are initialized with the following data (TABLE) and their distribution is generated on the basis of a rectangular grid for the whole rectangular domain by the program {\tt create_ICCavity.cpp} in the {\tt scripts/InitCondPorosities} folder. It is only within the simulation program that the particles not needed for the simulation are discarded and the particles located within the solid walls are declared ghost particles. The necessary geomertical information for these operations is managed in the corresponding {\tt SolidObstacles} class called {\tt Cavity} of the simulation program.
-However this information must be provided to the program by the particle initialization file (.ivs). Therefore, in the particle distribution generator {\tt create_ICCavity.cpp} one has to specify the corresponding cavity data before the -ivs file is created. Detailed instructions on the initialization process with a schematic of the geometrical situation are contained in the {\README} file in {\tt InitCondPorosities}.
+The particles are initialized with the following data (TABLE) and their distribution is generated on the basis of a rectangular grid for the whole rectangular domain by the program {\tt create\_ICCavity.cpp} in the {\tt scripts/InitCondPorosities} folder. It is only within the simulation program that the particles not needed for the simulation are discarded and the particles located within the solid walls are declared ghost particles. The necessary geomertical information for these operations is managed in the corresponding {\tt SolidObstacles} class called {\tt Cavity} of the simulation program.
+However this information must be provided to the program by the particle initialization file (.ivs). Therefore, in the particle distribution generator {\tt create\_ICCavity.cpp} one has to specify the corresponding cavity data before the -ivs file is created. Detailed instructions on the initialization process with a schematic of the geometrical situation are contained in the {\tt README} file in {\tt InitCondPorosities}.
 
 
 
@@ -3018,7 +3018,9 @@ Having in mind the test results for the analog(ous?) no--slip velocity boundary 
 
 Furthermore the behaviour of the isothermal BC with varying resolution is examined. Cleary \cite{Cleary1999} found out that an isothermal boundary condition (implemented with constant temperature boundary particles ON the boundary surface only) reduced the order of convergence for a pure heat conduction problem from 2 to 1. It is interesting to see, if this also holds for a constant temperature boundary implementation with ghost particles (Method 1) and besides how the extrapolated temperature boundary condition (Method 2) performs.
 
-Test with Method 1) 
+\vspace{1cm}
+{\bf Test with Method 1) }
+\linebreak[2]
 
 As already observed for the no--slip velocity condition, one can see (figure (\ref{fig:SolObs_Thermal_BC1_profile}) that for constant spacing (constant particle number) a bigger supportlength deteriorates generally the results.
 
@@ -3039,7 +3041,7 @@ The solution labelled exact is the theoretical solution of a semi infinite body 
 To examine the behaviour of this boundary condition implementation with higher spatial resolution, a set of simulations is performed with a constant ratio $l_s=4dx$. Figure (\ref{fig:SolObs_Thermal_BC1_ResolutionError}) summarizes the quantitative results. One recognizes a clear first order convergence due to the isothermal boundary condition as found by \cite{Cleary1999}.
 
 
-wenn ich als Resolution-mass Partikelzahl angebe ist doch das konvergenzverhalten was anderes als mit dx ($N~dx^2$), oder? was nimmt man da??? Cleary1999 sowie rest der Literatur nimmt Teilchenanzahl!
+wenn ich als Resolution-mass Partikelzahl angebe ist doch das konvergenzverhalten was anderes als mit dx ($N \propto dx^2$), oder? was nimmt man da??? Cleary1999 sowie rest der Literatur nimmt Teilchenanzahl! (bei mir: ich nehme teilchenzahl in EINE richtung: $N \propto dx$
 
 
 \begin{figure}[!htbp]
@@ -3052,9 +3054,9 @@ wenn ich als Resolution-mass Partikelzahl angebe ist doch das konvergenzverhalte
 The number of particles given corresponds to the number of particles in one direction (the particle number of the second direction was not increased and therefore $N \propto dx$) }
 
 \end{figure}
-
-
-Test with Method 2) 
+\vspace{1cm}
+{\bf Test with Method 2) } 
+\linebreak[2]
 
 
 The $l_s=4dx$ simulation with method 2 (\ref{})is even visually more accurate than the corresponding simulation with method 1 (figure \ref{fig:SolObs_Thermal_BC1_profile_supLen4dx})). Table (\ref{tab:2DSPH_LinearWall_ThermalBC_Errors_supLen4dx}) which presents the error norms confirms this fact by showing 70\% less error for method 2. The same table also confimrs that the simulation with a supportlength of $l_s=2dx$ yields globally better results for the same particle spacing.
@@ -3084,7 +3086,7 @@ $L_\infty$&0.128447 & 0.0382736& 0.0101702 \\
 \end{table}
 
 
- The same resolution study as for method 1 has been conducted for method 2 to investigate possible differences in their convergence behaviour. 
+ The same resolution study as for method 1 has been conducted for method 2 to investigate possible differences in their convergence behaviour. And this time a second order convergence can be observed. This means the boundary conditions  implemented according to method 2 do not degrade the convergence rate, unlike method 1.
 
 \begin{figure}[!htbp]
 \centering
@@ -3105,7 +3107,7 @@ As both the no--slip velocity implementation and the isothermal boundary impleme
 
 The tests have shown that for the boundary representation (and not necessarily for the global simulation) a supportlength of $l_s=2dx$ gives better results than the bigger value of $l_s=4dx$ for a same number of particles as the boundary condition representation by the ghost particles influences the flow only in a more confined area. Furthermore, in the case of $l_s=2dx$ both methods (constant quantity, linear interpolation) become the same provided that the ghost particle placement of the linear interpolation method also starts right on the solid obstacle surface and that the real particles do not approach the boundary during the simulation.
 
-When a small ratio $l_s/dx$ is sufficient for a certain simulation configuration and the number of(thi) the boundary representation is also more exact and, as it makes no difference anyway, the simple method with constant quantity for ghost particles may be used, which saves some calculation time.
+When a small ratio $l_s/dx\leq2$ is sufficient for a certain simulation configuration this ratio should be applid for the sake of a more accurate boundary representation (and a save in computational time as well). In this case the boundary condition method of choice would be the simple method with constant quantities for ghost particles (as both methods are the same anyway for $l_s/dx\leq2$ ... ), which saves some additional calculation time (compared to the more sophisticated one).
 However if a simulation needs to be conducted with a supportlength involving more than one layer of boundary particles, then the two methods in question for solid obstacles  perform differently and one can see a clear advantage for the linear extrapolation approach. Not only is it more accurate, but also does it not deteriorate the convergence behaviour with higher resoultion ($l_s/dx=const.$) from originally second order to first order.
 In the case of a higher ratio supportlength to particle spacing the linear extrapolation approach used by Morris \cite{Morris1997, Morris1999} for the no--slip condition and its extension to the isothermal boundary condition is therefore preferable to the simple approach with constant ghost particle quantity.
 
