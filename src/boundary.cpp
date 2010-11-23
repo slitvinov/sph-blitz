@@ -206,8 +206,9 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles,
            p10!=particles.cell_lists(1,j).end(); 
            p10++) {
                 
-        //the original real particle
-        spParticle prtl_old = *p10;//make a new one
+        //smart pointer pointing to the original real particle
+        spParticle prtl_old = *p10;
+	//make a new particle with same properties
         spParticle prtl = boost::make_shared<Particle >(prtl_old, hydro.materials[0]);
 
         //boundary condition

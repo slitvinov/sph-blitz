@@ -34,13 +34,13 @@ set EXTERNAL_MASS_INITIALIZATION 0
 
 # number of cells in X and Y directions
 set CELLS(0) 1
-set CELLS(1) 76
+set CELLS(1) 15
 
 # size of one cell (must NOT be inferior to supportlegth!)
-set CELL_SIZE 0.02
+set CELL_SIZE 0.1
 
 # support length of the kernel
-set SUPPORT_LENGTH 0.02
+set SUPPORT_LENGTH 0.1
 
 # number of particles in one cell size
 #( not used as paricle positions initialized from external file) 
@@ -140,6 +140,12 @@ set ISOTHERMAL_BOUNDARY 0
 # 0: boundary conditions enabled
 set DISABLE_BOUNDARY 0
 
+# flag to output (or not) boundary particles in the prtlxxx.dat file
+# along with real particles
+# 0: NO outout of boundary particles
+# 1: output of boundary particles
+set OUTPUT_BOUNDARY_PRTL 1
+
 # left hand boundary
 set xBl 1
 set UxBl(0) 0.0
@@ -208,7 +214,7 @@ set OUTPUT_SOLOBS_GHOST_PRTL  0
 # time  control 
 set Start_time 0.0		
 set End_time 20.0	
-set D_time 0.0005
+set D_time 0.005
 
 #marker for automatic time control
 # 0: autom. time control switched off: specified dt used (see below) 

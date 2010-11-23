@@ -141,6 +141,12 @@ set ISOTHERMAL_BOUNDARY 1
 # 0: boundary conditions enabled
 set DISABLE_BOUNDARY 0
 
+# flag to output (or not) boundary particles in the prtlxxx.dat file
+# along with real particles
+# 0: NO outout of boundary particles
+# 1: output of boundary particles
+set OUTPUT_BOUNDARY_PRTL 0;
+
 # left hand boundary
 set xBl 0
 set UxBl(0) 0.0

@@ -58,8 +58,11 @@ long as the results still are in the directory <<sph-blitz/src/outdata>>:
      simuForPlotxxxxxxxxxxxx.dat-fle , even if the error calculation does not apply for this case.... 
      error calculation
 
-Isotnermal Boundary condition testing
+
+Isothermal Boundary condition testing
 --------------------------------------
+after a simulation  has been conducted and as
+long as the results still are in the directory <<sph-blitz/src/outdata>>:
 
 1. run the shell script <<prepareDirectory.sh>> in a shell placed in this
 (/sph-blitz/scripts/postProcessingShockTube) directory

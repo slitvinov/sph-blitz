@@ -134,7 +134,7 @@ Particle::Particle (double x, double y, double u, double v,
 }
 //----------------------------------------------------------------------------------------
 //	     	creat a ghost particle (from a copy of a real particle) 
-//                (used for boundary conditions at the domain edges)
+//           (used for periodic/symm. boundary conditions at the domain edges)
 //----------------------------------------------------------------------------------------
 Particle::Particle (spParticle RealParticle ) : 
   bd(1), 
@@ -172,10 +172,15 @@ Particle::Particle (spParticle RealParticle ) :
   eta = RealParticle->eta;
   zeta=RealParticle->zeta;
   k=RealParticle->k;
+  // copy values for output (which fro leapfrog are different from current values)
+  U_output=RealParticle->U_output;
+  rho_output=RealParticle->rho_output;
+  e_output=RealParticle->e_output;
+
 	
 }
 //----------------------------------------------------------------------------------------
-//							create an image particle
+//	       	create an image particle (used for wall BC at domain edges)
 //----------------------------------------------------------------------------------------
 Particle::Particle (spParticle RealParticle , spMaterial material): 
   bd(1), 
@@ -200,12 +205,18 @@ Particle::Particle (spParticle RealParticle , spMaterial material):
   R = RealParticle->R; rho = RealParticle->rho; p = RealParticle->p; T = RealParticle->T;
   Cs =RealParticle->Cs; U = RealParticle->U; U_I = RealParticle->U_I;
 	
-  ///- set conservative values and their  intermediate values
+  ///- set conservative values and their intermediate values
   m = RealParticle->m; V = RealParticle->V; e = RealParticle->e; 
   R_I = RealParticle->R_I;	e_I = RealParticle->e_I;
   P = RealParticle->P; P_I = RealParticle->P_I; rho_I = rho;
   P_n = RealParticle->P_n; U_n = RealParticle->U_n; rho_n = RealParticle->rho_n;
   e_n = RealParticle->e_n; 
+
+  ///- copy values for output (which fro leapfrog are different from current values)
+  U_output=RealParticle->U_output;
+  rho_output=RealParticle->rho_output;
+  e_output=RealParticle->e_output;
+
   
 }
 //----------------------------------------------------------------------------------------
@@ -224,6 +235,10 @@ void Particle ::StatesCopier(spParticle RealParticle , const int type)
   eta = RealParticle->eta;
   zeta=RealParticle->zeta;
   k=RealParticle->k;
+  // copy values for output (which for leapfrog are different from current values)
+  U_output=RealParticle->U_output;
+  rho_output=RealParticle->rho_output;
+  e_output=RealParticle->e_output;
 }
 
 void Particle::increment_rho_depOnType(double rho_increment)

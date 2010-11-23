@@ -61,6 +61,13 @@ public:
   ///- 1 boundary conditions disabled
   int disable_boundary;
 
+  ///\ flag to ozput (or not) boundary particles in the prtlxxx.dat file
+  /// along with real particles
+  ///
+  /// 0: NO outout of boundary particles
+  /// 1: output of boundary particles
+  int output_boundary_prtl;
+
   ///\brief isothermal boundaries (for "free-slip" and "wall" only)
   /// 
   /// 0 NOT isothermal

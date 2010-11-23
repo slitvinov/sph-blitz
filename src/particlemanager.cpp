@@ -416,36 +416,65 @@ void ParticleManager::BuildRealParticleGasDyn(vecMaterial materials,
 	// set particles temperature to solid obstacle temperature
 	// (T will be modified afterwards if required by the thermal boundary condition)
 	obstacles->set_initial_Temperature_solObs_prtl(prtl);
-	//add particle to ghost particle list
-	obstacles->ghost_prtl_SolObs_list.insert(obstacles->ghost_prtl_SolObs_list.
-						 begin(),prtl);
+
 	
+	// if particle position is not on x=0 and not on y=0 insert it to corresponding
+	// cell list: this is to prevent the placement of two particles at the
+	// same position due to the application of the periodical boundary position
+	// if for example a real particle would be placed at (x_0, y=0) and another
+	// at (x_0,y=domain_size_y), then the application of the peridoic boundary
+	// condition would place another particle at each of the positions
+	// If there is only a ghost-particle-SolidObstacle (remember:
+	// ghost particles at the domein edge are created also for ghost
+	// particles SolidObstacles at (x_0,y=domain_size_y) the spot
+	// at (x_0,y=0) is taken by the periodic-BC ghost particle ...
+	// and everything is fine
+	if(prtl->R[0]>0&&prtl->R[1]>0) {
+	  
+	  //add particle to ghost particle list
+	  obstacles->ghost_prtl_SolObs_list.insert(obstacles->ghost_prtl_SolObs_list.
+						   begin(),prtl);
+	  
 	//--------add particle to cell list---------------------
 	//where is the particle
-	const int i = int (prtl->R[0] / cll_sz)+1;//so, a particle at position x=0 is insertet in cell nr. 1 (second cell), as cell nr 0 (first cell) reserved for boundary/ghost particles
-	const int j = int (prtl->R[1] / cll_sz)+1;
-	
-	prtl->cell_i = i; prtl->cell_j = j; 
-	// insert particle into corresponding cell list 
-	// (no matter if real prtl or ghost-prtl-SolObs.)
-	cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
-	LOG_EVERY_N(INFO,100) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no (starts at 0 (for boundary/ghost particles at domaine edges, 1 is first real particle cell)): "<<prtl->cell_i;
+	  const int i = int (prtl->R[0] / cll_sz)+1;//so, a particle at position x=0 is insertet in cell nr. 1 (second cell), as cell nr 0 (first cell) reserved for boundary/ghost particles
+	  const int j = int (prtl->R[1] / cll_sz)+1;
+
+	  prtl->cell_i = i; prtl->cell_j = j; 
+	  // insert particle into corresponding cell list 
+	  // (no matter if real prtl or ghost-prtl-SolObs.)
+	  cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
+	  LOG_EVERY_N(INFO,100) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no (starts at 0 (for boundary/ghost particles at domaine edges, 1 is first real particle cell)): "<<prtl->cell_i;
+	}
       }
       // for the moment ghost particles are not inserted in particle list
       
       // if te particle is not inside the solid obstacle-> it's a real particle
       else if (obstacles->prtl_in_solid(prtl->R)==0) {
-	//insert particle in the (real) particle list
-	particle_list.insert(particle_list.begin(), prtl);
-	//--------add particle to cell list---------------------
-	//where is the particle
-	const int i = int (prtl->R[0] / cll_sz)+1;//so, a particle at position x=0 is insertet in cell nr. 1 (second cell), as cell nr 0 (first cell) reserved for boundary/ghost particles
-	const int j = int (prtl->R[1] / cll_sz)+1;
-	prtl->cell_i = i; prtl->cell_j = j; 
-	// insert particle into corresponding cell list 
-	// (no matter if real prtl or ghost-prtl-SolObs.)
-	cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
-	LOG_EVERY_N(INFO,100) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no (starts at 0 (for boundary/ghost particles at domaine edges, 1 is first real particle cell)): "<<prtl->cell_i;
+	
+	
+	// if particle position is not on x=0 and not on y=0 insert it to corresponding
+	// cell list: this is to prevent the placement of two particles at the
+	// same position due to the application of the periodical boundary position
+	// if for example a real particle would be placed at (x_0, y=0) and another
+	// at (x_0,y=domain_size_y), then the application of the peridoic boundary
+	// condition would place another particle at each of the positions
+	// If there is only a real particle at (x_0,y=domain_size_y) the spot
+	// at (x_0,y=0) is taken by the periodic-BC ghost particle ...
+	// and everything is fine
+	if(prtl->R[0]>=0&&prtl->R[1]>=0) {
+	  //insert particle in the (real) particle list
+	  particle_list.insert(particle_list.begin(), prtl);
+	  //--------add particle to cell list---------------------
+	  //where is the particle
+	  const int i = int (prtl->R[0] / cll_sz)+1;//so, a particle at position x=0 is insertet in cell nr. 1 (second cell), as cell nr 0 (first cell) reserved for boundary/ghost particles
+	  const int j = int (prtl->R[1] / cll_sz)+1;
+	  prtl->cell_i = i; prtl->cell_j = j; 
+	  // insert particle into corresponding cell list 
+	  // (no matter if real prtl or ghost-prtl-SolObs.)
+	  cell_lists(i,j).insert(cell_lists(i,j).begin(), prtl);
+	  LOG_EVERY_N(INFO,100) << "Particle at position x: "<<prtl->R[0]<<" assigned to cell no (starts at 0 (for boundary/ghost particles at domaine edges, 1 is first real particle cell)): "<<prtl->cell_i;
+	}
       }
       // for the time being, particles that are further inside the solid obstacle
       // than 1 supportlength are not taken into account at all (they have

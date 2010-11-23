@@ -51,7 +51,9 @@ AC_C_INLINE
 # Checks for library functions.
 AC_CHECK_FUNCS([pow sqrt])
 
-AC_OUTPUT(Makefile src/Makefile)
+AC_OUTPUT(Makefile src/Makefile
+		   src/tools/SPHProbe/Makefile
+		   )
 
 AC_MSG_NOTICE([================================================])
 AC_MSG_NOTICE([CXX=$CXX])

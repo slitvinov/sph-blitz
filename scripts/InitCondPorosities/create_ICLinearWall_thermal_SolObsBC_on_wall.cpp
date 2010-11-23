@@ -25,7 +25,9 @@ int main () {
 
 
   const double rho=1000.0;// density 
-  const double domain_size_x=0.02;// domain size x-direction
+  const double domain_size_x=0.1;// domain size x-direction
+  // domain size in y direction determined automatically in a way
+  // that
   const int N_x=4;// number of particles in x direction
   
   const double dx=domain_size_x/N_x;// distance between two particles
@@ -43,7 +45,7 @@ int main () {
   vector <double> m_array;
 
   // m is not used in the simulation program
-  // it is written in theinitiation file
+  // it is written in the initiation file
   // only to maintain input-file structure
   const double m=rho*dx*dy;
 
@@ -80,13 +82,19 @@ int main () {
   //output for user:
   cout<<endl<<"The slab has a size of:"<<endl;
   cout<<"       "<<domain_size_x<<" in x-direction"<<endl;
+  cout<<"       "<<"position of linear walls: y1= "<<y_wall_1
+      <<"   and y2= "<<y_wall_2<<endl;
   
   cout<<"...with a number of particles of:"<<endl;
   cout<<"       "<<N_x<<" in x-direction"<<endl;
-  cout<<"       "<<x_array.size()<<" in total"<<endl;
-  
-  cout<<"The particle spacing in both directions is: "<<dx<<endl<<endl;
-  cout<<endl<<"The temperature is:"<<T<<endl;
+  cout<<"       "<< x_array.size()/N_x<<" in y-direction (including solid wall ghost particles)"<<endl;
+  cout<<"    ... which makes a total number of particles of: "
+      <<x_array.size()<<endl;
+  cout<<"This number may include ghost particles which are not needed for \n the simulation as they are further away from the wall surface than ONE supportlength!\n The final number of particles used for the calculation is therefore determined only \n within the simulation program."<<endl<<endl;
+    
+   
+  cout<<"The particle spacing in both directions is: "<<dx<<endl;
+  cout<<endl<<"The temperature is:"<<T<<endl<<endl;
 
   //write initialization data into file
   ofstream out("../../cases/LinearWall_thermal_SolObsBC_on_wall.ivs");

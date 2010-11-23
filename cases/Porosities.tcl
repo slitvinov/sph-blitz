@@ -30,7 +30,7 @@ set INITIAL_CONDITION 0
 # external mass initialization marker
 # 0: mass initialization within simulation program (by smoothing)
 # 1: mass initialized externally (via initialization file)
-set EXTERNAL_MASS_INITIALIZATION 0
+set EXTERNAL_MASS_INITIALIZATION 1
 
 # number of cells in X and Y directions
 set CELLS(0) 10
@@ -139,6 +139,12 @@ set ISOTHERMAL_BOUNDARY 0
 # 0: boundary conditions enabled
 set DISABLE_BOUNDARY 0
 
+# flag to output (or not) boundary particles in the prtlxxx.dat file
+# along with real particles
+# 0: NO outout of boundary particles
+# 1: output of boundary particles
+set OUTPUT_BOUNDARY_PRTL 0;
+
 
 # left hand boundary
 set xBl 1
@@ -159,6 +165,8 @@ set UyBd(1) 0.0
 set yBu 1
 set UyBu(0) 0.0
 set UyBu(1) 0.0
+
+
 
 # type of solid obstacle in calculation domain 
 # (in addition to boundaries at the domain edges)
@@ -207,8 +215,8 @@ set OUTPUT_SOLOBS_GHOST_PRTL  1
 
 # time  control 
 set Start_time 0.0		
-set End_time 0.1
-set D_time 2e-4
+set End_time 1.0
+set D_time 1e-4
 
 #marker for automatic time control
 # 0: autom. time conrtol switched off: specified dt used (see below) 
@@ -236,11 +244,11 @@ set material_a0(0) 0.0
 # viscosity eta is DYNAMIC VISCOSITY [Pa s]
 set material_name(1) Air
 set material_type(1) 1
-set material_cv(1) 717.645
-set material_eta(1) 1
+set material_cv(1) 1
+set material_eta(1) 0.0147
 set material_zeta(1) 0.0
-set material_k(1) 0
-set material_gamma(1) 1.4
+set material_k(1) 0.0315
+set material_gamma(1) 1.5
 set material_b0(1) 0.0
 set material_rho0(1) 0.0
 set material_a0(1) 0.0

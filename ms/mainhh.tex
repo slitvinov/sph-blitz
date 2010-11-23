@@ -1985,6 +1985,7 @@ However this information must be provided to the program by the particle initial
 
 
 \subsubsection{Porosities -- flow through obstacles}
+\label{sec:SimuSetup_flowThroughObstacles}
 
 Generally introduced in section (\ref{sec:PorositiesCircularObstacles}), the configuration is modelled for the simulation by a domain with solid Cylinders at the domain corners and periodical boundary conditions at all sides as shown in figure (\ref{fig:PorositiesCircularObstacles_simuDomain}). 
 
@@ -2007,10 +2008,14 @@ Concerning the particle placement, three approaches are used, essentially inspir
  \item Uniform square lattice
   All particles are placed according to one continuous square lattice filling the entire calculation domain, no matter if there is a solid cylinder or not. This method
   models the cylinder surface very poorly for low resolutions.
+(in this case mass initialization can be done within the program by interpolation)
 \item Square lattice for real particles and circular layers for cylinders
-  This appraoch fills the cylinder areas with particles placed on concentrical circles with the zylinder center as the corresponding cylinder origin. Such a cylinder treatment was suggested by Morris \cite{Morris1999} and leads to a pseudo--hexagonal (ghost) particle arrangement within a solid cylinder of radius $R_cyl$ if done as follows:  .
+  This appraoch fills the cylinder areas with particles placed on concentrical circles with the zylinder center as the corresponding cylinder origin.
+Such a cylinder treatment was suggested by Morris \cite{Morris1999} consists of a pseudo--hexagonal (ghost) particle arrangement within a solid cylinder of radius $R_cyl$. The domain of real particles is in a first case (not investigated by Morris) still filled with a rectangular lattice arrangement. To ensure that both the ghost particles and the cylinder particles placement result in the same density for equi-mass particles, the volume associated to a particle has to be the same for the rectangular case and the (pseudo) hexagonal case. Therefore if the particle spacing is $dx$ for the rectangular lattice, the corresponding spacing for the hexagonal case is determined by the relation $dx_\mathit{hex}^2=\frac{2}{\sqrt(3)}dx^2$. As the spacing in the cylinderes is based on curved layers this is onlyan approximation and the value $dx_hex$, that is applied hier, is selected in a way to obtain the best fit with the density in the real particles domain.
+
+ The ghost particles are placed within the cylinder as follows:  .
   \begin{itemize}
-   \item suposing that the particle spacing on the circle representing the cylinder surface should be aproximately $dx$ (where dx is the spacing used for the real particles), the number of particles per circle or layer, which remains constant for all circles, is $N_{p,\mathit{layer}}={\mathit round}2\pi*R_cyl/dx$. Here the particle distance is approximated by the arc--length between two particles.
+   \item suposing that the particle spacing on the circle representing the cylinder surface should be aproximately $dx_\mathit{hex}$, the number of particles per circle or layer, which remains constant for all circles, is $N_{p,\mathit{layer}}={\mathit round}2\pi*R_cyl/dx$. Here the particle distance is approximated by the arc--length between two particles.
 \item determine the angle increment in polar coordinates between two particles:
   $d\phi=2*\pi/N_{p,\mathit{layer}}$. This is the same for all layers as the number of particles per layer remains constant. 
  \item Starting at a certain $\phi_0$ all particles on the first layer, which has the radius of the cylinder, are placed every $d\phi$. The actual particle positions in carthesian cooridates are obtained by $x=r cos(\phi)$ and $y=r sin(\phi)$.
@@ -2018,8 +2023,10 @@ Concerning the particle placement, three approaches are used, essentially inspir
 \item once a distance of at least $l_s$ (if density evloved $2l_s$) away from the cylinder surface is covered, the particle placement may be stopped.
   \end{itemize}
 The real particle area between the domain is filled with particles according to a regular lattice. 
-The sensible point of this particle initialization is the interface between the regular lattice and the circular arrangement at the cylinder surface. Errors in density because of the irregular transition of the particle lattices may occurr at this place.
+The sensible point of this particle initialization is the interface between the regular lattice and the circular arrangement at the cylinder surface.
+As the mass of all particles is desired to be the same, a mass initialization within the simulation prorgam by smoothing, which would lead to ass variations of particles around the interface, is not possible. Therefore mass is initialized externally by the initialization file (\tt .ivs) to the same value for all particles. This is why errors in density because of the irregular transition of the particle lattices may occurr around the cylinder surfaces.
 One adjustment parameter is the margin in distance between the cylinder surface, which at the same time is the position of the last layer of ghost particles, and the closest real particle to this cylinder surface. A value of $\sqrt{3}dx/2$  seems to be reasonalbe for this margin.
+
 
 \item hexagonal lattice for real particles and circular layers for cylinders
 The placement of particles in the cylinder area does not differ from the above case. Instead of a rectangular lattice however, the real particles are now arranged according to a hexagonal pattern  as shown in figure (\ref{fig:HexagonalLattice}).
@@ -3033,7 +3040,7 @@ As already observed for the no--slip velocity condition, one can see (figure (\r
 \subfigure[$l_s/dx=4$]{
 \label{fig:SolObs_Thermal_BC1_profile_supLen4dx}
 \includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/ThermalBC1_N2x39_suplen4dx/T_profiles000000999999}}
-\caption[Temperature Profile at wall]{Temperature profile at $t=1$ for a pure conduction problem with isothermal boundary conditions for solid obstacles realized with Method 1. The simulation is conducted 39 particles in x direction giving a distance $dx=dy=0.025$, the supportlength is once 0.05, once 0.1.
+\caption[Temperature Profile at wall]{Temperature profile at $t=1$ for a pure conduction problem with isothermal boundary conditions for solid obstacles realized with Method 1. The simulation is conducted with 39 real particles in y direction giving a distance $dx=dy=0.025$, the supportlength is once 0.05, once 0.1.
 The solution labelled exact is the theoretical solution of a semi infinite body with constant temperature boundary condition given by equation (\ref{eq:SemiInfBodySolution}). }
 
 \end{figure}
@@ -3116,6 +3123,34 @@ These oscillations can completely be avoided by using a greater supportlength fo
 
  
 
+\subsubsection{Circular Cylinder Configuration}
+For this configuration simutions are conducted with the three differnet particle initializations introduced in section (\ref{sec:SimuSetup_flowThroughObstacles})
+
+\paragraph{particle placement on one continuous lattice}
+No problems with density discontinuity at the interface (which actually does not exist as a such)
+
+
+\paragraph{real particles rectangular, cylinder pseudo--hexagonal}
+
+
+surface representation more accurate but initial density discontinuity at the interface due to the apprupt change in the lattice structure (see figure (\ref{fig:PorosResultsCylinder_prtlDiscontinuity_reglatice_pseudoHex})
+
+\begin{figure}[!htbp]
+\centering
+\label{fig:PorosResultsCylinder_prtlDiscontinuity_reglatice_pseudoHex}
+\subfigure[initial particle arrangement]{
+\label{fig:PorosResultsCylinder_prtlDiscontinuity_reglatice_pseudoHex_xy}
+\includegraphics[height=7cm]{Graphics/results/Porosities/Cylinders/supLen_dx_4_dx0_2_regLatCyl/InitPosRegLatCyl}}
+\subfigure[initial density profile obtained by the summation equation]{
+\label{fig:PorosResultsCylinder_prtlDiscontinuity_reglatice_pseudoHex_xyRho}
+\includegraphics[height=7cm]{Graphics/results/Porosities/Cylinders/supLen_dx_4_dx0_2_regLatCyl/InitDensRegLatCyl}
+}
+
+\caption[Initial situation for cylinder porosities]{Initill particle distribution ( \subref{fig:PorosResultsCylinder_prtlDiscontinuity_reglatice_pseudoHex_xy}) and resulting initial density profile (\subref{fig:PorosResultsCylinder_prtlDiscontinuity_reglatice_pseudoHex_xyRho}) for the case of a pseudo-hexagonal ghost particle arrangement and a real particle arrangement according to a regular lattice}
+\end{figure}
+
+
+A remedy for this density
 
 
  \chapter{Conclusion}
