@@ -132,7 +132,7 @@ int main (int argc, char *argv[]) {
     const double l_arc= All_Cyl_rad[i]*2*PI;
     // determine number of particles per layer
     // (remains constant for all layers)
-    const double N_p_layer=round(l_arc/dx_hex);
+    const int N_p_layer=round(l_arc/dx_hex);
     // determine angle (polar coordinates with cylinder center as origin)
     // increment for particle placement (remains constant for all layers
     // as number of particles remains constant)
@@ -162,8 +162,12 @@ int main (int argc, char *argv[]) {
       else
 	phi_start=d_phi/2;
       
+      
       //places all particles in one layer by incrementing angle phi
-      for (double current_phi=phi_start;current_phi<2*PI+phi_start; current_phi+=d_phi) {
+      // "-d_phi*1e-5" is needed due to accuracy problems of double:
+      // to ensure particles are not placed twice at the same spot
+      // (once for phi=0 and once for phi~=2*PI...)
+      for (double current_phi=phi_start;current_phi<2*PI+phi_start-d_phi*1e-5; current_phi+=d_phi) {
 	//place current particle if position within calculation domain
 	const double x=All_Cyl_Pos_c[i][0]+current_rad*cos(current_phi);
 	const double y=All_Cyl_Pos_c[i][1]+current_rad*sin(current_phi);

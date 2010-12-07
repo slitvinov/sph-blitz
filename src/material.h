@@ -67,6 +67,12 @@ public:
 	double get_rho(const double p, const double e) const;//equation of state for gasdynamics
 	///get interal energy
 	double get_e(const double T) const;
+
+	/* ///updates internal energy of a particle to be coherent */
+	/* /// with its temperature  */
+	/* ///(used for ghost particles for solid obstcales) */
+	/* void update_e(const spParticle& prtl); */
+
 	///get temperature 
 	double get_T(const double e) const;//(function is defined nowhere)
 

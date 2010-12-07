@@ -177,7 +177,7 @@ void Output::OutputParticle(const Hydrodynamics &hydro, const Boundary &boundary
 	   << ::setw(17)<<ini.supportlength/2
 	   <<"  "<<prtl->m
 	   <<"  "<<prtl->V
-	   <<"  "<<prtl->ID<<"  "<<prtl->solidObstacle_ghostParticle
+	   <<"  "<<"-1"
 	   <<"\n";
     }
   }

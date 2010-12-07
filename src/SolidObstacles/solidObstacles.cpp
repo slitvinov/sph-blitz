@@ -52,7 +52,7 @@ Vec2d SolidObstacles::set_virtual_velocity(spParticle& org_prtl,spParticle& dest
     // ghost particle to boundary tangent 
     
     // first step for this:
-    // from straight line equation: x=origin_point+lambda*direction-vector
+    // from line equation: x=origin_point+lambda*direction-vector
     // calculate lambda which leads to the point C on the line closest to ghost
     // particle
     // ATTENTION: the origin is here origin of the line and NOT
@@ -71,7 +71,7 @@ Vec2d SolidObstacles::set_virtual_velocity(spParticle& org_prtl,spParticle& dest
     // LOG(INFO)<<"lambda"<<lambda;
     
     // second step: with this lambda value and the equation for the
-    // straight one obtais point C, the vector D connecting particle position
+    // line one obtais point C, the vector D connecting particle position
     // and point_c has the desired length
     
     const Vec2d vector_D=P_ghost-(origin_point+lambda*direction_vector);
@@ -80,7 +80,7 @@ Vec2d SolidObstacles::set_virtual_velocity(spParticle& org_prtl,spParticle& dest
     // LOG(INFO)<<"distance ghost tang"<<d_ghost_tang;
     
     const double d_realPart_solObs=AMAX1(org_prtl->d_realPart_solObs,d_realPart_solObs_min);
-    // LOG(INFO)<<"final distance real part <-> tangent"<<d_realPart_solObs;
+    // LOG(INFO)<<"final distance real prtl. <-> tangent"<<d_realPart_solObs;
 
     //finally return the virtual velocity 
     const Vec2d U_virt= -1*d_ghost_tang/d_realPart_solObs*org_prtl->U;

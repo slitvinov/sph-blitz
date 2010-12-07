@@ -68,7 +68,9 @@ int Porosities::prtl_in_solid(const  Vec2d& coordinates) const
   for (int i=0;i<N_cyl;i++) {
     if(v_abs(coordinates-all_Cyl_centers[i])<all_Cyl_radii[i]-supportlength)
       return 2;
-    else if (v_abs(coordinates-all_Cyl_centers[i]) <=all_Cyl_radii[i])
+    else if (v_abs(coordinates-all_Cyl_centers[i]) <=all_Cyl_radii[i]+1e-6)
+      //"+1e-6" (precision after square root) to ensure that particles
+      // placed at the circles surface are recognized as such... 
       return 1;
   }
   //if particle is not located within any of teh cylinders:
@@ -98,9 +100,10 @@ void Porosities::set_solObs_tangentAndDistance(spParticle& prtl)const {
 	//set distance to cylinder surface
 	prtl->d_realPart_solObs=v_abs(prtl->R-all_Cyl_centers[i])-all_Cyl_radii[i];
 	//set tangent:
-	 // set origin
+	// set origin
 	prtl->SolObs_tangent[0]=(prtl->R-all_Cyl_centers[i])
-	  *all_Cyl_radii[i]/v_abs(prtl->R-all_Cyl_centers[i]);
+	  *all_Cyl_radii[i]/v_abs(prtl->R-all_Cyl_centers[i])
+	  +all_Cyl_centers[i];
 	
 	// set direction of tangent line (orinetation does not matter)
 	// tangent direction is direction of vector which has zero

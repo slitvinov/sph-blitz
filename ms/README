@@ -25,7 +25,12 @@ set output "1dshock.eps"
 figures layout:
 if two side by side:
 eps: "Helvetica" 26, lw 8
+for splash: lw 3 character height 1.5,
+in order not to cut coordinate labels: select following settings: legend, title; ( ON   0.50  1.00  0.50)
+ ...(no title-file needed...)
 
 if alone:
+
+In 
 
 

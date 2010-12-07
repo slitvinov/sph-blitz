@@ -32,7 +32,9 @@ void InteractionComp::UpdateForces() {
   // method which assigns temperature according to temperature boundary condition
   // in case destination particle is ghost particle for solid obstacle)
   const double Ti=Org->T;
-  const double Tj=obstacles->set_Temperature_SolObs_isothermal(Org,Dest); 
+  ///\todo{temperature is only modified as local variable in inetraction and not globally as a particle variable!!! terefore the output values for ghost particles do not correspond to the actual values used for calculations} 
+  //const double Tj=Dest->T
+const double Tj=obstacles->set_Temperature_SolObs_isothermal(Org,Dest); 
   
   /// make sure density is OK
   assert(rhoi>0.0);

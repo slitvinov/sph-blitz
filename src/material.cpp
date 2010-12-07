@@ -132,6 +132,17 @@ double Material::get_e(const double T) const
 {
 	return cv*T;
 }
+
+//----------------------------------------------------------------------------------------
+//				update internal energy to be coherent
+//                            with temperature vaule
+//                  (needed to assign energy to ghost particles...)
+//----------------------------------------------------------------------------------------
+// double Material::update_e(const spParticle& prtl) const
+// {
+// 	prtl->e=cv*prtl->T;
+//}
+
 //----------------------------------------------------------------------------------------
 //					get sound speed
 //----------------------------------------------------------------------------------------

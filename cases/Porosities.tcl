@@ -56,7 +56,7 @@ set p0 0.5
 set T0 1.0
 
 # gravity force
-set G_FORCE(0) 1.0
+set G_FORCE(0) 0.1
 set G_FORCE(1) 0.0
 
 # temporal delay of gravity force action
@@ -200,7 +200,7 @@ set solObs_thermal_BC_type 1
 
 # wall temperature for isothermal solid Obstacles temperature
 # boundary condition 
-set T_w_solObs_isothermal 1
+set T_w_solObs_isothermal 2
 
 # flag to select whether ghost particles for solid obstacles shall
 # be contained in putput files or not
