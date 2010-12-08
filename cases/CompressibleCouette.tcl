@@ -25,7 +25,7 @@ set SMOOTH_DENSITY_PROFILE 0
 # initial conditions flag 
 # 0: use initial 
 # 1: use restart file
-set INITIAL_CONDITION 0
+set INITIAL_CONDITION 1
 
 # external mass initialization marker
 # 0: mass initialization within simulation program (by smoothing)
@@ -34,13 +34,13 @@ set EXTERNAL_MASS_INITIALIZATION 0
 
 # number of cells in X and Y directions
 set CELLS(0) 1
-set CELLS(1) 15
+set CELLS(1) 10
 
 # size of one cell (must NOT be inferior to supportlength!)
-set CELL_SIZE 0.033333333333333333333333
+set CELL_SIZE 0.1
 
 # support length of the kernel
-set SUPPORT_LENGTH 0.0333333333333333333333333
+set SUPPORT_LENGTH 0.1
 
 # number of particles in one cell size
 #( not used as paricle positions initialized from external file) 
@@ -109,7 +109,7 @@ set SPLASH_OPTIMIZED_OUTPUT 1
 # the simulation time is so huge that the standard time stamp is not sufficient
 # 0: standard timestamp (8 digits)
 # 1: extra large timestamp (12 digits)
-set XXL_TIMESTAMP_MARKER 0
+set XXL_TIMESTAMP_MARKER 1
 
 # marker to switch timestamp unit
 # (becomes necessary for simulations with very small dt,
@@ -117,7 +117,7 @@ set XXL_TIMESTAMP_MARKER 0
 #
 # 0: standard (timestamp unit [ms])
 # 1: high resolution (timestamp unit [1e-10s])
-set HIGH_RES_TIMESTAMP_MARKER 1
+set HIGH_RES_TIMESTAMP_MARKER 0
 
 # boundary conditions
 #
@@ -167,7 +167,7 @@ set TyBd 1.0
 
 # upper boundary
 set yBu 0
-set UyBu(0) 0.04
+set UyBu(0) 0.4
 set UyBu(1) 0.0
 set TyBu 2.0
 
@@ -179,8 +179,8 @@ set SOLID_OBSTACLES NoObstacles
 
 # time  control 
 set Start_time 0.0		
-set End_time 3e-4	
-set D_time 2e-7
+set End_time 2e-2	
+set D_time 1e-4
 
 #marker for automatic time control
 # 0: autom. time conrtol switched off: specified dt used (see below) 
@@ -197,7 +197,7 @@ set NUMBER_OF_MATERIALS 2
 set material_name(0) Wall
 set material_type(0) 1
 set material_cv(0) 1
-set material_eta(0) 1000.0
+set material_eta(0) 10.0
 set material_zeta(0) 0.0
 set material_k(0) 0
 set material_gamma(0) 1.5
@@ -205,19 +205,19 @@ set material_b0(0) 0.0
 set material_rho0(0) 0.0
 set material_a0(0) 0.0
 #for Sutherland law for variable viscosity and thermal conductivity:
-set material_eta_0(0) 1000
+set material_eta_0(0) 5.9
 set material_T_0_eta(0) 1.0
-set material_S_eta(0) 1.0
-set material_k_0(0) 1000
+set material_S_eta(0) 0.5
+set material_k_0(0) 10.0
 set material_T_0_k(0) 1
-set material_S_k(0) 1
+set material_S_k(0) 0.5
 
 
 # viscosity eta is DYNAMIC VISCOSITY [Pa s]
 set material_name(1) Air
 set material_type(1) 1
 set material_cv(1) 1
-set material_eta(1) 1000.0
+set material_eta(1) 10.0
 set material_zeta(1) 0.0
 set material_k(1) 0
 set material_gamma(1) 1.5
@@ -225,9 +225,9 @@ set material_b0(1) 0.0
 set material_rho0(1) 0.0
 set material_a0(1) 0.0
 #for Sutherland law for variable viscosity and thermal conductivity:
-set material_eta_0(1) 1000
+set material_eta_0(1) 5.89
 set material_T_0_eta(1) 1.0
-set material_S_eta(1) 1.0
-set material_k_0(1) 1000
+set material_S_eta(1) 0.5
+set material_k_0(1) 10.0
 set material_T_0_k(1) 1
-set material_S_k(1) 1
+set material_S_k(1) 0.5

@@ -228,8 +228,8 @@ set manually_choosen_dt 0.0015
 set NUMBER_OF_MATERIALS 2
 set material_name(0) Wall
 set material_type(0) 1
-set material_cv(0) 0.0
-set material_eta(0) 0.0
+set material_cv(0) 717.645
+set material_eta(0) 1
 set material_zeta(0) 0.0
 set material_k(0) 0
 set material_gamma(0) 0.0

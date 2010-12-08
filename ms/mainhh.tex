@@ -445,7 +445,7 @@ For more complex geometries however mirroring can only be applied with restricti
 
 The easiest way of velocity assignment for ghost particles to obtain a no--slip condition is by simply immobilizing them relative to the boundary they are to represent \cite{Morris1997}, i.\ e.\ all ghost particles have the same velocity which is zero for a non-moving boundary or the corresponding boundary velocity for a boundary in motion. This appraoch gives a first order 
 %(?????heißt first order in dem fall, wert richtig ableitung nicht? oder heißt es first order convergence?? denn für thermal BC wurde z.b  rausgefunden, dass isotherme BC (implementiert mit const T) die Konvergenz von 2. auf first order reduziert..oder hängt beides zusammen???...Cleary1999?????????) 
-no--slip condition, that means even though velocity is (by definition) exactly zero at the surface, the slope and curvature of the velocity profile close to the wall might be erroneous.  A velocity assignment leading to a more accurate no--slip condition can be done by either mirroring or extrapolating the corresponding real particle velocity profile. \cite{Basa2009} tested these different approaches in a Poisseuille channel and found out that discrepancies with the exact solution mainly occur right at the boundary during the initial phase.  According to these tests, mirroring of velocities is the least accurate of these more sophisticated methods, followed by linear and then quadratic extrapolation. 
+no--slip condition, that means even though velocity is (by definition) exactly zero at the surface, the slope and curvature of the velocity profile close to the wall might be erroneous.  A velocity assignment leading to a more accurate no--slip condition can be done by either mirroring or extrapolating the corresponding real particle velocity profile. \cite{Basa2009} tested these different approaches in a Poisseuille canal and found out that discrepancies with the exact solution mainly occur right at the boundary during the initial phase.  According to these tests, mirroring of velocities is the least accurate of these more sophisticated methods, followed by linear and then quadratic extrapolation. 
 
 In combining these options one can reconstruct some boundary treatment approaches already mentionned in literature.
 \begin{itemize}
@@ -518,7 +518,7 @@ Given the ghost particle technique for basic curved surfaces propesed by Morris 
 Method 2 gives an adiabatic boundary condition by construction if the real particle's temperature is mirrored as well. 
 For Methods 1 and 3 where ghost particles have no direct real counterpart, the mirroring of temperature is not easily possible. To achieve an adiabatic boundary condition Cleary \cite{Cleary1999}, who used boundary particles only on the wall surface and besides treated a pure conduction problem, suggests to integrate the energy equation for boundary particles and real particles combined. Total energy will be conserved this way within the calculation domain because of the symmetry of the conduction term \ref{eq:}.
 For a flow problem I AM NOT SURE ABOUT THE CONSERVATION PROPERTIES OF TOTAL ENEGRY WITH PHYSICAL VISCOSITY MODEL...
-Wenn Enerie koserviert wird, dann kann man analog zu Cleary1999 einfach die erste reihe ghost particles in die energy berechnung mit einbinden (also auch als origin einer interaction, technich einfach zur particle list hinzufügen und aber keine u, rho updaten...).???
+Wenn Enerie koserviert wird, dann man analog zu Cleary1999 einfach die erste reihe ghost particles in die energy berechnung mit einbinden (also auch als origin einer interaction, technich einfach zur particle list hinzufügen und aber keine u, rho updaten...).???
 
 ...lasse adiabate Implementierung vorerst weg, da für porositäte isotherm wahrscheinlich sowieso exakter ist.
 
@@ -737,12 +737,13 @@ If the viscous heating is too strong or if for other reasons
 % like for example the consideration of a thermal conductioon problem 
 there are significant temperature gradients within the flow, the assumption of a constant, temperature independent viscosity might not be justified any more. In this case a simple law for the temperature dependence of viscosity is the one from Sutherland \cite{White1974}.
 \begin{equation}
+\label{eq:Sutherland_visc}
 \eta=\eta_0 \left(\frac{T}{T_0}\right)^{\frac{3}{2}}\frac{T_0+S}{T+S}
 \end{equation}
 The constants are $\eta_0=1.716\cdot10^{-6}Pa s$
 %(in anderson 1.78\cdot10^{-5})
 , $T_0=272.77K$ and $S=110.222K$ for air. This relation is valid in a temperature range from $166K$ to $1900K$ with an error of $\leq2\%$.
-Values for other fluids can be found in \cite{White1974}.
+Values for other fluids can be found in \cite{White1974}. The Sutherland law shows that for gases, the viscosity increases with increasing temperature (probably as it is a diffusion phenomenon). %fluids opposite
 
 \subsection{Heat conduction implementation}
 \label{sec:HeatCondImplementation}
@@ -1260,11 +1261,24 @@ e_{\mathit{domain}}=\frac{1}{N_{\mathit{prtl}}}\sum_i e_i
 WORK IN PROGRESS 
 
 \subsection{Compressible Couette flow}
+\label{sec:comprCouette_genIntro}
 A Couette flow in general designates a flow that originates in the following situation: a viscous fluid between two infinite parallel plates of distance $d$ is originally at rest. At the instant $t=0$ one of the plates starts moving with a constant velocity $u_p$ dragging the flow along with it. Furthermore the two plates may also have different temperatures. After a certain time a steady state solution establishes. 
+
+To characterize the influence of the viscous forces, the Reynolds number for the Couette configuration is defined as
+\begin{equation}
+\label{eq:Re_comprCouette}
+ Re=\frac{\rho u_p d}{\eta}
+\end{equation}.
+
 In the case where the velocity $u_p$ is small enough and where besides the wall temperatures are close enough together (ideally both the same and equal to the initial fluid temperature), the flow can be considered incompressible with $\rho=const.$ which also implies the assumption of $T=const$. and therefore $\eta=const.$ and $k=const.$. The steady state solution in this case consists therefore of a linear velocity profile between the plates (out of the condition that the viscous shear stress $\tau$ needs to be constant over the canal).
 
-In the case, however, where the plate velocity $u_p$ is so big, that the viscous dissipation is not negligible any more or where the wall temperatures are too different from the flow temperature, there will be a considerable temperature gradient in the flow implying that $\rho$,$\eta$ and $k$ now have to be considered variable. This situation is then called compressible Couette flow which is of interest as a test case in the present work.
-The steady state velocity profile in this case is not linear anymore but is affected by the non-constant viscosity. As the condition $\tau(y)=const.$ does still apply for the steady state, the velocity gradient at a certain position $y$ evolves inversely to the local viscosity value, which can be seen with the equation for the shear stress $\tau=\eta \frac{\partial u}{\partial y}$ \cite{Anderson2001}. 
+In the case, however, where the plate velocity $u_p$ is that big, that the viscous dissipation is not negligible any more or where the wall temperatures are too different from the flow temperature, there will be a considerable temperature gradient in the flow implying that $\rho$,$\eta$ and $k$ now have to be considered variable. This situation is then called a compressible Couette flow which is of interest as a test case in the present work.
+The steady state velocity profile for the compressible Couette is not linear anymore but is affected by the non-constant viscosity. As the condition $\tau(y)=const.$ does still apply for the steady state, the velocity gradient at a certain position $y$ evolves inversely to the local viscosity value, according to the equation for the shear stress $\tau=\eta \frac{\partial u}{\partial y}$ \cite{Anderson2001}. 
+An analogous consideration for the steady state temperature profile can principally be made. The corresponding condition of constant heat flux in the transverse canal direction however only applies when neglecting the heat produced by viscous dissipation. 
+
+
+
+
 
 
 
@@ -1275,13 +1289,13 @@ KANN IN analyse der Couette results kommen: in areas with higher temperature, th
 \label{sec:genIntroPoiseuille}
  The flow models themselves already being tested by all the above cases, the Poiseuille flow is primarily used to test the no--slip boundary conditions. 
 
-A 2D Poiseuille flow consists of a flow in a channel of infinite length in one dimension, in this case the x--direction. The channel is confined  in the transverse direction (y--direction) by two walls, which here have a distance of $2d$. The fluid in this channel is initially at rest and for $t\geq0$ a pressure gradient in x--direction $\delta p/\delta x $ or equivalent a body force (force per unit mass) of value $g=\frac{1}{\rho}{\delta p}{\delta x}$ \cite{Sigalotti2003} in the same direction are applied and lead to the evolution of a flow. The (incompressible) steady state solution of this flow is a parabolic profile of the velocity in x--direction, here denoted $U$, and given by \cite{Sigalotti2003} as
+A 2D Poiseuille flow consists of a flow in a canal of infinite length in one dimension, in this case the x--direction. The canal is confined  in the transverse direction (y--direction) by two walls, which here have a distance of $2d$. The fluid in this canal is initially at rest and for $t\geq0$ a pressure gradient in x--direction $\delta p/\delta x $ or equivalent a body force (force per unit mass) of value $g=\frac{1}{\rho}{\delta p}{\delta x}$ \cite{Sigalotti2003} in the same direction are applied and lead to the evolution of a flow. The (incompressible) steady state solution of this flow is a parabolic profile of the velocity in x--direction, here denoted $U$, and given by \cite{Sigalotti2003} as
 %something wrong with \cite{Basa2009}-equation, better ref is \cite{Sigalotti2003}.
 \begin{equation}
 \label{eq:Poiseuille_steadyState_U}
  U(y,t=\infty)=\frac{g \rho}{2 \eta}(d^2-y^2)
 \end{equation}
-The origin of the coordinate system ($y=0$) is supposed at the center line of the channel.
+The origin of the coordinate system ($y=0$) is supposed at the center line of the canal.
 A theoretical solution for the temporal evolution of the (incompressible) Poiseuille velocity profile is given by \cite{Sigalotti2003}
 \begin{equation}
 \label{eq:Poiseuille_Series}
@@ -1986,9 +2000,23 @@ TABLE!
 
 \subsubsection{Taylor--Green}
 \subsubsection{Pure Heat Conduction}
+
 \subsubsection{Compressible Couette}
+\label{sec:SimuSetup_ComprCouette}
+The compressible Couette case is simulated to test the simultaneous application of all the above investigated phenomena on the one hand and the variable viscosity on the other hand. 
+
+\paragraph {Initiation}
+A particle distribution on a rectangular lattice with uniform particle properties according to table TABLLEEE is used to initialize the simulation.
+To drive the flow, the upper plate is moved with a constant velocity $u_p$. Together with the initial flow temperature this results in a certain Mach number $M$. The Mach number however is a local quantity and besides changes during the simulation as the flow temperature is in general affected by the viscous heating and the wall temperatures. %besides mach number definition hard as two different reference systems???
+To vary the Reynolds number, the viscosity $\eta$ of the flow is changed with all the other quantities remaining constant. 
+
+\paragraph {Post--processing}
+The compressible Couette simulation is only evaluated qualitatively. One point to focus on, is the right curvature of the velocity and temperature profiles for non--constant values of viscosity and thermal conductivity (see section (\ref{sec:comprCouette_genIntro})). For a quantitative validation of this test case, a numerical reference solution is desirable. For some special compressible Couette cases though, analytical solutions can be found found in \cite{Rogers1992}. 
+
+
 \subsubsection{Poiseuille}
 The Poiseuille test case is needed to verify the boundary condition implementation that is used to generate a no--slip surface for the solid Obstacles, which model porosities. These boundary condition models are different from the ones used for the domain edges and therefore have to be tested separately. 
+
 \paragraph {Initiation}
 
 Method 1
@@ -2739,7 +2767,46 @@ Order of convergence reduced with implementation of isothermal boundaries from s
 SECTION SOLOBS THERMAL BC TEST TESTS THIS BEHAVIOR QUANTITATIVELY
 
 \subsection{Compressible Couette--flow}
-STILL TO BE DONE
+
+Like for the Taylor--Green flow, the Reynolds number $Re$ significantly affects the quality of the results. For very low $Re$ the flow simulation reaches the steady state before an important particle movement occurs meaning that the structure of the particle field stays essentially unchanged for the entire simulation. Thus, no noticeable oscillations in the steady state results occur, as these oscillations probably have their origin in a distorted particle configuration. 
+In a first run, the simulation is conducted in an approximately incompressible case with a plate velocity of $u_p=0.04$, constant viscosity and no heat conduction. Starting at very low Reynolds numbers of $Re=4\cdot10^{-5}$ it was found that no visible oscillations occurred up to a Reynolds number of around $Re=4\cdot10^{-2}$. The steady state velocity profile of the corresponding simulation, which in theory has to be exactly linear (see section (\ref{sec:comprCouette_genIntro})), is shown in figure (\ref{fig:CompCouette_U_const_eta}). Due to the small $Re$ values, a small ratio $l_s/dx=2$ for a given spacing of $dx=0.025$ is sufficient in the above cases. 
+
+
+\begin{figure}
+ \centering
+\label{fig:CompCouette_U_const_eta}
+\includegraphics[width=7cm]{Graphics/results/CompressibleCouette/N2x40_supLen_dx2_eta1/U_profiles000001000019}
+\caption[steady State velocity incompressible Couette]{Velocity profile of a Couette flow without heat conduction and with constant viscosity for a Reynolds number of $Re=4\cdot10^{-2}$.}
+\end{figure}
+
+
+At $Re=4\cdot10^{-1}$ (and higher) important low frequency oscillations in the velocity field occur on the way to a steady state solution. The shape of the velocity profile meanwhile looses any physical basis but then returns temporarily to the linear line before a new oscillation begins.
+
+Significant improvement on the oscillation issue for higher $Re$ comes with the use of a greater ratio $l_s/dx=4$. Although the oscillations both in the transition phase towards the steady state and in the steady state regime itself can not be avoided completely, they are weakened considerably as can be observed in the case of $Re=4\cdot10^{-1}$. 
+For even higher Reynolds numbers, the configuration gets eventually unstable. For $Re=4$ the velocity profile looses any physical meaning after some simulation time and for $Re=40$ and higher, the flow field becomes unphysical almost immediately after the start of the simulation.
+
+In the following the truly compressible case is investigated, i.\ e.\ with heat conduction, isothermal boundary conditions and significant viscous dissipation. All this leads to considerable temperature gradients in the flow in a way that density, viscosity and thermal conductivity have to be assumed a function of $T$. To avoid oscillations, the simulation is conducted at a low Reynolds number of $Re=4\cdot10^{-2}$. For the plate velocity a higher value $u_p=0.4$ is taken, leading to an increased Mach number compared to the above incompressible case. The isothermal boundary conditions are chosen with $T=2$ for the upper and $T=1$ for the lower plate. To get a clear effect, the coefficients of the Sutherland low are chosen in a way that exaggerates the heat dependency of $\eta$ and $k$. For the entire simulation setup with all parameters refer to section (\ref{sec:SimuSetup_ComprCouette}). %Note: the Reynolds number must here be understood as an indication giving the ord of magnitude as eta is variable
+
+The temperature and velocity profiles in the quasi--steady state are shown in figure(\ref{fig:CompCouette_UT}). Figure (\ref{fig:CompCouette_UT_U}) demonstrates the effect of variable viscosity on the temperature profile. According to the consideration made in section (\ref{sec:comprCouette_genIntro}), higher viscosity leads to a lower slope $\frac{\partial u}{\partial y}$ in the velocity profile, which in the figure means a steeper profile. Furthermore, according to the Sutherland law (equation (\ref{eq:Sutherland_visc})), the viscosity of gases increases with higher temperatures.
+Therefore, the velocity profile becomes steeper with higher temperature, thus when going from $y=0$ to $y=1$ (see figure (\ref{fig:CompCouette_UT_T}). This leads to the curvature of the velocity profile.
+The temperature profile itself is curved the same way as well. For, the temperature dependence of the thermal conduction is the same as of the viscosity. Another contribution to this curvature is made by the viscous dissipation. As viscous heat is generated in the entire domain and the steady state dictates a temporally constant temperature, this heat has to flow into the lower wall as well. The closer to the lower wall, the greater the cumulated heat flux due to viscous dissipation. The heat flux being driven by temperature gradients, a greater heat flux means a greater  $\frac{\partial T}{\partial y}$. 
+Hence both the effect of the varying thermal conductivity and the viscous dissipation lead to a curvature of the temperature profile in the same sense.The temperature profile in figure (\ref{fig:CompCouette_UT_T}) is therefore a result of both effects combined.
+
+and the heat flow goes from greater to lower $y$ values, the stead
+\begin{figure}
+ \centering
+\label{fig:CompCouette_UT}
+\subfigure[Velocity profile]{
+\label{fig:CompCouette_UT_U}
+\includegraphics[width=7cm]{Graphics/results/CompressibleCouette/N2x40_supLen_dx4_compressible/U_profile000000070023}
+}
+\subfigure[Temperature profile]{
+\label{fig:CompCouette_UT_T}
+\includegraphics[width=7cm]
+{Graphics/results/CompressibleCouette/N2x40_supLen_dx4_compressible/T_profile000000070023}
+}
+\caption[steady State profiles compressible Couette]{steady state profiles (at $t=0,07$) of velocity and temperature for a Couette flow including heat conduction, hot and cold wall boundary conditions and temperature depended viscosity and thermal conductivity values. The straight line in figure \subref{fig:CompCouette_UT_U} helps recognizing the curvature of the velocity profile.}
+\end{figure}
 
 \subsection{Porosities}
 Prior to the actual porosity simulations, test-cases to validate the velocity and temperature boundary conditions at a solid obstacle surface are presented. In the case of the velocity boundary condition, this is the Poiseuille flow and in case of the temperature boundary condition it is a domain at uniform temperature in contact with isothermal boundaries at different temperature. Once these tests are accomplished, two porous configurations are exemplarily simulated to demonstrate the capabilities and limitations of the 2D SPH code at the present stage. These porous configurations are the flow over a cavity on the one hand and the flow through a domain with circular obstacles on the other hand. All the above mentioned situations have been generally introduced in section (\ref{sec:2DSPHcodeGeneralTestCaseIntroduction}). 
@@ -2783,7 +2850,7 @@ The global errors however are relatively high when approaching the steady state.
 A further observation, which is not shown in the above mentioned figure is that the velocity profile of the simulation oscillates with very low frequency once it has (theoretically) reached steady state. At around $t=1$ the center line velocity reaches a maximum of $U_0=0.130$ and swings back to $U_0=0.128$ at around $t=1.9$ before it reaches a new maximun of $U_0>0.13$ at around $t=3$. These oscillations seem typical for the employed viscosity model as they have been observed with the steady state of the Couette flow as well.  
 
 
-%As for the Couette flow it seems as if the oscillations were not originated in the velocity field but caused by density/pressure irregularities which finally affect the velocity. This time however it is not a single layer of particles close to the wall which shows these irregularities but the area of particles around the channel center line!
+%As for the Couette flow it seems as if the oscillations were not originated in the velocity field but caused by density/pressure irregularities which finally affect the velocity. This time however it is not a single layer of particles close to the wall which shows these irregularities but the area of particles around the canal center line!
 %And besides in a even more severe form also for the Taylor green flow.
 
 
@@ -3180,7 +3247,7 @@ By using the linearly extrapolated ghost particle velocity assignment however, a
 
 \end{figure}
 
-The above mentioned inhomogeneity in the particle field leads to oscillations in the particle properties density, pressure and energy, even in the steady state regime, which in terms of velocity is reached for $t>3.1$ with a maximum value of $u_max\aprox 0.23$. 
+The above mentioned inhomogeneity in the particle field leads to oscillations in the particle properties density, pressure and energy, even in the steady state regime, which in terms of velocity is reached for $t>3.1$ with a maximum value of $u_\mathit{max}\approx 0.23$. 
 
 To address these two encountered problems (poor representation of cylinder surface, particle clusters in steady state) two modifications in the particle placement are subsequently introduced. Remedy to the first issue can be found by arranging the ghost particles within the cylinder in circular layers resulting in a pseudo--hexagonal arrangement. Concerning the second issue, it can be temped to reduce the effect by placing the real particles initially in a hexagonal lattice, which is more isotropic than the rectangular one. Besides, a hexagonal arrangement of the real particles should also have a favorable effect on the first issue, as the hexagonal lattice is filled with particles more densely.
 

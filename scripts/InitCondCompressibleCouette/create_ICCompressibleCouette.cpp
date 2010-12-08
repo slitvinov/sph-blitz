@@ -15,10 +15,10 @@ int main () {
   const double m=0;// m is initialized to zero, will be calculated in simulation
   double x=0;
   double y=0;
-  const double domain_size_x=0.0333333333333333333333;
-  const double domain_size_y=0.5;//domain_size_x/2;
-  const int N_x=2;
-  const int N_y=30;
+  const double domain_size_x=0.1;
+  const double domain_size_y=1.0;
+  const int N_x=4;
+  const int N_y=40;
   const int N=N_x*N_y;
   const double dx=domain_size_x/N_x;
   const double dy=dx;
