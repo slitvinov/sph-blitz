@@ -26,10 +26,17 @@ Post-Processing Steps:
    in the <<ResultsInProgress>> directory will be deleted. Therefore be sure
    to save them at a different location before!!!
 
-2. run the program <<VelocDecayAnalysisTG.cpp>> in this (/sph-blitz/scripts/postProcessingTaylorGreen)
+2. run the program <<VelocDecayAnalysisTG_const_dt.cpp>> in this (/sph-blitz/scripts/postProcessingTaylorGreen)
    directory
    This will determine the maximum velocity for each output time and write the results
   (time, max_vel) in a file called <<decayAnalysis.dat>> in the ResultsInProgress directory.
+
+    Attention, program only reads prtlxxxxxxxx.dat files with constant effective output interval, i.e. the timestep 
+    has to be chosen constant. If the output interval for example is chosen 0.1 and the time step 
+    is manually chosen to 0.03, then, teh effective output interval to enter for the post processing is 0.12.
+    It is always the first multiple of dt, which is > output interval.
+  
+3. if desired: visualization with gnuplot, see <<sph-blitz/gnuplot>>
   
 
 

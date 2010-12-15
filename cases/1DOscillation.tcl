@@ -65,6 +65,12 @@ set T0 1.0
 set G_FORCE(0) 0.0
 set G_FORCE(1) 0.0
 
+# temporal delay of gravity force action
+# (can be useful to give the initial particle distribution some timeto relax
+# before the actual gravity force (which can simulate a pressure gradient) 
+# starts to act. (time in sec)
+set g_force_delay 0.0
+
 # pure Heat Condution
 # all particles immobilized, no change in any parameters
 # except for internal energy
@@ -76,7 +82,7 @@ set PURE_CONDUCTION 0
 # 2. art. visc. globally turned on
 # 1: incl. art. visc. for compression only (as needed for shock-tube case)
 # 0: no artificial viscosity
-set ARTIFICIAL_VISCOSITY_MARKER 1
+set ARTIFICIAL_VISCOSITY_MARKER 0
 
 # parameters for artificial viscosity
 set alpha_artVis 1.0
@@ -156,26 +162,34 @@ set yBu 1
 set UyBu(0) 0.0
 set UyBu(1) 0.0
 
+# type of solid obstacle in calculation domain 
+# (in addition to boundaries at the domain edges)
+# possible values are:
+# NoObstacles, Cavity, Porosities, LinearWall
+set SOLID_OBSTACLES NoObstacles
+
 # time control
 set Start_time 0.0		
-set End_time 5
-set D_time 0.05
+set End_time 9
+set D_time 0.0009
 
 #marker for automatic time control
 # 0: autom. time conrtol switched off: specified dt used (see below) 
 # 1: autom time control activated!
-set AUTOMATIC_DT_CONTROL_MARKER 1
+set AUTOMATIC_DT_CONTROL_MARKER 0
 
 #timestep taken into account if autom. time-step-control switched off
 #ATTENTION: the timestep has to be thoroughly choosen (respecting the stability criteria)
 #(RECOMMENDATION: run the desired configuration with autom.dt-control turned on first to get an idea of the max. admissible dt, then pick a dt (including a certain margin, to be safe)
-set manually_choosen_dt 0.0008
+set manually_choosen_dt 0.001
 
 set NUMBER_OF_MATERIALS 2
 set material_name(0) Wall
 set material_type(0) 1
 set material_cv(0) 0.0
 set material_eta(0) 0.0
+set material_zeta(0) 0.0
+set material_k(0) 0.0
 set material_gamma(0) 0.0
 set material_b0(0) 0.0
 set material_rho0(0) 0.0
@@ -185,6 +199,8 @@ set material_name(1) Air
 set material_type(1) 1
 set material_cv(1) 717.645
 set material_eta(1) 0.0
+set material_zeta(1) 0.0
+set material_k(1) 0.0
 set material_gamma(1) 1.4
 set material_b0(1) 0.0
 set material_rho0(1) 0.0

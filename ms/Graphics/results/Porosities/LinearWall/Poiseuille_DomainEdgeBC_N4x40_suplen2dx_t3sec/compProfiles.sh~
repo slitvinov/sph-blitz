@@ -11,7 +11,7 @@ set output "U_profiles$1.eps"
 
 set grid;
 set xlabel "U"; set ylabel "length y";
-plot [0.0:][-0.5:0.5]  'exact$1.dat' u 2:1 title 'exact' with line lt 2 lw 8,'simuForPlot$1.dat' u 2:1 title 'simu' lt 1 with points;
+plot [0.0:][-0.5:0.5]  'exact$1.dat' u 2:1 title 'exact' with line lt 2 lw 8,'simuForPlot$1.dat' u 2:1 title 'simu' lt 1 with points lw 8;
 
 set terminal png large
 set output "U_profiles$1.png"

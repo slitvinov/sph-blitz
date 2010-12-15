@@ -15,10 +15,28 @@ using namespace std;
 
 int main (){
 
+  // settings for calculation of exact solution
+  const double U=1.0;
+  const double Re=0.01;
+
   int n_col=0;// number of columns in inputfile
 
   cout<<"\n"<<"please enter the number of columns in the input file:  ";
   cin>>n_col;
+
+  int high_res_timestamp=2;
+  while (high_res_timestamp!=1 &&high_res_timestamp!=0) {
+    cout<<"\n"<<"please enter the timestamp resolution \n  ";
+    cout<<"\n"<<"0: standard timestamp resolution (10^-6) \n ";
+    cout<<"\n"<<"1: high timestamp resolution (10^-10) \n ";
+    cin>>high_res_timestamp;
+  }
+
+  double timeStampRes;
+  if(high_res_timestamp==1)
+    timeStampRes=1e10;
+  else
+    timeStampRes=1e6;
 
   double buffer;
   double timeInterval;// output time interval for simulation data output files
@@ -39,10 +57,12 @@ int main (){
     // assemble input file name
     stringstream number;// string for number (time stamp)
     stringstream number2;// string for second time stamp if first one not o.k.
+    stringstream number3;// string for third time stamp if second one not o.k.
+
     // calculate number (time stamp) for file name
     // needs to be casted to int as otherwise numbers over 1,000,000 
     // have the format 1e+6 which is not ok for the file name
-    number << setw(8) << setfill('0') <<(int)(fileCounter*timeInterval*1000000);
+    number << setw(8) << setfill('0') <<(int)(fileCounter*timeInterval*timeStampRes);
     const string inputfile = "../../src/outdata/prtl" + number.str() + ".dat";
     cout<<endl<<inputfile<<endl;
 
@@ -52,18 +72,27 @@ int main (){
     if (!fin) {
       // this is, as sometimes filenames are...999 instead of ..0000
       // because time value is truncated for timestamp of file name...
-      number2 << setw(8) << setfill('0') <<(int)(fileCounter*timeInterval*1000000-1);
+      number2 << setw(8) << setfill('0') <<(int)(fileCounter*timeInterval*timeStampRes-1);
       const string inputfile2 = "../../src/outdata/prtl" + number2.str() + ".dat";
       cout<<endl<<inputfile2<<endl;
       // assign a new filename to the streaming object
       fin.open(inputfile2.c_str(), ifstream::in);
-      if(!fin) {
-	cout<<"no (more)file could be found: either all files have already been processed"<<endl;
-	cout<<"or there is a problem with the file name"<<endl;
-	cout<<"to chech if all files have already been treated, here the number of files that are read by the program: "<<fileCounter<<endl;
-	break;
-      }
-    }     
+      if (!fin) {
+	// this is, as sometimes filenames are...999 instead of ..0000
+	// because time value is truncated for timestamp of file name...
+	number3 << setw(8) << setfill('0') <<(int)(fileCounter*timeInterval*timeStampRes+1);
+	const string inputfile3 = "../../src/outdata/prtl" + number3.str() + ".dat";
+	cout<<endl<<inputfile3<<endl;
+	// assign a new filename to the streaming object
+	fin.open(inputfile3.c_str(), ifstream::in);
+	if(!fin) {
+	  cout<<"no (more)file could be found: either all files have already been processed"<<endl;
+	  cout<<"or there is a problem with the file name"<<endl;
+	  cout<<"to chech if all files have already been treated, here the number of files that are read by the program: "<<fileCounter<<endl;
+	  break;
+	}
+      }   
+    } 
     // while reading, directly sort out the boundary particles
     while(!fin.eof()) {
       
@@ -114,18 +143,13 @@ int main (){
   // calculate exact solution (theoretical decay)
   
   // variables needed for computation of exact solution
-  const double gamma=1.4;
-  const double M_ref=0.5;
-  const double p_ref=1/(gamma*pow(M_ref,2));
-  const double U=0.04;
-  const double Re=100;
   const double PI=3.14159265358979323846;
   const double b=(-8*pow(PI,2)/Re);
   
   // temporal resolution of evaluated points higher (by a factor tempResFact) than
   // for simulation results (this is due to plotting-reasons, as the exact results 
   // are displayed as a line
-  const int tempResFact=10;
+  int tempResFact=10;
 
   // temoral resolution for exact solution (decay of velocity)
   const double dt_exact=timeInterval/tempResFact;
@@ -161,7 +185,7 @@ int main (){
   int j=0; // parameter for output of data in files (to synchronize the simulated with the exact data (iterator for maxVelocity (Simulated) vector)
 
   for(int i=0;i< U_max_exact.size();i++){
-    cout <<i<<endl;
+    //cout <<i<<endl;
     // following a little construction that allows for conditional output
     // of the 3. column value (either the numerical value for the
     // max_velocity or "--" if there is novalue for the corresponding time)
@@ -179,9 +203,9 @@ int main (){
     stringstream conditionalOutputErrSS;
     string conditionalOutputErr;
     if ((i+tempResFact)%tempResFact==0 && j<MaxVelocAllInstants.size()) {
-      conditionalOutputErrSS<<  (U_max_exact[i][1]-MaxVelocAllInstants[j][1])/U_max_exact[i][1];
+      conditionalOutputErrSS<< fabs( (U_max_exact[i][1]-MaxVelocAllInstants[j][1])/U_max_exact[i][1]);
       j++;
-      cout<<"j incremented to: "<<j<<endl;
+      //cout<<"j incremented to: "<<j<<endl;
     }
     else 
       conditionalOutputErrSS<<"--";

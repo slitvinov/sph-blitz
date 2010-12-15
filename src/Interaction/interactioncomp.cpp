@@ -230,8 +230,8 @@ const double Tj=obstacles->set_Temperature_SolObs_isothermal(Org,Dest);
   const double dedti_artVisc=0.5*dot(dUdti_artVisc,(Uj-Ui));
   const double dedtj_artVisc=0.5*dot(dUdtj_artVisc,(Ui-Uj));
   //energy change rate contribution due to phsyical viscosity
-  const double dedti_visc=0.5*dot(dUdti_visc,(Uj-Ui));
-  const double dedtj_visc=0.5*dot(dUdtj_visc,(Ui-Uj));
+  const double dedti_visc=0;//0.5*dot(dUdti_visc,(Uj-Ui));
+  const double dedtj_visc=0;//0.5*dot(dUdtj_visc,(Ui-Uj));
   if(Org->ID==2 && Dest->ID==1) {
     LOG(INFO)<<"dedti_visc: "<< dedti_visc<<","<< "dedtj_visc: "<<dedtj_visc;
   }

@@ -184,9 +184,21 @@ int main(int argc, char *argv[]) {
     boundary.BuildBoundaryParticle(particles, hydro, Time);
   
   Output output; ///- initialize output class (should be the last to be initialized)
-  //predict particle volume and mass (if mass not initialized externally)
-  if(ini.external_mass_initialization==0)
-    ini.VolumeMass(hydro, particles, weight_function, obstacles); //predict particle volume and mass
+  //predict particle volume and mass (if mass not initialized externally
+  // AND for gas dynamicy: if not started from restart file, as restart file)
+  if(ini.external_mass_initialization==0) {
+    //if new simulation
+    if(ini.initial_condition==0)
+      //predict particle volume and mass
+      ini.VolumeMass(hydro, particles, weight_function, obstacles);
+    // if started from restart file, caluclate mass only for liquids mode
+    // as it would overwrite the inital mass values for gases
+    else if (ini.simu_mode==1)
+      ini.VolumeMass(hydro, particles, weight_function, obstacles);
+    //if restart for gasdynamics: only calculate volume
+    else
+      hydro.UpdateVolume(particles, weight_function);
+  }
   
   //for 2D particle distribution BC is needed
   ///\todo{define a variable which controls the use of boundary conditions and solve it smarter than just testing  if  (ini.kernel_type != "CubicSpline1D")! done: disable_boundary marker! }

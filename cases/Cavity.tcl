@@ -20,12 +20,12 @@ set DENSITY_MODE 1
 # and if continuity density approach is selected)
 # 0: no smoothing of initial density profile
 # 1: smoothing of initial density profile
-set SMOOTH_DENSITY_PROFILE 0;
+set SMOOTH_DENSITY_PROFILE 0
 
 # initial conditions flag 
 # 0: use initial 
 # 1: use restart file 
-set INITIAL_CONDITION 0
+set INITIAL_CONDITION 1
 
 # external mass initialization marker
 # 0: mass initialization within simulation program (by smoothing)
@@ -56,7 +56,7 @@ set p0 0.5
 set T0 1.0
 
 # gravity force
-set G_FORCE(0) 0.8
+set G_FORCE(0) 0.2
 set G_FORCE(1) 0.0
 
 # temporal delay of gravity force action
@@ -94,7 +94,7 @@ set PHYSICAL_VISCOSITY_MARKER 1
 #    (see White1974) with parameters material_eta_0, material_S_0,
 #     material_T_0 to be specified both for eta and k in materials
 #      section below 
-set VARIABLE_ETA_AND_K 0
+set VARIABLE_ETA_AND_K 1
 
 # marker to choose output format
 # 0: used for post-processing of shocktube cases and wave propagation
@@ -144,7 +144,7 @@ set DISABLE_BOUNDARY 0
 # along with real particles
 # 0: NO outout of boundary particles
 # 1: output of boundary particles
-set OUTPUT_BOUNDARY_PRTL 0;
+set OUTPUT_BOUNDARY_PRTL 1
 
 # left hand boundary
 set xBl 1
@@ -213,18 +213,18 @@ set OUTPUT_SOLOBS_GHOST_PRTL 1
 
 # time  control 
 set Start_time 0.0		
-set End_time 2	
-set D_time 2e-2
+set End_time 20
+set D_time 1e-1
 
 #marker for automatic time control
 # 0: autom. time conrtol switched off: specified dt used (see below) 
 # 1: autom time control activated!
-set AUTOMATIC_DT_CONTROL_MARKER 1
+set AUTOMATIC_DT_CONTROL_MARKER 0
 
 #timestep taken into account if autom. time-step-control switched off
 #ATTENTION: the timestep has to be thoroughly choosen (respecting the stability criteria)
 #(RECOMMENDATION: run the desired configuration with autom.dt-control turned on first to get an idea of the max. admissible dt, then pick a dt (including a certain margin, to be safe)
-set manually_choosen_dt 0.0015
+set manually_choosen_dt 0.0018
 
 set NUMBER_OF_MATERIALS 2
 set material_name(0) Wall

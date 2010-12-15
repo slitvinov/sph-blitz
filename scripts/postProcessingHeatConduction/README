@@ -55,10 +55,11 @@ long as the results still are in the directory <<sph-blitz/src/outdata>>:
 	  Estimation of the instant t_max for which the simulation can still be compared to the reference solution:
 	  from cleary1999 we know, that the expected errors lie in the order of magnitude from 1% - 0.1%.
 	  So, we assume that the admissible temperature change at the edges (calculated with exact solution) 
-	  should be another 2 orders of magnitude inferior to these errors in order to not affect them:
-	  for the value of the error function in the exact solution, this means: erf(w)>~0.99999 . 
-	  Tables show, that this is the case for w>~3.2 and with w being w=(x-x_m)/(2sqrt(alpha*t))
-	  ->t<=6 time units for the reference solution to be valid!
+	  should be another 4 orders of magnitude inferior to these errors in order not to affect them:
+	  for the value of the error function in the exact solution, this means: erf(w)>~0.9999999 . 
+	  Tables show, that this is the case for w>~3.8 and with w being w=(x-x_m)/(2sqrt(alpha*t)),
+	  alpha=k/(rho c)=1/(1000*1)
+	  ->t<=4.3 time units for the reference solution to be valid!
 
    - Finally program creates a file <<ResultsInProgress/simuForPlotxxxxxxxxxxxx.dat>> from <<src/prtlxxxxxxxxxxxx.dat>>
      (where xxxxxxxxxxxx is the timestamp specified to the program). The <<simuForPlotxxxxxxxxxxxx.dat>> file, 

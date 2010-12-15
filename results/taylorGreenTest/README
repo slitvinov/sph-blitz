@@ -273,7 +273,7 @@ running taylor Green --  TROUBLE SHOOTING:
       ->result: NO CHANGE AT ALL, as expected
    *run same configuration only with constant p initiailzation (p=1=cosnt instead of p around 2.8 variable (for M_ref=0.5)
 
-   *mit constanter p initialisierung (denn druckwerte mitten drin ändern sich direkt im ersten zwitschritt...)
+   *mit constanter p initialisierung (denn druckwerte mitten drin ändern sich direkt im ersten zeitschritt...)
     ->NO CHANGE NEITHER
 
     versuch der reproduktion von "schwingendem Taylor green"

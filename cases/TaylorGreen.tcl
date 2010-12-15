@@ -20,7 +20,7 @@ set DENSITY_MODE 1
 # and if continuity density approach is selected)
 # 0: no smoothing of initial density profile
 # 1: smoothing of initial density profile
-set SMOOTH_DENSITY_PROFILE 0;
+set SMOOTH_DENSITY_PROFILE 0
 
 # initial conditions flag 
 # 0: use initial 
@@ -33,14 +33,14 @@ set INITIAL_CONDITION 0
 set EXTERNAL_MASS_INITIALIZATION 0
 
 # number of cells in X and Y directions
-set CELLS(0) 30
-set CELLS(1) 30
+set CELLS(0) 15
+set CELLS(1) 15
 
-# size of one cell (must NOT be inferior to supportlegth!)
-set CELL_SIZE 0.0333333333333333333
+# size of one cell (must NOT be inferior to support length!)
+set CELL_SIZE 0.066666666666666666666666
 
 # support length of the kernel
-set SUPPORT_LENGTH 0.03333333333333333333333
+set SUPPORT_LENGTH 0.0666666666666666666666
 
 # number of particles in one cell size
 #( not used as paricle positions initialized from external file) 
@@ -59,6 +59,11 @@ set T0 1.0
 set G_FORCE(0) 0.0
 set G_FORCE(1) 0.0
 
+# temporal delay of gravity force action
+# (can be useful to give the initial particle distribution some timeto relax
+# before the actual gravity force (which can simulate a pressure gradient) 
+# starts to act. (time in sec)
+set g_force_delay 0.0
 
 # pure Heat Condution
 # all particles immobilized, no change in any parameters
@@ -162,20 +167,26 @@ set yBu 1
 set UyBu(0) 0.0
 set UyBu(1) 0.0
 
+# type of solid obstacle in calculation domain 
+# (in addition to boundaries at the domain edges)
+# possible values are:
+# NoObstacles, Cavity, Porosities, LinearWall
+set SOLID_OBSTACLES NoObstacles
+
 # time  control 
 set Start_time 0.0		
-set End_time 2e-06	
-set D_time 1.1e-8
+set End_time 5e-4	
+set D_time 1.e-6
 
 #marker for automatic time control
 # 0: autom. time conrtol switched off: specified dt used (see below) 
 # 1: autom time control activated!
-set AUTOMATIC_DT_CONTROL_MARKER 1
+set AUTOMATIC_DT_CONTROL_MARKER 0
 
 #timestep taken into account if autom. time-step-control switched off
 #ATTENTION: the timestep has to be thoroughly choosen (respecting the stability criteria)
 #(RECOMMENDATION: run the desired configuration with autom.dt-control turned on first to get an idea of the max. admissible dt, then pick a dt (including a certain margin, to be safe)
-set manually_choosen_dt 0.0015
+set manually_choosen_dt 1.38888e-06
 
 set NUMBER_OF_MATERIALS 2
 set material_name(0) Wall
@@ -193,11 +204,11 @@ set material_a0(0) 0.0
 # viscosity eta is DYNAMIC VISCOSITY [Pa s]
 set material_name(1) Air
 set material_type(1) 1
-set material_cv(1) 717.645
-set material_eta(1) 1000
+set material_cv(1) 1
+set material_eta(1) 100
 set material_zeta(1) 0.0
 set material_k(1) 0
-set material_gamma(1) 1.4
+set material_gamma(1) 1.5
 set material_b0(1) 0.0
 set material_rho0(1) 0.0
 set material_a0(1) 0.0

@@ -17,17 +17,17 @@ int main () {
   double y=0;
   const double domain_size_x=1.0;
   const double domain_size_y=domain_size_x;
-  const int N_x=60;
+  const int N_x=30;
   const int N_y=N_x;
   const int N=N_x*N_y;
   const double dx=domain_size_x/N_x;
   const double dy=dx;
   cout<<"dx=dy="<<dx<<endl;
   cout<<"N"<<N<<endl;
-  const double gamma=1.4;
-  const double M_ref=0.5;
+  const double gamma=1.5;
+  const double M_ref=0.05;//0.5
   const double p_ref=1/(gamma*pow(M_ref,2));
-  double U=0.04;
+  double U=1;//0.04
     
   double x_array[N];
   double y_array[N];
