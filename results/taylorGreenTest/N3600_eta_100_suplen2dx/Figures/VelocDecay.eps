@@ -1,0 +1,6550 @@
+%!PS-Adobe-2.0 EPSF-2.0
+%%Title: Figures/VelocDecay.eps
+%%Creator: gnuplot 4.2 patchlevel 5 
+%%CreationDate: Sun Dec 12 07:36:35 2010
+%%DocumentFonts: (atend)
+%%BoundingBox: 50 50 410 302
+%%EndComments
+%%BeginProlog
+/gnudict 256 dict def
+gnudict begin
+%
+% The following 6 true/false flags may be edited by hand if required
+% The unit line width may also be changed
+%
+/Color true def
+/Blacktext false def
+/Solid false def
+/Dashlength 1 def
+/Landscape false def
+/Level1 false def
+/Rounded false def
+/TransparentPatterns false def
+/gnulinewidth 5.000 def
+/userlinewidth gnulinewidth def
+%
+/vshift -46 def
+/dl1 {
+  10.0 Dashlength mul mul
+  Rounded { currentlinewidth 0.75 mul sub dup 0 le { pop 0.01 } if } if
+} def
+/dl2 {
+  10.0 Dashlength mul mul
+  Rounded { currentlinewidth 0.75 mul add } if
+} def
+/hpt_ 31.5 def
+/vpt_ 31.5 def
+/hpt hpt_ def
+/vpt vpt_ def
+Level1 {} {
+/SDict 10 dict def
+systemdict /pdfmark known not {
+  userdict /pdfmark systemdict /cleartomark get put
+} if
+SDict begin [
+  /Title (Figures/VelocDecay.eps)
+  /Subject (gnuplot plot)
+  /Creator (gnuplot 4.2 patchlevel 5 )
+  /Author (Oliver)
+%  /Producer (gnuplot)
+%  /Keywords ()
+  /CreationDate (Sun Dec 12 07:36:35 2010)
+  /DOCINFO pdfmark
+end
+} ifelse
+%
+% Gnuplot Prolog Version 4.2 (November 2007)
+%
+/M {moveto} bind def
+/L {lineto} bind def
+/R {rmoveto} bind def
+/V {rlineto} bind def
+/N {newpath moveto} bind def
+/Z {closepath} bind def
+/C {setrgbcolor} bind def
+/f {rlineto fill} bind def
+/Gshow {show} def   % May be redefined later in the file to support UTF-8
+/vpt2 vpt 2 mul def
+/hpt2 hpt 2 mul def
+/Lshow {currentpoint stroke M 0 vshift R 
+	Blacktext {gsave 0 setgray show grestore} {show} ifelse} def
+/Rshow {currentpoint stroke M dup stringwidth pop neg vshift R
+	Blacktext {gsave 0 setgray show grestore} {show} ifelse} def
+/Cshow {currentpoint stroke M dup stringwidth pop -2 div vshift R 
+	Blacktext {gsave 0 setgray show grestore} {show} ifelse} def
+/UP {dup vpt_ mul /vpt exch def hpt_ mul /hpt exch def
+  /hpt2 hpt 2 mul def /vpt2 vpt 2 mul def} def
+/DL {Color {setrgbcolor Solid {pop []} if 0 setdash}
+ {pop pop pop 0 setgray Solid {pop []} if 0 setdash} ifelse} def
+/BL {stroke userlinewidth 2 mul setlinewidth
+	Rounded {1 setlinejoin 1 setlinecap} if} def
+/AL {stroke userlinewidth 2 div setlinewidth
+	Rounded {1 setlinejoin 1 setlinecap} if} def
+/UL {dup gnulinewidth mul /userlinewidth exch def
+	dup 1 lt {pop 1} if 10 mul /udl exch def} def
+/PL {stroke userlinewidth setlinewidth
+	Rounded {1 setlinejoin 1 setlinecap} if} def
+% Default Line colors
+/LCw {1 1 1} def
+/LCb {0 0 0} def
+/LCa {0 0 0} def
+/LC0 {1 0 0} def
+/LC1 {0 1 0} def
+/LC2 {0 0 1} def
+/LC3 {1 0 1} def
+/LC4 {0 1 1} def
+/LC5 {1 1 0} def
+/LC6 {0 0 0} def
+/LC7 {1 0.3 0} def
+/LC8 {0.5 0.5 0.5} def
+% Default Line Types
+/LTw {PL [] 1 setgray} def
+/LTb {BL [] LCb DL} def
+/LTa {AL [1 udl mul 2 udl mul] 0 setdash LCa setrgbcolor} def
+/LT0 {PL [] LC0 DL} def
+/LT1 {PL [4 dl1 2 dl2] LC1 DL} def
+/LT2 {PL [2 dl1 3 dl2] LC2 DL} def
+/LT3 {PL [1 dl1 1.5 dl2] LC3 DL} def
+/LT4 {PL [6 dl1 2 dl2 1 dl1 2 dl2] LC4 DL} def
+/LT5 {PL [3 dl1 3 dl2 1 dl1 3 dl2] LC5 DL} def
+/LT6 {PL [2 dl1 2 dl2 2 dl1 6 dl2] LC6 DL} def
+/LT7 {PL [1 dl1 2 dl2 6 dl1 2 dl2 1 dl1 2 dl2] LC7 DL} def
+/LT8 {PL [2 dl1 2 dl2 2 dl1 2 dl2 2 dl1 2 dl2 2 dl1 4 dl2] LC8 DL} def
+/Pnt {stroke [] 0 setdash gsave 1 setlinecap M 0 0 V stroke grestore} def
+/Dia {stroke [] 0 setdash 2 copy vpt add M
+  hpt neg vpt neg V hpt vpt neg V
+  hpt vpt V hpt neg vpt V closepath stroke
+  Pnt} def
+/Pls {stroke [] 0 setdash vpt sub M 0 vpt2 V
+  currentpoint stroke M
+  hpt neg vpt neg R hpt2 0 V stroke
+ } def
+/Box {stroke [] 0 setdash 2 copy exch hpt sub exch vpt add M
+  0 vpt2 neg V hpt2 0 V 0 vpt2 V
+  hpt2 neg 0 V closepath stroke
+  Pnt} def
+/Crs {stroke [] 0 setdash exch hpt sub exch vpt add M
+  hpt2 vpt2 neg V currentpoint stroke M
+  hpt2 neg 0 R hpt2 vpt2 V stroke} def
+/TriU {stroke [] 0 setdash 2 copy vpt 1.12 mul add M
+  hpt neg vpt -1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt 1.62 mul V closepath stroke
+  Pnt} def
+/Star {2 copy Pls Crs} def
+/BoxF {stroke [] 0 setdash exch hpt sub exch vpt add M
+  0 vpt2 neg V hpt2 0 V 0 vpt2 V
+  hpt2 neg 0 V closepath fill} def
+/TriUF {stroke [] 0 setdash vpt 1.12 mul add M
+  hpt neg vpt -1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt 1.62 mul V closepath fill} def
+/TriD {stroke [] 0 setdash 2 copy vpt 1.12 mul sub M
+  hpt neg vpt 1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt -1.62 mul V closepath stroke
+  Pnt} def
+/TriDF {stroke [] 0 setdash vpt 1.12 mul sub M
+  hpt neg vpt 1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt -1.62 mul V closepath fill} def
+/DiaF {stroke [] 0 setdash vpt add M
+  hpt neg vpt neg V hpt vpt neg V
+  hpt vpt V hpt neg vpt V closepath fill} def
+/Pent {stroke [] 0 setdash 2 copy gsave
+  translate 0 hpt M 4 {72 rotate 0 hpt L} repeat
+  closepath stroke grestore Pnt} def
+/PentF {stroke [] 0 setdash gsave
+  translate 0 hpt M 4 {72 rotate 0 hpt L} repeat
+  closepath fill grestore} def
+/Circle {stroke [] 0 setdash 2 copy
+  hpt 0 360 arc stroke Pnt} def
+/CircleF {stroke [] 0 setdash hpt 0 360 arc fill} def
+/C0 {BL [] 0 setdash 2 copy moveto vpt 90 450 arc} bind def
+/C1 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 90 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C2 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 90 180 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C3 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 180 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C4 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 180 270 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C5 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 90 arc
+	2 copy moveto
+	2 copy vpt 180 270 arc closepath fill
+	vpt 0 360 arc} bind def
+/C6 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 90 270 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C7 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 270 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C8 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 270 360 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C9 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 270 450 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C10 {BL [] 0 setdash 2 copy 2 copy moveto vpt 270 360 arc closepath fill
+	2 copy moveto
+	2 copy vpt 90 180 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C11 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 180 arc closepath fill
+	2 copy moveto
+	2 copy vpt 270 360 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C12 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 180 360 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C13 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 90 arc closepath fill
+	2 copy moveto
+	2 copy vpt 180 360 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C14 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 90 360 arc closepath fill
+	vpt 0 360 arc} bind def
+/C15 {BL [] 0 setdash 2 copy vpt 0 360 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/Rec {newpath 4 2 roll moveto 1 index 0 rlineto 0 exch rlineto
+	neg 0 rlineto closepath} bind def
+/Square {dup Rec} bind def
+/Bsquare {vpt sub exch vpt sub exch vpt2 Square} bind def
+/S0 {BL [] 0 setdash 2 copy moveto 0 vpt rlineto BL Bsquare} bind def
+/S1 {BL [] 0 setdash 2 copy vpt Square fill Bsquare} bind def
+/S2 {BL [] 0 setdash 2 copy exch vpt sub exch vpt Square fill Bsquare} bind def
+/S3 {BL [] 0 setdash 2 copy exch vpt sub exch vpt2 vpt Rec fill Bsquare} bind def
+/S4 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt Square fill Bsquare} bind def
+/S5 {BL [] 0 setdash 2 copy 2 copy vpt Square fill
+	exch vpt sub exch vpt sub vpt Square fill Bsquare} bind def
+/S6 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt vpt2 Rec fill Bsquare} bind def
+/S7 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt vpt2 Rec fill
+	2 copy vpt Square fill Bsquare} bind def
+/S8 {BL [] 0 setdash 2 copy vpt sub vpt Square fill Bsquare} bind def
+/S9 {BL [] 0 setdash 2 copy vpt sub vpt vpt2 Rec fill Bsquare} bind def
+/S10 {BL [] 0 setdash 2 copy vpt sub vpt Square fill 2 copy exch vpt sub exch vpt Square fill
+	Bsquare} bind def
+/S11 {BL [] 0 setdash 2 copy vpt sub vpt Square fill 2 copy exch vpt sub exch vpt2 vpt Rec fill
+	Bsquare} bind def
+/S12 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt2 vpt Rec fill Bsquare} bind def
+/S13 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt2 vpt Rec fill
+	2 copy vpt Square fill Bsquare} bind def
+/S14 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt2 vpt Rec fill
+	2 copy exch vpt sub exch vpt Square fill Bsquare} bind def
+/S15 {BL [] 0 setdash 2 copy Bsquare fill Bsquare} bind def
+/D0 {gsave translate 45 rotate 0 0 S0 stroke grestore} bind def
+/D1 {gsave translate 45 rotate 0 0 S1 stroke grestore} bind def
+/D2 {gsave translate 45 rotate 0 0 S2 stroke grestore} bind def
+/D3 {gsave translate 45 rotate 0 0 S3 stroke grestore} bind def
+/D4 {gsave translate 45 rotate 0 0 S4 stroke grestore} bind def
+/D5 {gsave translate 45 rotate 0 0 S5 stroke grestore} bind def
+/D6 {gsave translate 45 rotate 0 0 S6 stroke grestore} bind def
+/D7 {gsave translate 45 rotate 0 0 S7 stroke grestore} bind def
+/D8 {gsave translate 45 rotate 0 0 S8 stroke grestore} bind def
+/D9 {gsave translate 45 rotate 0 0 S9 stroke grestore} bind def
+/D10 {gsave translate 45 rotate 0 0 S10 stroke grestore} bind def
+/D11 {gsave translate 45 rotate 0 0 S11 stroke grestore} bind def
+/D12 {gsave translate 45 rotate 0 0 S12 stroke grestore} bind def
+/D13 {gsave translate 45 rotate 0 0 S13 stroke grestore} bind def
+/D14 {gsave translate 45 rotate 0 0 S14 stroke grestore} bind def
+/D15 {gsave translate 45 rotate 0 0 S15 stroke grestore} bind def
+/DiaE {stroke [] 0 setdash vpt add M
+  hpt neg vpt neg V hpt vpt neg V
+  hpt vpt V hpt neg vpt V closepath stroke} def
+/BoxE {stroke [] 0 setdash exch hpt sub exch vpt add M
+  0 vpt2 neg V hpt2 0 V 0 vpt2 V
+  hpt2 neg 0 V closepath stroke} def
+/TriUE {stroke [] 0 setdash vpt 1.12 mul add M
+  hpt neg vpt -1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt 1.62 mul V closepath stroke} def
+/TriDE {stroke [] 0 setdash vpt 1.12 mul sub M
+  hpt neg vpt 1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt -1.62 mul V closepath stroke} def
+/PentE {stroke [] 0 setdash gsave
+  translate 0 hpt M 4 {72 rotate 0 hpt L} repeat
+  closepath stroke grestore} def
+/CircE {stroke [] 0 setdash 
+  hpt 0 360 arc stroke} def
+/Opaque {gsave closepath 1 setgray fill grestore 0 setgray closepath} def
+/DiaW {stroke [] 0 setdash vpt add M
+  hpt neg vpt neg V hpt vpt neg V
+  hpt vpt V hpt neg vpt V Opaque stroke} def
+/BoxW {stroke [] 0 setdash exch hpt sub exch vpt add M
+  0 vpt2 neg V hpt2 0 V 0 vpt2 V
+  hpt2 neg 0 V Opaque stroke} def
+/TriUW {stroke [] 0 setdash vpt 1.12 mul add M
+  hpt neg vpt -1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt 1.62 mul V Opaque stroke} def
+/TriDW {stroke [] 0 setdash vpt 1.12 mul sub M
+  hpt neg vpt 1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt -1.62 mul V Opaque stroke} def
+/PentW {stroke [] 0 setdash gsave
+  translate 0 hpt M 4 {72 rotate 0 hpt L} repeat
+  Opaque stroke grestore} def
+/CircW {stroke [] 0 setdash 
+  hpt 0 360 arc Opaque stroke} def
+/BoxFill {gsave Rec 1 setgray fill grestore} def
+/Density {
+  /Fillden exch def
+  currentrgbcolor
+  /ColB exch def /ColG exch def /ColR exch def
+  /ColR ColR Fillden mul Fillden sub 1 add def
+  /ColG ColG Fillden mul Fillden sub 1 add def
+  /ColB ColB Fillden mul Fillden sub 1 add def
+  ColR ColG ColB setrgbcolor} def
+/BoxColFill {gsave Rec PolyFill} def
+/PolyFill {gsave Density fill grestore grestore} def
+/h {rlineto rlineto rlineto gsave closepath fill grestore} bind def
+%
+% PostScript Level 1 Pattern Fill routine for rectangles
+% Usage: x y w h s a XX PatternFill
+%	x,y = lower left corner of box to be filled
+%	w,h = width and height of box
+%	  a = angle in degrees between lines and x-axis
+%	 XX = 0/1 for no/yes cross-hatch
+%
+/PatternFill {gsave /PFa [ 9 2 roll ] def
+  PFa 0 get PFa 2 get 2 div add PFa 1 get PFa 3 get 2 div add translate
+  PFa 2 get -2 div PFa 3 get -2 div PFa 2 get PFa 3 get Rec
+  gsave 1 setgray fill grestore clip
+  currentlinewidth 0.5 mul setlinewidth
+  /PFs PFa 2 get dup mul PFa 3 get dup mul add sqrt def
+  0 0 M PFa 5 get rotate PFs -2 div dup translate
+  0 1 PFs PFa 4 get div 1 add floor cvi
+	{PFa 4 get mul 0 M 0 PFs V} for
+  0 PFa 6 get ne {
+	0 1 PFs PFa 4 get div 1 add floor cvi
+	{PFa 4 get mul 0 2 1 roll M PFs 0 V} for
+ } if
+  stroke grestore} def
+%
+/languagelevel where
+ {pop languagelevel} {1} ifelse
+ 2 lt
+	{/InterpretLevel1 true def}
+	{/InterpretLevel1 Level1 def}
+ ifelse
+%
+% PostScript level 2 pattern fill definitions
+%
+/Level2PatternFill {
+/Tile8x8 {/PaintType 2 /PatternType 1 /TilingType 1 /BBox [0 0 8 8] /XStep 8 /YStep 8}
+	bind def
+/KeepColor {currentrgbcolor [/Pattern /DeviceRGB] setcolorspace} bind def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop 0 0 M 8 8 L 0 8 M 8 0 L stroke} 
+>> matrix makepattern
+/Pat1 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop 0 0 M 8 8 L 0 8 M 8 0 L stroke
+	0 4 M 4 8 L 8 4 L 4 0 L 0 4 L stroke}
+>> matrix makepattern
+/Pat2 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop 0 0 M 0 8 L
+	8 8 L 8 0 L 0 0 L fill}
+>> matrix makepattern
+/Pat3 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop -4 8 M 8 -4 L
+	0 12 M 12 0 L stroke}
+>> matrix makepattern
+/Pat4 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop -4 0 M 8 12 L
+	0 -4 M 12 8 L stroke}
+>> matrix makepattern
+/Pat5 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop -2 8 M 4 -4 L
+	0 12 M 8 -4 L 4 12 M 10 0 L stroke}
+>> matrix makepattern
+/Pat6 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop -2 0 M 4 12 L
+	0 -4 M 8 12 L 4 -4 M 10 8 L stroke}
+>> matrix makepattern
+/Pat7 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop 8 -2 M -4 4 L
+	12 0 M -4 8 L 12 4 M 0 10 L stroke}
+>> matrix makepattern
+/Pat8 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop 0 -2 M 12 4 L
+	-4 0 M 12 8 L -4 4 M 8 10 L stroke}
+>> matrix makepattern
+/Pat9 exch def
+/Pattern1 {PatternBgnd KeepColor Pat1 setpattern} bind def
+/Pattern2 {PatternBgnd KeepColor Pat2 setpattern} bind def
+/Pattern3 {PatternBgnd KeepColor Pat3 setpattern} bind def
+/Pattern4 {PatternBgnd KeepColor Landscape {Pat5} {Pat4} ifelse setpattern} bind def
+/Pattern5 {PatternBgnd KeepColor Landscape {Pat4} {Pat5} ifelse setpattern} bind def
+/Pattern6 {PatternBgnd KeepColor Landscape {Pat9} {Pat6} ifelse setpattern} bind def
+/Pattern7 {PatternBgnd KeepColor Landscape {Pat8} {Pat7} ifelse setpattern} bind def
+} def
+%
+%
+%End of PostScript Level 2 code
+%
+/PatternBgnd {
+  TransparentPatterns {} {gsave 1 setgray fill grestore} ifelse
+} def
+%
+% Substitute for Level 2 pattern fill codes with
+% grayscale if Level 2 support is not selected.
+%
+/Level1PatternFill {
+/Pattern1 {0.250 Density} bind def
+/Pattern2 {0.500 Density} bind def
+/Pattern3 {0.750 Density} bind def
+/Pattern4 {0.125 Density} bind def
+/Pattern5 {0.375 Density} bind def
+/Pattern6 {0.625 Density} bind def
+/Pattern7 {0.875 Density} bind def
+} def
+%
+% Now test for support of Level 2 code
+%
+Level1 {Level1PatternFill} {Level2PatternFill} ifelse
+%
+/Symbol-Oblique /Symbol findfont [1 0 .167 1 0 0] makefont
+dup length dict begin {1 index /FID eq {pop pop} {def} ifelse} forall
+currentdict end definefont pop
+/MFshow {
+   { dup 5 get 3 ge
+     { 5 get 3 eq {gsave} {grestore} ifelse }
+     {dup dup 0 get findfont exch 1 get scalefont setfont
+     [ currentpoint ] exch dup 2 get 0 exch R dup 5 get 2 ne {dup dup 6
+     get exch 4 get {Gshow} {stringwidth pop 0 R} ifelse }if dup 5 get 0 eq
+     {dup 3 get {2 get neg 0 exch R pop} {pop aload pop M} ifelse} {dup 5
+     get 1 eq {dup 2 get exch dup 3 get exch 6 get stringwidth pop -2 div
+     dup 0 R} {dup 6 get stringwidth pop -2 div 0 R 6 get
+     show 2 index {aload pop M neg 3 -1 roll neg R pop pop} {pop pop pop
+     pop aload pop M} ifelse }ifelse }ifelse }
+     ifelse }
+   forall} def
+/Gswidth {dup type /stringtype eq {stringwidth} {pop (n) stringwidth} ifelse} def
+/MFwidth {0 exch { dup 5 get 3 ge { 5 get 3 eq { 0 } { pop } ifelse }
+ {dup 3 get{dup dup 0 get findfont exch 1 get scalefont setfont
+     6 get Gswidth pop add} {pop} ifelse} ifelse} forall} def
+/MLshow { currentpoint stroke M
+  0 exch R
+  Blacktext {gsave 0 setgray MFshow grestore} {MFshow} ifelse } bind def
+/MRshow { currentpoint stroke M
+  exch dup MFwidth neg 3 -1 roll R
+  Blacktext {gsave 0 setgray MFshow grestore} {MFshow} ifelse } bind def
+/MCshow { currentpoint stroke M
+  exch dup MFwidth -2 div 3 -1 roll R
+  Blacktext {gsave 0 setgray MFshow grestore} {MFshow} ifelse } bind def
+/XYsave    { [( ) 1 2 true false 3 ()] } bind def
+/XYrestore { [( ) 1 2 true false 4 ()] } bind def
+end
+%%EndProlog
+gnudict begin
+gsave
+50 50 translate
+0.050 0.050 scale
+0 setgray
+newpath
+(Helvetica) findfont 140 scalefont setfont
+1.000 UL
+LTb
+1.000 UL
+LTa
+854 448 M
+5492 0 V
+stroke
+LTb
+854 448 M
+63 0 V
+5429 0 R
+-63 0 V
+stroke
+770 448 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0)]
+] -46.7 MRshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+854 1333 M
+5492 0 V
+stroke
+LTb
+854 1333 M
+63 0 V
+5429 0 R
+-63 0 V
+stroke
+770 1333 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.2)]
+] -46.7 MRshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+854 2218 M
+5492 0 V
+stroke
+LTb
+854 2218 M
+63 0 V
+5429 0 R
+-63 0 V
+stroke
+770 2218 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.4)]
+] -46.7 MRshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+854 3102 M
+5492 0 V
+stroke
+LTb
+854 3102 M
+63 0 V
+5429 0 R
+-63 0 V
+stroke
+770 3102 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.6)]
+] -46.7 MRshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+854 3987 M
+5492 0 V
+stroke
+LTb
+854 3987 M
+63 0 V
+5429 0 R
+-63 0 V
+stroke
+770 3987 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.8)]
+] -46.7 MRshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+854 4872 M
+5492 0 V
+stroke
+LTb
+854 4872 M
+63 0 V
+5429 0 R
+-63 0 V
+stroke
+770 4872 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 1)]
+] -46.7 MRshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+854 448 M
+0 4424 V
+stroke
+LTb
+854 448 M
+0 63 V
+0 4361 R
+0 -63 V
+stroke
+854 308 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0)]
+] -46.7 MCshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+1403 448 M
+0 4424 V
+stroke
+LTb
+1403 448 M
+0 63 V
+0 4361 R
+0 -63 V
+stroke
+1403 308 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 5e-05)]
+] -46.7 MCshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+1952 448 M
+0 4424 V
+stroke
+LTb
+1952 448 M
+0 63 V
+0 4361 R
+0 -63 V
+stroke
+1952 308 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.0001)]
+] -46.7 MCshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+2502 448 M
+0 4424 V
+stroke
+LTb
+2502 448 M
+0 63 V
+0 4361 R
+0 -63 V
+stroke
+2502 308 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.00015)]
+] -46.7 MCshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+3051 448 M
+0 4424 V
+stroke
+LTb
+3051 448 M
+0 63 V
+0 4361 R
+0 -63 V
+stroke
+3051 308 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.0002)]
+] -46.7 MCshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+3600 448 M
+0 4424 V
+stroke
+LTb
+3600 448 M
+0 63 V
+0 4361 R
+0 -63 V
+stroke
+3600 308 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.00025)]
+] -46.7 MCshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+4149 448 M
+0 4424 V
+stroke
+LTb
+4149 448 M
+0 63 V
+0 4361 R
+0 -63 V
+stroke
+4149 308 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.0003)]
+] -46.7 MCshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+4698 448 M
+0 4424 V
+stroke
+LTb
+4698 448 M
+0 63 V
+0 4361 R
+0 -63 V
+stroke
+4698 308 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.00035)]
+] -46.7 MCshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+5248 448 M
+0 3941 V
+0 420 R
+0 63 V
+stroke
+LTb
+5248 448 M
+0 63 V
+0 4361 R
+0 -63 V
+stroke
+5248 308 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.0004)]
+] -46.7 MCshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+5797 448 M
+0 3941 V
+0 420 R
+0 63 V
+stroke
+LTb
+5797 448 M
+0 63 V
+0 4361 R
+0 -63 V
+stroke
+5797 308 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.00045)]
+] -46.7 MCshow
+1.000 UL
+LTb
+1.000 UL
+LTa
+6346 448 M
+0 4424 V
+stroke
+LTb
+6346 448 M
+0 63 V
+0 4361 R
+0 -63 V
+stroke
+6346 308 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.0005)]
+] -46.7 MCshow
+1.000 UL
+LTb
+6346 448 M
+-63 0 V
+stroke
+6430 448 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0)]
+] -46.7 MLshow
+1.000 UL
+LTb
+6346 1333 M
+-63 0 V
+stroke
+6430 1333 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.2)]
+] -46.7 MLshow
+1.000 UL
+LTb
+6346 2218 M
+-63 0 V
+stroke
+6430 2218 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.4)]
+] -46.7 MLshow
+1.000 UL
+LTb
+6346 3102 M
+-63 0 V
+stroke
+6430 3102 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.6)]
+] -46.7 MLshow
+1.000 UL
+LTb
+6346 3987 M
+-63 0 V
+stroke
+6430 3987 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0.8)]
+] -46.7 MLshow
+1.000 UL
+LTb
+6346 4872 M
+-63 0 V
+stroke
+6430 4872 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 1)]
+] -46.7 MLshow
+1.000 UL
+LTb
+1.000 UL
+LTb
+854 4872 N
+854 448 L
+5492 0 V
+0 4424 V
+-5492 0 V
+Z stroke
+LCb setrgbcolor
+280 2660 M
+currentpoint gsave translate 90 rotate 0 0 moveto
+[ [(Helvetica) 140.0 0.0 true true 0 (Maximum Velocity \(abs. value\))]
+] -46.7 MCshow
+grestore
+LTb
+LCb setrgbcolor
+6919 2660 M
+currentpoint gsave translate 90 rotate 0 0 moveto
+[ [(Helvetica) 140.0 0.0 true true 0 (\(relative\) error)]
+] -46.7 MCshow
+grestore
+LTb
+LCb setrgbcolor
+3600 98 M
+[ [(Helvetica) 140.0 0.0 true true 0 (Time)]
+] -46.7 MCshow
+LTb
+1.000 UP
+1.000 UL
+LTb
+1.000 UP
+1.000 UL
+LT0
+LTb
+5695 4739 M
+[ [(Helvetica) 140.0 0.0 true true 0 (Simulation)]
+] -46.7 MRshow
+LT0
+854 4860 Pls
+865 4819 Pls
+877 4779 Pls
+888 4739 Pls
+900 4699 Pls
+911 4660 Pls
+923 4621 Pls
+934 4583 Pls
+946 4545 Pls
+957 4507 Pls
+968 4470 Pls
+980 4433 Pls
+991 4396 Pls
+1003 4360 Pls
+1014 4324 Pls
+1026 4288 Pls
+1037 4252 Pls
+1048 4217 Pls
+1060 4183 Pls
+1071 4148 Pls
+1083 4114 Pls
+1094 4080 Pls
+1106 4047 Pls
+1117 4014 Pls
+1129 3981 Pls
+1140 3948 Pls
+1151 3916 Pls
+1163 3884 Pls
+1174 3852 Pls
+1186 3821 Pls
+1197 3790 Pls
+1209 3759 Pls
+1220 3729 Pls
+1232 3698 Pls
+1243 3669 Pls
+1254 3639 Pls
+1266 3609 Pls
+1277 3580 Pls
+1289 3551 Pls
+1300 3523 Pls
+1312 3494 Pls
+1323 3466 Pls
+1335 3439 Pls
+1346 3411 Pls
+1357 3384 Pls
+1369 3357 Pls
+1380 3330 Pls
+1392 3303 Pls
+1403 3277 Pls
+1415 3251 Pls
+1426 3225 Pls
+1437 3200 Pls
+1449 3174 Pls
+1460 3149 Pls
+1472 3124 Pls
+1483 3100 Pls
+1495 3075 Pls
+1506 3051 Pls
+1518 3027 Pls
+1529 3003 Pls
+1540 2980 Pls
+1552 2956 Pls
+1563 2933 Pls
+1575 2910 Pls
+1586 2888 Pls
+1598 2865 Pls
+1609 2843 Pls
+1621 2821 Pls
+1632 2799 Pls
+1643 2777 Pls
+1655 2756 Pls
+1666 2734 Pls
+1678 2713 Pls
+1689 2693 Pls
+1701 2672 Pls
+1712 2651 Pls
+1724 2631 Pls
+1735 2611 Pls
+1746 2591 Pls
+1758 2571 Pls
+1769 2552 Pls
+1781 2532 Pls
+1792 2513 Pls
+1804 2494 Pls
+1815 2475 Pls
+1826 2457 Pls
+1838 2438 Pls
+1849 2420 Pls
+1861 2402 Pls
+1872 2384 Pls
+1884 2366 Pls
+1895 2348 Pls
+1907 2331 Pls
+1918 2313 Pls
+1929 2296 Pls
+1941 2279 Pls
+1952 2262 Pls
+1964 2245 Pls
+1975 2229 Pls
+1987 2212 Pls
+1998 2196 Pls
+2010 2180 Pls
+2021 2164 Pls
+2032 2148 Pls
+2044 2133 Pls
+2055 2117 Pls
+2067 2102 Pls
+2078 2086 Pls
+2090 2071 Pls
+2101 2056 Pls
+2113 2042 Pls
+2124 2027 Pls
+2135 2012 Pls
+2147 1998 Pls
+2158 1984 Pls
+2170 1969 Pls
+2181 1955 Pls
+2193 1942 Pls
+2204 1928 Pls
+2215 1914 Pls
+2227 1901 Pls
+2238 1887 Pls
+2250 1874 Pls
+2261 1861 Pls
+2273 1848 Pls
+2284 1835 Pls
+2296 1822 Pls
+2307 1810 Pls
+2318 1797 Pls
+2330 1785 Pls
+2341 1772 Pls
+2353 1760 Pls
+2364 1748 Pls
+2376 1736 Pls
+2387 1724 Pls
+2399 1712 Pls
+2410 1701 Pls
+2421 1689 Pls
+2433 1678 Pls
+2444 1666 Pls
+2456 1655 Pls
+2467 1644 Pls
+2479 1633 Pls
+2490 1622 Pls
+2502 1611 Pls
+2513 1601 Pls
+2524 1590 Pls
+2536 1579 Pls
+2547 1569 Pls
+2559 1559 Pls
+2570 1548 Pls
+2582 1538 Pls
+2593 1528 Pls
+2604 1518 Pls
+2616 1508 Pls
+2627 1499 Pls
+2639 1489 Pls
+2650 1479 Pls
+2662 1470 Pls
+2673 1460 Pls
+2685 1451 Pls
+2696 1442 Pls
+2707 1433 Pls
+2719 1424 Pls
+2730 1415 Pls
+2742 1406 Pls
+2753 1397 Pls
+2765 1388 Pls
+2776 1380 Pls
+2788 1371 Pls
+2799 1362 Pls
+2810 1354 Pls
+2822 1346 Pls
+2833 1337 Pls
+2845 1329 Pls
+2856 1321 Pls
+2868 1313 Pls
+2879 1305 Pls
+2891 1297 Pls
+2902 1289 Pls
+2913 1282 Pls
+2925 1274 Pls
+2936 1266 Pls
+2948 1259 Pls
+2959 1251 Pls
+2971 1244 Pls
+2982 1237 Pls
+2993 1229 Pls
+3005 1222 Pls
+3016 1215 Pls
+3028 1208 Pls
+3039 1201 Pls
+3051 1194 Pls
+3062 1187 Pls
+3074 1180 Pls
+3085 1174 Pls
+3096 1167 Pls
+3108 1160 Pls
+3119 1154 Pls
+3131 1147 Pls
+3142 1141 Pls
+3154 1134 Pls
+3165 1128 Pls
+3177 1122 Pls
+3188 1116 Pls
+3199 1109 Pls
+3211 1103 Pls
+3222 1097 Pls
+3234 1091 Pls
+3245 1085 Pls
+3257 1079 Pls
+3268 1074 Pls
+3280 1068 Pls
+3291 1062 Pls
+3302 1056 Pls
+3314 1051 Pls
+3325 1045 Pls
+3337 1040 Pls
+3348 1034 Pls
+3360 1029 Pls
+3371 1024 Pls
+3382 1018 Pls
+3394 1013 Pls
+3405 1008 Pls
+3417 1003 Pls
+3428 998 Pls
+3440 993 Pls
+3451 988 Pls
+3463 983 Pls
+3474 978 Pls
+3485 973 Pls
+3497 968 Pls
+3508 963 Pls
+3520 958 Pls
+3531 954 Pls
+3543 949 Pls
+3554 944 Pls
+3566 940 Pls
+3577 935 Pls
+3588 931 Pls
+3600 926 Pls
+3611 922 Pls
+3623 918 Pls
+3634 913 Pls
+3646 909 Pls
+3657 905 Pls
+3669 900 Pls
+3680 896 Pls
+3691 892 Pls
+3703 888 Pls
+3714 884 Pls
+3726 880 Pls
+3737 876 Pls
+3749 872 Pls
+3760 868 Pls
+3771 864 Pls
+3783 860 Pls
+3794 857 Pls
+3806 853 Pls
+3817 849 Pls
+3829 845 Pls
+3840 842 Pls
+3852 838 Pls
+3863 835 Pls
+3874 831 Pls
+3886 828 Pls
+3897 824 Pls
+3909 821 Pls
+3920 817 Pls
+3932 814 Pls
+3943 810 Pls
+3955 807 Pls
+3966 804 Pls
+3977 800 Pls
+3989 797 Pls
+4000 794 Pls
+4012 791 Pls
+4023 788 Pls
+4035 784 Pls
+4046 781 Pls
+4058 778 Pls
+4069 775 Pls
+4080 772 Pls
+4092 769 Pls
+4103 766 Pls
+4115 763 Pls
+4126 760 Pls
+4138 758 Pls
+4149 755 Pls
+4160 752 Pls
+4172 749 Pls
+4183 746 Pls
+4195 744 Pls
+4206 741 Pls
+4218 738 Pls
+4229 735 Pls
+4241 733 Pls
+4252 730 Pls
+4263 728 Pls
+4275 725 Pls
+4286 722 Pls
+4298 720 Pls
+4309 717 Pls
+4321 715 Pls
+4332 713 Pls
+4344 710 Pls
+4355 708 Pls
+4366 705 Pls
+4378 703 Pls
+4389 701 Pls
+4401 698 Pls
+4412 696 Pls
+4424 694 Pls
+4435 691 Pls
+4447 689 Pls
+4458 687 Pls
+4469 685 Pls
+4481 683 Pls
+4492 680 Pls
+4504 678 Pls
+4515 676 Pls
+4527 674 Pls
+4538 672 Pls
+4549 670 Pls
+4561 668 Pls
+4572 666 Pls
+4584 664 Pls
+4595 662 Pls
+4607 660 Pls
+4618 658 Pls
+4630 656 Pls
+4641 654 Pls
+4652 652 Pls
+4664 650 Pls
+4675 648 Pls
+4687 647 Pls
+4698 645 Pls
+4710 643 Pls
+4721 641 Pls
+4733 639 Pls
+4744 638 Pls
+4755 636 Pls
+4767 634 Pls
+4778 632 Pls
+4790 631 Pls
+4801 629 Pls
+4813 627 Pls
+4824 626 Pls
+4836 624 Pls
+4847 622 Pls
+4858 621 Pls
+4870 619 Pls
+4881 618 Pls
+4893 616 Pls
+4904 615 Pls
+4916 613 Pls
+4927 611 Pls
+4938 610 Pls
+4950 608 Pls
+4961 607 Pls
+4973 606 Pls
+4984 604 Pls
+4996 603 Pls
+5007 601 Pls
+5019 600 Pls
+5030 598 Pls
+5041 597 Pls
+5053 596 Pls
+5064 594 Pls
+5076 593 Pls
+5087 592 Pls
+5099 590 Pls
+5110 589 Pls
+5122 588 Pls
+5133 586 Pls
+5144 585 Pls
+5156 584 Pls
+5167 583 Pls
+5179 581 Pls
+5190 580 Pls
+5202 579 Pls
+5213 578 Pls
+5224 577 Pls
+5236 575 Pls
+5247 574 Pls
+5259 573 Pls
+5270 572 Pls
+5282 571 Pls
+5293 570 Pls
+5305 568 Pls
+5316 567 Pls
+5327 566 Pls
+5339 565 Pls
+5350 564 Pls
+5362 563 Pls
+5373 562 Pls
+5385 561 Pls
+5396 560 Pls
+5408 559 Pls
+5419 558 Pls
+5430 557 Pls
+5442 556 Pls
+5453 555 Pls
+5465 554 Pls
+5476 553 Pls
+5488 552 Pls
+5499 551 Pls
+5511 550 Pls
+5522 549 Pls
+5533 548 Pls
+5545 547 Pls
+5556 546 Pls
+5568 545 Pls
+5579 544 Pls
+5591 544 Pls
+5602 543 Pls
+5613 542 Pls
+5625 541 Pls
+5636 540 Pls
+5648 539 Pls
+5659 538 Pls
+5671 538 Pls
+5682 537 Pls
+5694 536 Pls
+5705 535 Pls
+5716 534 Pls
+5728 534 Pls
+5739 533 Pls
+5751 532 Pls
+5762 531 Pls
+5774 530 Pls
+5785 530 Pls
+5797 529 Pls
+5808 528 Pls
+5819 527 Pls
+5831 527 Pls
+5842 526 Pls
+5854 525 Pls
+5865 525 Pls
+5877 524 Pls
+5888 523 Pls
+5900 522 Pls
+5911 522 Pls
+5922 521 Pls
+5934 520 Pls
+5945 520 Pls
+5957 519 Pls
+5968 518 Pls
+5980 518 Pls
+5991 517 Pls
+6002 517 Pls
+6014 516 Pls
+6025 515 Pls
+6037 515 Pls
+6048 514 Pls
+6060 513 Pls
+6071 513 Pls
+6083 512 Pls
+6094 512 Pls
+6105 511 Pls
+6117 510 Pls
+6128 510 Pls
+6140 509 Pls
+6151 509 Pls
+6163 508 Pls
+6174 508 Pls
+6186 507 Pls
+6197 507 Pls
+6208 506 Pls
+6220 505 Pls
+5978 4739 Pls
+1.000 UL
+LT1
+LTb
+5695 4599 M
+[ [(Helvetica) 140.0 0.0 true true 0 (Exact)]
+] -46.7 MRshow
+LT1
+5779 4599 M
+399 0 V
+854 4872 M
+1 -4 V
+1 -3 V
+1 -4 V
+2 -4 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -4 V
+1 -4 V
+1 -3 V
+2 -4 V
+1 -3 V
+1 -4 V
+1 -4 V
+1 -3 V
+1 -4 V
+1 -3 V
+2 -4 V
+1 -4 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -4 V
+1 -3 V
+2 -4 V
+1 -4 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -4 V
+1 -3 V
+2 -4 V
+1 -3 V
+1 -4 V
+1 -4 V
+1 -3 V
+1 -4 V
+1 -3 V
+2 -4 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -4 V
+2 -3 V
+1 -4 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -4 V
+1 -3 V
+2 -4 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -4 V
+1 -3 V
+2 -4 V
+1 -3 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -4 V
+1 -3 V
+2 -4 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -3 V
+1 -4 V
+1 -3 V
+2 -4 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -3 V
+1 -4 V
+1 -3 V
+2 -4 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -3 V
+1 -4 V
+1 -3 V
+2 -3 V
+1 -4 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -3 V
+1 -4 V
+2 -3 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -3 V
+2 -4 V
+1 -3 V
+stroke 971 4516 M
+1 -3 V
+1 -4 V
+1 -3 V
+1 -3 V
+1 -4 V
+2 -3 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -3 V
+1 -4 V
+1 -3 V
+2 -3 V
+1 -4 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -4 V
+1 -3 V
+2 -3 V
+1 -4 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -4 V
+1 -3 V
+2 -3 V
+1 -4 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -4 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -4 V
+2 -3 V
+1 -3 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -4 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -4 V
+2 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -4 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -4 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -3 V
+stroke 1090 4183 M
+1 -4 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -2 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -3 V
+stroke 1209 3876 M
+1 -2 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -2 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -2 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -2 V
+1 -3 V
+2 -3 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+1 -3 V
+1 -2 V
+2 -3 V
+1 -3 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -2 V
+1 -3 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -2 V
+1 -3 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+1 -3 V
+2 -2 V
+1 -3 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+1 -2 V
+2 -3 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+1 -2 V
+1 -3 V
+2 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+2 -2 V
+1 -3 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+1 -2 V
+2 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+2 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+1 -2 V
+2 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -2 V
+2 -3 V
+1 -3 V
+stroke 1328 3595 M
+1 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+2 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+2 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -2 V
+2 -3 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -2 V
+2 -3 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+2 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -3 V
+2 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+1 -3 V
+2 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -2 V
+2 -3 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+2 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+2 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+1 -3 V
+2 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+1 -3 V
+2 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+1 -3 V
+2 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+2 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+1 -2 V
+2 -2 V
+1 -3 V
+stroke 1447 3337 M
+1 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -3 V
+2 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+2 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+2 -3 V
+1 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+1 -3 V
+2 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+2 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+2 -3 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -3 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -3 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -3 V
+stroke 1566 3100 M
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -3 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -3 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -3 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -3 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -3 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -3 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -3 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+stroke 1685 2883 M
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+stroke 1804 2683 M
+1 -1 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -1 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -2 V
+2 -1 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+2 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+2 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+2 -2 V
+stroke 1923 2500 M
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+2 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+2 -1 V
+1 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+2 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+2 -1 V
+1 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+2 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+2 -1 V
+stroke 2042 2332 M
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+2 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+2 -1 V
+stroke 2161 2178 M
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+2 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+2 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+2 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+2 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+2 -1 V
+stroke 2280 2036 M
+1 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+stroke 2399 1906 M
+1 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+stroke 2518 1786 M
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -2 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -2 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+stroke 2637 1676 M
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+2 -1 V
+stroke 2756 1576 M
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+stroke 2874 1483 M
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+stroke 2993 1398 M
+2 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+2 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+stroke 3112 1320 M
+2 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+2 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+2 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+2 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+2 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+stroke 3231 1249 M
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+2 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+2 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+2 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+stroke 3350 1183 M
+2 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+stroke 3469 1123 M
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+stroke 3588 1068 M
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+stroke 3707 1017 M
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+stroke 3826 970 M
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+stroke 3945 927 M
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+stroke 4064 888 M
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+stroke 4183 852 M
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+stroke 4302 819 M
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+stroke 4421 789 M
+1 -1 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+stroke 4540 761 M
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+stroke 4659 735 M
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+stroke 4778 711 M
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+stroke 4897 690 M
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+stroke 5016 670 M
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+stroke 5135 652 M
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+stroke 5254 635 M
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+stroke 5373 620 M
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+stroke 5492 606 M
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+stroke 5611 593 M
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+stroke 5730 581 M
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+stroke 5849 570 M
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+stroke 5968 560 M
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+stroke 6087 551 M
+1 0 V
+1 0 V
+2 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 -1 V
+1 0 V
+stroke 6206 542 M
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 -1 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+2 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+1 0 V
+stroke
+LT2
+LTb
+5695 4459 M
+[ [(Helvetica) 140.0 0.0 true true 0 (Error)]
+] -46.7 MRshow
+LT2
+5779 4459 M
+399 0 V
+854 460 M
+11 5 V
+12 4 V
+11 5 V
+12 4 V
+11 5 V
+12 4 V
+11 5 V
+12 4 V
+11 5 V
+11 4 V
+12 5 V
+11 5 V
+12 4 V
+11 5 V
+12 4 V
+11 4 V
+11 5 V
+12 4 V
+11 5 V
+12 4 V
+11 5 V
+12 4 V
+11 5 V
+12 4 V
+11 5 V
+11 4 V
+12 5 V
+11 4 V
+12 4 V
+11 5 V
+12 4 V
+11 5 V
+12 4 V
+11 4 V
+11 5 V
+12 4 V
+11 5 V
+12 4 V
+11 4 V
+12 5 V
+11 4 V
+12 5 V
+11 4 V
+11 4 V
+12 5 V
+11 4 V
+12 4 V
+11 5 V
+12 4 V
+11 4 V
+11 5 V
+12 4 V
+11 4 V
+12 5 V
+11 4 V
+12 4 V
+11 4 V
+12 5 V
+11 4 V
+11 4 V
+12 5 V
+11 4 V
+12 4 V
+11 4 V
+12 5 V
+11 4 V
+12 4 V
+11 4 V
+11 5 V
+12 4 V
+11 4 V
+12 4 V
+11 5 V
+12 4 V
+11 4 V
+12 4 V
+11 5 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 5 V
+12 4 V
+11 4 V
+11 4 V
+12 4 V
+11 4 V
+12 5 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 4 V
+11 4 V
+12 5 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 4 V
+stroke 2021 901 M
+11 5 V
+12 4 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 4 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 5 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 4 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 3 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 4 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 4 V
+12 3 V
+11 4 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 3 V
+12 4 V
+11 4 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 3 V
+12 4 V
+11 4 V
+12 4 V
+11 4 V
+11 4 V
+12 3 V
+11 4 V
+12 4 V
+11 4 V
+12 4 V
+11 3 V
+12 4 V
+11 4 V
+11 4 V
+12 4 V
+11 3 V
+12 4 V
+11 4 V
+12 4 V
+11 3 V
+11 4 V
+12 4 V
+11 4 V
+12 3 V
+11 4 V
+12 4 V
+11 4 V
+12 3 V
+11 4 V
+11 4 V
+12 4 V
+11 3 V
+12 4 V
+11 4 V
+12 3 V
+11 4 V
+12 4 V
+11 3 V
+11 4 V
+12 4 V
+stroke 3211 1306 M
+11 4 V
+12 3 V
+11 4 V
+12 4 V
+11 3 V
+12 4 V
+11 4 V
+11 3 V
+12 4 V
+11 3 V
+12 4 V
+11 4 V
+12 3 V
+11 4 V
+11 4 V
+12 3 V
+11 4 V
+12 4 V
+11 3 V
+12 4 V
+11 3 V
+12 4 V
+11 4 V
+11 3 V
+12 4 V
+11 3 V
+12 4 V
+11 3 V
+12 4 V
+11 4 V
+12 3 V
+11 4 V
+11 3 V
+12 4 V
+11 3 V
+12 4 V
+11 4 V
+12 3 V
+11 4 V
+12 3 V
+11 4 V
+11 3 V
+12 4 V
+11 3 V
+12 4 V
+11 3 V
+12 4 V
+11 3 V
+11 4 V
+12 3 V
+11 4 V
+12 3 V
+11 4 V
+12 3 V
+11 4 V
+12 3 V
+11 4 V
+11 3 V
+12 4 V
+11 3 V
+12 4 V
+11 3 V
+12 3 V
+11 4 V
+12 3 V
+11 4 V
+11 3 V
+12 4 V
+11 3 V
+12 3 V
+11 4 V
+12 3 V
+11 4 V
+12 3 V
+11 4 V
+11 3 V
+12 3 V
+11 4 V
+12 3 V
+11 4 V
+12 3 V
+11 3 V
+11 4 V
+12 3 V
+11 3 V
+12 4 V
+11 3 V
+12 3 V
+11 4 V
+12 3 V
+11 4 V
+11 3 V
+12 3 V
+11 4 V
+12 3 V
+11 3 V
+12 4 V
+11 3 V
+12 3 V
+11 4 V
+11 3 V
+12 3 V
+11 3 V
+12 4 V
+stroke 4401 1669 M
+11 3 V
+12 3 V
+11 4 V
+12 3 V
+11 3 V
+11 4 V
+12 3 V
+11 3 V
+12 3 V
+11 4 V
+12 3 V
+11 3 V
+11 3 V
+12 4 V
+11 3 V
+12 3 V
+11 3 V
+12 4 V
+11 3 V
+12 3 V
+11 3 V
+11 4 V
+12 3 V
+11 3 V
+12 3 V
+11 4 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+11 4 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 4 V
+12 3 V
+11 3 V
+11 3 V
+12 3 V
+11 3 V
+12 4 V
+11 3 V
+12 3 V
+11 3 V
+11 3 V
+12 3 V
+11 4 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+11 3 V
+12 4 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+11 3 V
+12 3 V
+11 3 V
+12 4 V
+11 3 V
+12 3 V
+11 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+stroke 5591 1994 M
+11 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+12 2 V
+11 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+11 3 V
+12 2 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+11 2 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+11 2 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+12 3 V
+11 2 V
+12 3 V
+11 3 V
+11 3 V
+12 3 V
+11 2 V
+12 3 V
+11 3 V
+12 3 V
+11 3 V
+12 2 V
+11 3 V
+11 3 V
+12 3 V
+stroke
+LTb
+854 4872 N
+854 448 L
+5492 0 V
+0 4424 V
+-5492 0 V
+Z stroke
+1.000 UP
+1.000 UL
+LTb
+stroke
+grestore
+end
+showpage
+%%Trailer
+%%DocumentFonts: Helvetica
