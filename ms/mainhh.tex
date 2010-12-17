@@ -1128,10 +1128,12 @@ This test case is similar to the above one with the difference that now the wave
 \end{equation}
 \item density evolution 
 \begin{equation}
+\label{eq:1DWaveDetla_rho}
  \delta \rho(x,t)=\rho_0\frac{k}{c} A'  \sin(k(ct-x))
 \end{equation}
 \item pressure evolution 
 \begin{equation}
+\label{eq:1DWaveDetla_p}
  \delta p(x,t)=k c \rho_0 A'  \sin(k(ct-x))
 \end{equation}
 \item evolution of the displacement $\xi=x-x_0$
@@ -1142,7 +1144,7 @@ This test case is similar to the above one with the difference that now the wave
 
 \end{itemize}
 
-$A'$ denotes the amplitude of the underlying velocity potential and therefore determines the amplitude of the other quantities as well. It can be any random constant with the restriction that the disturbances in $\rho$ and $p$ remain small compared to their mean value (linear theory). The variable $k$ is the  wave number and defined as $k=\frac{2\pi}{\lambda}$.
+$A'$ denotes the amplitude of the underlying velocity potential and therefore determines the amplitude of the other quantities as well. It can be any random constant with the restriction that the disturbances in $\rho$ and $p$ remain small compared to their mean value (linear theory). The variable $k$ is the  wave number and defined as $k=\frac{2\pi}{\lambda}$ and $c$ denotes the sound speed.
 
 Furthermore one can note that the displacement is $\pi/2$ or $90^\circ$ in phase ahead of the other quantities. This fact will be important when thinking about the initialization of a finite propagating wave (single wave train). 
 
@@ -1213,13 +1215,20 @@ The Taylor--Green flow consists of a periodical arrangement of vortices in the w
 
 An analytical expression for the temporal evolution of the velocity field of the incompressible 2D Taylor--Green flow is given by \cite{Chaniotis2002}
 \begin{equation}
- \label{eq:TG_analyticalSolution}
+ \label{eq:TG_analyticalSolution_u}
 \begin{split}
 u_x(x,y,t)&=-U_0 e^{bt}\cos(2\pi x)\sin(2\pi y)\\
 u_y(x,y,t)&=U_0 e^{bt}\sin(2\pi x)\cos(2\pi y)
 \end{split}
 \end{equation}
 with $b=\frac{-8\pi^2}{Re}$ characterizing the temporal decay of the velocity field. The Reynolds number is defined for this case as $Re=\frac{\rho U_0 l_\mathit{char}}{\eta}$.
+The corresponding pressure field can be described as 
+\begin{equation}
+\label{eq:TG_analyticalSolution_p}
+p(x,y,t)=p_\mathit{ref} -\frac{U_0^2}{4} e^{bt}\left(\cos(4\pi x)+\cos(4\pi y)\right)
+\end{equation}
+with $p_\mathit{ref}=\frac{1}{\gamma M^2}$.
+
 
 
 \subsection{Pure heat--conduction -- Slab with temperature jump}
@@ -1816,7 +1825,7 @@ The available kernel types (subclasses) are:
  
 \paragraph{The {\tt Interaction} class}
 An object of type interaction consists essentially of two particles, the two interaction partners. Methods provided by the interaction class comprise the calculation of the contribution of the corresponding interaction pair to the velocity, energy and optionally density change rates . That means it is here where the actual force calculation takes place. 
-As this force calculation is different for the case of the multi--phase incompressibel simulation and the single phase compressible simulation, this class is implemented as an abstract base class with the two subclasses:
+As this force calculation is different for the case of the multi--phase incompressible simulation and the single phase compressible simulation, this class is implemented as an abstract base class with the two subclasses:
 \begin{itemize}
  \item {\tt Interactionin} for the incompressible case.
  \item {\tt Interactioncomp} for the compressible case.
@@ -1830,35 +1839,62 @@ In the present SPH code lists play an important role to manage and easily addres
 \item the {\tt particle\_list} containing all real particles. This list is an attribute of {\tt Particlemanager}.
 \item a list {\tt boundary\_list} containing all ghost particles used to model the boundaries at the domain edge. This list is an attribute of {\tt Boundary}.
 \item a list {\tt ghost\_prtl\_SolObs\_list} for all ghost particles modeling solid obstacles within the calculation domain. This list belongs to {\tt SolidObstacles}.
-\item a list {\tt cell\_lists} containing all particles, no matter what type. To be more precise, this is not a simple list, but a 2D matrix of lists and is needed for the linked list particle search algorithm (see section (\ref{sec:NNPS})) used in the 2D code. The 2D calculation domain is divided into a certain number of cells, which can be specified in the simulation setup (.tcl) file. Each of these cells corresponds to one list in the 2D matrix of lists. All particles are assigned to this list of the 2D matrix, which corresponds to the cell they are located in. Thus the 2D list matrix is an image of the particle positions and the nearest neighbor search for one particle only needs to be performed i its neighboring list elements (domain cells).
+\item a list {\tt cell\_lists} containing all particles, no matter what type. To be more precise, this is not a simple list, but a 2D matrix of lists and is needed for the linked list particle search algorithm (see section (\ref{sec:NNPS})) used in the 2D code. The 2D calculation domain is divided into a certain number of cells, which can be specified in the simulation setup (.tcl) file. Each of these cells corresponds to one list in the 2D matrix of lists. All particles are assigned to this list of the 2D matrix, which corresponds to the cell they are located in. Thus the 2D list matrix is an image of the particle positions and the nearest neighbor search for one particle only needs to be performed i its neighboring list elements (domain cells). The {\tt cell\_lists} Matrix is an attribute of {\tt Particlemanager}
 \end{itemize}
  
 
 \paragraph{The {\tt Boundary} class} 
+The boundary class manages the boundary conditions at the domain edges (see section (\ref{sec:boundaryConditionImplementation})). Possible boundary types are periodic, symmetric, free-- and no--slip wall. The boundary class contains a method to generate the boundary particles by mirroring of their position. As mentioned above, all boundary particles are added to the list {\tt boundary\_list}. Other methods manipulate the boundary particle properties depending on the desired boundary condition. 
+ 
 
 \paragraph{The {\tt SolidObstacles} class}
+This class models solid obstacles within the calculation domain by ghost particles with fixed positions. Further details on the employed surface modeling methods can be found in section (\ref{sec:boundaryCond_solidWall}). The ghost particles are externally initialized like normal particles based on the particle information given in the initialization (.ivs) file and only declared as ghost particles within the program based on whether or not they lie within the solid obstacle geometry. This geometry is different from type to type and this is why the {\tt SolidObstacles} class is implemented as an abstract base class with the following subclasses.
+\begin{itemize}
+ \item {\tt LinearWal}: Two horizontal parallel linear walls are modeled with the solid obstacle modeling a canal. This situation is used to test the solid obstacle boundary conditions.
+\item {\tt Cavity}: The cavity as introduced in section (\ref{sec:Porosities_Cavity}) is one of the investigated porosity configurations.
+\item {\tt Porosities}: This class implements the circular porosity situation as shown in section (\ref{sec:PorositiesCircularObstacles}).
+\item {\tt NoObstacles}: This is the default class used if no solid obstacles appear in the calculation domain.
+\end{itemize}
+All these classes contain an individual geometrical setup and individually implemented methods to perform the geometrical calculations needed for the virtual velocity and temperature assignment of the ghost particles (see section (\ref{sec:boundaryCond_solidWall})).
+The solid obstacles type is selected in the simulation settings (.tcl) file and the geometrical information for the obstacle is communicated to the program via the corresponding (.ivs) file.
+
 
 \paragraph{The {\tt Pariclemanager} class}
+The particle manager is in charge of the particles at a higher level. There is for example a method generating all particles as initialized via the (.ivs) file. For this purpose the (.ivs) file is read and each particle generated by the corresponding constructor of the {\tt Particle} class. Depending on their types, particles are then assigned to the corresponding lists.
+Furthermore the {\tt cell\_lists} Matrix is managed by a particle manager method. This method updates all list entries according to the current particle positions
 
-\paragraph{The {\tt TimeSolver} class}
+\paragraph{The {\tt Hydrodynamics} class}
+The hydrodynamics class contains various methods at a high or intermediate level. One exemplary method generates all interaction pairs, others update the change rates for all particles and again others update the particles values based on these change rates. A further method of hydrodynamics determines the automatic time step according to section (\ref{sec:TmeStepChoice}). 
 
 \paragraph{The {\tt Output} class}
+After a user selected output interval is reached, the output method writes the current values into a file {\tt prtlxxxxxxxx.dat} in the folder {\tt src/outdata}, where xxxxxxxx is the time stamp. A restart (.rst) file is produced as well in the {\tt cases} folder. If the restart option is selected in the setup (.tcl) file, the simulation can then by resumed from the previously reached instant.
+
+\paragraph{The {\tt TimeSolver} class}
+Numerical integration schemes are implemented in the {\tt TimeSolver} class, which again is an abstract base class with the following implementations.
+\begin{itemize}
+ \item {\tt GasTimeSolverLeapFrog}: Time integration is conducted with the leap--frog scheme introduced in section (\ref{sec:numIntegr}). This time solver is exclusively used for the gas dynamics mode.
+\item {\tt GasTimeSolverPredCorr}: Time integration is performed using a predictor corrector scheme as presented in section (\ref{sec:numIntegr}). This time solver is only used for the gas dynamics mode.
+\item {\tt HydroTimeSolver}: The hydro dynamics mode time solver is a remainder of the original code.
+\end{itemize}
+
+All classes implement a method for the summation density approach and one for the continuity density approach, both presented in section (\ref{sec:DensCalcMode}).
+These methods are very high level, i.\ e.\ they call many methods of the previously introduced classes. The time solver method calls for example the method for the boundary condition creation, for the update of the change rates and for the update of the particle values, the last two being methods of the {\tt Hydrodynamics} class.
+
 
 \paragraph{The {\tt Initiation} class}
+The essential method of the initiation class is its constructor, which reads the simulation setup (.tcl) file and therefore stores all user settings in program variables. A further method initializes the particle volume and optionally mass, based on the initial particle properties.
 
 \paragraph{The {\tt sph.cpp} main program}
+The main program initializes objects of classes that need a program--wide visibility. 
+After all objects are initialized according to the user selection, the time integration method is called, which as mentioned above, takes all the further action to conduct this temporal integration and thus, the actual simulation. 
 
 
-
-
-
-WORK IN PROGRESS
-
-NOTE (muss noch irgendwo anders untergebracht werden!) für output werden alle real particle werte immer auf den nächsten vollen Zeitschritt upgedated. Dies ist ohne Implementierung einer weiteren großen Methode nicht für boundary particle möglich. Deshlab sind boundary particle werte für U,e, (und bei continuity density auch rho) immer ienen halben zeitschritt hinterher. Dies ist vor allem bei größeren simulationszeiten nihct weiter tragisch, zumal boundary particle werte nei für quantitatives post-processing hergenommen werden sondern nur für visualisierungen mit rendering in splash (wofür die präzission locker ausreicht...)
+%NOTE (muss noch irgendwo anders untergebracht werden!) für output werden alle real particle werte immer auf den nächsten vollen Zeitschritt upgedated. Dies ist ohne Implementierung einer weiteren großen Methode nicht für boundary particle möglich. Deshlab sind boundary particle werte für U,e, (und bei continuity density auch rho) immer ienen halben zeitschritt hinterher. Dies ist vor allem bei größeren simulationszeiten nihct weiter tragisch, zumal boundary particle werte nei für quantitatives post-processing hergenommen werden sondern nur für visualisierungen mit rendering in splash (wofür die präzission locker ausreicht...)
 
 
 \subsection{Structure}
 \label{sec:Struc2DCode}
+The control flow of the progam with its components introduced in section (\ref{sec:Comp2DCode}) is presented in a schematic flow chart shown in APPENDIX
 
 
 \subsection{How to install and run the program}
@@ -1886,14 +1922,16 @@ Once these two files are ready, the program is run from the {\tt sph-blitz/src} 
 \begin{verbatim}
  ./sph ../cases/xxxxx ../cases/zzzzz.ivs
 \end{verbatim}
-The simulation results are written into {\tt src/outdata} and can be post--processed with scripts contained in the corresponding {\tt postProcessingyyyyy} folder of {\tt sph-blitz/scripts). Again there are {\tt README} files in these folders detailing the process.
+The simulation results are written into {\tt src/outdata} and can be post--processed with scripts contained in the corresponding {\tt postProcessingyyyyy} folder of {\tt sph-blitz/scripts}. Again there are {\tt README} files in these folders detailing the process.
 
 Details on which simulation setup (.tcl) file to use with which initialization (.ivs) file are given in the corresponding paragraphs of section (\ref{sec:simuSetupTestCases})
 
 
-\section{Simulation Setup and post-processing for different test cases}
+\section{Simulation Setup and post--processing for different test cases}
 \label{sec:simuSetupTestCases}
-To provide users with a quick and complete overview of all the settings employed for the different test cases, they are summarized in two tables for each test case -- one with general simulation settings and one with information on the initial particle distribution and particle properties. This is all contained in the respective simulation setup paragraph. 
+To provide users with a quick and complete overview of all the settings employed for the different test cases, they are summarized in two tables for each test case -- one with general simulation settings and one with information on the initial particle distribution and particle properties. All this can be found in the respective simulation setup paragraph. 
+Concerning the simulation setup table: if a feature is not mentioned in the table for a specific problem, it means it is not activated in that case. 
+
 Furthermore, there is a paragraph entitled validation methods for each test case. It introduces the respective post--processing procedure and the logic of validation. 
 
 \subsection{Employed Norm Definition}
@@ -1941,7 +1979,7 @@ Simulation setups and post-processing methods for the sock--tube problem are giv
 
 \paragraph{Simulation Setup}
 
-Table (\ref{tab:SimuSettings_Shock}) resumes the settings and parameter values used for the simulation presented in teh corresponding results section (\ref{sec:2DSPHcodeResults_Shock}). 
+Table (\ref{tab:SimuSettings_Shock}) resumes the settings and parameter values used for the simulation presented in the corresponding results section (\ref{sec:2DSPHcodeResults_Shock}). 
 
 
 
@@ -1949,51 +1987,83 @@ Table (\ref{tab:SimuSettings_Shock}) resumes the settings and parameter values u
 \label{tab:SimuSettings_Shock}
 \centering
 
-\begin{tabular}[c]{|l c|l c|l c|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\begin{tabular}[c]{|l|p{5cm}|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
 \hline
 \hline
-\multicolumn{2}{|c|}{\textbf{Base Quantity}} & \multicolumn{2}{|c|}{\textbf{Base Unit}} & \multicolumn{2}{|c|}{\textbf{Base Dimension}}\\
+domain size x--direction &  2\\
 \hline
-Name & Symbol & Name & Symbol & Name & Symbol\\
+domain size y--direction &  (one dimensional)\\
 \hline
+boundary conditions x--direction & disabled (1D)\newline no influence (2D)\\
 \hline
-length & $l$ & meter & $m$ & length & {\bf L}\\
-
+boundary conditions y--direction & disabled (1D)\newline periodic (2D)\\
+\hline
+support length & depending on simulation \newline (see results)  \\
+\hline
+kernel function & 1D and 2D cubic spline \\
+\hline
+density mode & summation density \\
+\hline
+mass initialization & inetrnal (perturbation study)\newline external (rest)\\
+\hline
+isentropic exponent & 1.4\\
+\hline
+artificial viscosity& activated for compressions only\\ 
 \hline
 \hline
 \end{tabular}
 \caption[]{Shock--tube simulation settings for the 2D--code}
 
 \end{table}
-Remark: Exactly as for the 1D code, no boundary conditions in x--direction are used, i.e the edges of the shock--tube are open. In this context, it has to be considered that the 2D SPH code only supports positive particle positions. In order to give the particles enough space to move, the shock--tube is treated in a domain ranging from $x=1$ to $x=3$ instead of $-1\leq x\leq1$. 
-
+Remark: Exactly as for the 1D code, no boundary conditions in x--direction are used, i.\ e.\ the edges of the shock--tube are open. In this context, it has to be taken into account that the 2D SPH code only supports positive particle positions. In order to give the particles enough space to move, the shock--tube is treated in a domain ranging from $x=1$ to $x=3$ instead of $-1\leq x\leq1$. \\
+\\
+\indent
 As far as the particle distribution is concerned, four different cases have to be distinguished for the shock--tube problem. These are either a constant spacing or a constant mass initialization (see also section (\ref{sec:1DSPHcode_functions_setupSim})) combined with either a 1D or 2D particle distribution.
 Figure (\ref{fig:schematicOf_CS_CM_distribution}) resumes the two initialization options for the case of a purely 1D particle distribution.
 
 FIGURE WITH 1D CS CM PARTICLE DISTRIBUTION
 
-Initiation parameters for 1D constant spacing TABLE
-(with parameters valid for constant spacing1D/q1D)
+The initiation values for the shock tube particle distribution  can be found in table (\ref{tab:InitPartValues_CS_Shock}).  
 
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:InitPartValues_CS_Shock}
+\centering
 
-TABLE for 1D constant mass
+\begin{tabular}[c]{|l|p{5cm}|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+particle number $N$ &  depending on simulation\newline (see results)\\
+\hline
+LHS density $\rho_l$ &  1.0\\
+\hline
+RHS density $\rho_r$ &  1/9 (2D constant mass)\newline 0.125 (rest)\\
+\hline
+LHS pressure $p_l$ &  1.0\\
+\hline
+RHS density $p_r$ &  0.1\\
+\hline
+velocity $v$ & 0.0\\
+\hline
+LHS mass $m_l$ & $m_l=\rho_l dx$ (constant spacing)\newline $m_l=\rho_l dx_l$ (constant mass)\\
+\hline
+RHS mass $m_r$ & $m_r=\rho_r dx$ (constant spacing)\newline $m_r=\rho_r dx_r$ (constant mass)\\
+\hline
+\hline
+\end{tabular}
+\caption[]{Particle initialization values for shock--tube.}
 
+\end{table}
 
 For the constant mass initialization it is not obvious to find a convenient 2D particle distribution (at least not for the density ratio $\rho_l/\rho_r=8$, which is employed in the previous cases). The reason for this is the following:
 To respect the initial density ratio with an constant mass approach ($m_l=m_r$) and supposing $dx=dy$ the initial particle spacings for the left and right hand side need to be in 2D: $dx_r=\sqrt{rho_l/rho_r} dx_l$.
 At the same time, the number of particles in y--direction calculated by $N_{l/r}=\mathit{cell_size}/dy_{l/r}$ must 
 be an integer for both sides, as particles have to be placed in the cells in a way that allows for a periodical continuation of the domain in y--direction.
-For a density ratio of 8, an appropriate particle distribution could not be found. One possibility to avoid this problem, or better to diminish the effects of the conflict at the cell limit, is to increase the domain size in y--direction. But increasing the number of cells in $y$ direction would lead to a considerable increase in calculation time, which is not accepted here. So, it was decided to choose a different density ratio for the reference shock tube case; one which is a square number. As 9 is the closest square number to the original density ration of 8, I picked this one.
+For a density ratio of 8, an appropriate particle distribution could not be found. One possibility to avoid this problem, or better to diminish the effects of the conflict at the cell limit, is to increase the domain size in y--direction. But increasing the number of cells in $y$ direction would lead to a considerable increase in calculation time, which is not accepted here. So, it was decided to choose a different density ratio for the reference shock tube case; one which is a square number. A ratio of 9 is the closest square number to the original one of 8 and is therefore chosen.
 This way, both sides can be filled with particles in a way that allows for a periodical continuation of the domain in y--direction. And the validity of the study is not affected, as the exact solution, of course, is also calculated for this new shock tube configuration with $\rho_l/\rho_r=9$. 
 
-TABLE 2D const mass
-
-With the 2D constant mass particle initialization for a shock-tube though, an additional discontinuous element is added to the simulation: 2 of 3 particle lines from the high density section end at the contact discontinuity without being continued in the low density section. This is not expected to be favorable for the simulation results, in a sense that the perfect uniformity in the second direction is lost.
-
-
-(MENTION SOMEWHERE that simulations are not always performed with optimum cell size in order to get reasonably small variation possibilities of support length)
-\linebreak[2]                                                                                                                                                                                                                                                                  
-                                                                                                                                              
+With the 2D constant mass particle initialization for a shock-tube though, an additional discontinuous element is added to the simulation: 2 of 3 particle lines from the high density section end at the contact discontinuity without being continued in the low density section. This is not expected to be favorable for the simulation results, in a sense that the perfect uniformity in the second direction is lost.\\
+\\
+\indent                                                                                                                                                                                                                                                                                                                                                                   
  To obtain an initially perturbed particle field for the perturbation--study, essentially two questions have to be addressed: how exactly should the initial particle distribution be perturbed and how should initialization of their properties, especially their densities, work.         
                                                                                                                                               
  Inspiration on this issue is found in literature, where the effect of disordered particles on the SPH method has already been subject of some scientific publications.                                                                                                                      
@@ -2001,11 +2071,12 @@ With the 2D constant mass particle initialization for a shock-tube though, an ad
                                                                                                                                               
  Concerning the particle initialization problem, three interesting papers have been found. Rasio and Shapiro \cite{Rasio1991} calculated a 1D shock--tube problem with a randomly distributed 3D particle distribution, but it is not specified how this distribution is generated. As they further assume constant mass particles, it must be supposed that they admit density fluctuations in the initial particle configuration.          
  In a different paper \cite{Graham2007}, the influence of a random particle initialization for viscous flows is investigated. The approach is to perturb particles from their original position on a regular Cartesian grid with a uniformly distributed perturbation of a certain width - the width being a measure of randomness.                                                                                                         
- Finally Quinlan and Basa \cite{Quinlan2006} which study the truncation error of SPH, randomize the initial particle position with a normally distributed perturbation from a Cartesian grid position. In their case particles also have equal mass and the density is calculated with the SPH smoothing (IST DAS DER RICHTIGE BEGRIFF?) formula (see equation (\ref{eq:SumDensity})).                                                       
+ Finally Quinlan and Basa \cite{Quinlan2006} which study the truncation error of SPH, randomize the initial particle position with a normally distributed perturbation from a Cartesian grid position. In their case particles also have equal mass and the density is calculated with the SPH smoothing (IST DAS DER RICHTIGE BEGRIFF?) formula (see equation (\ref{eq:SumDensity})).                                                     
                                                                                                                                               
  The approach adopted in this project is the following. The particle position is randomized from the original regular grid position by a uniformly distributed perturbation in x--direction and for a 2D particle field also independently in y--direction . The advantage of the uniform perturbation is seen in the fact that the maximum value of perturbation is clearly determined, whereas for a normal perturbation, very high values might sporadically occur thus potentially even leading to a coincidence of two particle positions.                                             
- Thus, the uniform perturbation ensures a higher control of particle positions and for a width of the distribution $<0.5dx$ a coincidence or a overlap of two particles can never happen. As far as the mass initialization is concerned, the initial density value for the shock--tube problem should show no perturbations. The perturbations in particle spacing are therefore compensated by a different and individual mass for each particle. While for 1D particle distribution, the calculation of the respective particle mass can be easily performed by $m=\rho dx$, for the 2D perturbed particle distribution it is not trivial to assign each particle distribution an area $dx dy$. Constructing the area $dx dy$ by employing the mean distance to the neighbors in each direction ($dx=1/2(dx^-+dx^+),dy=1/2(dy^-+dy^+)$ would not (AT LEAST I THINK SO) result in the exact reproduction of the complete domain as $\sum dxdy\neq domain size$. See corresponding consideration in Appendix (REFERENCE)!
- Therefore a similar approach of Quinlan \cite{Quinlan2006} is used, only the other way round. Based on the initialized density, the mass of each particle is obtained by application of the SPH smoothing formula: First the volume associated to each particle is calculated according to
+ Thus, the uniform perturbation ensures a higher control of particle positions and for a width of the distribution $<0.5dx$ a coincidence or a overlap of two particles can never happen. As far as the mass initialization is concerned, the initial density value for the shock--tube problem should show no perturbations. The perturbations in particle spacing are therefore compensated by a different and individual mass for each particle. While for 1D particle distribution, the calculation of the respective particle mass can be easily performed by $m=\rho dx$, for the 2D perturbed particle distribution it is not trivial to assign each particle distribution an area $dx dy$. Constructing the area $dx dy$ by employing the mean distance to the neighbors in each direction ($dx=1/2(dx^-+dx^+),dy=1/2(dy^-+dy^+)$ would not (AT LEAST I THINK SO) result in the exact reproduction of the complete domain as $\sum dxdy\neq domain size$. See corresponding consideration in Appendix (\ref{app:DomainVolume}).
+
+ Therefore a similar approach to the one of Quinlan \cite{Quinlan2006} is used, only the other way round. Based on the initialized density, the mass of each particle is obtained by application of the SPH smoothing formula: First the volume associated to each particle is calculated according to
  \begin{equation}
   V_i=\frac{1}{\sum_j W_{ij}}
  \end{equation}
@@ -2028,48 +2099,110 @@ The exact post-processing procedure for each case, including which exact program
 Again the local {\tt README} provides all necessary information on how to run the scripts and what output they produce.
 
 For the perturbation study, the post-processing procedure is exactly the same if the particle distribution is 1D. In the case of a 2D distribution there is a slight technical difference in the program that calculates the averaged values in the second direction. For details refer to the {\tt README} in the corresponding folder, which is the same as for the post--processing in the unperturbed case.
-In order to get a more reliable and less arbitrary result, the error--norms presented in the results section for the perturbation study are averaged values for 5 realizations with newly created initial particle distributions of the same perturbation factor. (I KNOW THIS is probably not enough to get rid of the randomness but given the simulation time needed for especially the 2D cases, I chose 5 as better than nothing)
-
+In order to get a more reliable and less arbitrary result, the error--norms presented in the results section for the perturbation study are averaged values for 5 realizations with newly created initial particle distributions of the same perturbation factor. %(I KNOW THIS is probably not enough to get rid of the randomness but given the simulation time needed for especially the 2D cases, I chose 5 as better than nothing)
 
 
 
 \subsubsection{1D wave - stationary oscillation}
 As described in section (\ref{sec:AcousticWavePropagation_GenIntro}) three different situations of acoustic wave propagation are tested to assess how dissipation affects these waves. The first configuration to be investigated is a stationary oscillating wave as described in section (\ref{sec:AcousticWavePropagation_GenIntro}) and in \cite{Monaghan2005}. The 1D problem domain has the size of $1$ and consists of 100 equi--spaced particles with periodical boundary conditions at the domain edges. The particle velocity is initialized according to equation (\ref{eq:InitialVelocityPerturbationOscillatingWave}).
- CUBICSPLINE1D
 
 \paragraph {Initiation}
-The entire set of parameters used for this simulation is summarized in the following table
-
-The initial particle properties are
-PARTICLE MASS CAN BE INITIALIZED INTERNALLY
+The entire set of parameters used for this simulation is summarized in the following table (\ref{tab:SimuSettings_1DOscillation})
 
 
-TABLE
 
+The particle field is initialized according to table (\ref{tab:InitPartValues_1DOscillation}).
+
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:InitPartValues_1DOscillation}
+\centering
+
+\begin{tabular}[c]{|l|p{5cm}|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+particle number $N$ &  100\\
+\hline
+density $\rho$ &  1.0\\
+\hline
+pressure $p$ &  1.0\\
+\hline
+velocity $v$ & according to equation (\ref{eq:InitialVelocityPerturbationOscillatingWave})\\
+\hline
+mass $m$ & internal initialization\\
+\hline
+\hline
+\end{tabular}
+\caption[]{Particle initialization values for a 1D stationary oscillation}
+
+\end{table}
 \paragraph{Post--processing}
 Interesting quantities for this test case are the damping of the wave as well as the evolution of the periodical time $T$ during the course of the simulation. The damping is quantified by the damping factor introduced in equation (\ref{eq:DampingFactor}) and the $T$ is measured between two consecutive instants with peak amplitudes. Both quantities are determined by a post-processing program {\tt findPeakVelocitiesOscillation.cpp} which can be found in the {\tt scripts/postProcessing1DWave} folder. A {\tt README} file in the same folder provides detailed information on how to conduct the post--processing.
 
 \subsubsection{1D traveling wave}
 To obtain an infinitely continued traveling wave a 1D domain of size $1$ and periodical boundary conditions is initialized with a wave of wavelength $\lambda=1$. A number of 100 particles is used which are initialized with properties according to equations (\ref{eq:1DWaveDetla_u}) - (\ref{eq:1DWaveDisplacement}) around their mean values.
-The general simulation settings are exactly the same as for the stationary oscillation (see table LFK) and the particle properties are:
+The general simulation settings are exactly the same as for the stationary oscillation (see table (\ref{tab:SimuSettings_1DOscillation})) and the particle properties are presented in table (\ref{}).
 
-TABLE!
-CUBICSPLINE1D
-PARTICLE MASS CAN BE INITIALIZED INTERNALLY
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:InitPartValues_1DTravelingWave}
+\centering
+
+\begin{tabular}[c]{|l|p{5cm}|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+particle number $N$ &  100\\
+\hline
+density $\rho$ &  according to equation (\ref{eq:1DWaveDetla_rho})\newline with $\rho_0=1.0$\\
+\hline
+pressure $p$ &  according to equation (\ref{eq:1DWaveDetla_p})\newline with $p_0=1.0$\\
+\hline
+velocity $v$ & according to equation (\ref{eq:1DWaveDetla_u})\\
+\hline
+particle position & according to equation (\ref{eq:1DWaveDisplacement})\newline around the mean value $x_0$\newline
+resulting from an equi--spaced distribution \\
+\hline
+mass $m$ & internal initialization\\
+\hline
+\hline
+\end{tabular}
+\caption[]{Particle initialization values for a 1D traveling wave. The additional constants needed to initialize the particle fields with the equations referred to above are: $A'=0.001$ and $\lambda=1.0$}
+
+\end{table}
+
 \paragraph{post--processing}
 For the traveling wave, the damping is investigated in an equivalent way as described for the stationary oscillation.
 
 \subsubsection{1D wave train with reflection and interference}
 According to the problem description in section (\ref{sec:GenIntro_1DWaveTrainReflect}), the 1D domain has to be bounded by two solid wall boundary conditions. The acoustic wave is generated by a movement of the LHS wall during the simulation. This can be achieved by uncommenting the corresponding code passage in {\tt gastimesolverLeapFrog.cpp} line 75. 
-With the initial particle properties as presented below, the numeric values for t   
+%With the initial particle properties as presented below, the numeric values for t   
 
 
 
 \paragraph{Initialization}
-The 1D particle field is initialized with a uniformly distributed constant property particle arrangement with values according to table (TABLE). 
-CUBICSPLINE1D
-PARTICLE MASS CAN BE INITIALIZED INTERNALLY
+The same silumation setup parameters as for teh 1D Oscillation are still used (see table (\ref{tab:SimuSettings_1DOscillation}) except for the boundary conditions in x--direction which are now walls and the smoothing lenght being now exclusively $l_s=0.0252$.
+The 1D particle field is initialized with a uniformly distributed constant property particle arrangement with values according to table (tab:InitPartValues\_1DSingleWaveTrain). 
 
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:InitPartValues_1DSingleWaveTrain}
+\centering
+
+\begin{tabular}[c]{|l|p{5cm}|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+particle number $N$ &  100\\
+\hline
+density $\rho$ &  $\rho=1.0$\\
+\hline
+pressure $p$ &  $p=1.0$\\
+\hline
+velocity $v$ & 0\\
+\hline
+mass $m$ & internal initialization\\
+\hline
+\hline
+\end{tabular}
+\caption[]{Particle initialization values for the single wave train with reflection.}
+
+\end{table}
 
 \paragraph{Post--processing}
 Post--processing for this test case is only done qualitatively. The theoretical numerical values for the different characteristic instants mentioned in section (\ref{sec:GenIntro_1DWaveTrainReflect}) can be determined with the initial particle properties as given above to:
@@ -2086,14 +2219,73 @@ Post--processing for this test case is only done qualitatively. The theoretical 
 
 
 
-
-
 \subsubsection{Taylor--Green}
 \label{sec:SimuSetup_TG}
 As already mentioned during the general introduction of the 2D Taylor--Green case in section (\ref{sec:GenIntro_TG}), the problem is periodical in every direction and can therefore be modeled by a domain with periodical boundary conditions at all edges.
 
 \paragraph{Initialization}
-The particles are initialized in a rectangular lattice in a square domain with size of one unit. Particles have spatially constant initial properties as presented in table (\ref{TABLE}) except for their velocity, which is initialized according to equation (\ref{eq:TG_analyticalSolution}) for $t=0$, and their pressure, which is determined with equation (\ref{}). The reference Mach number in this equation is taken to $M_ref=0.5$. Chaniotis \cite{Chaniotis2002} stated that compressibility effects are negligible for this value.
+A simulation setup according to table (\ref{tab:SimuSettings_TG}) is used for the Taylor--Green test case.
+
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:SimuSettings_TG}
+\centering
+
+\begin{tabular}[c]{|l|p{5cm}|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+domain size x--direction &  1\\
+\hline
+domain size y--direction &  1\\
+\hline
+boundary conditions x--direction & periodic\\
+\hline
+boundary conditions y--direction & periodic\\
+\hline
+support length & depending on simulation \newline (see results)  \\
+\hline
+kernel function & cubic spline \\
+\hline
+density mode & summation density \\
+\hline
+mass initialization & internal initialization \\
+\hline
+isentropic exponent & 1.5\\
+\hline
+specific heat capacity at constant volume $c_v$ & 1\\
+\hline
+physical viscosity& included, values depending on simulation\newline (see results)\\ 
+\hline
+\hline
+\end{tabular}
+\caption[]{Simulation settings for the Taylor--Green test case.}
+
+\end{table}
+
+
+The particles are initialized in a rectangular lattice in a square domain with size of one unit. Particles have spatially constant initial properties as presented in table (\ref{TABLE}) except for their velocity, which is initialized according to equation (\ref{eq:TG_analyticalSolution_u}) for $t=0$, and their pressure, which is determined with equation (\ref{eq:TG_analyticalSolution_p}). The reference Mach number in this equation is taken to $M_\mathit{ref}=0.05$. Chaniotis \cite{Chaniotis2002} stated that compressibility effects are even negligible for values of $M_\mathit{ref}=0.5$.
+
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:InitPartValues_TG}
+\centering
+
+\begin{tabular}[c]{|l|p{5cm}|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+particle number $N$ &  3600\newline except for resolution study\\
+\hline
+density $\rho$ &  $\rho=1.0$\\
+\hline
+pressure $p$ &  according to equation (\ref{eq:TG_analyticalSolution_p})\newline with $M_\mathit{ref}=0.05$ \\
+\hline
+velocity $v$ & according to equation (\ref{eq:TG_analyticalSolution_u})\newline with $U_0=1.0$\\
+\hline
+mass $m$ & internal initialization\\
+\hline
+\hline
+\end{tabular}
+\caption[]{Particle initialization values for the Taylor--Green test case.}
+
+\end{table}
 
 The particles are generated by the program {\tt create\_ICTaylorGreen.cpp} contained in the corresponding initial condition folder.
 
@@ -2107,26 +2299,56 @@ L_{\infty,50}=\norm{\frac{U_{\mathit{max},50}^{\mathit{ex}}-U_{\mathit{max},50}^
 
 A post--processing program extracting the maximum velocity value for each instant and calculating the exact incompressible solution as well as the error is provided in the Taylor--Green post--processing folder contained in {\tt src/scripts}. The {\tt README} file in that folder contains additional post--processing information.
 
-The characteristic values needed to determine the Re number are the initial maximum  velocity $U_0=1$ and the characteristic length scale $l_\mathit{char}=1$.
-
-
+The characteristic values needed to determine the Re number are the initial maximum  velocity $U_0=1.0$ and the characteristic length scale $l_\mathit{char}=1.0$.
 
 
 \subsubsection{Pure Heat Conduction -- Slab with temperature jump}
 \label{sec:simuSetup_PureHeat}
 
-The situation described in section (\ref{sec:genIntro_PureHeat}) is modeled by a 2D domain with periodical boundary conditions in the y--direction. In x--direction, which is the direction of the temperature gradient, either a symmetry condition or an isothermal boundary condition is applied at the domain edges, depending on whether the boundary is adiabatic or isothermal.
+The situation described in section (\ref{sec:genIntro_PureHeat}) is modeled by a 2D domain with periodical boundary conditions in the y--direction. In x--direction, which is the direction of the temperature gradient, either a symmetry condition or an isothermal boundary condition is applied at the domain edges, depending on whether the boundary is adiabatic or isothermal. The entire simulation setup can be found in table (\ref{tab:SimuSettings_PureHeat}).
+
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:SimuSettings_PureHeat}
+\centering
+
+\begin{tabular}[c]{|l|p{5cm}|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+domain size x--direction &  1\\
+\hline
+domain size y--direction &  0.5\\
+\hline
+boundary conditions x--direction & symetric (adiabatic) and isothermal\\
+\hline
+boundary conditions y--direction & periodic\\
+\hline
+support length & depending on simulation \newline (see results)  \\
+\hline
+kernel function & cubic spline \\
+\hline
+mass initialization & internal initialization \\
+\hline
+isentropic exponent & 1.5\\
+\hline
+specific heat capacity  $c$ & 1 \\
+\hline
+physical viscosity& included, values depending on simulation\newline (see results)\\ 
+\hline
+\hline
+\end{tabular}
+\caption[]{Simulation settings for the pure heat conduction test case.}
+
+\end{table}
 
 \paragraph{Initialization}
-The desired temperature jump in the initial particle field cannot be assignet directly, as in the simulation program the temperature is determined form $p$ and $\rho$. Therefore, the latter values together with the isentropic exponent $\gamma$ have to be chosen in a way that the ideal gas equation of state yields the corresponding initial temperature. Keep in mind though, that this is not a flow problem and a varaible like $p$ and the ideal gas equation of state therefore have no physical sense. As the code is actually conceived for gas dynamics, they are only ``abused'' to create the right initial temperature  and are not needed for the further course of the simulation.
-
-Thus, the particle properies are... TABLE
+The desired temperature jump in the initial particle field cannot be assigned directly, as in the simulation program, which is actually a gas dynamics code, the temperature is determined form $p$ and $\rho$. Therefore, the latter values together with the isentropic exponent $\gamma$ have to be chosen in a way that the ideal gas equation of state yields the corresponding initial temperature. Keep in mind though, that this is not a flow problem and a variable like $p$ and the ideal gas equation of state therefore have no physical sense. As the code is actually conceived for gas dynamics, they are only ``abused'' to create the right initial temperature  and are not needed for the further course of the simulation.
+This is done in a way that the temperature takes the value $T_l=1.0$ on the left side and $T_r=0.0$ on the right side of the slab.
 
 
 
 \paragraph{Post--processing}
 The simulation results are compared to the reference solution given in (\ref{eq:Two_SemiInfBodies}). As this is the solution of two semi--infinite bodies in thermal contact, the situations are only comparable in the initial phase up to the instant where there is a non--negligible temperature change (for adiabatic boundary condition) or heat flux (for isothermal boundary condition) at the slab edges.
-Scripts for post--processing, including the comparison of simulated and reference profile and the temporal evolution of the $L_\infty$ error, are contained in the corresponding folder. Again there is a {\tt README} detailling the process.
+Scripts for post--processing, including the comparison of simulated and reference profile and the temporal evolution of the $L_\infty$ error, are contained in the corresponding folder. Again there is a {\tt README} detailing the process.
 
 To detail the meaning of the above used therm ``initial phase'' for the present settings with $\alpha=\frac{k}{\rho c}=\frac{1}{1000\cdot 1}$, the following estimation is done. According to Cleary \cite{Cleary1999}, the expected maximum error is of the order of $1\%$. In order not to affect this value we assume that the admissible error due to temperature change at the domain edges should be another 5 orders of magnitude inferior. This leads to the condition of $erf(w)>0.9999999$ 
 with $w=\frac{x-x_m}{2\sqrt{alpha*t}}$ (a temperature change of $0.01$ corresponds to an error of the order of $1\%$). Tables show that $w>3.8$ and therefore $t<4.3$. Up to a simulation time of around $t\approx 4.3$, the analytical solution can thus be taken as accurate reference. 
@@ -2141,11 +2363,72 @@ e_{\mathit{domain}}=\frac{1}{N_{\mathit{prtl}}}\sum_i e_i
 
 \subsubsection{Compressible Couette}
 \label{sec:SimuSetup_ComprCouette}
-The compressible Couette case is simulated to test the simultaneous application of all the above investigated phenomena on the one hand and the variable viscosity on the other hand. 
+The compressible Couette case is simulated to test the simultaneous application of all the above investigated phenomena on the one hand and the variable viscosity on the other hand. The simulation setup is presented in table (\ref{tab:SimuSettings_comprCouette}})
+
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:SimuSettings_comprCouette}
+\centering
+
+\begin{tabular}[c]{|l|p{5cm}|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+domain size x--direction &  0.1\\
+\hline
+domain size y--direction &  1.0\\
+\hline
+boundary conditions x--direction & periodic\\
+\hline
+boundary conditions y--direction & isothermal walls\newline
+upper wall $T=2.0$ and $u=0.4$\newline lower wall $T=1.0$and $u=0.0$\\
+\hline
+support length & 0.1  \\
+\hline
+kernel function & cubic spline \\
+\hline
+mass initialization & internal initialization \\
+\hline
+isentropic exponent & 1.5\\
+\hline
+specific heat capacity at constant volume  $c_v$ & 1 \\
+\hline
+physical viscosity& included, with variable $\eta$\\ 
+\hline
+thermal conduction& included, with variable $k$\\ 
+\hline
+\hline
+\end{tabular}
+\caption[]{Simulation settings for the compressible Couette test case.}
+
+\end{table}
 
 \paragraph {Initiation}
-A particle distribution on a rectangular lattice with uniform particle properties according to table TABLLEEE is used to initialize the simulation.
-To drive the flow, the upper plate is moved with a constant velocity $u_p$. Together with the initial flow temperature this results in a certain Mach number $M$. The Mach number however is a local quantity and besides changes during the simulation as the flow temperature is in general affected by the viscous heating and the wall temperatures. %besides mach number definition hard as two different reference systems???
+
+A particle distribution on a rectangular lattice with uniform particle properties according to table (\ref{tab:InitPartValues_comprCouette}) is used to initialize the simulation.
+To drive the flow, the upper plate is moved with a constant velocity $u_p$.% Together with the initial flow temperature this results in a certain Mach number $M$. The Mach number however is a local quantity and besides changes during the simulation as the flow temperature is in general affected by the viscous heating and the wall temperatures. %besides mach number definition hard as two different reference systems???
+
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:InitPartValues_comprCouette}
+\centering
+
+\begin{tabular}[c]{|l|p{5cm}|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+particle number $N$ &  160\\
+\hline
+density $\rho$ &  1.0\\
+\hline
+pressure $p$ &  1.0 \\
+\hline
+velocity $v$ & 0.0\\
+\hline
+mass $m$ & internal initialization\\
+\hline
+\hline
+\end{tabular}
+\caption[]{Particle initialization values for the compressible Couette test case.}
+
+\end{table}
+
 To vary the Reynolds number, the viscosity $\eta$ of the flow is changed with all the other quantities remaining constant. 
 
 \paragraph {Post--processing}
@@ -2153,15 +2436,75 @@ The compressible Couette simulation is only evaluated qualitatively. One point t
 
 
 \subsubsection{Poiseuille}
-The Poiseuille test case is needed to verify the boundary condition implementation that is used to generate a no--slip surface for the solid Obstacles, which model porosities. These boundary condition models are different from the ones used for the domain edges and therefore have to be tested separately. 
+The Poiseuille test case is needed to verify the boundary condition implementation that is used to generate a no--slip surface for the solid Obstacles, which model porosities. These boundary condition models are different from the ones used for the domain edges and therefore have to be tested separately. To obtain a good comparability of the results the domain edges boundary implementation is simulated again with the Poiseuille configuration. 
 
-\paragraph {Initiation}
+Table (\ref{tab:SimuSettings_Poiseuille}) summarizes the simulation settings where Method 1 designates the domain edge boundary implementation, Method 2 the constant virtual velocity solid obstalce approach and Method 3 the linearly extrapolated virtual velocity solid obstacle modeling. As the ghost particles used by Methods 2 and 3 have to be located within the calculation domain, the actual domain size is bigger in this case. The walls are then placed in a way that the effective real particle domain i.\ e.\ the canal width is 1.
 
-Method 1
-\linebreak
-Method 2
-For the preceding method zero velocity can be reached at the solid--obstacle surface without
-an actual ghost particle being placed right there. This is due to the anti--symmetrical velocity assignment for the ghost particles. With Method 2, which implements zero ghost particle velocity, the no--slip condition (i.\ e.\ zero velocity relative to wall) is only reached at the position of the first row of ghost particles. For the particle assignment according to Method 2 one has therefore to be careful with the particle placement and ensure the first row of ghost particles is placed directly at the surface of the obstacle. An immobilization of certain particles from a regular lattice has therefore to be done with care.
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:SimuSettings_Poiseuille}
+\centering
+
+\begin{tabular}[c]{|l|p{5cm}|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+domain size x--direction &  0.1\\
+\hline
+domain size y--direction &  1.0\\
+\hline
+boundary conditions x--direction & periodic\\
+\hline
+boundary conditions y--direction & Method 1 or\newline Method 2 or\newline Method 3 \\
+\hline
+support length & depending on simulation  \\
+\hline
+kernel function & cubic spline \\
+\hline
+mass initialization & internal initialization \\
+\hline
+isentropic exponent & 1.4\\
+\hline
+physical viscosity& included, with constant $\eta$\\ 
+\hlinegravity &1.0 in x--direction\\
+\hline
+\hline
+\end{tabular}
+\caption[]{Simulation settings for the Poiseuille test case.}
+
+\end{table}
+
+
+\paragraph {Initialization}
+The particle field is initialized with the values shown in table (\ref{tab:InitPartValues_Poiseuille}). Special care has to be taken concerning the particle placement when using the solid obstacle boundary implementation. The rectangular lattice has to be arranged in a way that a particles is located either directly at the wall surface or shifted by $dy/2$ depending on the desired case.  
+
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:InitPartValues_Poiseuille}
+\centering
+
+\begin{tabular}[c]{|l|p{5cm}|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+particle number $N$ &  depending on simulation\\
+\hline
+density $\rho$ &  1.0\\
+\hline
+pressure $p$ &  1.0 \\
+\hline
+velocity $v$ & 0.0\\
+\hline
+mass $m$ & internal initialization\\
+\hline
+\hline
+\end{tabular}
+\caption[]{Particle initialization values for the Poiseuille test case.}
+
+\end{table}
+
+
+\paragraph{Post--processing}
+Using the analytical solution of the incompressible Poiseuille flow introduced in section (\ref{sec:genIntroPoiseuille}), the velocity field of the simulation is assessed. This is done by a program contained in the {\tt postProcessingPorosities} folder. 
+
+
+%For the preceding method zero velocity can be reached at the solid--obstacle surface without an actual ghost particle being placed right there. This is due to the anti--symmetrical velocity assignment for the ghost particles. With Method 2, which implements zero ghost particle velocity, the no--slip condition (i.\ e.\ zero velocity relative to wall) is only reached at the position of the first row of ghost particles. For the particle assignment according to Method 2 one has therefore to be careful with the particle placement and ensure the first row of ghost particles is placed directly at the surface of the obstacle. An immobilization of certain particles from a regular lattice has therefore to be done with care.
 
 \subsubsection{Porosities - Cavity}
 \label{sec:SimuSetup_Cavity}
@@ -2727,33 +3070,32 @@ Generally a perturbed particle initialization leads to less smooth and results a
 
 \paragraph{1D constant mass particle distribution}
 
-In section (\ref{sec:2Dshock_simuSetup&Co}) it was mentioned that the mass initialization of the particles for the resolution study is done employing the SPH interpolation formula, contrary to all the shock-tube results presented in previous sections, where mass was initialized in 1D according to $m=\rho dx$ and in 2D $m=\rho dx dy$. While this makes no difference for a constant spacing initialization, the use of the 
-kernel interpolation leads to a relatively strong irregularity in the mass profile close to the contact discontinuity (CD) if the particles are distributed according to a constant mass initialization. This  influences the simulation result compared to an initialization using $m=\rho dx dy$ and leads to higher errors.  
+In section (\ref{sec:2Dshock_simuSetup&Co}) it was mentioned that the mass initialization of the particles for the resolution study is done employing the SPH interpolation formula, contrary to all the shock-tube results presented in previous sections, where mass was initialized in 1D according to $m=\rho dx$ and in 2D $m=\rho dx dy$. While this makes no difference for a constant spacing initialization, the use of the kernel interpolation leads to a relatively strong irregularity in the mass profile close to the contact discontinuity (CD) if the particles are distributed according to a constant mass initialization. This  influences the simulation result compared to an initialization using $m=\rho dx dy$ and leads to higher errors.  
 
-\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
-\label{tab:2D_shock_m_smoothed_versus_rhodx}
-\centering
-
-\begin{tabular}[c]{|l| c|l| c|l| c|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
-\hline
-\hline
-\multicolumn{2}{|c|}{\textbf{$L_1$--error}} & \multicolumn{2}{|c|}{\textbf{$L_2$--error}} & \multicolumn{2}{|c|}{\textbf{$L_{\infty}$--error}}\\
-\hline
-smoothed & $\rho dx$ & smoothed & $\rho dx$& smoothed & $\rho dx$\\
-\hline
-\hline
-length & $l$ & meter & $m$ & length & {\bf L}\\
-
-mass & $m$ & kilogram & $kg$ & mass & {\bf M} \\
-
-time & $t$ & second & $s$ & time & {\bf T}\\
-
-\hline
-\hline
-\end{tabular}
-\caption[]{Comparisons of error values for simulations with an unperturbed constant mass particle distribution for the two mass initialization methods smoothing and $\rho dx$.}
-
-\end{table}
+% \begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+% \label{tab:2D_shock_m_smoothed_versus_rhodx}
+% \centering
+% 
+% \begin{tabular}[c]{|l| c|l| c|l| c|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+% \hline
+% \hline
+% \multicolumn{2}{|c|}{\textbf{$L_1$--error}} & \multicolumn{2}{|c|}{\textbf{$L_2$--error}} & \multicolumn{2}{|c|}{\textbf{$L_{\infty}$--error}}\\
+% \hline
+% smoothed & $\rho dx$ & smoothed & $\rho dx$& smoothed & $\rho dx$\\
+% \hline
+% \hline
+% length & $l$ & meter & $m$ & length & {\bf L}\\
+% 
+% mass & $m$ & kilogram & $kg$ & mass & {\bf M} \\
+% 
+% time & $t$ & second & $s$ & time & {\bf T}\\
+% 
+% \hline
+% \hline
+% \end{tabular}
+% \caption[]{Comparisons of error values for simulations with an unperturbed constant mass particle distribution for the two mass initialization methods smoothing and $\rho dx$.}
+% 
+% \end{table}
 
 In the case of the 1D constant mass initialization the effect of a perturbed particle position is visible in figure (\ref{fig:2DSPHresults_1D_CM_pertStudy}). 
 Especially for the after--shock (area 2) and after--rarefaction (area 2) values a clear and monotonous increase in the error can be observed. Again the level of the global error, which is mainly due to the non-discontinuous shock resolution, is already relatively high compared to the error induced by the particle disorder. Thus the latter can be perceived only weakly considering the whole domain.
@@ -2793,8 +3135,7 @@ Especially for the after--shock (area 2) and after--rarefaction (area 2) values 
 
 \end{figure}
 
-\paragraph{2D constant mass particle distribution}
-DONE -- NOT YET INTEGRATED IN REPORT
+%\paragraph{2D constant mass particle distribution}
 
 
 
@@ -3318,7 +3659,7 @@ By the way even with a non-evolving density at the boundaries it makes no differ
 \hline
 &&\multicolumn{2}{|c|}{\textbf{$t=1.0$}}& \multicolumn{2}{|c|}{\textbf{$t=3.0$}}\\
 \hline
- &&{\bf Density} & {\bf Energy} & {\bf Density}& {\bf Density}\\
+ &&{\bf Density} & {\bf Energy} & {\bf Density}& {\bf Energy}\\
 \hline
 \hline
 \multirow{2}{*}{{\bf Method 1}} &$x=0.025$&0.9901 & 2.6918 & 0.9305& 3.1039 \\
@@ -3905,12 +4246,19 @@ If this gives the right results, the final simulation of a porous configuration 
 \addappheadtotoc
 
 \chapter{Consideration concerning domain volume}
- Let the disturbed particle distance be $dx=dx_{\mathit{orig}}+dx'$, d$y=dy_{\mathit{orig}}+dy'$ where $dx,y_{\mathit{reg}}$ is the (mean) distance to the neighbor particles in the corresponding direction for the regular distribution
- and where $dx'$, $dy'$ are the perturbations of the mean distance to the neighbor particles in the corresponding direction:
+\label{app:DomainVolume}
+ Let the disturbed particle distance be $dx=dx_{\mathit{orig}}+dx'$, $dy=dy_{\mathit{orig}}+dy'$ where $dx,y_{\mathit{reg}}$ is the (mean) distance to the neighbor particles in the corresponding direction for the regular distribution
+ and where $dx'$, $dy'$ are the perturbations of the mean distance to the neighbor particles in the corresponding direction:\\
+\\
  $dx'=1/2(dx'^-+dx'^+)$,$dy'=1/2(dy'^-+dy'^+)$ with $<dx'>=<dy'>=0$ (mean is 0).
- in 1D if $\sum dx_{\mathit{reg}}=domainsize$, the averaged (denoted <>)perturbed distribution gives: $\sum <dx>=\sum <dx_{\mathit{reg}}+dx'>=\sum <dx_{\mathit{reg}}>+<dx'>=\sum<dx_{\mathit{reg}}>+0=\sum dx_{\mathit{reg}}=domainsize$
- in 2D if $\sum dx_{\mathit{reg}}dy_{\mathit{reg}}=domainsize$, the averaged (denoted <>)perturbed distribution gives:    $\sum <dxdy>=\sum </dx_{\mathit{reg}}+dx')(dy_{\mathit{reg}}+dy')>)=\sum (<dx_{\mathit{reg}}dy_{\mathit{reg}}>+<dx_{\mathit{reg}}dy'>+<dy_{\mathit{reg}}dx'>+<dx'dy>)=\sum (dx_{\mathit{reg}}dy_{\mathit{reg}})+\sum (<dx'dy'>)=domainsize+sum(<dx'dy'>)$
- and $<dx'*dy'>\neq0$ the only question is: is the sum over a big number N of $<dx'*dy'> =0$? I don't know but I don't think so...
+ In 1D if $\sum dx_{\mathit{reg}}=domainsize$, the averaged (denoted <>)perturbed distribution gives: \\
+\\
+$\sum <dx>=\sum <dx_{\mathit{reg}}+dx'>=\sum <dx_{\mathit{reg}}>+<dx'>=\sum<dx_{\mathit{reg}}>+0=\sum dx_{\mathit{reg}}=domainsize$.\\
+\\
+ In 2D if $\sum dx_{\mathit{reg}}dy_{\mathit{reg}}=domainsize$, the averaged (denoted <>)perturbed distribution gives: \\
+\\
+$\sum <dxdy>=\sum </dx_{\mathit{reg}}+dx')(dy_{\mathit{reg}}+dy')>)=\sum (<dx_{\mathit{reg}}dy_{\mathit{reg}}>+<dx_{\mathit{reg}}dy'>+<dy_{\mathit{reg}}dx'>+<dx'dy>)=\sum (dx_{\mathit{reg}}dy_{\mathit{reg}})+\sum (<dx'dy'>)=domainsize+sum(<dx'dy'>)$
+ and $<dx'*dy'>\neq0$. 
 
 \chapter{Additional Shock--Tube Results 2D Code}
 \begin{figure}[H]
