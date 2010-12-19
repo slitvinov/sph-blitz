@@ -82,8 +82,9 @@ The final test--case, which is a compressible Couette flow with hot and cold wal
 Finally, after the systematic validation of all components of the flow model, the flow through porosities and over a porous surface is simulated exemplary by means of two different porous configurations. 
 
 The structure of this document is based on the classical structure of a scientific paper \cite{Day2006}, with the four chapters Introduction, Methods, Results and Discussion/Conclusion. If, when looking at the table of contents, the detailed organization of this document does not appear logical to the reader, the following lines are intended to point out the idea behind it.
-In a first section (\ref{sec:sec:BasicsSPH}), the Methods-chapter briefly describes the theoretical idea behind the SPH-method. The second section (\ref{sec:ElementsOfSPH}) deals with some essential components of an SPH-implementation, followed by a section (\ref{sec:GenIntroTestCases}) generally introducing the test-case problems and giving their analytical solutions, where available. The general presentation of the test cases figures at this spot, as it is needed in the following sections. The next two sections (\ref{sec:1DSPHcode}) and (\ref{sec:1DSPHcode}) explain the developed SPH-codes and also describe how to run them. Subsequently, there is a section (\ref{sec:simuSetupTestCases}) describing the detailed simulation setup and post-processing procedure for each test-case, so that every result presented in this document may be exactly reproduced with the information given in this section.
+In a first section (\ref{sec:sec:BasicsSPH}), the Methods-chapter briefly describes the theoretical idea behind the SPH--method. The second section (\ref{sec:ElementsOfSPH}) deals with some essential components of an SPH-implementation. When considered beneficial, the component contains a specific literature review. There is another section (\ref{sec:GenIntroTestCases}) generally introducing the test-case problems and giving their analytical solutions, where available. The general presentation of the test cases figures at this spot, as it is needed in the following sections. The next two sections (\ref{sec:1DSPHcode}) and (\ref{sec:1DSPHcode}) explain the developed SPH-codes and also describe how to run them. Subsequently, there is a section (\ref{sec:simuSetupTestCases}) describing the detailed simulation setup and post-processing procedure for each test-case, so that every result presented in this document may be exactly reproduced with the information given in this section.
 In the following chapter (\ref{sec:Results}), the results of all test cases as well as the porosity simulations are presented and the final chapter (\ref{sec:conclusion}) concludes the work and gives a brief future perspective.
+
 
 \chapter{Method}
 \label{sec:method}
@@ -125,8 +126,8 @@ A_I({\bf r})=\int A({\bf r'})W({\bf r}-{\bf r'},h)d{\bf r'}
 %\begin{equation}
 %A({\bf r})=\int A({\bf r'})\delta({\bf r}-{\bf r'})d{\bf r'},
 %\end{equation}
-where $W({\bf r}-{\bf r'},h)$ is the so called {\tt kernel function} or {\tt smoothing function} and $h$ the
-{\tt smoothing length}. If $W$ is the delta function this expression is exact,
+where $W({\bf r}-{\bf r'},h)$ is the so called {\bf kernel function} or {\bf smoothing function} and $h$ the
+{\bf smoothing length}. If $W$ is the delta function this expression is exact,
 otherwise it represents an approximation. As the theoretically
 perfect kernel, the delta function, is of no practical use, the kernels
 employed in practice are functions which tend to the delta function in the 
@@ -173,7 +174,7 @@ With the ideas introduced so far, this can easily be obtained by just deriving t
 and shows that in SPH the derivative is approximated by an exact derivation of an approximative function, the kernel function.
 
 The disadvantage of the above equation (\ref{eq:simpleDerivative}) however is, that for
-$A(\bf{r})=const.$ the approximated derivative does not vanish. By using the identity
+$A({\bf r})=const.$ the approximated derivative does not vanish. By using the identity
 %(in Monaghan the equation figures not with gradient but only in 1 direction!?!)
 \begin{equation}
 \label{eq:derivativeIdentity}
@@ -522,8 +523,8 @@ If the constant temperature idea of Monaghan is expanded to all ghost particles,
 A more accurate approach can possibly be achieved by adapting the idea of Morris for the velocity assignment \cite{Morris1997, Zhu1999} to the temperature values. The analogy is that in both cases a certain value has to be maintained at the wall surface. If $r$ is a real particle close to the wall, $g$ a ghost particle constituting this wall and $w$ denoting the wall, then a possible temperature interpolation formula for a fixed wall temperature would be: %(provided the conductivity of the wall material and flow are the same...):
 \begin{equation}
  \label{eq:IsothermalBC_T_extrapolation}
-T_r=T_w+d_g/d_r(T_w-T_r)
-\end{equation}, where the variables are denoted the same as in equation (\ref{eq:velocInterpolation}).
+T_r=T_w+d_g/d_r(T_w-T_r),
+\end{equation} where the variables are denoted the same as in equation (\ref{eq:velocInterpolation}).
  
 This approach is tested as another option for isothermal boundary implementation for solid obstacles.
 
@@ -625,7 +626,7 @@ Including artificial viscosity, the SPH form of the Euler momentum equation (\re
 
 \begin{equation}
 \label{eq:VCR_EulerInclArtVis}
-\frac{{\bf du_{a}}}{\mathit{dt}}=-\sum {m_{b}\left(\frac{P_{a}}{\rho_{a}^{2}}+\frac{P_{b}}{\rho _{b}^{2}}+\Pi _{ab}\right)\nabla_{a}W_{ab}}.
+\frac{ d{\bf u}_{a}}{\mathit{dt}}=-\sum {m_{b}\left(\frac{P_{a}}{\rho_{a}^{2}}+\frac{P_{b}}{\rho _{b}^{2}}+\Pi _{ab}\right)\nabla_{a}W_{ab}}.
 \end{equation}
 
 
@@ -635,7 +636,7 @@ can be found in~\cite{Liu2003}.
 
 \begin{equation}
 \label{eq:ECR_EulerInclArtVis}
-\frac{de_{a}}{\mathit{dt}}=-\mathit{}\frac{1}{2}\sum{m_{b}\left(\frac{P_{a}}{\rho _{a}^{2}}+\frac{P_{b}}{\rho _{b}^{2}}+\Pi _{ab}\right){\bf a_{\mathit{ab}}}\cdot\nabla _{a}W_{\mathit{ab}}}.
+\frac{de_{a}}{\mathit{dt}}=-\mathit{}\frac{1}{2}\sum{m_{b}\left(\frac{P_{a}}{\rho _{a}^{2}}+\frac{P_{b}}{\rho _{b}^{2}}+\Pi _{ab}\right){\bf u_{\mathit{ab}}}\cdot\nabla _{a}W_{\mathit{ab}}}.
 \end{equation}
 
 \subsection{Physical Viscosity Implementation}
@@ -688,7 +689,7 @@ Again neglecting rotational viscosity, a more general continuous expression, whi
 A corresponding SPH form of equation (\ref{eq:continuousViscousExpression_const}), i.\ e.\ for spatially constant viscosity, is derived by \cite{Espanol2003} and reads as follows
 \begin{equation}
 \label{eq:SPH_ViscousExpression_const}
-\left(\frac{d{\bf u}_i}{dt}\right)_{\mathit{visc}}=\frac{1}{m_i}\left( \left(\frac{5\eta}{3}-\zeta\right)\sum_j\frac{F_{ij}}{d_i d_j}{\bf u_{ij}}+5\left(\zeta+\frac{\eta}{3}\right) \sum_j\frac{F_{ij}}{d_i d_j}{\bf e}_{ij} {\bf e}_{ij}{\bf \cdot u}_{ij}\right)
+\left(\frac{d{\bf u}_a}{dt}\right)_{\mathit{visc}}=\frac{1}{m_a}\left( \left(\frac{5\eta}{3}-\zeta\right)\sum_b\frac{F_{ab}}{d_a d_b}{\bf u}_{ab}+5\left(\zeta+\frac{\eta}{3}\right) \sum_b\frac{F_{ab}}{d_a d_b}{\bf e}_{ab} {\bf e}_{ab}{\bf \cdot u}_{ab}\right)
 \end{equation}
 $d$ is the particle density and therefore defined as $d=1/V$ with $V$ being the particle volume. $F$ results from a reformulation of the expression for the smoothing function using the symmetrical character of the latter:
 \begin{equation}
@@ -699,12 +700,13 @@ For coherence reasons, in equation (\ref{eq:F_from_W}) the sign convention from 
 
 The discretized expression of equation (\ref{eq:continuousViscousExpression_variable}) is not given in \cite{Espanol2003} and would therefore have to be derived with the same procedure used to obtain equation (\ref{eq:SPH_ViscousExpression_const}). 
 
-A simpler form of taking into account spatially variable viscosity istherefore  using equation (\ref{eq:SPH_ViscousExpression_const}) with averaged viscosity values for each interaction pair $P_{ab}$ as $\frac{\eta_a+\eta_b}{2}$.
-
+A simpler form of taking into account spatially variable viscosity istherefore  using equation (\ref{eq:SPH_ViscousExpression_const}) with averaged viscosity values for each interaction pair $P_{ab}$ as $\frac{\eta_a+\eta_b}{2}$.\\
+\\
+\indent
 In general, it is necessary to take into account the viscous dissipation in the energy equation as well, by adding an appropriate term. This is for the same reason already mentioned in the artificial viscosity section (\ref{sec:ArtVisc}). In \cite{Espanol2003} the viscous heating term for the constant viscosity (equation (\ref{eq:SPH_ViscousExpression_const})) is given as 
 \begin{equation}
 \label{eq:ViscHeating_ConstPhysicalViscosity}
- \left(\frac{de}{dt}\right)_{\mathit{visc}}=-\frac{1}{m_i}\left(\left(\frac{5\eta}{6}-\frac{\zeta}{2}\right)\sum_j\frac{F_{ij}}{d_i d_j}{\bf u}_{ij}+\frac{5}{2} \left(\zeta+\frac{\eta}{3}\right) \sum_j\frac{F_{ij}}{d_i d_j}{\bf e}_{ij} {\bf e}_{ij}{\bf \cdot u}_{ij}\right)
+ \left(\frac{de}{dt}\right)_{\mathit{visc}}=-\frac{1}{m_a}\left(\left(\frac{5\eta}{6}-\frac{\zeta}{2}\right)\sum_b\frac{F_{ab}}{d_a d_b}{\bf u}_{ab}+\frac{5}{2} \left(\zeta+\frac{\eta}{3}\right) \sum_b\frac{F_{ab}}{d_a d_b}{\bf e}_{ab} {\bf e}_{ab}{\bf \cdot u}_{ab}\right)
 \end{equation}
 
 %muss alles noch ausformuliert werden, v.a. noch nicht 100% sicher, ob das so passt, da in espanol in entropy equation integriert! vielleicht noch ein paar worte zu der schematik: multipliziere als skalarprodukt mit v_ij und mal 0.5. (der Rest, den Monaghan2005 auf seite 1742 oben vorschlägt steht im wieder spruch zu seinen eigenen frühren papers und hat auch einen einheitenfehler!!!
@@ -765,23 +767,23 @@ Here the forumlation contains a variable time step as implemented.
 
 For $n=0$:
 \begin{equation}
-{\bf S_{\frac{1}{2}}}={\bf S_0}+\frac{1}{2}dt_0\left(\frac{d{\bf S}}{dt}\right)_0
+{\bf S}_{\frac{1}{2}}={\bf S}_0+\frac{1}{2}dt_0\left(\frac{d{\bf S}}{dt}\right)_0
 \end{equation}
 \begin{equation}
-{\bf r_1}={\bf r_0}+{\bf u_{\frac{1}{2}}}dt_0 .
+{\bf r}_1={\bf r}_0+{\bf u}_{\frac{1}{2}}dt_0 .
 \end{equation}
 
 For any further time step $n\ge1$:
 
 \begin{equation}
-{\bf S_n}={\bf S_{n-\frac{1}{2}}}+\frac{1}{2}dt_{n-1}\left(\frac{d{\bf S}}{dt}\right)_{n-1} \rightarrow
+{\bf S}_n={\bf S}_{n-\frac{1}{2}}+\frac{1}{2}dt_{n-1}\left(\frac{d{\bf S}}{dt}\right)_{n-1} \rightarrow
 \left(\frac{d{\bf S}}{dt}\right)_n 
 \end{equation}
 \begin{equation}
-{\bf S_{n+\frac{1}{2}}}={\bf S_{n-\frac{1}{2}}}+dt_n\left(\frac{d{\bf S}}{dt}\right)_n 
+{\bf S}_{n+\frac{1}{2}}={\bf S}_{n-\frac{1}{2}}+dt_n\left(\frac{d{\bf S}}{dt}\right)_n 
 \end{equation}
 \begin{equation}
-{\bf r_{n+1}}={\bf r_n}+{\bf u_{n+\frac{1}{2}}}dt_n .
+{\bf r}_{n+1}={\bf r}_n+{\bf u}_{n+\frac{1}{2}}dt_n .
 \end{equation}
 
 Another possibility for time integration is a predictor corrector scheme, as
@@ -794,25 +796,25 @@ In the predictor step a guess ${\bf \hat S}$ for the value ${\bf S}$ at $n+1$ is
 applying a normal Euler step:
 
 \begin{equation}
-{\bf \hat S_{n+1}}={\bf S_n}+dt\left(\frac{d{\bf S}}{dt}\right)_n
+{\bf \hat S}_{n+1}={\bf S}_n+dt\left(\frac{d{\bf S}}{dt}\right)_n
 \end{equation}
 
 \begin{equation}
-{\bf r_{n+1}}={\bf r_n}+ {\bf u_{n}}dt.
+{\bf r}_{n+1}={\bf r}_n+ {\bf} u_{n}dt.
 \end{equation}
 
 This guess is then corrected by a central difference scheme to update the values at
 $n+1$:
 
 \begin{equation}
-{\bf S_{n+1}}={\bf S_n}+dt\left(\frac{d{\bf S}}{dt}\right)_{n+\frac{1}{2}}.
+{\bf S}_{n+1}={\bf S}_n+dt\left(\frac{d{\bf S}}{dt}\right)_{n+\frac{1}{2}}.
 \end{equation}
 
 The values at $n+\frac{1}{2}$ needed to calculate
 $\left(\frac{d{\bf S}}{dt}\right)_{n+\frac{1}{2}}$ are obtained by taking the mean value of
-$S_n$ and ${\bf \hat S_{n+1}}$:
+$S_n$ and ${\bf \hat S}_{n+1}$:
 \begin{equation}
-{\bf S_{n+\frac{1}{2}}}=\frac{1}{2}({\bf S_n}+{\bf \hat S_{n+1}}).
+{\bf S}_{n+\frac{1}{2}}=\frac{1}{2}({\bf S}_n+{\bf \hat S}_{n+1}).
 \end{equation}
 
 \subsection{Choice of time step}
@@ -1742,7 +1744,7 @@ git clone git://github.com/Olliinurlaub/1DSPH
 \paragraph{Running the code}
 After potential changes have been made in the file {\tt parameters.h} or before the first use, the code has to be compiled from the {\tt 1DSPH/source} folder. For this purpose a makefile has been set up, in a way the compilation can be invoked by the command
 \begin{verbatim}
- make
+make
 \end{verbatim}.
 This creates the executable {\tt 1DSPH}, which finally can be run by the shell command
 \begin{verbatim}
@@ -1791,10 +1793,12 @@ If one desires to acquire detailed understanding of this code without previous k
 an automatic source code documentation system is set up. It provides very extensive documentation (almost at source code level) of all classes, methods and attributes used in the code and even shows dependencies among them by means of call- and caller-graphs for every method (i.\ e.\ which methods call the considered method and which methods does the considered method call).
 This documentation tool is called doxygen and is used in the following way:
 Run doxygen in a shell placed in the {\tt sph-blitz/src}-folder to generate the documentation in form of html-files. The command, provided doxygen is installed on the computer, is:
-\begin{verbatim} doxygen
+\begin{verbatim}
+doxygen
 \end{verbatim}
 The html-files are written in a newly created folder {\tt sph-blitz/src/html}. Open the main-page of the documentation (index.html) in a browser. The corresponding command supposing one uses for example a firefox browser is:
-\begin{verbatim} firefox html/index.html &
+\begin{verbatim}
+firefox html/index.html &
 \end{verbatim}
 % erwähnen dass außerdem die flow--charts im anhang aufschluss drüber geben können, was wie zusammenhängt, denn die loops (und constructors) werden durch doxygen nicht dargestellt
 Now, one can navigate through the documentation.
@@ -1920,7 +1924,7 @@ The file ending .ivs stands for ``Initial Values Simulation''.
 
 Once these two files are ready, the program is run from the {\tt sph-blitz/src} folder with the two file names as command line arguments. For the above example, the command to run the program would therefore look as follows.
 \begin{verbatim}
- ./sph ../cases/xxxxx ../cases/zzzzz.ivs
+./sph ../cases/xxxxx ../cases/zzzzz.ivs
 \end{verbatim}
 The simulation results are written into {\tt src/outdata} and can be post--processed with scripts contained in the corresponding {\tt postProcessingyyyyy} folder of {\tt sph-blitz/scripts}. Again there are {\tt README} files in these folders detailing the process.
 
@@ -1955,13 +1959,66 @@ Then the error norms can be calculated as
 The normalization factor $\norm{B_{\mathit{char}}}$ is  a characteristic value of the quantity $B$. This value is specific to the problem. Furthermore, the above given definition (eq. (\ref{eq:NormDefinition})) is a general formulation allowing for a weighted error norm calculation. The weight factor $C_i$ can be any reasonable variable. For example taking the particle volume ($C_i=V_i$) one obtains a volume weighted norm. Taking $C_i=1$ simply gives the ordinary norm definition.
 
 
-\subsection{1D SPH code}
+\subsection{1D SPH code simulation}
 \label{sec:simuSetup1DSPHcode}
 The simulation setup for the shock--tube test problem is already integrated in the 1D SPH--code, i.\ e.\ no pre--processing and the like has to be done before running the code. 
 The parameter--setting, which is used for the simulation, from which the sample result presented in section (\ref{sec:1DSPHcodeResults}) is obtained, are the following:
-\\
-\\
-WORK IN PROGRESS
+
+
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:SimuSettings_1DCode_Shock}
+\centering
+
+\begin{tabular}[c]{|l|p{5cm}|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+domain size &  2\\
+\hline
+support length &0.013 \\
+\hline
+kernel function & 1D cubic spline \\
+\hline
+density mode & summation density \\
+\hline
+isentropic exponent & 1.4\\
+\hline
+artificial viscosity& activated for compressions only\\ 
+\hline
+\hline
+\end{tabular}
+\caption[]{Shock--tube simulation settings for the 1D--code}
+
+\end{table}
+
+
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:InitPartValues_1DCode_Shock}
+\centering
+
+\begin{tabular}[c]{|l|p{5cm}|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+particle number $N$ &  1200\newline (166 on LHS and 1067 on RHS)\\
+\hline
+LHS density $\rho_l$ &  1.0\\
+\hline
+RHS density $\rho_r$ &  0.125\\
+\hline
+LHS pressure $p_l$ &  1.0\\
+\hline
+RHS density $p_r$ &  0.1\\
+\hline
+velocity $v$ & 0.0\\
+\hline
+mass $m$ & 9.375\cdot10^{-4}\\
+\hline
+\hline
+\end{tabular}
+\caption[]{Particle initialization values for shock--tube simulation with 1D code.}
+
+\end{table}
+
+
 
 For the 1D code no quantitative post--processing is conducted, as the shock--tube case is again simulated with the 2D code, then with quantitative analysis of the results. 
 The 1D results are only compared visually to the ecact solution of the problem introduced in section (\ref{sec:TestCases_1DshockTube}). A script for this plotting task is contained in the folder {\tt 1DSPH/outdata} with detailed instructions in the corresponding {\tt README} file.
@@ -1970,7 +2027,7 @@ The 1D results are only compared visually to the ecact solution of the problem i
 
 %TABLE PARTICLES
 
-\subsection{2D SPH code}
+\subsection{2D SPH code simulations}
 \label{sec:2DSPHcodeGeneralTestCaseIntroduction}
 
 \subsubsection{Shocktube Problem}
@@ -2002,7 +2059,7 @@ support length & depending on simulation \newline (see results)  \\
 \hline
 kernel function & 1D and 2D cubic spline \\
 \hline
-density mode & summation density \\
+density mode & summation density \newline (unless stated otherwise) \\
 \hline
 mass initialization & inetrnal (perturbation study)\newline external (rest)\\
 \hline
@@ -2363,7 +2420,7 @@ e_{\mathit{domain}}=\frac{1}{N_{\mathit{prtl}}}\sum_i e_i
 
 \subsubsection{Compressible Couette}
 \label{sec:SimuSetup_ComprCouette}
-The compressible Couette case is simulated to test the simultaneous application of all the above investigated phenomena on the one hand and the variable viscosity on the other hand. The simulation setup is presented in table (\ref{tab:SimuSettings_comprCouette}})
+The compressible Couette case is simulated to test the simultaneous application of all the above investigated phenomena on the one hand and the variable viscosity on the other hand. The simulation setup is presented in table (\ref{tab:SimuSettings_comprCouette}).
 
 \begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
 \label{tab:SimuSettings_comprCouette}
@@ -2464,7 +2521,8 @@ mass initialization & internal initialization \\
 isentropic exponent & 1.4\\
 \hline
 physical viscosity& included, with constant $\eta$\\ 
-\hlinegravity &1.0 in x--direction\\
+\hline
+gravity &1.0 in x--direction\\
 \hline
 \hline
 \end{tabular}
@@ -2513,7 +2571,7 @@ flow together with an isothermal cold wall condition on the obstacle surface is 
 
 For the simulation, the situation is modeled by one cavity centered in the calculation domain and by periodic boundary conditions in x--direction. A symmetry condition is applied on the upper side of the domain, which in order to imitate a free flow has to be chosen big enough in this direction. Thus the situation becomes similar to a canal flow and a pressure gradient or equivalent a body force can be applied to drive the flow until a steady state has established. This force is estimated in a way to result in a steady state flow mach number of around $M=2$ to $M=3$ and is 
 
-The finally simulated situation is pictured in figure (\ref{fig:PorositiesCavitiesSimuDomain}).
+The finally simulated situation is pictured in figure (\ref{fig:PorositiesCavitiesSimuDomain}) and has the simulation settings according to table (\ref{}).
 
 
 \begin{figure}[!htbp]
@@ -2523,12 +2581,49 @@ The finally simulated situation is pictured in figure (\ref{fig:PorositiesCaviti
   \label{fig:PorositiesCavitiesSimuDomain}
 \end{figure}
 
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:SimuSettings_Cavity}
+\centering
+
+\begin{tabular}[c]{|l|p{5cm}|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+domain size x--direction &  1.0\\
+\hline
+domain size y--direction &  2.0\\
+\hline
+boundary conditions x--direction & periodic\\
+\hline
+boundary conditions y--direction & symmetric (upper boundary)\newline no influence (lower boundary) \\
+\hline
+solid obstacles& Cavity with parameters:\newline {\tt y\_surface}=1.39\newline {\tt depth=0.6};
+  \newline {\tt width}=0.3\newline temperature=2\\
+\hline
+support length & 0.08  \\
+\hline
+kernel function & cubic spline \\
+\hline
+mass initialization & internal initialization \\
+\hline
+isentropic exponent & 1.5\\
+\hline
+physical viscosity& included, with constant $\eta$\\ 
+\hline
+thermal conductivity& included, with variable $k$\\ 
+\hline
+gravity &0.8, 0.4, 0.2 in x--direction\\
+\hline
+\hline
+\end{tabular}
+\caption[]{Simulation settings for the Cavity simulation.}
+
+\end{table}
 
 
 In a second step it is intended to send an acoustic wave over the cavity. This wave is generated by a temporally sinusoidal velocity perturbation on the left hand side domain edge. To match best the original experimental situation for optimum damping of the acoustic wave and for simulation purposes certain conditions have to be respected.
 Starting with a fixed cavity diameter $d_\mathit{cavity,x}=0.3$ and a fixed domain size in x direction of $x_d=1$ the following values can be determined.
 \begin{itemize}
- \item The distance $D$ from the cavity surface to the upper domain edge (symmetry line) is twice as big as the cavity diameter $d_\mathit{cavity,x}$: $D=2d_\mathit{cavity}00.6$
+ \item The distance $D$ from the cavity surface to the upper domain edge (symmetry line) is twice as big as the cavity diameter $d_\mathit{cavity,x}$: $D=2d_\mathit{cavity}=0.6$
 \item The depth $d_\mathit{cavity,y}$ of the cavity from surface to bottom is twice as big as the cavity diameter: $d_\mathit{cavity,y}=2d_\mathit{cavity,x}=0.6$. 
 \item The frequency $f$ of the velocity perturbation for optimum damping obeys the condition $f=N\frac{U_\mathit{inf}}{2 D}$ with $N$ being a positive integer and $U_inf$ the steady state flow velocity at the upper domain edge.
 \item In x direction the domain has to be wide enough for the acoustic wave to be fully generated at the LHS domain edge before the beginning of the wave reaches the RHS egde.
@@ -2540,12 +2635,34 @@ Depending on the results of the steady state cavity flow, which are needed to ob
 
 \paragraph {Initiation}
 
-The particles are initialized with the following data (TABLE) and their distribution is generated on the basis of a rectangular grid for the whole rectangular domain by the program {\tt create\_ICCavity.cpp} in the {\tt scripts/InitCondPorosities} folder. It is only within the simulation program that the particles not needed for the simulation are discarded and the particles located within the solid walls are declared ghost particles. The necessary geometrical information for these operations is managed in the corresponding {\tt SolidObstacles} class called {\tt Cavity} of the simulation program.
+The particles are initialized according to table (\ref{tab:InitPartValues_Cavity}) and their distribution is generated on the basis of a rectangular grid for the whole rectangular domain by the program {\tt create\_ICCavity.cpp} in the {\tt scripts/InitCondPorosities} folder. It is only within the simulation program that the particles not needed for the simulation are discarded and the particles located within the solid walls are declared ghost particles. The necessary geometrical information for these operations is managed in the corresponding {\tt SolidObstacles} class called {\tt Cavity} of the simulation program.
 However this information must be provided to the program by the particle initialization file (.ivs). Therefore, in the particle distribution generator {\tt create\_ICCavity.cpp} one has to specify the corresponding cavity data before the -ivs file is created. Detailed instructions on the initialization process with a schematic of the geometrical situation are contained in the {\tt README} file in {\tt InitCondPorosities}.
-Note: the linear exprapolation approach for the ghost particle properties does only work for convex boundary curvatures. Besides it needs a clearly defined tangent for each point on the ghost particle surface. This is not the case in the cavity corners.
+Note: the linear exprapolation approach for the ghost particle properties does only work for convex boundary curvatures the way it is implemented. Besides it needs a clearly defined tangent for each point on the ghost particle surface. This is not the case in the cavity corners.
 A more complex extrapolation approach conceived by \cite{Yildiz2009} would have to be implemented for this surface geometry. Therefore, the simple constant property approach is employed for the assignment of ghost particle values.
- 
 
+
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:InitPartValues_Cavity}
+\centering
+
+\begin{tabular}[c]{|l|p{5cm}|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+particle number $N$ &  depending on simulation\\
+\hline
+density $\rho$ &  1.0\\
+\hline
+pressure $p$ &  1.0 \\
+\hline
+velocity $v$ & 0.0\\
+\hline
+mass $m$ & internal initialization\\
+\hline
+\hline
+\end{tabular}
+\caption[]{Particle initialization values for the cavity simulation.}
+
+\end{table}
 
 
 \subsubsection{Porosities -- flow through obstacles}
@@ -2556,23 +2673,83 @@ Generally introduced in section (\ref{sec:PorositiesCircularObstacles}), the con
 \begin{figure}[!htbp]
   \centering
      %\includegraphics[width=1.0\textwidth]{Graphics/general_structure_SPH}
-  \caption{Simulation domain for the cavity problem }
-  \label{fig:PorositiesCavitiesSimuDomain}
+  \caption{Simulation domain for porosity configuration}
+  \label{fig:PorositiesCylindersSimuDomain}
 \end{figure}
 
- The entire simulation setup is given in table TABLE and the particle properties of the real particles as created by the initialization files are summarized in the following table:
-\linebreak[2]
-TABLE
-\linebreak[2]
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:SimuSettings_Porosities}
+\centering
+
+\begin{tabular}[c]{|l|p{5cm}|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+domain size x--direction &  1.0\\
+\hline
+domain size y--direction &  1.0\\
+\hline
+boundary conditions x--direction & periodic\\
+\hline
+boundary conditions y--direction & periodic \\
+\hline
+solid obstacles&Porosities (circular cylinders) with parameters:\newline {\tt y\_surface}=1.39\newline {\tt depth}=0.6;
+  \newline {\tt width}=0.3\newline temperature=2\\
+\hline
+support length & 0.08  \\
+\hline
+kernel function & cubic spline \\
+\hline
+mass initialization & internal initialization \\
+\hline
+isentropic exponent & 1.5\\
+\hline
+physical viscosity& included, with variable $\eta$\\ 
+\hline
+thermal conductivity& included, with variable $k$\\ 
+\hline
+gravity &0.8, 0.4, 0.2 in x--direction\\
+\hline
+\hline
+\end{tabular}
+\caption[]{Simulation settings for the porosity modeled by cylindric obstacles.}
+
+\end{table}
+
+ The entire simulation setup is given in table (\ref{tab:SimuSettings_Porosities}) and the particle properties of the real particles as created by the initialization files  are summarized in table (\ref{tab:InitPartValues_Porosities})
+
+\begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
+\label{tab:InitPartValues_Porosities}
+\centering
+
+\begin{tabular}[c]{|l|p{5cm}|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
+\hline
+\hline
+particle number $N$ &  depending on simulation\\
+\hline
+density $\rho$ &  1.0\\
+\hline
+pressure $p$ &  1.0 \\
+\hline
+velocity $v$ & 0.0\\
+\hline
+mass $m$ & internal initialization (uniform square lattice)\newline external (for other initial particle arrangements)\\
+\hline
+\hline
+\end{tabular}
+\caption[]{Particle initialization values for the porosity modeled by cylindrical obstacles.}
+
+\end{table}
+
+
 
 Concerning the particle placement, three approaches are used, essentially inspired by Morris \cite{Morris1997, Zhu1999}. In any of the particle generator programs, one has to specify the location of the cylinders so their geometrical data can be communicated to the simulation program by the .ivs file. At the level of the .ivs file it makes no difference if a particle is a real particle or a ghost particle. For, in any case where {\tt solidObstacles} are involved, the declaration of a particle as ghost particle (and thus its immobilization) and also the removal of any ghost particles further than $l_s$ (if density evolved: $2l_s$) away from the obstacle surface is conducted within the simulation program. 
 
 \begin{itemize}
 
  \item Uniform square lattice\\
-  All particles are placed according to one continuous square lattice filling the entire calculation domain, no matter if there is a solid cylinder or not. This method
-  models the cylinder surface very poorly for low resolutions.
-(in this case mass initialization can be done within the program by interpolation)
+  All particles are placed according to one continuous square lattice filling the entire calculation domain, no matter if there is a solid cylinder or not. This method  models the cylinder surface very poorly for low resolutions. (in this case mass initialization can be done within the program by interpolation)
+
+This particle configuration os created by teh program {\tt create_ICPorosities_uniformSqareLattice}.
 
 \item Square lattice for real particles and circular layers for cylinders\\
 This approach fills the cylinder areas with particles placed on concentric circles with the cylinder center as the corresponding cylinder origin.
@@ -2593,8 +2770,10 @@ Such a cylinder treatment was suggested by Morris \cite{Zhu1999} consists of a p
   \end{itemize}
 The real particle area between the domain is filled with particles according to a regular lattice. 
 The sensible point of this particle initialization is the interface between the regular lattice and the circular arrangement at the cylinder surface.
-As the mass of all particles is desired to be the same, a mass initialization within the simulation program by smoothing, which would lead to mass variations of particles around the interface, is not possible. Therefore mass is initialized externally by the initialization file ({\tt .ivs}) to the same value for all particles. This is why errors in density because of the irregular transition of the particle lattices may occur around the cylinder surfaces.
+As the mass of all particles is desired to be the same, a mass initialization within the simulation program by using the smoothing kernel, which would lead to mass variations of particles around the interface, is not possible. Therefore mass is initialized externally by the initialization file ({\tt .ivs}) to the same value for all particles. This is why errors in density because of the irregular transition of the particle lattices may occur around the cylinder surfaces.
 One adjustment parameter is the margin in distance between the cylinder surface, which at the same time is the position of the last layer of ghost particles, and the closest real particle to this cylinder surface. A value of $\sqrt{3}dx/2$  seems to be reasonable for this margin.
+
+A particle field like this can be generated by the program {\\t create_ICPorosities_SqareLatticeRealPrtl_CircularCyl}  
 
 
 \item hexagonal lattice for real particles and circular layers for cylinders
@@ -2611,7 +2790,11 @@ it makes the particle distribution more isotropic on the micro--scale.
 As the particle spacing is $\Delta$ (the closest particle distance) in one direction and $\Delta'=\sqrt{3}\Delta/2$ in the other, there will be in general an irregularity in particle spacing at one of the domain edges for a squared calculation domain with size $l_d$. To fill the domain with particles in a regular manner nonetheless, the particle spacing in the second direction is not chosen exactly $\sqrt{3}\Delta/2$ but the closest value which respects the condition $N \Delta'=l_d$, where $N$ is a positive integer. For a domain size of $l_d=1$ and a closest particle spacing of $dx=0.02$ as for the above cases, the chosen spacing in the second direction is $\Delta'=1/58\approx0.01724$ while the exact value to obtain a perfectly hexagonal lattice would be $\Delta'\approx0.01732$. 
 Again the particle's mass is initialized externally due to the irregularities around the cylinder surfaces. The value for the mass is determined by the desired density and the volume associated to one particle. For the given geometrical situation this volume is $V=\frac{1}{50\cdot58}\approx3.448\cdot10^{-4}$.
 
+There is a program {\tt create_ICPorosities_HexagonalLattice_CircularCyl.cpp} generating the described particle field.
+
 \end{itemize}
+
+The programs mentioned above to generate the initial particle fields in an (.ivs) file are contained in the corresponding initial condition folder {\tt InitCondPorosities} in {\tt sph-blitz/scripts}.
 
 
 
