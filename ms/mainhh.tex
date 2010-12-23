@@ -116,9 +116,6 @@ blabla
 \cleardoublepage
 
 \chapter*{Abstract}
-%One Page abstraction of the thesis in \bfseries{German AND
-% English}\mdseries
-
 
 In this work, an existing incompressible SPH code is modified towards capabilities of simulating compressible viscous flow with heat conduction. Furthermore the possibility of including solid obstacles with curved surfaces in the calculation domain is implemented. At the different levels of modification, various test cases are investigated to validate the implementation of the corresponding models. Finally two exemplary porosity configurations are simulated with the developed code.
 
@@ -190,11 +187,9 @@ The initial development of the method dates back to 1977, when Gingold and
 Monaghan \cite{Gingold1977} tempted to compute an astrophysical %(gas dynamics - I am not sure if it's actualy a gas dynamics problem) 
 problem with a new, compared to grid based methods more efficient approach. Independently and simultaneously, work in this field was also carried out by Lucy who came up with the same idea~\cite{Lucy1977}. One main advantage of SPH, which also is the reason why SPH was applied first to astrophysical problems, lies in the fact that it is a particle method and therefore does not need any room-fixed grid for the underlying numerical scheme. Instead, the base for the calculation of derivatives are discrete points, the particles, which move with the fluid (Lagrangian approach). Dealing with high density variations and huge calculation domains, astrophysical problems, when simulated with grid-based methods, 
 required a considerable effort in terms of mesh--refinement. For particle methods like SPH however, density variations are principally resolved naturally by a more or less dense particle spacing and calculation is only performed at places where there is matter, i.\ e.\ particles.
-Another advantage of the method not requiring a meshing, is the relative ease of the implementation of complex boundary geometries \cite{Adams2010}. And this is the main reason for the application of SPH in this work, as the structure of the solid boundaries represents a significant part of the problem, when treating porosities.
-
-
- 
-%OTHER APPROACHES FOR CAVITY/POROSITY SIMULATION (look up in literature)
+Another advantage of the method not requiring a meshing, is the relative ease of the implementation of complex boundary geometries \cite{Adams2010}. And this is the main reason for the application of SPH in this work, as the structure of the solid boundaries represents a significant part of the problem, when treating porosities.\\
+\\
+\indent
 To be able to perform the simulation, a 2D compressible SPH code was developed in several stages and then validated by means of various test cases.
 
 The first code that emerged from this project was a simple 1D compressible SPH code simulating a shock--tube problem. Although this code has no real use for practical applications, it is presented in this thesis with the goal to introduce the reader, who would like to familiarize himself with the implementation of SPH, to this technique.
@@ -3695,7 +3690,7 @@ For higher Reynolds numbers, the above mentioned effect of particle movement inf
 One way of reducing the errors induced by the disordering of the particle arrangement is starting the simulation from a so called relaxed particle field \cite{Ellero2007}. It can be obtained by running a previous simulation to the point of complete dissolution of particle structure and then re--initializing this field with the initial properties of a Taylor--Green vortex. 
 
 
-
+\begin{comment}
 The influence of spatial resolution on the Taylor--Green results is investigated for a Reynolds number of $Re=10^{-2}$ in order to avoid the effect of particle movement. A support length of $l_s=2dx$ is chosen for this set of simulations as it showed higher errors tah a bigger value. Finally, the results of the convergence study for this configuration are surprising as can be seen from figure. (\ref{fig:Results_TG_Resolution}). There is a virtually constant residual error of around $38\%$ no matter which resolution. A first idea was that this residual error could be due to compressibility error as the simulation is compared to an incompressible reference. But even with a new simulation neglecting the viscous heating term in the energy equation no change in results have been noticed. Another reason for this residual error, which again is speculation, could be the discretization approximation error, which depends on $l_s/dx$. Perhaps this error is very predominant for this particular configuration? 
 
 
@@ -3706,6 +3701,7 @@ The influence of spatial resolution on the Taylor--Green results is investigated
 \caption[Convergence Taylor--Green]{Convergence behavior of a Taylor--Green flow with a Reynolds number of $Re=100$.}
 \end{figure}
 
+\end{comment}
 
 \subsection{Pure Heat--Conduction  -- Slab with temperature jump}
 
@@ -4578,7 +4574,7 @@ Findings from literature stating that convergence is second order with an adiaba
 
 A combination of all models extended by variable viscosity and thermal conduction has been applied to the compressible Couette test case. Again, the effect of the Reynolds number was noticeable. In a first step, a quasi incompressible Couette flow was simulated, giving accurate results for low Reynolds numbers (up to around $Re=4\cdot10^{-2}$), even with a small ratio $l_s/dx=2$. For higher $Re$ values, oscillations appear, which to a certain extend can be reduced with a high ratio $l_s/dx=4$, but even with this high ratio the simulations soon become unstable for higher $Re$. In a second step the truly compressible Couette flow with hot upper plate and cold lower plate was simulated at low $Re$ to avoid oscillations. The results were validated qualitatively and showed the right curvature of both the velocity and temperature profile due to the variable $\eta$ and $k$.
 
-At this point the flow model had been sufficiently tested to attack the porosity cases. It turned out that the boundary conditions used for the domain edges could not be applied to the generally curved surfaces of solid obstacles modeling the porosity. Therefore a different velocity and temperature boundary treatment had to be implemented,  which then was tested prior to the actual porosity simulation by means of a Poiseuille flow and a pure conduction problem respectively. Two approaches for assigning the ghost particle virtual velocity have been investigated to model the no--slip condition: uniformly zero velocity and linear velocity extrapolation. As confirmed by literature, the latter yielded the more accurate results. The idea of linear extrapolation has then been extended to the ghost particle temperature to model the isothermal boundary condition. In this case again, the linear extrapolation approach performed better compared to the constant temperature assignment. Additionally, the above mentioned degradation in convergence from second to first order when applying an isothermal boundary condition was not observed any more for the linear extrapolation approach.
+At this point the flow model had been sufficiently tested to attack the porosity cases. It turned out that the boundary conditions used for the domain edges could not be applied to the generally curved surfaces of solid obstacles modeling the porosity. Therefore a different velocity and temperature boundary treatment had to be implemented,  which then was tested prior to the actual porosity simulation by means of a Poiseuille flow and a pure conduction problem respectively. Two approaches for assigning the ghost particle virtual velocity have been investigated to model the no--slip condition: uniformly zero velocity and linear velocity extrapolation. As confirmed by literature, the latter yielded the more accurate results. The idea of linear extrapolation has then been extended to the ghost particle temperature to model the isothermal boundary condition. In this case again, the linear extrapolation approach performed better compared to the constant temperature assignment. Additionally, the above mentioned degradation in convergence from second to first order when applying an isothermal boundary condition was not observed any more for the linear extrapolation approach. A more detailed summary on the boundary condition testing can be found in section (\ref{sec:TestSolobs_BC}).
 
 The first real porosity simulation was then conducted with a simplified model of the geometrical situation of the experimental setup in form of a periodical arrangements of cavities. An attempt to simulate this configuration with a supersonic flow showed that the boundary condition implementation could not entirely deal with the present pressures, thus leading to particle penetration and an interruption of the simulation before the steady state could be completely reached. The results up to the point, where the the simulation stopped however, seem qualitatively correct. 
 
