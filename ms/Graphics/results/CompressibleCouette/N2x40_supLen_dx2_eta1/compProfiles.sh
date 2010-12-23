@@ -11,8 +11,8 @@ set output "U_profiles$1.eps"
 
 set grid;
 set key top left;
-set xlabel "U"; set ylabel "length y";
-plot [0.0:][0.0:]  'exactSteadyStateU0_04.dat' u 2:1 title 'exact' with line lt 2 lw 8,'prtl$1.dat' u 3:2 title 'simu' lt 1 with points;
+set xlabel "Velocity u"; set ylabel "Position y";
+plot [0.0:][0.0:]  'exactSteadyStateU0_04.dat' u 2:1 title 'Exact' with line lt 2 lw 8,'prtl$1.dat' u 3:2 title 'Simulation' lt 1 with points;
 
 set terminal png large
 set output "U_profiles$1.png"

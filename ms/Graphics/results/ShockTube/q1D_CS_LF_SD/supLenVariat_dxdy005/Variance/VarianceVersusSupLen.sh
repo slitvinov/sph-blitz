@@ -12,8 +12,8 @@ set grid;
 set key top right;
 set format y "10^{%L}"
 set logscale y;
-set xlabel "Supportlength"; set ylabel "Variance";
-plot [0.015:0.045][:] 'VarianceVersusSuplen.dat' u 1:2 title 'x-position' with linespoints lw 8, 'VarianceVersusSuplen.dat' u 1:3 title 'density' with linespoints lw 8, 'VarianceVersusSuplen.dat' u 1:5 title 'velocity' with linespoints lw 8;
+set xlabel "Support length l_s"; set ylabel "Variance";
+plot [0.015:0.045][:] 'VarianceVersusSuplen.dat' u 1:2 title 'x-position' with linespoints lw 8, 'VarianceVersusSuplen.dat' u 1:3 title 'Density' with linespoints lw 8, 'VarianceVersusSuplen.dat' u 1:5 title 'Velocity' with linespoints lw 8;
 
 
 set terminal png
@@ -29,8 +29,8 @@ set grid;
 set key top right;
 set format y "10^{%L}"
 set logscale y;
-set xlabel "Supportlength"; set ylabel "Variance";
-plot [0.015:0.045][:] 'VarianceVersusSuplen.dat' u 1:4 title 'pressure' with linespoints lw 8, 'VarianceVersusSuplen.dat' u 1:6 title 'energy' with linespoints lw 8;
+set xlabel "Support length l_s"; set ylabel "Variance";
+plot [0.015:0.045][:] 'VarianceVersusSuplen.dat' u 1:4 title 'Pressure' with linespoints lw 8, 'VarianceVersusSuplen.dat' u 1:6 title 'Energy' with linespoints lw 8;
 
 set terminal png
 set output "VariancePart2.png"

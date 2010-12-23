@@ -8,7 +8,6 @@ set output "ShapeChangeV.eps"
 
 set key right top
 set grid;
-set title "damping for 1D velocity oscillation"
 set mxtics 0.1;
 set xtics 0.1;
 

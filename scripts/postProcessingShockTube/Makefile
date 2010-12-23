@@ -1,5 +1,5 @@
 all: average_q1DResults exactResAndErr1DST exactResAndErr1DST2\
-	exactResAndErr1DST2 average_q1DResultsRAND
+	exactResAndErr1DST3 average_q1DResultsRAND
 
 average_q1DResults: average_q1DResults.cpp
 

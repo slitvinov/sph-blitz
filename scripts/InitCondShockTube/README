@@ -4,3 +4,5 @@ initial conditions they create, refer to README contained in the
 
 short cut to copy paste in local command line:
 emacs ../cases/README &
+
+NOTE: the initial shock tube values have to be specified in the data file "1DST.dat"!

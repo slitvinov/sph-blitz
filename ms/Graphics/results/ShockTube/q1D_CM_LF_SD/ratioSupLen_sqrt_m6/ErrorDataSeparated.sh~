@@ -140,6 +140,7 @@ plot [:][:] 'ErrorData.dat' u 1:22 title 'L_1' with linespoints lw 8, 'ErrorData
 set terminal png
 set output "Area2E.png"
 replot
+reset
 
 
 EOF

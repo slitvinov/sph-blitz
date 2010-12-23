@@ -12,8 +12,8 @@ set grid;
 set key top left;
 set format y "10^{%L}"
 set logscale y;
-set xlabel "length x"; set ylabel "variance";
-plot [1.5:2.5][1e-15:] 'variance$1.dat' u 1:4 title 'density' with line lw 8, 'variance$1.dat' u 1:6 title 'velocity' with line lw 8;
+set xlabel "Position x"; set ylabel "Variance";
+plot [1.5:2.5][1e-15:] 'variance$1.dat' u 1:4 title 'Density' with line lw 8, 'variance$1.dat' u 1:6 title 'Velocity' with line lw 8;
 
 set terminal png
 set output "Variance$1.png"

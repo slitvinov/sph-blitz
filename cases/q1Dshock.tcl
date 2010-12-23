@@ -30,7 +30,7 @@ set INITIAL_CONDITION 0
 # external mass initialization marker
 # 0: mass initialization within simulation program (by smoothing)
 # 1: mass initialized externally (via initialization file)
-set EXTERNAL_MASS_INITIALIZATION 1
+set EXTERNAL_MASS_INITIALIZATION 0
 
 # number of cells in X and Y directions
 set CELLS(0) 156
@@ -59,6 +59,11 @@ set T0 1.0
 set G_FORCE(0) 0.0
 set G_FORCE(1) 0.0
 
+# temporal delay of gravity force action
+# (can be useful to give the initial particle distribution some timeto relax
+# before the actual gravity force (which can simulate a pressure gradient) 
+# starts to act. (time in sec)
+set g_force_delay 0.0
 
 # pure Heat Condution
 # all particles immobilized, no change in any parameters
@@ -138,7 +143,7 @@ set DISABLE_BOUNDARY 0
 # along with real particles
 # 0: NO outout of boundary particles
 # 1: output of boundary particles
-set OUTPUT_BOUNDARY_PRTL 0;
+set OUTPUT_BOUNDARY_PRTL 0
 
 # left hand boundary
 set xBl 0
@@ -159,6 +164,12 @@ set UyBd(1) 0.0
 set yBu 1
 set UyBu(0) 0.0
 set UyBu(1) 0.0
+
+# type of solid obstacle in calculation domain 
+# (in addition to boundaries at the domain edges)
+# possible values are:
+# NoObstacles, Cavity, Porosities, LinearWall
+set SOLID_OBSTACLES NoObstacles
 
 # time control
 set Start_time 0.0		

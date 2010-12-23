@@ -10,8 +10,8 @@ set output "T_profile$1.eps"
 
 
 set grid;
-set xlabel "Length"; set ylabel "Temperature";
-plot [0.0:1.0][-0.15:1.15] 'simuForPlot$1.dat' u 1:2 title 'simu' with points;
+set xlabel "Position x"; set ylabel "Temperature T";
+plot [0.0:1.0][-0.15:1.15] 'simuForPlot$1.dat' u 1:2 notitle with points;
 
 set terminal png large
 set output "T_profile$1.png"

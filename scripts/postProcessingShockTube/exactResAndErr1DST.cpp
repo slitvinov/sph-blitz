@@ -100,8 +100,8 @@ int main () {
   // for simulation) as for changed conditions, p_2 has to be calculated
   // manually anyway (see below)
   const double gamma=1.4;
-  const double rho_1=0.125; 
-  // const double rho_1=0.1111111111111111;//for 2D const Mass particle distribution
+  //const double rho_1=0.125; 
+  const double rho_1=0.1111111111111111;//for 2D const Mass particle distribution
   const double p_1=0.1;
   const double u_1=0.0;
   const double e_1=p_1/((gamma-1)*rho_1);
@@ -126,8 +126,8 @@ int main () {
   // case with density ratio 9 (rho_4=1, rho_1=0.11111111111) all the other values
   // remain unchanged
   
-  const double p_2=0.303130178;//for rho_4=1, rho_1=0.125
-  // const double p_2=0.293309753;//for rho_4=1, rho_1=0.111111111
+  // const double p_2=0.303130178;//for rho_4=1, rho_1=0.125
+  const double p_2=0.293309753;//for rho_4=1, rho_1=0.111111111
   const double p_3=p_2; // pressure the same over contact discontinuity
   
   // rho_2 with shock relation from state 1

@@ -1,10 +1,14 @@
-\documentclass{report}
-
+\documentclass[11pt,a4paper,twoside]{report}
+\special{papersize=210mm,297mm}
+\usepackage[a4paper,left=2.4cm,right=2.4cm]{geometry}
 \usepackage{appendix}%for additional appendix options
-\usepackage{float} %when using [H]: figure placed at exact spot
+%\usepackage{float} %when using [H]: figure placed at exact spot
+\usepackage{afterpage,flafter,float}  %TANJA: Umgang mit Gleitobjekten
+\usepackage[latin1]{inputenc} %Umlaute
 \usepackage{graphicx}
 \usepackage{verbatim} % for multi-line comments
-\usepackage{listings}
+% \usepackage{listings} %von Tanja
+\usepackage{listings,fancyvrb} %von Tanja
 \usepackage{amsmath}
 \usepackage[pict2e]{struktex}
 \usepackage{parcolumns}
@@ -14,8 +18,10 @@
 \usepackage[tight]{subfigure}%tight für weniger platz zwischen figures, see subfigrue docu
 % \usepackage{multicol}
 %\usepackage[rflt]{floatflt}
+\usepackage{fancyhdr}  % TANJA:Kopf/Fu"szeilen
 
 %\usepackage{fullpage}
+\usepackage{dcolumn} % TANJA: Zahlen in Tab auf Dez. Punkt ausrichten
 
 %I've found the following lines in the internet to automatically begin a new line after a paragraph
 \newcommand{\norm}[1]{\left|#1\right|}
@@ -29,8 +35,8 @@
 \makeatother
 
 %modification of page-margins
-\addtolength{\hoffset}{-1.3cm}
-\addtolength{\textwidth}{3.5cm}
+%\addtolength{\hoffset}{-1.3cm} %Tanja: hab ich in Kommentar setze
+%\addtolength{\textwidth}{3.5cm} %Tanja: hab ich in Kommentar setze
 %\addtolength{\textheight}{0cm}
 
 %to change section numbering depth to 3 (default 2)
@@ -39,14 +45,130 @@
 %to change depth for appearence in table of contents to 3 (default 2)
 \setcounter{tocdepth}{3}
 
+%\usepackage[pdftex]{color}		% aus anderer Vorlage
+
+%Farben aus dem Corporate design der TUM
+%\definecolor{p300}{cmyk}{1,0.43,0,0}
+%\definecolor{light}{cmyk}{0,0,0,0.3}
+%\definecolor{heavy}{cmyk}{0,0,0,0.6}
+
+
+\renewcommand{\baselinestretch}{1.1}   % Zeilenabstand
+\renewcommand{\arraystretch}{1.4}      % Zeilenabstand in Tabellen
+%\renewcommand{\familydefault}{cmss}    % Serifenlose Schrift --> wenn ich das in Kommentar setze, ist der Haupttext in Times New Roman...
+
+
+\newcommand{\clearemptydoublepage}{{\cleardoublepage\pagestyle{empty}}}
+
+
+\lhead[\fancyplain{}{{\includegraphics[height=12mm]{fig/caltech_logo}\hspace{5mm}\rightmark}}]%
+       {\fancyplain{}{}}
+ \rhead[\fancyplain{}{}]%
+       {\fancyplain{}{{\leftmark\hspace{5mm}\includegraphics[height=12mm]{fig/TUMLogo_oZ_Vollfl_blau_RGB1}}}}
+\cfoot{}
+\rfoot[{}]
+       {{Page \thepage}}
+\lfoot[{{Page \thepage}}]%
+      {}
+
+% Vermeidung von Schusterjungen und Hurenkindern
+ \clubpenalty = 10000
+ \widowpenalty = 10000
+ \displaywidowpenalty =10000
+
+% Seiteneinstellungen
+ \setlength\textheight{239mm}
+ \setlength\topmargin{-15mm}
+ \setlength\headheight{12mm}
+
+% Mehrzeilige, zentrierte Tabellenspalten
+
+ \newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
+\let\PSB=\PreserveBackslash
+%\PSB=PreserveBackslash (LaTeX Begleiter S. 110)
+\newcolumntype{C}[1]{>{\PSB\centering\hspace{0pt}}m{#1}}
+\newcolumntype{Z}[1]{>{\PSB\centering\hspace{0pt}$}m{#1}<{$}}
+\newcolumntype{M}[1]{>{$}m{#1}<{$}}
+
+
 \begin{document}
 
-%\input{titelblatthh}
-%\input{titelblattSUPAERO}
-\input{titelblattNEW}
+\pagestyle{fancyplain}
 
+
+\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+ \input{titelblattTanja}
+
+
+\pagestyle{empty}
+\newpage
+\cleardoublepage
+
+
+ \pagenumbering{Roman}
+ \setcounter{page}{3}
+\input{best}
+\clearpage
+\chapter*{Danksagung}
+blabla
+\mdseries
+\cleardoublepage
+
+\chapter*{Abstract}
+%One Page abstraction of the thesis in \bfseries{German AND
+% English}\mdseries
+
+
+In this work, an existing incompressible SPH code is modified towards capabilities of simulating compressible viscous flow with heat conduction. Furthermore the possibility of including solid obstacles with curved surfaces in the calculation domain is implemented. At the different levels of modification, various test cases are investigated to validate the implementation of the corresponding models. Finally two exemplary porosity configurations are simulated with the developed code.
+
+This work has to be seen in context with an experiment showing that for a hypersonic flow over a slender cone, wall porosity can dampen acoustic instabilities. In the long
+term, the Institute of Aerodynamics of the Technische Universitaet Muenchen aims at simulating this configuration with a coupled approach between the particle method SPH for the flow in the porosities and a conventional grid--based method for the external flow around the cone. Hence, the present work constitutes the first step towards this objective by developing a code with the required features and by finally presenting its first application to porosity configurations, thus showing its capabilities and limits at the present level of development.
+
+\cleardoublepage %ich
+%\clearpage
+
+\fancyhf{}
+\lhead[\fancyplain{}{{\includegraphics[height=12mm]{fig/caltech_logo}\hspace{5mm}\rightmark}}]%
+       {\fancyplain{}{}}
+ \rhead[\fancyplain{}{}]%
+       {\fancyplain{}{{\leftmark\hspace{5mm}\includegraphics[height=12mm]{fig/TUMLogo_oZ_Vollfl_blau_RGB1}}}}
+\cfoot{}
+\rfoot[{}]
+       {{Page \thepage}}
+\lfoot[{{Page \thepage}}]%
+      {}
 
 \tableofcontents
+\cleardoublepage
+
+\setcounter{table}{0} \setcounter{figure}{0}
+\setcounter{equation}{0}
+
+
+\include{Symbols} %in diese datei symbole rein (table style)
+\cleardoublepage
+
+\fancyhf{}
+\lhead[\fancyplain{}{{\includegraphics[height=12mm]{fig/caltech_logo}\hspace{5mm}\rightmark}}]%
+       {\fancyplain{}{}}
+ \rhead[\fancyplain{}{}]%
+       {\fancyplain{}{{\leftmark\hspace{5mm}\includegraphics[height=12mm]{fig/TUMLogo_oZ_Vollfl_blau_RGB1}}}}
+\cfoot{}
+\rfoot[{}]
+       {{Page \thepage}}
+\lfoot[{{Page \thepage}}]%
+      {}
+
+ \setcounter{page}{1}
+ \pagenumbering{arabic}
+
+
+\pagestyle{fancyplain}
+
+\clearemptydoublepage
+
+%\tableofcontents
 \chapter{Introduction}
 \label{sec:intro}
 
@@ -68,7 +190,9 @@ The initial development of the method dates back to 1977, when Gingold and
 Monaghan \cite{Gingold1977} tempted to compute an astrophysical %(gas dynamics - I am not sure if it's actualy a gas dynamics problem) 
 problem with a new, compared to grid based methods more efficient approach. Independently and simultaneously, work in this field was also carried out by Lucy who came up with the same idea~\cite{Lucy1977}. One main advantage of SPH, which also is the reason why SPH was applied first to astrophysical problems, lies in the fact that it is a particle method and therefore does not need any room-fixed grid for the underlying numerical scheme. Instead, the base for the calculation of derivatives are discrete points, the particles, which move with the fluid (Lagrangian approach). Dealing with high density variations and huge calculation domains, astrophysical problems, when simulated with grid-based methods, 
 required a considerable effort in terms of mesh--refinement. For particle methods like SPH however, density variations are principally resolved naturally by a more or less dense particle spacing and calculation is only performed at places where there is matter, i.\ e.\ particles.
-Another advantage of the method not requiring a meshing, is the relative ease of the implementation of complex boundary geometries. And this is the main reason for the application of SPH in this work, as the structure of the solid boundaries represents a significant part of the problem, when treating porosities. 
+Another advantage of the method not requiring a meshing, is the relative ease of the implementation of complex boundary geometries \cite{Adams2010}. And this is the main reason for the application of SPH in this work, as the structure of the solid boundaries represents a significant part of the problem, when treating porosities.
+
+
  
 %OTHER APPROACHES FOR CAVITY/POROSITY SIMULATION (look up in literature)
 To be able to perform the simulation, a 2D compressible SPH code was developed in several stages and then validated by means of various test cases.
@@ -78,12 +202,12 @@ The first code that emerged from this project was a simple 1D compressible SPH c
 The subsequently developed 2D code is based on an incompressible multi--phase SPH code, which was developed by \cite{Hu2006} and is now in use at the Institute of Aerodynamics of the TUM. This code was adapted in several steps to the needs of the present work, the first step being the implementation of the equations used in the 1D SPH code mentioned above and thus, the adaption of the code to treat inviscid compressible problems. At this stage the code was tested for accuracy and robustness by means of the 1D shock--tube problem. Both a 1D and a 2D particle distribution have been employed to this 1D problem. To conclude the 1D shock--tube tests, a study on the influence of perturbations in the initial particle distribution has been conducted, again both for 1D and 2D particle fields.
 At the same point, the simulation of acoustic wave propagation has been assessed, as acoustic phenomena are essential for the final flow configuration to investigate (see above).
 In a next step the code was further adapted to incorporate physical viscosity and heat conduction models. The correctness of the implemented viscosity model was tested by analyzing the temporal decay of vortices using the Taylor--Green flow and the thermal conduction model was validated with a standard problem of pure heat conduction.
-The final test--case, which is a compressible Couette flow with hot and cold wall boundary conditions, combined all of the previously implemented models. It demonstrated that the combination of all the models would work with the required accuracy.
-Finally, after the systematic validation of all components of the flow model, the flow through porosities and over a porous surface is simulated exemplary by means of two different porous configurations. 
+The final test--case, which is a compressible Couette flow with hot and cold wall boundary conditions, combined all of the previously implemented models. It demonstrated that the models would work in combination.
+Finally, after the systematic validation of all components of the flow model, the flow through porosities and over a porous surface was simulated exemplary by means of two different porous configurations. This required a further solid wall boundary implementation to be implemented, which was tested as well prior to the actual porosity configuration.
 
 The structure of this document is based on the classical structure of a scientific paper \cite{Day2006}, with the four chapters Introduction, Methods, Results and Discussion/Conclusion. If, when looking at the table of contents, the detailed organization of this document does not appear logical to the reader, the following lines are intended to point out the idea behind it.
-In a first section (\ref{sec:sec:BasicsSPH}), the Methods-chapter briefly describes the theoretical idea behind the SPH--method. The second section (\ref{sec:ElementsOfSPH}) deals with some essential components of an SPH-implementation. When considered beneficial, the component contains a specific literature review. There is another section (\ref{sec:GenIntroTestCases}) generally introducing the test-case problems and giving their analytical solutions, where available. The general presentation of the test cases figures at this spot, as it is needed in the following sections. The next two sections (\ref{sec:1DSPHcode}) and (\ref{sec:1DSPHcode}) explain the developed SPH-codes and also describe how to run them. Subsequently, there is a section (\ref{sec:simuSetupTestCases}) describing the detailed simulation setup and post-processing procedure for each test-case, so that every result presented in this document may be exactly reproduced with the information given in this section.
-In the following chapter (\ref{sec:Results}), the results of all test cases as well as the porosity simulations are presented and the final chapter (\ref{sec:conclusion}) concludes the work and gives a brief future perspective.
+In a first section (\ref{sec:sec:BasicsSPH}), the Methods-chapter briefly describes the theoretical idea behind the SPH--method. The second section (\ref{sec:ElementsOfSPH}) deals with some essential components of an SPH-implementation. When considered beneficial, the component description contains a specific literature review. There is a further section (\ref{sec:GenIntroTestCases}) generally introducing the test-case problems and giving their analytical solutions, where available. The general presentation of the test cases figures at this spot, as it is needed in the following sections. The next two sections (\ref{sec:1DSPHcode}) and (\ref{sec:1DSPHcode}) explain the developed SPH-codes and also describe how to run them. Subsequently, there is a section (\ref{sec:simuSetupTestCases}) describing the detailed simulation setup and post-processing procedure for each test-case, so that every result presented in this document may be exactly reproduced with the information given in this section.
+In the following chapter (\ref{sec:Results}), the results of all test cases as well as the porosity simulation examples are presented and the final chapter (\ref{sec:conclusion}) concludes the work and gives a brief future perspective.
 
 
 \chapter{Method}
@@ -365,19 +489,13 @@ calculation with an origin particle $a$ not all the particles $b,b={1,...,N}$ ha
 complexity of the original problem which is of order $O(N^2)$ can be reduced
 considerably and even tends to $O(N)$ if the particles in one cell are few compared to the total number of particles in the calculation domain. 
 %FIGURE: DIAGRAM WITH CELLS /PARTICLES /DOMAIN!?!
-Technically the cells are managed by the implementation of a linked list
-structure in a computational code. More details on this are given in \cite{Monaghan1985, Hockney1988} and besides in section
-(\ref{sec:2DSPHcode}), as this algorithm is implemented in the 2D
-SPH code.
-However, the method has a drawback if used with a spatially variable smoothing
-length. In this case the cell size is not ideally adapted to every particle
-and the algorithm looses efficiency.
+Technically the cells are managed by the implementation of a linked list structure in a computational code. More details on this are given in \cite{Monaghan1985, Hockney1988} and besides in section (\ref{sec:2DSPHcode}), as this algorithm is implemented in the 2D SPH code.
 
-Moreover, different other NPP techniques exist which shall not be introduced in
-detail here. One class of these are called {\bf tree search algorithms}~\cite{Hernquist1989}, which are
-especially robust and efficient for problems with variable smoothing
+However, the method has a drawback if used with a spatially variable smoothing length. In this case the cell size is not ideally adapted to every particle and the algorithm looses efficiency.
+
+Moreover, different other NPP techniques exist which shall not be introduced in detail here. One class of these are called {\bf tree search algorithms}~\cite{Hernquist1989}, which are especially robust and efficient for problems with variable smoothing
 length~\cite{Liu2003}.
-% and therefore are implemented in many astrophysical applications, as h=variable essential due to the huge variation of quantities
+% and therefore are implemented in many astrophysical applications, as h=variable essential due to the huge variation of quantities.
 
 
 \subsection{Boundary condition implementation}
@@ -568,7 +686,7 @@ or, with $c_v T=e$, $R=c_p-c_v$ and $\gamma=\frac{c_p}{c_v}$,
  c=\sqrt{\gamma(\gamma-1)e}.
 \end{equation}
 
-Note on temperature dependence of specific heats: both $c_p$ and $c_v$ depend in general on the temperature and on the pressure or the specific volume respectively. The ideal gas equation of state however is only valid for relatively small pressures (and relatively large specific volumes), where the molecule interactions may be neglected. In this case, the heat capacities are exclusively dependent on temperature $c_p=c_p(T)$, $c_v=c_v(T)$ \cite{EINTHERMOBUCH}. Furthermore by using the relation $c_v T=e$ to connect temperature and energy, one implies that the heat capacity is not even temperature dependent: $c_v=const.$. 
+Note on temperature dependence of specific heats: both $c_p$ and $c_v$ depend in general on the temperature and on the pressure or the specific volume respectively. The ideal gas equation of state however is only valid for relatively small pressures (and relatively large specific volumes), where the molecule interactions may be neglected. In this case, the heat capacities are exclusively dependent on temperature $c_p=c_p(T)$, $c_v=c_v(T)$ \cite{White1974}. Furthermore by using the relation $c_v T=e$ to connect temperature and energy, one implies that the heat capacity is not even temperature dependent: $c_v=const.$. 
 %If the heat capacities are to be considered temperature dependent, either the exact integral expression $\int c_v(T)dt$ or an averaged value $c_v$ bar have to be used.
 %besides as even $c_p$ and $c_v$ vary with temperature in the same sense, their ratio $\gamma=\frac{c_p}{c_v}$ remains more constant with a temperature variation as the songle values. 
 Therefore in this work a constant heat capacity is used, knowing well that this consists a limitation of accuracy.\\
@@ -1211,8 +1329,8 @@ The Taylor--Green flow consists of a periodical arrangement of vortices in the w
  \centering
 
 \label{fig:GeneralSitu_TG}
-%\includegraphics[]{}
-\caption[Taylor--Green flow general presentation]{Initial situation of a Taylor--Green flow}
+\includegraphics[width=10cm]{Graphics/TestCases_genIntro/TG_genIntro}
+\caption[Taylor--Green flow general presentation]{Initial situation of a Taylor--Green flow. The array of vortices is infinitely cotinued in both directions.}
 \end{figure}
 
 An analytical expression for the temporal evolution of the velocity field of the incompressible 2D Taylor--Green flow is given by \cite{Chaniotis2002}
@@ -1301,19 +1419,19 @@ The configuration of a sequence of cavities in a linear wall as shown in figure 
 
 \begin{figure}[!htbp]
   \centering
-     %\includegraphics[width=1.0\textwidth]{Graphics/general_structure_SPH}
-  \caption{A sequence of cavities: Hier eine ganze reihe von cavities reinmachen und randbedingungen erst un SIumsetup darstellen }
+     \includegraphics[width=9cm]{Graphics/TestCases_genIntro/Cavity}
+  \caption{A sequence of cavities serves as simplified model of the porous surface of the cone.}
   \label{fig:PorositiesSequenceOfCavities}
 \end{figure}
 
 
 \subsection{Porosities -- flow through circular obstacles}
 \label{sec:PorositiesCircularObstacles}
-A further investigated 2D porosity configuration is the one of a flow through circular obstacles arranged in a rectangular lattice as illustrated in figure (\ref{}). To take advantage of the ability of the code to treat heat conduction and compressible flows, a hot flow, cold wall situation will be examined. The present porosity configuration is in no direct link with the underlying experimental setup, but it constitutes an interesting setup and thus was considered worth an investigation in this project. 
+A further investigated 2D porosity configuration is the one of a flow through circular obstacles arranged in a rectangular lattice as illustrated in figure (\ref{fig:PorositiesCircularObstacles}). To take advantage of the ability of the code to treat heat conduction and compressible flows, a hot flow, cold wall situation will be examined. The present porosity configuration is in no direct link with the underlying experimental setup, but it constitutes an interesting setup and thus was considered worth an investigation in this project. 
 
 \begin{figure}[!htbp]
   \centering
-     %\includegraphics[width=1.0\textwidth]{Graphics/general_structure_SPH}
+     \includegraphics[width=9cm]{Graphics/TestCases_genIntro/Porosities}
   \caption{A porous media as used for porosity simulation: Hier eine ganze reihe von obstacles reinmachen und randbedingungen erst un SIumsetup darstellen }
   \label{fig:PorositiesCircularObstacles}
 \end{figure}
@@ -1453,9 +1571,6 @@ As its name suggests, {\tt main.cpp} is the main function of the program. It is 
 
 Implemented in the file {\tt setupSim.cpp} with the corresponding header {\tt setupSim.h}, this function represents the 'initialization module' shown in figure (\ref{fig:BasicSphCode}). More precisely, it first sets up the initial particle distribution for the shock--tube problem: depending on the user's selection made by setting the flag 'constspacing', which is a member of the {\tt parameters} data structure, this is done in two different ways:
 \begin{itemize}
- \item 
-
-
  \item One possibility is to have an initial particle distribution with the same spacing in the high density area of the shock-tube as in the low density area (flag {\tt constspacing = true}). In this case though, the mass of the particles has then to be adapted to be coherent with the spacing and the initial value of the density.
  a\item A second possibility is a particle distribution resulting of a spatially constant particle mass (flag constspacing= false). According to the initial value of the density, the particles will then be further apart in the low density area than in the high density area.
 \end{itemize}
@@ -1688,7 +1803,7 @@ O,& \text{for q $>$ 2}
     \switch{\(~~<1?\)}
         \assign{\(dW\ according\ to \ \)\\(eq: \ref{eq:cubicSplineImplement})}
     \switch[r]{\(else   ~ ~~ ~\)}
-      \assign{\(dW\ according\ to \ \)\\(eq: \ref{eq:ccSplineImplement})}
+      \assign{\(dW\ according\ to \ \)\\(eq: \ref{eq:cubicSplineImplement})}
     \caseend
   \assign{\(return\ dW\)}
 
@@ -2010,7 +2125,7 @@ RHS density $p_r$ &  0.1\\
 \hline
 velocity $v$ & 0.0\\
 \hline
-mass $m$ & 9.375\cdot10^{-4}\\
+mass $m$ & $9.375\cdot10^{-4}$\\
 \hline
 \hline
 \end{tabular}
@@ -2049,7 +2164,7 @@ Table (\ref{tab:SimuSettings_Shock}) resumes the settings and parameter values u
 \hline
 domain size x--direction &  2\\
 \hline
-domain size y--direction &  (one dimensional)\\
+domain size y--direction &  0 (1D)\newline 1 support length (2D) \\
 \hline
 boundary conditions x--direction & disabled (1D)\newline no influence (2D)\\
 \hline
@@ -2059,7 +2174,7 @@ support length & depending on simulation \newline (see results)  \\
 \hline
 kernel function & 1D and 2D cubic spline \\
 \hline
-density mode & summation density \newline (unless stated otherwise) \\
+density mode & summation density \newline (unless otherwise stated) \\
 \hline
 mass initialization & inetrnal (perturbation study)\newline external (rest)\\
 \hline
@@ -2131,7 +2246,7 @@ With the 2D constant mass particle initialization for a shock-tube though, an ad
  Finally Quinlan and Basa \cite{Quinlan2006} which study the truncation error of SPH, randomize the initial particle position with a normally distributed perturbation from a Cartesian grid position. In their case particles also have equal mass and the density is calculated with the SPH smoothing (IST DAS DER RICHTIGE BEGRIFF?) formula (see equation (\ref{eq:SumDensity})).                                                     
                                                                                                                                               
  The approach adopted in this project is the following. The particle position is randomized from the original regular grid position by a uniformly distributed perturbation in x--direction and for a 2D particle field also independently in y--direction . The advantage of the uniform perturbation is seen in the fact that the maximum value of perturbation is clearly determined, whereas for a normal perturbation, very high values might sporadically occur thus potentially even leading to a coincidence of two particle positions.                                             
- Thus, the uniform perturbation ensures a higher control of particle positions and for a width of the distribution $<0.5dx$ a coincidence or a overlap of two particles can never happen. As far as the mass initialization is concerned, the initial density value for the shock--tube problem should show no perturbations. The perturbations in particle spacing are therefore compensated by a different and individual mass for each particle. While for 1D particle distribution, the calculation of the respective particle mass can be easily performed by $m=\rho dx$, for the 2D perturbed particle distribution it is not trivial to assign each particle distribution an area $dx dy$. Constructing the area $dx dy$ by employing the mean distance to the neighbors in each direction ($dx=1/2(dx^-+dx^+),dy=1/2(dy^-+dy^+)$ would not (AT LEAST I THINK SO) result in the exact reproduction of the complete domain as $\sum dxdy\neq domain size$. See corresponding consideration in Appendix (\ref{app:DomainVolume}).
+ Thus, the uniform perturbation ensures a higher control of particle positions and for a width of the distribution $<0.5dx$ a coincidence or a overlap of two particles can never happen. As far as the mass initialization is concerned, the initial density value for the shock--tube problem should show no perturbations. The perturbations in particle spacing are therefore compensated by a different and individual mass for each particle. While for 1D particle distribution, the calculation of the respective particle mass can be easily performed by $m=\rho dx$, for the 2D perturbed particle distribution it is not trivial to assign each particle distribution an area $dx dy$. Constructing the area $dx dy$ by employing the mean distance to the neighbors in each direction ($dx=1/2(dx^-+dx^+),dy=1/2(dy^-+dy^+)$ would not result in the exact reproduction of the complete domain as $\sum dxdy\neq domain size$. See corresponding consideration in Appendix (\ref{app:DomainVolume}).
 
  Therefore a similar approach to the one of Quinlan \cite{Quinlan2006} is used, only the other way round. Based on the initialized density, the mass of each particle is obtained by application of the SPH smoothing formula: First the volume associated to each particle is calculated according to
  \begin{equation}
@@ -2412,10 +2527,9 @@ with $w=\frac{x-x_m}{2\sqrt{alpha*t}}$ (a temperature change of $0.01$ correspon
 
 Furthermore, the energy content of the slab is calculated by summing the internal energy of all the particles and dividing the result by the number of particles according to equation (\ref{eq:energyContent}).
 \begin{equation}
- \label{eq:energyContent_PureHeat}
+ \label{eq:energyContent}
 e_{\mathit{domain}}=\frac{1}{N_{\mathit{prtl}}}\sum_i e_i
 \end{equation}
-
 
 
 \subsubsection{Compressible Couette}
@@ -2493,6 +2607,7 @@ The compressible Couette simulation is only evaluated qualitatively. One point t
 
 
 \subsubsection{Poiseuille}
+\label{sec:simuSetupPoiseuille}
 The Poiseuille test case is needed to verify the boundary condition implementation that is used to generate a no--slip surface for the solid Obstacles, which model porosities. These boundary condition models are different from the ones used for the domain edges and therefore have to be tested separately. To obtain a good comparability of the results the domain edges boundary implementation is simulated again with the Poiseuille configuration. 
 
 Table (\ref{tab:SimuSettings_Poiseuille}) summarizes the simulation settings where Method 1 designates the domain edge boundary implementation, Method 2 the constant virtual velocity solid obstalce approach and Method 3 the linearly extrapolated virtual velocity solid obstacle modeling. As the ghost particles used by Methods 2 and 3 have to be located within the calculation domain, the actual domain size is bigger in this case. The walls are then placed in a way that the effective real particle domain i.\ e.\ the canal width is 1.
@@ -2520,7 +2635,7 @@ mass initialization & internal initialization \\
 \hline
 isentropic exponent & 1.4\\
 \hline
-physical viscosity& included, with constant $\eta$\\ 
+physical viscosity& included, with constant $\eta=1.0$\\ 
 \hline
 gravity &1.0 in x--direction\\
 \hline
@@ -2559,7 +2674,11 @@ mass $m$ & internal initialization\\
 
 
 \paragraph{Post--processing}
-Using the analytical solution of the incompressible Poiseuille flow introduced in section (\ref{sec:genIntroPoiseuille}), the velocity field of the simulation is assessed. This is done by a program contained in the {\tt postProcessingPorosities} folder. 
+Using the analytical solution of the incompressible Poiseuille flow introduced in section (\ref{sec:genIntroPoiseuille}), the velocity field of the simulation is assessed. This is done by a program contained in the {\tt postProcessingPorosities} folder. An incompressible reference solution is justified as for the given simulation setup the Mach number remains low enough: The steady state center line velocity according to equation (\ref{eq:Poiseuille_steadyState_U}) is $U_0=0.125$ resulting in a Mach number of $M=U_0/c\approx0.1$. 
+
+%$Re=U_0 L \rho/\eta=0.125$, ->incompressible still valid (see how much $\rho$ varies...)
+
+
 
 
 %For the preceding method zero velocity can be reached at the solid--obstacle surface without an actual ghost particle being placed right there. This is due to the anti--symmetrical velocity assignment for the ghost particles. With Method 2, which implements zero ghost particle velocity, the no--slip condition (i.\ e.\ zero velocity relative to wall) is only reached at the position of the first row of ghost particles. For the particle assignment according to Method 2 one has therefore to be careful with the particle placement and ensure the first row of ghost particles is placed directly at the surface of the obstacle. An immobilization of certain particles from a regular lattice has therefore to be done with care.
@@ -2576,7 +2695,7 @@ The finally simulated situation is pictured in figure (\ref{fig:PorositiesCaviti
 
 \begin{figure}[!htbp]
   \centering
-     %\includegraphics[width=1.0\textwidth]{Graphics/general_structure_SPH}
+     \includegraphics[width=1.0\textwidth]{Graphics/SimuSetup/Cavity}
   \caption{Simulation domain for the cavity problem}
   \label{fig:PorositiesCavitiesSimuDomain}
 \end{figure}
@@ -2615,7 +2734,7 @@ gravity &0.8, 0.4, 0.2 in x--direction\\
 \hline
 \hline
 \end{tabular}
-\caption[]{Simulation settings for the Cavity simulation.}
+\caption[]{Simulation settings for the cavity simulation.}
 
 \end{table}
 
@@ -2672,7 +2791,7 @@ Generally introduced in section (\ref{sec:PorositiesCircularObstacles}), the con
 
 \begin{figure}[!htbp]
   \centering
-     %\includegraphics[width=1.0\textwidth]{Graphics/general_structure_SPH}
+     \includegraphics[width=9cm]{Graphics/SimuSetup/Porosities}
   \caption{Simulation domain for porosity configuration}
   \label{fig:PorositiesCylindersSimuDomain}
 \end{figure}
@@ -2741,7 +2860,6 @@ mass $m$ & internal initialization (uniform square lattice)\newline external (fo
 \end{table}
 
 
-
 Concerning the particle placement, three approaches are used, essentially inspired by Morris \cite{Morris1997, Zhu1999}. In any of the particle generator programs, one has to specify the location of the cylinders so their geometrical data can be communicated to the simulation program by the .ivs file. At the level of the .ivs file it makes no difference if a particle is a real particle or a ghost particle. For, in any case where {\tt solidObstacles} are involved, the declaration of a particle as ghost particle (and thus its immobilization) and also the removal of any ghost particles further than $l_s$ (if density evolved: $2l_s$) away from the obstacle surface is conducted within the simulation program. 
 
 \begin{itemize}
@@ -2749,7 +2867,7 @@ Concerning the particle placement, three approaches are used, essentially inspir
  \item Uniform square lattice\\
   All particles are placed according to one continuous square lattice filling the entire calculation domain, no matter if there is a solid cylinder or not. This method  models the cylinder surface very poorly for low resolutions. (in this case mass initialization can be done within the program by interpolation)
 
-This particle configuration os created by teh program {\tt create_ICPorosities_uniformSqareLattice}.
+This particle configuration os created by teh program {\tt create\_ICPorosities\_uniformSqareLattice}.
 
 \item Square lattice for real particles and circular layers for cylinders\\
 This approach fills the cylinder areas with particles placed on concentric circles with the cylinder center as the corresponding cylinder origin.
@@ -2773,7 +2891,7 @@ The sensible point of this particle initialization is the interface between the 
 As the mass of all particles is desired to be the same, a mass initialization within the simulation program by using the smoothing kernel, which would lead to mass variations of particles around the interface, is not possible. Therefore mass is initialized externally by the initialization file ({\tt .ivs}) to the same value for all particles. This is why errors in density because of the irregular transition of the particle lattices may occur around the cylinder surfaces.
 One adjustment parameter is the margin in distance between the cylinder surface, which at the same time is the position of the last layer of ghost particles, and the closest real particle to this cylinder surface. A value of $\sqrt{3}dx/2$  seems to be reasonable for this margin.
 
-A particle field like this can be generated by the program {\\t create_ICPorosities_SqareLatticeRealPrtl_CircularCyl}  
+A particle field like this can be generated by the program {\\t create\_ICPorosities\_SqareLatticeRealPrtl\_CircularCyl}  
 
 
 \item hexagonal lattice for real particles and circular layers for cylinders
@@ -2782,15 +2900,15 @@ it makes the particle distribution more isotropic on the micro--scale.
 
 \begin{figure}[!htbp]
   \centering
-     %\includegraphics[width=1.0\textwidth]{Graphics/general_structure_SPH}
+     \includegraphics[width=9cm]{Graphics/SimuSetup/HexagonalLattice}
   \caption{Hexagonal lattice for real particle placement}
   \label{fig:HexagonalLattice}
 \end{figure}
 
-As the particle spacing is $\Delta$ (the closest particle distance) in one direction and $\Delta'=\sqrt{3}\Delta/2$ in the other, there will be in general an irregularity in particle spacing at one of the domain edges for a squared calculation domain with size $l_d$. To fill the domain with particles in a regular manner nonetheless, the particle spacing in the second direction is not chosen exactly $\sqrt{3}\Delta/2$ but the closest value which respects the condition $N \Delta'=l_d$, where $N$ is a positive integer. For a domain size of $l_d=1$ and a closest particle spacing of $dx=0.02$ as for the above cases, the chosen spacing in the second direction is $\Delta'=1/58\approx0.01724$ while the exact value to obtain a perfectly hexagonal lattice would be $\Delta'\approx0.01732$. 
+As the particle spacing is $dx$ (the closest particle distance) in one direction and $dy=\sqrt{3}dx/2$ in the other, there will be in general an irregularity in particle spacing at one of the domain edges for a squared calculation domain with size $l_d$. To fill the domain with particles in a regular manner nonetheless, the particle spacing in the second direction is not chosen exactly $\sqrt{3}\Delta/2$ but the closest value which respects the condition $N dy'=l_d$, where $N$ is a positive integer. For a domain size of $l_d=1$ and a closest particle spacing of $dx=0.02$ as for the above cases, the chosen spacing in the second direction is $dy'=1/58\approx0.01724$ while the exact value to obtain a perfectly hexagonal lattice would be $dy\approx0.01732$. 
 Again the particle's mass is initialized externally due to the irregularities around the cylinder surfaces. The value for the mass is determined by the desired density and the volume associated to one particle. For the given geometrical situation this volume is $V=\frac{1}{50\cdot58}\approx3.448\cdot10^{-4}$.
 
-There is a program {\tt create_ICPorosities_HexagonalLattice_CircularCyl.cpp} generating the described particle field.
+There is a program {\tt create\_ICPorosities\_HexagonalLattice\_CircularCyl.cpp} generating the described particle field.
 
 \end{itemize}
 
@@ -2800,10 +2918,10 @@ The programs mentioned above to generate the initial particle fields in an (.ivs
 
 \chapter{Results}
 \label{sec:Results}
-This chapter presents the results obtained with the developed codes. The focus clearly lies on the 2D code which is finally used to simulate the porosity configuration. However, as the 1D code has be introduced in the chapter before, an example of its application to the 1D shock-tube--problem is shown in the following section. It serves for a first qualitative discussion of the shock--tube results that can be obtained with SPH.
-The 2D code result section mainly features the results of the previously introduced test--cases (\ref{sec:GenIntroTestCases}) and finally a simulation of the flow in a porosity.
+This chapter presents the results obtained with the developed codes. The focus clearly lies on the 2D code which is finally used to simulate the porosity configurations. However, as the 1D code has be introduced in the chapter before, an example of its application to the 1D shock-tube--problem is shown in the following section. It serves for a first qualitative discussion of the shock--tube results that can be obtained with SPH.
+The 2D code result section mainly features the results of the previously introduced test--cases (\ref{sec:GenIntroTestCases}) and finally a simulation of the two porosity configurations introduced in sections (\ref{sec:Porosities_Cavity}) and (\ref{sec:PorositiesCircularObstacles}).
 
-As it is not practical to label every result with all the settings used in the simulation generating it, these settings are summarized for each test--case in the corresponding paragraph of section (\ref{sec:simuSetupTestCases}).
+As it is not practical to label every result with all the settings used in the simulation, these settings are summarized for each test--case in the corresponding paragraph of section (\ref{sec:simuSetupTestCases}).
 
 \section{1D SPH code}
 \label{sec:1DSPHcodeResults}
@@ -2813,27 +2931,31 @@ As mentioned above, the 1D SPH--code, which only serves demonstration purposes a
 
 \centering
 \label{fig:1DSPHresults}
-\subfigure[]{
+\subfigure[Velocity profile]{
 \label{fig:1DSPHreultsVelocity}
-\includegraphics[width=7cm]{Graphics/results/1DCode/velocity}}
-\subfigure[]{
+\includegraphics[width=7cm]{Graphics/results/1DCode/velocity}
+}
+\subfigure[Density profile]{
 \label{fig:1DSPHreultsDensity}
-\includegraphics[width=7cm]{Graphics/results/1DCode/density}}
-\subfigure[]{
+\includegraphics[width=7cm]{Graphics/results/1DCode/density}
+}
+\subfigure[Pressure profile]{
 \label{fig:1DSPHreultsPressure}
-\includegraphics[width=7cm]{Graphics/results/1DCode/pressure}}
-\subfigure[]{
+\includegraphics[width=7cm]{Graphics/results/1DCode/pressure}
+}
+\subfigure[Energy profile]{
 \label{fig:1DSPHreultsEnergy}
-\includegraphics[width=7cm]{Graphics/results/1DCode/energy}}
+\includegraphics[width=7cm]{Graphics/results/1DCode/energy}
+}
 
 \caption[Example of a shock-tube result obtained with the 1D SPH--code]{Example of a shock-tube result obtained with the 1D SPH--code for a simulation time of $t=0.2$ contrasted with the exact analytical solution (see section (\ref{sec:TestCases_1DshockTube})): \subref{fig:1DSPHreultsVelocity} velocity profile; \subref{fig:1DSPHreultsDensity} density profile; \subref{fig:1DSPHreultsPressure} pressure profile; \subref{fig:1DSPHreultsEnergy} profile of the internal energy.}
 
 \end{figure}
 
 While quantitative evaluation of the shock--tube results will only be done with the 2D code, some qualitative statements can already be made at this place.
-Comparison with SPH--solutions from literature shows that the profiles presented in figure (\ref{fig:1DSPHresults}) are typical. Taking for example the results of \cite{Liu2003} or \cite{Monaghan1985} one can observe the same tendencies: the shock front is resolved within several (2-3) smoothing lengths. The same applies for the contact discontinuity in the variables where there are discontinuities ($\rho, e$). Furthermore the fact that the internal energy is overestimated at the high energy side of the contact discontinuity seems to be typical as well and a remedy is found by smoothing the initial energy profile before starting the actual calculation \cite{Monaghan2005,Price2004}. On the other hand by smoothing initial conditions, one looses accuracy in the resolution of the rarefaction \cite{Price2004}.  The oscillations after the shock front (notably in the velocity profile) are normal as well and by the way are one of the reasons why an artificial viscosity has to be used for shock simulations: besides preventing particles from interpenetrating at the shock front, another main function of the artificial viscosity is to dissipate these velocity oscillations \cite{Monaghan2005,Sigalotti2006}.
-Finally, the little blip in the pressure profile at the contact discontinuity is known in literature as well. It can be removed by introducing a small amount of heat diffusion into the energy equation \cite{Monaghan1992}. The logic behind the use/effect of this artificial heat diffusion term is the following: the artificial viscosity, which is also taken into account in the energy equation (see section (\ref{sec:ArtVisc})), may produce excessive heating \cite{Sigalotti2006}. This phenomenon is commonly referred to as wall--heating errors (originally discovered by \cite{Noh1978}), and it can be significantly reduced by introducing an artificial heat diffusion term to the internal energy equation. The exact form of this term however, differs from author to author. Monaghan \cite{Monaghan1992} for example only suggests a constant value of heat diffusion to be added for the shock--tube case. More sophisticated, variable heat diffusion terms are proposed by Price \cite{Price2004} and Sigalotti \cite{Sigalotti2006}.
-However, as the wall--heating error only occurs for strong shocks and as there are no shocks at all expected in the application of this code, which is a high enthalpy flow through porous media, this ``trick'' is not implemented. 
+Comparison with SPH--solutions from literature shows that the profiles presented in figure (\ref{fig:1DSPHresults}) are typical. Taking for example the results of \cite{Liu2003} or \cite{Monaghan1985} one can observe the same tendencies: the shock front is resolved within several (2-3) smoothing lengths. The same applies for the contact discontinuity in the variables where there are discontinuities ($\rho, e$). Furthermore the fact that the internal energy is overestimated at the high energy side of the contact discontinuity seems to be typical as well and a remedy is found by smoothing the initial energy profile before starting the actual calculation \cite{Monaghan2005,Price2004}. On the other hand by smoothing initial conditions, one looses accuracy in the resolution of the rarefaction \cite{Price2004}. The oscillations after the shock front (notably in the velocity profile) are normal as well and by the way are one of the reasons why an artificial viscosity has to be used for shock simulations: besides preventing particles from interpenetrating at the shock front, another main function of the artificial viscosity is to dissipate these velocity oscillations \cite{Monaghan2005,Sigalotti2006}.
+Finally, the little blip in the pressure profile at the contact discontinuity is known in literature as well. It can be removed by introducing a small amount of heat diffusion into the energy equation \cite{Monaghan1992}. The logic behind the use of this artificial heat diffusion term is the following: the artificial viscosity, which is also taken into account in the energy equation (see section (\ref{sec:ArtVisc})), may produce excessive heating \cite{Sigalotti2006}. This phenomenon is commonly referred to as wall--heating errors (originally discovered by \cite{Noh1978}), and it can be significantly reduced by introducing an artificial heat diffusion term in the internal energy equation. The exact form of this term however, differs from author to author. Monaghan \cite{Monaghan1992} for example only suggests a constant value of heat diffusion to be added for the shock--tube case. More sophisticated, variable heat diffusion terms are proposed by Price \cite{Price2004} and Sigalotti \cite{Sigalotti2006}.
+However, as the wall--heating error only occurs for strong shocks and as there are no shocks at all expected in the actual application of this code, which is a high enthalpy flow through or over porous media, this ``trick'' is not implemented. 
 
 The first qualitative evaluation of the simulation results implies that the equations used for the compressible 1D SPH code are the good ones and encourages the integration of these equations in the more complex 2D SPH code, where extensive quantitative evaluation is performed.  
 
@@ -2847,13 +2969,13 @@ The first qualitative evaluation of the simulation results implies that the equa
 \section{2D SPH code}
 \label{sec:2DSPHcodeResults}
 
-The 2D SPH code underwent extensive testing at the various stages of development. After modification towards compressible flow capabilities, the shock--tube test case was investigated and propagation of acoustic waves was analyzed. In a subsequent step viscosity implementation has been tested by the Taylor--Green flow and independently of any flow problem the implemented heat conduction model was verified by a pure conduction test--problem. The compressible Couette flow in which different phenomena are combined concludes the testing of the flow models. For the porosity simulation a different boundary condition approach than the one used for the domain edges is implemented. Therefore this method has to be tested separately, which is done by means of a Poiseuille--flow before finally the actual porosity configurations are exemplarily simulated.
+The 2D SPH code underwent extensive testing at the various stages of development. After modification towards compressible flow capabilities, the shock--tube test case was investigated and the propagation of acoustic waves was analyzed. In a subsequent step viscosity implementation has been tested by the Taylor--Green flow and independently of any flow problem the implemented heat conduction model was verified by a pure conduction test--problem. The compressible Couette flow in which different phenomena are combined concludes the testing of the flow models. For the porosity simulation a different solid boundary condition approach than the one used for the domain edges is implemented. Therefore this method had to be tested separately, which was done by means of a Poiseuille--flow before finally the actual porosity configurations were exemplarily simulated.
 
 \subsection{Shock--tube test case}
 \label{sec:2DSPHcodeResults_Shock}
-The shock--tube case is used to conduct several series of simulations aimed at the verification of the modified code and at assessing its convergence behavior %(IST DAS NICHT ABHÄNGIG VOM TESTFALL??) 
-as well as the robustness versus perturbations in particle positions. 
-First, the automatic time step control is exemplarily tested. Then the influence of the two approximation parameters $h$ and $dx$ on the simulation results is shown by means of a resolution study, which consists of two parts. One part where the smoothing length $h$ is varied at constant $dx$ and another part, where the resolution is increased at a constant ratio of $h/dx$. Ultimately, the perturbation study consists of a set of simulations with increasingly perturbed initial particle positions.
+The shock--tube case is used to conduct several series of simulations aimed at the verification of the modified code and at assessing %its convergence behavior %(IST DAS NICHT ABHÄNGIG VOM TESTFALL??) as well as 
+its robustness versus perturbations in the initial particle positions. 
+First, the automatic time step control is exemplarily tested. Then the influence of the two approximation parameters $h$ or equivalent $l_s$ and $dx$ on the simulation results is shown by means of a resolution study, which consists of two parts. One part where the smoothing length $h$ is varied at constant $dx$ and another part, where the resolution is increased at a constant ratio of $h/dx$. Ultimately, the perturbation study consists of a set of simulations with increasingly perturbed initial particle positions.
 
 All the above tests are conducted for the four cases:
 \begin{itemize}
@@ -2870,7 +2992,8 @@ The nature of an exemplary shock--tube simulation result including explanations 
 \subsubsection{Verification of time step criteria}
 
 In section (\ref{sec:TmeStepChoice}) the criteria for a stable time step choice have been presented. In order to be sure that for the further studies of results, all errors are due to spatial discretization, the applied time stepping criteria are tested for correctness. As the shock--simulation includes artificial, but no real viscosity and no thermal conduction, the criteria in question are equations (\ref{eq:dtForce}) and (\ref{eq:dtCourantVisc}). Figure (\ref{fig:2DSPHresults_1D_CStimeVerif}) shows the evolution of the L-errors (see section (\ref{sec:employedNormDefinition})) for $\rho, u, e$ with varying time step evaluated in the whole domain and in areas 2 and 3 only (see section (\ref{sec:2Dshock_simuSetup&Co}). 
-The errors taking into account the whole domain are generally higher than the ones that only focus on the after-rarefaction (area 3) and after-shock (area 2) values. The $L_{\infty}$ error which is not an integral error measure but the maximum value of each particle-wise error is naturally the biggest one, followed by the $L_2$ and then the $L_1$ errors. For the shock--tube case the global $L_{\infty}$ error is entirely determined by the shock--front, where the errors are locally biggest due to the finite shock resolution. Evaluated only for areas 2 or 3 the $L_{\infty}$ error captures often either oscillation maxima or the hangover of the non-exact shock or rarefaction resolution (rarefaction resolution non exact due to initial smoothing of density field) which reaches into the corresponding area.
+The errors taking into account the whole domain are generally higher than the ones that only focus on the after-rarefaction (area 3) and after-shock (area 2) values. The $L_{\infty}$ error which is not an integral error measure but the maximum value of each particle--wise error is naturally the biggest one, followed by the $L_2$ and then the $L_1$ errors. For the shock--tube case the global $L_{\infty}$ error is entirely determined by the shock--front, where the errors are locally biggest due to the finite shock resolution. Evaluated only for areas 2 or 3 the $L_{\infty}$ error captures often either oscillation maxima or the hangover of the non-exact shock or rarefaction resolution %(rarefaction resolution non exact due to initial smoothing of density field)
+which reaches into the corresponding area.
 
 The considerable increase of the error-values in area 2, particularly in the velocity field, starting at a time step size of around $dt\geq0.0025$ shows that temporal instability is indicated first in the after-shock area. A look at the plotted velocity-profile in figure (\ref{fig:2DSPHresults_dt_variat_oscillationU}) of one of these simulations confirms this, by showing severe oscillations directly after the shock area. It will turn out that the inaccuracy observed in the rarefaction in the same figure is particular to the constant spacing particle initiation, at least in 1D, and has nothing to do with temporal resolution.
 
@@ -2879,7 +3002,7 @@ The considerable increase of the error-values in area 2, particularly in the vel
 \centering
 \label{fig:2DSPHresults_dt_variat_oscillationU}
 \includegraphics[width=7cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03_dt03_Oscillations/Err_u00200000}
-\caption[Velocity oscillations due to temporal instability]{Velocity profile after $t=0.2$ for a time step of $dt=0.002985$, which shows severe oscillations in the after--shock area due to a too big time step $dt$. The support length of the simulation is $0.03$ with an 1D particle distribution of constant spacing of $dx=0.005$.}
+\caption[Velocity oscillations due to temporal instability]{Velocity profile after $t=0.2$ for a time step of $dt=0.002985$, which shows severe oscillations in the after--shock area due to a too big time step $dt$. The support length of the simulation is $l_s=0.03$ with an 1D particle distribution of constant spacing of $dx=0.005$.}
 
 \end{figure}
 
@@ -2890,58 +3013,57 @@ The residual errors in figure (\ref{fig:2DSPHresults_1D_CStimeVerif}) for $dt<0.
 Another verification has also been conducted for a 2D constant spacing particle resolution. The time stepping criteria worked fine for this case as well. 
 
 
-
-
-\begin{figure}[H]
+\begin{figure}[!htbp]
 \centering
 \label{fig:2DSPHresults_1D_CStimeVerif}
 
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CStimeVerif_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/WholeDomainRho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/WholeDomainRho}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CStimeVerif_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area3Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area3Rho}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CStimeVerif_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area2Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area2Rho}
+}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CStimeVerif_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/WholeDomainU}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/WholeDomainU}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CStimeVerif_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area3U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area3U}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CStimeVerif_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area2U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area2U}
+}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CStimeVerif_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/WholeDomainE}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/WholeDomainE}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CStimeVerif_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area3E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area3E}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CStimeVerif_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area2E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/Area2E}
+}
 
-\caption[Convergence Shock-tube 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying time step $dt$. The support length is $0.03$ with an 1D particle distribution of constant spacing of $dx=0.005$.}
+\caption[Convergence Shock-tube 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying time step $dt$. The support length is $0.03$ with an 1D particle distribution of constant spacing of $dx=0.005$. Explanation on the meaning of the different areas is given in section (\ref{sec:2Dshock_simuSetup&Co})}
 
 \end{figure}
-
-\begin{figure}[H]
-\centering
-\label{fig:2DSPHresults_tempRes_vProfile}
-
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_dx_const_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/dtVariat_dx005_SupLen03/WholeDomainRho}}
-\end{figure}
-
 
 
 \subsubsection{Resolution Study - spacing held constant}
 \label{sec:2DSPH_results_shock_resSTudy_dx=const}
 The purpose of this set of simulations is to evaluate the influence of a smoothing length variation with a constant particle distance. There is expected to be an optimum value for $h$ in this case: For small $h$, the ratio $h/dx$ and therefore the number of neighboring particles in the support domain of a certain particle will be to small to ensure a correct discrete representation of the integral interpolant. On the other hand, greater smoothing lengths mean a worse resolution of local phenomena and here especially shocks, which will increase the error considerably. 
+
+In the following the support length $l_s$ rather than the smoothing length $h$ is used to quantify the support of the kernel. This is equivalent as both are related by a constant factor $\kappa$ as presented in section (\ref{sec:KernelFunction}). The use of the support length is selected here, as this is the parameter that can be directly controlled for the present 2D code. 
 
 
 \paragraph{1D constant spacing particle distribution}
@@ -2950,39 +3072,48 @@ Having a look at figure (\ref{fig:2DSPHresults_1D_CS_dx_const}), one sees the ab
 The increase of the errors for medium support lengths in area 3 is due to a drift of the inaccuracy in the rarefaction wave into area 3. Otherwise this inaccuracy, which is always present for this set of simulations, is not taken into account for area 3 but only in the global error calculation. 
 If the support length becomes too big, not only the shock resolution gets poorer, but also the after--shock velocity profile becomes bumpy.
 
-\begin{figure}[H]
+\begin{figure}[!htbp]
 \centering
 \label{fig:2DSPHresults_1D_CS_dx_const}
 
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CS_dx_const_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/WholeDomainRho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/WholeDomainRho}
+}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CS_dx_const_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area3Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area3Rho}
+}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CS_dx_const_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area2Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area2Rho}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CS_dx_const_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/WholeDomainU}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/WholeDomainU}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CS_dx_const_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area3U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area3U}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CS_dx_const_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area2U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area2U}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CS_dx_const_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/WholeDomainE}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/WholeDomainE}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CS_dx_const_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area3E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area3E}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CS_dx_const_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area2E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/SuppLenVariat_dx005_dt0025/Area2E}
+}
 
-\caption[Convergence Shock-tube 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying support length and a constant particle spacing of $dx=0.0025$.}
+\caption[Convergence Shock-tube 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying support length and a constant particle spacing of $dx=0.0025$. Explanation on the meaning of the different areas is given in section (\ref{sec:2Dshock_simuSetup&Co})}
 
 \end{figure}
 
@@ -2990,26 +3121,28 @@ If the support length becomes too big, not only the shock resolution gets poorer
 
 \paragraph{2D constant spacing particle distribution}
 
-The same procedure as in the paragraph just above is now conducted with a 2D particle distribution of a spacing of $dx=dy=0.005$ and again the optimum support length is found to be around 0.025, like for the corresponding 1D particle distribution. Otherwise the results look the same as in figure (\ref{fig:2DSPHresults_1D_CS_dx_const}) and are therefore only presented in the Appendix.
+The same procedure as in the paragraph just above is now conducted with a 2D particle distribution of a spacing of $dx=dy=0.005$ and again the optimum support length is found to be around 0.025, like for the corresponding 1D particle distribution. Otherwise the results look the same as in figure (\ref{fig:2DSPHresults_1D_CS_dx_const}) and are therefore only presented in the Appendix (\ref{app:additionalShockResults}).
 
-When having a look at the evolution of the particle positions during a simulation, which is displayed in figure (\ref{fig:2DSPHresults_CS_drifting}) it is remarkable that the particles at the contact discontinuity drift away from their originally perfectly lined up position. However this behavior seems stable for support lengths $\geq0.02$ (at least within the simulation time of 0.2)(figure (\ref{fig:2DSPHresults_CS_drifting_suplen02}) and is visually not detectable anymore for a support length of $\geq0.35$. In the simulation with a support length of 0.015 particles around the contact discontinuity are completely drifting  away from their original position, forming a bizarre structure - it seems as if they were attracted by the symmetrically drifting particles of the next row (figure (\ref{fig:2DSPHresults_CS_drifting_suplen015}). 
-The drifting is probably an expression of what Monaghan \cite{Monaghan2005} (shocks in 2D/3D can be noise - at least with current algorithms) and Rasio \& Shapiro \cite{Rasio1991} (in $>$1D there is a much bigger effect of numerical noise for shock tube simulation) state in their papers.
+When having a look at the evolution of the particle positions during a simulation, which is displayed in figure (\ref{fig:2DSPHresults_CS_drifting}) it is remarkable that the particles at the contact discontinuity drift away from their originally perfectly lined up position. However this behavior seems stable for support lengths $\geq0.02$ (at least within the simulation time of 0.2)(figure (\ref{fig:2DSPHresults_CS_drifting_suplen02}) and is visually not detectable anymore for a support length of $\geq0.35$. In the simulation with a support length of $l_s=0.015$ particles around the contact discontinuity are completely drifting  away from their original position, forming a bizarre structure - it seems as if they were attracted by the symmetrically drifting particles of the next row (figure (\ref{fig:2DSPHresults_CS_drifting_suplen015}). 
+The drifting is probably an expression of what Monaghan \cite{Monaghan2005} (shocks in 2D/3D can be noise - at least with current algorithms) and Rasio \& Shapiro \cite{Rasio1991} (in $>1D$ there is a much bigger effect of numerical noise for shock tube simulation) state in their papers.
 
 \begin{figure}[!htbp]
 \centering
 \label{fig:2DSPHresults_CS_drifting}
 \subfigure[support length 0.015]{
 \label{fig:2DSPHresults_CS_drifting_suplen015}
-\includegraphics[width=7cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Drifting/suplen015/x_y_plane00200653}}
+\includegraphics[width=7cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Drifting/suplen015/x_y_plane00200653}
+}
 \subfigure[support length 0.02]{
 \label{fig:2DSPHresults_CS_drifting_suplen02}
-\includegraphics[width=7cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Drifting/suplen02/x_y_plane00200841}}
+\includegraphics[width=7cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Drifting/suplen02/x_y_plane00200841}
+}
 
 \caption[Particle drifting for 2D distribution]{particle drifting originating at the contact discontinuity for different support lengths.}
 
 \end{figure}
 
-It is/are not only the particle positions that loose their perfect uniformity in the y- direction, but also the particle properties. This scattering is quantified by a variance calculation which shows results unequal zero in the contact discontinuity area.
+It is not only the particle positions that loose their perfect uniformity in the y- direction, but also the particle properties. This scattering is quantified by a variance calculation which shows results unequal zero in the contact discontinuity area.
 Figure (\ref{fig:2DSPHresults_CS_variance}) shows exemplarily the variances of $\rho$ and $v$ along the shock--tube with significant amplitudes in the above mentioned area.
 
 \begin{figure}[!htbp]
@@ -3017,12 +3150,14 @@ Figure (\ref{fig:2DSPHresults_CS_variance}) shows exemplarily the variances of $
 \label{fig:2DSPHresults_CS_variance}
 \subfigure[support length 0.015]{
 \label{fig:2DSPHresults_CS_variance_suplen015}
-\includegraphics[width=7cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Variance/suplen015/VarianceSupLen015}}
+\includegraphics[width=7cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Variance/suplen015/VarianceSupLen015}
+}
 \subfigure[support length 0.02]{
 \label{fig:2DSPHresults_CS_variance_suplen02}
-\includegraphics[width=7cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Variance/suplen02/VarianceSupLen02}}
+\includegraphics[width=7cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Variance/suplen02/VarianceSupLen02}
+}
 
-\caption[]{Variance evolution along the shock--tube for the averaging of velocity and density at different support lengths.}
+\caption[Variance of propertiesof 2D particle distribution for shock--tube]{Variance evolution along the shock--tube for the averaging of velocity and density at different support lengths.}
 
 \end{figure}
 
@@ -3033,10 +3168,12 @@ The trend, that has been observed for the drifting, namely a decreasing effect w
 \label{fig:2DSPHresults_CS_varianceVersusSuplen}
 \subfigure[part 1]{
 \label{fig:2DSPHresults_CS_varianceVersusSuplenPart1}
-\includegraphics[width=7cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Variance/VariancePart1}}
+\includegraphics[width=7cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Variance/VariancePart1}
+}
 \subfigure[part 2]{
 \label{fig:2DSPHresults_CS_varianceVersusSuplenPart2}
-\includegraphics[width=7cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Variance/VariancePart2}}
+\includegraphics[width=7cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Variance/VariancePart2}
+}
 
 \caption[]{Evolution of variance with varying support length for all averaged quantities}
 
@@ -3059,7 +3196,7 @@ This is due to the insufficient number of neighboring particles in the RHS of th
 The inaccuracy in the rarefaction, which was encountered for a constant spacing particle distributions both in 1D and 2D (see e.\ g.\ figure (\ref{figureBeiDT})) does not develop in the case of a 1D constant mass particle distribution. This might be the reason why 
 in literature SPH shock--tube simulations are mostly found using the constant mass initialization approach \cite{Monaghan1983,Monaghan2005,Liu2003}, which also appears to be the physically more logical one.
 
-For an example for the profiles of $\rho, p, u, e$ refer to figure (\ref{fig:1DSPHresults}) in the result section of the 1D code. 
+For an example of the profiles of $\rho, p, u, e$ refer to figure (\ref{fig:1DSPHresults}) in the result section of the 1D code. 
 
 
 
@@ -3069,33 +3206,42 @@ For an example for the profiles of $\rho, p, u, e$ refer to figure (\ref{fig:1DS
 
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CM_dx_const_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/WholeDomainRho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/WholeDomainRho}
+}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CM_dx_const_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/Area3Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/Area3Rho}
+}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CM_dx_const_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/Area2Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/Area2Rho}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CM_dx_const_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/WholeDomainU}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/WholeDomainU}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CM_dx_const_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/Area3U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/Area3U}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CM_dx_const_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/Area2U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/Area2U}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CM_dx_const_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/WholeDomainE}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/WholeDomainE}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CM_dx_const_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/Area3E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/Area3E}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CM_dx_const_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/Area2E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/supLenVariat_m001875/Area2E}
+}
 
-\caption[Convergence Shock-tube with 1D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying support length and a constant particle spacing mass of $m=0.001875$ leading to a spacing on the LHS of $dx_l=0.001875$ and $dx_r=0.015$ on the RHS. The simulation is evaluated at $t=0.2$.}
+\caption[Convergence Shock-tube with 1D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying support length and a constant particle spacing mass of $m=0.001875$ leading to a spacing on the LHS of $dx_l=0.001875$ and $dx_r=0.015$ on the RHS. The simulation is evaluated at $t=0.2$. Explanation on the meaning of the different areas is given in section (\ref{sec:2Dshock_simuSetup&Co}).}
 
 \end{figure}
 
@@ -3105,17 +3251,23 @@ Simulations with this 2D constant mass particle distribution give the best resul
 Besides, for most of the simulated cases there is again an inaccuracy in the velocity profile  within the rarefaction wave. The same has already been observed for 1D and 2D constant spacing initializations but not for 1D constant mass initializations.
 The mentioned inaccuracy only disappears for support lengths  $l_s\geq0.4$.
 
-The error evolution for the above discussed set of simulations can be found in the appendix, as there is no remarkable difference to the ones already shown. Due to the appearing inaccuracy in the rarefaction the figures look more like the ones from the constant spacing initialization than the one for 1D constant mass. 
+The error evolution for the above discussed set of simulations can be found in the appendix (\ref{app:additionalShockResults}), as there is no remarkable difference to the ones already shown. Due to the appearing inaccuracy in the rarefaction the figures look more like the ones from the constant spacing initialization than the one for 1D constant mass. 
 
 
 
 \subsubsection{Resolution Study - ratio smoothing length/spacing held constant}
 In this section, the resolution is gradually increased by simultaneously diminishing both the support length and the particle spacing in a way that their ratio remains constant. This means that the number of nearest neighbor particles remains constant. 
-The convergence towards the exact solution is tested and the convergence ratio for each of the above mentioned four cases is determined. Having determined an optimum ratio of support length to particle spacing above, it is used here to obtain the highest possible accuracy for the simulation. In another set of simulations, at least for the purely 1D particle distributions, a non-optimum ratio is employed to verify the robustness of the method (kann man das sagen, ist das Robustness verification? Gibt es in der Numerik eine eigene, spezielle Definition von Robustness).
+The convergence towards the exact solution is tested and the convergence ratio for each of the above mentioned four cases is determined. Having determined an optimum ratio of support length to particle spacing above, it is used here to obtain the highest possible accuracy for the simulation. \\
+%In another set of simulations, at least for the purely 1D particle distributions, a non-optimum ratio is employed to verify the robustness of the method (kann man das sagen, ist das Robustness verification? Gibt es in der Numerik eine eigene, spezielle Definition von Robustness).
+\\
+\indent
+
+
+For the figures shown in the following, the support length is taken as measure of the resolution in order to be coherent with the figures of the above section where the particle spacing was held constant. In the present case of $l_s/dx=const.$ the support length is related to the number of particles used for the simulation by invers proportionality: $l_s\propto1/N$. This applies both for a 1D and a 2D particle distribution as in the 2D case the second direction has always the size of one support length.
 
 \paragraph{1D constant spacing particle distribution}
 The simulations are conducted for a ratio of support length to particle spacing of 5 and the resolution is increased from a support length of 0.025 to 0.005, which corresponds to a number of particles from $N=401$ to $N=2001$. 
-Figure (\ref{fig:2DSPHresults_1D_CS_ratioConst}) shows the quantitative evaluation of this set of simulation by means of the L-norm errors. The $L_1$ error shows roughly a first order convergence for all investigated quantities $\rho, u, e$ in all areas whereas the $L_2$ convergence is slightly lower.  (WARUM?)
+Figure (\ref{fig:2DSPHresults_1D_CS_ratioConst}) shows the quantitative evaluation of this set of simulation by means of the L-norm errors. The $L_1$ error shows roughly a first order convergence for all investigated quantities $\rho, u, e$ in all areas whereas the $L_2$ convergence is slightly lower.
 The $L_{\inf}$ error of all quantities in the global domain are constant and caused by the non-discontinuous shock-resolution.
 
 By the way, the inaccuracy in the rarefaction already encountered in section (\ref{sec:2DSPH_results_shock_resSTudy_dx=const}) for constant spacing particle distribution does not disappear but remains of about the same size, even for the highest resolution. 
@@ -3129,86 +3281,91 @@ By the way, the inaccuracy in the rarefaction already encountered in section (\r
 
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/WholeDomainRho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/WholeDomainRho}
+}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/Area3Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/Area3Rho}
+}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/Area2Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/Area2Rho}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/WholeDomainU}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/WholeDomainU}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/Area3U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/Area3U}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/Area2U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/Area2U}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/WholeDomainE}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/WholeDomainE}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/Area3E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/Area3E}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/Area2E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CS_LF_SD/ratio_supLenDx5_dt0025/autom_dt_control/Area2E}
+}
 
-\caption[Convergence Shock-tube 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of support length to spacing of 5 evaluated at $t=0.2$.}
+\caption[Convergence Shock-tube 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of support length to spacing of $l_s/dx=5$ evaluated at $t=0.2$. Explanation on the meaning of the different areas is given in section (\ref{sec:2Dshock_simuSetup&Co}).}
 
 \end{figure}
 
 \paragraph{2D constant spacing particle distribution}
-Exactly like the corresponding 1D particle distribution, the 2D distribution showed optimum results for a ratio $h/dx=2.5$ ($l_s/dx=5$ KONTROLLIEREN) which is also taken for this set of simulations. The support length variation ranges from 0.025 to 0.005 which leads to a number of particles from $N=1995$ for the lowest resolution to $N=9995$ for the highest simulation. As for higher resolution not only the number of particles becomes higher but also the time step, which is coupled to $h$, becomes smaller, the time needed for the simulation increases considerably. %(2h30 on a seven year old ) computer for the highest resolution case)
+Exactly like the corresponding 1D particle distribution, the 2D distribution showed optimum results for a ratio $h/dx=2.5$ ($l_s/dx=5$) which is also taken for this set of simulations. The support length variation ranges from 0.025 to 0.005 which leads to a number of particles from $N=1995$ for the lowest resolution to $N=9995$ for the highest simulation. As for higher resolution not only the number of particles becomes higher but also the time step, which is coupled to $h$, becomes smaller, the time needed for the simulation increases considerably. %(2h30 on a seven year old ) computer for the highest resolution case)
 
-The convergence behavior for this case of a 2D particle distribution with constant spacing is essentially the same as for the corresponding 1D case. i.\ e.\ about first order convergence. Therefore the graphical evaluation of the results is presented in the appendix.
+The convergence behavior for this case of a 2D particle distribution with constant spacing is essentially the same as for the corresponding 1D case. i.\ e.\ about first order convergence with respect to a diminishing support length. Therefore the graphical evaluation of the results is presented in the appendix (\ref{app:additionalShockResults}).
 
 In section (\ref{sec:2DSPH_results_shock_resSTudy_dx=const}), it has turned out that the 2D particle distribution result shows more velocity-oscillations in the aftershock area than one obtained with a 1D distribution. While these oscillations vanish for the 1D distribution with increasing resolution, they remain clearly visible in the velocity profile for the 2D distribution, even at the highest simulated resolution. They just become more and more confined to the area directly after the shock and at the contact discontinuity. 
 
  
 \paragraph{1D constant mass particle distribution}
-For the convergence test of the 1D constant mass particle distribution, a constant ratio $l_s/m=16$ has been taken, leading to ratios of $l_s/dx_l=RECHNEN$ on the LHS and $l_s/dx_r=RECHNEN$ on the RHS of the shock-tube problem. Again, the convergence rate is about first order as already for all cases before. The corresponding figure is shown in the Appendix. 
+For the convergence test of the 1D constant mass particle distribution, a constant ratio $l_s/m=16$ has been taken, leading to ratios of $l_s/dx_l=2$ on the LHS and $l_s/dx_r=16$ on the RHS of the shock-tube problem. Again, the convergence rate is about first order as already for all cases before. The corresponding figure is shown in the Appendix (\ref{app:additionalShockResults}). 
 
-At the highest simulated resolution with $l_s=0.005$, corresponding to 3599 particles, the simulation result has a good quality. The shock is resolved very well, as its resolution scales with $l_s$ and the aftershock values are matched very accurately.
-
-VIELLEICHT NOCHMAL DIE 4 BILDER VON EINER HOCHAUFLÖSENDEN SCHOCK-SIMULATION (WÄRE ABER ÄHNLICH ZU 1DSPH!!!)
-
-AUẞERDEM KONVERGENZTEST NOCH FÜR NICHT-OPTIMALE RATIO SUPlEN/DX...->ROBUSTNESS
-
+At the highest simulated resolution with $l_s=0.005$, corresponding to 3599 particles, the simulation result has a good quality. The shock is resolved very well, as its resolution scales with $l_s$ and the aftershock values are matched very accurately. Visually these results are comparable to the ones presented in section (\ref{sec:1DSPHcodeResults}) for the 1D code only with a three times higher resolution leading to an even narrower shock resolution.
 
 \paragraph{2D constant mass particle distribution}
 Finally, the convergence of a 2D constant mass particle distribution has been examined using a constant ratio $l_s/\sqrt{m}=6$ found to be optimal in section (\ref{sec:2DSPH_results_shock_resSTudy_dx=const}) and a variation of $l_s$ from 0.3 to 0.1, corresponding to 3994 particles in the highest resolution.
-The obtained convergence ratio is again around 1 order as can be seen from the figure in the Appendix. 
+The obtained convergence ratio is again around 1 order as can be seen from the figure in the Appendix (\ref{app:additionalShockResults}). 
 
 The inaccuracy in the rarefaction that has been observed in section (\ref{sec:2DSPH_results_shock_resSTudy_dx=const}) for a 2D constant mass particle distribution does not disappear with higher resolution. 
 %vielleicht noch erwähnen dass eine weitere simulation durchgeführt wurde mit relativ größerer supLen (in Anlehnung an Resultate von 1D const mass distribution). i.\ e.\ ratio suplen/sqrt(m)=8 with supLen=0.01: Ergebnis: fehler in der rarefaktion ist weg! 
  
 
 \subsubsection{Perturbation Study}
-Beginning with an unperturbed particle distribution, the initial particle positions are more and more perturbed for subsequent simulations in a way explained in section (\ref{sec:2Dshock_simuSetup&Co}). To quantify the effect of this perturbation, the $L_1, L_2,$ and $L_{\infty}$ error--norms are evaluated. For each perturbation--factor, 5 different simulations with 5 newly generated particle distributions of this same perturbation factor are conducted and the error norms are averaged.
+Beginning with an unperturbed particle distribution, the initial particle positions are more and more perturbed for subsequent simulations in a way explained in section (\ref{sec:2Dshock_simuSetup&Co}). To quantify the effect of this perturbation, the $L_1, L_2,$ and $L_{\infty}$ error--norms are evaluated. For each perturbation--factor, 5 different simulations with 5 newly generated particle distributions of a same perturbation factor are conducted and the error norms are averaged.
 
 
 \paragraph{1D constant spacing particle distribution}
-Generally a perturbed particle initialization leads to less smooth and results and profiles with many ``riffles''. As an example, the energy profiles of a heavily perturbed and an unperturbed simulation are shown in figure (\ref{fig:2DSPHresults_perturbationComparisonProfiles}).
+Generally a perturbed particle initialization leads to less smooth results and profiles with many ``riffles''. As an example, the energy profiles of a heavily perturbed and an unperturbed simulation are shown in figure (\ref{fig:2DSPHresults_perturbationComparisonProfiles}).
 
 \begin{figure}[!htbp]
 
 \centering
 \label{fig:2DSPHresults_perturbationComparisonProfiles}
-\subfigure[]{
-\label{{fig:2DSPHresults_perturbationComparisonProfiles_perturbed}}
-\includegraphics[width=7cm]{Graphics/results/1DCode/velocity}}
-\subfigure[]{
+\subfigure[Perturbed initial particle field]{
+\label{fig:2DSPHresults_perturbationComparisonProfiles_perturbed}
+\includegraphics[width=7cm]{Graphics/results/ShockTube/PertStudy/comparisonEnergyProfiles/pert/E_profiles00199793}
+}
+\subfigure[Unperturbed initial particle field]{
 \label{fig:2DSPHresults_perturbationComparisonProfiles_UNperturbed}
-\includegraphics[width=7cm]{Graphics/results/1DCode/density}}
-
+\includegraphics[width=7cm]{Graphics/results/ShockTube/PertStudy/comparisonEnergyProfiles/unpert/E_profiles00200908}
+}
 
 \caption[Comparison of perturbed and unperturbed energy profiles]{Example of an energy profile obtained with a 1D constant spacing particle distribution for a simulation time of $t=0.2$: (\subref{fig:2DSPHresults_perturbationComparisonProfiles_perturbed}) initial particle distribution with a perturbation factor of $0.3$; (\subref{fig:2DSPHresults_perturbationComparisonProfiles_UNperturbed}) unperturbed particle initialization.}
 
 \end{figure}
 
- The perturbation study based on a 1D constant mass particle distribution yields the following results (figure (\ref{fig:2DSPHresults_1D_CS_pertStudy})). Especially when looking at the after--shock and after--rarefaction areas, the effect of the perturbation can be noticed by principally increased  errors. In the whole domain, the general error, which is mainly due to the shock--resolution, is already so high that the additional relative error due to the perturbation is small.
+ The perturbation study based on a 1D constant mass particle distribution yields the following results (figure (\ref{fig:2DSPHresults_1D_CS_pertStudy})). Especially when looking at the after--shock and after--rarefaction areas, the effect of the perturbation can be noticed by principally increased  errors. Considering the entire domain, the general error, which is mainly due to the shock--resolution, is already so high that the additional relative error due to the perturbation is small.
 
 
 \begin{figure}[H]
@@ -3217,33 +3374,42 @@ Generally a perturbed particle initialization leads to less smooth and results a
 
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CS_pertStudy_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/WholeDomainRho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/WholeDomainRho}
+}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CS_pertStudy_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area3Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area3Rho}
+}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CS_pertStudy_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area2Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area2Rho}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CS_pertStudy_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/WholeDomainU}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/WholeDomainU}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CS_pertStudy_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area3U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area3U}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CS_pertStudy_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area2U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area2U}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CS_pertStudy_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/WholeDomainE}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/WholeDomainE}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CS_pertStudy_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area3E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area3E}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CS_pertStudy_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area2E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area2E}
+}
 
-\caption[Perturbation influence shock-tube with 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position.}
+\caption[Perturbation influence shock-tube with 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position based on a 1D constant spacing configuration. Explanation on the meaning of the different areas is given in section (\ref{sec:2Dshock_simuSetup&Co}).}
 
 \end{figure}
 
@@ -3255,70 +3421,101 @@ Generally a perturbed particle initialization leads to less smooth and results a
 
 In section (\ref{sec:2Dshock_simuSetup&Co}) it was mentioned that the mass initialization of the particles for the resolution study is done employing the SPH interpolation formula, contrary to all the shock-tube results presented in previous sections, where mass was initialized in 1D according to $m=\rho dx$ and in 2D $m=\rho dx dy$. While this makes no difference for a constant spacing initialization, the use of the kernel interpolation leads to a relatively strong irregularity in the mass profile close to the contact discontinuity (CD) if the particles are distributed according to a constant mass initialization. This  influences the simulation result compared to an initialization using $m=\rho dx dy$ and leads to higher errors.  
 
-% \begin{table}[h] % in eckigen Klammern steht die Platzierung, h steht f�r genau hier
-% \label{tab:2D_shock_m_smoothed_versus_rhodx}
-% \centering
-% 
-% \begin{tabular}[c]{|l| c|l| c|l| c|} % die eckige Klammer steht f�r die Ausrichtung der Tabelle im Text: c steht f�r zentriert
-% \hline
-% \hline
-% \multicolumn{2}{|c|}{\textbf{$L_1$--error}} & \multicolumn{2}{|c|}{\textbf{$L_2$--error}} & \multicolumn{2}{|c|}{\textbf{$L_{\infty}$--error}}\\
-% \hline
-% smoothed & $\rho dx$ & smoothed & $\rho dx$& smoothed & $\rho dx$\\
-% \hline
-% \hline
-% length & $l$ & meter & $m$ & length & {\bf L}\\
-% 
-% mass & $m$ & kilogram & $kg$ & mass & {\bf M} \\
-% 
-% time & $t$ & second & $s$ & time & {\bf T}\\
-% 
-% \hline
-% \hline
-% \end{tabular}
-% \caption[]{Comparisons of error values for simulations with an unperturbed constant mass particle distribution for the two mass initialization methods smoothing and $\rho dx$.}
-% 
-% \end{table}
 
 In the case of the 1D constant mass initialization the effect of a perturbed particle position is visible in figure (\ref{fig:2DSPHresults_1D_CM_pertStudy}). 
 Especially for the after--shock (area 2) and after--rarefaction (area 2) values a clear and monotonous increase in the error can be observed. Again the level of the global error, which is mainly due to the non-discontinuous shock resolution, is already relatively high compared to the error induced by the particle disorder. Thus the latter can be perceived only weakly considering the whole domain.
+
 \begin{figure}[H]
 \centering
 \label{fig:2DSPHresults_1D_CM_pertStudy}
 
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CM_pertStudy_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/WholeDomainRho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/WholeDomainRho}
+}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CM_pertStudy_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area3Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area3Rho}
+}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CM_pertStudy_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area2Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area2Rho}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CM_pertStudy_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/WholeDomainU}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/WholeDomainU}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CM_pertStudy_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area3U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area3U}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CM_pertStudy_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area2U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area2U}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CM_pertStudy_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/WholeDomainE}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/WholeDomainE}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CM_pertStudy_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area3E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area3E}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CM_pertStudy_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area2E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area2E}
+}
 
-\caption[Perturbation influence shock-tube with 1D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position}
+\caption[Perturbation influence shock-tube with 1D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position based on a 1D constant mass configuration. Explanation on the meaning of the different areas is given in section (\ref{sec:2Dshock_simuSetup&Co}).}
 
 \end{figure}
 
-%\paragraph{2D constant mass particle distribution}
+\paragraph{2D constant mass particle distribution}
+
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_2D_CM_pertStudy}
+
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_2D_CM_pertStudy_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/WholeDomainRho}
+}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_2D_CM_pertStudy_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/Area3Rho}
+}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_2D_CM_pertStudy_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/Area2Rho}
+}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_2D_CM_pertStudy_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/WholeDomainU}
+}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_2D_CM_pertStudy_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/Area3U}
+}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_2D_CM_pertStudy_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/Area2U}
+}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_2D_CM_pertStudy_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/WholeDomainE}
+}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_2D_CM_pertStudy_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/Area3E}
+}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_2D_CM_pertStudy_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/Area2E}
+}
+
+\caption[Perturbation influence shock-tube with 1D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position based on a 2D constant mass configuration. Explanation on the meaning of the different areas is given in section (\ref{sec:2Dshock_simuSetup&Co}).}
+
+\end{figure}
 
 
 
@@ -3490,7 +3687,7 @@ The Taylor--Green flow is the first real 2D simulation setup and tests the visco
 
 Based on information found in literature \cite{Chaniotis2002, Ellero2007} the first simulation attempts are conducted for low Reynolds numbers. For, it has been reported that higher Reynolds numbers, where the particles move away from their initial positions considerably before the velocity has entirely decayed, may lead to inaccuracies in the results. $Re$ is changed by varying the viscosity value.
 
-For a  Reynolds number of $Re=10^{-2}$ for example, the particle positions remain virtually unchanged during the entire simulation. The initial velocity field of the Taylor--Green simulation is presented in figure (\ref{fig:Results_TG_initvelocit}). The temporal decay of the simulation as well as the error relative to the incompressible reference solution are shown in figure (\ref{fig:Results_TG_VelocDecay_Re0_01_l_s_2dx}). The error in maximum velocity at the instant $t_{50}$  where the velocity has decayed to $1/50$ of the initial value is $38.9\%$. For a basic SPH code without any special corrections, this is an acceptable value as errors in the same order of magnitude were found by \cite{Hu2007}.
+For a  Reynolds number of $Re=10^{-2}$ for example, the particle positions remain virtually unchanged during the entire simulation. The initial velocity field of the Taylor--Green simulation is presented in figure (\ref{fig:Results_TG_initvelocity}). The temporal decay of the simulation as well as the error relative to the incompressible reference solution are shown in figure (\ref{fig:Results_TG_VelocDecay_Re0_01_l_s_2dx}). The error in maximum velocity at the instant $t_{50}$  where the velocity has decayed to $1/50$ of the initial value is $38.9\%$. For a basic SPH code without any special corrections, this is an acceptable value as errors in the same order of magnitude were found by \cite{Hu2007}.
 
 \begin{figure}[h]
  \label{fig:Results_TG_initvelocity}
@@ -3591,16 +3788,20 @@ Figure (\ref{fig:PureHeat_T_profilesInitialPhase}) shows the temperature profile
 \label{fig:PureHeat_T_profilesInitialPhase}
 \subfigure[at $t=0.1$]{
 \label{fig:PureHeat_T_profilesInitialPhase0.1}
-\includegraphics[width=7cm]{Graphics/results/PureHeatConduction/T_profiles000000100000}}
+\includegraphics[width=7cm]{Graphics/results/PureHeatConduction/T_profiles000000100000}
+}
 \subfigure[at $t=1.0$]{
 \label{fig:PureHeat_T_profilesInitialPhase1}
-\includegraphics[width=7cm]{Graphics/results/PureHeatConduction/T_profiles000001000000}}
+\includegraphics[width=7cm]{Graphics/results/PureHeatConduction/T_profiles000001000000}
+}
 \subfigure[at $t=2.0$]{
 \label{fig:PureHeat_T_profilesInitialPhase2}
-\includegraphics[width=7cm]{Graphics/results/PureHeatConduction/T_profiles000002000000}}
+\includegraphics[width=7cm]{Graphics/results/PureHeatConduction/T_profiles000002000000}
+}
 \subfigure[at $t=4.0$]{
 \label{fig:PureHeat_T_profilesInitialPhase4}
-\includegraphics[width=7cm]{Graphics/results/PureHeatConduction/T_profiles000003999999}}
+\includegraphics[width=7cm]{Graphics/results/PureHeatConduction/T_profiles000003999999}
+}
 
 \caption[Temperature profiles at the initial phase of equalization]{Temperature profiles for the slab with initial temperature jump at varius instants. The simulation os conducted with $N=40x20$ particles and a support length of $l_s=2dx$}
 
@@ -3624,7 +3825,7 @@ Spatial accuracy and convergence of this SPH heat conduction model have been ext
   \label{fig:PureHeat_ErrorResolution}
   \centering
   \includegraphics[width=7cm]{Graphics/results/PureHeatConduction/ErrorResolution}
-  \caption{Evolution of the L-norm errors with variation of spatial resolution at a constant ratio $l_s=2dx$. Te errors are evaluated at a simulation time of $t=0.1$.}
+  \caption{Evolution of the L-norm errors with variation of spatial resolution at a constant ratio $l_s=2dx$. The errors are evaluated at a simulation time of $t=0.1$. The black line indicates the slope for an exact second order convergence.}
 \end{figure}
 
 
@@ -3667,10 +3868,12 @@ Having closer look at the profile around the domain edges however, one can notic
 \label{fig:PureHeat_Isothermal}
 \subfigure[at $t=2.0$]{
 \label{fig:PureHeat_Isothermal_t2}
-\includegraphics[width=7cm]{Graphics/results/PureHeatConduction/isothermal/T_profile000002000000}}
+\includegraphics[width=7cm]{Graphics/results/PureHeatConduction/isothermal/T_profile000002000000}
+}
 \subfigure[at $t=200.0$]{
 \label{fig:PureHeat_Isothermal_t200}
-\includegraphics[width=7cm]{Graphics/results/PureHeatConduction/isothermal/T_profile000200000000}}
+\includegraphics[width=7cm]{Graphics/results/PureHeatConduction/isothermal/T_profile000200000000}
+}
 
 \caption[Temperature profiles for slab with isothermal edges]{Temperature profiles for a slab with initial temperatre jump and isothermal boundary conditions of $T_{w,l}=1$ and $T_{w,l}=0$. \subref{fig:PureHeat_Isothermal_t2}: in the initial phase and \subref{fig:PureHeat_Isothermal_t200}: after a steady-state solution has established}
 
@@ -3691,15 +3894,16 @@ In a first run, the simulation is conducted in an approximately incompressible c
  \centering
 \label{fig:CompCouette_U_const_eta}
 \includegraphics[width=7cm]{Graphics/results/CompressibleCouette/N2x40_supLen_dx2_eta1/U_profiles000001000019}
-\caption[steady State velocity incompressible Couette]{Velocity profile of a Couette flow without heat conduction and with constant viscosity for a Reynolds number of $Re=4\cdot10^{-2}$.}
+\caption[steady State velocity incompressible Couette]{Velocity profile of a Couette flow without heat conduction and with constant viscosity for a Reynolds number of $Re=4\cdot10^{-2}$. The simulation was conducted with a ratio $l_s/dx=2$.}
 \end{figure}
 
 
 At $Re=4\cdot10^{-1}$ (and higher) important low frequency oscillations in the velocity field occur on the way to a steady state solution. The shape of the velocity profile meanwhile looses any physical basis but then returns temporarily to the linear line before a new oscillation begins.
 
 Significant improvement on the oscillation issue for higher $Re$ comes with the use of a greater ratio $l_s/dx=4$. Although the oscillations both in the transition phase towards the steady state and in the steady state regime itself can not be avoided completely, they are weakened considerably as can be observed in the case of $Re=4\cdot10^{-1}$. 
-For even higher Reynolds numbers, the configuration gets eventually unstable. For $Re=4$ the velocity profile looses any physical meaning after some simulation time and for $Re=40$ and higher, the flow field becomes unphysical almost immediately after the start of the simulation.
-
+For even higher Reynolds numbers, the configuration gets eventually unstable. For $Re=4$ the velocity profile looses any physical meaning after some simulation time and for $Re=40$ and higher, the flow field becomes unphysical almost immediately after the start of the simulation.\\
+\\
+\indent
 In the following the truly compressible case is investigated, i.\ e.\ with heat conduction, isothermal boundary conditions and significant viscous dissipation. All this leads to considerable temperature gradients in the flow in a way that density, viscosity and thermal conductivity have to be assumed a function of $T$. To avoid oscillations, the simulation is conducted at a low Reynolds number of $Re=4\cdot10^{-2}$. For the plate velocity a higher value $u_p=0.4$ is taken, leading to an increased Mach number compared to the above incompressible case. The isothermal boundary conditions are chosen with $T=2$ for the upper and $T=1$ for the lower plate. To get a clear effect, the coefficients of the Sutherland low are chosen in a way that exaggerates the heat dependency of $\eta$ and $k$. For the entire simulation setup with all parameters refer to section (\ref{sec:SimuSetup_ComprCouette}). %Note: the Reynolds number must here be understood as an indication giving the ord of magnitude as eta is variable
 
 The temperature and velocity profiles in the quasi--steady state are shown in figure(\ref{fig:CompCouette_UT}). Figure (\ref{fig:CompCouette_UT_U}) demonstrates the effect of variable viscosity on the temperature profile. According to the consideration made in section (\ref{sec:comprCouette_genIntro}), higher viscosity leads to a lower slope $\frac{\partial u}{\partial y}$ in the velocity profile, which in the figure means a steeper profile. Furthermore, according to the Sutherland law (equation (\ref{eq:Sutherland_visc})), the viscosity of gases increases with higher temperatures.
@@ -3720,7 +3924,7 @@ and the heat flow goes from greater to lower $y$ values, the stead
 \includegraphics[width=7cm]
 {Graphics/results/CompressibleCouette/N2x40_supLen_dx4_compressible/T_profile000000070023}
 }
-\caption[steady State profiles compressible Couette]{steady state profiles (at $t=0,07$) of velocity and temperature for a Couette flow including heat conduction, hot and cold wall boundary conditions and temperature depended viscosity and thermal conductivity values. The straight line in figure \subref{fig:CompCouette_UT_U} helps recognizing the curvature of the velocity profile.}
+\caption[steady State profiles compressible Couette]{steady state profiles (at $t=0,07$) of velocity and temperature for a Couette flow including heat conduction, hot and cold wall boundary conditions and temperature depended viscosity and thermal conductivity values. A ratio $l-s/dx=4$ was used for the simulation. The straight line in figure \subref{fig:CompCouette_UT_U} helps recognizing the curvature of the velocity profile.}
 \end{figure}
 
 \subsection{Porosities}
@@ -3731,19 +3935,13 @@ Prior to the actual porosity simulations, test-cases to validate the velocity an
 The boundary conditions implemented to model the solid obstacle surface are different from the ones implemented for the boundaries at the domain edges (see section (\ref{sec:boundaryConditionImplementation})) and therefore need to be tested separately.
 Tests assessing the quality of both the no--slip velocity boundary condition and the isothermal boundary condition are presented in this paragraph. 
 
-\paragraph{no--slip velocity boundary condition}
+\paragraph{No--slip velocity boundary condition}
 \label{sec:TestSolobs_BC_noSlip}
 
 The quality of the no--slip velocity boundary condition is assessed by observing the evolution of the velocity profile close to the wall in the initial phase of a Poiseuille flow. Although the focus lies on the boundary conditions, the Poiseuille flow can also be considered as an additional validation of the viscosity implementation. This has been done before by \cite{Basa2009}, but with different ghost particle approaches.
 % allerdings mit immer erneuerten boundary particles... was ja für gekurvte nicht so einfach sit. deshalb hier: test mit constanten boundary particles und unterschiedlichen geschwindigkeitszuwesungen
 
-
-
-Test for initial phase and (quasi) steady state
-
-Simulation setup: eta=1, rho=1, p=1,$\gamma=1.4$, 2d=L=1,g=1->uCenter=0.125, $Re=U_0 L \rho/\eta=0.125$, $M=U_0/c=U_0/\sqrt{\gamma p/\rho}=0.1056$->incompressible still valid (see how much $\rho$ varies...)
-
-Besides the two methods that will be used to model solid obstacles within the domain, the method for no--slip conditions at the domain edges is tested as well. So a quantitative comparison of all three methods can be done.
+Beside the two methods that will be used to model solid obstacles within the domain, the method for no--slip conditions at the domain edges is tested as well. So a quantitative comparison of all three methods can be done.
 
 For the rest of this paragraph the following nomenclature is used (see also section (\ref{sec:boundaryConditionImplementation})):
 \begin{itemize}
@@ -3752,7 +3950,7 @@ For the rest of this paragraph the following nomenclature is used (see also sect
 \item {\bf Method 3} designates the approach using fixed ghost particles with a linearly extrapolated virtual velocity.
 \end{itemize}
 
-First all three methods are run with a support length of $l_s=2dx$
+First all three methods are run with a support length of $l_s=2dx$. As for the chosen simulation setup, the Mach number is relatively low (see section (\ref{sec:simuSetupPoiseuille}), the analytical incompressible solution of the Poiseuille flow can be used as reference.
 
 
 
@@ -3774,25 +3972,26 @@ A further observation, which is not shown in the above mentioned figure is that 
 \label{fig:Porosities_LinearWall_domainEdgeBC}
 \subfigure[at $t=0.01$]{
 \label{fig:Porosities_LinearWall_domainEdgeBC_t0_01}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen2dx_t3sec/U_profiles000000010156}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen2dx_t3sec/U_profiles000000010156}
+}
 \subfigure[at $t=0.1$]{
 \label{fig:Porosities_LinearWall_domainEdgeBC_t0_1}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen2dx_t3sec/U_profiles000000100077}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen2dx_t3sec/U_profiles000000100077}
+}
 \subfigure[at $t=0.5$]{
 \label{fig:Porosities_LinearWall_domainEdgeBC_0_5}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen2dx_t3sec/U_profiles000000500332}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen2dx_t3sec/U_profiles000000500332}
+}
 \subfigure[at $t=1.0$]{
 \label{fig:Porosities_LinearWall_domainEdgeBC_t1}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen2dx_t3sec/U_profiles000001000065}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen2dx_t3sec/U_profiles000001000065}
+}
 
 \caption[Velocity profiles Poiseuille flow]{Velocity profiles for a Poiseuille flow with no--slip boundary conditions as implemented at the domain edges (i.\ e.\ ghost particles recreated enact time step by mirroring and antisymmetric velocity assignment). The solution labeled exact is the incompressible series solution given by equation (\ref{eq:Poiseuille_Series}) and a support length of $l_s=2dx$.  \subref{fig:Porosities_LinearWall_domainEdgeBC_t1} shows the situation after a steady-state solution has essentially established with the theoretical center line velocity of $U_0=0.125$.}
 
 \end{figure}
 
-When dealing with the L-errors for the Poiseuille flow as done above, one has to keep in mind, that the reference solution is incompressible. Although the compressibility effect of the acceleration is relatively small ($M=0.1$), there is a much higher influence on density by viscous heating. Figure (\ref{fig:Porosities_LinearWall_domainEdgeBC_Energy}) shows that after $t=1$, the internal energy in the wall areas has risen by $8\%$ (and as heat conduction is turned off, it stays there) influencing the density in these areas (figure (\ref{fig:Porosities_LinearWall_domainEdgeBC_tDensity}). The incompressibility assumption is therefore not exactly justified any more, even with relatively low Mach number. This explains to a certain extent the discrepancy between simulation and reference solution. To test the influence of the density effect in the quality of the results, a further run is conducted, this time not taking into account the viscous heating term in the energy equation. At $t=1$ where before the energy and density variations were at their maximum 8\% and 2\% respectively, they vary now by a fraction of a percent. The $L_\infty$ error at the center line has reduced to $L_\infty=0.0385$,
-which shows that the density effect accounts for about 0.0036 points i.e 0.36\% of error. Considering the accuracy which has been obtained in literature for SPH Poiseuille simulations , where for example Morris \cite{Morris1997}, with a different viscosity model, found a steady state error of $0.7\%$ for an incompressible simulation, the compressibility part would augment this error by 50\%. 
-
-In the present case however the error is much higher and as proved above essentially not due to the compressibility.
+When dealing with the L-errors for the Poiseuille flow as done above, one has to keep in mind, that the reference solution is incompressible. Although the compressibility effect of the acceleration is relatively small ($M\approx0.1$), there is a much higher influence on density by viscous heating. Figure (\ref{fig:Porosities_LinearWall_domainEdgeBC_Energy}) shows that after $t=1$, the internal energy in the wall areas has risen by $8\%$ (and as heat conduction is turned off, it stays there) influencing the density in these areas (figure (\ref{fig:Porosities_LinearWall_domainEdgeBC_tDensity}). The incompressibility assumption is therefore not exactly justified any more, even with relatively low Mach number. This explains to a certain extent the discrepancy between simulation and reference solution. To test the influence of the density effect in the quality of the results, a further run is conducted, this time not taking into account the viscous heating term in the energy equation. At $t=1$ where before the energy and density variations were at their maximum 8\% and 2\% respectively, they vary now by a fraction of a percent. The $L_\infty$ error at the center line has reduced to $L_\infty=0.0385$, which shows that the density effect accounts for about 0.0036 points of the above error of $L_\infty=0.0421$. Considering the accuracy which has been obtained in literature for SPH Poiseuille simulations, where for example Morris \cite{Morris1997}, with a different viscosity model, found a steady state error of $0.7\%$ for an incompressible simulation, an error of $3.9\%$ adjusted by the compressibility effect seems acceptable (especially as it will turn out that the ratio $l_s/dx$ has a non--negligible influence on the steady state velocity value).
 
 
 
@@ -3802,14 +4001,14 @@ In the present case however the error is much higher and as proved above essenti
 \label{fig:Porosities_LinearWall_domainEdgeBC_EnergyDensity}
 \subfigure[energy]{
 \label{fig:Porosities_LinearWall_domainEdgeBC_Energy}
-%\includegraphics[height=7cm,angle=-90]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen2dx_t3sec/Energy}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen2dx_t3sec/Energy}
 }
 \subfigure[density]{
 \label{fig:Porosities_LinearWall_domainEdgeBC_tDensity}
-%\includegraphics[height=7cm,angle=-90]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen2dx_t3sec/Density}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen2dx_t3sec/Density}
 }
 
-\caption[Energy and Density Profiles Poiseuille]{Profiles of energy and density for the Poiseuille flow.}
+\caption[Energy and Density Profiles Poiseuille]{Profiles of internal energy and density for the Poiseuille flow.}
 
 \end{figure}
 
@@ -3826,7 +4025,8 @@ Compared to Method 1 this boundary error is not easily quantifiable as Method 1 
 
 Concerning again the density and energy values close to the wall, which due to the above reasons, are expected to differ from 1 (as density also affects internal energy value), the following can be observed (see table (\ref{tab:2DSPH_LinearWall_Poiseuille_WallErrorsRho_e})) : 
 
-There is generally a considerable relative difference in these quantities for the row of particles closest to the wall (I IMPLICITELY assume that Method 1 gives the (more) accurate density results)). As discussed for Method 1, viscous heating leads to a decrease in density towards the wall. Method 2 does not entirely represent this drop in density as the closest real particle row to the wall is influenced by the higher ghost particle density, which still has the initial value. For greater simulation times where due to the continuous viscous heating the density difference between flow and ghost particles representing the wall becomes higher, the density error for Method 2 becomes greater as well. 
+There is generally a considerable relative difference in these quantities for the row of particles closest to the wall %(I IMPLICITELY assume that Method 1 gives the (more) accurate density results)). 
+As discussed for Method 1, viscous heating leads to a decrease in density towards the wall. Method 2 does not entirely represent this drop in density as the closest real particle row to the wall is influenced by the higher ghost particle density, which still has the initial value. For greater simulation times where due to the continuous viscous heating the density difference between flow and ghost particles representing the wall becomes higher, the density error for Method 2 becomes greater as well. 
 This error due to the non-evolution of ghost particle density however is spatially very confined depending on the selected support length. With $l_s=2dx$, already for the second row (at $dx=0.05$) of particles, the difference between the 2 methods is very low, even for longer simulation times.
 Thus an influence of the entire field by a lacking density evolution of ghost particles is not expected and its integration in the code is probably not essential, at least not for only low density variations of a couple of percent. However if later--on quantities like heat flux at the wall need to be evaluated, it is certainly of advantage if the quantities directly at the wall are as exact as possibly. Therefore a density evolution will be SHOULD BE (if time permits NO) implemented and briefly tested.
 
@@ -3865,11 +4065,10 @@ By the way even with a non-evolving density at the boundaries it makes no differ
 
 already done for weakly compressible equation of state (and different viscosity model) in \cite{Morris1997} with good agreement at the boundaries (even for initial phase) and in general... 
 
-This method is tested to find out if compared to Method 2 a further improvement in the no--slip BC accuracy can be achieved. Visually the results for the instants shown under 1) do not differ from the preceding ones and the oscillation appears as well starting again at simulation times $t>1$.
+This method is tested to find out if compared to Method 2 a further improvement in the no--slip BC accuracy can be achieved. Visually the results for the instants shown under 1) do not differ from the preceding ones and the oscillation appears as well starting again at simulation times $t>1$. A similar test of this method has already done for a weakly compressible equation of state and different viscosity model in \cite{Morris1997}.
 
 
-
-Comparison of results $l_s=2dx$
+\subparagraph{Comparison of results $l_s=2dx$}
 
  A quantitative consideration is given in table (\ref{tab:2DSPH_LinearWall_Poiseuille_Errors}), which resumes the errors for the three no--slip wall implementation methods. The errors are shown in the initial phase ($t=0.01$) as this is when the potential inaccuracy in the velocity profile occurs. Differences in the error values are exclusively due to the different boundary conditions, as potential inaccuracies of the viscosity model are contained in all of them. Methods 2 and 3 do not evolve the density at the walls, and therefore, after a certain simulation time, have different density values in these areas than Method 1, which also could affect the errors. For $t=0.01$ however the viscous heating is still so low, that even for method 1, which fully evolves density and energy of the ghost particles, the variations in density are of the order of $10^{-8}$ and in energy $10^{-5}$. This is completely negligible and the error norms shown in table (\ref{tab:2DSPH_LinearWall_Poiseuille_Errors_t0_01}) can therefore definitely be considered as a valid indication of the boundary condition quality.
 
@@ -3906,33 +4105,38 @@ for different implementation methods of the no--slip boundary condition at $Re=0
 
 Globally the error level is by almost a factor three higher for the no--slip implementations method 1 and 3a than for Methods 2 and 3b.
 Concerning Methods 2 and 3b one can state that for the used support length of $l_s=2dx$
-these reduce exactly to the same: directly at the boundary surface the ghost particle velocity is zero and the second row of ghost particles, where the (virtual) velocity values differ is just not in the influence domain of a real particle any more. This explains the literally identical error values for this couple. On the other hand methods 1 and 3a are almost identical as well for a support length of $l_s=2dx$. They both have the first ghost particle placement at $dx/2$ away from the wall and the velocity assignment is done by mirroring and inverting at the wall surface (Method 1) or by linear extrapolation (Method 3) which is essentially the same in this case (es wäre verschieden wenn meherer reihen ghost particles geschwindigkeiten zugeteilt bekämen). The only difference consists of the exact particle positions (recreating at each time step versus fixed placement) which explains why the results are not exactly identical.
+these reduce exactly to the same: directly at the boundary surface the ghost particle velocity is zero and the second row of ghost particles, where the (virtual) velocity values differ is just not in the influence domain of a real particle any more. This explains the literally identical error values for this couple. On the other hand methods 1 and 3a are almost identical as well for a support length of $l_s=2dx$. They both have the first ghost particle placement at $dx/2$ away from the wall and the velocity assignment is done by mirroring and inverting at the wall surface (Method 1) or by linear extrapolation (Method 3) which is essentially the same in this case %(es wäre verschieden wenn meherer reihen ghost particles geschwindigkeiten zugeteilt bekämen). 
+The only difference consists of the exact particle positions (recreating at each time step versus fixed placement) which explains why the results are not exactly identical.
 
-When a bigger ratio of $l_s/dx$ is selected, the methods should all give different results as then the second row of ghost particles also influences the real particles closest to the wall. In order to get a more distinct impression of the performance of the different methods a new set of simulations is performed with a high ratio of $l_s/dx=4$. This is the value taken in \cite{Zhu1999} for the low Reynolds porosity simulation (with a quintic spline kernel). (more common values $l_s/dx=2.5$ performed best for acoustical wave, $l_s/dx=3$ Morris1997...)
+When a bigger ratio of $l_s/dx$ is selected, the methods should all give different results as then the second row of ghost particles also influences the real particles closest to the wall. In order to get a more distinct impression of the performance of the different methods a new set of simulations is performed with a high ratio of $l_s/dx=4$. This is the value taken in \cite{Zhu1999} for the low Reynolds porosity simulation (with a quintic spline kernel). %(more common values $l_s/dx=2.5$ performed best for acoustical wave, $l_s/dx=3$ Morris1997...)
 
 
 All three methods are run again with a support length of $l_s=4dx$.
 
 \subparagraph{Method 1}
-Compared to the corresponding simulation with $l_s/dx=2$ there is hardly no visible difference in the initial phase, i.\ e.\ for the no--slip implementation. A look at the numbers yields however that the local error ($L_\infty$) at the boundary has become around 2.5 times as big as before. Furthermore the increase of support length prevents totally the oscillations encountered for the smaller value. Viscosity seems to be increased artificially by the higher support length as the theoretical steady state velocity profile is now underestimated. However, the velocity profile of the simulation never becomes completely steady. In fact the evolution of the profile gets abruptly slower once steady state should theoretically have been reached  but velocity continues to increase steadily and very slowly. The assumption is, that the flow continuously gets accelerated by the viscous heating ( XXX-Rohr). This is confirmed by a simulation where the contribution of viscous heating to the energy equation is switched off. In this case the profile reaches virtually steady state at a center velocity of $U=0.1206$. There is a very tiny oscillation (the hangover of the one observed for $l_s/dx=2$ with same frequency) decreasing the velocity to $U=0.1204$ and re-augmenting it to $U=0.1206$. But this oscillation is so marginal that it can not be perceived when the viscous heating is taken into account, as the resulting acceleration is superior to this oscillation. 
+Compared to the corresponding simulation with $l_s/dx=2$ there is hardly no visible difference in the initial phase, i.\ e.\ for the no--slip implementation. A look at the numbers yields however that the local error ($L_\infty$) at the boundary has become around 2.5 times as big as before. Furthermore the increase of support length prevents totally the oscillations encountered for the smaller value. Viscosity seems to be increased artificially by the higher support length as the theoretical steady state velocity profile is now underestimated. However, the velocity profile of the simulation never becomes completely steady. In fact the evolution of the profile abruptly slows down once steady state should theoretically have been reached  but velocity continues to increase steadily and very slowly. The assumption is, that the flow continuously gets accelerated by the viscous heating. This is confirmed by a simulation where the contribution of viscous heating to the energy equation is switched off. In this case the profile reaches virtually steady state at a center velocity of $U=0.1206$. There is a very tiny oscillation (the hangover of the one observed for $l_s/dx=2$ with same frequency) decreasing the velocity to $U=0.1204$ and re-augmenting it to $U=0.1206$. But this oscillation is so marginal that it can not be perceived when the viscous heating is taken into account.
 
-The center line value now being to small, one can assume that there will be a medium support length for which the correct steady state velocity might be reached. Although this is not the actual purpose of this paragraph, this fact can be seen as an indirect further validation of the physical viscosity model.
+The center line value now being to low, one can assume that there will be a medium support length for which the correct steady state velocity might be reached. Although it is not the actual purpose of this paragraph, this fact can be seen as an indirect further validation of the physical viscosity model.
 
 \begin{figure}[!htbp]
 \centering
 \label{fig:Porosities_LinearWall_domainEdgeBC_supLen4}
 \subfigure[at $t=0.01$]{
 \label{fig:Porosities_LinearWall_domainEdgeBC_t0_01_supLen4}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen4dx_t3sec/U_profiles000000009999}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen4dx_t3sec/U_profiles000000009999}
+}
 \subfigure[at $t=0.1$]{
 \label{fig:Porosities_LinearWall_domainEdgeBC_t0_1_supLen4}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen4dx_t3sec/U_profiles000000099999}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen4dx_t3sec/U_profiles000000099999}
+}
 \subfigure[at $t=0.5$]{
 \label{fig:Porosities_LinearWall_domainEdgeBC_0_5_supLen4}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen4dx_t3sec/U_profiles000000500000}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen4dx_t3sec/U_profiles000000500000}
+}
 \subfigure[at $t=1.0$]{
 \label{fig:Porosities_LinearWall_domainEdgeBC_t1_supLen4}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen4dx_t3sec/U_profiles000000999878}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_DomainEdgeBC_N4x40_suplen4dx_t3sec/U_profiles000000999878}
+}
 
 \caption[Velocity profiles Poiseuille flow]{Velocity profiles for a Poiseuille flow with no--slip boundary conditions as implemented at the domain edges (i.\ e.\ ghost particles recreated each time step by mirroring and antisymmetric velocity assignment). The solution labeled exact is the incompressible series solution given by equation (\ref{eq:Poiseuille_Series}) and a support length of $l_s=4dx$.  \subref{fig:Porosities_LinearWall_domainEdgeBC_t1} shows the situation after a steady-state solution has essentially established with the theoretical center line velocity of $U_0=0.125$.}
 
@@ -3940,7 +4144,7 @@ The center line value now being to small, one can assume that there will be a me
 
 \subparagraph{Method 2}
 For this method the support length of $l_s=4dx$ deteriorates considerably the boundary condition representation. The discrepancy is now even visible in the velocity profile in the initial phase (see figure (\ref{fig:Porosities_LinearWall_SolObsBC1_t0_01_supLen4})).
-The statements made about continuous velocity development due to viscous heating made in 1) apply here as well. Only, due to the fact that the real particles close to the boundary are not slowed down enough, the steady state center line velocity at $t=1$ is now a bit higher than before with a value of $U=0.123$ (see also figure (\ref{fig:Porosities_LinearWall_SolObsBC1_t1_supLen4})). 
+The statements  about continuous velocity development due to viscous heating made in 1) apply here as well. Only, due to the fact that the real particles close to the boundary are not slowed down enough, the steady state center line velocity at $t=1$ is now a bit higher than before with a value of $U=0.123$ (see also figure (\ref{fig:Porosities_LinearWall_SolObsBC1_t1_supLen4})). 
  
 
 \begin{figure}[!htbp]
@@ -3948,16 +4152,20 @@ The statements made about continuous velocity development due to viscous heating
 \label{fig:Porosities_LinearWall_SolObsBC1_supLen4}
 \subfigure[at $t=0.01$]{
 \label{fig:Porosities_LinearWall_SolObsBC1_t0_01_supLen4}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen4dx_t3sec_ghost_prtl_on_surface/U_profiles000000009999}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen4dx_t3sec_ghost_prtl_on_surface/U_profiles000000009999}
+}
 \subfigure[at $t=0.1$]{
 \label{fig:Porosities_LinearWall_SolObsBC1_t0_1_supLen4}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen4dx_t3sec_ghost_prtl_on_surface/U_profiles000000099999}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen4dx_t3sec_ghost_prtl_on_surface/U_profiles000000099999}
+}
 \subfigure[at $t=0.5$]{
 \label{fig:Porosities_LinearWall_SolObsBC1_0_5_supLen4}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen4dx_t3sec_ghost_prtl_on_surface/U_profiles000000500000}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen4dx_t3sec_ghost_prtl_on_surface/U_profiles000000500000}
+}
 \subfigure[at $t=1.0$]{
 \label{fig:Porosities_LinearWall_SolObsBC1_t1_supLen4}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen4dx_t3sec_ghost_prtl_on_surface/U_profiles000001000297}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen4dx_t3sec_ghost_prtl_on_surface/U_profiles000001000297}
+}
 
 \caption[Velocity profiles Poiseuille flow]{Velocity profiles for a Poiseuille flow with no--slip boundary conditions according to method 2 (i.\ e.\ ghost particles created once at beginning of simulation and maintained. Ghost particle velocity is zero) and $l_s=2dx$. The solution labeled exact is the incompressible series solution given by equation (\ref{eq:Poiseuille_Series}).  \subref{fig:Porosities_LinearWall_SolObsBC1_t1_supLen4} shows the situation after a steady-state solution has essentially established with the theoretical center line velocity of $U_0=0.125$.}
 
@@ -4036,10 +4244,12 @@ As already observed for the no--slip velocity condition, one can see (figure (\r
 \centering
 \label{fig:SolObs_Thermal_BC1_profile}
 \subfigure[$l_s/dx=2$]{
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/ThermalBC1_N2x39_suplen2dx/T_profiles000000999999}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/ThermalBC1_N2x39_suplen2dx/T_profiles000000999999}
+}
 \subfigure[$l_s/dx=4$]{
 \label{fig:SolObs_Thermal_BC1_profile_supLen4dx}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/ThermalBC1_N2x39_suplen4dx/T_profiles000000999999}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/ThermalBC1_N2x39_suplen4dx/T_profiles000000999999}
+}
 \caption[Temperature Profile at wall]{Temperature profile at $t=1$ for a pure conduction problem with isothermal boundary conditions for solid obstacles realized with Method 1. The simulation is conducted with 39 real particles in y--direction giving a distance $dx=dy=0.025$, the support length is once 0.05, once 0.1.
 The solution labeled exact is the theoretical solution of a semi infinite body with constant temperature boundary condition given by equation (\ref{eq:SemiInfBodySolution}). }
 
@@ -4058,7 +4268,7 @@ To examine the behavior of this boundary condition implementation with higher sp
 \includegraphics[width=11cm]{Graphics/results/Porosities/LinearWall/ThermalBC1_Resolution/ErrorResolution}
 
 \caption[Error resolution ]{Error evolution with increasing spatial resolution for a pure conduction problem with isothermal boundary conditions for solid obstacles realized with Method 1. The increase in resolution is achieved with a constant ratio $l_s/dx=4$.
-The number of particles given corresponds to the number of particles in one direction (the particle number of the second direction was not increased and therefore $N \propto dx$). }
+The number of particles given corresponds to the number of particles in one direction (the particle number of the second direction was not increased and therefore $N \propto dx$). To assist with the convergence estimation, the black line indicates an exact first order convergence.}
 
 \end{figure}
 \vspace{1cm}
@@ -4066,7 +4276,7 @@ The number of particles given corresponds to the number of particles in one dire
 \linebreak[2]
 
 
-The $l_s=4dx$ simulation with method 2 (\ref{})is even visually more accurate than the corresponding simulation with method 1 (figure \ref{fig:SolObs_Thermal_BC1_profile_supLen4dx})). Table (\ref{tab:2DSPH_LinearWall_ThermalBC_Errors_supLen4dx}) which presents the error norms confirms this fact by showing 70\% less error for Method 2. The same table also confirms that the simulation with a support length of $l_s=2dx$ yields globally better results for the same particle spacing.
+The $l_s=4dx$ simulation with method 2 (figure \ref{fig:SolObs_Thermal_BC1_profile})CHECKEN is even visually more accurate than the corresponding simulation with method 1 (figure \ref{fig:SolObs_Thermal_BC1_profile_supLen4dx})). Table (\ref{tab:2DSPH_LinearWall_ThermalBC_Errors_supLen4dx}) which presents the error norms confirms this fact by showing 70\% less error for Method 2. The same table also confirms that the simulation with a support length of $l_s=2dx$ yields globally better results for the same particle spacing.
 
  
 
@@ -4102,7 +4312,7 @@ $L_\infty$&0.12844700 & 0.03827360& 0.01017020 \\
 \includegraphics[width=11cm]{Graphics/results/Porosities/LinearWall/ThermalBC2_Resolution/ErrorResolution}
 
 \caption[Error resolution ]{Error evolution with increasing spatial resolution for a pure conduction problem with isothermal boundary conditions for solid obstacles realized with Method 2. The increase in resolution is achieved with a constant ratio $l_s/dx=4$.
-The number of particles given corresponds to the number of particles in one direction (the particle number of the second direction was not increased and therefore $N \propto dx$).}
+The number of particles given corresponds to the number of particles in one direction (the particle number of the second direction was not increased and therefore $N \propto dx$). An exact second order convergence is indicated by the black line.}
 
 \end{figure}
 
@@ -4225,7 +4435,7 @@ After the above analysis, the results seem qualitatively plausible. With the int
 
 \paragraph{Cavity with acoustic wave}
 
-At the present state of the code a steady state solution in the desired Mach regime could not entirely be reached due to excessive particle penetration throughout the solid obstacle. The acoustic wave simulation could therefore not be conducted. By integrating an additional type of boundary particles excerting strong repulsive forces, as suggested by \cite{Liu2003}, this simulation should finally become possible, the settings being described in section (\ref{Porosities - Cavity}). 
+At the present state of the code a steady state solution in the desired Mach regime could not entirely be reached due to excessive particle penetration throughout the solid obstacle. The acoustic wave simulation could therefore not be conducted. By integrating an additional type of boundary particles excerting strong repulsive forces, as suggested by \cite{Liu2003}, this simulation should finally become possible, the settings being described in section (\ref{sec:SimuSetup_Cavity}). 
 
 
 %The potential failing of this attempt is no setback for the project, as in the long term the SPH simulation is planned to be coupled with a conventional grid--based method for the external flow. In the present case the whole range from the external flow at a Mach number $M>2$ up to the flow in the cavity at very low velocity is simulated by the SPH method, while in the final application SPH is only supposed to represent the flow in the cavity. 
@@ -4233,7 +4443,7 @@ At the present state of the code a steady state solution in the desired Mach reg
 
 
 \subsubsection{Porosities - Circular Cylinder Configuration}
-For this configuration simulations are conducted with the three different particle initializations introduced in section (\ref{sec:SimuSetup_flowThroughObstacles}). In all cases the distance between the particles is chosen as $dx=0.02$ and the support length is $l_s=4dx$. This ratio corresponds to the one used by \cite{Zhu1999} for a similar porosity simulation and besides proved above to be more resistant to particle disorder than smaller ratios. Both for the velocity and the isothermal boundary conditions, the linear interpolation approaches are applied (unless stated otherwise), as they turned out to be more accurate than the one assigning constant properties (see section (\ref{sec:TestSolobs_BC})). As the flow through circular obstacles is investigated in the subsonic regime, there will be no significant compressibility effect due to the flow velocity. To make the case compressible nevertheless, heat conduction and a cold wall isothermal boundary condition at the porosity surfaces are integrated in the configuration. The initial fluid temperature is set to $T=2$ and the wall assumes a temperature of $T_w=1.9$. The temperature difference is not chosen too big as this would lead to a significant change in density in the fluid around the cylinder surfaces. The density of the ghost particles within the cylinder not being evolved, this variation would not be reproducible by the simulation, at least not right at the cylinder surface.
+For this configuration simulations are conducted with the three different particle initializations introduced in section (\ref{sec:SimuSetup_flowThroughObstacles}). In all cases the distance between the particles is chosen as $dx=0.02$ and the support length is $l_s=4dx$. This ratio corresponds to the one used by \cite{Zhu1999} for a similar porosity simulation and besides proved above to be more resistant to particle disorder than smaller ratios. Both for the velocity and the isothermal boundary conditions, the linear interpolation approaches are applied (unless otherwise stated), as they turned out to be more accurate than the one assigning constant properties (see section (\ref{sec:TestSolobs_BC})). As the flow through circular obstacles is investigated in the subsonic regime, there will be no significant compressibility effect due to the flow velocity. To make the case compressible nevertheless, heat conduction and a cold wall isothermal boundary condition at the porosity surfaces are integrated in the configuration. The initial fluid temperature is set to $T=2$ and the wall assumes a temperature of $T_w=1.9$. The temperature difference is not chosen too big as this would lead to a significant change in density in the fluid around the cylinder surfaces. The density of the ghost particles within the cylinder not being evolved, this variation would not be reproducible by the simulation, at least not right at the cylinder surface.
 
 The applied body force to drive the fluid acts in positive x--direction, which is tehrefore the direction of the flow. 
 %(wollte sagen konstant k, eta, wegen subsonisch, allerdinsg bleibt zu überlegen ob man nicht ne signifikantere T-RB einbaut, sodass dennoch temperaturgradienten entstehen (wenn auch nicht durch reibung...)
@@ -4295,7 +4505,8 @@ Another way of reducing the density irregularity is admitting even less margin b
 \label{fig:PorosResultsCylinder_prtlDiscontinuity_reglatice_pseudoHex}
 \subfigure[initial particle arrangement]{
 \label{fig:PorosResultsCylinder_prtlDiscontinuity_reglatice_pseudoHex_xy}
-\includegraphics[height=7cm]{Graphics/results/Porosities/Cylinders/supLen_dx_4_dx0_2_regLatCyl/InitPosRegLatCyl}}
+\includegraphics[height=7cm]{Graphics/results/Porosities/Cylinders/supLen_dx_4_dx0_2_regLatCyl/InitPosRegLatCyl}
+}
 \subfigure[initial density profile obtained by the summation equation]{
 \label{fig:PorosResultsCylinder_prtlDiscontinuity_reglatice_pseudoHex_xyRho}
 \includegraphics[height=7cm]{Graphics/results/Porosities/Cylinders/supLen_dx_4_dx0_2_regLatCyl/InitDensRegLatCyl}
@@ -4321,7 +4532,8 @@ For the following simulation the initial particle field is maintained like this.
 \label{fig:PorosResultsCylinder_prtlDiscontinuity_Hex_pseudoHex}
 \subfigure[initial particle arrangement]{
 \label{fig:PorosResultsCylinder_prtlDiscontinuity_Hex_pseudoHex_xy}
-\includegraphics[height=7cm]{Graphics/results/Porosities/Cylinders/supLen_dx_4_dx0_2_hexCyl_SumDens/InitPos}}
+\includegraphics[height=7cm]{Graphics/results/Porosities/Cylinders/supLen_dx_4_dx0_2_hexCyl_SumDens/InitPos}
+}
 \subfigure[initial density profile obtained by the summation equation]{
 \label{fig:PorosResultsCylinder_prtlDiscontinuity_Hex_pseudoHex_xyRho}
 \includegraphics[height=7cm]{Graphics/results/Porosities/Cylinders/supLen_dx_4_dx0_2_hexCyl_SumDens/InitDens}
@@ -4390,23 +4602,23 @@ The qualitative plausibilty of the velocity and pressure profile can be confirme
 
 
 \subsection{Summary and conclusion on simulations}
-As a first test case the 1D shock--tube has demonstrated the correct functioning of the code for a 1D compressible problem based on the inviscid Euler equations. The simulations included an artificial viscosity due to the presence of the shock. Both 1D and 2D particle initializations have been investigated, each with constant mass and constant spacing initial particle distributions. The constant mass approach turned out to be the more accurate one. It also corresponds more to the physical reality. A 2D particle distribution lead to some noise in the 2D results, but the averaged 1D solution was essentially (except for the constant mass, where in 2D the rarefaction suffered from an inaccuracy) of the same quality as the corresponding 1D case. A perturbation study showed that there is a degradation of the results with increasing randomness of initial particle distributions. However this degradation is increasing continuously and not abruptly/suddenly with higher perturbations and in no case leads to a catastrophic deterioration of the simulation results.
+As a first test case the 1D shock--tube has demonstrated the correct functioning of the code for a 1D compressible problem based on the inviscid Euler equations. The simulations included an artificial viscosity due to the presence of the shock. Both 1D and 2D particle initializations have been investigated, each with constant mass and constant spacing initial particle distributions. The constant mass approach, which has been used for several shock--tube simulations in literature, turned out to be the more accurate one. It also corresponds more to the physical reality. As mentioned in literature, a 2D particle distribution leads to some noise in the 2D results, but the averaged 1D solution was essentially (except for the constant mass, where in 2D the rarefaction suffered from an inaccuracy) of the same quality as the corresponding 1D particle initialization. A perturbation study showed that there is a degradation of the results with increasing randomness of initial particle distributions. However this degradation is increasing continuously and not abruptly with higher perturbations and in no case leads to a catastrophic deterioration of the simulation results.
 
-The propagation of an acoustic wave was the subject of the second test. Both a stationary oscillation and a traveling wave have been examined. Including artificial viscosity, there was strong damping. But with artificial viscosity switched off, no damping of the waves could be observed. The SPH code seems therefore not to have any noticeable intrinsic numerical viscosity. However without any artificial viscosity the waves started changing their shapes which is believed to be a result of the presence of little (numerical) noise/perturbations and therefore a physical effect and no error of the code. Furthermore it was found out, that the propagation speed, and particularly the periodical time of a simulated acoustic wave depend on the ratio $l_s/dx$ and the optimum value for most accurate representation of $T$ was $l_s/dx=0.252$. %theoreisch auch zu bedenken, dass wir als theor. referenz lineare welle.dh mit a=const nehmen und simulierte ja genaugenommen a!=const berücksichtigt... aber für so kleine störungen sollte das peanuts sein...!
+The propagation of an acoustic wave was the subject of the second test. Both a stationary oscillation and a traveling wave have been examined. Including artificial viscosity, there was strong damping. But with artificial viscosity switched off, no damping of the waves could be observed. The SPH code seems therefore not to have any noticeable intrinsic numerical viscosity. However without any artificial viscosity the waves started changing their shapes which is believed to be a result of the presence of little (numerical) noise and therefore a physical effect and no error of the code. Furthermore it was found out, that the propagation speed, and particularly the periodical time of a simulated acoustic wave depend on the ratio $l_s/dx$ and the optimum value for most the accurate representation of $T$ was $l_s/dx=0.252$. %theoreisch auch zu bedenken, dass wir als theor. referenz lineare welle.dh mit a=const nehmen und simulierte ja genaugenommen a!=const berücksichtigt... aber für so kleine störungen sollte das peanuts sein...!
 
 After a physical viscosity model had been implemented, it was tested by the Taylor--Green flow, which at the same time was the first real 2D %bei 2D shock tue change rates dennoch nur in 1 richting
-test case. For low Reynolds numbers, where the entire velocity dissipated before particles could significantly change their initial position, the results were accurate. For higher Reynolds numbers however, where the initial particle field became distorted, the results were not accurate any more and even became entirely unphysical...
+test case. For low Reynolds numbers, where the entire velocity dissipated before particles could significantly change their initial position, the results were accurate. For higher Reynolds numbers however, where the initial particle field became distorted, the results were not accurate any more and eventualy became even entirely unphysical.
 
 The implemented heat conduction model was tested in a pure heat conduction problem in form of a slap with a temperature jump. Both an adiabatic and an isothermal boundary condition as implemented for the domain edges have been applied at the slab edges.
 Findings from literature stating that convergence is second order with an adiabatic boundary condition and first order with an isothermal boundary condition were confirmed.
 
 A combination of all models extended by variable viscosity and thermal conduction has been applied to the compressible Couette test case. Again, the effect of the Reynolds number was noticeable. In a first step, a quasi incompressible Couette flow was simulated, giving accurate results for low Reynolds numbers (up to around $Re=4\cdot10^{-2}$), even with a small ratio $l_s/dx=2$. For higher $Re$ values, oscillations appear, which to a certain extend can be reduced with a high ratio $l_s/dx=4$, but even with this high ratio the simulations soon become unstable for higher $Re$. In a second step the truly compressible Couette flow with hot upper plate and cold lower plate was simulated at low $Re$ to avoid oscillations. The results were validated qualitatively and showed the right curvature of both the velocity and temperature profile due to the variable $\eta$ and $k$.
 
-At this point the flow model had been sufficiently tested to attack the porosity cases. It turned out that the boundary conditions used for the domain edges could not be applied to the generally curved surfaces of solid obstacles modeling the porosity. Therefore a different velocity and temperature boundary treatment had to be implemented,  which then was tested prior to the actual porosity simulation by means of a Poiseuille flow and a pure conduction problem respectively. Two approaches for assigning the ghost particle virtual velocity have been investigated to model the no--slip condition: uniformly zero velocity and linear velocity extrapolation. As confirmed by literature, the latter yielded the more accurate results. The idea of linear extrapolation has then been extended to the ghost particle temperature to model the isothermal boundary condition. In this case again, the linear extrapolation approach performed better compared to the constant temperature assignment. Additionally, the above mentioned degradation in convergence from second to first order when applying an isothermal boundary condition was not observed any more for the linear extrapolation.
+At this point the flow model had been sufficiently tested to attack the porosity cases. It turned out that the boundary conditions used for the domain edges could not be applied to the generally curved surfaces of solid obstacles modeling the porosity. Therefore a different velocity and temperature boundary treatment had to be implemented,  which then was tested prior to the actual porosity simulation by means of a Poiseuille flow and a pure conduction problem respectively. Two approaches for assigning the ghost particle virtual velocity have been investigated to model the no--slip condition: uniformly zero velocity and linear velocity extrapolation. As confirmed by literature, the latter yielded the more accurate results. The idea of linear extrapolation has then been extended to the ghost particle temperature to model the isothermal boundary condition. In this case again, the linear extrapolation approach performed better compared to the constant temperature assignment. Additionally, the above mentioned degradation in convergence from second to first order when applying an isothermal boundary condition was not observed any more for the linear extrapolation approach.
 
-The first real porosity simulation was then conducted with a simplified model of the geometrical situation of the experimental setup in form of a periodical arrangements of cavities. An attempt to simulate this configuration with a supersonic flow showed that the boundary condition implementation could not entirely deal with the present pressures, thus leading to particle penetration and an interruption of the simulation before the steady state could be completely reached. The results up to the point, where the the simulation stopped however, are qualitatively correct. 
+The first real porosity simulation was then conducted with a simplified model of the geometrical situation of the experimental setup in form of a periodical arrangements of cavities. An attempt to simulate this configuration with a supersonic flow showed that the boundary condition implementation could not entirely deal with the present pressures, thus leading to particle penetration and an interruption of the simulation before the steady state could be completely reached. The results up to the point, where the the simulation stopped however, seem qualitatively correct. 
 
-Another porosity configuration consisting of a flow through an array of circular obstacles was conducted in the subsonic regime including cold wall boundary conditions. Although this situation is in no connection with the experiment, it was judged worth an investigation, as the existing code provides the features necessary for this configuration. The results showed qualitative agreement with literature.
+Another porosity configuration consisting of a flow through an array of circular obstacles was conducted in the subsonic regime including cold wall boundary conditions. Although this situation is in no connection with the experiment, it was judged worth an investigation, as the existing code provides the features necessary for this configuration. The results showed qualitative agreement with physics and literature.
  
 
 
@@ -4418,6 +4630,16 @@ Another porosity configuration consisting of a flow through an array of circular
 
  \chapter{Conclusion}
 \label{sec:conclusion}
+
+
+
+
+
+
+
+
+
+
 As the project is not finished until December, it may be to early to draw a final conclusion. However, I am optimistic to be able to simulate a configuration including porosities by the end of the project. I used the time so far to become familiarized with the SPH--method and all the tools that go with an activity in numerics (including Linux and Co.). As a first step I developed a little 1D SPH--code. Then I tried to understand the 2D incompressible multiphase SPH code, which I had to modify. This accomplished, I started implementing the equations which I had identified with the little 1D code as the right ones for compressible flows and adapted the 2D code to that effect. The shock--tube test case and the acoustic wave propagation simulations showed that so far everything was correct.
 Finding an appropriate formulation for the physical viscosity, i.\ e.\ compressible and for variable viscosity, turned out to be difficult for SPH. I first implemented a constant viscosity formulation and ran the Taylor--Green test--case. The results are not yet exact, but I have understood the error. Independently, I have implemented a heat conduction model in the energy equation which has already been tested and which works very well.
 Besides finding the error in the viscosity implementation, one big test--case remains: the compressible Couette--flow, which combines all phenomena.
@@ -4444,39 +4666,49 @@ $\sum <dxdy>=\sum </dx_{\mathit{reg}}+dx')(dy_{\mathit{reg}}+dy')>)=\sum (<dx_{\
  and $<dx'*dy'>\neq0$. 
 
 \chapter{Additional Shock--Tube Results 2D Code}
+\label{app:additionalShockResults}
 \begin{figure}[H]
 \centering
 \label{fig:2DSPHresults_q1D_CS_dx_const}
 
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_q1D_CS_dx_const_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/WholeDomainRho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/WholeDomainRho}
+}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_q1D_CS_dx_const_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area3Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area3Rho}
+}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_q1D_CS_dx_const_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area2Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area2Rho}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_q1D_CS_dx_const_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/WholeDomainU}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/WholeDomainU}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_q1D_CS_dx_const_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area3U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area3U}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_q1D_CS_dx_const_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area2U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area2U}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_q1D_CS_dx_const_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/WholeDomainE}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/WholeDomainE}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_q1D_CS_dx_const_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area3E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area3E}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_q1D_CS_dx_const_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area2E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/supLenVariat_dxdy005/Area2E}
+}
 
-\caption[Convergence Shock-tube with 2D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying support length and a constant particle spacings of $dx=dy=0.005$}
+\caption[Convergence Shock-tube with 2D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulations with a varying support length and a constant initial spacing 2D particle field with $dx=dy=0.005$.}
 
 \end{figure}
 
@@ -4486,33 +4718,42 @@ $\sum <dxdy>=\sum </dx_{\mathit{reg}}+dx')(dy_{\mathit{reg}}+dy')>)=\sum (<dx_{\
 
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_q1D_CM_dx_const_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/WholeDomainRho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/WholeDomainRho}
+}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_q1D_CM_dx_const_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area3Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area3Rho}
+}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_q1D_CM_dx_const_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area2Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area2Rho}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_q1D_CM_dx_const_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/WholeDomainU}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/WholeDomainU}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_q1D_CM_dx_const_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area3U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area3U}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_q1D_CM_dx_const_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area2U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area2U}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_q1D_CM_dx_const_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/WholeDomainE}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/WholeDomainE}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_q1D_CM_dx_const_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area3E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area3E}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_q1D_CM_dx_const_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area2E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/supLenVariat_m000025/Area2E}
+}
 
-\caption[Convergence Shock-tube with 2D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying support length and a constant particle mass of $m=2.5\cdot10^{-5}$, leading to a particle spacing of $dx_l=dy_l=0.005$ on the LHS and of $dx_r=dy_r=0.015$ on the RHS}
+\caption[Convergence Shock-tube with 2D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with a varying support length and a constant particle mass of $m=2.5\cdot10^{-5}$. This leads to a particle spacing of $dx_l=dy_l=0.005$ on the LHS and of $dx_r=dy_r=0.015$ on the RHS of the 2D particle field.}
 
 \end{figure}
 
@@ -4523,33 +4764,42 @@ $\sum <dxdy>=\sum </dx_{\mathit{reg}}+dx')(dy_{\mathit{reg}}+dy')>)=\sum (<dx_{\
 
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/WholeDomainRho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/WholeDomainRho}
+}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area3Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area3Rho}
+}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area2Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area2Rho}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/WholeDomainU}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/WholeDomainU}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area3U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area3U}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area2U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area2U}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/WholeDomainE}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/WholeDomainE}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area3E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area3E}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_1D_CS_ratioConst_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area2E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CS_LF_SD/ratioSupLen_dxConst5/Area2E}
+}
 
-\caption[Convergence Shock-tube with 2D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of support length to spacing of 5 evaluated at $t=0.2$. }
+\caption[Convergence Shock-tube with 2D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of support length to spacing of 5 evaluated at $t=0.2$. The initial particle field is a 1D constant spacing configuration.}
 
 \end{figure}
 
@@ -4560,69 +4810,87 @@ $\sum <dxdy>=\sum </dx_{\mathit{reg}}+dx')(dy_{\mathit{reg}}+dy')>)=\sum (<dx_{\
 
 \subfigure[]{
 \label{fig:2DSPHresults_1D_CM_ratioConst_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/WholeDomainRho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/WholeDomainRho}
+}
 \subfigure[]{
 \label{fig:2DSPHresults_1D_CM_ratioConst_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area3Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area3Rho}
+}
 \subfigure[]{
 \label{fig:2DSPHresults_1D_CM_ratioConst_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area2Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area2Rho}
+}
 \subfigure[]{
 \label{fig:2DSPHresults_1D_CM_ratioConst_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/WholeDomainU}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/WholeDomainU}
+}
 \subfigure[]{
 \label{fig:2DSPHresults_1D_CM_ratioConst_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area3U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area3U}
+}
 \subfigure[]{
 \label{fig:2DSPHresults_1D_CM_ratioConst_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area2U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area2U}
+}
 \subfigure[]{
 \label{fig:2DSPHresults_1D_CM_ratioConst_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/WholeDomainE}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/WholeDomainE}
+}
 \subfigure[]{
 \label{fig:2DSPHresults_1D_CM_ratioConst_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area3E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area3E}
+}
 \subfigure[]{
 \label{fig:2DSPHresults_1D_CM_ratioConst_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area2E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/1D_CM_LF_SD/ratio_supLen_m_const16/Area2E}
+}
 
-\caption[Convergence Shock-tube 1D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of support length to mass of 16 }
+\caption[Convergence Shock-tube 1D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of support length to mass of $l_s/m=16$. The initial particle field is a 1D constant mass configuration. }
 
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\label{fig:2DSPHresults_1D_CS_ratioConst}
+\label{fig:2DSPHresults_q1D_CM_ratioConst}
 
 \subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/WholeDomainRho}}
+\label{fig:2DSPHresults_q1D_CM_ratioConst_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/WholeDomainRho}
+}
 \subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area3Rho}}
+\label{fig:2DSPHresults_q1D_CM_ratioConst_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area3Rho}
+}
 \subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area2Rho}}
+\label{fig:2DSPHresults_q1D_CM_ratioConst_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area2Rho}
+}
 \subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/WholeDomainU}}
+\label{fig:2DSPHresults_q1D_CM_ratioConst_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/WholeDomainU}
+}
 \subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area3U}}
+\label{fig:2DSPHresults_q1D_CM_ratioConst_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area3U}
+}
 \subfigure[tight][area 3]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area2U}}
+\label{fig:2DSPHresults_q1D_CM_ratioConst_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area2U}
+}
 \subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/WholeDomainE}}
+\label{fig:2DSPHresults_q1D_CM_ratioConst_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/WholeDomainE}
+}
 \subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area3E}}
+\label{fig:2DSPHresults_q1D_CM_ratioConst_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area3E}
+}
 \subfigure[tight][area 2]{
-\label{fig:2DSPHresults_1D_CS_ratioConst_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area2E}}
+\label{fig:2DSPHresults_q1D_CM_ratioConst_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/q1D_CM_LF_SD/ratioSupLen_sqrt_m6/Area2E}
+}
 
-\caption[Convergence Shock-tube with 2D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of $l_s/\sqrt{m}=6$. The simulation is evaluated at $t=0.2$.}
+\caption[Convergence Shock-tube with 2D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing resolution and a constant ratio of $l_s/\sqrt{m}=6$. The simulation is evaluated at $t=0.2$. The initial particle field is a 2D constant mass configuration. }
 
 \end{figure}
 
@@ -4634,35 +4902,46 @@ $\sum <dxdy>=\sum </dx_{\mathit{reg}}+dx')(dy_{\mathit{reg}}+dy')>)=\sum (<dx_{\
 
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_2D_CS_pertStudy_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/WholeDomainRho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/WholeDomainRho}
+}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_2D_CS_pertStudy_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area3Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area3Rho}
+}
 \subfigure[tight][whole domain]{
 \label{fig:2DSPHresults_2D_CS_pertStudy_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area2Rho}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area2Rho}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_2D_CS_pertStudy_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/WholeDomainU}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/WholeDomainU}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_2D_CS_pertStudy_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area3U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area3U}
+}
 \subfigure[tight][area 3]{
 \label{fig:2DSPHresults_2D_CS_pertStudy_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area2U}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area2U}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_2D_CS_pertStudy_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/WholeDomainE}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/WholeDomainE}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_2D_CS_pertStudy_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area3E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area3E}
+}
 \subfigure[tight][area 2]{
 \label{fig:2DSPHresults_2D_CS_pertStudy_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area2E}}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DConstSpaceContDensity/Area2E}
+}
 
-\caption[Perturbation influence shock-tube with 2D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position}
+\caption[Perturbation influence shock-tube with 2D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position based on a 2D constant spacing particle field.}
 
 \end{figure}
+
+\chapter{Additional Poiseuille results}
 
 
 \begin{figure}[!htbp]
@@ -4670,16 +4949,20 @@ $\sum <dxdy>=\sum </dx_{\mathit{reg}}+dx')(dy_{\mathit{reg}}+dy')>)=\sum (<dx_{\
 \label{fig:Porosities_LinearWall_SolObsBC1}
 \subfigure[at $t=0.01$]{
 \label{fig:Porosities_LinearWall_SolObsBC1_t0_01}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen2dx_t3sec_ghost_prtl_on_surface/U_profiles000000010156}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen2dx_t3sec_ghost_prtl_on_surface/U_profiles000000010156}
+}
 \subfigure[at $t=0.1$]{
 \label{fig:Porosities_LinearWall_SolObsBC1_t0_1}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen2dx_t3sec_ghost_prtl_on_surface/U_profiles000000100546}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen2dx_t3sec_ghost_prtl_on_surface/U_profiles000000100546}
+}
 \subfigure[at $t=0.5$]{
 \label{fig:Porosities_LinearWall_SolObsBC1_0_5}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen2dx_t3sec_ghost_prtl_on_surface/U_profiles000000499460}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen2dx_t3sec_ghost_prtl_on_surface/U_profiles000000499460}
+}
 \subfigure[at $t=1.0$]{
 \label{fig:Porosities_LinearWall_SolObsBC1_t1}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen2dx_t3sec_ghost_prtl_on_surface/U_profiles000001000112}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC1_N4x40_suplen2dx_t3sec_ghost_prtl_on_surface/U_profiles000001000112}
+}
 
 \caption[Velocity profiles Poiseuille flow]{Velocity profiles for a Poiseuille flow with no--slip boundary conditions according to method 2 (i.\ e.\ ghost particles created once at beginning of simulation and maintained. Ghost particle velocity is zero) and $l_s=2dx$. The solution labeled exact is the incompressible series solution given by equation (\ref{eq:Poiseuille_Series}).  \subref{fig:Porosities_LinearWall_SolObsBC1_t1} shows the situation after a steady-state solution has essentially established with the theoretical center line velocity of $U_0=0.125$}
 
@@ -4693,22 +4976,27 @@ $\sum <dxdy>=\sum </dx_{\mathit{reg}}+dx')(dy_{\mathit{reg}}+dy')>)=\sum (<dx_{\
 \label{fig:Porosities_LinearWall_SolObsBC2}
 \subfigure[at $t=0.01$]{
 \label{fig:Porosities_LinearWall_SolObsBC2_t0_01}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC2_N4x40_suplen2dx_t3sec_ghost_prtl_dx2_from_surface/U_profiles000000010156}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC2_N4x40_suplen2dx_t3sec_ghost_prtl_dx2_from_surface/U_profiles000000010156}
+}
 \subfigure[at $t=0.1$]{
 \label{fig:Porosities_LinearWall_SolObsBC2_t0_1}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC2_N4x40_suplen2dx_t3sec_ghost_prtl_dx2_from_surface/U_profiles000000100546}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC2_N4x40_suplen2dx_t3sec_ghost_prtl_dx2_from_surface/U_profiles000000100546}
+}
 \subfigure[at $t=0.5$]{
 \label{fig:Porosities_LinearWall_SolObsBC2_0_5}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC2_N4x40_suplen2dx_t3sec_ghost_prtl_dx2_from_surface/U_profiles000000500501}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC2_N4x40_suplen2dx_t3sec_ghost_prtl_dx2_from_surface/U_profiles000000500501}
+}
 \subfigure[at $t=1.0$]{
 \label{fig:Porosities_LinearWall_SolObsBC2_t1}
-\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC2_N4x40_suplen2dx_t3sec_ghost_prtl_dx2_from_surface/U_profiles000001000360}}
+\includegraphics[width=7cm]{Graphics/results/Porosities/LinearWall/Poiseuille_SolObsBC2_N4x40_suplen2dx_t3sec_ghost_prtl_dx2_from_surface/U_profiles000001000360}
+}
 
 \caption[Velocity profiles Poiseuille flow]{Velocity profiles for a Poiseuille flow with no--slip boundary conditions as implemented as option 2 for solid obstacles surface (i.\ e.\ ghost particles created once at the beginning of the simulation. Ghost particles have virtual velocity assigned according to \cite{Zhu1999} ) and a support length pf $l_s=2dx$. The solution labeled exact is the incompressible series solution given by equation (\ref{eq:Poiseuille_Series}).  \subref{fig:Porosities_LinearWall_SolObsBC2_t1} shows the situation after a steady-state solution has essentially established with the theoretical center line velocity of $U_0=0.125$}
 
 \end{figure}
 
 \listoffigures
+\listoftables
 
 \bibliography{bibdata}
 \bibliographystyle{plain}

@@ -7,8 +7,8 @@ gnuplot << EOF
 set terminal postscript eps enhanced color "Helvetica" 36
 set output "WholeDomainRho.eps"
 
-set grid; set key 0.105, 0.0098
-set xlabel "Supportlength"; set ylabel "Error rho";
+set grid; set key 0.107, 0.0134
+set xlabel "Support length l_s"; set ylabel "Error rho";
 set logscale x
 set logscale y
 set format y "10^{%L}"
@@ -23,7 +23,7 @@ reset
 set terminal postscript eps enhanced color "Helvetica" 36
 set output "WholeDomainU.eps"
 set grid; set nokey
-set xlabel "Supportlength"; set ylabel "Error U";
+set xlabel "Support length l_s"; set ylabel "Error u";
 set logscale x
 set logscale y
 set format y "10^{%L}"
@@ -39,7 +39,7 @@ set terminal postscript eps enhanced color "Helvetica" 36
 set output "WholeDomainE.eps"
 
 set grid; set nokey
-set xlabel "Supportlength"; set ylabel "Error e";
+set xlabel "Support length l_s"; set ylabel "Error e";
 set logscale x
 set logscale y
 set format y "10^{%L}"
@@ -55,7 +55,7 @@ set terminal postscript eps enhanced color "Helvetica" 36
 set output "Area3Rho.eps"
 
 set grid; set nokey
-set xlabel "Supportlength"; set ylabel "Error rho";
+set xlabel "Support length l_s"; set ylabel "Error rho";
 set logscale x
 set logscale y
 set format y "10^{%L}"
@@ -70,7 +70,7 @@ reset
 set terminal postscript eps enhanced color "Helvetica" 36
 set output "Area3U.eps"
 set grid; set nokey
-set xlabel "Supportlength"; set ylabel "Error U";
+set xlabel "Support length l_s"; set ylabel "Error u";
 set logscale x
 set logscale y
 set format y "10^{%L}"
@@ -85,7 +85,7 @@ set terminal postscript eps enhanced color "Helvetica" 36
 set output "Area3E.eps"
 
 set grid; set nokey
-set xlabel "Supportlength"; set ylabel "Error e";
+set xlabel "Support length l_s"; set ylabel "Error e";
 set logscale x
 set logscale y
 set format y "10^{%L}"
@@ -100,7 +100,7 @@ set terminal postscript eps enhanced color "Helvetica" 36
 set output "Area2Rho.eps"
 
 set grid; set nokey
-set xlabel "Supportlength"; set ylabel "Error rho";
+set xlabel "Support length l_s"; set ylabel "Error rho";
 set logscale x
 set logscale y
 set format y "10^{%L}"
@@ -115,7 +115,7 @@ reset
 set terminal postscript eps enhanced color "Helvetica" 36
 set output "Area2U.eps"
 set grid; set nokey
-set xlabel "Supportlength"; set ylabel "Error U";
+set xlabel "Support length l_s"; set ylabel "Error u";
 set logscale x
 set logscale y
 set format y "10^{%L}"
@@ -130,7 +130,7 @@ set terminal postscript eps enhanced color "Helvetica" 36
 set output "Area2E.eps"
 
 set grid; set nokey
-set xlabel "Supportlength"; set ylabel "Error e";
+set xlabel "Support length l_s"; set ylabel "Error e";
 set logscale x
 set logscale y
 set format y "10^{%L}"

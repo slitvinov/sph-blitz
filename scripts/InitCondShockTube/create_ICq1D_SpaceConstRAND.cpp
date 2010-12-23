@@ -158,7 +158,7 @@ int main () {
       
     };  
   }
-  
+  //output for user information
   cout<<endl<<"sum (=integral value) of perturbations in x direction:  "<<sum_pert_x<<endl;
   cout<<endl<<"mean value of perturbations in x direction:  "<<sum_pert_x/N<<endl;
 

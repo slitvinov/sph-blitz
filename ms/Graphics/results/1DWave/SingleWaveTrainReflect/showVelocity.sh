@@ -11,7 +11,7 @@ set grid;
 set mxtics 0.25;
 set xtics 0.25;
 
-set xlabel "x position"; set ylabel "Velocity u";
+set xlabel "Position x"; set ylabel "Velocity u";
 plot [0.0:2.0][-0.04:0.04] 'prtl$1.dat' u 1:5 notitle with points lw 8;
 
 set terminal png

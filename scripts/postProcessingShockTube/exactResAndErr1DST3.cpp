@@ -44,10 +44,10 @@ int main (){
   //DELETE THE ABOVE PASSAGE!!!
 
 
-  cout<<"\n please enter support length of the simulation: ";
-  cin>>supportlength;
-  cout<<"\n";
-
+  // cout<<"\n please enter support length of the simulation: ";
+  // cin>>supportlength;
+  // cout<<"\n";
+  supportlength=0.025;
   // format of the inputfile name xxxx/x...x12345678.dat,
   // where 12345678 time in ms
 

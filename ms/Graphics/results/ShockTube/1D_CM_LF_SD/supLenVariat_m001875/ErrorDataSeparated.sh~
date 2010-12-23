@@ -7,7 +7,7 @@ gnuplot << EOF
 set terminal postscript eps enhanced color "Helvetica" 36
 set output "WholeDomainRho.eps"
 
-set grid; set key 0.11, 0.0088
+set grid; set key 0.105, 0.0098
 set xlabel "Supportlength"; set ylabel "Error rho";
 set logscale x
 set logscale y
