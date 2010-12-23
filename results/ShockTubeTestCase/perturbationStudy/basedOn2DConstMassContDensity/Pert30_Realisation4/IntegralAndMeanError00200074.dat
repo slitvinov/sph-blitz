@@ -1,0 +1,39 @@
+integral and mean error file
+
+
+cummulated absolute (non divided by number of particles) errors:
+
+ rho error:           1.49225
+ p error:           1.63938
+ u error:           3.55706
+ e error:            6.1748
+
+ 
+  norm errors (in whole domain: diaphragm +/- 0.5)
+
+ L_1,rho:        0.00926864
+ L_1,u:         0.0220935
+ L_1,e:         0.0383528
+ L_1,tot:          0.069715
+ L_2,tot:         0.0501907
+ L_inf,tot:         0.0434907
+
+ 
+ norm errors (in area 3 (after rarefaction before discontinuity))
+
+ L_1,rho3:          0.014135
+ L_1,u3:          0.031539
+ L_1,e3:         0.0307101
+ L_1,tot3:         0.0763841
+ L_2,tot3:         0.0477422
+ L_inf,tot3:         0.0369991
+
+ 
+ norm errors (in area 2 (after discontinuity, before shock))
+
+ L_1,rho2:         0.0101517
+ L_1,u2:         0.0121974
+ L_1,e 2         0.0731542
+ L_1,tot2:         0.0955034
+ L_2,tot2:         0.0766297
+ L_inf,tot2:         0.0739522
