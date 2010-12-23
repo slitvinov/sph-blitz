@@ -3261,8 +3261,6 @@ The convergence towards the exact solution is tested and the convergence ratio f
 %In another set of simulations, at least for the purely 1D particle distributions, a non-optimum ratio is employed to verify the robustness of the method (kann man das sagen, ist das Robustness verification? Gibt es in der Numerik eine eigene, spezielle Definition von Robustness).
 \\
 \indent
-
-
 For the figures shown in the following, the support length is taken as measure of the resolution in order to be coherent with the figures of the above section where the particle spacing was held constant. In the present case of $l_s/dx=const.$ the support length is related to the number of particles used for the simulation by invers proportionality: $l_s\propto1/N$. This applies both for a 1D and a 2D particle distribution as in the 2D case the second direction has always the size of one support length.
 
 \paragraph{1D constant spacing particle distribution}
@@ -3321,15 +3319,15 @@ By the way, the inaccuracy in the rarefaction already encountered in section (\r
 \end{figure}
 
 \paragraph{2D constant spacing particle distribution}
-Exactly like the corresponding 1D particle distribution, the 2D distribution showed optimum results for a ratio $h/dx=2.5$ ($l_s/dx=5$) which is also taken for this set of simulations. The support length variation ranges from 0.025 to 0.005 which leads to a number of particles from $N=1995$ for the lowest resolution to $N=9995$ for the highest simulation. As for higher resolution not only the number of particles becomes higher but also the time step, which is coupled to $h$, becomes smaller, the time needed for the simulation increases considerably. %(2h30 on a seven year old ) computer for the highest resolution case)
+Exactly like the corresponding 1D particle distribution, the 2D distribution had shown optimum results for a ratio $h/dx=2.5$ ($l_s/dx=5$) which is also taken for this set of simulations. The support length variation ranges from 0.025 to 0.005 which leads to a number of particles from $N=1995$ for the lowest resolution to $N=9995$ for the most highly resolving simulation. As for higher resolution not only the number of particles becomes higher but also the time step, which is coupled to $h$, becomes smaller, the time needed for the simulation increases considerably. %(2h30 on a seven year old ) computer for the highest resolution case)
 
 The convergence behavior for this case of a 2D particle distribution with constant spacing is essentially the same as for the corresponding 1D case. i.\ e.\ about first order convergence with respect to a diminishing support length. Therefore the graphical evaluation of the results is presented in the appendix (\ref{app:additionalShockResults}).
 
-In section (\ref{sec:2DSPH_results_shock_resSTudy_dx=const}), it has turned out that the 2D particle distribution result shows more velocity-oscillations in the aftershock area than one obtained with a 1D distribution. While these oscillations vanish for the 1D distribution with increasing resolution, they remain clearly visible in the velocity profile for the 2D distribution, even at the highest simulated resolution. They just become more and more confined to the area directly after the shock and at the contact discontinuity. 
+In section (\ref{sec:2DSPH_results_shock_resSTudy_dx=const}), it has turned out that the 2D particle distribution result shows more velocity-oscillations in the after--shock area than one obtained with a 1D distribution. While these oscillations vanish for the 1D distribution with increasing resolution, they remain clearly visible in the velocity profile for the 2D distribution, even at the highest simulated resolution. They just become more and more confined to the area directly after the shock and at the contact discontinuity. 
 
  
 \paragraph{1D constant mass particle distribution}
-For the convergence test of the 1D constant mass particle distribution, a constant ratio $l_s/m=16$ has been taken, leading to ratios of $l_s/dx_l=2$ on the LHS and $l_s/dx_r=16$ on the RHS of the shock-tube problem. Again, the convergence rate is about first order as already for all cases before. The corresponding figure is shown in the Appendix (\ref{app:additionalShockResults}). 
+For the convergence test of the 1D constant mass particle distribution, a constant ratio $l_s/m=16$ has been taken, leading to ratios of $l_s/dx_l=2$ on the LHS and $l_s/dx_r=16$ on the RHS of the shock--tube problem. Again, the convergence rate is about first order as already for all cases before. The corresponding figure is shown in the Appendix (\ref{app:additionalShockResults}). 
 
 At the highest simulated resolution with $l_s=0.005$, corresponding to 3599 particles, the simulation result has a good quality. The shock is resolved very well, as its resolution scales with $l_s$ and the aftershock values are matched very accurately. Visually these results are comparable to the ones presented in section (\ref{sec:1DSPHcodeResults}) for the 1D code only with a three times higher resolution leading to an even narrower shock resolution.
 
@@ -3365,7 +3363,7 @@ Generally a perturbed particle initialization leads to less smooth results and p
 
 \end{figure}
 
- The perturbation study based on a 1D constant mass particle distribution yields the following results (figure (\ref{fig:2DSPHresults_1D_CS_pertStudy})). Especially when looking at the after--shock and after--rarefaction areas, the effect of the perturbation can be noticed by principally increased  errors. Considering the entire domain, the general error, which is mainly due to the shock--resolution, is already so high that the additional relative error due to the perturbation is small.
+ The perturbation study based on a 1D constant spacing particle distribution yields the following results (figure (\ref{fig:2DSPHresults_1D_CS_pertStudy})). Especially when looking at the after--shock and after--rarefaction areas, the effect of the perturbation can be noticed by principally increased  errors. Considering the entire domain, the general error, which is mainly due to the shock--resolution, is already so high that the additional relative error due to the perturbation is small and hardly noticeably.
 
 
 \begin{figure}[H]
@@ -3409,12 +3407,16 @@ Generally a perturbed particle initialization leads to less smooth results and p
 \includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstSpace/Area2E}
 }
 
-\caption[Perturbation influence shock-tube with 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position based on a 1D constant spacing configuration. Explanation on the meaning of the different areas is given in section (\ref{sec:2Dshock_simuSetup&Co}).}
+\caption[Perturbation influence shock-tube with 1D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position based on a 1D constant spacing configuration. The employed support length was $l_s=0.025$ and the spacing $dx=0.005$. An explanation on the meaning of the different areas is given in section (\ref{sec:2Dshock_simuSetup&Co}).}
 
 \end{figure}
 
 
 \paragraph{2D constant spacing particle distribution}
+
+On a 2D constant spacing particle distribution, the initial particle perturbation has principally the same influence as for the 1D case, as can be seen by the evolution of the global errors $L_1$ and $L_2$. Only in the after--rarefaction area (area 3), the tendeny of a clear augmentation of the errors with increasing perturbation is not as  clearly observable as in the 1D case. The maximun errors $L_\infty$, which are a local quantity, evlove in some cases arbitrarily. This can again be an expression of what is stated in literature, namely that a 2D SPH shock--simulation is expected to be more noisy than the corresponding 1D case. 
+
+The corresponding figure, on which this analysis is based, is shown in the appednix (\ref{app:additionalShockResults}).
 
 
 \paragraph{1D constant mass particle distribution}
@@ -3423,7 +3425,7 @@ In section (\ref{sec:2Dshock_simuSetup&Co}) it was mentioned that the mass initi
 
 
 In the case of the 1D constant mass initialization the effect of a perturbed particle position is visible in figure (\ref{fig:2DSPHresults_1D_CM_pertStudy}). 
-Especially for the after--shock (area 2) and after--rarefaction (area 2) values a clear and monotonous increase in the error can be observed. Again the level of the global error, which is mainly due to the non-discontinuous shock resolution, is already relatively high compared to the error induced by the particle disorder. Thus the latter can be perceived only weakly considering the whole domain.
+Especially for the after--shock (area 2) and after--rarefaction (area 3) values a clear and monotonous increase in the error can be observed. Again the level of the maximum error ($L_\infty$), which is mainly due to the non-discontinuous shock resolution, is already relatively high compared to the error induced by the particle disorder. Thus the latter can be perceived only weakly considering the whole domain.
 
 \begin{figure}[H]
 \centering
@@ -3466,56 +3468,15 @@ Especially for the after--shock (area 2) and after--rarefaction (area 2) values 
 \includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn1DconstMass/Area2E}
 }
 
-\caption[Perturbation influence shock-tube with 1D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position based on a 1D constant mass configuration. Explanation on the meaning of the different areas is given in section (\ref{sec:2Dshock_simuSetup&Co}).}
+\caption[Perturbation influence shock-tube with 1D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position based on a 1D constant mass configuration with a support length of $l_s=0.025$ and a particle mass of $1.5625\cdot10^{-3}$. Explanation on the meaning of the different areas is given in section (\ref{sec:2Dshock_simuSetup&Co}).}
 
 \end{figure}
 
 \paragraph{2D constant mass particle distribution}
 
-\begin{figure}[H]
-\centering
-\label{fig:2DSPHresults_2D_CM_pertStudy}
+As already the 1D case, the constant mass particle distribution shows a clear and monotonous increase in error with higher perturbations. It can also be noticed, that the error level is generally lower than for the corresponding constant spacing configuration. The figure showing the error evolution for teh 2D constan mass initialization is given in appendix (\ref{app:additionalShockResults}).
 
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_2D_CM_pertStudy_wholeRho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/WholeDomainRho}
-}
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_2D_CM_pertStudy_3Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/Area3Rho}
-}
-\subfigure[tight][whole domain]{
-\label{fig:2DSPHresults_2D_CM_pertStudy_2Rho}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/Area2Rho}
-}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_2D_CM_pertStudy_wholeU}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/WholeDomainU}
-}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_2D_CM_pertStudy_3U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/Area3U}
-}
-\subfigure[tight][area 3]{
-\label{fig:2DSPHresults_2D_CM_pertStudy_2U}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/Area2U}
-}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_2D_CM_pertStudy_wholeE}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/WholeDomainE}
-}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_2D_CM_pertStudy_3E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/Area3E}
-}
-\subfigure[tight][area 2]{
-\label{fig:2DSPHresults_2D_CM_pertStudy_2E}
-\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/Area2E}
-}
 
-\caption[Perturbation influence shock-tube with 1D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position based on a 2D constant mass configuration. Explanation on the meaning of the different areas is given in section (\ref{sec:2Dshock_simuSetup&Co}).}
-
-\end{figure}
 
 
 
@@ -4399,19 +4360,19 @@ The velocity field (figure (\ref{fig:Cavities_steadyState_u}) shows increasing v
 \label{fig:Cavities_steadyState}
 \subfigure[Velocity field]{
 \label{fig:Cavities_steadyState_u}
-\includegraphics[height=7cm]{Graphics/results/Porosities/Cavity/supLen_dx_4_dx0_2_SumDens_g0_2/u25}
+\includegraphics[height=7cm]{Graphics/results/Porosities/Cavity/supLen_dx_4_dx0_2_SumDens_g0_2/u25mod}
 }
 \subfigure[Density field]{
 \label{fig:Cavities_steadyState_rho}
-\includegraphics[height=7cm]{Graphics/results/Porosities/Cavity/supLen_dx_4_dx0_2_SumDens_g0_2/rho25}
+\includegraphics[height=7cm]{Graphics/results/Porosities/Cavity/supLen_dx_4_dx0_2_SumDens_g0_2/rho25mod}
 }
 \subfigure[Pressure field]{
 \label{fig:Cavities_steadyState_p}
-\includegraphics[height=7cm]{Graphics/results/Porosities/Cavity/supLen_dx_4_dx0_2_SumDens_g0_2/p25}
+\includegraphics[height=7cm]{Graphics/results/Porosities/Cavity/supLen_dx_4_dx0_2_SumDens_g0_2/p25mod}
 }
 \subfigure[Energy field]{
 \label{fig:Cavities_steadyState_e}
-\includegraphics[height=7cm]{Graphics/results/Porosities/Cavity/supLen_dx_4_dx0_2_SumDens_g0_2/e25}
+\includegraphics[height=7cm]{Graphics/results/Porosities/Cavity/supLen_dx_4_dx0_2_SumDens_g0_2/e25mod}
 }
 
 \caption[Property fields for Cavity]{Fields of velocity, density, pressure and internal energy for the simulation of a flow over a cavity at the steady state. The simulation is conducted including heat conduction and with constant ghost particle properties to model both the isothermal ($T_w=2$) and the no--slip condition.}
@@ -4572,19 +4533,19 @@ For the previous simulations, a detailed analysis of the pressure, velocity, den
 \label{fig:Cylinders_Hex_steadyState}
 \subfigure[Velocity field]{
 \label{fig:Cylinders_Hex_steadyState_u}
-\includegraphics[width=7cm]{Graphics/results/Porosities/Cylinders/supLen_dx_4_dx0_2_hexCyl_SumDens/steady_u}
+\includegraphics[width=7cm]{Graphics/results/Porosities/Cylinders/supLen_dx_4_dx0_2_hexCyl_SumDens/steady_u_inclArrows_mod}
 }
 \subfigure[Density field]{
 \label{fig:Cylinders_Hex_steadyState_rho}
-\includegraphics[width=7cm]{Graphics/results/Porosities/Cylinders/supLen_dx_4_dx0_2_hexCyl_SumDens/steady_rho}
+\includegraphics[width=7cm]{Graphics/results/Porosities/Cylinders/supLen_dx_4_dx0_2_hexCyl_SumDens/steady_rho_mod}
 }
 \subfigure[Pressure field]{
 \label{fig:Cylinders_Hex_steadyState_p}
-\includegraphics[width=7cm]{Graphics/results/Porosities/Cylinders/supLen_dx_4_dx0_2_hexCyl_SumDens/steady_p}
+\includegraphics[width=7cm]{Graphics/results/Porosities/Cylinders/supLen_dx_4_dx0_2_hexCyl_SumDens/steady_p_mod}
 }
 \subfigure[Energy field]{
 \label{fig:Cylinders_Hex_steadyState_e}
-\includegraphics[width=7cm]{Graphics/results/Porosities/Cylinders/supLen_dx_4_dx0_2_hexCyl_SumDens/steady_e}
+\includegraphics[width=7cm]{Graphics/results/Porosities/Cylinders/supLen_dx_4_dx0_2_hexCyl_SumDens/steady_e_mod}
 }
 
 \caption[Property fields for Porosity]{Fields of velocity, density, pressure and internal energy for the simulation of a flow throug solid cylindric obstacles at the steady state. The simulation is conducted including heat conduction and with linearly extrapolated ghost particle properties to model both the isothermal ($T_w=1.9$) and the no--slip condition.}
@@ -4601,7 +4562,10 @@ The qualitative plausibilty of the velocity and pressure profile can be confirme
  
 
 
-\subsection{Summary and conclusion on simulations}
+\section{Summary and conclusion on simulations}
+\label{sec:SummaryConclusionSimuResults}
+As the 1D code  was only a preliminary step and thus not used for a quantitative validation of the methods, this passage only referrs to the results obtained with the 2D SPH code.
+
 As a first test case the 1D shock--tube has demonstrated the correct functioning of the code for a 1D compressible problem based on the inviscid Euler equations. The simulations included an artificial viscosity due to the presence of the shock. Both 1D and 2D particle initializations have been investigated, each with constant mass and constant spacing initial particle distributions. The constant mass approach, which has been used for several shock--tube simulations in literature, turned out to be the more accurate one. It also corresponds more to the physical reality. As mentioned in literature, a 2D particle distribution leads to some noise in the 2D results, but the averaged 1D solution was essentially (except for the constant mass, where in 2D the rarefaction suffered from an inaccuracy) of the same quality as the corresponding 1D particle initialization. A perturbation study showed that there is a degradation of the results with increasing randomness of initial particle distributions. However this degradation is increasing continuously and not abruptly with higher perturbations and in no case leads to a catastrophic deterioration of the simulation results.
 
 The propagation of an acoustic wave was the subject of the second test. Both a stationary oscillation and a traveling wave have been examined. Including artificial viscosity, there was strong damping. But with artificial viscosity switched off, no damping of the waves could be observed. The SPH code seems therefore not to have any noticeable intrinsic numerical viscosity. However without any artificial viscosity the waves started changing their shapes which is believed to be a result of the presence of little (numerical) noise and therefore a physical effect and no error of the code. Furthermore it was found out, that the propagation speed, and particularly the periodical time of a simulated acoustic wave depend on the ratio $l_s/dx$ and the optimum value for most the accurate representation of $T$ was $l_s/dx=0.252$. %theoreisch auch zu bedenken, dass wir als theor. referenz lineare welle.dh mit a=const nehmen und simulierte ja genaugenommen a!=const berücksichtigt... aber für so kleine störungen sollte das peanuts sein...!
@@ -4628,9 +4592,20 @@ Another porosity configuration consisting of a flow through an array of circular
 
 %Hence, for any simulation of a single phase, particles with same mass are preferable.  
 
- \chapter{Conclusion}
+ \chapter{Conclusion and future work}
 \label{sec:conclusion}
 
+The results of the test case and porosity simulations, on which a summary can be found in section (\ref{sec:SummaryConclusionSimuResults}), showed that the developed code is principally capable of reproducing phenomena like viscous behavior, heat conduction and solid obstacle modeling, which are required for its intended application.
+
+Although qualitatively correct and also applied in literature \cite{Cleary2002}, quantitative validation concerning the coupled application of heat conduction with a flow problem is desirable before the development of the code is further proceeded. At the same point a quantitative testing of the variable viscosity implementation would be beneficial as well. Both can be done with the Couette flow test case, for which a compressible reference solution has then to be provided.
+
+A further point that has to be adressed for high mach number flows containing solid obstacle surfaces normal to the flow direction is particle penetration. While the boundary modeling with ghost particles worked well for subsonic flows, the real particles considerably penetrated the ghost particles in a supersonic application. Remedy for this can be found for example by implementing additional boundary particles with strong repulsive forces, as suggested by \cite{Liu2002}, or by just implementing a bounce--back law. The particle penetration behavior should then be tested with a specific test case like for example a jet 
+
+Finally there is another question linked to the solid wall implementation, which is the density evolution of ghost particles. For weakly compressible simulations, literature suggests \cite{Morris1997,Zhu1999} to evolve the ghost particle density for a better accuracy close to the wall surface. As the ghost particle positions are not evolved and as their mass is constant, this leads theoretically to a contradiction. While for the weakly compressible case this contradiction is negligible due to the limited density evolution, a compressible simulation with generally high density variations will result in a real contradiction. In the present code no density evolution is therefore implemented. But an investigation on a possiby beneficial effect of this feature for the compressible case could show, if its implementation can be justified. \\
+\\
+\indent
+If all the above points are resolved, the next step towards the global objective of conducting a coupled SPH and grid--based simulation of the porous cone configuration can be taken. This will be an investigation on the issue of coupling the two methods at their interface.
+%, i.\ e.\ how values can be transferreed from one 
 
 
 
@@ -4639,11 +4614,7 @@ Another porosity configuration consisting of a flow through an array of circular
 
 
 
-
-As the project is not finished until December, it may be to early to draw a final conclusion. However, I am optimistic to be able to simulate a configuration including porosities by the end of the project. I used the time so far to become familiarized with the SPH--method and all the tools that go with an activity in numerics (including Linux and Co.). As a first step I developed a little 1D SPH--code. Then I tried to understand the 2D incompressible multiphase SPH code, which I had to modify. This accomplished, I started implementing the equations which I had identified with the little 1D code as the right ones for compressible flows and adapted the 2D code to that effect. The shock--tube test case and the acoustic wave propagation simulations showed that so far everything was correct.
-Finding an appropriate formulation for the physical viscosity, i.\ e.\ compressible and for variable viscosity, turned out to be difficult for SPH. I first implemented a constant viscosity formulation and ran the Taylor--Green test--case. The results are not yet exact, but I have understood the error. Independently, I have implemented a heat conduction model in the energy equation which has already been tested and which works very well.
-Besides finding the error in the viscosity implementation, one big test--case remains: the compressible Couette--flow, which combines all phenomena.
-If this gives the right results, the final simulation of a porous configuration may be conducted. I am really curious if this will work out... we will know by December.
+%As the project is not finished until December, it may be to early to draw a final conclusion. However, I am optimistic to be able to simulate a configuration including porosities by the end of the project. I used the time so far to become familiarized with the SPH--method and all the tools that go with an activity in numerics (including Linux and Co.). As a first step I developed a little 1D SPH--code. Then I tried to understand the 2D incompressible multiphase SPH code, which I had to modify. This accomplished, I started implementing the equations which I had identified with the little 1D code as the right ones for compressible flows and adapted the 2D code to that effect. The shock--tube test case and the acoustic wave propagation simulations showed that so far everything was correct.Finding an appropriate formulation for the physical viscosity, i.\ e.\ compressible and for variable viscosity, turned out to be difficult for SPH. I first implemented a constant viscosity formulation and ran the Taylor--Green test--case. The results are not yet exact, but I have understood the error. Independently, I have implemented a heat conduction model in the energy equation which has already been tested and which works very well.Besides finding the error in the viscosity implementation, one big test--case remains: the compressible Couette--flow, which combines all phenomena.If this gives the right results, the final simulation of a porous configuration may be conducted. I am really curious if this will work out... we will know by December.
 
 % starting from here: appendix%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
@@ -4940,6 +4911,52 @@ $\sum <dxdy>=\sum </dx_{\mathit{reg}}+dx')(dy_{\mathit{reg}}+dy')>)=\sum (<dx_{\
 \caption[Perturbation influence shock-tube with 2D constant spacing particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position based on a 2D constant spacing particle field.}
 
 \end{figure}
+
+\begin{figure}[H]
+\centering
+\label{fig:2DSPHresults_2D_CM_pertStudy}
+
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_2D_CM_pertStudy_wholeRho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/WholeDomainRho}
+}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_2D_CM_pertStudy_3Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/Area3Rho}
+}
+\subfigure[tight][whole domain]{
+\label{fig:2DSPHresults_2D_CM_pertStudy_2Rho}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/Area2Rho}
+}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_2D_CM_pertStudy_wholeU}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/WholeDomainU}
+}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_2D_CM_pertStudy_3U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/Area3U}
+}
+\subfigure[tight][area 3]{
+\label{fig:2DSPHresults_2D_CM_pertStudy_2U}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/Area2U}
+}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_2D_CM_pertStudy_wholeE}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/WholeDomainE}
+}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_2D_CM_pertStudy_3E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/Area3E}
+}
+\subfigure[tight][area 2]{
+\label{fig:2DSPHresults_2D_CM_pertStudy_2E}
+\includegraphics[width=5cm]{Graphics/results/ShockTube/PertStudy/basedOn2DconstMass/Area2E}
+}
+
+\caption[Perturbation influence shock-tube with 1D constant mass particle distribution]{L--norm errors of $\rho, u, e$ for a series of simulation with increasing perturbation of initial particle position based on a 2D constant mass configuration with a support length of $l_s=0.025$ and a constant particle mass of $m=m=1.7361\cdot10{-5}$. Explanation on the meaning of the different areas is given in section (\ref{sec:2Dshock_simuSetup&Co}).}
+
+\end{figure}
+
 
 \chapter{Additional Poiseuille results}
 
