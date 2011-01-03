@@ -30,4 +30,9 @@ class TimeSolver : boost::noncopyable {
   TimeSolver();
   virtual ~TimeSolver();
 };
+
+/// S1 substep helpper function
+void s1SubStep(Hydrodynamics &hydro, ParticleManager &particles); 
+
+
 #endif //TIMESOLVER_H

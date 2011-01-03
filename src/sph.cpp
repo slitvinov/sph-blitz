@@ -14,6 +14,7 @@
 #include "src/TimeSolver/gastimesolverLeapFrog.h"
 #include "src/TimeSolver/gastimesolverPredCorr.h"
 #include "src/TimeSolver/hydrotimesolver.h"
+#include "src/TimeSolver/s1timesolver.h"
 #include "src/vec2d.h"
 #include "src/Interaction/interaction.h"
 #include "src/initiation.h"
@@ -119,8 +120,12 @@ int main(int argc, char *argv[]) {
     }
     break;
   case 3:
-    /// call a HydroTimeSolver constructor and get a shared_ptr 
+    /// call a S1timeslover constructor and get a shared_ptr 
     timesolver = boost::make_shared<HydroTimeSolver>();
+   break;
+  case 4:
+    /// call a S1timeslover constructor and get a shared_ptr 
+    timesolver = boost::make_shared<S1TimeSolver>();
    break;
   default:
     std::cerr << __FILE__ << ':' << __LINE__ << " unknown simulation mode (SIMULATION_MODE in configuration file)\n" ;
@@ -152,7 +157,7 @@ int main(int argc, char *argv[]) {
     boundary.BuildBoundaryParticle(particles, hydro);
   }
 
-  if (ini.simu_mode == 1 || ini.simu_mode == 3) {
+  if (ini.simu_mode == 1 || ini.simu_mode == 4) {
     ini.VolumeMass(hydro, particles, weight_function); //predict particle volume and mass
     if  (!ini.disable_boundary) {
       boundary.BuildBoundaryParticle(particles, hydro);

@@ -42,6 +42,7 @@ nomain=	boundary.cpp boundary.h \
 	Interaction/interactioncond.cpp  Interaction/interactioncond.h \
 	Interaction/interactioncomp.cpp  Interaction/interactioncomp.h \
 	Interaction/interactionin.cpp  Interaction/interactionin.h \
+	Interaction/interactions1.cpp  Interaction/interactions1.h \
 	Interaction/interactionangular.cpp Interaction/interactionangular.h \
 	Timer/timer.cpp Timer/timer.h \
 	Timer/timeobserver.h \
@@ -49,6 +50,7 @@ nomain=	boundary.cpp boundary.h \
 	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
 	TimeSolver/gastimesolverLeapFrog.cpp TimeSolver/gastimesolverLeapFrog.h \
 	TimeSolver/gastimesolverPredCorr.cpp TimeSolver/gastimesolverPredCorr.h \
+	TimeSolver/s1timesolver.cpp TimeSolver/s1timesolver.h \
 	Utilities/utilities.h Utilities/utilities.cpp \
 	main.doxygen
 

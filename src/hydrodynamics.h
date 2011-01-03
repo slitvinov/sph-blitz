@@ -20,10 +20,10 @@ class Hydrodynamics
 {	
   //  double dt_g_vis;
 
+public:
   ///the interaction (particle pair) list
   std::list<spInteraction> interaction_list;
 
-public:
   ///the materials used
   /// store a shared pointers to the 
   /// material class

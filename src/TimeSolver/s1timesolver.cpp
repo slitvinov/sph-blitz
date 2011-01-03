@@ -1,4 +1,4 @@
-/// \file timesolver.cpp
+/// \file s1timesolver.cpp
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 /// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
 
@@ -11,24 +11,27 @@
 // ***** localincludes *****
 #include "src/hydrodynamics.h"
 #include "src/particlemanager.h"
-#include "src/TimeSolver/hydrotimesolver.h"
+#include "src/TimeSolver/s1timesolver.h"
 #include "src/initiation.h"
 #include "src/boundary.h"
 #include "src/Utilities/utilities.h"
+#include "src/glbtype.h"
+#include <boost/foreach.hpp>
+#include "Interaction/interaction.h"
 
 using namespace std;
 
 //----------------------------------------------------------------------------------------
 //							constructor
 //----------------------------------------------------------------------------------------
-HydroTimeSolver::HydroTimeSolver():
+S1TimeSolver::S1TimeSolver():
   ite(0)
 {
   ///- initialize the iteration
-  LOG(INFO) <<"Creating HydroTimeSolver object";
+  LOG(INFO) <<"Creating S1TimeSolver object";
 }
 
-void HydroTimeSolver::show_information() const {
+void S1TimeSolver::show_information() const {
 
 }
 
@@ -37,7 +40,7 @@ void HydroTimeSolver::show_information() const {
 //					advance time interval D_time with summation for density
 //					predictor and corrector method used
 //----------------------------------------------------------------------------------------
-void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, 
+void S1TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, 
 					     ParticleManager &particles, 
 					     Boundary &boundary, 
 					     double &Time, const double D_time, 
@@ -47,12 +50,8 @@ void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
   double integeral_time = 0.0;
   while(integeral_time < D_time) {
     double dt;
-    if (ini.simu_mode == 1) {
+    if (ini.simu_mode == 4) {
       dt = hydro.GetTimestep(ini);
-    } else if (ini.simu_mode == 4) {
-      dt = hydro.GetTimestep(ini);
-    } else if (ini.simu_mode == 3) {
-      dt = hydro.GetTimestepThermo(ini);
     } else {
       LOG(ERROR) << "wrong simulation mode";
       exit(EXIT_FAILURE);
@@ -109,11 +108,11 @@ void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
 }
 
 
-void HydroTimeSolver::TimeIntegral(Hydrodynamics &hydro, 
-				   ParticleManager &particles, 
-				   Boundary &boundary, 
-				   double &Time, double D_time, 
-				   const Initiation &ini, spKernel weight_function) {
+void S1TimeSolver::TimeIntegral(Hydrodynamics &hydro, 
+                                ParticleManager &particles, 
+                                Boundary &boundary, 
+                                double &Time, double D_time, 
+                                const Initiation &ini, spKernel weight_function) {
   LOG(INFO) << "Start TimeIntegral_summation";
   double integeral_time = 0.0;
 	
@@ -155,6 +154,14 @@ void HydroTimeSolver::TimeIntegral(Hydrodynamics &hydro,
   }
 }
 
-HydroTimeSolver::~HydroTimeSolver() {
-  LOG(INFO) << "destructor of HydroTimeSolver is called";
+S1TimeSolver::~S1TimeSolver() {
+  LOG(INFO) << "destructor of S1TimeSolver is called";
+}
+
+void s1SubStep(Hydrodynamics &hydro, ParticleManager &particles) {
+   ///- iterate the interaction list
+  BOOST_FOREACH(spInteraction pair, hydro.interaction_list) {
+    ///- calculate for eahc pair the pair forces or change rate
+    pair->UpdateForces();
+  }
 }

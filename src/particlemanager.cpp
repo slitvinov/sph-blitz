@@ -19,6 +19,7 @@
 #include "src/hydrodynamics.h"
 #include "src/Interaction/interactioncond.h"
 #include "src/Interaction/interactionin.h"
+#include "src/Interaction/interactions1.h"
 #include "src/Interaction/interactioncomp.h"
 #include "src/Interaction/interactionangular.h"
 #include "src/initiation.h"
@@ -180,6 +181,12 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
 						       weight_function, sqrt(dstc),
 						       ini));
 		break;
+	      case 4:
+		interactions.push_back
+		  (boost::make_shared<InteractionS1>(prtl_org, prtl_dest, 
+						       weight_function, sqrt(dstc),
+						       ini));
+		break;
 	      default:
 		std::cerr << __FILE__ << ':' << __LINE__ << " unknown simulation mode (check SIMULATION_MODE)";
 		std::exit(EXIT_FAILURE);
@@ -218,7 +225,7 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
   //initialize particles from the file .tlc
   if(initial_condition==0) {	
     //initialize the real particles inside the boundary
-    LOG(INFO) << "Run simu_mode = 1 or simu_mode = 3, initial_condition = 0 version of BuildRealParticle";
+    LOG(INFO) << "Run simu_mode = 1 (3, 4), initial_condition = 0 version of BuildRealParticle";
     ParticleGenerator pgen;
     for(int i = 1; i < x_clls - 1; i++) {
       for(int j = 1; j < y_clls - 1; j++) {

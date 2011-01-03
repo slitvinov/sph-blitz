@@ -67,10 +67,11 @@ am__objects_1 = boundary.$(OBJEXT) glbfunc.$(OBJEXT) \
 	particlecontext.$(OBJEXT) rotcontext.$(OBJEXT) \
 	interaction.$(OBJEXT) interactioncond.$(OBJEXT) \
 	interactioncomp.$(OBJEXT) interactionin.$(OBJEXT) \
-	interactionangular.$(OBJEXT) timer.$(OBJEXT) \
-	timesolver.$(OBJEXT) hydrotimesolver.$(OBJEXT) \
+	interactions1.$(OBJEXT) interactionangular.$(OBJEXT) \
+	timer.$(OBJEXT) timesolver.$(OBJEXT) hydrotimesolver.$(OBJEXT) \
 	gastimesolverLeapFrog.$(OBJEXT) \
-	gastimesolverPredCorr.$(OBJEXT) utilities.$(OBJEXT)
+	gastimesolverPredCorr.$(OBJEXT) s1timesolver.$(OBJEXT) \
+	utilities.$(OBJEXT)
 am_libsph_a_OBJECTS = $(am__objects_1)
 libsph_a_OBJECTS = $(am_libsph_a_OBJECTS)
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
@@ -250,6 +251,7 @@ nomain = boundary.cpp boundary.h \
 	Interaction/interactioncond.cpp  Interaction/interactioncond.h \
 	Interaction/interactioncomp.cpp  Interaction/interactioncomp.h \
 	Interaction/interactionin.cpp  Interaction/interactionin.h \
+	Interaction/interactions1.cpp  Interaction/interactions1.h \
 	Interaction/interactionangular.cpp Interaction/interactionangular.h \
 	Timer/timer.cpp Timer/timer.h \
 	Timer/timeobserver.h \
@@ -257,6 +259,7 @@ nomain = boundary.cpp boundary.h \
 	TimeSolver/hydrotimesolver.cpp TimeSolver/hydrotimesolver.h \
 	TimeSolver/gastimesolverLeapFrog.cpp TimeSolver/gastimesolverLeapFrog.h \
 	TimeSolver/gastimesolverPredCorr.cpp TimeSolver/gastimesolverPredCorr.h \
+	TimeSolver/s1timesolver.cpp TimeSolver/s1timesolver.h \
 	Utilities/utilities.h Utilities/utilities.cpp \
 	main.doxygen
 
@@ -394,6 +397,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interactioncomp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interactioncond.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interactionin.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interactions1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kernel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kernel_test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/material.Po@am__quote@
@@ -407,6 +411,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plainoutput.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/quinticspline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rotcontext.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/s1timesolver.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/solidcontext.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spParticle.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sph.Po@am__quote@
@@ -696,6 +701,20 @@ interactionin.obj: Interaction/interactionin.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o interactionin.obj `if test -f 'Interaction/interactionin.cpp'; then $(CYGPATH_W) 'Interaction/interactionin.cpp'; else $(CYGPATH_W) '$(srcdir)/Interaction/interactionin.cpp'; fi`
 
+interactions1.o: Interaction/interactions1.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT interactions1.o -MD -MP -MF $(DEPDIR)/interactions1.Tpo -c -o interactions1.o `test -f 'Interaction/interactions1.cpp' || echo '$(srcdir)/'`Interaction/interactions1.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/interactions1.Tpo $(DEPDIR)/interactions1.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Interaction/interactions1.cpp' object='interactions1.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o interactions1.o `test -f 'Interaction/interactions1.cpp' || echo '$(srcdir)/'`Interaction/interactions1.cpp
+
+interactions1.obj: Interaction/interactions1.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT interactions1.obj -MD -MP -MF $(DEPDIR)/interactions1.Tpo -c -o interactions1.obj `if test -f 'Interaction/interactions1.cpp'; then $(CYGPATH_W) 'Interaction/interactions1.cpp'; else $(CYGPATH_W) '$(srcdir)/Interaction/interactions1.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/interactions1.Tpo $(DEPDIR)/interactions1.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Interaction/interactions1.cpp' object='interactions1.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o interactions1.obj `if test -f 'Interaction/interactions1.cpp'; then $(CYGPATH_W) 'Interaction/interactions1.cpp'; else $(CYGPATH_W) '$(srcdir)/Interaction/interactions1.cpp'; fi`
+
 interactionangular.o: Interaction/interactionangular.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT interactionangular.o -MD -MP -MF $(DEPDIR)/interactionangular.Tpo -c -o interactionangular.o `test -f 'Interaction/interactionangular.cpp' || echo '$(srcdir)/'`Interaction/interactionangular.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/interactionangular.Tpo $(DEPDIR)/interactionangular.Po
@@ -779,6 +798,20 @@ gastimesolverPredCorr.obj: TimeSolver/gastimesolverPredCorr.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TimeSolver/gastimesolverPredCorr.cpp' object='gastimesolverPredCorr.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o gastimesolverPredCorr.obj `if test -f 'TimeSolver/gastimesolverPredCorr.cpp'; then $(CYGPATH_W) 'TimeSolver/gastimesolverPredCorr.cpp'; else $(CYGPATH_W) '$(srcdir)/TimeSolver/gastimesolverPredCorr.cpp'; fi`
+
+s1timesolver.o: TimeSolver/s1timesolver.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT s1timesolver.o -MD -MP -MF $(DEPDIR)/s1timesolver.Tpo -c -o s1timesolver.o `test -f 'TimeSolver/s1timesolver.cpp' || echo '$(srcdir)/'`TimeSolver/s1timesolver.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/s1timesolver.Tpo $(DEPDIR)/s1timesolver.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TimeSolver/s1timesolver.cpp' object='s1timesolver.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o s1timesolver.o `test -f 'TimeSolver/s1timesolver.cpp' || echo '$(srcdir)/'`TimeSolver/s1timesolver.cpp
+
+s1timesolver.obj: TimeSolver/s1timesolver.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT s1timesolver.obj -MD -MP -MF $(DEPDIR)/s1timesolver.Tpo -c -o s1timesolver.obj `if test -f 'TimeSolver/s1timesolver.cpp'; then $(CYGPATH_W) 'TimeSolver/s1timesolver.cpp'; else $(CYGPATH_W) '$(srcdir)/TimeSolver/s1timesolver.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/s1timesolver.Tpo $(DEPDIR)/s1timesolver.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TimeSolver/s1timesolver.cpp' object='s1timesolver.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o s1timesolver.obj `if test -f 'TimeSolver/s1timesolver.cpp'; then $(CYGPATH_W) 'TimeSolver/s1timesolver.cpp'; else $(CYGPATH_W) '$(srcdir)/TimeSolver/s1timesolver.cpp'; fi`
 
 utilities.o: Utilities/utilities.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT utilities.o -MD -MP -MF $(DEPDIR)/utilities.Tpo -c -o utilities.o `test -f 'Utilities/utilities.cpp' || echo '$(srcdir)/'`Utilities/utilities.cpp
