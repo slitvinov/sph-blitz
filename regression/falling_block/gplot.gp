@@ -1,0 +1,1 @@
+plot "<awk '$11==1 {print $1, $2; print -$1, $2}' $(ls outdata0/prt*.dat  -1   | tail -n 1)"
