@@ -52,7 +52,7 @@ void S1TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
   while(integeral_time < D_time) {
     double dt;
     if (ini.simu_mode == 4) {
-      dt = hydro.GetTimestep(ini);
+      dt = hydro.GetS1TimeStep(ini);
     } else {
       LOG(ERROR) << "wrong simulation mode";
       exit(EXIT_FAILURE);

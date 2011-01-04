@@ -388,6 +388,43 @@ double Hydrodynamics::GetTimestep(const Initiation& ini) const {
 }
 
 //----------------------------------------------------------------------------------------
+//							get the time step (hydro)
+//----------------------------------------------------------------------------------------
+double Hydrodynamics::GetS1TimeStep(const Initiation& ini) const {
+  //maximum sound speed, particle velocity and density
+  double Cs_max = 0.0; 
+  //predict the time step
+  //iterate materials to find 
+  // - largest sound spead 
+  BOOST_FOREACH(spMaterial mtl, materials) {
+    assert(mtl != NULL);
+    Cs_max = std::max(Cs_max, mtl->get_Cs());
+  }
+  LOG(INFO) << "Cs_max = " << Cs_max;
+
+  double max_gr = 1e-13;
+  for(int k = 0; k < ini.number_of_materials; k++) {
+    Vec2d gravity;
+    gravity[0] = ini.g_force(k, 0);
+    gravity[1] = ini.g_force(k, 1);
+    const double vabs = v_abs(gravity);
+    if (vabs> max_gr) {
+      max_gr = vabs;
+    }
+  }
+  LOG(INFO) << "max_gr = " << max_gr;
+
+  const double dt_sound = 0.25*ini.delta/Cs_max;
+  LOG(INFO) << "dt_sound = " << dt_sound;
+  const double dt_gravity = 0.25*ini.delta/max_gr;
+  LOG(INFO) << "dt_gravity = " << dt_gravity;
+  const double dt = std::min(dt_gravity, dt_sound);
+  LOG(INFO) << "dt  = " << dt;
+  return dt;
+}
+
+
+//----------------------------------------------------------------------------------------
 //							get the time step (thermo)
 //----------------------------------------------------------------------------------------
 double Hydrodynamics::GetTimestepThermo(const Initiation& ini) const {

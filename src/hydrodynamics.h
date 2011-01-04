@@ -37,6 +37,10 @@ public:
 
   ///get the time step for hydro
   double GetTimestep(const Initiation& ini) const;
+
+  /// get time step for S1 scheme
+  double GetS1TimeStep(const Initiation& ini) const;
+
   ///get the time step for gas dyanamics
   double GetTimestepGas(const Initiation& ini);
   /// get the time step for thermal conductivity simulations

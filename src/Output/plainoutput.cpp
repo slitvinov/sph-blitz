@@ -71,5 +71,5 @@ void PlainOutput::PrintOneParticle(spParticle prtl, const Initiation& ini, std::
     << "  " << prtl->U[0] << "  " << prtl->U[1] 
     << "  " << prtl->dUdt[0] << "  " << prtl->dUdt[1] 
     << "  " << ini.context->ContextID(prtl)
-    << "  " << prtl->e << '\n';
+    << "  " << prtl->e << " " << prtl->mtl->material_no << '\n';
 }
