@@ -186,15 +186,14 @@ void s1SubStep(Hydrodynamics &hydro, ParticleManager &particles,
     const double eta_geom = 2.0*etai*etaj/(etai + etaj);
 
     const double rij = v_distance(Org->R, Dest->R);
-    const double gradWij = weight_function->w(rij);
+    const double gradWij = weight_function->F(rij);
 
     const double sigmai = rhoi / mi ;
     const double sigmaj = rhoj / mj;
 
     const double Aij = (1.0 / (sigmai*sigmai) + 1.0 / (sigmaj*sigmaj) ) * (- gradWij);
 
-    const double kij = - eta_geom * Aij / rij ;
-    LOG(INFO) << "kij = " << kij;
+    const double kij = - eta_geom * Aij / rij;
 
     const Vec2d Ui_p = Org->U;
     const Vec2d Uj_p = Dest->U;
