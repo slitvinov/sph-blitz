@@ -4,7 +4,7 @@
 
 //-----------------------------------------------------------------------
 //			Time solver class
-//			timesolver.cpp
+//			s1timesolver.cpp
 //-----------------------------------------------------------------------
 #include <glog/logging.h>
 
@@ -18,6 +18,7 @@
 #include "src/glbtype.h"
 #include <boost/foreach.hpp>
 #include "Interaction/interaction.h"
+#include "Kernel/kernel.h"
 
 using namespace std;
 
@@ -41,11 +42,11 @@ void S1TimeSolver::show_information() const {
 //					predictor and corrector method used
 //----------------------------------------------------------------------------------------
 void S1TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, 
-					     ParticleManager &particles, 
-					     Boundary &boundary, 
-					     double &Time, const double D_time, 
-					     const Initiation &ini, 
-					     spKernel weight_function) {
+					  ParticleManager &particles, 
+					  Boundary &boundary, 
+					  double &Time, const double D_time, 
+					  const Initiation &ini, 
+					  spKernel weight_function) {
   LOG(INFO) << "Start TimeIntegral_summation";
   double integeral_time = 0.0;
   while(integeral_time < D_time) {
@@ -80,8 +81,9 @@ void S1TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
     LOG(INFO) << "checkForces passed";
     hydro.BuildInteractions(particles, weight_function, ini);///<ol><li> rebuild interactions
     hydro.UpdateDensity(ini, weight_function);///<li> hydro.UpdateDensity
-    
     boundary.BoundaryCondition(particles);///<li> boundary.BoundaryCondition
+    s1SubStep(hydro, particles, weight_function, dt);
+
     //control output
     hydro.UpdateChangeRate(ini);///<li> hydro.UpdateChangeRate
     checkForces(ini, hydro.particle_list);
@@ -94,6 +96,7 @@ void S1TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
     hydro.UpdateDensity(ini, weight_function);///<li>hydro.UpdateDensity
     
     boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
+
     //control output
     LOG(INFO)<<"change rate for corrector:";
     hydro.UpdateChangeRate(ini); ///<li>hydro.UpdateChangeRate
@@ -158,10 +161,49 @@ S1TimeSolver::~S1TimeSolver() {
   LOG(INFO) << "destructor of S1TimeSolver is called";
 }
 
-void s1SubStep(Hydrodynamics &hydro, ParticleManager &particles) {
+void s1SubStep(Hydrodynamics &hydro, ParticleManager &particles, 
+	       spKernel weight_function, const double pdt) {
    ///- iterate the interaction list
+
+  LOG(INFO) << "s1SubStep is called";
+
   BOOST_FOREACH(spInteraction pair, hydro.interaction_list) {
     ///- calculate for eahc pair the pair forces or change rate
-    pair->UpdateForces();
+    spParticle Org = pair->getOrigin();
+    spParticle Dest = pair->getDest();
+
+    const double rhoi = Org->rho; 
+    const double rhoj = Dest->rho;
+
+    const double mi = Org->m;
+    const double mj = Dest->m;
+
+    const double rmi = 1.0/mi;
+    const double rmj = 1.0/mj;
+    
+    const double etai = Org->eta;
+    const double etaj = Dest->eta;
+    const double eta_geom = 2.0*etai*etaj/(etai + etaj);
+
+    const double rij = v_distance(Org->R, Dest->R);
+    const double gradWij = weight_function->w(rij);
+
+    const double sigmai = rhoi / mi ;
+    const double sigmaj = rhoj / mj;
+
+    const double Aij = (1.0 / (sigmai*sigmai) + 1.0 / (sigmaj*sigmaj) ) * (- gradWij);
+
+    const double kij = - eta_geom * Aij / rij ;
+    LOG(INFO) << "kij = " << kij;
+
+    const Vec2d Ui_p = Org->U;
+    const Vec2d Uj_p = Dest->U;
+    
+    Org->U  = (pdt*kij*rmi*Uj_p+(pdt*kij*rmj+1)*Ui_p)/(pdt*kij*rmj+pdt*kij*rmi+1);
+    Dest->U = (pdt*kij*rmi*Uj_p+Uj_p+pdt*kij*rmj*Ui_p)/(pdt*kij*rmj+pdt*kij*rmi+1);
+
+    //    LOG(INFO) << "Org->U - Ui_p = " << Org->U - Ui_p;
+    //    LOG(INFO) << "Dest->U - Uj_p = " << Dest->U - Uj_p;
+
   }
 }

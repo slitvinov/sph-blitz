@@ -9,7 +9,8 @@
 #include "TimeSolver/timesolver.h"
 
 /// Time solver class 
-void s1SubStep(Hydrodynamics &hydro, ParticleManager &particles);
+void s1SubStep(Hydrodynamics &hydro, ParticleManager &particles, 
+	       spKernel weight_function, const double pdt);
 
 class S1TimeSolver : public TimeSolver {
   int ite; ///<number of iteration
