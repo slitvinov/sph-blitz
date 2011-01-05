@@ -24,8 +24,8 @@ set OutputType Plain
 set initial_perturb 0.05
 
 # number of cell
-set xncell 10
-set yncell 20
+set xncell 20
+set yncell 40
 set CELLS(0) $xncell
 set CELLS(1) $yncell
 
