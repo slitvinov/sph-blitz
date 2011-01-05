@@ -2,6 +2,7 @@
 # 1: liquids
 # 2: gas dynamics
 set SIMULATION_MODE 4
+set s1_niter 5
 
 # possible values are 
 # QuinticSpline, BSpline, CubicSpline
@@ -23,8 +24,8 @@ set OutputType Plain
 set initial_perturb 0.05
 
 # number of cell
-set xncell 20
-set yncell 40
+set xncell 10
+set yncell 20
 set CELLS(0) $xncell
 set CELLS(1) $yncell
 

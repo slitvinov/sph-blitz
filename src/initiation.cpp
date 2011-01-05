@@ -59,9 +59,14 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
     assert( (initial_perturb >= 0) && (initial_perturb < 0.5) );
   }
   simu_mode = interp->getval("SIMULATION_MODE");
-  // (already tested in sph.cpp) 
-  // LITVINOV: it is better to fall as soon possible
   assert(simu_mode==1||simu_mode==2||simu_mode==3||simu_mode==4);
+
+  // if S1 scheme read the number of subiterations
+  if (simu_mode == 4) {
+    s1_niter = interp->getval("s1_niter");
+    assert(s1_niter > 0);
+    LOG(INFO) << "s1_niter: " << s1_niter;
+  }
   density_mode = interp->getval("DENSITY_MODE");
   assert(density_mode == 1 || density_mode == 2);
   kernel_type = static_cast<std::string>(interp->getval("KERNEL_TYPE"));

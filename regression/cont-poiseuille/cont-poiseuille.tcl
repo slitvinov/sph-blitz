@@ -1,8 +1,9 @@
 # 1D shock configuration file
 # 1: liquids
 # 2: gas dynamics
-# 3: S1 simulation
+# 4: S1 simulation
 set SIMULATION_MODE 4
+set s1_niter 1
 
 # possible values are 
 # QuinticSpline, BSpline, CubicSpline

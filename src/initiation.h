@@ -85,6 +85,9 @@ public:
   ///simulation mode (1: liquids, 2: gas dynamics)
   int simu_mode;
 
+  /// for S1 scheme the number of subiterations
+  int s1_niter;
+
   ///\brief physical viscosity marker:
   ///
   ///- 1: including physical viscosity
