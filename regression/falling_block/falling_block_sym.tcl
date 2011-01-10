@@ -1,6 +1,7 @@
 # 1D shock configuration file
 # 1: liquids
 # 2: gas dynamics
+# 4: S1
 set SIMULATION_MODE 4
 set s1_niter 5
 
@@ -21,11 +22,11 @@ set DENSITY_MODE 1
 
 set INITIAL_CONDITION	0
 set OutputType Plain
-set initial_perturb 0.05
+set initial_perturb 0.0
 
 # number of cell
-set xncell 20
-set yncell 40
+set xncell 10
+set yncell 20
 set CELLS(0) $xncell
 set CELLS(1) $yncell
 
@@ -48,10 +49,6 @@ set T0 0.0
 # if isim is not given set OUTDIR to output_co0
 # to set isim variable use
 # SPH_TCL="set eta_media 42" ./sph ../cases/falling_block_sym
-if  [catch {set OUTDIR outdata${eta_media}}] {
-    set OUTDIR outdata0
-    set eta_media 1.0
-} 
 
 set Start_time 0.0
 set End_time 1e8
@@ -69,15 +66,15 @@ set xBl $symmetry
 set UxBl(0) 0.0
 set UxBl(1) 0.0
 
-set xBr $symmetry
+set xBr $freeslip
 set UxBr(0) 0.0
 set UxBr(1) 0.0
 
-set yBd $periodic
+set yBd $freeslip
 set UyBd(0) 0.0
 set UyBd(1) 0.0
 
-set yBu $periodic
+set yBu $freeslip
 set UyBu(0) 0.0
 set UyBu(1) 0.0
 
@@ -89,11 +86,11 @@ set NUMBER_OF_MATERIALS 3
 set material_name(0) Wall
 set material_type(0) 1
 set material_cv(0) 1.0e3
-set material_eta(0) 1.0
+set material_eta(0) 0.1
 set material_gamma(0) 1.0
 set material_b0(0) 1.0e2
 set material_rho0(0) $rho_media
-set material_sound_speed(0) 10.0
+set material_sound_speed(0) 1.0
 
 set material_name(1) Media
 set material_type(1) $material_type(0)
@@ -119,14 +116,21 @@ set material_sound_speed(2) [expr {$material_sound_speed(0) * sqrt($rho_media/$r
 set xlength [expr {$CELLS(0)* $CELL_SIZE} ]
 set ylength [expr {$CELLS(1)* $CELL_SIZE} ]
 
-set blockFractionX 0.6
-set blockFractionY 0.3
+set blockFractionX 0.4
+set blockFractionY 0.2
 set sq_block [expr {0.5 * $blockFractionX * $blockFractionY}]
 set sq_media [expr {1.0 - $sq_block} ]
 
-set g_all 0.2
+set g_all 0.02
 set g_block [expr {$g_all / $rho_block / $sq_block}]
-set g_media [expr {$g_all / $rho_media / $sq_media}]
+#set g_media [expr {$g_all / $rho_media / $sq_media}]
+set g_media 0.0
+
+if  [catch {set OUTDIR outdata-f${eta_media}bigRe-g${g_all}vsound$material_sound_speed(0)niter${s1_niter}}] {
+    set OUTDIR outdata0
+    set eta_media 1.0
+} 
+
 
 set G_FORCE(0,0) 0.0
 set G_FORCE(0,1) 0.0
@@ -143,8 +147,8 @@ proc getmatNo { } {
     # x and y provided by the main program 
     set blockX0 0.0
     set blockX1 [expr {0.5 * $blockFractionX * $xlength}]
-    set blockY0 [expr {(0.6 - $blockFractionY/2.0) * $ylength}]
-    set blockY1 [expr {(0.6 + $blockFractionY/2.0) * $ylength}]
+    set blockY0 [expr {(0.8 - $blockFractionY/2.0) * $ylength}]
+    set blockY1 [expr {(0.8 + $blockFractionY/2.0) * $ylength}]
     set inX [expr ($x > $blockX0) && ($x < $blockX1)]
     set inY [expr ($y > $blockY0) && ($y < $blockY1)]
     if {$inX && $inY} { 
