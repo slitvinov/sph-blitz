@@ -37,6 +37,8 @@ public:
   double rho0;///<reference density
   double sound_speed; ///<sound speed
 
+  double rho_ref; /// <reference density in the equation of state
+
   ///constructor
   /// imaterial is a number of material in input file
   Material(Initiation &ini, const int number);

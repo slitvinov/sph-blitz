@@ -30,6 +30,7 @@ Material::Material(Initiation &ini, const int index):
   // b0 = ini.interp->getat("material_b0",  index);
   rho0 = ini.interp->getat("material_rho0",  index);
   sound_speed = ini.interp->getat("material_sound_speed",  index);
+  rho_ref = ini.interp->getat("material_rho_ref",  index);
   eta = ini.interp->getat("material_eta",  index);
   if (ini.simu_mode == 2) {
     zeta = ini.interp->getat("material_zeta",  index);
@@ -68,7 +69,7 @@ void Material::Set_b0(const double)
 //----------------------------------------------------------------------------------------
 double Material::get_p(const double rho) const
 {
-  return b0*pow(rho, gamma);
+  return b0*pow(rho, gamma) - b0*pow(rho_ref, gamma);
 }
 
 double Material::get_p(const double rho, const double e) const
@@ -124,6 +125,6 @@ double Material::get_Cs() const  {
 //----------------------------------------------------------------------------------------
 double Material::get_Cs(const double p, const double rho) const {
   assert(rho>0.0);
-  assert(p>0.0);
+  //  assert(p>0.0);
   return sqrt(gamma*p/rho);
 }

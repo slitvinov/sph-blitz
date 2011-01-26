@@ -4,6 +4,7 @@
 # 4: S1
 set SIMULATION_MODE 4
 set s1_niter 5
+#set movePartilces 0
 
 # possible values are 
 # QuinticSpline, BSpline, CubicSpline
@@ -13,7 +14,6 @@ set KERNEL_TYPE QuinticSpline
 # 1: boundary conditions disabled
 # 0: boundary conditions enabled
 set DISABLE_BOUNDARY 0
-
 
 #possible density treatments
 #1: summation density (density obtained by smoothing)
@@ -25,8 +25,8 @@ set OutputType Plain
 set initial_perturb 0.0
 
 # number of cell
-set xncell 10
-set yncell 20
+set xncell 5
+set yncell 10
 set CELLS(0) $xncell
 set CELLS(1) $yncell
 
@@ -36,7 +36,7 @@ set SUPPORT_LENGTH [expr {$L / $yncell}]
 set CELL_SIZE $SUPPORT_LENGTH
 
 # the number of particles in one support length
-set CELL_RATIO  3
+set CELL_RATIO 3
 
 # initial velocity
 set U0(0) 0.0
@@ -48,7 +48,7 @@ set T0 0.0
 # output directory
 # if isim is not given set OUTDIR to output_co0
 # to set isim variable use
-# SPH_TCL="set eta_media 42" ./sph ../cases/falling_block_sym
+# SPH_TCL="set eta_block 42" ./sph ../cases/falling_block_sym
 
 set Start_time 0.0
 set End_time 1e8
@@ -80,35 +80,39 @@ set UyBu(1) 0.0
 
 set rho_media 1.0
 set rho_block 1.033333
-
+set k_rho 0.9
 
 set NUMBER_OF_MATERIALS 3
 set material_name(0) Wall
 set material_type(0) 1
 set material_cv(0) 1.0e3
-set material_eta(0) 0.1
+set material_eta(0) $eta_block
 set material_gamma(0) 1.0
 set material_b0(0) 1.0e2
 set material_rho0(0) $rho_media
-set material_sound_speed(0) 1.0
+set material_sound_speed(0) 50.0
+set material_rho_ref(0) [expr {$k_rho*$rho_media}]
+
 
 set material_name(1) Media
 set material_type(1) $material_type(0)
 set material_cv(1) $material_cv(0)
-set material_eta(1) $eta_media
+set material_eta(1) 1.0
 set material_gamma(1) $material_gamma(0)
 set material_b0(1) $material_b0(0)
 set material_rho0(1) $material_rho0(0)
+set material_rho_ref(1) $material_rho_ref(0)
 # a sound speed
 set material_sound_speed(1) $material_sound_speed(0)
 
 set material_name(2) Block
 set material_type(2) $material_type(0)
 set material_cv(2) $material_cv(0)
-set material_eta(2) 1.0
+set material_eta(2) $eta_block
 set material_gamma(2) $material_gamma(0)
 set material_b0(2) $material_b0(0)
 set material_rho0(2) $rho_block
+set material_rho_ref(2) [expr {$k_rho*$rho_block}]
 # a sound speed
 set material_sound_speed(2) [expr {$material_sound_speed(0) * sqrt($rho_media/$rho_block)}]
 
@@ -121,14 +125,14 @@ set blockFractionY 0.2
 set sq_block [expr {0.5 * $blockFractionX * $blockFractionY}]
 set sq_media [expr {1.0 - $sq_block} ]
 
-set g_all 0.02
+set g_all 2.0
 set g_block [expr {$g_all / $rho_block / $sq_block}]
 #set g_media [expr {$g_all / $rho_media / $sq_media}]
 set g_media 0.0
 
-if  [catch {set OUTDIR outdata-f${eta_media}bigRe-g${g_all}vsound$material_sound_speed(0)niter${s1_niter}}] {
+if  [catch {set OUTDIR outdata-p${eta_block}-p${g_all}vsound$material_sound_speed(0)xncell${xncell}niter${s1_niter}-$material_gamma(0)k_rho${k_rho}}] {
     set OUTDIR outdata0
-    set eta_media 1.0
+    set eta_block 1.0
 } 
 
 
