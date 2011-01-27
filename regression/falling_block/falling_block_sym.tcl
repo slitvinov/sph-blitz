@@ -22,11 +22,11 @@ set DENSITY_MODE 1
 
 set INITIAL_CONDITION	0
 set OutputType Plain
-set initial_perturb 0.0
+set initial_perturb 0.25
 
 # number of cell
 set xncell 5
-set yncell 10
+set yncell [expr {2*$xncell}]
 set CELLS(0) $xncell
 set CELLS(1) $yncell
 
@@ -90,7 +90,7 @@ set material_eta(0) $eta_block
 set material_gamma(0) 1.0
 set material_b0(0) 1.0e2
 set material_rho0(0) $rho_media
-set material_sound_speed(0) 50.0
+set material_sound_speed(0) 30.0
 set material_rho_ref(0) [expr {$k_rho*$rho_media}]
 
 
@@ -125,12 +125,12 @@ set blockFractionY 0.2
 set sq_block [expr {0.5 * $blockFractionX * $blockFractionY}]
 set sq_media [expr {1.0 - $sq_block} ]
 
-set g_all 2.0
+set g_all 0.2
 set g_block [expr {$g_all / $rho_block / $sq_block}]
 #set g_media [expr {$g_all / $rho_media / $sq_media}]
 set g_media 0.0
 
-if  [catch {set OUTDIR outdata-p${eta_block}-p${g_all}vsound$material_sound_speed(0)xncell${xncell}niter${s1_niter}-$material_gamma(0)k_rho${k_rho}}] {
+if  [catch {set OUTDIR outdata-p${eta_block}-p${g_all}vsound$material_sound_speed(0)xncell${xncell}niter${s1_niter}-$material_gamma(0)k_rho${k_rho}rnd}] {
     set OUTDIR outdata0
     set eta_block 1.0
 } 

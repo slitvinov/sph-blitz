@@ -85,8 +85,15 @@ public:
 
   ///for predictor method, density evaluated with summation (that means: no density update within this method)
   void Predictor_summation(const double dt);
+
   ///for corrector method, density evaluated with summation (that means: no density update within this method)
   void Corrector_summation(const double dt);
+
+  ///for corrector method, density evaluated with summation (that means: no density update within this method)
+  void Corrector_summation_velocity(const double dt);
+
+  ///for corrector method, density evaluated with summation (that means: no density update within this method)
+  void Corrector_summation_position(const double dt);
 
   ///special utilities
   void Zero_Velocity();

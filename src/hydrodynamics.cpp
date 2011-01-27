@@ -509,6 +509,7 @@ void Hydrodynamics::Predictor_summation(const double dt) {
     ini.context->UpdateEnergy(prtl, (auxE + prtl->e_I)*0.5);
   }
 }
+
 //----------------------------------------------------------------------------------------
 //			the predictor and corrector method: predictor, no density updating
 //----------------------------------------------------------------------------------------
@@ -525,6 +526,36 @@ void Hydrodynamics::Corrector_summation(const double dt) {
     ini.context->UpdateEnergy(prtl, prtl->e_I + prtl->dedt*dt);
   }
 }
+
+//----------------------------------------------------------------------------------------
+//			the predictor and corrector method: predictor, no density updating
+//----------------------------------------------------------------------------------------
+void Hydrodynamics::Corrector_summation_velocity(const double dt) {
+  LOG(INFO) << " Hydrodynamics::Corrector_summation()";
+  LOG(INFO) << " moving particles";
+  ///- iterate the real partilce list
+  BOOST_FOREACH(spParticle prtl, particle_list) {
+    ///- for each particle: correction (advances R,U) based on values on n step and change rate at n+1/2
+    ini.context->UpdateVelocity(prtl, prtl->U_I + prtl->dUdt*dt);
+    ini.context->UpdateEnergy(prtl, prtl->e_I + prtl->dedt*dt);
+  }
+}
+
+//----------------------------------------------------------------------------------------
+//			the predictor and corrector method: predictor, no density updating
+//----------------------------------------------------------------------------------------
+void Hydrodynamics::Corrector_summation_position(const double dt) {
+  LOG(INFO) << " Hydrodynamics::Corrector_summation()";
+  LOG(INFO) << " moving particles";
+  ///- iterate the real partilce list
+  BOOST_FOREACH(spParticle prtl, particle_list) {
+    ///- for each particle: correction (advances R,U) based on values on n step and change rate at n+1/2
+    if (ini.movePartilces) {
+      ini.context->UpdatePosition(prtl, prtl->R_I + prtl->U*dt);
+    }
+ }
+}
+
 
 //everything that comes below is new:
 void Hydrodynamics::AdvanceFirstStep(const double dt) {

@@ -82,10 +82,6 @@ void S1TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
     hydro.BuildInteractions(particles, weight_function, ini);///<ol><li> rebuild interactions
     hydro.UpdateDensity(ini, weight_function);///<li> hydro.UpdateDensity
     boundary.BoundaryCondition(particles);///<li> boundary.BoundaryCondition
-    const double pdt = dt / static_cast<double>(ini.s1_niter);
-    for (int nit=0; nit<ini.s1_niter; nit++) {
-      s1SubStep(hydro, particles, weight_function, pdt);
-    }
 
     //control output
     hydro.UpdateChangeRate(ini);///<li> hydro.UpdateChangeRate
@@ -103,9 +99,16 @@ void S1TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
     //control output
     LOG(INFO)<<"change rate for corrector:";
     hydro.UpdateChangeRate(ini); ///<li>hydro.UpdateChangeRate
-    hydro.Corrector_summation(dt);///<li>hydro.Corrector_summation</ol>
-    checkVelocity(ini, hydro.particle_list);
 
+    //hydro.Corrector_summation(dt);///<li>hydro.Corrector_summation</ol>
+    hydro.Corrector_summation_velocity(dt);
+    const double pdt = dt / static_cast<double>(ini.s1_niter);
+    for (int nit=0; nit<ini.s1_niter; nit++) {
+      s1SubStep(hydro, particles, weight_function, pdt);
+    }
+    hydro.Corrector_summation_position(dt);
+
+    checkVelocity(ini, hydro.particle_list);
     ///<li> renew boundary particles
     boundary.RunAwayCheck(hydro);///<ol><li>boundary.RunAwayCheck
     particles.UpdateCellLinkedLists();///<li>particles.UpdateCellLinkedLists
