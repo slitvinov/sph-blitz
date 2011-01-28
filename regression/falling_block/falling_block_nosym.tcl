@@ -3,7 +3,7 @@
 # 2: gas dynamics
 # 4: S1
 set SIMULATION_MODE 4
-set s1_niter 20
+set s1_niter 40
 #set movePartilces 0
 
 # possible values are 
@@ -26,7 +26,7 @@ set initial_perturb 0.25
 
 # number of cell
 set xncell 20
-set yncell [expr {2*$xncell}]
+set yncell $xncell
 set CELLS(0) $xncell
 set CELLS(1) $yncell
 
@@ -62,7 +62,7 @@ set freeslip 2
 set symmetry 3
 
 # type and velocity
-set xBl $symmetry
+set xBl $freeslip
 set UxBl(0) 0.0
 set UxBl(1) 0.0
 
@@ -90,7 +90,7 @@ set material_eta(0) $eta_block
 set material_gamma(0) 1.0
 set material_b0(0) 1.0e2
 set material_rho0(0) $rho_media
-set material_sound_speed(0) 10.0
+set material_sound_speed(0) 100.0
 set material_rho_ref(0) [expr {$k_rho*$rho_media}]
 
 
@@ -120,7 +120,7 @@ set material_sound_speed(2) [expr {$material_sound_speed(0) * sqrt($rho_media/$r
 set xlength [expr {$CELLS(0)* $CELL_SIZE} ]
 set ylength [expr {$CELLS(1)* $CELL_SIZE} ]
 
-set blockFractionX 0.4
+set blockFractionX 0.2
 set blockFractionY 0.2
 set sq_block [expr {0.5 * $blockFractionX * $blockFractionY}]
 set sq_media [expr {1.0 - $sq_block} ]
@@ -130,7 +130,7 @@ set g_block [expr {$g_all / $rho_block / $sq_block}]
 #set g_media [expr {$g_all / $rho_media / $sq_media}]
 set g_media 0.0
 
-if  [catch {set OUTDIR outdata-p${eta_block}-p${g_all}vsound$material_sound_speed(0)xncell${xncell}niter${s1_niter}-$material_gamma(0)k_rho${k_rho}rnd}] {
+if  [catch {set OUTDIR outdata-ns${eta_block}-p${g_all}vsound$material_sound_speed(0)xncell${xncell}niter${s1_niter}-$material_gamma(0)k_rho${k_rho}rnd}] {
     set OUTDIR outdata0
     set eta_block 1.0
 } 
@@ -149,8 +149,8 @@ set G_FORCE(2,1) -$g_block
 # set number of material variable  --- "no" 
 proc getmatNo { } {
     # x and y provided by the main program 
-    set blockX0 0.0
-    set blockX1 [expr {0.5 * $blockFractionX * $xlength}]
+    set blockX0 [expr { (0.5 - $blockFractionX/2.0) * $xlength}]
+    set blockX1 [expr { (0.5 + $blockFractionX/2.0) * $xlength}]
     set blockY0 [expr {(0.8 - $blockFractionY/2.0) * $ylength}]
     set blockY1 [expr {(0.8 + $blockFractionY/2.0) * $ylength}]
     set inX [expr ($x > $blockX0) && ($x < $blockX1)]

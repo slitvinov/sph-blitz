@@ -11,7 +11,7 @@ public:
   ParticleGenerator();
 
   /// returns position of the new particle
-  Vec2d getPosition(const Initiation& ini, 
+  Vec2d getPosition(Initiation& ini, 
 		    const int i, const int k, const int j, const int m, 
 		    const double delta, const double cll_sz) ;
 

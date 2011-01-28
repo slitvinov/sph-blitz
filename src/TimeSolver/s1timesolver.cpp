@@ -104,7 +104,7 @@ void S1TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
     hydro.Corrector_summation_velocity(dt);
     const double pdt = dt / static_cast<double>(ini.s1_niter);
     for (int nit=0; nit<ini.s1_niter; nit++) {
-      s1SubStep(hydro, particles, weight_function, pdt);
+      s1SubStep(hydro, particles, weight_function, pdt, nit);
     }
     hydro.Corrector_summation_position(dt);
 
@@ -168,13 +168,25 @@ S1TimeSolver::~S1TimeSolver() {
 }
 
 void s1SubStep(Hydrodynamics &hydro, ParticleManager &particles, 
-	       spKernel weight_function, const double pdt) {
+	       spKernel weight_function, const double pdt,
+	       const int nit) {
    ///- iterate the interaction list
 
   LOG(INFO) << "s1SubStep is called";
 
-  BOOST_FOREACH(spInteraction pair, hydro.interaction_list) {
-    ///- calculate for eahc pair the pair forces or change rate
+  if (nit % 2 == 0) {
+    BOOST_REVERSE_FOREACH(spInteraction pair, hydro.interaction_list) {
+      s1PairUpdate(pair, weight_function, pdt);
+    }
+  } else {
+    BOOST_FOREACH(spInteraction pair, hydro.interaction_list) {
+      s1PairUpdate(pair, weight_function, pdt);
+    }
+  }
+}
+
+void s1PairUpdate(spInteraction pair, spKernel weight_function, const double pdt) {
+     ///- calculate for eahc pair the pair forces or change rate
     spParticle Org = pair->getOrigin();
     spParticle Dest = pair->getDest();
 
@@ -206,9 +218,5 @@ void s1SubStep(Hydrodynamics &hydro, ParticleManager &particles,
     
     Org->U  = (pdt*kij*rmi*Uj_p+(pdt*kij*rmj+1)*Ui_p)/(pdt*kij*rmj+pdt*kij*rmi+1);
     Dest->U = (pdt*kij*rmi*Uj_p+Uj_p+pdt*kij*rmj*Ui_p)/(pdt*kij*rmj+pdt*kij*rmi+1);
-
-    //    LOG(INFO) << "Org->U - Ui_p = " << Org->U - Ui_p;
-    //    LOG(INFO) << "Dest->U - Uj_p = " << Dest->U - Uj_p;
-
-  }
+ 
 }
