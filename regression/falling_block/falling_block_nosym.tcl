@@ -25,7 +25,7 @@ set OutputType Plain
 set initial_perturb 0.25
 
 # number of cell
-set xncell 20
+set xncell 10
 set yncell $xncell
 set CELLS(0) $xncell
 set CELLS(1) $yncell
@@ -134,6 +134,7 @@ if  [catch {set OUTDIR outdata-ns${eta_block}-p${g_all}vsound$material_sound_spe
     set OUTDIR outdata0
     set eta_block 1.0
 } 
+set output_file_format_factor 1e2
 
 
 set G_FORCE(0,0) 0.0
