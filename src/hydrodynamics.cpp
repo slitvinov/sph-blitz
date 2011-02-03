@@ -415,6 +415,7 @@ double Hydrodynamics::GetS1TimeStep(const Initiation& ini) const {
   LOG(INFO) << "max_gr = " << max_gr;
 
   const double dt_sound = 0.25*ini.delta/Cs_max;
+  LOG(INFO) << "Cs_max = " << Cs_max;
   LOG(INFO) << "dt_sound = " << dt_sound;
   const double dt_gravity = 0.25*ini.delta/max_gr;
   LOG(INFO) << "dt_gravity = " << dt_gravity;

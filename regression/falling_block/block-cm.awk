@@ -6,15 +6,17 @@ $11==2 {
     
     xcm+=$1
     ycm+=$2
+
+    vx[ip]=$5
+    vy[ip]=$6
 }
 
 !NF{
     xcm = xcm / ip
     ycm = ycm / ip
     for (i=1; i<=ip; i++) {
-	print x[i] - xcm, y[i] - ycm
+	print x[i] - xcm, y[i] - ycm, vx[i], vy[i]
     }
     printf "\n"
     ip=xcm=ycm=0.0
-
 }

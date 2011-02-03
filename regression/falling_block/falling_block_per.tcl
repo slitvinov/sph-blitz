@@ -62,25 +62,25 @@ set freeslip 2
 set symmetry 3
 
 # type and velocity
-set xBl $freeslip
+set xBl $wall
 set UxBl(0) 0.0
 set UxBl(1) 0.0
 
-set xBr $freeslip
+set xBr $wall
 set UxBr(0) 0.0
 set UxBr(1) 0.0
 
-set yBd $freeslip
+set yBd $periodic
 set UyBd(0) 0.0
 set UyBd(1) 0.0
 
-set yBu $freeslip
+set yBu $periodic
 set UyBu(0) 0.0
 set UyBu(1) 0.0
 
 set rho_media 1.0
 set rho_block 1.033333
-set k_rho 0.0
+set k_rho 0.9
 
 set NUMBER_OF_MATERIALS 3
 set material_name(0) Wall
@@ -90,14 +90,14 @@ set material_eta(0) $eta_block
 set material_gamma(0) 1.0
 set material_b0(0) 1.0e2
 set material_rho0(0) $rho_media
-set material_sound_speed(0) 8.0
+set material_sound_speed(0) 30.0
 set material_rho_ref(0) [expr {$k_rho*$rho_media}]
 
-set eta_media 0.1
+
 set material_name(1) Media
 set material_type(1) $material_type(0)
 set material_cv(1) $material_cv(0)
-set material_eta(1) $eta_media
+set material_eta(1) 1.0
 set material_gamma(1) $material_gamma(0)
 set material_b0(1) $material_b0(0)
 set material_rho0(1) $material_rho0(0)
@@ -108,7 +108,7 @@ set material_sound_speed(1) $material_sound_speed(0)
 set material_name(2) Block
 set material_type(2) $material_type(0)
 set material_cv(2) $material_cv(0)
-set material_eta(2) [expr {$eta_media * $eta_block}]
+set material_eta(2) $eta_block
 set material_gamma(2) $material_gamma(0)
 set material_b0(2) $material_b0(0)
 set material_rho0(2) $rho_block
@@ -127,10 +127,10 @@ set sq_media [expr {1.0 - $sq_block} ]
 
 set g_all 0.2
 set g_block [expr {$g_all / $rho_block / $sq_block}]
-set g_media [expr {$g_all / $rho_media / $sq_media}]
-#set g_media 0.0
+#set g_media [expr {$g_all / $rho_media / $sq_media}]
+set g_media 0.0
 
-if  [catch {set OUTDIR outdata-ns${eta_block}-p${g_all}vsound$material_sound_speed(0)xncell${xncell}niter${s1_niter}-$material_gamma(0)k_rho${k_rho}eta_media${eta_media}}] {
+if  [catch {set OUTDIR outdata-per${eta_block}-p${g_all}vsound$material_sound_speed(0)xncell${xncell}niter${s1_niter}-$material_gamma(0)k_rho${k_rho}rnd}] {
     set OUTDIR outdata0
     set eta_block 1.0
 } 
