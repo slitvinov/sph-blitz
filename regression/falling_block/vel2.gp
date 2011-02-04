@@ -1,12 +1,38 @@
-file(eta, vs)=sprintf("outdata-ns%s-p0.2vsound%sxncell10niter40-1.0k_rho0.0eta_media0.1/block.vel", eta, vs)
-vs="8.0"
+file(eta, nc, vs)=sprintf("outdata-wg%s-p0.2vsound%sxncell%sniter40-1.0k_rho0.5eta_media0.1/block.vel", eta, vs, nc)
+file2(eta, nc, vs)=sprintf("outdata-wg%s-p0.2vsound%sxncell%sniter40-7.0k_rho0.5eta_media0.1gamma7.0/block.vel", eta, vs, nc)
 
+
+tmax=5.0
+tmin=0.0
+dt=0.1
+
+set multiplot
+set size 1.0, 0.5
+set origin 0, 0
 set macros
-st='u (-$2) w lp lw 3'
+unset log y
 
-plot \
-     file("1", vs) @st, \
-     file("1e1", vs) @st, \
-     file("1e2", vs) @st, \
-     file("1e4", vs) @st, \
-     file("1e6", vs) @st
+st='u ($0*dt):(-$2) w lp lw 3'
+set key on
+vs="8.0"
+nc="10"
+plot [tmin:tmax] \
+     file("1", nc, vs) @st, \
+     file("1e1", nc, vs) @st, \
+     file("1e2", nc, vs) @st, \
+     file("1e4", nc, vs) @st, \
+     file("1e6", nc, vs) @st
+
+set origin 0.0, 0.5
+vs="8.0"
+nc="10"
+set key off
+plot [tmin:tmax]\
+     file2("1", nc, vs) @st, \
+     file2("1e1", nc, vs) @st, \
+     file2("1e2", nc, vs) @st, \
+     file2("1e4", nc, vs) @st, \
+     file2("1e6", nc, vs) @st
+
+
+unset multiplot
