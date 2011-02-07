@@ -3,7 +3,7 @@
 # 2: gas dynamics
 # 4: S1
 set SIMULATION_MODE 4
-set s1_niter 40
+set s1_niter 10
 #set movePartilces 0
 
 # possible values are 
@@ -22,7 +22,7 @@ set DENSITY_MODE 1
 
 set INITIAL_CONDITION	0
 set OutputType Plain
-set initial_perturb 0.25
+set initial_perturb 0.0
 
 # number of cell
 set xncell 10
@@ -80,17 +80,17 @@ set UyBu(1) 0.0
 
 set rho_media 1.0
 set rho_block 1.033333
-set k_rho 0.5
+set k_rho 0.0
 
 set NUMBER_OF_MATERIALS 3
 set material_name(0) Wall
 set material_type(0) 1
 set material_cv(0) 1.0e3
 set material_eta(0) $eta_block
-set material_gamma(0) 7.0
+set material_gamma(0) 1.0
 set material_b0(0) 1.0e2
 set material_rho0(0) $rho_media
-set material_sound_speed(0) 8.0
+set material_sound_speed(0) 14.0
 set material_rho_ref(0) [expr {$k_rho*$rho_media}]
 
 set eta_media 0.1
@@ -127,10 +127,10 @@ set sq_media [expr {1.0 - $sq_block} ]
 
 set g_all 0.2
 set g_block [expr {$g_all / $rho_block / $sq_block}]
-set g_media [expr {$g_all / $rho_media / $sq_media}]
-#set g_media 0.0
+#set g_media [expr {$g_all / $rho_media / $sq_media}]
+set g_media 0.0
 
-if  [catch {set OUTDIR outdata-wg${eta_block}-p${g_all}vsound$material_sound_speed(0)xncell${xncell}niter${s1_niter}-$material_gamma(0)k_rho${k_rho}eta_media${eta_media}gamma$material_gamma(1)}] {
+if  [catch {set OUTDIR outdata-nr${eta_block}-p${g_all}vsound$material_sound_speed(0)xncell${xncell}niter${s1_niter}-$material_gamma(0)k_rho${k_rho}eta_media${eta_media}gamma$material_gamma(1)}] {
     set OUTDIR outdata0
     set eta_block 1.0
 } 

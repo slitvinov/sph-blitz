@@ -92,7 +92,7 @@ set material_eta(0) $eta_block
 set material_gamma(0) 1.0
 set material_b0(0) 1.0e2
 set material_rho0(0) $rho_media
-set material_sound_speed(0) 1.0
+set material_sound_speed(0) 14.0
 set material_rho_ref(0) [expr {$k_rho*$rho_media}]
 
 
