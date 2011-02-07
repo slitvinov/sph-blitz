@@ -22,7 +22,7 @@ set DENSITY_MODE 1
 
 set INITIAL_CONDITION	0
 set OutputType Plain
-set initial_perturb 0.0
+set initial_perturb 0.25
 
 # number of cell
 set xncell 10
@@ -51,6 +51,7 @@ set T0 0.0
 # SPH_TCL="set eta_block 42" ./sph ../cases/falling_block_sym
 
 set Start_time 0.0
+set Hook_time 1.0
 set End_time 6.0
 # time between output
 set D_time 1e-1
@@ -146,14 +147,14 @@ set G_FORCE(1,1) $g_media
 set G_FORCE(2,0) 0.0
 set G_FORCE(2,1) -$g_block
 
+# x and y provided by the main program 
+set blockX0 [expr { (0.5 - $blockFractionX/2.0) * $xlength}]
+set blockX1 [expr { (0.5 + $blockFractionX/2.0) * $xlength}]
+set blockY0 [expr {(0.8 - $blockFractionY/2.0) * $ylength}]
+set blockY1 [expr {(0.8 + $blockFractionY/2.0) * $ylength}]
 
 # set number of material variable  --- "no" 
 proc getmatNo { } {
-    # x and y provided by the main program 
-    set blockX0 [expr { (0.5 - $blockFractionX/2.0) * $xlength}]
-    set blockX1 [expr { (0.5 + $blockFractionX/2.0) * $xlength}]
-    set blockY0 [expr {(0.8 - $blockFractionY/2.0) * $ylength}]
-    set blockY1 [expr {(0.8 + $blockFractionY/2.0) * $ylength}]
     set inX [expr ($x > $blockX0) && ($x < $blockX1)]
     set inY [expr ($y > $blockY0) && ($y < $blockY1)]
     if {$inX && $inY} { 
@@ -163,4 +164,24 @@ proc getmatNo { } {
 	# media
 	set no 1
     } 
+}
+
+# set number of material variable  --- "no" 
+proc getSolid { } {
+    set inX [expr ($x > $blockX0) && ($x < $blockX1)]
+    set inY [expr ($y > $blockY0) && ($y < $blockY1)]
+    if {$inX && $inY} { 
+	# block 
+	set issolid 1
+    } else {
+	# media
+	set issolid 0
+    } 
+}
+
+proc filter_hook { } {
+    # set velocity to all velocities to zero
+    set vx 0.0
+    set vy 0.0
+    set issolid 0
 }

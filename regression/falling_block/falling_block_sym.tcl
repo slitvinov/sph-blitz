@@ -168,8 +168,3 @@ proc getmatNo { } {
     } 
 }
 
-proc filter_hook { } {
-    # set velocity to all velocities to zero
-    set vx 0.0
-    set vy 0.0
-}

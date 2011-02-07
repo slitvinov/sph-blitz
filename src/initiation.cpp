@@ -145,6 +145,11 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
     Hook_time = 2*End_time;
   } else {
     Hook_time = interp->getval("Hook_time");
+    // 
+    if (!interp->isproc("filter_hook")) {
+      LOG(ERROR) << "Cannot find filter proc: filter_hook in the configuration file";
+      exit(EXIT_FAILURE);
+    }
   }
 
   D_time = interp->getval("D_time");

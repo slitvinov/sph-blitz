@@ -17,8 +17,9 @@
 #include "src/Utilities/utilities.h"
 #include "src/glbtype.h"
 #include <boost/foreach.hpp>
-#include "Interaction/interaction.h"
-#include "Kernel/kernel.h"
+#include "src/Interaction/interaction.h"
+#include "src/Kernel/kernel.h"
+#include "src/ParticleContext/particlecontext.h"
 
 using namespace std;
 
@@ -104,7 +105,7 @@ void S1TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
     hydro.Corrector_summation_velocity(dt);
     const double pdt = dt / static_cast<double>(ini.s1_niter);
     for (int nit=0; nit<ini.s1_niter; nit++) {
-      s1SubStep(hydro, particles, weight_function, pdt, nit);
+      s1SubStep(hydro, particles, weight_function, pdt, nit, ini);
     }
     hydro.Corrector_summation_position(dt);
 
@@ -169,23 +170,24 @@ S1TimeSolver::~S1TimeSolver() {
 
 void s1SubStep(Hydrodynamics &hydro, ParticleManager &particles, 
 	       spKernel weight_function, const double pdt,
-	       const int nit) {
+	       const int nit, const Initiation& ini) {
    ///- iterate the interaction list
 
   LOG(INFO) << "s1SubStep is called";
 
   if (nit % 2 == 0) {
     BOOST_REVERSE_FOREACH(spInteraction pair, hydro.interaction_list) {
-      s1PairUpdate(pair, weight_function, pdt);
+      s1PairUpdate(pair, weight_function, pdt, ini);
     }
   } else {
     BOOST_FOREACH(spInteraction pair, hydro.interaction_list) {
-      s1PairUpdate(pair, weight_function, pdt);
+      s1PairUpdate(pair, weight_function, pdt, ini);
     }
   }
 }
 
-void s1PairUpdate(spInteraction pair, spKernel weight_function, const double pdt) {
+void s1PairUpdate(spInteraction pair, spKernel weight_function, 
+		  const double pdt, const Initiation& ini) {
      ///- calculate for eahc pair the pair forces or change rate
     spParticle Org = pair->getOrigin();
     spParticle Dest = pair->getDest();
@@ -216,7 +218,9 @@ void s1PairUpdate(spInteraction pair, spKernel weight_function, const double pdt
     const Vec2d Ui_p = Org->U;
     const Vec2d Uj_p = Dest->U;
     
-    Org->U  = (pdt*kij*rmi*Uj_p+(pdt*kij*rmj+1)*Ui_p)/(pdt*kij*rmj+pdt*kij*rmi+1);
-    Dest->U = (pdt*kij*rmi*Uj_p+Uj_p+pdt*kij*rmj*Ui_p)/(pdt*kij*rmj+pdt*kij*rmi+1);
- 
-}
+    const Vec2d Ui_n = (pdt*kij*rmi*Uj_p+(pdt*kij*rmj+1)*Ui_p)/(pdt*kij*rmj+pdt*kij*rmi+1);
+    const Vec2d Uj_n = (pdt*kij*rmi*Uj_p+Uj_p+pdt*kij*rmj*Ui_p)/(pdt*kij*rmj+pdt*kij*rmi+1);
+    
+    ini.context->UpdateVelocity(Org, Ui_n);
+    ini.context->UpdateVelocity(Dest, Uj_n);
+ }
