@@ -3,7 +3,7 @@
 # 2: gas dynamics
 # 4: S1
 set SIMULATION_MODE 4
-set s1_niter 10
+set s1_niter 40
 #set movePartilces 0
 
 # possible values are 
@@ -51,8 +51,8 @@ set T0 0.0
 # SPH_TCL="set eta_block 42" ./sph ../cases/falling_block_sym
 
 set Start_time 0.0
-set Hook_time 1.0
-set End_time 6.0
+set Hook_time 3.0
+set End_time 50.0
 # time between output
 set D_time 1e-1
 
@@ -126,7 +126,7 @@ set blockFractionY 0.2
 set sq_block [expr {0.5 * $blockFractionX * $blockFractionY}]
 set sq_media [expr {1.0 - $sq_block} ]
 
-set g_all 0.2
+set g_all 0.0
 set g_block [expr {$g_all / $rho_block / $sq_block}]
 #set g_media [expr {$g_all / $rho_media / $sq_media}]
 set g_media 0.0
