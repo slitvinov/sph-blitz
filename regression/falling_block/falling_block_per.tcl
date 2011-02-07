@@ -3,7 +3,7 @@
 # 2: gas dynamics
 # 4: S1
 set SIMULATION_MODE 4
-set s1_niter 10
+set s1_niter 40
 #set movePartilces 0
 
 # possible values are 

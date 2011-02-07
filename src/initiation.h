@@ -2,11 +2,11 @@
 #define INITIATION_H
 /// \file initiation.h 
 /// \brief initializes the simulation data
-#include "Timer/timer.h"
+#include "src/Timer/timer.h"
 #include "cpptcl/cpptcl.h"
-#include "vec2d.h"
+#include "src/vec2d.h"
 #include <boost/utility.hpp>
-#include "glbtype.h"
+#include "src/glbtype.h"
 class Hydrodynamics;
 class ParticleManager;
 class Kernel;
@@ -139,6 +139,8 @@ public:
   double Start_time;///<Simulation start time
   double End_time;///<Simulation end time
   double D_time;///<time interval for output (every D_time: output)
+  double Hook_time;///<time interval for output (every D_time: output)
+
   ///\brief marker for automatic time control
   /// 0: autom. time conrtol switched off
   /// 1: autom time control activated!

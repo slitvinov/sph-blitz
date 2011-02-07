@@ -148,13 +148,15 @@ set G_FORCE(2,0) 0.0
 set G_FORCE(2,1) -$g_block
 
 
+
+set blockX0 0.0
+set blockX1 [expr {0.5 * $blockFractionX * $xlength}]
+set blockY0 [expr {(0.8 - $blockFractionY/2.0) * $ylength}]
+set blockY1 [expr {(0.8 + $blockFractionY/2.0) * $ylength}]
+
 # set number of material variable  --- "no" 
 proc getmatNo { } {
     # x and y provided by the main program 
-    set blockX0 0.0
-    set blockX1 [expr {0.5 * $blockFractionX * $xlength}]
-    set blockY0 [expr {(0.8 - $blockFractionY/2.0) * $ylength}]
-    set blockY1 [expr {(0.8 + $blockFractionY/2.0) * $ylength}]
     set inX [expr ($x > $blockX0) && ($x < $blockX1)]
     set inY [expr ($y > $blockY0) && ($y < $blockY1)]
     if {$inX && $inY} { 
@@ -164,4 +166,10 @@ proc getmatNo { } {
 	# media
 	set no 1
     } 
+}
+
+proc filter_hook { } {
+    # set velocity to all velocities to zero
+    set vx 0.0
+    set vy 0.0
 }

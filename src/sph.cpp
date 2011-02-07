@@ -22,6 +22,7 @@
 #include "src/Output/plainoutput.h"
 #include "src/boundary.h"
 #include "src/Kernel/kernel.h"
+#include "src/Hook/hook.h"
 
 //using namespace std;
 
@@ -163,6 +164,8 @@ int main(int argc, char *argv[]) {
       boundary.BuildBoundaryParticle(particles, hydro);
     }
   }
+  Hook hook(ini);
+  
   //start time
   double Time = ini.Start_time;
   //output initial conditions
@@ -176,12 +179,18 @@ int main(int argc, char *argv[]) {
     //control output
     LOG(INFO)<< "new output intervall begins:output interval time:" << ini.D_time;
     ///- call the time slover (who iterates over one output time interval)
-    if(ini.density_mode==1)  //summation density
+    if(ini.density_mode==1)  { //summation density
       timesolver->TimeIntegral_summation(hydro, particles, boundary, Time, 
 				      ini.D_time, ini, weight_function);
-    else//continuity density (density integrated)
+    }  else { //continuity density (density integrated)
       timesolver->TimeIntegral(hydro, particles, boundary, Time, 
-				      ini.D_time, ini, weight_function);
+			       ini.D_time, ini, weight_function);
+    }
+    /// HACK: 
+    if (hook.UseHook(Time)) {
+      hook.Filter(hydro.particle_list);
+    }
+    
     // hydro.UpdateState(ini);///to update p,T,Cs to new values before output 
     //control output
     LOG(INFO)<<"time is "<<Time<<"\n";
