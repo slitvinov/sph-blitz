@@ -73,7 +73,7 @@ ARFLAGS = cru
 libsph_a_AR = $(AR) $(ARFLAGS)
 libsph_a_LIBADD =
 am__objects_1 = boundary.$(OBJEXT) glbfunc.$(OBJEXT) \
-	hydrodynamics.$(OBJEXT) initiation.$(OBJEXT) \
+	hydrodynamics.$(OBJEXT) hook.$(OBJEXT) initiation.$(OBJEXT) \
 	material.$(OBJEXT) output.$(OBJEXT) tecplotoutput.$(OBJEXT) \
 	plainoutput.$(OBJEXT) particle.$(OBJEXT) \
 	particlemanager.$(OBJEXT) kernel.$(OBJEXT) \
@@ -244,6 +244,7 @@ AM_LDFLAGS = -Wl,-R $(abs_top_srcdir)/plugins/
 nomain = boundary.cpp boundary.h \
 	glbtype.h glbfunc.cpp glbfunc.h \
 	hydrodynamics.cpp hydrodynamics.h \
+	Hook/hook.cpp Hook/hook.h \
 	initiation.cpp initiation.h \
 	material.cpp material.h \
 	Output/output.cpp Output/output.h \
@@ -424,6 +425,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gastimesolverPredCorr.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/glbfunc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/harmonic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hook.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hydrodynamics.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hydrotimesolver.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/initiation.Po@am__quote@
@@ -469,6 +471,20 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+hook.o: Hook/hook.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT hook.o -MD -MP -MF $(DEPDIR)/hook.Tpo -c -o hook.o `test -f 'Hook/hook.cpp' || echo '$(srcdir)/'`Hook/hook.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/hook.Tpo $(DEPDIR)/hook.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Hook/hook.cpp' object='hook.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o hook.o `test -f 'Hook/hook.cpp' || echo '$(srcdir)/'`Hook/hook.cpp
+
+hook.obj: Hook/hook.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT hook.obj -MD -MP -MF $(DEPDIR)/hook.Tpo -c -o hook.obj `if test -f 'Hook/hook.cpp'; then $(CYGPATH_W) 'Hook/hook.cpp'; else $(CYGPATH_W) '$(srcdir)/Hook/hook.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/hook.Tpo $(DEPDIR)/hook.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Hook/hook.cpp' object='hook.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o hook.obj `if test -f 'Hook/hook.cpp'; then $(CYGPATH_W) 'Hook/hook.cpp'; else $(CYGPATH_W) '$(srcdir)/Hook/hook.cpp'; fi`
 
 output.o: Output/output.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT output.o -MD -MP -MF $(DEPDIR)/output.Tpo -c -o output.o `test -f 'Output/output.cpp' || echo '$(srcdir)/'`Output/output.cpp

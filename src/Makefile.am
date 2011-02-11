@@ -18,6 +18,7 @@ ${top_builddir}/cpptcl/libcpptcl.a:
 nomain=	boundary.cpp boundary.h \
 	glbtype.h glbfunc.cpp glbfunc.h \
 	hydrodynamics.cpp hydrodynamics.h \
+	Hook/hook.cpp Hook/hook.h \
 	initiation.cpp initiation.h \
 	material.cpp material.h \
 	Output/output.cpp Output/output.h \

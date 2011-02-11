@@ -51,7 +51,8 @@ set T0 0.0
 # SPH_TCL="set eta_block 42" ./sph ../cases/falling_block_sym
 
 set Start_time 0.0
-set End_time 6.0
+set Hook_time 3.0
+set End_time 50.0
 # time between output
 set D_time 1e-1
 
@@ -80,17 +81,17 @@ set UyBu(1) 0.0
 
 set rho_media 1.0
 set rho_block 1.033333
-set k_rho 0.5
+set k_rho 0.0
 
 set NUMBER_OF_MATERIALS 3
 set material_name(0) Wall
 set material_type(0) 1
 set material_cv(0) 1.0e3
 set material_eta(0) $eta_block
-set material_gamma(0) 7.0
+set material_gamma(0) 1.0
 set material_b0(0) 1.0e2
 set material_rho0(0) $rho_media
-set material_sound_speed(0) 8.0
+set material_sound_speed(0) 14.0
 set material_rho_ref(0) [expr {$k_rho*$rho_media}]
 
 set eta_media 0.1
@@ -125,12 +126,12 @@ set blockFractionY 0.2
 set sq_block [expr {0.5 * $blockFractionX * $blockFractionY}]
 set sq_media [expr {1.0 - $sq_block} ]
 
-set g_all 0.2
+set g_all 0.0
 set g_block [expr {$g_all / $rho_block / $sq_block}]
-set g_media [expr {$g_all / $rho_media / $sq_media}]
-#set g_media 0.0
+#set g_media [expr {$g_all / $rho_media / $sq_media}]
+set g_media 0.0
 
-if  [catch {set OUTDIR outdata-wg${eta_block}-p${g_all}vsound$material_sound_speed(0)xncell${xncell}niter${s1_niter}-$material_gamma(0)k_rho${k_rho}eta_media${eta_media}gamma$material_gamma(1)}] {
+if  [catch {set OUTDIR outdata-nr${eta_block}-p${g_all}vsound$material_sound_speed(0)xncell${xncell}niter${s1_niter}-$material_gamma(0)k_rho${k_rho}eta_media${eta_media}gamma$material_gamma(1)}] {
     set OUTDIR outdata0
     set eta_block 1.0
 } 
@@ -146,14 +147,14 @@ set G_FORCE(1,1) $g_media
 set G_FORCE(2,0) 0.0
 set G_FORCE(2,1) -$g_block
 
+# x and y provided by the main program 
+set blockX0 [expr { (0.5 - $blockFractionX/2.0) * $xlength}]
+set blockX1 [expr { (0.5 + $blockFractionX/2.0) * $xlength}]
+set blockY0 [expr {(0.8 - $blockFractionY/2.0) * $ylength}]
+set blockY1 [expr {(0.8 + $blockFractionY/2.0) * $ylength}]
 
 # set number of material variable  --- "no" 
 proc getmatNo { } {
-    # x and y provided by the main program 
-    set blockX0 [expr { (0.5 - $blockFractionX/2.0) * $xlength}]
-    set blockX1 [expr { (0.5 + $blockFractionX/2.0) * $xlength}]
-    set blockY0 [expr {(0.8 - $blockFractionY/2.0) * $ylength}]
-    set blockY1 [expr {(0.8 + $blockFractionY/2.0) * $ylength}]
     set inX [expr ($x > $blockX0) && ($x < $blockX1)]
     set inY [expr ($y > $blockY0) && ($y < $blockY1)]
     if {$inX && $inY} { 
@@ -163,4 +164,24 @@ proc getmatNo { } {
 	# media
 	set no 1
     } 
+}
+
+# set number of material variable  --- "no" 
+proc getSolid { } {
+    set inX [expr ($x > $blockX0) && ($x < $blockX1)]
+    set inY [expr ($y > $blockY0) && ($y < $blockY1)]
+    if {$inX && $inY} { 
+	# block 
+	set issolid 1
+    } else {
+	# media
+	set issolid 0
+    } 
+}
+
+proc filter_hook { } {
+    # set velocity to all velocities to zero
+    set vx 0.0
+    set vy 0.0
+    set issolid 0
 }

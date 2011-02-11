@@ -137,6 +137,21 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
   Start_time = interp->getval("Start_time");
   timer->updateTime(Start_time);
   End_time = interp->getval("End_time");
+  
+  End_time = interp->getval("End_time");
+  
+  // read hook time 
+  if (!interp->exist("Hook_time")) {
+    Hook_time = 2*End_time;
+  } else {
+    Hook_time = interp->getval("Hook_time");
+    // 
+    if (!interp->isproc("filter_hook")) {
+      LOG(ERROR) << "Cannot find filter proc: filter_hook in the configuration file";
+      exit(EXIT_FAILURE);
+    }
+  }
+
   D_time = interp->getval("D_time");
   // can be zero for debugging
   assert(D_time>0.0);
@@ -203,6 +218,7 @@ void Initiation::show_information() const  {
 	///- output the timing information on screen
   LOG(INFO)<<"Ending time is "<<End_time<<" \n";
   LOG(INFO)<<"Output time interval is "<<D_time<<" \n";
+  LOG(INFO)<<"Hook time is "<< Hook_time <<" \n";
   LOG(INFO) << "Output format factor is " << output_file_format_factor << '\n';
   LOG(INFO)<<"initial_condition "<< initial_condition <<" \n";
   LOG(INFO)<<"movePartilces is "<< movePartilces << '\n';
