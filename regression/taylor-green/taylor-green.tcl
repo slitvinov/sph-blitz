@@ -110,3 +110,4 @@ proc getVelocity { } {
     set vx  [expr {-$v0*cos($k0*$x)*sin($k0*$y)} ] 
     set vy  [expr {$v0*sin($k0*$x)*cos($k0*$y)} ]
 }
+

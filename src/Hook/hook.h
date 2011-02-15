@@ -4,14 +4,18 @@
 #include <list>
 
 class Initiation;
+class Hydrodynamics;
 class Hook {
 public: 
-  explicit Hook(const Initiation& ini);
+  Hook(Initiation& ini, Hydrodynamics& hydro);
   void Filter(std::list<spParticle> particle_list);
   bool UseHook(const double time);
 private:
   /// local reference to the Initiation object
-  const Initiation& ini;
+  Initiation& ini;
+
+  /// local reference to the Hydrodynamics object
+  Hydrodynamics& hydro;
   
   /// if this hook was used
   bool wasUsed; 

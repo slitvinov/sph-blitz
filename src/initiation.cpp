@@ -150,6 +150,11 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
       LOG(ERROR) << "Cannot find filter proc: filter_hook in the configuration file";
       exit(EXIT_FAILURE);
     }
+
+    if (!interp->isproc("after_hook")) {
+      LOG(ERROR) << "Cannot find filter proc: after_hook in the configuration file";
+      exit(EXIT_FAILURE);
+    }
   }
 
   D_time = interp->getval("D_time");
