@@ -14,6 +14,7 @@ void s1SubStep(Hydrodynamics &hydro, ParticleManager &particles,
 	       const int nit, const Initiation& ini);
 
 void s1PairUpdate(spInteraction pair,  spKernel weight_function, const double pdt, const Initiation& ini);
+void s1PressureUpdate(spInteraction pair,  spKernel weight_function, const double pdt, const Initiation& ini);
 
 class S1TimeSolver : public TimeSolver {
   int ite; ///<number of iteration

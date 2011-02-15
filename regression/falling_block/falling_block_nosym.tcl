@@ -47,7 +47,7 @@ set T0 0.0
 # SPH_TCL="set eta_block 42" ./sph ../cases/falling_block_sym
 
 set Start_time 0.0
-set Hook_time 0.1
+set Hook_time -1.0
 set End_time 50.0
 # time between output
 set D_time 1e-1

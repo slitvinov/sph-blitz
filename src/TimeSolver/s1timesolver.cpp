@@ -85,10 +85,10 @@ void S1TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
     boundary.BoundaryCondition(particles);///<li> boundary.BoundaryCondition
 
     //control output
-    hydro.UpdateChangeRate(ini);///<li> hydro.UpdateChangeRate
-    checkForces(ini, hydro.particle_list);
+    //hydro.UpdateChangeRate(ini);///<li> hydro.UpdateChangeRate
+    //checkForces(ini, hydro.particle_list);
 	  
-    hydro.Predictor_summation(dt);///<li>hydro.Predictor_summation</ol>
+    //hydro.Predictor_summation(dt);///<li>hydro.Predictor_summation</ol>
     ///<li> the correction step without update the interaction list
     boundary.BoundaryCondition(particles);///<ol><li>boundary.BoundaryCondition
 
@@ -99,16 +99,15 @@ void S1TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
 
     //control output
     LOG(INFO)<<"change rate for corrector:";
-    hydro.UpdateChangeRate(ini); ///<li>hydro.UpdateChangeRate
+    //hydro.UpdateChangeRate(ini); ///<li>hydro.UpdateChangeRate
 
     //hydro.Corrector_summation(dt);///<li>hydro.Corrector_summation</ol>
-    hydro.Corrector_summation_velocity(dt);
+    //hydro.Corrector_summation_velocity(dt);
     const double pdt = dt / static_cast<double>(ini.s1_niter);
     for (int nit=0; nit<ini.s1_niter; nit++) {
       s1SubStep(hydro, particles, weight_function, pdt, nit, ini);
     }
-    hydro.Corrector_summation_position(dt);
-
+    //hydro.Corrector_summation_position(dt);
 
     checkVelocity(ini, hydro.particle_list);
     ///<li> renew boundary particles
@@ -179,10 +178,12 @@ void s1SubStep(Hydrodynamics &hydro, ParticleManager &particles,
   if (nit % 2 == 0) {
     BOOST_REVERSE_FOREACH(spInteraction pair, hydro.interaction_list) {
       s1PairUpdate(pair, weight_function, pdt, ini);
+      s1PressureUpdate(pair, weight_function, pdt, ini);
     }
   } else {
     BOOST_FOREACH(spInteraction pair, hydro.interaction_list) {
       s1PairUpdate(pair, weight_function, pdt, ini);
+      s1PressureUpdate(pair, weight_function, pdt, ini);
     }
   }
 }
@@ -225,3 +226,54 @@ void s1PairUpdate(spInteraction pair, spKernel weight_function,
     ini.context->UpdateVelocity(Org, Ui_n);
     ini.context->UpdateVelocity(Dest, Uj_n);
  }
+
+void s1PressureUpdate(spInteraction pair, spKernel weight_function, 
+		  const double pdt, const Initiation& ini) {
+     ///- calculate for eahc pair the pair forces or change rate
+    spParticle Org = pair->getOrigin();
+    spParticle Dest = pair->getDest();
+
+    const double rhoi = Org->rho; 
+    const double rhoj = Dest->rho;
+
+    const double mi = Org->m;
+    const double mj = Dest->m;
+
+    const double rmi = 1.0/mi;
+    const double rmj = 1.0/mj;
+    
+    const double rij = v_distance(Org->R, Dest->R);
+    const double gradWij = weight_function->F(rij);
+
+    const double pi = Org->p; 
+    const double pj = Dest->p;
+
+
+    const double rrij = 1.0/rij;
+
+    const Vec2d eij = (Org->R - Dest->R)*rrij;
+    const double Fij = weight_function->F(rij)*rrij;
+
+    const double sigmai = rhoi / mi ;
+    const double sigmaj = rhoj / mj;
+
+    const double Vi = mi/rhoi;
+    const double Vj = mj/rhoj;
+    const double Vi2 = Vi*Vi; 
+    const double Vj2 = Vj*Vj;
+
+    const Vec2d Ui_p = Org->U;
+    const Vec2d Uj_p = Dest->U;
+
+    const Vec2d dPdti_pre = eij*Fij*rij*(pi*Vi2 + pj*Vj2);
+
+    const Vec2d Ui_n = Ui_p + pdt*dPdti_pre;
+    const Vec2d Uj_n = Uj_p - pdt*dPdti_pre;
+    
+    ini.context->UpdateVelocity(Org, Ui_n);
+    ini.context->UpdateVelocity(Dest, Uj_n);
+
+    //ini.context->UpdatePosition(Org, dPdti_pre*pdt*pdt/2.0);
+    //ini.context->UpdatePosition(Dest, -dPdti_pre*pdt*pdt/2.0);
+ }
+
