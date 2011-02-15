@@ -88,7 +88,7 @@ void S1TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
     //hydro.UpdateChangeRate(ini);///<li> hydro.UpdateChangeRate
     //checkForces(ini, hydro.particle_list);
 	  
-    //hydro.Predictor_summation(dt);///<li>hydro.Predictor_summation</ol>
+    hydro.Predictor_summation(dt);///<li>hydro.Predictor_summation</ol>
     ///<li> the correction step without update the interaction list
     boundary.BoundaryCondition(particles);///<ol><li>boundary.BoundaryCondition
 
@@ -102,12 +102,13 @@ void S1TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
     //hydro.UpdateChangeRate(ini); ///<li>hydro.UpdateChangeRate
 
     //hydro.Corrector_summation(dt);///<li>hydro.Corrector_summation</ol>
-    //hydro.Corrector_summation_velocity(dt);
+    hydro.AddGravity(ini);
+    hydro.Corrector_summation_velocity(dt);
     const double pdt = dt / static_cast<double>(ini.s1_niter);
     for (int nit=0; nit<ini.s1_niter; nit++) {
       s1SubStep(hydro, particles, weight_function, pdt, nit, ini);
     }
-    //hydro.Corrector_summation_position(dt);
+    hydro.Corrector_summation_position(dt);
 
     checkVelocity(ini, hydro.particle_list);
     ///<li> renew boundary particles

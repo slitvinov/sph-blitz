@@ -50,7 +50,7 @@ set Start_time 0.0
 set Hook_time -1.0
 set End_time 50.0
 # time between output
-set D_time 1e-1
+set D_time 1e-2
 
 # boundary conditions
 set wall 0 
@@ -87,7 +87,7 @@ set material_name(0) Wall
 set material_type(0) 1
 set material_cv(0) 1.0e3
 set material_eta(0) $eta_prerun
-set material_gamma(0) 7.0
+set material_gamma(0) 2.0
 set material_b0(0) 1.0e2
 set material_rho0(0) $rho_media
 set material_sound_speed(0) $vsound
