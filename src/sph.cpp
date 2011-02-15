@@ -164,7 +164,7 @@ int main(int argc, char *argv[]) {
       boundary.BuildBoundaryParticle(particles, hydro);
     }
   }
-  Hook hook(ini);
+  Hook hook(ini, hydro);
   
   //start time
   double Time = ini.Start_time;

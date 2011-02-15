@@ -3,10 +3,11 @@
 #include <glog/logging.h>
 #include "src/initiation.h"
 #include "src/particle.h"
+#include "src/hydrodynamics.h"
 #include "src/ParticleContext/particlecontext.h"
 
-Hook::Hook (const Initiation& ini): 
-  ini(ini), wasUsed(false)
+Hook::Hook (Initiation& ini, Hydrodynamics& hydro): 
+  ini(ini), hydro(hydro), wasUsed(false)
 { }
 
 void Hook::Filter(std::list<spParticle> particle_list) {
@@ -23,6 +24,15 @@ void Hook::Filter(std::list<spParticle> particle_list) {
     if (!issolid) {
       ini.context->RemoveParticle(prtl);
     }
+  }
+
+  ini.interp->evalproc("after_hook");
+  // refreash material properties
+  for (int k = 0; k < ini.number_of_materials; k++) {
+    hydro.materials[k]->eta = ini.interp->getat("material_eta",  k);
+  }
+  BOOST_FOREACH(spParticle prtl, particle_list) {
+    prtl->eta = prtl->mtl->eta;
   }
 }
 

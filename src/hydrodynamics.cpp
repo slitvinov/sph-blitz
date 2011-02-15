@@ -286,9 +286,13 @@ void Hydrodynamics::UpdateState(const Initiation &ini) {
     if (ini.simu_mode==2) {
 	prtl->p = prtl->mtl->get_p(prtl->rho,prtl->e);
 	prtl->Cs = prtl->mtl->get_Cs(prtl->p, prtl->rho);
+	//calculate temperature for each particle
+	prtl->T = prtl->mtl->get_T(prtl->e);
+    } 
+
+    if (ini.simu_mode==4) {
+      prtl->p = prtl->mtl->get_p(prtl->rho);
     }
-    //calculate temperature for each particle
-    prtl->T = prtl->mtl->get_T(prtl->e);
   }
 
 }

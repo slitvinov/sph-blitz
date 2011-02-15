@@ -109,6 +109,7 @@ void S1TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
     }
     hydro.Corrector_summation_position(dt);
 
+
     checkVelocity(ini, hydro.particle_list);
     ///<li> renew boundary particles
     boundary.RunAwayCheck(hydro);///<ol><li>boundary.RunAwayCheck

@@ -1,8 +1,13 @@
 #! /bin/bash
 
+set -e
+set -u
+conf=falling_block_nosym
+sph=../../src/sph
 
-SPH_TCL="set eta_block 1" ../../src/sph  falling_block_per &
-SPH_TCL="set eta_block 1e1" ../../src/sph  falling_block_per &
-SPH_TCL="set eta_block 1e2" ../../src/sph  falling_block_per & 
-SPH_TCL="set eta_block 1e4" ../../src/sph  falling_block_per &
-SPH_TCL="set eta_block 1e6" ../../src/sph  falling_block_per 
+for eta_media in 0.005; do
+    for vsound in 14.0 16.0; do
+	SPH_TCL="set eta_block 1e4; set eta_media $eta_media; set vsound $vsound"  $sph $conf  &
+    done
+done
+
