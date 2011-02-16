@@ -198,7 +198,6 @@ void Hydrodynamics::ZeroChangeRate() {
     prtl->dedt = 0.0;
     prtl->drhodt = 0.0;
     (prtl->dUdt) = 0.0;
-
   }
 }
 //----------------------------------------------------------------------------------------
@@ -400,11 +399,11 @@ double Hydrodynamics::GetS1TimeStep(const Initiation& ini) const {
   //predict the time step
   //iterate materials to find 
   // - largest sound spead 
-  BOOST_FOREACH(spMaterial mtl, materials) {
-    assert(mtl != NULL);
-    Cs_max = std::max(Cs_max, mtl->get_Cs());
-  }
-  LOG(INFO) << "Cs_max = " << Cs_max;
+  // BOOST_FOREACH(spMaterial mtl, materials) {
+  //   assert(mtl != NULL);
+  //   Cs_max = std::max(Cs_max, mtl->get_Cs());
+  // }
+  // LOG(INFO) << "Cs_max = " << Cs_max;
 
   double max_gr = 1e-13;
   for(int k = 0; k < ini.number_of_materials; k++) {
@@ -536,8 +535,7 @@ void Hydrodynamics::Corrector_summation(const double dt) {
 //			the predictor and corrector method: predictor, no density updating
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::Corrector_summation_velocity(const double dt) {
-  LOG(INFO) << " Hydrodynamics::Corrector_summation()";
-  LOG(INFO) << " moving particles";
+  LOG(INFO) << " Hydrodynamics::Corrector_summation_velocity()";
   ///- iterate the real partilce list
   BOOST_FOREACH(spParticle prtl, particle_list) {
     ///- for each particle: correction (advances R,U) based on values on n step and change rate at n+1/2
@@ -550,7 +548,7 @@ void Hydrodynamics::Corrector_summation_velocity(const double dt) {
 //			the predictor and corrector method: predictor, no density updating
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::Corrector_summation_position(const double dt) {
-  LOG(INFO) << " Hydrodynamics::Corrector_summation()";
+  LOG(INFO) << " Hydrodynamics::Corrector_summation_position()";
   LOG(INFO) << " moving particles";
   ///- iterate the real partilce list
   BOOST_FOREACH(spParticle prtl, particle_list) {

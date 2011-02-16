@@ -71,6 +71,8 @@ void checkForces(const Initiation& ini, spParticle prtl) {
   const double dt = ini.timer->get_dt();
   if (force * dt * dt > ini.supportlength) {
     LOG(ERROR) << "Force is too big";
+    LOG(ERROR) << "force * dt * dt = " << force * dt * dt;
+    LOG(ERROR) << "ini.supportlength" << ini.supportlength;
     prtl->show_information();
     exit(EXIT_FAILURE);
   }
