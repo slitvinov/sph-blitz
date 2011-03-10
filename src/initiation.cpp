@@ -76,9 +76,19 @@ Initiation::Initiation(const char *project_name) {
 
         //comparing the key words for the g force
         if(!strcmp(Key_word, "G_FORCE")) fin>>g_force[0]>>g_force[1];
+
+		//read parameter of the FENE force
+        if(!strcmp(Key_word, "FENE")) fin>> polymer_H >> polymer_r0;
  
         //comparing the key words for the artificial viscosity
         if(!strcmp(Key_word, "ARTIFICIAL_VISCOSITY")) fin>>art_vis;
+
+		// fixed IDs
+        //if(!strcmp(Key_word, "MOVE_IDS")) fin>> moveID1 >> moveID2>>moveID3>>moveID4;
+
+		// velocity of the moving particles
+        //if(!strcmp(Key_word, "MOVE_VEL")) fin>> moveVel1[0] >> moveVel1[1]>>moveVel2[0]>>moveVel2[1];
+
 
         //comparing the key words for dimension
         if(!strcmp(Key_word, "DIMENSION")) fin>>_length>>_v>>_rho>>_T;
@@ -134,8 +144,12 @@ void Initiation::show_information()
     cout<<"The ratio between cell size and initial particle width is "<<hdelta<<"\n";
     cout<<"The initial particle width is "<<delta<<" micrometers\n";
     cout<<"The g force is "<<g_force[0]<<" m/s^2 x "<<g_force[1]<<" m/s^2 \n";
+	cout<<"FENE paramters (H, R) are "<< polymer_H << "  "<< polymer_r0 << '\n';
+
     cout<<"The dimensionless reference length, speed, density and temperature are \n"
         <<_length<<" micrometer, "<<_v<<" m/s, "<<_rho<<" kg/m^3, "<<_T<<" K\n";
+	//cout << "moveID1 is " << moveID1 << " moveID2 is " << moveID2 << " moveID3 is " << moveID3 << " moveID4 is " << moveID4 << '\n';
+	//cout << "moveVel1 is " << moveVel1 <<"moveVel2 is " << moveVel2 <<  '\n';
 
     //output the timing on screen
     cout<<"\nInitialtion: Time controlling:\nStarting time is "<<Start_time<<" \n";

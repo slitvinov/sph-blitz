@@ -137,6 +137,9 @@ Particle::Particle(Particle &RealParticle) : bd(1), bd_type(1)
     //give a new ID number
     ID = 0;
 
+	// give a ghost particle the same polyID as a real particle
+	polyID = RealParticle.polyID;
+     //polyID=0;
     //point to its real particle
     rl_prtl = &RealParticle;
 
@@ -180,6 +183,9 @@ Particle::Particle(Particle &RealParticle, Material &material): bd(1), bd_type(0
         
     //give a new ID number
     ID = 0;
+
+	// give an image particle zero polyID
+	polyID = 0;
 
     //point to its real particle
     rl_prtl = &RealParticle;

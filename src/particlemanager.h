@@ -61,7 +61,7 @@ public:
     void BuildNNP_MLSMapping(Vec2d &point);
     ///build the interaction (particle pair) list
     void BuildInteraction(Llist<Interaction> &interactions, Llist<Particle> &particle_list, 
-                          Force **forces, QuinticSpline &weight_function);
+                          Force **forces, QuinticSpline &weight_function, Initiation& ini);
         
 };
 

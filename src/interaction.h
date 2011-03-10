@@ -11,6 +11,8 @@ class Initiation;
 
 /// Defines interaction between particles
 class Interaction {
+	/// local reference to Initiation object
+	 Initiation& ini;
 
     ///total number of materials
     static int number_of_materials;
@@ -43,7 +45,7 @@ public:
     ///constructor
     Interaction(Initiation &ini);
     Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
-                QuinticSpline &weight_function, double dstc);
+                QuinticSpline &weight_function, double dstc, Initiation& ini);
         
     ///use old interaction object for new interaction
     void NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force **forces,

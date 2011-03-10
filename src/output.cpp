@@ -1,3 +1,4 @@
+
 // output.cpp
 // author: Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 // changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
@@ -50,6 +51,8 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
     int i, j;
     double Itime;
     char file_name[150], file_list[120];
+	std::cerr << "Output::OutputParticles is called" << std::endl;
+	std::cerr << "Time of the output is " << ini.dms_time(Time) << std::endl;
 
     //produce output file name
     Itime = ini.dms_time(Time)*1.0e6;
@@ -61,7 +64,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
     ofstream out(file_name);
     //defining header for tecplot(plot software)
     out<<"title='particle position' \n";
-    out<<"variables=x, y, Ux, Uy \n";
+    out<<"variables=x, y, Ux, Uy, dUdt[0],dUdt[1],_dU[0],_dU[1],ID\n";
         
     //output real and soild particles
     for(i = 0; i < number_of_materials; i++) {
@@ -75,9 +78,17 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
             Particle *prtl = hydro.particle_list.retrieve(p);
             if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) {
                 j ++;
-                if(j == 1)      out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
-                out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
-                   <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])<<"\n";
+                if(j == 1)      out<<"t='"<<hydro.materials[i].material_name<<"' \n";
+				    out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
+                  <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])<<"  "<<
+				  prtl->dUdt[0]<<"  "<<prtl->dUdt[1]<<"  "<<prtl->rho<<"\n";
+                //out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
+                  // <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])<<
+					//"  "<<prtl->dUdt[0]<<"  "<<prtl->dUdt[1]<<"  "<<
+					//prtl->_dU[0]<<"  "<<prtl->_dU[1]<<"  "<<prtl->rho<<" "<<prtl->ID<<" "<<prtl->polyID<<"\n";
+				//out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
+                  // <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])<<
+					//"  "<<prtl->dUdt[0]<<"  "<<prtl->dUdt[1]<<"  "<<"1"<<"\n";
             }
         }
 
@@ -90,8 +101,12 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
             if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) { 
                 j ++;
                 if(j == 1)      out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
-                out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
-                   <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])<<"\n";
+                //out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
+                  // <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])<<"  "<<"0"<<"  "<<"0"<<"  "<<
+					//"0"<<"  "<<"0"<<"  "<<prtl->ID<<"  "<<prtl->polyID<<"\n";
+                  //out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
+                   //<<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])<<
+					//"  "<<prtl->dUdt[0]<<"  "<<prtl->dUdt[1]<<"  "<<"0"<<"\n";
             }
         }
     }

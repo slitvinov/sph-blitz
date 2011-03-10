@@ -87,6 +87,9 @@ public:
     ///an ghost particle (for perodic boundary condition)
     ///has a negtive ID of its corresponding real particle
     long ID; 
+
+	/// polymer ID number (used to connect SDPD particles with a FENE force)
+	long polyID;
         
     ///maximum ID number for non-ghost particles (real or wall particles) in the simulation
     static long ID_max;
@@ -96,5 +99,6 @@ public:
     Vec2d  nrml;
 
 };
+
 
 #endif

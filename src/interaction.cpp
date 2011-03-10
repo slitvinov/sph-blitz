@@ -33,7 +33,8 @@ double Interaction::delta = 0.0;
 //----------------------------------------------------------------------------------------
 //                                      constructor
 //----------------------------------------------------------------------------------------
-Interaction::Interaction(Initiation &ini) 
+Interaction::Interaction(Initiation &ini):
+ini(ini)
 {
     //copy properties from initiation
     number_of_materials = ini.number_of_materials;
@@ -45,7 +46,8 @@ Interaction::Interaction(Initiation &ini)
 //                                      constructor
 //----------------------------------------------------------------------------------------
 Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
-                         QuinticSpline &weight_function, double dstc)
+						 QuinticSpline &weight_function, double dstc, Initiation& ini):
+ini(ini)
 {
     //the original and the destinate particle in the reaction pair
     Org = prtl_org;
@@ -267,6 +269,17 @@ void Interaction::UpdateForces()
     dPdti =   eij*Fij*rij*(pi*Vi2 + pj*Vj2)
         - ((Uij - eij*Uijdoteij)*shear_rij + eij*(Uijdoteij*2.0*bulk_rij + NR_vis))
         *Fij*(Vi2 + Vj2);
+	
+	// polymer force
+	if ( Org->polyID>0  && Dest->polyID>0 ) {
+
+		if ( abs(Org->polyID - Dest->polyID) == 1 ) {
+			//std::cerr << "Org->polyID = " << Org->polyID << " Dest->polyID = " << Dest->polyID << '\n';
+			const double relR = rij/ini.polymer_r0;
+			dPdti += ini.polymer_H / ( 1 -  relR*relR) * (rij * eij);
+			
+		}
+	}
         
     //surface tension with a simple model
 //      dPdti += eij*frc_ij[noi][noj].sigma*Fij*Wij*rij*(Vi2 + Vj2);

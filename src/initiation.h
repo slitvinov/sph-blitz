@@ -51,6 +51,17 @@ public:
     ///g force on particles
     Vec2d g_force;
 
+	/// FENE force paramters for the polymers F = H*r / (1 - (r/r0)^2)
+	double polymer_H;
+	double polymer_r0;
+
+	/// IDs of moving particles
+	///int moveID1, moveID2,moveID3,moveID4;
+
+	/// velocity of the moving particles
+	///Vec2d moveVel1,moveVel2;
+
+
     ///timing control, D_time is output time interval
     double Start_time, End_time, D_time;
 

@@ -1,3 +1,4 @@
+
 // hydrodynamics.cpp
 // author: Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 // changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
@@ -28,12 +29,14 @@
 #include "quinticspline.h"
 
 
+
 using namespace std;
 
 //----------------------------------------------------------------------------------------
 //                                              constructor
 //----------------------------------------------------------------------------------------
-Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
+Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini):
+ini(ini) {
         
     int k, m;
     int l, n;
@@ -134,7 +137,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
 void Hydrodynamics::BuildPair(ParticleManager &particles, QuinticSpline &weight_function)
 {
     //obtain the interaction pairs
-    particles.BuildInteraction(interaction_list, particle_list, forces, weight_function);
+    particles.BuildInteraction(interaction_list, particle_list, forces, weight_function, ini);
 
 }
 //----------------------------------------------------------------------------------------
@@ -161,7 +164,7 @@ void Hydrodynamics::UpdateShearRate(ParticleManager &particles, QuinticSpline &w
 {       
 
     //obtain the interaction pairs
-    particles.BuildInteraction(interaction_list, particle_list, forces, weight_function);
+    particles.BuildInteraction(interaction_list, particle_list, forces, weight_function, ini);
         
     //initiate zero shear rate
     Zero_ShearRate();
@@ -240,7 +243,7 @@ void Hydrodynamics::UpdateDensity(ParticleManager &particles, QuinticSpline &wei
 {       
 
     //obtain the interaction pairs
-    particles.BuildInteraction(interaction_list, particle_list, forces, weight_function);
+    particles.BuildInteraction(interaction_list, particle_list, forces, weight_function, ini);
         
     //initiate zero density
     Zero_density();
@@ -307,7 +310,7 @@ void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, QuinticSpline &
     ZeroChangeRate();
 
     //obtain the interaction pairs
-    particles.BuildInteraction(interaction_list, particle_list, forces, weight_function);
+    particles.BuildInteraction(interaction_list, particle_list, forces, weight_function, ini);
 
     //iterate the interaction list
     for (LlistNode<Interaction> *p = interaction_list.first(); 
@@ -837,24 +840,25 @@ void Hydrodynamics::Predictor_summation(double dt)
          p = particle_list.next(p)) {
                 
         Particle *prtl = particle_list.retrieve(p);
-        
-        //save values at step n
-        prtl->R_I = prtl->R;
-        prtl->U += prtl->_dU; //renormalize velocity
-        prtl->U_I = prtl->U;
+                                
+			//save values at step n
+			prtl->R_I = prtl->R;
+			prtl->U += prtl->_dU; //renormalize velocity
+			prtl->U_I = prtl->U;
+			//predict values at step n+1
+			prtl->R = prtl->R + prtl->U*dt;
+			prtl->U = prtl->U + prtl->dUdt*dt;
                         
-        //predict values at step n+1
-        prtl->R = prtl->R + prtl->U*dt;
-        prtl->U = prtl->U + prtl->dUdt*dt;
-                        
-        //calculate the middle values at step n+1/2
-        prtl->R = (prtl->R + prtl->R_I)*0.5;
-        prtl->U = (prtl->U + prtl->U_I)*0.5;
+			//calculate the middle values at step n+1/2
+			prtl->R = (prtl->R + prtl->R_I)*0.5;
+			prtl->U = (prtl->U + prtl->U_I)*0.5;
+		
     }
 }
 //----------------------------------------------------------------------------------------
 //                      the predictor and corrector method: predictor, no density updating
 //----------------------------------------------------------------------------------------
+
 void Hydrodynamics::Corrector_summation(double dt)
 {
     //iterate the real partilce list
@@ -865,10 +869,11 @@ void Hydrodynamics::Corrector_summation(double dt)
         Particle *prtl = particle_list.retrieve(p);
                         
         //correction base on values on n step and change rate at n+1/2
-        prtl->U += prtl->_dU; //renormalize velocity
-        prtl->R = prtl->R_I + prtl->U*dt;
-        prtl->U = prtl->U_I + prtl->dUdt*dt;
-    }
+		
+			prtl->U += prtl->_dU; //renormalize velocity
+			prtl->R = prtl->R_I + prtl->U*dt;
+			prtl->U = prtl->U_I + prtl->dUdt*dt;
+		}   
 }
 //----------------------------------------------------------------------------------------
 //                                                      including random effects
@@ -883,9 +888,12 @@ void Hydrodynamics::RandomEffects()
         Particle *prtl = particle_list.retrieve(p);
                         
         //correction base on values on n step and change rate at n+1/2
-        prtl->U = prtl->U + prtl->_dU;
-    }
+					prtl->U = prtl->U + prtl->_dU;
+	  
 }
+
+}
+
 //----------------------------------------------------------------------------------------
 //                                      test assign random particle velocity, no density updating
 //----------------------------------------------------------------------------------------

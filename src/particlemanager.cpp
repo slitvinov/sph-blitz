@@ -190,7 +190,7 @@ void ParticleManager::BuildNNP_MLSMapping(Vec2d &point)
 //                                      build the interaction (particle pair) list
 //----------------------------------------------------------------------------------------
 void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<Particle> &particle_list, 
-                                       Force **forces, QuinticSpline &weight_function)
+                                       Force **forces, QuinticSpline &weight_function, Initiation& ini)
 {
     LlistNode<Interaction> *current = interactions.first();
     bool used_up_old = interactions.isEnd(current);
@@ -253,7 +253,8 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
 #ifdef _OPENMP
                                     if (this_thread_num == current_thread) {
 #endif
-                                        Interaction *pair = new Interaction(prtl_org, prtl_dest, forces, weight_function, sqrt(dstc));
+                                        Interaction *pair = new Interaction(prtl_org, prtl_dest, 
+												forces, weight_function, sqrt(dstc), ini);
 #ifdef _OPENMP
 #pragma omp critical
 #endif
@@ -295,7 +296,7 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
 void ParticleManager::BiuldRealParticles(Hydrodynamics &hydro, Initiation &ini)
 {
         
-    int i, j, k;
+    int i, j, k,pk,pi=1;
     Vec2d position, velocity;
     double density, pressure, Temperature;
     int material_no;
@@ -331,6 +332,16 @@ void ParticleManager::BiuldRealParticles(Hydrodynamics &hydro, Initiation &ini)
                         //creat a new real particle
                         Particle *prtl = new Particle( position, velocity, density, pressure, Temperature, 
                                                        hydro.materials[material_no]);
+						pk=prtl->ID;
+						if(pk%3==0)
+						{
+						prtl->polyID = 0;
+						pi++;
+						
+						}
+						else
+						{prtl->polyID =pi;
+						pi++;}
 
                         prtl->cell_i = i; prtl->cell_j = j; 
                                                 
@@ -425,7 +436,7 @@ void ParticleManager::BiuldWallParticles(Hydrodynamics &hydro, Initiation &ini, 
                 for(m = 0; m < hdelta; m++) {
                     Particle *prtl = new Particle( -1*cll_sz + (k + 0.5)*delta, (j - 1)*cll_sz + (m + 0.5)*delta, 
                                                    0.0, 0.0, cll_sz - (k + 0.5)*delta, 1.0, 0.0, hydro.materials[0]);
-
+                    // prtl->polyID=prtl->ID;
                     prtl->cell_i = 0; prtl->cell_j = j; 
                     //insert its poistion on the particle list
                     hydro.particle_list.insert(hydro.particle_list.first(), prtl);

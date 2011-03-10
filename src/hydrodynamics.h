@@ -27,7 +27,7 @@ class Hydrodynamics
 
     ///for time step 
     double viscosity_max, surface_max;
-
+    Initiation& ini;
 
 public:
 

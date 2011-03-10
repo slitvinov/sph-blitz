@@ -10,15 +10,15 @@ AM_INIT_AUTOMAKE(sph, 0.1)
 AC_PROG_CXX
 
 # Checks for libraries.
-AC_CHECK_BLITZ(
-  [
-    LDFLAGS="$LDFLAGS $BLITZ_LDFLAGS"
-    CPPFLAGS="$CPPFLAGS $BLITZ_CPPFLAGS"
-  ],
-  [
-    AC_MSG_ERROR([blitz++ library are required])
-  ]	
-)
+#AC_CHECK_BLITZ(
+#  [
+#    LDFLAGS="$LDFLAGS $BLITZ_LDFLAGS"
+#    CPPFLAGS="$CPPFLAGS $BLITZ_CPPFLAGS"
+#  ],
+#  [
+#    AC_MSG_ERROR([blitz++ library are required])
+#  ]	
+#)
 
 
 # Checks for header files.

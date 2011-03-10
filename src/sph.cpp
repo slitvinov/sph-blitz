@@ -32,8 +32,12 @@
  * \section sim Runnig simulations
  * \verbatim
  cd src
- ./sph ../cases/couette \endverbatim 
- * \section test Testing 
+ ./sph ../cases/couette 
+\endverbatim 
+To run a SDPD solvent case
+* \verbatim
+./sph ../cases/solvent
+\endverbatim 
  * To profile memory leaks
  * \verbatim valgrind --leak-check=yes ./sph ../cases/poiseuille  | tee valgrid.log \endverbatim 
  * \section post Postprocessing
