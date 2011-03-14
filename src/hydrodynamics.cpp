@@ -603,8 +603,6 @@ void Hydrodynamics::AddGravity()
 		const double ky = 2*pi/Ly;
 		const Vec2d kolForce (gravity[0]*sin(ky*y), 0.0);
         prtl->dUdt = prtl->dUdt + kolForce;
-		std::cout << "for_grep: " << y << ' ' << kolForce[0] << std::endl;
-
         //prtl->dUdt = prtl->dUdt + gravity
 		;
     }
