@@ -598,9 +598,15 @@ void Hydrodynamics::AddGravity()
                                         
         //a particle
         Particle *prtl = particle_list.retrieve(p);
+		const double Ly = ini.box_size[1];
+		const double y = prtl->R[1];
+		const double ky = 2*pi/Ly;
+		const Vec2d kolForce (gravity[0]*sin(ky*y), 0.0);
+        prtl->dUdt = prtl->dUdt + kolForce;
+		std::cout << "for_grep: " << y << ' ' << kolForce[0] << std::endl;
 
-        //add the gravity effects
-        prtl->dUdt = prtl->dUdt + gravity;
+        //prtl->dUdt = prtl->dUdt + gravity
+		;
     }
 }
 //----------------------------------------------------------------------------------------
