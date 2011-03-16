@@ -224,6 +224,8 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, Qu
 void Initiation::non_dimensionalize()
 {
     box_size = non_dms_box_size(box_size);
+    polymer_r0 = non_dms_length(polymer_r0);
+
     cell_size = non_dms_length(cell_size);
     smoothinglength = non_dms_length(smoothinglength);
     delta = non_dms_length(delta); 
@@ -235,7 +237,9 @@ void Initiation::non_dimensionalize()
     //Bltzmann constant
     extern double k_bltz;
     k_bltz = non_dms_Boltzmann(k_bltz);
+    polymer_H =  polymer_H *  non_dms_Boltzmann(1.0) / non_dms_length(1.0) / non_dms_length(1.0);
         
+    
     //non-dimensionalize initial states
     if(initial_condition==0) {
 

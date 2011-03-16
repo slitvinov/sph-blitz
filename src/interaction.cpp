@@ -255,6 +255,7 @@ void Interaction::UpdateForces()
     double Vi2 = Vi*Vi, Vj2 = Vj*Vj;
     //artificial viscosity or Neumann_Richtmyer viscosity
     double theta, Csi, Csj, NR_vis;
+    extern double k_bltz;
     Csi = Org->Cs; Csj = Dest->Cs;
     theta = Uijdoteij*rij*delta/(rij*rij + 0.01*delta*delta);
     NR_vis = Uijdoteij > 0.0 ? 0.0 : art_vis*theta*(rhoi*Csi*mj + rhoj*Csj*mi)/(mi + mj);
@@ -278,6 +279,11 @@ void Interaction::UpdateForces()
 			const double relR = rij/ini.polymer_r0;
                         if (relR>1.0) {
                           std::cerr << __FILE__ << ':' << __LINE__ << ": ERROR: polymer is broken\n" ;
+                           std::cerr << "rij  = " << rij << std::endl;
+                           std::cerr << "ini.box_size:  " << ini.box_size << std::endl;
+                           std::cerr << "ini.polymer_r0  = " << ini.polymer_r0 << std::endl;
+                           std::cerr << "ini.polymer_H  = " << ini.polymer_H << std::endl;
+                           std::cerr << "H*r0^2/kt  = " << ini.polymer_H * ini.polymer_r0 * ini.polymer_r0 / (k_bltz * Org->T) << std::endl;
                           std::cerr << "relR  = " << relR << std::endl;
                           std::cerr << "Org->R: " << Org->R << std::endl;
                           std::cerr << "Dest->R: " << Dest->R << std::endl;
