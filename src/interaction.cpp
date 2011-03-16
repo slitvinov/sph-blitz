@@ -281,6 +281,8 @@ void Interaction::UpdateForces()
                           std::cerr << "relR  = " << relR << std::endl;
                           std::cerr << "Org->R: " << Org->R << std::endl;
                           std::cerr << "Dest->R: " << Dest->R << std::endl;
+                          std::cerr << "Org->polyID: " << Org->polyID << std::endl;
+                          std::cerr << "Dest->polyID: " << Dest->polyID << std::endl;
                           exit(EXIT_FAILURE);
                         }
 			dPdti += ini.polymer_H / ( 1 -  relR*relR) * (rij * eij);
