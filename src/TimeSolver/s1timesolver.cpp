@@ -80,6 +80,7 @@ void S1TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
     LOG(INFO) << "checkVelocity passed";
     checkForces(ini, hydro.particle_list);
     LOG(INFO) << "checkForces passed";
+    boundary.RunAwayCheck(hydro);///<ol><li>boundary.RunAwayCheck
     hydro.BuildInteractions(particles, weight_function, ini);///<ol><li> rebuild interactions
     hydro.UpdateDensity(ini, weight_function);///<li> hydro.UpdateDensity
     boundary.BoundaryCondition(particles);///<li> boundary.BoundaryCondition
@@ -101,9 +102,10 @@ void S1TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
     const double pdt = dt / static_cast<double>(ini.s1_niter);
     for (int nit=0; nit<ini.s1_niter; nit++) {
       s1SubStep(hydro, particles, weight_function, pdt, nit, ini);
-      hydro.BuildInteractions(particles, weight_function, ini);///<ol
-      boundary.BoundaryCondition(particles);///<li> boundary.BoundaryCondition
-      hydro.UpdateDensity(ini, weight_function);///<li>hydro.UpdateDensity
+      //boundary.RunAwayCheck(hydro);///<ol><li>boundary.RunAwayCheck
+      //hydro.BuildInteractions(particles, weight_function, ini);///<ol
+      //boundary.BoundaryCondition(particles);///<li> boundary.BoundaryCondition
+      //hydro.UpdateDensity(ini, weight_function);///<li>hydro.UpdateDensity
     }
     hydro.Corrector_summation_position(dt);
     checkVelocity(ini, hydro.particle_list);
@@ -174,13 +176,13 @@ void s1SubStep(Hydrodynamics &hydro, ParticleManager &particles,
 
   if (nit % 2 == 0) {
     BOOST_REVERSE_FOREACH(spInteraction pair, hydro.interaction_list) {
+      //      s1PressureUpdate(pair, weight_function, pdt, ini);
       s1PairUpdate(pair, weight_function, pdt, ini);
-      s1PressureUpdate(pair, weight_function, pdt, ini);
     }
   } else {
     BOOST_FOREACH(spInteraction pair, hydro.interaction_list) {
+      //      s1PressureUpdate(pair, weight_function, pdt, ini);
       s1PairUpdate(pair, weight_function, pdt, ini);
-      s1PressureUpdate(pair, weight_function, pdt, ini);
     }
   }
 }
@@ -216,20 +218,42 @@ void s1PairUpdate(spInteraction pair, spKernel weight_function,
 
     const Vec2d Ui_p = Org->U;
     const Vec2d Uj_p = Dest->U;
+
+    const double Vi = mi/rhoi;
+    const double Vj = mj/rhoj;
+    const double Vi2 = Vi*Vi; 
+    const double Vj2 = Vj*Vj;
+    const double pi = Org->p; 
+    const double pj = Dest->p;
+    const double rrij = 1.0/rij;
+
+
+    const Vec2d eij = (Org->R - Dest->R)*rrij;
+    const double Fij = weight_function->F(rij)*rrij;
+    const Vec2d dPdti_pre = eij*Fij*rij*(pi*Vi2 + pj*Vj2);
     
-    const Vec2d Ui_n = (pdt*kij*rmi*Uj_p+(pdt*kij*rmj+1)*Ui_p)/
-      (pdt*kij*rmj+pdt*kij*rmi+1);
-    const Vec2d Uj_n = (pdt*kij*rmi*Uj_p+Uj_p+pdt*kij*rmj*Ui_p)/
-      (pdt*kij*rmj+pdt*kij*rmi+1);
+    // const Vec2d Ui_n = (pdt*kij*rmi*Uj_p+(pdt*kij*rmj+1)*Ui_p)/
+    //   (pdt*kij*rmj+pdt*kij*rmi+1);
+    // const Vec2d Uj_n = (pdt*kij*rmi*Uj_p+Uj_p+pdt*kij*rmj*Ui_p)/
+    //   (pdt*kij*rmj+pdt*kij*rmi+1);
+
+    const Vec2d Ui_n = -((-kij*pdt*pdt*rmj+kij*pdt*pdt*rmi-pdt)*dPdti_pre
+        -kij*pdt*rmi*Uj_p+(-kij*pdt*rmj-1)*Ui_p)
+        /(kij*pdt*rmj+kij*pdt*rmi+1);
+
+    const Vec2d Uj_n = -((-kij*pdt*pdt*rmj+kij*pdt*pdt*rmi+pdt)*dPdti_pre
+        -kij*pdt*rmi*Uj_p-Uj_p-kij*pdt*rmj*Ui_p)
+        /(kij*pdt*rmj+kij*pdt*rmi+1);
+
     
     ini.context->UpdateVelocity(Org, Ui_n);
     if (Dest->ID>0) {
       ini.context->UpdateVelocity(Dest, Uj_n);
     }
     // center of mass velocity
-    const Vec2d Ucm = (mi*Ui_n + mj*Uj_n) / (mi + mj);
-    const Vec2d dUi = Ui_n - Ucm;
-    const Vec2d dUj = Uj_n - Ucm;
+    //const Vec2d Ucm = (mi*Ui_n + mj*Uj_n) / (mi + mj);
+    //const Vec2d dUi = Ui_n - Ucm;
+    //const Vec2d dUj = Uj_n - Ucm;
     //    ini.context->UpdatePosition(Org, dUi*pdt);
     //    ini.context->UpdatePosition(Dest, dUj*pdt);
  }
@@ -271,7 +295,6 @@ void s1PressureUpdate(spInteraction pair, spKernel weight_function,
     const Vec2d Uj_p = Dest->U;
 
     const Vec2d dPdti_pre = eij*Fij*rij*(pi*Vi2 + pj*Vj2);
-
     const Vec2d Ui_n = Ui_p + pdt*dPdti_pre;
     const Vec2d Uj_n = Uj_p - pdt*dPdti_pre;
 
@@ -279,4 +302,7 @@ void s1PressureUpdate(spInteraction pair, spKernel weight_function,
     if (Dest->ID>0) {
       ini.context->UpdateVelocity(Dest, Uj_n);
     }
+
+    //ini.context->UpdatePosition(Org, dPdti_pre*pdt*pdt/2.0);
+    //    ini.context->UpdatePosition(Dest, -dPdti_pre*pdt*pdt/2.0);
  }

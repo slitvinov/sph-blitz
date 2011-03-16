@@ -3,7 +3,7 @@
 # 2: gas dynamics
 # 4: S1
 set SIMULATION_MODE 4
-set s1_niter 10
+set s1_niter 40
 #set movePartilces 0
 
 # possible values are 
@@ -47,10 +47,10 @@ set T0 0.0
 # SPH_TCL="set eta_block 42" ./sph ../cases/falling_block_sym
 
 set Start_time 0.0
-set Hook_time 1.0
+set Hook_time 0.1
 set End_time 50.0
 # time between output
-set D_time 1e-1
+set D_time 0.1
 # boundary conditions
 set wall 0 
 set periodic 1
@@ -58,24 +58,25 @@ set freeslip 2
 set symmetry 3
 
 # type and velocity
-set xBl $freeslip
+set xBl $wall
 set UxBl(0) 0.0
 set UxBl(1) 0.0
 
-set xBr $freeslip
+set xBr $wall
 set UxBr(0) 0.0
 set UxBr(1) 0.0
 
-set yBd $freeslip
+set yBd $wall
 set UyBd(0) 0.0
 set UyBd(1) 0.0
 
-set yBu $freeslip
+set yBu $wall
 set UyBu(0) 0.0
 set UyBu(1) 0.0
 
 set rho_media 1.0
-set rho_block 1.033333
+#set rho_block 1.033333
+set rho_block 1.0
 #set k_rho $k_rho
 
 set eta_prerun 1.0
