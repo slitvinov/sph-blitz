@@ -276,6 +276,13 @@ void Interaction::UpdateForces()
 		if ( abs(Org->polyID - Dest->polyID) == 1 ) {
 			//std::cerr << "Org->polyID = " << Org->polyID << " Dest->polyID = " << Dest->polyID << '\n';
 			const double relR = rij/ini.polymer_r0;
+                        if (relR>1.0) {
+                          std::cerr << __FILE__ << ':' << __LINE__ << ": ERROR: polymer is broken\n" ;
+                          std::cerr << "relR  = " << relR << std::endl;
+                          std::cerr << "Org->R: " << Org->R << std::endl;
+                          std::cerr << "Dest->R: " << Dest->R << std::endl;
+                          exit(EXIT_FAILURE);
+                        }
 			dPdti += ini.polymer_H / ( 1 -  relR*relR) * (rij * eij);
 			
 		}
