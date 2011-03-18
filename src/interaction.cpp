@@ -277,21 +277,25 @@ void Interaction::UpdateForces()
 		if ( abs(Org->polyID - Dest->polyID) == 1 ) {
 			//std::cerr << "Org->polyID = " << Org->polyID << " Dest->polyID = " << Dest->polyID << '\n';
 			const double relR = rij/ini.polymer_r0;
+                      
                         if (relR>1.0) {
-                          std::cerr << __FILE__ << ':' << __LINE__ << ": ERROR: polymer is broken\n" ;
-                           std::cerr << "rij  = " << rij << std::endl;
-                           std::cerr << "ini.box_size:  " << ini.box_size << std::endl;
-                           std::cerr << "ini.polymer_r0  = " << ini.polymer_r0 << std::endl;
+                         std::cerr << __FILE__ << ':' << __LINE__ << ": ERROR: polymer is broken\n" ;
+                          std::cerr << "rij  = " << rij << std::endl;
+                          std::cerr << "ini.box_size:  " << ini.box_size << std::endl;
+                         std::cerr << "ini.polymer_r0  = " << ini.polymer_r0 << std::endl;
                            std::cerr << "ini.polymer_H  = " << ini.polymer_H << std::endl;
-                           std::cerr << "H*r0^2/kt  = " << ini.polymer_H * ini.polymer_r0 * ini.polymer_r0 / (k_bltz * Org->T) << std::endl;
-                          std::cerr << "relR  = " << relR << std::endl;
-                          std::cerr << "Org->R: " << Org->R << std::endl;
+                          std::cerr << "H*r0^2/kt  = " << ini.polymer_H * ini.polymer_r0 * ini.polymer_r0 / (k_bltz * Org->T) << std::endl;
+                         std::cerr << "relR  = " << relR << std::endl;
+                         std::cerr << "Org->R: " << Org->R << std::endl;
                           std::cerr << "Dest->R: " << Dest->R << std::endl;
                           std::cerr << "Org->polyID: " << Org->polyID << std::endl;
                           std::cerr << "Dest->polyID: " << Dest->polyID << std::endl;
-                          exit(EXIT_FAILURE);
+                         exit(EXIT_FAILURE);
+                         
                         }
-			dPdti += ini.polymer_H / ( 1 -  relR*relR) * (rij * eij);
+                        
+		dPdti -= ini.polymer_H / ( 1 -  relR*relR) * (rij * eij);
+    //dPdti += -ini.polymer_H * (rij * eij);
 			
 		}
 	}

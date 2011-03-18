@@ -598,12 +598,12 @@ void Hydrodynamics::AddGravity()
                                         
         //a particle
         Particle *prtl = particle_list.retrieve(p);
-		const double Ly = ini.box_size[1];
-		const double y = prtl->R[1];
-		const double ky = 2*pi/Ly;
-		const Vec2d kolForce (gravity[0]*sin(ky*y), 0.0);
-        prtl->dUdt = prtl->dUdt + kolForce;
-        //prtl->dUdt = prtl->dUdt + gravity
+		//const double Ly = ini.box_size[1];
+		//const double y = prtl->R[1];
+		//const double ky = 2*pi/Ly;
+		//const Vec2d kolForce (gravity[0]*sin(ky*y), 0.0);
+        //prtl->dUdt = prtl->dUdt + kolForce;
+        prtl->dUdt = prtl->dUdt + gravity
 		;
     }
 }
