@@ -88,7 +88,6 @@ ini(ini) {
                 cout<<"The properties of the material No. "<<k<<"\n";           
                 materials[k].show_properties();
                 //non-dimensionalize
-                materials[k].non_dimensionalize(ini);
             }
 
         //comparing the key words for the force matrix 
@@ -102,7 +101,6 @@ ini(ini) {
                        >>forces[k][m].heat_slip;
                     //smoothinglenth
                     forces[k][m].smoothinglength = ini.smoothinglength;
-                    forces[k][m].non_dimensionalize(ini);
                 }
     }
     fin.close();
