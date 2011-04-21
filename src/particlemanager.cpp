@@ -333,7 +333,7 @@ void ParticleManager::BiuldRealParticles(Hydrodynamics &hydro, Initiation &ini)
                         Particle *prtl = new Particle( position, velocity, density, pressure, Temperature, 
                                                        hydro.materials[material_no]);
 						pk=prtl->ID;
-						if(pk%3==0)
+						if(pk%6==0||pk%6==5||pk%6==4)
 						{
 						prtl->polyID = 0;
 						pi++;

@@ -101,9 +101,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
             if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) { 
                 j ++;
                 if(j == 1)      out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
-                //out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
-                  // <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])<<"  "<<"0"<<"  "<<"0"<<"  "<<
-					//"0"<<"  "<<"0"<<"  "<<prtl->ID<<"  "<<prtl->polyID<<"\n";
+               // out<<prtl->R[0]<<"  "<<prtl->R[1]<<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"  "<<prtl->dUdt[0]<<"  "<<prtl->dUdt[1]<<"  "<<prtl->rho<<" "<<"\n";
                   //out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
                    //<<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])<<
 					//"  "<<prtl->dUdt[0]<<"  "<<prtl->dUdt[1]<<"  "<<"0"<<"\n";
