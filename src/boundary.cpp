@@ -94,6 +94,8 @@ void Boundary::RunAwayCheck(Hydrodynamics &hydro)
 
         if(ABS(prtl->R[0]) >= 2.0*box_size[0] || ABS(prtl->R[1]) >= 2.0*box_size[1]) {
             cout<<"Boundary: the particles run out too far away from the domain! \n";
+	    std::cout << "box_size: " << box_size << std::endl;
+	    std::cout << "prtl->R: " << prtl->R << std::endl;
             std::cout << __FILE__ << ':' << __LINE__ << std::endl;
             exit(1);
         }

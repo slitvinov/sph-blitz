@@ -26,6 +26,7 @@
 #include "diagnose.h"
 #include "initiation.h"
 #include "quinticspline.h"
+#include "debug.h"
 
 using namespace std;
 
@@ -43,66 +44,6 @@ TimeSolver::TimeSolver(Initiation &ini)
     ite = 0;
 }
 //----------------------------------------------------------------------------------------
-//                                              advance time interval D_time
-//                                              predictor and corrector method used
-//----------------------------------------------------------------------------------------
-void TimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary,
-                              double &Time, double D_time, Diagnose &diagnose,
-                              Initiation &ini, QuinticSpline &weight_function, MLS &mls)
-{
-    double integeral_time = 0.0;
-        
-    while(integeral_time < D_time) {
-
-        dt = hydro.GetTimestep();
-
-        ite ++;
-        integeral_time += dt;
-        Time += dt;
-	hydro.setTime(Time);
-                
-        //screen information for the iteration
-        if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "<<Time<<"     dt: "<<dt<<"\n";
-
-        //calculating diagonse information
-        if(ini.diagnose == 1) {
-            diagnose.SaveStates(hydro);
-            diagnose.Average(particles, mls, weight_function, ini);
-        }
-        if(ini.diagnose == 2 && ite % 10 == 0) 
-            diagnose.KineticInformation(Time, ini, hydro);
-
-        //predictor and corrector method used
-        //the prediction step
-        hydro.BuildPair(particles, weight_function);
-//              hydro.UpdatePhaseGradient(boundary);
-//              hydro.UpdateSurfaceStress(boundary);
-//              boundary.BoundaryCondition(particles);
-
-        hydro.UpdateChangeRate();
-        hydro.Predictor(dt);
-        hydro.UpdateState();
-
-        //the correction step without update the interaction list
-        hydro.UpdatePair(weight_function);
-        boundary.BoundaryCondition(particles);
-//              hydro.UpdatePhaseGradient(boundary);
-//              hydro.UpdateSurfaceStress(boundary);
-//              boundary.BoundaryCondition(particles);
-
-        hydro.UpdateChangeRate(); 
-	hydro.UpdateRandom(sqrt(dt));
-        hydro.Corrector(dt);
-        hydro.RandomEffects();
-        hydro.UpdateState();
-
-        //renew boundary particles
-        boundary.RunAwayCheck(hydro);
-        particles.UpdateCellLinkedLists();
-        boundary.BuildBoundaryParticles(particles, hydro);
-    }
-}
-//----------------------------------------------------------------------------------------
 //                                      advance time interval D_time with summation for density
 //                                      predictor and corrector method used
 //----------------------------------------------------------------------------------------
@@ -110,12 +51,10 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
                                         double &Time, double D_time, Diagnose &diagnose,
                                         Initiation &ini, QuinticSpline &weight_function, MLS &mls)
 {
+  Debug dbg(ini);
     double integeral_time = 0.0;
-        
     while(integeral_time < D_time) {
-
         dt = hydro.GetTimestep();
-
         ite ++;
         integeral_time += dt;
         Time += dt;
@@ -155,9 +94,13 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
         hydro.UpdateChangeRate(); 
 	hydro.UpdateRandom(sqrt(dt));
         hydro.Corrector_summation(dt);
+	dbg.checkVelocity(hydro.particle_list, dt, __FILE__, __LINE__);
 	hydro.RandomEffects();
+	dbg.checkVelocity(hydro.particle_list, dt, __FILE__, __LINE__);
 
         //renew boundary particles
+	dbg.checkVelocity(hydro.particle_list, dt, __FILE__, __LINE__);
+	dbg.checkPosition(hydro.particle_list, __FILE__, __LINE__);
         boundary.RunAwayCheck(hydro);
         particles.UpdateCellLinkedLists();
         boundary.BuildBoundaryParticles(particles, hydro);
