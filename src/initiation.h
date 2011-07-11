@@ -3,6 +3,7 @@
 
 #ifndef INITIATION_H
 #define INITIATION_H
+#include "vec2d.h"
 
 class QuinticSpline;
 class Material; 

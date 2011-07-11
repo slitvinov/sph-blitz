@@ -869,7 +869,6 @@ void Hydrodynamics::Corrector_summation(double dt)
         Particle *prtl = particle_list.retrieve(p);
                         
         //correction base on values on n step and change rate at n+1/2
-		
 	prtl->U += prtl->_dU; //renormalize velocity
 	prtl->R = prtl->R_I + prtl->U*dt;
 	prtl->U = prtl->U_I + prtl->dUdt*dt;

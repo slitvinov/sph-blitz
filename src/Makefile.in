@@ -46,8 +46,8 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_sph_OBJECTS = boundary.$(OBJEXT) betaspline.$(OBJEXT) \
-	diagnose.$(OBJEXT) force.$(OBJEXT) glbfunc.$(OBJEXT) \
-	hydrodynamics.$(OBJEXT) initiation.$(OBJEXT) \
+	diagnose.$(OBJEXT) debug.$(OBJEXT) force.$(OBJEXT) \
+	glbfunc.$(OBJEXT) hydrodynamics.$(OBJEXT) initiation.$(OBJEXT) \
 	interaction.$(OBJEXT) kernel.$(OBJEXT) material.$(OBJEXT) \
 	mls.$(OBJEXT) output.$(OBJEXT) particle.$(OBJEXT) \
 	particlemanager.$(OBJEXT) quinticspline.$(OBJEXT) \
@@ -168,6 +168,7 @@ top_srcdir = @top_srcdir@
 sph_SOURCES = \
 	betaspline.h boundary.cpp boundary.h \
 	betaspline.cpp diagnose.h diagnose.cpp \
+	debug.h debug.cpp \
 	dllist.h force.cpp force.h \
 	glbcls.h glbfunc.cpp glbfunc.h \
 	hydrodynamics.cpp hydrodynamics.h initiation.cpp \
@@ -264,6 +265,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/betaspline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boundary.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/debug.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/diagnose.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/force.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/glbfunc.Po@am__quote@

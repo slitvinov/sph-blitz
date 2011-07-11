@@ -46,7 +46,7 @@ ini(ini)
 //                                      constructor
 //----------------------------------------------------------------------------------------
 Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
-						 QuinticSpline &weight_function, double dstc, Initiation& ini):
+			 QuinticSpline &weight_function, double dstc, Initiation& ini):
 ini(ini)
 {
     //the original and the destinate particle in the reaction pair
@@ -401,26 +401,26 @@ void Interaction::UpdateForces_vis()
 //----------------------------------------------------------------------------------------
 void Interaction::RandomForces(Wiener &wiener, double sqrtdt)
 {
+  /// excluding self-interaction
+  if (Org->ID != Dest->ID) {
     //pair particle state values
-    double Vi, Vj; 
-    double Ti, Tj; //temperature
-    Vec2d v_eij; //90 degree rotation of pair direction
 
     extern double k_bltz;
 
     //define particle state values
-    Vi = mi/Org->rho; Vj = mj/Dest->rho;
-    Ti =Org->T; Tj = Dest->T;
+    const double Vi = mi/Org->rho;
+    const double Vj = mj/Dest->rho;
+    const double Ti =Org->T; 
+    const double Tj = Dest->T;
         
     wiener.get_wiener(sqrtdt);
 
     //pair focres or change rate
-    Vec2d _dUi; //mometum change rate
-    double Vi2 = Vi*Vi, Vj2 = Vj*Vj;
+    //mometum change rate
+    const double Vi2 = Vi*Vi;
+    const double Vj2 = Vj*Vj;
 
-    _dUi = v_eij*wiener.Random_p*sqrt(16.0*k_bltz*shear_rij*Ti*Tj/(Ti + Tj)*(Vi2 + Vj2)*Fij) +
-        eij*wiener.Random_v*sqrt(16.0*k_bltz*bulk_rij*Ti*Tj/(Ti + Tj)*(Vi2 + Vj2)*Fij);
-
+    const Vec2d _dUi  = eij*wiener.Random_v*sqrt(16.0*k_bltz*bulk_rij*Ti*Tj/(Ti + Tj)*(Vi2 + Vj2)*Fij);
     //summation
     //modify for perodic boundary condition
     if(Dest->bd_type == 1) {
@@ -431,12 +431,15 @@ void Interaction::RandomForces(Wiener &wiener, double sqrtdt)
         Org->_dU = Org->_dU + _dUi*rmi;
         Dest->_dU = Dest->_dU - _dUi*rmj;
     }
+  }
 }
 //----------------------------------------------------------------------------------------
 //                                      update random forces with Espanol's method
 //----------------------------------------------------------------------------------------
 void Interaction::RandomForces_Espanol(Wiener &wiener, double sqrtdt)
 {
+  /// excluding self-interaction
+  if (Org->ID != Dest->ID) {
     //pair particle state values
     double smimj, smjmi, rrhoi, rrhoj; 
     double Ti, Tj; //temperature
@@ -470,5 +473,5 @@ void Interaction::RandomForces_Espanol(Wiener &wiener, double sqrtdt)
         Org->_dU        = Org->_dU + _dUi*smjmi;
         Dest->_dU       = Dest->_dU - _dUi*smimj;
     }
-
+  } 
 }

@@ -27,12 +27,15 @@ public:
         
     ///constructor
     TimeSolver(Initiation &ini);
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> bug_on_megumi
     ///advance time interval D_time with summation for density
     void TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary,
                                 double &Time, double D_time, Diagnose &diagnose,
                                 Initiation &ini, QuinticSpline &weight_function, MLS &mls);
-
 };
 
 #endif

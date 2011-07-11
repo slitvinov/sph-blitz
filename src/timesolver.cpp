@@ -26,6 +26,7 @@
 #include "diagnose.h"
 #include "initiation.h"
 #include "quinticspline.h"
+#include "debug.h"
 
 using namespace std;
 
@@ -42,7 +43,6 @@ TimeSolver::TimeSolver(Initiation &ini)
     //initialize the iteration
     ite = 0;
 }
-
 //----------------------------------------------------------------------------------------
 //                                      advance time interval D_time with summation for density
 //                                      predictor and corrector method used
@@ -51,13 +51,10 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
                                         double &Time, double D_time, Diagnose &diagnose,
                                         Initiation &ini, QuinticSpline &weight_function, MLS &mls)
 {
+  //  Debug dbg(ini);
     double integeral_time = 0.0;
-        
     while(integeral_time < D_time) {
-      std::cerr << __FILE__ << ':' << __LINE__ << " check RunAwayCheck" << std::endl;
-        boundary.RunAwayCheck(hydro);
         dt = hydro.GetTimestep();
-
         ite ++;
         integeral_time += dt;
         Time += dt;
@@ -96,14 +93,15 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
         //hydro.UpdateSurfaceStress(boundary);
         hydro.UpdateChangeRate(); 
 	hydro.UpdateRandom(sqrt(dt));
-
-      std::cerr << __FILE__ << ':' << __LINE__ << " check RunAwayCheck" << std::endl;
         boundary.RunAwayCheck(hydro);
         hydro.Corrector_summation(dt);
+	//dbg.checkVelocity(hydro.particle_list, dt, __FILE__, __LINE__);
 	hydro.RandomEffects();
+	//dbg.checkVelocity(hydro.particle_list, dt, __FILE__, __LINE__);
 
         //renew boundary particles
-      std::cerr << __FILE__ << ':' << __LINE__ << " check RunAwayCheck" << std::endl;
+	//dbg.checkVelocity(hydro.particle_list, dt, __FILE__, __LINE__);
+	//dbg.checkPosition(hydro.particle_list, __FILE__, __LINE__);
         boundary.RunAwayCheck(hydro);
         particles.UpdateCellLinkedLists();
         boundary.BuildBoundaryParticles(particles, hydro);
