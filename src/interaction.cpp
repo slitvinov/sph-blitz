@@ -344,59 +344,6 @@ void Interaction::SummationUpdateForces()
 #endif
 
 //----------------------------------------------------------------------------------------
-//                              update forces with summation viscosity
-//----------------------------------------------------------------------------------------
-void Interaction::UpdateForces_vis()
-{
-    //pressure, density and inverse density and middle point pressure
-    double pi, rhoi, rrhoi, pj, rhoj, rrhoj, _pij; 
-    //velocity, velocity difference and midddle point velocity
-    Vec2d Ui, Uj, Uij, _Uij; 
-
-    //define pair values change in sub time steps
-    rhoi = Org->rho; rhoj = Dest->rho;
-    rrhoi = 1.0/rhoi; rrhoj = 1.0/rhoj;
-    pi = Org->p; pj = Dest->p;
-    Ui = Org->U; Uj = Dest->U;
-    Uij = Org->U - Dest->U;
-    _pij = (pi + pj)*0.5;
-    _Uij = (Ui + Uj)*0.5;
-
-    //shear rates
-    Vec2d ShearRate_xi, ShearRate_yi;
-    Vec2d ShearRate_xj, ShearRate_yj;
-    double ShearStress[2][2], CompressRate;
-    Vec2d ShearForce;
-
-    //pair focres or change rate
-    Vec2d dPdti; //mometum change rate
-
-    //shear force
-    ShearRate_xi = Org->ShearRate_x; ShearRate_yi =  Org->ShearRate_y;
-    ShearRate_xj = Dest->ShearRate_x; ShearRate_yj =  Dest->ShearRate_y;
-
-    ShearStress[0][0] = (ShearRate_xi[0] + ShearRate_xj[0]);
-    ShearStress[0][1] = ((ShearRate_xi[1] + ShearRate_xj[1]) + (ShearRate_yi[0] + ShearRate_yj[0]))*0.5;
-    ShearStress[1][0] = ShearStress[0][1];
-    ShearStress[1][1] = (ShearRate_yi[1] + ShearRate_yj[1]);
-    CompressRate = (ShearStress[0][0] + ShearStress[1][1])/3.0;
-    ShearStress[0][0] -= CompressRate;  ShearStress[1][1] -= CompressRate;
-
-    ShearForce[0] = ShearStress[0][0]*eij[0] + ShearStress[1][0]*eij[1]; 
-    ShearForce[1] = ShearStress[0][1]*eij[0] + ShearStress[1][1]*eij[1]; 
-    ShearForce = ShearForce*2.0*etai*etaj/(etai + etaj) 
-        + eij*CompressRate*2.0*zetai*zetaj/(zetai + zetaj); 
-
-        
-    //define pair force or change rates
-    dPdti =   eij*Fij*rij*_pij*(rrhoi*rrhoi + rrhoj*rrhoj)
-        - ShearForce*Fij*rij*(rrhoi*rrhoi + rrhoj*rrhoj);
-    //summation
-    Org->dUdt = Org->dUdt + dPdti*mj;
-    Dest->dUdt = Dest->dUdt - dPdti*mi;
-
-}
-//----------------------------------------------------------------------------------------
 //                                      update random forces
 //----------------------------------------------------------------------------------------
 void Interaction::RandomForces(Wiener &wiener, double sqrtdt)

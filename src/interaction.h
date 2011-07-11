@@ -67,7 +67,6 @@ public:
 
     ///update forces
     void UpdateForces();
-    void UpdateForces_vis();
 #ifdef _OPENMP
     void SummationUpdateForces();
 #endif
