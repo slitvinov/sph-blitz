@@ -59,6 +59,7 @@ void TimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
         ite ++;
         integeral_time += dt;
         Time += dt;
+	hydro.setTime(Time);
                 
         //screen information for the iteration
         if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "<<Time<<"     dt: "<<dt<<"\n";

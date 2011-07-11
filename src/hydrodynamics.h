@@ -21,6 +21,9 @@ class Hydrodynamics
     double smoothinglength;
     double delta, delta2, delta3;
     double dt_g_vis, dt_surf;
+    
+    /// global simulation time
+    double Time;
 
     ///the interaction (particle pair) list
     Llist<Interaction> interaction_list;
@@ -110,6 +113,9 @@ public:
 
     ///special uitilities
     void Zero_Velocity();
+
+    /// set a global time for Hydrodynamics
+    void setTime(const double newTime);
 
 };
 #endif

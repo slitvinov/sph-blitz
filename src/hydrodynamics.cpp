@@ -29,7 +29,6 @@
 #include "quinticspline.h"
 #include "mls.h"
 
-
 using namespace std;
 
 //----------------------------------------------------------------------------------------
@@ -602,7 +601,6 @@ void Hydrodynamics::AddGravity()
 	//const Vec2d kolForce(1e3, 0.0);
        prtl->dUdt = prtl->dUdt + kolForce;
        // prtl->dUdt = prtl->dUdt + gravity
-		;
     }
 }
 //----------------------------------------------------------------------------------------
@@ -936,6 +934,10 @@ double Hydrodynamics::ConservationTest()
     }
 
     return v_abs(U);
+}
+
+void Hydrodynamics::setTime(const double newTime) {
+  Time = newTime;
 }
 
 Hydrodynamics::~Hydrodynamics() {
