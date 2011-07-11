@@ -89,12 +89,12 @@ void Boundary::RunAwayCheck(Hydrodynamics &hydro)
     for (LlistNode<Particle> *p = hydro.particle_list.first(); 
          !hydro.particle_list.isEnd(p); 
          p = hydro.particle_list.next(p)) {
-                                
-        Particle *prtl = hydro.particle_list.retrieve(p);
-
+         Particle *prtl = hydro.particle_list.retrieve(p);
         if(ABS(prtl->R[0]) >= 2.0*box_size[0] || ABS(prtl->R[1]) >= 2.0*box_size[1]) {
             cout<<"Boundary: the particles run out too far away from the domain! \n";
             std::cout << __FILE__ << ':' << __LINE__ << std::endl;
+	    std::cout << "R: " << prtl->R << std::endl;
+	    std::cout << "box_size: " << box_size << std::endl;
             exit(1);
         }
         //only checking real particles
