@@ -53,7 +53,8 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
     char file_name[150], file_list[120];
 	std::cerr << "Output::OutputParticles is called" << std::endl;
 	std::cerr << "Time of the output is " << Time << std::endl;
-
+if (Time<0.041)
+{}
     //produce output file name
     Itime = Time*1.0e6;
     strcpy(file_name,"./outdata/prtl");

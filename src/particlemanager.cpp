@@ -296,7 +296,11 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
 void ParticleManager::BiuldRealParticles(Hydrodynamics &hydro, Initiation &ini)
 {
         
-    int i, j, k,pk,pi=1;
+    int i, j, k,pk,pj=1,pka[54]={0,1,2,3,6,5,4,7,8,9,16,17,18,15,14,13,10,11,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+//pka[54]={0,1,2,3,0,0,0,0,0,0,4,5,6,0,0,0,0,0,0,7,8,9,0,0,0,0,0,0,10,11,12,0,0,0,0,0,0,13,14,15,0,0,0,0,0,0,16,17,18,0,0,0,0,0};
+
+//pka[27]={0,1,2,3,0,0,0,0,0,0,4,5,6,0,0,0,0,0,0,7,8,9,0,0,0,0,0};
+//pka[9]={0,1,2,3,6,5,4,0,0};
     Vec2d position, velocity;
     double density, pressure, Temperature;
     int material_no;
@@ -333,16 +337,36 @@ void ParticleManager::BiuldRealParticles(Hydrodynamics &hydro, Initiation &ini)
                         Particle *prtl = new Particle( position, velocity, density, pressure, Temperature, 
                                                        hydro.materials[material_no]);
 						pk=prtl->ID;
-						if(pk%6==0||pk%6==5||pk%6==4)
-						{
-						prtl->polyID = 0;
-						pi++;
+					//	if(pk%3==1||pk%3==2)
+					//	{
+					//	prtl->polyID = pj;
+					//	pj++;
 						
-						}
-						else
-						{prtl->polyID =pi;
-						pi++;}
+					//	}
+					//	else
+					//	{prtl->polyID =0;
+					//	pj++;}
+                                           
+//if(pk%9==1||pk%9==2||pk%9==3||pk%9==4||pk%9==5||pk%9==6)
+//{
+//pj=pk%9;
+//prtl->polyID=(pk/9)*9+pka[pj];}
+//else
+//{prtl->polyID=0;
+//}
+//if(pk%27==1||pk%27==2||pk%27==3||pk%27==10||pk%27==11||pk%27==12||pk%27==19||pk%27==20||pk%27==21)
+//if(pk%54==1||pk%54==2||pk%54==3||pk%54==10||pk%54==11||pk%54==12||pk%54==19||pk%54==20||pk%54==21||pk%54==28||pk%54==29
+//||pk%54==30||pk%54==37||pk%54==38||pk%54==39||pk%54==46||pk%54==47||pk%54==48)
+if(pk%54>0&&pk%54<19)
 
+{
+pj=pk%54;
+prtl->polyID=(pk/54)*54+pka[pj];}
+else
+{prtl->polyID=0;
+}
+
+std::cerr<<"polyID"<<prtl->polyID<<"\n";
                         prtl->cell_i = i; prtl->cell_j = j; 
                                                 
                         //insert its poistion on the particle list

@@ -27,7 +27,7 @@
 #include "interaction.h"
 #include "boundary.h"
 #include "quinticspline.h"
-
+#include "mls.h"
 
 
 using namespace std;
@@ -592,14 +592,14 @@ void Hydrodynamics::AddGravity()
     //iterate particles on the real particle list
     for (LlistNode<Particle> *p = particle_list.first(); 
          !particle_list.isEnd(p); 
-         p = particle_list.next(p)) {
-                                        
-        //a particle
+         p = particle_list.next(p)) {    
+         //a particle
         Particle *prtl = particle_list.retrieve(p);
 	const double Ly = ini.box_size[1];
 	const double y = prtl->R[1];
-	const double ky = 2*pi/Ly;
-	const Vec2d kolForce (gravity[0]*sin(ky*y), 0.0);
+	const double ky = 4*pi/Ly;
+	const Vec2d kolForce (gravity[0]*cos(ky*y), 0.0);
+	//const Vec2d kolForce(1e3, 0.0);
        prtl->dUdt = prtl->dUdt + kolForce;
        // prtl->dUdt = prtl->dUdt + gravity
 		;
@@ -782,7 +782,7 @@ double Hydrodynamics::GetTimestep()
         rho_max = AMAX1(rho_max, prtl->rho);
     }
 
-    dt = AMIN1(sqrt(0.5*(rho_min + rho_max))*dt_surf, dt_g_vis);
+    dt = AMIN1(sqrt(0.5*(rho_min + rho_max))*dt_surf, dt_g_vis) ;
     return  0.25*AMIN1(dt, delta/(Cs_max + V_max));
 }
 //----------------------------------------------------------------------------------------
