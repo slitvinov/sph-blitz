@@ -123,7 +123,8 @@ void Material::Get_b0(double sound)
 //----------------------------------------------------------------------------------------
 double Material::get_p(double rho)
 {
-	return b0*pow(rho/rho0,gamma);
+  //return b0*pow(rho/rho0,gamma);
+  return b0*pow(rho/rho0,gamma);
 }
 //----------------------------------------------------------------------------------------
 //					get rho from pressure

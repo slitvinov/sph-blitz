@@ -47,6 +47,7 @@ Y1>
 <velocity of the wall>
 
 MATERIALS
+material_name material_type cv eta zeta kappa gamma b0 rho0 a0;
 
 
 *Simulations*
@@ -71,3 +72,6 @@ plot n=10, A=250.0, 'punto.dat' u 2:3 every :::n::n+5, A*x*(L-x)
 *Others*
 To remove output directory
 rm -rf outdata/
+
+*Restart file*
+material_name position[0] position[1] velocity[0] velocity[1] density pressure Temperature;
