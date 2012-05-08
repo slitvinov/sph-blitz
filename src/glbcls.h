@@ -67,6 +67,12 @@ public:
 	int x_cells, y_cells;
 	//g force on particles
 	Vec2d g_force;
+        
+        ///  apply gravity force only to this phase
+        int  g_only;
+
+        ///  time step
+        double  tstep;
 
 	//timing control, D_time is output time interval
 	double Start_time, End_time, D_time;
@@ -569,6 +575,7 @@ class Hydrodynamics
 {	
 	int number_of_materials;
 	Vec2d gravity;
+        int g_only;
 	double smoothinglength;
 	double delta, delta2, delta3;
 	double dt_g_vis, dt_surf;
@@ -595,7 +602,7 @@ public:
 	Hydrodynamics(ParticleManager &particles, Initiation &ini);
 
 	//get the time step
-	double GetTimestep();
+        double GetTimestep(Initiation &ini);
 
 	//update new parameters in pairs
 	void BuildPair(ParticleManager &particles, QuinticSpline &weight_function);

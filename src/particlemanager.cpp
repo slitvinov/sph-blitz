@@ -311,14 +311,13 @@ void ParticleManager::BiuldRealParticles(Hydrodynamics &hydro, Initiation &ini)
 	    density = hydro.materials[material_no].rho0;
 	    pressure = hydro.materials[material_no].get_p(density);
 						
-	    Vec2d c_cntr;
-	    c_cntr[0] = 4.0; c_cntr[1] = 4.0;
-	    if(v_abs(position - c_cntr) <= 1.0) {
-	      //						if(position[1] < 0.2 && position[0] < 0.2) {
-	      material_no = 2;
-	      pressure += p0;
-	      density = hydro.materials[material_no].get_rho(pressure);
-	    }
+	    // Vec2d c_cntr;
+	    // c_cntr[0] = 4.0; c_cntr[1] = 4.0;
+	    // if(v_abs(position - c_cntr) <= 1.0) {
+	    //   material_no = 2;
+	    //   pressure += p0;
+	    //   density = hydro.materials[material_no].get_rho(pressure);
+	    // }
 
 	    //creat a new real particle
 	    Particle *prtl = new Particle( position, velocity, density, pressure, Temperature, 

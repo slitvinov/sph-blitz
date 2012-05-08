@@ -52,7 +52,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
   ofstream out(file_name);
   //defining header for tecplot(plot software)
   out<<"title='particle position' \n";
-  out<<"variables=x, y, Ux, Uy \n";
+  out<<"variables=x, y, Ux, Uy, rho, p, m\n";
 	
   //output real and soild particles
   for(i = 0; i < number_of_materials; i++) {
@@ -68,7 +68,10 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
 	j ++;
 	if(j == 1) 	out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
 	out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
-	   <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])<<"\n";
+	   <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])
+	   <<"  "<<ini.dms_rho(prtl->rho)
+	   <<"  "<<ini.dms_p(prtl->p)
+	   <<"  "<<ini.dms_mass(prtl->m)<<"\n";
       }
     }
 
@@ -80,9 +83,12 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
       Particle *prtl = boundary.boundary_particle_list.retrieve(p1);
       if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) { 
 	j ++;
-	if(j == 1) 	out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
-	out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
-	   <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])<<"\n";
+	if(j == 1) 	
+	  out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
+	     <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])
+	     <<"  "<<ini.dms_rho(prtl->rho)
+	     <<"  "<<ini.dms_p(prtl->p)
+	     <<"  "<<ini.dms_mass(prtl->m)<<"\n";
       }
     }
   }

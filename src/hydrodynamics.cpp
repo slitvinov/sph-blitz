@@ -35,6 +35,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   //copy properties from initiation class
   number_of_materials = ini.number_of_materials;
   gravity = ini.g_force;
+  g_only = ini.g_only;
   smoothinglength = ini.smoothinglength;
   delta = ini.delta; delta2 = delta*delta; delta3 = delta2*delta;
 
@@ -587,7 +588,15 @@ void Hydrodynamics::AddGravity()
     Particle *prtl = particle_list.retrieve(p);
 
     //add the gravity effects
-    prtl->dUdt = prtl->dUdt + gravity;
+    /// must be Air
+    if (g_only < 0) {
+      prtl->dUdt = prtl->dUdt + gravity;
+    } else {
+      if (prtl->mtl->number==1)  {
+	//std::cerr << prtl->mtl->material_name << '\n';
+	prtl->dUdt = prtl->dUdt + gravity;
+      }
+    }
   }
 }
 //----------------------------------------------------------------------------------------
@@ -748,8 +757,12 @@ void Hydrodynamics::UpdateVolume(ParticleManager &particles, QuinticSpline &weig
 //----------------------------------------------------------------------------------------
 //							get the time step
 //----------------------------------------------------------------------------------------
-double Hydrodynamics::GetTimestep()
+double Hydrodynamics::GetTimestep(Initiation &ini)
 {
+
+  if (ini.tstep>0) {
+    return ini.non_dms_time(ini.tstep);
+  }
   //maximum sound speed, particle velocity and density
   double Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = 1.0;
   double dt;

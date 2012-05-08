@@ -46,7 +46,7 @@ void TimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
 	
 	while(integeral_time < D_time) {
 
-		dt = hydro.GetTimestep();
+		dt = hydro.GetTimestep(ini);
 
 		ite ++;
 		integeral_time += dt;
@@ -85,7 +85,6 @@ void TimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
 //		hydro.UpdateRandom(sqrt(dt));
 		hydro.UpdateRandom(sqrt(dt));
 		hydro.Corrector(dt);
-//		hydro.RandomEffects();
 		hydro.RandomEffects();
 		hydro.UpdateState();
 
@@ -107,7 +106,7 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
 	
 	while(integeral_time < D_time) {
 
-		dt = hydro.GetTimestep();
+		dt = hydro.GetTimestep(ini);
 
 		ite ++;
 		integeral_time += dt;

@@ -26,6 +26,8 @@ using namespace std;
 Initiation::Initiation(const char *project_name) {
 	
 	char Key_word[25];
+	g_only = -1;
+	tstep = -1;
 
 	//the project name
 	strcpy(Project_name, project_name);
@@ -80,6 +82,12 @@ Initiation::Initiation(const char *project_name) {
 		
 		//comparing the key words for number ofmaterials
 		if(!strcmp(Key_word, "NUMBER_OF_MATERIALS")) fin>>number_of_materials;
+
+		//comparing the key words for g only
+		if(!strcmp(Key_word, "G_ONLY")) fin>>g_only;
+
+		//comparing the key words for g only
+		if(!strcmp(Key_word, "TSTEP")) fin>> tstep;
 
 		//comparing the key words for timing
 		if(!strcmp(Key_word, "TIMING")) fin>>Start_time>>End_time>>D_time;

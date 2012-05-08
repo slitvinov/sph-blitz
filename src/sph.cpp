@@ -95,7 +95,7 @@ int main(int argc, char *argv[]) {
 		
 		//output results after a time interval
 		output.OutputParticles(hydro, boundary, Time, ini); //particle positions and velocites
-//		output.OutputStates(particles, mls, weight_function, Time, ini); //states on uniform grid
+		output.OutputStates(particles, mls, weight_function, Time, ini); //states on uniform grid
 //		output.OutAverage(particles, mls, weight_function, Time, ini);
 		output.WriteParticleMovie(hydro, Time, ini); //a frame of the particle movie
 		output.OutRestart(hydro, Time, ini); //restarting file
