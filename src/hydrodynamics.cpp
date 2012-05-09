@@ -592,7 +592,7 @@ void Hydrodynamics::AddGravity()
     if (g_only < 0) {
       prtl->dUdt = prtl->dUdt + gravity;
     } else {
-      if (prtl->mtl->number==1)  {
+      if (prtl->mtl->number==g_only)  {
 	//std::cerr << prtl->mtl->material_name << '\n';
 	prtl->dUdt = prtl->dUdt + gravity;
       }

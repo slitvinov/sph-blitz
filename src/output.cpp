@@ -83,7 +83,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
       Particle *prtl = boundary.boundary_particle_list.retrieve(p1);
       if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) { 
 	j ++;
-	if(j == 1) 	
+	if(j == 1)  out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
 	  out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
 	     <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])
 	     <<"  "<<ini.dms_rho(prtl->rho)
