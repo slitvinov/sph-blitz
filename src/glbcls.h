@@ -37,14 +37,22 @@ class Initiation {
 public:
 	
 	//the project name
-	char Project_name[25];
+	char Project_name[125];
+
+	/// if simulation is special
+	/// 0 means generic
+	int sim_special;
+
+	// a fraction of the domain in y direction where 
+	// force is not applyed
+	double tube_no_force_region;
 
 	//number of materials
 	//the no. zero material is always the wall
 	//therefore at least 2 materials should be included
 	int number_of_materials;
 	//the global inputfile name: a *.cfg file
-	char inputfile[25];
+	char inputfile[125];
 	//initial condition marker: 0 initialize from the .cfg file; 
 	//1 read from the .rst file particle by particle with non-dimensional data
 	int initial_condition;
@@ -329,7 +337,7 @@ public:
 class ParticleManager
 {
 	//parameters copied from initiation
-	char Project_name[25]; //the project name
+	char Project_name[125]; //the project name
 	int number_of_materials;
 	double smoothinglength; //smoothinglenth
 	double smoothinglengthsquare; //smoothinglenth
@@ -438,7 +446,7 @@ class Material {
 public:
 	
 	//material name string
-	char material_name[25];
+	char material_name[125];
 	int number; //the material NO.
 
 	//material type
@@ -575,7 +583,7 @@ class Hydrodynamics
 {	
 	int number_of_materials;
 	Vec2d gravity;
-        int g_only;
+
 	double smoothinglength;
 	double delta, delta2, delta3;
 	double dt_g_vis, dt_surf;
@@ -612,11 +620,11 @@ public:
 	//initiate particle change rate
 	void ZeroChangeRate();
 	//add the gravity effects
-	void AddGravity();
+	void AddGravity(Initiation& ini);
 	//calculate interaction with updating interaction list
-	void UpdateChangeRate(ParticleManager &particles, QuinticSpline &weight_function);
+	void UpdateChangeRate(ParticleManager &particles, QuinticSpline &weight_function, Initiation& ini);
 	//calculate interaction without updating interaction list
-	void UpdateChangeRate();
+	void UpdateChangeRate(Initiation& ini);
 	//initiate particle density to zero
 	void Zero_density();
 	void Zero_ShearRate();
@@ -701,7 +709,7 @@ public:
 class Output {
 	
 	//the project name
-	char Project_name[25];
+	char Project_name[125];
 
 	int number_of_materials;
 	//the inital particle distance
@@ -744,7 +752,7 @@ class Diagnose {
 	int hdelta; 
 
 	//the project name
-	char Project_name[25];
+	char Project_name[125];
 	int number_of_materials;
 
 	//velocity, density, distributions

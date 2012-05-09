@@ -70,7 +70,7 @@ void TimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
 //		hydro.UpdateSurfaceStress(boundary);
 //		boundary.BoundaryCondition(particles);
 
-		hydro.UpdateChangeRate();
+		hydro.UpdateChangeRate(ini);
 		hydro.Predictor(dt);
 		hydro.UpdateState();
 
@@ -81,7 +81,7 @@ void TimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
 //		hydro.UpdateSurfaceStress(boundary);
 //		boundary.BoundaryCondition(particles);
 
-		hydro.UpdateChangeRate(); 
+		hydro.UpdateChangeRate(ini);
 //		hydro.UpdateRandom(sqrt(dt));
 		hydro.UpdateRandom(sqrt(dt));
 		hydro.Corrector(dt);
@@ -133,7 +133,7 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
 		hydro.UpdatePhaseGradient(boundary);
 		boundary.BoundaryCondition(particles);
 		hydro.UpdateSurfaceStress(boundary);
-		hydro.UpdateChangeRate();
+		hydro.UpdateChangeRate(ini);
 		hydro.Predictor_summation(dt);
 
 		//the correction step without update the interaction list
@@ -144,7 +144,7 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
 		hydro.UpdatePhaseGradient(boundary);
 		boundary.BoundaryCondition(particles);
 		hydro.UpdateSurfaceStress(boundary);
-		hydro.UpdateChangeRate(); 
+		hydro.UpdateChangeRate(ini);
 //		hydro.UpdateRandom(sqrt(dt));
 		hydro.Corrector_summation(dt);
 //		hydro.RandomEffects();

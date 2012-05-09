@@ -26,8 +26,8 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &particles)
 {
-  char Key_word[25];
-  char inputfile[25];
+  char Key_word[125];
+  char inputfile[125];
 
   //copy global properties from initiation class
   box_size = ini.box_size;

@@ -25,7 +25,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 Initiation::Initiation(const char *project_name) {
 	
-	char Key_word[25];
+	char Key_word[125];
 	g_only = -1;
 	tstep = -1;
 
@@ -44,12 +44,20 @@ Initiation::Initiation(const char *project_name) {
 		exit(1);
 	}
 	else cout<<"Initialtion: Read the global configuration data from "<< inputfile <<" \n"; 
+	sim_special = 0;
 
 	//reading key words and configuration data
 	while(!fin.eof()) {
 		
 		//read a string block
 		fin>>Key_word;
+
+		//is simulation special
+		if(!strcmp(Key_word, "SIM_SPECIAL")) fin>>sim_special;
+
+		// a fraction of the domain in y direction where 
+		// force is not applyed
+		if(!strcmp(Key_word, "TUBE_NO_FORCE_REGION")) fin>> tube_no_force_region;
 		
 		//comparing the key words for initial condition input
 		//0: Initialize the initial conditions from .cfg file

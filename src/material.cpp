@@ -47,8 +47,8 @@ Material::Material(Initiation &ini)
 Material::Material(char *material_name, Initiation &ini)
 {
 
-	char Key_word[25];
-	char inputfile[25];
+	char Key_word[125];
+	char inputfile[125];
 
 	strcpy(inputfile, ini.inputfile);
 	

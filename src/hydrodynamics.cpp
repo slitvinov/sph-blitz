@@ -19,6 +19,9 @@
 #include "glbfunc.h"
 
 using namespace std;
+// number of material to be fixed
+// TODO: make it dynamic
+const int wall_number = 0;
 
 //----------------------------------------------------------------------------------------
 //						constructor
@@ -29,13 +32,12 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   int l, n;
 
   //make materials
-  char Key_word[25];
-  char inputfile[25];
+  char Key_word[125];
+  char inputfile[125];
 
   //copy properties from initiation class
   number_of_materials = ini.number_of_materials;
   gravity = ini.g_force;
-  g_only = ini.g_only;
   smoothinglength = ini.smoothinglength;
   delta = ini.delta; delta2 = delta*delta; delta3 = delta2*delta;
 
@@ -292,7 +294,7 @@ void Hydrodynamics::UpdateDensity()
 //----------------------------------------------------------------------------------------
 //				calculate interaction with updating interaction list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, QuinticSpline &weight_function)
+void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, QuinticSpline &weight_function, Initiation& ini)
 {
   //initiate the density each real particle
   ZeroChangeRate();
@@ -313,12 +315,12 @@ void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, QuinticSpline &
   }
 
   //include the gravity effects
-  AddGravity();
+  AddGravity(ini);
 }
 //----------------------------------------------------------------------------------------
 //				calculate interaction without updating interaction list
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateChangeRate()
+void Hydrodynamics::UpdateChangeRate(Initiation& ini)
 {
   //initiate the change rate of each real particle
   ZeroChangeRate();	
@@ -362,7 +364,7 @@ void Hydrodynamics::UpdateChangeRate()
 #endif
 
   //include the gravity effects
-  AddGravity();
+  AddGravity(ini);
 }
 //----------------------------------------------------------------------------------------
 //			calculate random interaction without updating interaction list
@@ -577,7 +579,7 @@ void Hydrodynamics::Zero_Random()
 //----------------------------------------------------------------------------------------
 //							add the gravity effects
 //----------------------------------------------------------------------------------------
-void Hydrodynamics::AddGravity()
+void Hydrodynamics::AddGravity(Initiation& ini)
 {
   //iterate particles on the real particle list
   for (LlistNode<Particle> *p = particle_list.first(); 
@@ -586,15 +588,23 @@ void Hydrodynamics::AddGravity()
 					
     //a particle
     Particle *prtl = particle_list.retrieve(p);
-
-    //add the gravity effects
-    /// must be Air
-    if (g_only < 0) {
-      prtl->dUdt = prtl->dUdt + gravity;
+    if (ini.sim_special == 1) {
+      const double xfmin = ini.tube_no_force_region*ini.box_size[0];
+      const double xfmax = (1.0-ini.tube_no_force_region)*ini.box_size[0];
+      if ( (prtl->R[0]>xfmin) && (prtl->R[0]<xfmax) ) {
+	if (prtl->R[1]>0.5*ini.box_size[1]) {
+	  prtl->dUdt = prtl->dUdt + gravity;
+	} else {
+	  prtl->dUdt = prtl->dUdt - gravity;
+	}
+      }
     } else {
-      if (prtl->mtl->number==g_only)  {
-	//std::cerr << prtl->mtl->material_name << '\n';
+      if (ini.g_only < 0) {
 	prtl->dUdt = prtl->dUdt + gravity;
+      } else {
+	if (prtl->mtl->number==ini.g_only)  {
+	  prtl->dUdt = prtl->dUdt + gravity;
+	}
       }
     }
   }
@@ -803,12 +813,18 @@ void Hydrodynamics::Predictor(double dt)
     //predict values at step n+1
     prtl->R = prtl->R + prtl->U*dt;
     prtl->rho = prtl->rho + prtl->drhodt*dt;
-    prtl->U = prtl->U + prtl->dUdt*dt;
+    // update velocity only if it is not Wall
+    if (prtl->mtl->number!=wall_number)  {
+      prtl->U = prtl->U + prtl->dUdt*dt;
+    }
 			
     //calculate the middle values at step n+1/2
     prtl->R = (prtl->R + prtl->R_I)*0.5;
     prtl->rho = (prtl->rho + prtl->rho_I)*0.5;
-    prtl->U = (prtl->U + prtl->U_I)*0.5;
+    // update velocity only if it is not Wall
+    if (prtl->mtl->number!=wall_number)  {
+      prtl->U = (prtl->U + prtl->U_I)*0.5;
+    }
   }
 }
 //----------------------------------------------------------------------------------------
@@ -826,7 +842,9 @@ void Hydrodynamics::Corrector(double dt)
     //correction base on values on n step and change rate at n+1/2
     prtl->R = prtl->R_I + prtl->U*dt;
     prtl->rho = prtl->rho + prtl->drhodt*dt;
-    prtl->U = prtl->U_I + prtl->dUdt*dt;
+    if (prtl->mtl->number!=wall_number)  {
+      prtl->U = prtl->U_I + prtl->dUdt*dt;
+    }
   }
 }
 //----------------------------------------------------------------------------------------
@@ -843,16 +861,22 @@ void Hydrodynamics::Predictor_summation(double dt)
 	
     //save values at step n
     prtl->R_I = prtl->R;
-    prtl->U += prtl->_dU; //renormalize velocity
+    if (prtl->mtl->number!=wall_number)  {
+      prtl->U += prtl->_dU; //renormalize velocity
+    }
     prtl->U_I = prtl->U;
 			
     //predict values at step n+1
     prtl->R = prtl->R + prtl->U*dt;
-    prtl->U = prtl->U + prtl->dUdt*dt;
+    if (prtl->mtl->number!=wall_number)  {
+      prtl->U = prtl->U + prtl->dUdt*dt;
+    }
 			
     //calculate the middle values at step n+1/2
     prtl->R = (prtl->R + prtl->R_I)*0.5;
-    prtl->U = (prtl->U + prtl->U_I)*0.5;
+    if (prtl->mtl->number!=wall_number)  {
+      prtl->U = (prtl->U + prtl->U_I)*0.5;
+    }
   }
 }
 //----------------------------------------------------------------------------------------
@@ -868,9 +892,13 @@ void Hydrodynamics::Corrector_summation(double dt)
     Particle *prtl = particle_list.retrieve(p);
 			
     //correction base on values on n step and change rate at n+1/2
-    prtl->U += prtl->_dU; //renormalize velocity
+    if (prtl->mtl->number!=wall_number)  {
+      prtl->U += prtl->_dU; //renormalize velocity
+    }
     prtl->R = prtl->R_I + prtl->U*dt;
-    prtl->U = prtl->U_I + prtl->dUdt*dt;
+    if (prtl->mtl->number!=wall_number)  {
+      prtl->U = prtl->U_I + prtl->dUdt*dt;
+    }
   }
 }
 //----------------------------------------------------------------------------------------
@@ -886,7 +914,9 @@ void Hydrodynamics::RandomEffects()
     Particle *prtl = particle_list.retrieve(p);
 			
     //correction base on values on n step and change rate at n+1/2
-    prtl->U = prtl->U + prtl->_dU;
+    if (prtl->mtl->number!=wall_number)  {
+      prtl->U = prtl->U + prtl->_dU;
+    }
   }
 }
 //----------------------------------------------------------------------------------------

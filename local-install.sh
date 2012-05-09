@@ -3,7 +3,7 @@
 set -e
 set -u
 cd blitz
-./configure --prefix=$(pwd)/blitz-prefix
+./configure --prefix=$(pwd)/blitz-prefix --disable-doxygen
 make install
 cd ..
 ./configure --with-blitz=$(pwd)/blitz/blitz-prefix
