@@ -9,8 +9,8 @@ function isin(xp, yp,           k) {
 {
     rho_w = 1e3
     rho_a = 1.0
-    cx=32
-    cy=17
+    cx=64
+    cy=35
     cutoff=0.25
     Lx=cx*cutoff
     Ly=cy*cutoff
@@ -21,12 +21,12 @@ function isin(xp, yp,           k) {
 	n++
 	x0[n]=0.35*q*Ly
 	y0[n]=0.25*Ly
-	R[n]=2*cutoff
+	R[n]=4*cutoff
 	
 	n++
 	x0[n]=0.35*q*Ly
 	y0[n]=0.75*Ly
-	R[n]=2*cutoff
+	R[n]=4*cutoff
     }
 
 }

@@ -9,8 +9,8 @@ function isin(xp, yp,           k) {
 
 
 BEGIN {
-    cx=32
-    cy=17
+    cx=64
+    cy=35
     cutoff=0.25
     Lx=cx*cutoff
     Ly=cy*cutoff
