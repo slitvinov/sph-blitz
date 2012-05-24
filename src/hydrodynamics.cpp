@@ -73,7 +73,8 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
 	materials[k].number = k;
 	fin>>materials[k].material_name>>materials[k].material_type;
 	fin>>materials[k].cv>>materials[k].eta>>materials[k].zeta>>materials[k].kappa
-	   >>materials[k].gamma>>materials[k].b0>>materials[k].rho0>>materials[k].a0;
+	   >>materials[k].gamma>>materials[k].b0>>materials[k].rho0>>materials[k].a0
+	   >>materials[k].k_thermal;
 	//output the material property parameters to the screen
 	cout<<"The properties of the material No. "<<k<<"\n";		
 	materials[k].show_properties();
@@ -405,9 +406,9 @@ void Hydrodynamics::ZeroChangeRate()
     //all densities and conservqtives
     prtl->dedt = 0.0;
     prtl->drhodt = 0.0;
-    (prtl->dUdt) = 0.0;
-    (prtl->_dU) = 0.0;
-
+    prtl->dUdt = 0.0;
+    prtl->_dU = 0.0;
+    prtl->dedt = 0.0;
   }
 }
 //----------------------------------------------------------------------------------------
@@ -816,6 +817,7 @@ void Hydrodynamics::Predictor(double dt)
     // update velocity only if it is not Wall
     if (prtl->mtl->number!=wall_number)  {
       prtl->U = prtl->U + prtl->dUdt*dt;
+      prtl->energy = prtl->energy + prtl->dedt*dt;
     }
 			
     //calculate the middle values at step n+1/2
@@ -844,6 +846,7 @@ void Hydrodynamics::Corrector(double dt)
     prtl->rho = prtl->rho + prtl->drhodt*dt;
     if (prtl->mtl->number!=wall_number)  {
       prtl->U = prtl->U_I + prtl->dUdt*dt;
+      prtl->energy = prtl->energy_I + prtl->dedt*dt;      
     }
   }
 }
@@ -870,6 +873,7 @@ void Hydrodynamics::Predictor_summation(double dt)
     prtl->R = prtl->R + prtl->U*dt;
     if (prtl->mtl->number!=wall_number)  {
       prtl->U = prtl->U + prtl->dUdt*dt;
+      prtl->energy = prtl->energy + prtl->dedt*dt;
     }
 			
     //calculate the middle values at step n+1/2
@@ -898,6 +902,7 @@ void Hydrodynamics::Corrector_summation(double dt)
     prtl->R = prtl->R_I + prtl->U*dt;
     if (prtl->mtl->number!=wall_number)  {
       prtl->U = prtl->U_I + prtl->dUdt*dt;
+      prtl->energy = prtl->energy_I + prtl->dedt*dt;
     }
   }
 }

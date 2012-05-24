@@ -52,7 +52,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
   ofstream out(file_name);
   //defining header for tecplot(plot software)
   out<<"title='particle position' \n";
-  out<<"variables=x, y, Ux, Uy, rho, p, m\n";
+  out<<"variables=x, y, Ux, Uy, rho, p, m, e\n";
 	
   //output real and soild particles
   for(i = 0; i < number_of_materials; i++) {
@@ -71,7 +71,8 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
 	   <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])
 	   <<"  "<<ini.dms_rho(prtl->rho)
 	   <<"  "<<ini.dms_p(prtl->p)
-	   <<"  "<<ini.dms_mass(prtl->m)<<"\n";
+	   <<"  "<<ini.dms_mass(prtl->m)
+	   <<"  "<<ini.dms_T(prtl->energy)<<"\n";
       }
     }
 
@@ -88,7 +89,8 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
 	     <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])
 	     <<"  "<<ini.dms_rho(prtl->rho)
 	     <<"  "<<ini.dms_p(prtl->p)
-	     <<"  "<<ini.dms_mass(prtl->m)<<"\n";
+	     <<"  "<<ini.dms_mass(prtl->m)
+	     <<"  "<<ini.dms_T(prtl->energy)<<"\n";
       }
     }
   }
@@ -103,7 +105,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
   int i, j, n;
   int gridx, gridy;
   Vec2d pstn;
-  double rho, phi, pressure, Temperature, x_velocity, y_velocity;
+  double rho, phi, pressure, energy, x_velocity, y_velocity;
   double Itime;
   char file_name[50], file_list[10];
 
@@ -135,7 +137,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
       if(!particles.NNP_list.empty()) 
 	mls.MLSMapping(pstn, particles.NNP_list, weight_function, 1);
       n = 0;
-      rho = 0.0; phi = 0.0; pressure = 0.0; Temperature = 0.0;
+      rho = 0.0; phi = 0.0; pressure = 0.0; energy = 0.0;
       x_velocity = 0.0; y_velocity = 0.0;
       //iterate this Nearest Neighbor Particle list
       for (LlistNode<Particle> *p = particles.NNP_list.first(); 
@@ -148,7 +150,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
 	rho += prtl->rho*mls.phi[n];
 	phi += prtl->phi[2][2]*mls.phi[n];
 	pressure += prtl->p*mls.phi[n];
-	Temperature += prtl->T*mls.phi[n];
+	energy += prtl->energy*mls.phi[n];
 	x_velocity += prtl->U[0]*mls.phi[n];
 	y_velocity += prtl->U[1]*mls.phi[n];
 				
@@ -161,7 +163,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
 	 <<"  "<<ini.dms_p(pressure)<<"  "<<ini.dms_rho(rho)
 	 <<"  "<<phi
 	 <<"  "<<ini.dms_velocity(x_velocity)<<"  "<<ini.dms_velocity(y_velocity)
-	 <<"  "<<ini.dms_T(Temperature)<<"\n";
+	 <<"  "<<ini.dms_T(energy)<<"\n";
     }
   }
   out.close();
@@ -202,7 +204,7 @@ void Output::OutRestart(Hydrodynamics &hydro, double Time, Initiation &ini)
     Particle *prtl = hydro.particle_list.retrieve(p);
     if(prtl->bd == 0) 
       out<<prtl->mtl->material_name<<"  "<<prtl->R[0]<<"  "<<prtl->R[1]<<"  "<<prtl->U[0]<<"  "<<prtl->U[1]
-	 <<"  "<<prtl->rho<<"  "<<prtl->p<<"  "<<prtl->T<<"  \n";
+	 <<"  "<<prtl->rho<<"  "<<prtl->p<<"  "<<prtl->energy<<"  \n";
   }
   out.close();
 }
@@ -263,7 +265,7 @@ void Output::OutAverage(ParticleManager &particles, MLS &mls, QuinticSpline &wei
   int i, j, l, n;
   int gridx, gridy;
   Vec2d pstn;
-  double rho, pressure, Temperature, x_velocity, y_velocity;
+  double rho, pressure, energy, x_velocity, y_velocity;
   double Itime;
   char file_name[50], file_list[10];
 
@@ -288,7 +290,7 @@ void Output::OutAverage(ParticleManager &particles, MLS &mls, QuinticSpline &wei
   for(j = 0; j <= gridy; j++) { 
 		
     l = 0;
-    rho = 0.0; pressure = 0.0; Temperature = 0.0;
+    rho = 0.0; pressure = 0.0; energy = 0.0;
     x_velocity = 0.0; y_velocity = 0.0;
     for(i = 0; i <= gridx; i++) {
       pstn[0] = i*delta; pstn[1] = j*delta;
@@ -308,7 +310,7 @@ void Output::OutAverage(ParticleManager &particles, MLS &mls, QuinticSpline &wei
 
 	rho += prtl->rho*mls.phi[n];
 	pressure += prtl->p*mls.phi[n];
-	Temperature += prtl->T*mls.phi[n];
+	energy += prtl->energy*mls.phi[n];
 	x_velocity += prtl->U[0]*mls.phi[n];
 	y_velocity += prtl->U[1]*mls.phi[n];
 				
@@ -321,7 +323,7 @@ void Output::OutAverage(ParticleManager &particles, MLS &mls, QuinticSpline &wei
 		
     out<<ini.dms_length(pstn[1])<<"  "<<ini.dms_p(pressure)/double(l)<<"  "
        <<ini.dms_rho(rho)/double(l)<<"  "<<ini.dms_velocity(x_velocity)/double(l)<<"  "
-       <<ini.dms_velocity(y_velocity)/double(l)<<"  "<<ini.dms_T(Temperature)/double(l)<<"\n";
+       <<ini.dms_velocity(y_velocity)/double(l)<<"  "<<ini.dms_T(energy)/double(l)<<"\n";
   }
   out.close();
 }

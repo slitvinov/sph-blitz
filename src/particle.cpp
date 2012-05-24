@@ -72,6 +72,7 @@ Particle::Particle(Vec2d position, Vec2d velocity, double density, double pressu
 	mtl = &material;
 	//viscosity
 	eta = mtl->eta; zeta = mtl->zeta;
+	k_thermal = mtl->k_thermal;
 
 	//set particle position
 	R = position; 
@@ -81,9 +82,9 @@ Particle::Particle(Vec2d position, Vec2d velocity, double density, double pressu
 	U = velocity; U_I = U;
 	
 	//set conservative values and their  intermediate values
-	m = 0.0; V = 0.0; e = mtl->get_e(T); e_I = e;
+	m = 0.0; V = 0.0; energy = mtl->get_e(T); energy_I = energy;
 	R_I = R; P_I = P; rho_I = rho;
-	P_n = P; U_n = U; rho_n = rho; e_n = e; 
+	P_n = P; U_n = U; rho_n = rho; energy_n = energy; 
 
 	//phase filed
 	phi = new double*[number_of_materials];
@@ -141,6 +142,7 @@ Particle::Particle(Particle &RealParticle) : bd(1), bd_type(1)
 	mtl = RealParticle.mtl;
 	//viscosity
 	eta = mtl->eta; zeta = mtl->zeta; 
+	k_thermal = mtl->k_thermal;
 
 	//set states
 	R = RealParticle.R; rho = RealParticle.rho; p = RealParticle.p; T = RealParticle.T;
@@ -148,11 +150,11 @@ Particle::Particle(Particle &RealParticle) : bd(1), bd_type(1)
 	ShearRate_x = RealParticle.ShearRate_x, ShearRate_y = RealParticle.ShearRate_y;
 	
 	//set conservative values and their  intermediate values
-	m = RealParticle.m; V = RealParticle.V; e = RealParticle.e; 
-	R_I = RealParticle.R_I;	e_I = RealParticle.e_I;
+	m = RealParticle.m; V = RealParticle.V; energy = RealParticle.energy; 
+	R_I = RealParticle.R_I;	energy_I = RealParticle.energy_I;
 	P = RealParticle.P; P_I = RealParticle.P_I; rho_I = rho;
 	P_n = RealParticle.P_n; U_n = RealParticle.U_n; rho_n = RealParticle.rho_n;
-	e_n = RealParticle.e_n;
+	energy_n = RealParticle.energy_n;
 	
 	//phase filed
 	phi = new double*[number_of_materials];
@@ -185,6 +187,7 @@ Particle::Particle(Particle &RealParticle, Material &material): bd(1), bd_type(0
 	mtl = &material;
 	//viscosity
 	eta = RealParticle.eta; zeta = RealParticle.zeta; 
+	k_thermal = RealParticle.k_thermal;
 
 
 	//set states
@@ -193,11 +196,11 @@ Particle::Particle(Particle &RealParticle, Material &material): bd(1), bd_type(0
 	ShearRate_x = RealParticle.ShearRate_x, ShearRate_y = RealParticle.ShearRate_y;
 	
 	//set conservative values and their  intermediate values
-	m = RealParticle.m; V = RealParticle.V; e = RealParticle.e; 
-	R_I = RealParticle.R_I;	e_I = RealParticle.e_I;
+	m = RealParticle.m; V = RealParticle.V; energy = RealParticle.energy;
+	R_I = RealParticle.R_I;	energy_I = RealParticle.energy_I;
 	P = RealParticle.P; P_I = RealParticle.P_I; rho_I = rho;
 	P_n = RealParticle.P_n; U_n = RealParticle.U_n; rho_n = RealParticle.rho_n;
-	e_n = RealParticle.e_n; 
+	energy_n = RealParticle.energy_n;
 
 	//phase filed
 	phi = new double*[number_of_materials];

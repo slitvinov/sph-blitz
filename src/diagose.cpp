@@ -190,7 +190,7 @@ void Diagnose::Average(ParticleManager &particles, MLS &mls, QuinticSpline &weig
 {
 	int i, j, n;
 	Vec2d pstn;
-	double rho, pressure, Temperature, x_velocity, y_velocity;
+	double rho, pressure, e, x_velocity, y_velocity;
 	double m_n_average, r_n_average;
 
 	//one time more for average
@@ -207,7 +207,7 @@ void Diagnose::Average(ParticleManager &particles, MLS &mls, QuinticSpline &weig
 			if(!particles.NNP_list.empty()) 
 				mls.MLSMapping(pstn, particles.NNP_list, weight_function, 1);
 			n = 0;
-			rho = 0.0; pressure = 0.0; Temperature = 0.0;
+			rho = 0.0; pressure = 0.0; e = 0.0;
 			x_velocity = 0.0; y_velocity = 0.0;
 			//iterate this Nearest Neighbor Particle list
 			for (LlistNode<Particle> *p = particles.NNP_list.first(); 
@@ -218,7 +218,7 @@ void Diagnose::Average(ParticleManager &particles, MLS &mls, QuinticSpline &weig
 				Particle *prtl = particles.NNP_list.retrieve(p);
 				rho += prtl->rho*mls.phi[n];
 				pressure += prtl->p*mls.phi[n];
-				Temperature += prtl->T*mls.phi[n];
+				e += prtl->T*mls.phi[n];
 				x_velocity += prtl->U[0]*mls.phi[n];
 				y_velocity += prtl->U[1]*mls.phi[n];
 				
@@ -232,7 +232,7 @@ void Diagnose::Average(ParticleManager &particles, MLS &mls, QuinticSpline &weig
 			r_n_average = 1.0/double(n_average);
 			U[0][i][j] = (U[0][i][j]*m_n_average + rho)*r_n_average;
 			U[1][i][j] = (U[1][i][j]*m_n_average + pressure)*r_n_average;
-			U[2][i][j] = (U[2][i][j]*m_n_average + Temperature)*r_n_average;
+			U[2][i][j] = (U[2][i][j]*m_n_average + e)*r_n_average;
 			U[3][i][j] = (U[3][i][j]*m_n_average + x_velocity)*r_n_average;
 			U[4][i][j] = (U[4][i][j]*m_n_average + y_velocity)*r_n_average;
 		}

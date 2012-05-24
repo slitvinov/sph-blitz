@@ -291,19 +291,23 @@ void Interaction::UpdateForces()
 	Org->dUdt += dPdti*rmi;
 	Dest->dUdt -= dPdti*rmj;
 #endif
+    const double ki = Org->k_thermal;
+    const double kj = Dest->k_thermal;
+    if ( (ki>0) && (kj>0) ) {
+      /// \todo{should be updated outside}
+      const double Ti = (Org->energy)/(Org->mtl->cv);
+      const double Tj = (Dest->energy)/(Org->mtl->cv);
+      assert(Org->mtl->cv>0);
+      assert(Dest->mtl->cv>0);
+      
+      /// see eq. (28) in Cleary1999 
+      const double dedt_local = 4.0* mj / (rhoi*rhoj) * (ki*kj)/(ki+kj) * (Ti - Tj) * (-Fij);
+      
+      Org->dedt += dedt_local;
+      Dest->dedt -= dedt_local;
+    }
 }
 
-#ifdef _OPENMP
-void Interaction::SummationUpdateForces()
-{
-	Org->_dU += _dU1;
-	Dest->_dU -= _dU2;
-	Org->drhodt += drhodt1;
-	Dest->drhodt += drhodt2;
-	Org->dUdt += dUdt1;
-	Dest->dUdt -= dUdt2;
-}
-#endif
 
 //----------------------------------------------------------------------------------------
 //				update forces with summation viscosity
@@ -356,6 +360,21 @@ void Interaction::UpdateForces_vis()
 	//summation
 	Org->dUdt = Org->dUdt + dPdti*mj;
 	Dest->dUdt = Dest->dUdt - dPdti*mi;
+
+
+    const double ki = Org->k_thermal;
+    const double kj = Dest->k_thermal;
+
+    /// \todo{should be updated outside}
+    const double Ti = (Org->energy)/(Org->mtl->cv);
+    const double Tj = (Dest->energy)/(Org->mtl->cv);
+
+    /// see eq. (28) in Cleary1999 
+    const double dedt_local = 4.0* mj / (rhoi*rhoj) * (ki*kj)/(ki+kj) * (Ti - Tj) * (-Fij);
+
+    Org->dedt += dedt_local;
+    Dest->dedt -= dedt_local;
+
 
 }
 //----------------------------------------------------------------------------------------

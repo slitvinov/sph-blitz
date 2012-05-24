@@ -68,7 +68,8 @@ Material::Material(char *material_name, Initiation &ini)
 		fin>>Key_word;
 		
 		//comparing the key words for the material name
-		if(!strcmp(Key_word, material_name)) fin>>cv>>eta>>zeta>>kappa>>gamma>>b0>>rho0>>a0;
+		if(!strcmp(Key_word, material_name)) fin>>cv>>eta>>zeta>>kappa>>gamma>>b0>>rho0>>a0>>k_thermal;
+		std::cerr << "k_thermal: " << k_thermal << '\n';
 
 	}
 	fin.close();
@@ -103,6 +104,7 @@ void Material::show_properties()
 	cout<<"Material: "<<material_name<<"\n";		
 	cout<<"The heat capacity is  "<<cv<<" J/kg/K\n";
 	cout<<"The viscosity is "<<eta<<" Pa.s \n";
+	cout<<"The thermal conductivity is "<< k_thermal <<" \n";
 	cout<<"The heat conduction coefficient is "<<kappa<<" J/s/m^2/T\n";
 	cout<<"The heat ratio is "<<gamma<<"\n";
 	cout<<"The reference pressure b0 is "<<b0<<" Pa\n";

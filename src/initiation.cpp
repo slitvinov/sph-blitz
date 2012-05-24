@@ -106,7 +106,7 @@ Initiation::Initiation(const char *project_name) {
 		//Initialize the initial conditions from .cfg file
 		if (initial_condition==0) {
 			//comparing the key words for the initial state
-			if(!strcmp(Key_word, "INITIAL_STATES")) fin>>U0[0]>>U0[1]>>rho0>>p0>>T0;
+			if(!strcmp(Key_word, "INITIAL_STATES")) fin>>U0[0]>>U0[1]>>rho0>>p0>>energy0;
 		}
 
 	}
@@ -155,7 +155,7 @@ void Initiation::show_information()
 		cout<<"The initial flow speed is "<<U0[0]<<" m/s x "<<U0[1]<<" m/s\n";
 		cout<<"The initial density is "<<rho0<<" kg/m^3\n";
 		cout<<"The initial pressure is "<<p0<<" Pa\n";
-		cout<<"The initial temperature is "<<T0<<" K\n";
+		cout<<"The initial energy is "<<energy0<<" K\n";
 
 	}
 	
@@ -234,7 +234,7 @@ void Initiation::non_dimensionalize()
 		U0 = non_dms_velocity(U0);
 		rho0 = non_dms_rho(rho0);
 		p0 = non_dms_p(p0);
-		T0 = non_dms_T(T0);
+		energy0 = non_dms_T(energy0);
 	}
 }
 //-------------------------------------------------------

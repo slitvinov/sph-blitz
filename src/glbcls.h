@@ -89,7 +89,7 @@ public:
 	//inital flow speed
 	Vec2d U0;
 	//initial particle density, pressure and temperature
-	double rho0, p0, T0;
+	double rho0, p0, energy0;
 
 	//MLS
 	int MLS_MAX;
@@ -289,9 +289,10 @@ public:
 	//Physical data
 	Vec2d R, P, U; //position, momentum, velocity
 	double rho, p, T, Cs, rho_I, rho_n; //mass, density, inverse of density, pressure, temperature
-	double m, V, e; //mass, volume, internal energy
+	double m, V, energy; //mass, volume, internal energy
 	Vec2d  R_I, P_I, U_I, P_n, U_n; //intermediate momentum and velocity used in integrator
-	double e_I, e_n; //intermediate volume, internal energy used in integrator
+	double energy_I, energy_n; //intermediate volume, internal energy used in integrator
+  double k_thermal; // thermal conductivity
 	Vec2d ShearRate_x, ShearRate_y;
 
 	//for multimaterials
@@ -347,7 +348,7 @@ class ParticleManager
 	double delta; //the inital particle distance
 	int hdelta; //the ration between smoothing length and inital particle distance
 	Vec2d U0; //inital flow speed
-	double rho0, p0, T0; //initial particle mass and density, pressure and temperature
+	double rho0, p0, energy0; //initial particle mass and density, pressure and temperature
 
 	//buid the initial wall particles and the linked lists
 	void BiuldWallParticles(Hydrodynamics &hydro, Initiation &ini, Boundary &boundary);
@@ -452,7 +453,8 @@ public:
 	//material type
 	//0: solid; 1: liquid; 2: gas
 	int material_type;
-
+  
+  double k_thermal; // thermal conductivity
 	double cv, eta, zeta, kappa, gamma; //heat capacity, viscosity, heat conduction rate, heat ratio
 	double nu; //kinetice viscosity
 	double b0, rho0, a0; //reference pressure, reference density

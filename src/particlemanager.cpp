@@ -50,7 +50,7 @@ ParticleManager::ParticleManager(Initiation &ini)
     U0 = ini.U0;
     rho0 = ini.rho0;
     p0 = ini.p0;
-    T0 = ini.T0;
+    energy0 = ini.energy0;
   }
 
   //strore the cell linked lists in a 2-d array
@@ -289,7 +289,7 @@ void ParticleManager::BiuldRealParticles(Hydrodynamics &hydro, Initiation &ini)
 	
   int i, j, k, m;
   Vec2d position, velocity;
-  double density, pressure, Temperature;
+  double density, pressure, energy;
   int material_no;
 	
   //initialize particles from the file .cfg
@@ -307,7 +307,7 @@ void ParticleManager::BiuldRealParticles(Hydrodynamics &hydro, Initiation &ini)
 
 	    material_no = 1;
 	    velocity = U0;
-	    Temperature = T0;
+	    energy = energy0;
 	    density = hydro.materials[material_no].rho0;
 	    pressure = hydro.materials[material_no].get_p(density);
 						
@@ -320,7 +320,7 @@ void ParticleManager::BiuldRealParticles(Hydrodynamics &hydro, Initiation &ini)
 	    // }
 
 	    //creat a new real particle
-	    Particle *prtl = new Particle( position, velocity, density, pressure, Temperature, 
+	    Particle *prtl = new Particle( position, velocity, density, pressure, energy, 
 					   hydro.materials[material_no]);
 
 	    prtl->cell_i = i; prtl->cell_j = j; 
@@ -368,7 +368,7 @@ void ParticleManager::BiuldRealParticles(Hydrodynamics &hydro, Initiation &ini)
     for(n = 0; n < N; n++) { 
 			
       fin>>material_name>>position[0]>>position[1]>>velocity[0]>>velocity[1]
-	 >>density>>pressure>>Temperature;
+	 >>density>>pressure>>energy;
 			
       //find the right material number
       material_no = -1;
@@ -377,7 +377,7 @@ void ParticleManager::BiuldRealParticles(Hydrodynamics &hydro, Initiation &ini)
       if(material_no != -1) {	
 					
 	pressure = hydro.materials[material_no].get_p(density);
-	Particle *prtl = new Particle( position, velocity, density, pressure, Temperature, 
+	Particle *prtl = new Particle( position, velocity, density, pressure, energy, 
 				       hydro.materials[material_no]);
 	//insert its poistion on the particle list
 	hydro.particle_list.insert(hydro.particle_list.first(), prtl);
