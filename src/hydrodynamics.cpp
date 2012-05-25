@@ -19,14 +19,13 @@
 #include "glbfunc.h"
 
 using namespace std;
-// number of material to be fixed
-// TODO: make it dynamic
-const int wall_number = 0;
 
 //----------------------------------------------------------------------------------------
 //						constructor
 //----------------------------------------------------------------------------------------
-Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
+Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini):
+  wall_number(-2)
+{
 	
   int k, m;
   int l, n;
@@ -80,7 +79,14 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
 	materials[k].show_properties();
 	//non-dimensionalize
 	materials[k].non_dimensionalize(ini);
+
+	//find wall_number
+	if (strcmp(materials[k].material_name, "Wall") == 0) {
+	  wall_number=k;
+
+	}
       }
+    std::cerr << "wall_number is " << wall_number << '\n';
 
     //comparing the key words for the force matrix 
     if(!strcmp(Key_word, "FORCES")) 
@@ -810,6 +816,7 @@ void Hydrodynamics::Predictor(double dt)
     prtl->R_I = prtl->R;
     prtl->rho_I = prtl->rho;
     prtl->U_I = prtl->U;
+    prtl->energy_I = prtl->energy;
 			
     //predict values at step n+1
     prtl->R = prtl->R + prtl->U*dt;
@@ -826,6 +833,7 @@ void Hydrodynamics::Predictor(double dt)
     // update velocity only if it is not Wall
     if (prtl->mtl->number!=wall_number)  {
       prtl->U = (prtl->U + prtl->U_I)*0.5;
+      prtl->energy = (prtl->energy + prtl->energy_I)*0.5;
     }
   }
 }
@@ -868,6 +876,7 @@ void Hydrodynamics::Predictor_summation(double dt)
       prtl->U += prtl->_dU; //renormalize velocity
     }
     prtl->U_I = prtl->U;
+    prtl->energy_I = prtl->energy;
 			
     //predict values at step n+1
     prtl->R = prtl->R + prtl->U*dt;
@@ -880,6 +889,7 @@ void Hydrodynamics::Predictor_summation(double dt)
     prtl->R = (prtl->R + prtl->R_I)*0.5;
     if (prtl->mtl->number!=wall_number)  {
       prtl->U = (prtl->U + prtl->U_I)*0.5;
+      prtl->energy = (prtl->energy + prtl->energy_I)*0.5;
     }
   }
 }
@@ -941,6 +951,7 @@ void Hydrodynamics::MovingTest(Initiation &ini)
     Particle *prtl = particle_list.retrieve(p);
     if(prtl->bd == 0) {
       prtl->U_I = prtl->U;
+      prtl->energy_I = prtl->energy;
       prtl->U =  prtl->U + prtl->U*0.1*((float)rand() - f_rdmx / 2.0) / f_rdmx;
     }
   }

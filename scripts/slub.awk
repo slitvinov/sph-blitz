@@ -14,7 +14,8 @@ NR==2{print}
 NF>2{
     x=$2
     y=$3
-    if (x>Lx/2.0) {
+    if ( (x<cutoff) || (x>(Lx-cutoff)) ) {
+	$1="Wall"
 	$8=k_r
     } else {
 	$8=k_l

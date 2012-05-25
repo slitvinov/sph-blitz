@@ -297,14 +297,12 @@ void Interaction::UpdateForces()
       /// \todo{should be updated outside}
       const double Ti = (Org->energy)/(Org->mtl->cv);
       const double Tj = (Dest->energy)/(Org->mtl->cv);
-      assert(Org->mtl->cv>0);
-      assert(Dest->mtl->cv>0);
       
       /// see eq. (28) in Cleary1999 
-      const double dedt_local = 4.0* mj / (rhoi*rhoj) * (ki*kj)/(ki+kj) * (Ti - Tj) * (-Fij);
+      const double dedt_local = 4.0 / (rhoi*rhoj) * (ki*kj)/(ki+kj) * (Ti - Tj) * (-Fij);
       
-      Org->dedt += dedt_local;
-      Dest->dedt -= dedt_local;
+      Org->dedt += mj*dedt_local;
+      Dest->dedt -= mi*dedt_local;
     }
 }
 

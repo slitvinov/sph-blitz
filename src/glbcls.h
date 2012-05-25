@@ -596,7 +596,8 @@ class Hydrodynamics
 	//for time step 
 	double viscosity_max, surface_max;
 
-
+  /// wall number
+  int wall_number;
 public:
 
 	//the materials used
