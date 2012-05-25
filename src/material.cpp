@@ -92,6 +92,7 @@ void Material::non_dimensionalize(Initiation &ini)
 	kappa = ini.non_dms_heat_conduction(kappa);
 	b0 =ini.non_dms_p(b0);
 	rho0 = ini.non_dms_rho(rho0);
+	k_thermal = ini.non_dms_heat_conduction(k_thermal);
 }
 //----------------------------------------------------------------------------------------
 //			output the property parameters to the screen

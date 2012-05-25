@@ -299,10 +299,10 @@ void Interaction::UpdateForces()
       const double Tj = (Dest->energy)/(Org->mtl->cv);
       
       /// see eq. (28) in Cleary1999 
-      const double dedt_local = 4.0 / (rhoi*rhoj) * (ki*kj)/(ki+kj) * (Ti - Tj) * (-Fij);
+      const double dedt_local = 4.0 * mj / (rhoi*rhoj) * (ki*kj)/(ki+kj) * (Ti - Tj) * (-Fij);
       
-      Org->dedt += mj*dedt_local;
-      Dest->dedt -= mi*dedt_local;
+      Org->dedt += dedt_local;
+      Dest->dedt -= dedt_local;
     }
 }
 

@@ -75,3 +75,13 @@ rm -rf outdata/
 
 *Restart file*
 material_name position[0] position[1] velocity[0] velocity[1] density pressure Temperature;
+
+thermal paramters:
+k_air = 0.0254 
+c_air = 1.012
+
+k_water = 0.620
+c_water = 4.179
+
+Code
+http://smoothparticlephase.wikidot.com/

@@ -189,9 +189,6 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
   LlistNode<Interaction> *first_unused;
   int old_length = interactions.length();
 
-#ifdef _OPENMP
-#pragma omp parallel shared(used_up_old, first_unused, old_length) firstprivate(current)
-#endif
   {
     int i, j, k, m;
     double dstc; //distance
@@ -201,17 +198,6 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
 
     int current_used = 0;
 
-#ifdef _OPENMP
-    int current_thread = 0;
-    int thread_num = omp_get_num_threads();
-    int this_thread_num = omp_get_thread_num();
-	
-    static bool not_displayed_thread_num = true;
-    if (not_displayed_thread_num && this_thread_num == 0) {
-      not_displayed_thread_num = false;
-      cout << "Number of threads is: " << thread_num << endl;
-    }
-#endif
 
     //iterate particles on the particle list
     for (LlistNode<Particle> *p = particle_list.first(); 
@@ -242,31 +228,14 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
 	      dstc = v_sq(prtl_org->R - prtl_dest->R);
 	      if(dstc <= smoothinglengthsquare && prtl_org->ID >= prtl_dest->ID) {
 		if(current_used == old_length) {
-#ifdef _OPENMP
-		  if (this_thread_num == current_thread) {
-#endif
 		    Interaction *pair = new Interaction(prtl_org, prtl_dest, forces, weight_function, sqrt(dstc));
-#ifdef _OPENMP
-#pragma omp critical
-#endif
 		    {interactions.insert(current, pair);}
-#ifdef _OPENMP
-		  }
-#endif
 		}
 		else {
-#ifdef _OPENMP
-		  if (this_thread_num == current_thread)
-#endif
 		    interactions.retrieve(current)->NewInteraction(prtl_org, prtl_dest, forces, weight_function, sqrt(dstc));
 		  current = interactions.next(current);
 		  current_used++;
 		}
-#ifdef _OPENMP
-		current_thread++;
-		if (current_thread == thread_num)
-		  current_thread = 0;
-#endif
 	      }
 	    }
 	  }

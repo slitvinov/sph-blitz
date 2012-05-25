@@ -108,6 +108,7 @@ public:
 	double non_dms_p(double p);
 	double non_dms_T(double T);
 	double non_dms_rho(double rho);
+	double non_dms_energy(double energy);
 	double non_dms_mass(double mass);
 	double non_dms_time(double time);
 	double non_dms_length(double length);
@@ -129,11 +130,11 @@ public:
 	double dms_rho(double rho_non);
 	double dms_mass(double mass_non);
 	double dms_time(double time_non);
+	double dms_energy(double energy);
 	double dms_length(double length_non);
 	Vec2d dms_box_size(Vec2d box_size_non);
 	double dms_velocity(double velocity_non);
 	Vec2d dms_velocity(Vec2d velocity_non);
-	double dms_energy(double energy_non);
 	double dms_acceleration(double acceleration_non);
 	Vec2d dms_acceleration(Vec2d acceleration_non);
 	double dms_viscosity(double mu_non);
@@ -250,7 +251,6 @@ private:
 //never reference a particle directly!
 class Particle {
 	static int number_of_materials;
-	
 public:
 	
 	//constructors-------------------------------------------------------------------
@@ -275,6 +275,8 @@ public:
 	
 	//particle creator
 	void StatesCopier(Particle &RealParticle, int type);
+  /// change phase of the particle
+  void ChangePhase(Material &mtl);
 
 	//constructors-------------------------------------------------------------------
 
@@ -329,7 +331,7 @@ public:
 
 	//for wall boundary particles
 	double bd_dst;
-	Vec2d  nrml;
+  //Vec2d  nrml;
 
 };
 //-----------------------------------------------------------------------

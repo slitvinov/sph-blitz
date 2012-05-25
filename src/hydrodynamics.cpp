@@ -782,6 +782,7 @@ double Hydrodynamics::GetTimestep(Initiation &ini)
   }
   //maximum sound speed, particle velocity and density
   double Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = 1.0;
+  double k_thermal_max = 0.0;
   double dt;
 
   //predict the time step
@@ -795,10 +796,20 @@ double Hydrodynamics::GetTimestep(Initiation &ini)
     V_max = AMAX1(V_max, v_abs(prtl->U));
     rho_min = AMIN1(rho_min, prtl->rho);
     rho_max = AMAX1(rho_max, prtl->rho);
+
+    k_thermal_max = AMAX1(k_thermal_max, prtl->k_thermal);
+  }
+
+  double cv_max = 0.0;
+  for(int k = 0; k < number_of_materials; k++) {
+    cv_max = AMAX1(cv_max, materials[k].cv);
   }
 
   dt = AMIN1(sqrt(0.5*(rho_min + rho_max))*dt_surf, dt_g_vis);
-  return  0.25*AMIN1(dt, delta/(Cs_max + V_max));
+  const double dt_hydor = 0.25*AMIN1(dt, delta/(Cs_max + V_max));
+
+  const double dt_therm = 0.1* 0.5*(rho_min + rho_max) * cv_max * delta * delta / k_thermal_max;
+  return AMIN1(dt_therm, dt_hydor);
 }
 //----------------------------------------------------------------------------------------
 //						the redictor and corrector method: predictor

@@ -120,7 +120,7 @@ Particle::Particle(double x, double y, double u, double v,
 	
 	//distance and normal directions to boundary
 	bd_dst = distance;
-	nrml[0] = normal_x; nrml[1] = normal_y;
+	//nrml[0] = normal_x; nrml[1] = normal_y;
 
 	//set states value to avoid error
 	rho = 0.0, p = 0.0, T = 0.0;
@@ -248,4 +248,12 @@ void Particle::StatesCopier(Particle &RealParticle, int type)
 		for(i = 1; i < number_of_materials; i++) phi[0][0] += RealParticle.phi[i][i];
 	}
 
+}
+
+void Particle::ChangePhase(Material &nm)
+{
+  mtl=(&nm);
+  k_thermal = nm.k_thermal;
+  eta=nm.eta;
+  zeta=nm.zeta;
 }

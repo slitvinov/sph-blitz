@@ -234,7 +234,7 @@ void Initiation::non_dimensionalize()
 		U0 = non_dms_velocity(U0);
 		rho0 = non_dms_rho(rho0);
 		p0 = non_dms_p(p0);
-		energy0 = non_dms_T(energy0);
+		energy0 = non_dms_energy(energy0);
 	}
 }
 //-------------------------------------------------------
@@ -258,6 +258,16 @@ double Initiation::non_dms_rho(double rho)
 {
 	return rho/_rho;
 }
+
+//-------------------------------------------------------
+//			Non_dimensionalize energy
+//-------------------------------------------------------
+double Initiation::non_dms_energy(double energy)
+{
+  const double _m = _rho*_length*_length*_length;
+  return energy/ (_m*_v*_v) ;
+}
+
 //-------------------------------------------------------
 //			Non_dimensionalize mass
 //			in 2-dimension 
@@ -351,6 +361,7 @@ double Initiation::non_dms_Boltzmann(double k_bltz)
 {
 	return k_bltz*_T/_v/_v/_rho/_length/_length/_length;
 }
+
 //-------------------------------------------------------
 //			Dimensionalize functions
 //-------------------------------------------------------
@@ -368,6 +379,16 @@ double Initiation::dms_rho(double rho_non)
 {
 	return rho_non*_rho;
 }
+
+//-------------------------------------------------------
+//			Non_dimensionalize energy
+//-------------------------------------------------------
+double Initiation::dms_energy(double energy)
+{
+  const double _m = _rho*_length*_length*_length;
+  return energy*(_m*_v*_v) ;
+}
+
 //-------------------------------------------------------
 double Initiation::dms_mass(double mass_non)
 {
@@ -397,11 +418,6 @@ double Initiation::dms_velocity(double velocity_non)
 Vec2d Initiation::dms_velocity(Vec2d velocity_non)
 {
 	return velocity_non*_v;
-}
-//-------------------------------------------------------
-double Initiation::dms_energy(double energy_non)
-{
-	return energy_non*_rho*_length*_length*_length*_v*_v;
 }
 //-------------------------------------------------------
 Vec2d Initiation::dms_acceleration(Vec2d acceleration_non)

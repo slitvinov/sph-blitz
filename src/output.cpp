@@ -72,7 +72,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
 	   <<"  "<<ini.dms_rho(prtl->rho)
 	   <<"  "<<ini.dms_p(prtl->p)
 	   <<"  "<<ini.dms_mass(prtl->m)
-	   <<"  "<<ini.dms_T(prtl->energy)<<"\n";
+	   <<"  "<<ini.dms_energy(prtl->energy)<<"\n";
       }
     }
 
