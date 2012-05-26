@@ -69,7 +69,6 @@ Material::Material(char *material_name, Initiation &ini)
 		
 		//comparing the key words for the material name
 		if(!strcmp(Key_word, material_name)) fin>>cv>>eta>>zeta>>kappa>>gamma>>b0>>rho0>>a0>>k_thermal;
-		std::cerr << "k_thermal: " << k_thermal << '\n';
 
 	}
 	fin.close();

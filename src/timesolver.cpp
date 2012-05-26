@@ -82,8 +82,7 @@ void TimeSolver::TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, 
 //		boundary.BoundaryCondition(particles);
 
 		hydro.UpdateChangeRate(ini);
-//		hydro.UpdateRandom(sqrt(dt));
-		hydro.UpdateRandom(sqrt(dt));
+		//hydro.UpdateRandom(sqrt(dt));
 		hydro.Corrector(dt);
 		hydro.RandomEffects();
 		hydro.UpdateState();
@@ -125,6 +124,11 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
 		//output diagnose information
 		if(ini.diagnose == 2 && ite % 10 == 0) diagnose.KineticInformation(Time, ini, hydro);
 
+		if (ini.use_phase_transform != 0 && (ite % 1000 == 0) ) {
+		  particles.PhaseTransform(ini, hydro);
+		  //ini.VolumeMass(hydro, particles, weight_function);
+		}
+
 		//predictor and corrector method used
 		//the prediction step
 		hydro.BuildPair(particles, weight_function);
@@ -146,7 +150,9 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
 		hydro.UpdateSurfaceStress(boundary);
 		hydro.UpdateChangeRate(ini);
 //		hydro.UpdateRandom(sqrt(dt));
+
 		hydro.Corrector_summation(dt);
+
 //		hydro.RandomEffects();
 
 		//renew boundary particles

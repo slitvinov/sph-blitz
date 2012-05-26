@@ -45,6 +45,7 @@ Initiation::Initiation(const char *project_name) {
 	}
 	else cout<<"Initialtion: Read the global configuration data from "<< inputfile <<" \n"; 
 	sim_special = 0;
+        use_phase_transform = 0;
 
 	//reading key words and configuration data
 	while(!fin.eof()) {
@@ -52,8 +53,12 @@ Initiation::Initiation(const char *project_name) {
 		//read a string block
 		fin>>Key_word;
 
-		//is simulation special
+		//is simulation special?
 		if(!strcmp(Key_word, "SIM_SPECIAL")) fin>>sim_special;
+
+		//is simulation special
+		if(!strcmp(Key_word, "USE_PAHASE_TRANSFORM")) fin>>use_phase_transform;
+
 
 		// a fraction of the domain in y direction where 
 		// force is not applyed
@@ -135,6 +140,7 @@ void Initiation::show_information()
 	cout<<"The g force is "<<g_force[0]<<" m/s^2 x "<<g_force[1]<<" m/s^2 \n";
 	//output the timing on screen
 	cout<<"\nInitialtion: Time controlling:\nStarting time is "<<Start_time<<" \n";
+	cout<<"\nuse_phase_transform "<<use_phase_transform<<" \n";
 	cout<<"Ending time is "<<End_time<<" \n";
 	cout<<"Output time interval is "<<D_time<<" \n";
 

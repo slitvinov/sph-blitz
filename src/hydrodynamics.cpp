@@ -85,7 +85,6 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini):
 
 	}
       }
-    std::cerr << "solid_number is " << solid_number << '\n';
 
     //comparing the key words for the force matrix 
     if(!strcmp(Key_word, "FORCES")) 
@@ -556,12 +555,8 @@ void Hydrodynamics::Zero_Velocity()
   for (LlistNode<Particle> *p = particle_list.first(); 
        !particle_list.isEnd(p); 
        p = particle_list.next(p)) {
-					
-    //particle
     Particle *prtl = particle_list.retrieve(p);
-
-    //all random values
-    (prtl->U) = 0.0;
+    prtl->U = 0.0;
   }
 }
 //----------------------------------------------------------------------------------------
@@ -840,19 +835,28 @@ void Hydrodynamics::Predictor(double dt)
 			
     //predict values at step n+1
     prtl->R = prtl->R + prtl->U*dt;
+    assert(!isnan(prtl->R[0]));
+    assert(!isnan(prtl->R[1]));
+
     prtl->rho = prtl->rho + prtl->drhodt*dt;
     // update velocity only if it is not Wall
     if (prtl->mtl->number!=solid_number)  {
       prtl->U = prtl->U + prtl->dUdt*dt;
+      assert(!isnan(prtl->U[0]));
+      assert(!isnan(prtl->U[1]));
       prtl->energy = prtl->energy + prtl->dedt*dt;
     }
 			
     //calculate the middle values at step n+1/2
     prtl->R = (prtl->R + prtl->R_I)*0.5;
+    assert(!isnan(prtl->R[0]));
+    assert(!isnan(prtl->R[1]));
     prtl->rho = (prtl->rho + prtl->rho_I)*0.5;
     // update velocity only if it is not Wall
     if (prtl->mtl->number!=solid_number)  {
       prtl->U = (prtl->U + prtl->U_I)*0.5;
+      assert(!isnan(prtl->U[0]));
+      assert(!isnan(prtl->U[1]));
       prtl->energy = (prtl->energy + prtl->energy_I)*0.5;
     }
   }
@@ -871,9 +875,14 @@ void Hydrodynamics::Corrector(double dt)
 			
     //correction base on values on n step and change rate at n+1/2
     prtl->R = prtl->R_I + prtl->U*dt;
+    assert(!isnan(prtl->R[0]));
+    assert(!isnan(prtl->R[1]));
+
     prtl->rho = prtl->rho + prtl->drhodt*dt;
     if (prtl->mtl->number!=solid_number)  {
       prtl->U = prtl->U_I + prtl->dUdt*dt;
+      assert(!isnan(prtl->U[0]));
+      assert(!isnan(prtl->U[1]));
       prtl->energy = prtl->energy_I + prtl->dedt*dt;      
     }
   }
@@ -894,21 +903,33 @@ void Hydrodynamics::Predictor_summation(double dt)
     prtl->R_I = prtl->R;
     if (prtl->mtl->number!=solid_number)  {
       prtl->U += prtl->_dU; //renormalize velocity
+      assert(!isnan(prtl->U[0]));
+      assert(!isnan(prtl->U[1]));
     }
     prtl->U_I = prtl->U;
     prtl->energy_I = prtl->energy;
 			
     //predict values at step n+1
     prtl->R = prtl->R + prtl->U*dt;
+    assert(!isnan(prtl->R[0]));
+    assert(!isnan(prtl->R[1]));
+
     if (prtl->mtl->number!=solid_number)  {
       prtl->U = prtl->U + prtl->dUdt*dt;
+      assert(!isnan(prtl->U[0]));
+      assert(!isnan(prtl->U[1]));
       prtl->energy = prtl->energy + prtl->dedt*dt;
     }
 			
     //calculate the middle values at step n+1/2
     prtl->R = (prtl->R + prtl->R_I)*0.5;
+    assert(!isnan(prtl->R[0]));
+    assert(!isnan(prtl->R[1]));
+
     if (prtl->mtl->number!=solid_number)  {
       prtl->U = (prtl->U + prtl->U_I)*0.5;
+      assert(!isnan(prtl->U[0]));
+      assert(!isnan(prtl->U[1]));
       prtl->energy = (prtl->energy + prtl->energy_I)*0.5;
     }
   }
@@ -928,10 +949,17 @@ void Hydrodynamics::Corrector_summation(double dt)
     //correction base on values on n step and change rate at n+1/2
     if (prtl->mtl->number!=solid_number)  {
       prtl->U += prtl->_dU; //renormalize velocity
+      assert(!isnan(prtl->U[0]));
+      assert(!isnan(prtl->U[1]));
     }
     prtl->R = prtl->R_I + prtl->U*dt;
+    assert(!isnan(prtl->R[0]));
+    assert(!isnan(prtl->R[1]));
+
     if (prtl->mtl->number!=solid_number)  {
       prtl->U = prtl->U_I + prtl->dUdt*dt;
+      assert(!isnan(prtl->U[0]));
+      assert(!isnan(prtl->U[1]));
       prtl->energy = prtl->energy_I + prtl->dedt*dt;
     }
   }
@@ -951,6 +979,8 @@ void Hydrodynamics::RandomEffects()
     //correction base on values on n step and change rate at n+1/2
     if (prtl->mtl->number!=solid_number)  {
       prtl->U = prtl->U + prtl->_dU;
+      assert(!isnan(prtl->U[0]));
+      assert(!isnan(prtl->U[1]));
     }
   }
 }

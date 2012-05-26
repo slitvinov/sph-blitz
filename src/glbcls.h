@@ -38,9 +38,13 @@ public:
 	//the project name
 	char Project_name[125];
 
-	/// if simulation is special
+	/// if simulation is special (used for tube)
 	/// 0 means generic
 	int sim_special;
+
+  /// use phase transform
+  int  use_phase_transform;
+           
 
 	// a fraction of the domain in y direction where 
 	// force is not applyed
@@ -347,6 +351,8 @@ public:
 	//build the interaction (particle pair) list
 	void BuildInteraction(Llist<Interaction> &interactions, Llist<Particle> &particle_list, 
 						Force **forces, QuinticSpline &weight_function);
+
+  void PhaseTransform(Initiation& ini, Hydrodynamics& hydro);
 	
 };
 //-----------------------------------------------------------------------

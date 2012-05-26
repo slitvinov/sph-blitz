@@ -46,15 +46,26 @@ Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces
 	Dest = prtl_dest;
 	
 	//interaction parameters
+	assert(Org->mtl != NULL);
+	assert(Dest->mtl != NULL);
 	noi = Org->mtl->number;
 	noj = Dest->mtl->number; 
+	assert(noi>=0);
+	assert(noj>=0);
 	frc_ij = forces;
 
 	//define pair values do not change in sub time steps
 	mi = Org->m; mj = Dest->m;
+	assert(mi>0);
+	assert(mj>0);
 	rmi = 1.0/mi; rmj =1.0/mj;
 	etai = Org->eta; etaj = Dest->eta; 
+	assert(etai>0);
+	assert(etaj>0);
 	zetai = Org->zeta; zetaj = Dest->zeta; 
+	assert(zetai>0);
+	assert(zetaj>0);
+
 
 	//the pair parameters
 	rij = dstc;
@@ -87,6 +98,8 @@ void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force 
 
 	//define pair values do not change in sub time steps
 	mi = Org->m; mj = Dest->m;
+	assert(mi>0);
+	assert(mj>0);
 	rmi = 1.0/mi; rmj =1.0/mj;
 	etai = Org->eta; etaj = Dest->eta; 
 	zetai = Org->zeta; zetaj = Dest->zeta; 
@@ -234,9 +247,15 @@ void Interaction::UpdateForces()
 
 	//define pair values change in sub time steps
 	rhoi = Org->rho; rhoj = Dest->rho;
+	assert(rhoi>0);
+	assert(rhoj>0);
+	assert(mi>0);
+	assert(mj>0);
 	Vi = mi/rhoi; Vj = mj/rhoj;
 	rVi = 1.0/Vi; rVj = 1.0/Vj;
 	pi = Org->p; pj = Dest->p;
+	assert(!isnan(pi));
+	assert(!isnan(pj));
 	Ui = Org->U; Uj = Dest->U;
 	Uij = Ui - Uj;
 	Uijdoteij = dot(Uij, eij);
@@ -257,10 +276,16 @@ void Interaction::UpdateForces()
 	//density change rate
 	drhodti = - Fij*rij*dot((Ui*Vi2 - Uj*Vj2), eij);
 
+	assert(!isnan(pi));
+	assert(!isnan(pj));
+	assert(!isnan(Fij));
+	assert(!isnan(Uijdoteij));
+	assert(!isnan(bulk_rij));
 	//momentum change rate
 	dPdti =   eij*Fij*rij*(pi*Vi2 + pj*Vj2)
 			- ((Uij - eij*Uijdoteij)*shear_rij + eij*(Uijdoteij*2.0*bulk_rij + NR_vis))
 			*Fij*(Vi2 + Vj2);
+	assert(!isnan(dPdti[0]));
 	
 	//surface tension with a simple model
 //	dPdti += eij*frc_ij[noi][noj].sigma*Fij*Wij*rij*(Vi2 + Vj2);
@@ -268,29 +293,33 @@ void Interaction::UpdateForces()
 	//surface tension with simplified model
 	Vec2d Surfi, Surfj, SurfaceForcei, SurfaceForcej;
 	Surfi = Org->del_phi; Surfj = Dest->del_phi;
-
+	
+	assert(!isnan(SurfaceForcei[0]));
+	assert(!isnan(SurfaceForcei[1]));
+	assert(!isnan(SurfaceForcej[0]));
+	assert(!isnan(SurfaceForcej[1]));
 	SurfaceForcei[0] = Surfi[0]*eij[0] + Surfi[1]*eij[1];
 	SurfaceForcei[1] = Surfi[1]*eij[0] - Surfi[0]*eij[1];
 	SurfaceForcej[0] = Surfj[0]*eij[0] + Surfj[1]*eij[1];
 	SurfaceForcej[1] = Surfj[1]*eij[0] - Surfj[0]*eij[1];
+	assert(!isnan(rij));
+	assert(!isnan(Fij));
+	assert(!isnan(Vi2));
+	assert(!isnan(Vj2));
 	dPdti +=  (SurfaceForcei*Vi2 + SurfaceForcej*Vj2)*rij*Fij;
+	assert(!isnan(dPdti[0]));
+	assert(!isnan(dPdti[1]));
 
-	//summation
-#ifdef _OPENMP
-	_dU1 = dUi*mi;
-	_dU2 = dUi*mj;
-	drhodt1 = drhodti*rhoi*rVi;
-	drhodt2 = drhodti*rhoj*rVj;
-	dUdt1 = dPdti*rmi;
-	dUdt2 = dPdti*rmj;
-#else
 	Org->_dU += dUi*mi;
 	Dest->_dU -= dUi*mj;
 	Org->drhodt += drhodti*rhoi*rVi;
 	Dest->drhodt += drhodti*rhoj*rVj;
+
 	Org->dUdt += dPdti*rmi;
+	assert(!isnan(Org->dUdt[0]));
+	assert(!isnan(Org->dUdt[1]));
+
 	Dest->dUdt -= dPdti*rmj;
-#endif
     const double ki = Org->k_thermal;
     const double kj = Dest->k_thermal;
     if ( (ki>0) && (kj>0) ) {

@@ -91,7 +91,11 @@ void ParticleManager::UpdateCellLinkedLists()
 	  //where is the particle
 	  k = int ((prtl->R[0] + cll_sz)/ cll_sz);
 	  m = int ((prtl->R[1] + cll_sz)/ cll_sz);
-				
+	  assert( k >= 0);
+	  assert( k <= x_clls);
+
+	  assert( m >= 0);
+	  assert( m <= y_clls);
 	  //if the partilce run out of the current cell
 	  if(k != i || m !=j) {
 	    //delete the current node
@@ -464,3 +468,36 @@ void ParticleManager::BiuldWallParticles(Hydrodynamics &hydro, Initiation &ini, 
   }
 }
 
+void ParticleManager::PhaseTransform(Initiation& ini, Hydrodynamics& hydro) {
+  Vec2d position;
+  const double iRndX = double (rand() % 10 + 1) / 10.0;
+  const double iRndY = double (rand() % 10 + 1) / 10.0;
+
+  position[0] = 0.5*ini.box_size[0] + 0.25*ini.delta*iRndY ;
+  position[1] = 0.25*ini.delta + 0.25*ini.delta*iRndX;
+
+  Vec2d velocity = 0.0;
+  Material& mtl = hydro.materials[2];
+  Particle *prtl = new Particle( position, velocity, mtl.rho0, ini.p0, ini.energy0, 
+				 mtl);
+  prtl->V = ini.delta*ini.delta;
+  prtl->m = prtl->V * mtl.rho0;
+  prtl->p = prtl->mtl->get_p(prtl->rho);
+  //insert its poistion on the particle list
+  hydro.particle_list.insert(hydro.particle_list.first(), prtl);
+
+  //where is the particle
+  const int i = int ((prtl->R[0] + cll_sz)/ cll_sz);
+  const int j = int ((prtl->R[1] + cll_sz)/ cll_sz);
+  prtl->cell_i = i; prtl->cell_j = j; 
+  prtl->dUdt = 0.0;
+  //insert the position into corresponding cell list
+  cell_lists[i][j].insert(cell_lists[i][j].first(), prtl);
+
+  for (LlistNode<Particle> *p = cell_lists[i][j].first(); 
+       !cell_lists[i][j].isEnd(p); 
+       p = cell_lists[i][j].next(p)) {
+    //check the position of the real particle
+    Particle *prtl = cell_lists[i][j].retrieve(p);
+  }
+}
