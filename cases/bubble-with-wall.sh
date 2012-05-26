@@ -7,8 +7,8 @@ cfgname=bubble-with-wall
 dname=${cfgname}1
 mkdir -p ${dname}
 sph=../../src/sph
-cd ${dname}
 
+cd ${dname}
 cp ../${cfgname}.cfg ${cfgname}.cfg
 awk --lint=fatal '/INITIAL_CONDITION/{$2=0} 1' ../${cfgname}.cfg | \
     awk '/TIMING/{$3=1e-6; $4=1e-6} 1' > ${cfgname}_init.cfg
