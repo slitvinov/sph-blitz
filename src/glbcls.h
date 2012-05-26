@@ -32,7 +32,6 @@ class Initiation {
 	friend class Material;
 	friend class Hydrodynamics;
 	//reference length, speed, and density for dimensionless
-	double _length, _v, _rho, _T; 
 
 public:
 	
@@ -104,41 +103,6 @@ public:
 	//predict the particle volume and mass
 	void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline &weight_function);
 
-	//non-dimesionlize
-	double non_dms_p(double p);
-	double non_dms_T(double T);
-	double non_dms_rho(double rho);
-	double non_dms_energy(double energy);
-	double non_dms_mass(double mass);
-	double non_dms_time(double time);
-	double non_dms_length(double length);
-	Vec2d non_dms_box_size(Vec2d box_size);
-	double non_dms_velocity(double velocity);
-	double non_dms_kinetic_viscosity(double nu);
-	Vec2d non_dms_velocity(Vec2d velocity);
-	double non_dms_acceleration(double acceleration);
-	Vec2d non_dms_acceleration(Vec2d acceleration);
-	double non_dms_viscosity(double mu);
-	double non_dms_heat_ratio(double cv);
-	double non_dms_heat_conduction(double kappa);
-	double non_dms_Boltzmann(double k_bltz);
-	double non_dms_surface(double sigma);
-
-	//dimesionlize
-	double dms_p(double p_non);
-	double dms_T(double T_non);
-	double dms_rho(double rho_non);
-	double dms_mass(double mass_non);
-	double dms_time(double time_non);
-	double dms_energy(double energy);
-	double dms_length(double length_non);
-	Vec2d dms_box_size(Vec2d box_size_non);
-	double dms_velocity(double velocity_non);
-	Vec2d dms_velocity(Vec2d velocity_non);
-	double dms_acceleration(double acceleration_non);
-	Vec2d dms_acceleration(Vec2d acceleration_non);
-	double dms_viscosity(double mu_non);
-	double dms_surface(double sigma_non);
 
 };
 //-----------------------------------------------------------------------
@@ -599,7 +563,7 @@ class Hydrodynamics
 	double viscosity_max, surface_max;
 
   /// wall number
-  int wall_number;
+  int solid_number;
 public:
 
 	//the materials used
@@ -616,6 +580,8 @@ public:
 
 	//get the time step
         double GetTimestep(Initiation &ini);
+  // get the time step (thermo)
+  double GetTimestepThermo(const Initiation& ini) const ;
 
 	//update new parameters in pairs
 	void BuildPair(ParticleManager &particles, QuinticSpline &weight_function);

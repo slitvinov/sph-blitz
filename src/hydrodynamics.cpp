@@ -24,7 +24,7 @@ using namespace std;
 //						constructor
 //----------------------------------------------------------------------------------------
 Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini):
-  wall_number(-2)
+  solid_number(-2)
 {
 	
   int k, m;
@@ -78,15 +78,14 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini):
 	cout<<"The properties of the material No. "<<k<<"\n";		
 	materials[k].show_properties();
 	//non-dimensionalize
-	materials[k].non_dimensionalize(ini);
 
-	//find wall_number
+	//find solid_number
 	if (strcmp(materials[k].material_name, "Wall") == 0) {
-	  wall_number=k;
+	  solid_number=k;
 
 	}
       }
-    std::cerr << "wall_number is " << wall_number << '\n';
+    std::cerr << "solid_number is " << solid_number << '\n';
 
     //comparing the key words for the force matrix 
     if(!strcmp(Key_word, "FORCES")) 
@@ -99,7 +98,6 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini):
 	     >>forces[k][m].heat_slip;
 	  //smoothinglenth
 	  forces[k][m].smoothinglength = ini.smoothinglength;
-	  forces[k][m].non_dimensionalize(ini);
 	}
   }
   fin.close();
@@ -778,7 +776,7 @@ double Hydrodynamics::GetTimestep(Initiation &ini)
 {
 
   if (ini.tstep>0) {
-    return ini.non_dms_time(ini.tstep);
+    return ini.tstep;
   }
   //maximum sound speed, particle velocity and density
   double Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = 1.0;
@@ -799,18 +797,29 @@ double Hydrodynamics::GetTimestep(Initiation &ini)
 
     k_thermal_max = AMAX1(k_thermal_max, prtl->k_thermal);
   }
-
-  double cv_max = 0.0;
-  for(int k = 0; k < number_of_materials; k++) {
-    cv_max = AMAX1(cv_max, materials[k].cv);
-  }
-
   dt = AMIN1(sqrt(0.5*(rho_min + rho_max))*dt_surf, dt_g_vis);
-  const double dt_hydor = 0.25*AMIN1(dt, delta/(Cs_max + V_max));
-
-  const double dt_therm = 0.1* 0.5*(rho_min + rho_max) * cv_max * delta * delta / k_thermal_max;
-  return AMIN1(dt_therm, dt_hydor);
+  const double dt_hydro = 0.25*AMIN1(dt, delta/(Cs_max + V_max));
+  const double dt_therm = GetTimestepThermo(ini);
+  return AMIN1(dt_therm, dt_hydro);
 }
+
+//----------------------------------------------------------------------------------------
+//							get the time step (thermo)
+//----------------------------------------------------------------------------------------
+double Hydrodynamics::GetTimestepThermo(const Initiation& ini) const {
+  double min_rho_cv_k = 1e20;
+  for(int k = 0; k < ini.number_of_materials; k++) {
+    const double rho_cv_k = materials[k].rho0*materials[k].cv/materials[k].k_thermal;
+    if (rho_cv_k < min_rho_cv_k) {
+      min_rho_cv_k = rho_cv_k;
+    }
+  }
+  const double beta = 0.1;
+  const double dt = 1.44*beta * ini.delta*ini.delta * min_rho_cv_k;
+  return dt;
+}
+
+
 //----------------------------------------------------------------------------------------
 //						the redictor and corrector method: predictor
 //----------------------------------------------------------------------------------------
@@ -833,7 +842,7 @@ void Hydrodynamics::Predictor(double dt)
     prtl->R = prtl->R + prtl->U*dt;
     prtl->rho = prtl->rho + prtl->drhodt*dt;
     // update velocity only if it is not Wall
-    if (prtl->mtl->number!=wall_number)  {
+    if (prtl->mtl->number!=solid_number)  {
       prtl->U = prtl->U + prtl->dUdt*dt;
       prtl->energy = prtl->energy + prtl->dedt*dt;
     }
@@ -842,7 +851,7 @@ void Hydrodynamics::Predictor(double dt)
     prtl->R = (prtl->R + prtl->R_I)*0.5;
     prtl->rho = (prtl->rho + prtl->rho_I)*0.5;
     // update velocity only if it is not Wall
-    if (prtl->mtl->number!=wall_number)  {
+    if (prtl->mtl->number!=solid_number)  {
       prtl->U = (prtl->U + prtl->U_I)*0.5;
       prtl->energy = (prtl->energy + prtl->energy_I)*0.5;
     }
@@ -863,7 +872,7 @@ void Hydrodynamics::Corrector(double dt)
     //correction base on values on n step and change rate at n+1/2
     prtl->R = prtl->R_I + prtl->U*dt;
     prtl->rho = prtl->rho + prtl->drhodt*dt;
-    if (prtl->mtl->number!=wall_number)  {
+    if (prtl->mtl->number!=solid_number)  {
       prtl->U = prtl->U_I + prtl->dUdt*dt;
       prtl->energy = prtl->energy_I + prtl->dedt*dt;      
     }
@@ -883,7 +892,7 @@ void Hydrodynamics::Predictor_summation(double dt)
 	
     //save values at step n
     prtl->R_I = prtl->R;
-    if (prtl->mtl->number!=wall_number)  {
+    if (prtl->mtl->number!=solid_number)  {
       prtl->U += prtl->_dU; //renormalize velocity
     }
     prtl->U_I = prtl->U;
@@ -891,14 +900,14 @@ void Hydrodynamics::Predictor_summation(double dt)
 			
     //predict values at step n+1
     prtl->R = prtl->R + prtl->U*dt;
-    if (prtl->mtl->number!=wall_number)  {
+    if (prtl->mtl->number!=solid_number)  {
       prtl->U = prtl->U + prtl->dUdt*dt;
       prtl->energy = prtl->energy + prtl->dedt*dt;
     }
 			
     //calculate the middle values at step n+1/2
     prtl->R = (prtl->R + prtl->R_I)*0.5;
-    if (prtl->mtl->number!=wall_number)  {
+    if (prtl->mtl->number!=solid_number)  {
       prtl->U = (prtl->U + prtl->U_I)*0.5;
       prtl->energy = (prtl->energy + prtl->energy_I)*0.5;
     }
@@ -917,11 +926,11 @@ void Hydrodynamics::Corrector_summation(double dt)
     Particle *prtl = particle_list.retrieve(p);
 			
     //correction base on values on n step and change rate at n+1/2
-    if (prtl->mtl->number!=wall_number)  {
+    if (prtl->mtl->number!=solid_number)  {
       prtl->U += prtl->_dU; //renormalize velocity
     }
     prtl->R = prtl->R_I + prtl->U*dt;
-    if (prtl->mtl->number!=wall_number)  {
+    if (prtl->mtl->number!=solid_number)  {
       prtl->U = prtl->U_I + prtl->dUdt*dt;
       prtl->energy = prtl->energy_I + prtl->dedt*dt;
     }
@@ -940,7 +949,7 @@ void Hydrodynamics::RandomEffects()
     Particle *prtl = particle_list.retrieve(p);
 			
     //correction base on values on n step and change rate at n+1/2
-    if (prtl->mtl->number!=wall_number)  {
+    if (prtl->mtl->number!=solid_number)  {
       prtl->U = prtl->U + prtl->_dU;
     }
   }

@@ -43,7 +43,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
   char file_name[50], file_list[25];
 
   //produce output file name
-  Itime = ini.dms_time(Time)*1.0e6;
+  Itime = Time*1.0e6;
   strcpy(file_name,"./outdata/prtl");
   sprintf(file_list, "%.10d", (int)Itime);
   strcat(file_name, file_list);
@@ -67,12 +67,12 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
       if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) {
 	j ++;
 	if(j == 1) 	out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
-	out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
-	   <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])
-	   <<"  "<<ini.dms_rho(prtl->rho)
-	   <<"  "<<ini.dms_p(prtl->p)
-	   <<"  "<<ini.dms_mass(prtl->m)
-	   <<"  "<<ini.dms_energy(prtl->energy)<<"\n";
+	out<<prtl->R[0]<<"  "<<prtl->R[1]
+	   <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]
+	   <<"  "<<prtl->rho
+	   <<"  "<<prtl->p
+	   <<"  "<<prtl->m
+	   <<"  "<<prtl->energy<<"\n";
       }
     }
 
@@ -85,12 +85,12 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
       if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) { 
 	j ++;
 	if(j == 1)  out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
-	  out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
-	     <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])
-	     <<"  "<<ini.dms_rho(prtl->rho)
-	     <<"  "<<ini.dms_p(prtl->p)
-	     <<"  "<<ini.dms_mass(prtl->m)
-	     <<"  "<<ini.dms_T(prtl->energy)<<"\n";
+	  out<<prtl->R[0]<<"  "<<prtl->R[1]
+	     <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]
+	     <<"  "<<prtl->rho
+	     <<"  "<<prtl->p
+	     <<"  "<<prtl->m
+	     <<"  "<<prtl->energy<<"\n";
       }
     }
   }
@@ -114,7 +114,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
   gridx = x_cells*hdelta; gridy = y_cells*hdelta;
 	
   //produce output file name
-  Itime = ini.dms_time(Time)*1.0e6;
+  Itime = Time*1.0e6;
   strcpy(file_name,"./outdata/states");
   sprintf(file_list, "%d", (int)Itime);
   strcat(file_name, file_list);
@@ -159,11 +159,11 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
       //clear the NNP_list
       particles.NNP_list.clear();
 
-      out<<ini.dms_length(pstn[0])<<"  "<<ini.dms_length(pstn[1])
-	 <<"  "<<ini.dms_p(pressure)<<"  "<<ini.dms_rho(rho)
+      out<<pstn[0]<<"  "<<pstn[1]
+	 <<"  "<<pressure<<"  "<<rho
 	 <<"  "<<phi
-	 <<"  "<<ini.dms_velocity(x_velocity)<<"  "<<ini.dms_velocity(y_velocity)
-	 <<"  "<<ini.dms_T(energy)<<"\n";
+	 <<"  "<<x_velocity<<"  "<<y_velocity
+	 <<"  "<<energy<<"\n";
     }
   }
   out.close();
@@ -238,7 +238,7 @@ void Output::WriteParticleMovie(Hydrodynamics &hydro, double Time, Initiation &i
 
   ofstream out(file_name, ios::out | ios::ate);
   //zone names
-  out<<"zone t='"<<ini.dms_time(Time)<<"' \n";
+  out<<"zone t='"<<Time<<"' \n";
   //iterate the partilce list
   for (LlistNode<Particle> *p = hydro.particle_list.first(); 
        !hydro.particle_list.isEnd(p); 
@@ -249,8 +249,8 @@ void Output::WriteParticleMovie(Hydrodynamics &hydro, double Time, Initiation &i
     //find the number of the material
     for(k = 0;  k < number_of_materials; k++) 
       if(strcmp(prtl->mtl->material_name, hydro.materials[k].material_name) == 0) m = k;
-    out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
-       <<"  "<<m<<"  "<<ini.dms_rho(prtl->rho)<<"\n";
+    out<<prtl->R[0]<<"  "<<prtl->R[1]
+       <<"  "<<m<<"  "<<prtl->rho<<"\n";
   }
   out.close();
 
@@ -274,7 +274,7 @@ void Output::OutAverage(ParticleManager &particles, MLS &mls, QuinticSpline &wei
   gridx = x_cells*hdelta; gridy = y_cells*hdelta;
 	
   //produce output file name
-  Itime = ini.dms_time(Time)*1.0e6;
+  Itime = Time*1.0e6;
   strcpy(file_name,"./outdata/averages");
   sprintf(file_list, "%d", (int)Itime);
   strcat(file_name, file_list);
@@ -321,9 +321,9 @@ void Output::OutAverage(ParticleManager &particles, MLS &mls, QuinticSpline &wei
       l ++;
     }
 		
-    out<<ini.dms_length(pstn[1])<<"  "<<ini.dms_p(pressure)/double(l)<<"  "
-       <<ini.dms_rho(rho)/double(l)<<"  "<<ini.dms_velocity(x_velocity)/double(l)<<"  "
-       <<ini.dms_velocity(y_velocity)/double(l)<<"  "<<ini.dms_T(energy)/double(l)<<"\n";
+    out<<pstn[1]<<"  "<<pressure/double(l)<<"  "
+       <<rho/double(l)<<"  "<<x_velocity/double(l)<<"  "
+       <<y_velocity/double(l)<<"  "<<energy/double(l)<<"\n";
   }
   out.close();
 }

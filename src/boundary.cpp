@@ -61,20 +61,9 @@ Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &parti
   fin.close();
 
   show_information(ini);	
-  non_dimensionalize(ini);
 
   //build boundary particles
   BuildBoundaryParticles(particles, hydro);
-}
-//----------------------------------------------------------------------------------------
-//								Non-dimensionalize
-//----------------------------------------------------------------------------------------
-void Boundary::non_dimensionalize(Initiation &ini)
-{
-  UxBl = ini.non_dms_velocity(UxBl); 
-  UxBr = ini.non_dms_velocity(UxBr); 
-  UyBd = ini.non_dms_velocity(UyBd); 
-  UyBu = ini.non_dms_velocity(UyBu); 
 }
 //----------------------------------------------------------------------------------------
 //								show information on screen

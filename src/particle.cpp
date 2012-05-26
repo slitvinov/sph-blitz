@@ -82,7 +82,7 @@ Particle::Particle(Vec2d position, Vec2d velocity, double density, double pressu
 	U = velocity; U_I = U;
 	
 	//set conservative values and their  intermediate values
-	m = 0.0; V = 0.0; energy = mtl->get_e(T); energy_I = energy;
+	m = 0.0; V = 0.0; energy = T; energy_I = energy;
 	R_I = R; P_I = P; rho_I = rho;
 	P_n = P; U_n = U; rho_n = rho; energy_n = energy; 
 
