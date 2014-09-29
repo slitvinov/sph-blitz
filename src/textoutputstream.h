@@ -22,7 +22,7 @@ public:
   virtual void NewTimeStep();
   virtual void Update(Subject*);
   virtual void  WriteTimeStepAttribute(string AttrName, 
-				       double AttrName);
+				       double AttrValue);
   virtual void WriteParticleAttribute(string, double);
 
   ///output headers to files

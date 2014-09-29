@@ -10,13 +10,9 @@
 //		particlemanager.cpp
 //----------------------------------------------------------------------------------------
 // ***** system includes *****
-//#include <iostream>
 #include <fstream>
-//#include <string>
-
-//#include <cstdio>
-//#include <cstdlib>
-//#include <cmath>
+#include <stdio.h>
+#include <string.h>
 
 // ***** local includes *****
 #include "particlemanager.h"

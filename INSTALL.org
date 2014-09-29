@@ -3,7 +3,14 @@
 On debian install third party libraries
 #+BEGIN_EXAMPLE
 sudo apt-get install libgsl0-dev
+sudo apt-get install libblitz0-dev
 #+END_EXAMPLE
+
+Linking command
+#+BEGIN_EXAMPLE
+g++ -Wall -DNOLOG -DQFIX  -I/usr/include -I/usr/include  -g -O2 -L/usr/lib -lgsl -lgslcblas -lm  -lboost_program_options -L/usr/lib -o sphopt abspolymercreator.o betaspline.o boundary.o boundarystruct.o command.o compositedatacollector.o ConfigFile.o datacollector.o diagnose.o force.o glbfunc.o hydrodynamics.o initiation.o input.o interaction.o interactionstate.o kernel.o massdatacollector.o material.o mls.o netcdfoutputstream.o newrgdatacollector.o node.o observer.o output.o outputstream.o particle.o particlemanager.o polymerdatacollector.o polymerinteraction.o polymerparticle.o quinticspline.o reflection.o rgdatacollector.o safeoutputstream.o simpledatacollector.o simpleparticlecommand.o simplepolymercreator.o subject.o textoutputstream.o timer.o timesolver.o torrgdatacollector.o vec2d.o wiener.o sphopt.o  -lnetcdf -lnetcdf_c++ -lboost_program_options -lgsl -lblas
+#+END_EXAMPLE
+
 
 
 ./configure

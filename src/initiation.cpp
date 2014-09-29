@@ -7,13 +7,10 @@
 //		initiation.cpp
 //----------------------------------------------------------------------------------------
 
-//#include <iostream>
 #include <fstream>
 #include <cstdlib>
-//#include <string>
-
-//#include <cstdio>
-//#include <cstdlib>
+#include <stdio.h>
+#include <string.h>
 
 // ***** localincludes *****
 #include "ConfigFile.h"
@@ -24,10 +21,9 @@
 #include "particlemanager.h"
 #include "abspolymercreator.h"
 #include "stdlib.h"
-//#include "simplepolymercreator.h"
+#include <cstdio>
+#include <cstdlib>
 
-
-//#include "glbfunc.h"
 using namespace std;
 ///
 Initiation* Initiation::_instance = NULL;
@@ -262,7 +258,7 @@ void Initiation::show_information() const
 	
   //Initialize the initial conditions from .rst file
   if (initial_condition == 1)
-    //    cout<<"Read the initial conditions from separated restat file "<<Project_name<<".rst \n";
+    cout<<"Read the initial conditions from separated restat file "<<Project_name<<".rst \n";
 }
 //----------------------------------------------------------------------------------------
 //					predict the particle volume and mass

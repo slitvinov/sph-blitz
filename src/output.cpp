@@ -12,9 +12,8 @@
 #include <gsl/gsl_histogram.h>
 
 #include <string>
-
-//#include <cstdio>
-//#include <cstdlib>
+#include <stdio.h>
+#include <string.h>
 
 // ***** localincludes *****
 #include "output.h"
@@ -61,10 +60,8 @@ void Output::OutputParticles(Hydrodynamics &hydro,
 			     double Time, 
 			     const Initiation* const ini)
 {
-  int i, j;
+  int i;
   for(i = 0; i < number_of_materials; i++) {		
-    j = 0; //if there is such material or not
-    //the sum of kinetic energies
 
     //iterate the real particles list
     for (LlistNode<Node> *p = hydro.particle_list.first(); 

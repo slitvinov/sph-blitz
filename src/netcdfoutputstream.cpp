@@ -22,6 +22,7 @@ NetCDFOutputStream::NetCDFOutputStream():
     itime_ = 0;    
     nc = new NcFile(timeparticlefilename_.c_str(), 
 		    NcFile::Replace); 
+    std::cout << timeparticlefilename_ << '\n';
     assert(nc->is_valid());
     ///create dimenshions
     timestep = nc->add_dim("timestep");

@@ -11,8 +11,9 @@
 #include <fstream>
 //#include <string>
 
-//#include <cstdio>
-//#include <cstdlib>
+#include <stdio.h>
+#include <string.h>
+
 
 // ***** localincludes *****
 #include "hydrodynamics.h"
@@ -25,7 +26,6 @@
 #include "force.h"
 #include "particle.h"
 #include "particlemanager.h"
-
 
 using namespace std;
 ///functions deifined in particle.cpp

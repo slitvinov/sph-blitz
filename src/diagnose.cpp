@@ -11,8 +11,8 @@
 #include <fstream>
 //#include <string>
 
-//#include <cstdio>
-//#include <cstdlib>
+#include <stdio.h>
+#include <string.h>
 
 // ***** localincludes *****
 #include "diagnose.h"
