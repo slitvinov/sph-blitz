@@ -1,6 +1,7 @@
-* Things to do before refactoring
-** TODO [#A] Add unit and regression tests
-** TODO [#C] Add bibtex to doxygen
-** TODO [#A] Add boost: smart pointers, asserts, tests, logging
-** TODO [#A] Add tcl  or python support
-** TODO [#B] Add tau http://www.cs.uoregon.edu/research/tau/home.php
+* make possible to use comments in the configuration file
+* change the src/Makefile.am ( -lnetcdf_c++)
+* check for existence of output directory
+* make switcher for random force
+* make arbitrary connection of the particles
+* add configuration files for blitz++
+* get read of the pointer

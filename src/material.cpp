@@ -1,22 +1,23 @@
-///\file material.cpp
-///\author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
+// material.cpp
+// author: Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
+// changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
 
 //-------------------------------------------------------------------
 //				Define material properties
 //				material.cpp
 //----------------------------------------------------------------
 // ***** system includes *****
-#include <iostream>
+//#include <iostream>
 #include <fstream>
-#include <string>
+//#include <string>
 
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
+//#include <cstdio>
+//#include <cstdlib>
+//#include <cmath>
 
 // ***** localincludes *****
-#include "glbcls.h"
+#include "material.h"
+#include "initiation.h"
 #include "glbfunc.h"
 
 using namespace std;
@@ -34,70 +35,71 @@ Material::Material()
 //----------------------------------------------------------------------------------------
 //					constructors
 //----------------------------------------------------------------------------------------
-Material::Material(Initiation &ini)
+Material::Material(const Initiation* const ini)
 {
 	//total number of materials
-	number_of_materials = ini.number_of_materials;
-	smoothinglength = ini.smoothinglength;
-	delta = ini.delta;
+	number_of_materials = ini->number_of_materials;
+	smoothinglength = ini->smoothinglength;
+	delta = ini->delta;
 }
 //----------------------------------------------------------------------------------------
 //					constructors
 //----------------------------------------------------------------------------------------
-Material::Material(char *material_name, Initiation &ini)
+Material::Material(char *material_name, const Initiation* const ini)
 {
 
 	char Key_word[25];
 	char inputfile[25];
 
-	strcpy(inputfile, ini.inputfile);
+	strcpy(inputfile, ini->inputfile);
 	
-	///-check if inputfile exist
+	//check if inputfile exist
 	ifstream fin(inputfile, ios::in);
 	if (!fin) {
 		cout<<"Initialtion: Cannot open "<< inputfile <<" \n";
-		std::cout << __FILE__ << ':' << __LINE__ << std::endl;
 		exit(1);
 	}
 	else cout<<"\nMaterial: read material propeties of "<<material_name<<" from "<< inputfile <<" \n"; 
 
-	  //- /reading key words and configuration data
+	//reading key words and configuration data
 	while(!fin.eof()) {
 		
 		//read a string block
 		fin>>Key_word;
-		  ///-read material properties from .cfg file
+		//cout << "===This is an a ..." << Key_word << endl;
+		
 		//comparing the key words for the material name
 		if(!strcmp(Key_word, material_name)) fin>>cv>>eta>>zeta>>kappa>>gamma>>b0>>rho0>>a0;
 
 	}
 	fin.close();
 
-	  ///- output the property parameters to the screen
+	//output the property parameters to the screen
 	show_properties();
 
-	  //- /non-dimensionalize
+	//non-dimensionalize
 	non_dimensionalize(ini);
 }
 //----------------------------------------------------------------------------------------
 //					non-dimensionalize
 //----------------------------------------------------------------------------------------
-void Material::non_dimensionalize(Initiation &ini)
+void Material::non_dimensionalize(const Initiation* const ini)
 {
-	cv = ini.non_dms_heat_ratio(cv);
-	eta = ini.non_dms_viscosity(eta);
-	zeta = ini.non_dms_viscosity(zeta);
-	nu = ini.non_dms_viscosity(nu);
-	kappa = ini.non_dms_heat_conduction(kappa);
-	b0 =ini.non_dms_p(b0);
-	rho0 = ini.non_dms_rho(rho0);
+	cv = ini->non_dms_heat_ratio(cv);
+	eta = ini->non_dms_viscosity(eta);
+	zeta = ini->non_dms_viscosity(zeta);
+	//	cout << "nu = " << nu << '\n';
+	nu = ini->non_dms_viscosity(nu);
+	kappa = ini->non_dms_heat_conduction(kappa);
+	b0 =ini->non_dms_p(b0);
+	rho0 = ini->non_dms_rho(rho0);
 }
 //----------------------------------------------------------------------------------------
 //			output the property parameters to the screen
 //----------------------------------------------------------------------------------------
 void Material::show_properties()
 {
-	//kinetic viscosity
+	//kinematic viscosity
 	nu = AMAX1(eta, zeta)/rho0;
 	
 	cout<<"Material: "<<material_name<<"\n";		
@@ -117,19 +119,27 @@ void Material::Get_b0(double sound)
 {
 	//compressiblity
 	b0 = a0*sound/gamma;
+	//	cout << "sound = " << sound << endl;	
+	//	b0 = 0.0;
 }
 //----------------------------------------------------------------------------------------
 //					get pressure
 //----------------------------------------------------------------------------------------
 double Material::get_p(double rho)
 {
-	return b0*pow(rho/rho0,gamma);
+  //cout << "b0 = " << b0 << endl;
+  //  cout << "rho0 = " << rho0 << endl;
+  //  cout << "rho = " << rho << endl;
+  //  cout << "gamma = " << gamma << endl;
+  return b0*pow(rho/rho0,gamma);
+
 }
 //----------------------------------------------------------------------------------------
 //					get rho from pressure
 //----------------------------------------------------------------------------------------
 double Material::get_rho(double p)
 {
+  //	cout << "rho0 = " << b0 << endl;
 	return rho0*pow(p/b0, 1.0/gamma);
 }
 //----------------------------------------------------------------------------------------
@@ -144,5 +154,9 @@ double Material::get_e(double T)
 //----------------------------------------------------------------------------------------
 double Material::get_Cs(double p, double rho)
 {
-	return sqrt(gamma*p/rho);
+  //  cout << "Cs = " << Cs << endl;
+  //  cout << "p = " << p << endl;
+  //  cout << "rho = " << rho << endl;
+  //  cout << "Cs = " << sqrt(gamma*p/rho) << endl;
+  return sqrt(gamma*p/rho);
 }

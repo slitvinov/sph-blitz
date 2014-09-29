@@ -1,3 +1,8 @@
+//#define GSL_GAUSSIAN
+#define GSL_USE
+#define GSL_NORMAL
+
+
 // wiener.cpp
 // author: Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 // changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
@@ -8,12 +13,14 @@
 //-----------------------------------------------------------------------
 // ***** system includes *****
 #include <iostream>
-
 #include <cstdlib>
 #include <cmath>
 
+
+
 // ***** localincludes *****
 #include "wiener.h"
+
 
 using namespace std;
 
@@ -22,15 +29,16 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 Wiener::Wiener()
 {	
+	int k;
 
 	dimension = 2;
 
 	//creat the Wiener matrix
 	randoms = new double*[dimension];
-	for(int k = 0; k < dimension; k++) randoms[k] = new double[dimension];
+	for(k = 0; k < dimension; k++) randoms[k] = new double[dimension];
 
 	sym_trclss = new double*[dimension];
-	for(int k = 0; k < dimension; k++) sym_trclss[k] = new double[dimension];
+	for(k = 0; k < dimension; k++) sym_trclss[k] = new double[dimension];
 
 	ntab = 32;
 	iv = new long int[ntab];
@@ -57,7 +65,7 @@ Wiener::Wiener(int dimension)
 //----------------------------------------------------------------------------------------
 //						produce wiener process with Flekkoy's form
 //----------------------------------------------------------------------------------------
-void Wiener::get_wiener(const double sqrtdt)
+void Wiener::get_wiener(double sqrtdt)
 {	
 	double rd1, rd2;
 
@@ -73,7 +81,7 @@ void Wiener::get_wiener(const double sqrtdt)
 //	produce wiener vlaue matrix with symmetric tracless part, and the trace/dimension
 //	Please refer to Espanol's paper
 //----------------------------------------------------------------------------------------
-void Wiener::get_wiener_Espanol(const double sqrtdt)
+void Wiener::get_wiener_Espanol(double sqrtdt) 
 {
 	int i, j;
  	double rd1, rd2;
@@ -98,13 +106,21 @@ void Wiener::get_wiener_Espanol(const double sqrtdt)
 	//tracless symmeteric matrix
 	for (i = 0; i < dimension; i++) sym_trclss[i][i] -= trace_d;
 }
+
 //----------------------------------------------------------------------------------------
 //			get the random number with uniform distribution in [0, 1]
 //----------------------------------------------------------------------------------------
-double Wiener::Ranuls()
+double Wiener::Ranuls() 
 {
-	int j, k;
+  //  double num;
+  //  num = gsl_rng_uniform(rgen);
+  //  cout << "num = " << num << endl;
+#ifdef GSL_NORMAL
+  return gsl_rng_uniform(rgen);
+#else
 
+	int j, k;
+	
 	//parameters
 	long int in1 = 2147483563; 
 	long int ik1 = 40014;
@@ -139,15 +155,24 @@ double Wiener::Ranuls()
 	if(iy < 1) iy += inm1;
 
 	return an*iy;
+#endif
 }
 //----------------------------------------------------------------------------------------
 //				set the random seed
 //----------------------------------------------------------------------------------------
-void Wiener::Ranils()
+void Wiener::Ranils() 
 {
-	int j, k;
-
+#ifdef GSL_USE
+	///set random number generator
+	const gsl_rng_type * T;
+	//	  gsl_rng * rgen;
+	//	gsl_rng_env_setup();
+	T = gsl_rng_taus;
+	rgen = gsl_rng_alloc (T);
+	gsl_rng_set(rgen, (unsigned)time( NULL ));
+#else
 	//for random number generator
+	int j, k;
 	long int in = 2147483563; 
 	long int ik = 40014; 
 	long int iq = 53668; 
@@ -169,26 +194,34 @@ void Wiener::Ranils()
 	iy = iv[0];
 	if(iy < 0) {
 		cout<<"iy ="<<iy<<"   Wiener: Random number fails \n"; 
-		std::cout << __FILE__ << ':' << __LINE__ << std::endl;
 		exit(1);
 	}
-
+#endif
 }
 //----------------------------------------------------------------------------------------
 //		get two random numbers y1, y2 with guassian distribution with zero mean and variance one
 //		from random numbers uniform distributed in [0, 1]
 //----------------------------------------------------------------------------------------
-void  Wiener::Gaussian(double &y1, double &y2)
+void  Wiener::Gaussian(double &y1, double &y2)  
 {
-	double x1, x2, w;
- 
-	do {
-		x1 = 2.0 * Ranuls() - 1.0;
-		x2 = 2.0 * Ranuls() - 1.0;
-		w = x1 * x1 + x2 * x2;
-    } while ( w >= 1.0 || w == 0.0);
+#ifdef GSL_GAUSSIAN
+  y1 = gsl_ran_gaussian(rgen, 1.0);
+  y2 = gsl_ran_gaussian(rgen, 1.0);
+#else
+  double x1, x2, w;
+  do {
+    x1 = 2.0 * Ranuls() - 1.0;
+    x2 = 2.0 * Ranuls() - 1.0;
+    w = x1 * x1 + x2 * x2;
+  } while ( w >= 1.0 || w == 0.0);
+  w = sqrt( (-2.0 * log( w ) ) / w );
+  y1 = x1 * w;
+  y2 = x2 * w;
+#endif
+}
 
-	w = sqrt( (-2.0 * log( w ) ) / w );
-	y1 = x1 * w;
-	y2 = x2 * w;
+Wiener::~Wiener() {
+#ifdef GSL_USE
+  gsl_rng_free (rgen);
+#endif
 }

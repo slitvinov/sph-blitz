@@ -1,6 +1,6 @@
-///\file quinticspline.cpp
-///\author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
+// quinticspline.cpp
+// author: Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
+// changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
 
 //----------------------------------------------------------------------------------------
 //      A concrete kernel class
@@ -10,16 +10,16 @@
 //----------------------------------------------------------------------------------------
 
 // ***** system includes *****
-#include <iostream>
-#include <fstream>
-#include <string>
+//#include <iostream>
+//#include <fstream>
+//#include <string>
 
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
+//#include <cstdio>
+//#include <cstdlib>
+//#include <cmath>
 
 //local includes
-#include "glbcls.h"
+#include "quinticspline.h"
 #include "glbfunc.h"
 
 using namespace std;
@@ -27,12 +27,14 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //										constructor
 //----------------------------------------------------------------------------------------
-QuinticSpline::QuinticSpline(const double smoothingLength)
-  : Kernel(smoothingLength), 
-    norm(63.0 / 478.0 / pi)
+QuinticSpline::QuinticSpline(double smoothingLength)
+    : Kernel(smoothingLength)
 {
-  // initialize the auxiliary factors
+    // initialize the auxiliary factors
     reciprocH = 1.0 / smoothingLength;
+    
+    //normalize to 1.0
+	norm = 63.0 / 478.0 / pi;
       
     factorW     = norm * pow(reciprocH, 2);
     factorGradW = 15.0*norm * pow(reciprocH, 3);
@@ -46,7 +48,7 @@ QuinticSpline::QuinticSpline(const double smoothingLength)
 // We take this from Morris, Fox and Zhu (1997)
 // but used a tripled smoothing length for the definition of the interaction radius.
 //----------------------------------------------------------------------------------------
-double QuinticSpline::w(const double distance) const
+double QuinticSpline::w(double distance) const
 {
     // dist/smoothingLength is often needed
     double normedDist = 3.0*distance * reciprocH;
@@ -83,7 +85,7 @@ double QuinticSpline::w(const double distance) const
 // We take this from Morris, Fox and Zhu (1997)
 // but used a tripled smoothing length for the definition of the interaction radius.
 //----------------------------------------------------------------------------------------
-Vec2d QuinticSpline::gradW(const double distance, const Vec2d& distanceVector) const
+Vec2d QuinticSpline::gradW(double distance, const Vec2d& distanceVector) const
 {
     // dist/smoothingLength is often needed
     double normedDist = 3.0*distance * reciprocH;
@@ -118,14 +120,15 @@ Vec2d QuinticSpline::gradW(const double distance, const Vec2d& distanceVector) c
 //----------------------------------------------------------------------------------------
 //		Calculates the kernel derivation (a double not vector) to distance
 //----------------------------------------------------------------------------------------
-double QuinticSpline::F(const double distance) const
+double QuinticSpline::F(double distance) const
 {
     // dist/smoothingLength is often needed
-    const double normedDist = 3.0*distance * reciprocH;
-    
-    const double ss3 = (3.0 - normedDist);
-    const double ss2 = (2.0 - normedDist);
-    const double ss1 = (1.0 - normedDist);
+    double normedDist = 3.0*distance * reciprocH;
+	double ss3, ss2, ss1;
+
+	ss3 = (3.0 - normedDist);
+	ss2 = (2.0 - normedDist);
+	ss1 = (1.0 - normedDist);
 
     // the quintic-spline is composed of four functions, so we must determine, were we are
     if (normedDist < 1.0) 
@@ -152,7 +155,7 @@ double QuinticSpline::F(const double distance) const
 //----------------------------------------------------------------------------------------
 //					Calculates the kernel Laplacian. 
 //----------------------------------------------------------------------------------------
-double QuinticSpline::LapW(const double distance) const
+double QuinticSpline::LapW(double distance) const
 {
     // dist/smoothingLength is often needed
     double normedDist = 3.0*distance * reciprocH;

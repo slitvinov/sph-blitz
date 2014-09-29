@@ -1,9 +1,18 @@
 #ifndef FORCE_H
 #define FORCE_H
-/// \file force.h
-/// \brief The class defining force on or between particles
 
-/// The class defining force on or between particles
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
+//#include <iostream>
+#include "vec2d.h"
+//#include "wiener.h"
+//#include "dllist.h"
+//
+class Initiation;
+
+/// force definition class
 class Force {
 
 	friend class Hydrodynamics;
@@ -15,20 +24,22 @@ class Force {
 
 	///interactive force parameters
 	double epsilon;
-	double heat_slip; ///heat conduction slip length 
+
+	///heat conduction slip length
+	double heat_slip; 
 
 public:
-
-	double sigma; ///surface tension parameters, its dimension is rho*u^2*L
-	double shear_slip, bulk_slip; ///shear and bulk slip length
+	///surface tension parameters, its dimension is rho*u^2*L 
+	double sigma; 
+	///shear and bulk slip length
+	double shear_slip, bulk_slip; 
 
 	///constructor
 	Force();
-	Force(Initiation &ini);
+	Force(const Initiation* const ini);
 
 	///non-dimensionalize
-	void non_dimensionalize(Initiation &ini);
+	void non_dimensionalize(const Initiation* const ini);
 	
 };
-
-#endif //FORCE_H
+#endif

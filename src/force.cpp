@@ -7,17 +7,18 @@
 //				force.cpp
 //----------------------------------------------------------------
 // ***** system includes *****
-#include <iostream>
-#include <fstream>
-#include <string>
+//#include <iostream>
+//#include <fstream>
+//#include <string>
 
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
+//#include <cstdio>
+//#include <cstdlib>
+//#include <cmath>
 
 // ***** localincludes *****
-#include "glbcls.h"
-#include "glbfunc.h"
+#include "force.h"
+//#include "glbfunc.h"
+#include "initiation.h"
 
 using namespace std;
 
@@ -35,20 +36,20 @@ Force::Force()
 //----------------------------------------------------------------------------------------
 //					constructor
 //----------------------------------------------------------------------------------------
-Force::Force(Initiation &ini)
+Force::Force(const Initiation* const ini)
 {
 	//total number of materials
-	number_of_materials = ini.number_of_materials;
+	number_of_materials = ini->number_of_materials;
 	//smoothinglenth
-	smoothinglength = ini.smoothinglength;
+	smoothinglength = ini->smoothinglength;
 }
 //----------------------------------------------------------------------------------------
 //					non-dimensionalize
 //----------------------------------------------------------------------------------------
-void Force::non_dimensionalize(Initiation &ini)
+void Force::non_dimensionalize(const Initiation* const ini)
 {
-		sigma = ini.non_dms_surface(sigma);
-		shear_slip = ini.non_dms_length(shear_slip);
-		bulk_slip = ini.non_dms_length(bulk_slip);
+		sigma = ini->non_dms_surface(sigma);
+		shear_slip = ini->non_dms_length(shear_slip);
+		bulk_slip = ini->non_dms_length(bulk_slip);
 }
 

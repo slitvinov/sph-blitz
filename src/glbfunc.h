@@ -1,40 +1,54 @@
+// glbfunc.h
+// author: Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
+// changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
+
 #ifndef GLBFUNC_H
 #define GLBFUNC_H
-/// \file glbfunc.h
-/// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-/// \changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
+#include <cmath>
+#include <string>
+#include <iostream>
+#include <sstream>
 
-///----------------------------------------------------------------------------------------
-///      Define globle paremeters and functions
-///		glbfunc.h
-///----------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------
+//      Define globle paremeters and functions
+//		glbfunc.h
+//----------------------------------------------------------------------------------------
 
-//global parameters
-const double pi=3.141592653589793; ///<Pi 
-
-//global functions
-
-///	a. Get the maximum
+//globle parameters
+const double pi=3.141592653589793; // Pai 
+//	a. Get the maximum
 double AMAX1(double a, double b);
-///	b. Get the minimum
+//	b. Get the minimum
 double AMIN1(double a, double b);
-
+//	c. Get the absolute
 //double ABS(double a);
-///	c. Get the absolute
 inline double ABS(double a) { return fabs(a); }
-///	d. Sign of the first value is determined by the secomax_species_number value's sign
+//	d. Sign of the first value is determined by the secomax_species_number value's sign
 double SIGN(double a, double b);
-///	e. Get the maximum from four
+//	e. Get the maximum from four
 double AMAX4(double a, double b, double c, double d);
-///	f. Get the inverse of symmetric array
+//	f. Get the inverse of symmetric array
 int SymmetricInverse3x3(double M[3][3]);
-///	g. Kronecker delta
+//	g. Kronecker delta
 double Kronecker(int a, int b);
-///	h. Sign function
+//	h. Sign function
 double K_sign(int a, int b);
-///	h. comparing
+//	h. comparing
 double compare(int a, int b);
-///  i. square
+//  i. square
 double sq(double a);
 
-#endif //GLBFUNC_H
+///boundary position 
+enum BPosition {N, E, S, W};
+
+
+//convert to std::string
+template<class T>
+inline std::string stringify(T x)
+{
+  std::ostringstream o;
+  o << x;
+  return o.str();
+}
+
+#endif

@@ -1,36 +1,59 @@
 #ifndef TIMESOLVER_H
 #define TIMESOLVER_H
-/// \file timesolver.h 
-/// \brief Time solver class
-///
-///provides methods that iterate over one output time interval (D_time) either with the summation density approach or with the continuity density approach
+
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
+//#include <iostream>
+#include "vec2d.h"
+#include "subject.h"
+//#include "wiener.h"
+//#include "dllist.h"
+//#include "initiation.h"
+//#include "boundary.h"
+//#include "mls.h"
+//#include "diagnose.h"
+
+
+//-----------------------------------------------------------------------
+//					Time solver class
 //-----------------------------------------------------------------------
 
-/// Time solver class 
-class TimeSolver{
-
-	//parameters copied from initiation
-	double cell_size;///<will be copied from initiation
-	Vec2d box_size;///<will be copied from initiation
-	double smoothinglength;///<will be copied from initiation
-
-	int ite; ///<number of iteration
-	double dt; ///<time step
-
-public:
-	
-	///constructor
-	TimeSolver(Initiation &ini);
-	
-	///advance time interval D_time (=output time interval)
-	void TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary,
-				   double &Time, double D_time, Diagnose &diagnose,
-				   Initiation &ini, QuinticSpline &weight_function, MLS &mls);
-
-	///advance time interval D_time with summation for density
-	void TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary, double &Time, double D_time, Diagnose &diagnose,
-				   Initiation &ini, QuinticSpline &weight_function, MLS &mls);
-
+/// time solver class
+class Initiation;
+class ParticleManager;
+class Boundary;
+class Diagnose;
+class Hydrodynamics;
+class QuinticSpline;
+class MLS;
+///ODE solver
+class TimeSolver: public Subject{
+  ///parameters copied from initiation
+  double cell_size;
+  Vec2d box_size;
+  double smoothinglength;
+  
+  ///number of itenary
+  int ite;
+  
+  ///time step
+  double dt; 
+  
+public:	
+  ///constructor
+  TimeSolver(const Initiation* const ini);
+  ~TimeSolver();
+  ///advance time interval D_time
+  void TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary,
+		    double &Time, double D_time, Diagnose &diagnose,
+		    const Initiation* const ini, QuinticSpline &weight_function, MLS &mls);
+  ///advance time interval D_time with summation for density
+  void TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary,
+			      double &Time, double D_time, Diagnose &diagnose,
+			      const Initiation* const ini, QuinticSpline &weight_function, MLS &mls);
+private:
+  double solvertime_;
 };
-
-#endif //TIMESOLVER_H
+#endif

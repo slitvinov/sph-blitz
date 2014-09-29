@@ -1,74 +1,74 @@
-#ifndef VEC2D_H
-#define VEC2D_H
 /// \file vec2d.h
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 /// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>
 /// \author changes by: Andreas Mattes
 /// \brief Define 2-d vectors and associated operations
 
+#ifndef VEC2D_H
+#define VEC2D_H
+
 #include <cmath>
 #include <blitz/tinyvec.h>
 #include <blitz/tinyvec-et.h>
 
 using namespace blitz;
-
 typedef TinyVector<double,2> Vec2d;
 /*
 /// 2-d vector class
 class Vec2d {
 	
 public:
-	///constructor
+	//constructor
 	Vec2d();
 	Vec2d(double xval, double yval);
 
-	///copy constructor
+	//copy constructor
 	Vec2d(const Vec2d &);  
 
-	///reload arithmetics operaters
-	inline Vec2d operator=(const Vec2d &); ///equality
-	inline Vec2d operator-() const; ///minus
-	inline Vec2d operator+(const Vec2d &) const; ///plus
-	inline Vec2d operator+=(const Vec2d &); ///accumulate
-	inline Vec2d operator-(const Vec2d &) const; ///subtract
-	inline Vec2d operator-=(const Vec2d &); ///subtract to
-	inline Vec2d operator/(double a) const; ///divide
-	inline Vec2d operator*(double a) const; ///multiply
+	//reload arithmetics operaters
+	inline Vec2d operator=(const Vec2d &); //equality
+	inline Vec2d operator-() const; //minus
+	inline Vec2d operator+(const Vec2d &) const; //plus
+	inline Vec2d operator+=(const Vec2d &); //accumulate
+	inline Vec2d operator-(const Vec2d &) const; //subtract
+	inline Vec2d operator-=(const Vec2d &); //subtract to
+	inline Vec2d operator/(double a) const; //divide
+	inline Vec2d operator*(double a) const; //multiply
 	
-	///reload bool operaters
-	inline bool operator>(const Vec2d &) const; ///larger
-	inline bool operator<(const Vec2d &) const;	///smaller
-	inline bool operator==(const Vec2d &) const; ///equal
-	inline bool operator!=(const Vec2d &) const; ///non-equal
+	//reload bool operaters
+	inline bool operator>(const Vec2d &) const; //larger
+	inline bool operator<(const Vec2d &) const;	//smaller
+	inline bool operator==(const Vec2d &) const; //equal
+	inline bool operator!=(const Vec2d &) const; //non-equal
 
 	
-	///other operations
-	inline Vec2d normalized() const; ///normalize
-	inline void set_zero(); ///set zero
-	inline double abs() const; ///absolute value
-	inline double sq() const; ///square value
-	inline double sqdiff() const; ///v[0]^2 - v[1]^2
-	inline double xyprod() const; ///product of x and y
+	//other operations
+	inline Vec2d normalized() const; //normalize
+	inline void set_zero(); //set zero
+	inline double abs() const; //absolute value
+	inline double sq() const; //square value
+	inline double sqdiff() const; //v[0]^2 - v[1]^2
+	inline double xyprod() const; //product of x and y
 
-	double x;     /// coordinates
+	double x;     // coordinates
 	double y;
 
 public:
-	///-----------------------------------------------------------------
-	///other operations on vectors
-	///-----------------------------------------------------------------
-	static inline double dotprod(const Vec2d &va, const Vec2d &vb); ///dot production
-	///distance
+	//-----------------------------------------------------------------
+	//other operations on vectors
+	//-----------------------------------------------------------------
+	static inline double dotprod(const Vec2d &va, const Vec2d &vb); //dot production
+	//distance
 	static inline double distance(const Vec2d &va, const Vec2d &vb);
-	///perodic position
+	//perodic position
 	static inline void perodic_position(Vec2d &va, const Vec2d &vb, const Vec2d &perodic);
 };
 
 
 
-///-----------------------------------------------------------------
-///			define inline functions
-///-----------------------------------------------------------------
+//-----------------------------------------------------------------
+//			define inline functions
+//-----------------------------------------------------------------
 
 /// Copies the values
 inline Vec2d Vec2d::operator=(const Vec2d &v){
@@ -178,9 +178,9 @@ inline double Vec2d::dotprod(const Vec2d &va, const Vec2d &vb){
 
 /// Return the distance of two points given as vectors
 inline double v_distance(const Vec2d &va, const Vec2d &vb){
-  ///return v_abs(va-vb);
-  ///double dx=va[0]-vb[0];
-  ///double dy=va[1]-vb[1];
+  //return v_abs(va-vb);
+  //double dx=va[0]-vb[0];
+  //double dy=va[1]-vb[1];
   return sqrt(sum(sqr(va-vb)));
 }
 
@@ -195,10 +195,9 @@ inline void perodic_position(Vec2d &va, const Vec2d &vb, const Vec2d &perodic)
 
 }
 
-/// return square of x
-inline double sqr(const double x) {
+inline double sqr(double x) {
 	return x*x;
 }
 
 
-#endif //VEC2D_H
+#endif

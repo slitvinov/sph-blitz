@@ -1,19 +1,20 @@
-///\file glbfunc.cpp
-///\ author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
+// glbfunc.cpp
+// author: Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
+// changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
 
 //----------------------------------------------------------------------------------------
 //      Define globle paremeters and functions
 //		glbfunc.h
 //----------------------------------------------------------------------------------------
 // ***** system includes *****
-#include <iostream>
-#include <fstream>
-#include <string>
+//#include <iostream>
+//#include <fstream>
+//#include <string>
 
-#include <cstdio>
-#include <cstdlib>
+//#include <cstdio>
+//#include <cstdlib>
 #include <cmath>
+//#include <string>
 
 // ***** localincludes *****
 #include "glbfunc.h"
@@ -143,3 +144,5 @@ double sq(double a)
 {
 	return a*a;
 }
+
+

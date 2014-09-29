@@ -1,119 +1,128 @@
 #ifndef INTERACTION_H
 #define INTERACTION_H
-/// \file interaction.h 
-/// \brief Defines interaction between particles
 
-/// Defines interaction between particles
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
+#include <iostream>
+
+#include "wiener.h"
+#include "dllist.h"
+#include "vec2d.h"
+#include "datacollector.h"
+//#include "particle.h"
+//#include "polymerparticle.h"
+//#include "force.h"
+//#include "quinticspline.h"
+
+class Wiener;
+class Node;
+class Force;
+class QuinticSpline;
+class Initiation;
+class Particle;
+
+//-----------------------------------------------------------------------
+//			defines interaction between particles
+//-----------------------------------------------------------------------
+/// particles interaction class 
+
 class Interaction {
+protected:
 
+  ///the number of interactions
+  static long nInteraction;
 	///total number of materials
 	static int number_of_materials;
 	static double smoothinglength;
-	///particle distance
 	static double delta;
 	///artificial viscosity
 	static double art_vis;
 
 	//particle pair
-	Particle *Org;	///<pointer to particle with larger ID (of particle pair)
-	Particle *Dest;	///<pointer to particle with smaller ID (of particle pair)
-	Force **frc_ij;	///<force from particle i to particle j
-	
-	//pair values do not change in sub time steps
-	int noi; ///<material NO. of the partilce i
-        int noj; ///<material NO. of the partilce j
-	double mi;///<mass particle i
-	double rmi;///<reciprocal value of mass particle i
-	double etai;///<viscosity for particle i
-	double zetai;///<<b>!!!question!!!<b>other viscosity for particle???
-	double mj;///<mass particle j
-	double rmj;///<reciprocal value of mass particle j
-	double etaj;///<viscosity for particle j
-	double zetaj;///<<b>!!!question!!!<b>other viscosity for particle???
+	///particel with larger ID
+	Particle*  Org;	
+	///particel with smaller ID
+	Particle*  Dest;
+	///force from particle i to particle j
 
-	//distance between the two particles, weight and derivatives
-	double rij;///<distance between 2 particles
-        double rrij;///< reciprocal value of distance between 2 particles
-        double Wij;///<<b>!!!question!!!<b>
-        double Fij;///<<b>!!!question!!!<b>
-        double LapWij;///<<b>!!!question!!!<b>
-        double Wij2;///<<b>!!!question!!!<b>
-	Vec2d eij; ///<pair direction from orginal particle to destination particle 
-	double shear_rij ;///<particle length to implement slip boundary<<b>!!!question!!!<b>
-	double bulk_rij; ///<particle length to implement slip boundary<<b>!!!question!!!<b>
+	
+	Force **frc_ij;
+	
+	///pair values do not change in sub time steps
+	int noi, noj; //material NO. of the two partilces
+	double mi, rmi, etai, zetai, mj, rmj, etaj, zetaj;
+
+	///distance between the two particles, weight and derivatives
+	double rij, rrij, Wij, Fij, LapWij, Wij2;
+	Vec2d eij; //pair direction from orginal particle to destination particle 
+	double shear_rij, bulk_rij; //particle length to implement slip boundary
 
 #ifdef _OPENMP
-
-	double drhodt1;///<for temporary storage of computation terms
-	double drhodt2;///<for temporary storage of computation terms
-	Vec2d _dU1;///<for temporary storage of computation terms
-	Vec2d _dU2;///<for temporary storage of computation terms
-	Vec2d dUdt1;///<for temporary storage of computation terms
-	Vec2d dUdt2;///<for temporary storage of computation terms
+	//temporary storage of computation terms
+	double drhodt1, drhodt2;
+	Vec2d _dU1, _dU2, dUdt1, dUdt2;
 #endif
 		
 public:
 	
-	///constructor
-	Interaction(Initiation &ini);
-	///constructor
-	Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
-				QuinticSpline &weight_function, double dstc);
-	
-	///use old interaction object for new interaction
-	void NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
-				QuinticSpline &weight_function, double dstc);
+///constructor
+explicit Interaction(const Initiation* const ini);
+Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
+	    QuinticSpline &weight_function, 
+	    double dstc);
 
-	///\brief renew pair parameters and changing pair values
-	///
-        ///Changes: Interaction object\n
-        ///Depends on: Interaction Object, Org, Dest
-	void RenewInteraction(QuinticSpline &weight_function);
-
-	//pair interaction
-
-	///\brief summation of the density
-	///
-        ///Changes: Org(rho:summation), Dest(rho:summation)\n
-        ///Depends on: Interaction Object, Org(rho), Dest(rho)
-        ///Remark: the idea is different from the original sph method
-	void SummationDensity();
-
-	/// \brief summation of the shear rates
-	///
-	/// Changes: Org(ShearRate_x, ShearRate_y:summation), Dest(ShearRate_x, ShearRate_y:summation)\n
-        /// Depends on: Interaction Object, Org(ShearRate_x, ShearRate_y, U, rho), Dest(ShearRate_x, ShearRate_y, U, rho)
-	void SummationShearRate();
-
-	//pahse field and phase gradient
-	///\brief sum phase field contribution of interaction pair
-	///
-        /// Changes: Org(phi:summation), Dest(phi:summation)\n
-        /// Depends on: Interaction Object, Org(phi, rho), Dest(phi, rho)
-	void SummationPhaseField();
-	void SummationCurvature();
-
-	///\brief sum phase gradient contribution of interaction pair
-	///
-	/// Changes: Org(del_phi:summation), Dest(del_phi:summation)\n
-	/// Depends on: Interaction Object, Org(del_phi,rho), Dest(del_phi,rho)
-	void SummationPhaseGradient();
-	void SummationPhaseGradient_old();
-	void SummationPhaseLaplacian();
-
-	///update forces
-	void UpdateForces();
-	///update forces with summation of viscosity
-	void UpdateForces_vis();
-#ifdef _OPENMP
-	void SummationUpdateForces();
+#ifdef DEBUG  
+  /// condtructor of interaction object for two polymer particles
 #endif
+  virtual ~Interaction();
+  ///use old interaction object for new interaction
+  void NewInteraction(Particle *prtl_org,
+		      Particle *prtl_dest, 
+		      Force **forces,
+		      QuinticSpline &weight_function, 
+		      double dstc);
+  
+  ///renew pair parameters and changing pair values
+  void RenewInteraction(const QuinticSpline &weight_function);
 
-	///update random forces
-	void RandomForces(Wiener &wiener, double sqrtdt);
-	///update random forces with Espanol's method
-	void RandomForces_Espanol(Wiener &wiener, double sqrtdt);
-	
+  ///accept data collector object
+  virtual void acceptDataCollector(DataCollector*);
+  
+  ///get particle with larger ID
+  virtual  Particle* getOrg() const;
+
+  ///get particle with larger ID
+  virtual Particle* getDest() const;
+  
+  ///pair interaction
+  void SummationDensity();
+  void SummationShearRate();
+  
+  ///pahse field and phase gradient
+  void SummationPhaseField();
+  void SummationCurvature();
+  void SummationPhaseGradient();
+  void SummationPhaseGradient_old();
+  void SummationPhaseLaplacian();
+  
+  ////update forces
+  virtual void UpdateForces();
+  void UpdateForces_vis();
+#ifdef _OPENMP
+  void SummationUpdateForces();
+#endif
+  
+  ///update random forces
+  void RandomForces(Wiener &wiener, 
+		     double sqrtdt);
+  void RandomForces_Espanol(Wiener &wiener, 
+			    double sqrtdt);
+  ///output function
+  ///used by operator<<
+  virtual ostream& put(ostream& ostr) const;  
 };
 
-#endif //INTERACTION_H
+extern ostream& operator<< (ostream& ostr, const Node& prtl);
+#endif

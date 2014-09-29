@@ -11,24 +11,24 @@
 //		kernel.cpp
 //----------------------------------------------------------------------------------------
 
-#include <iostream>
+//#include <iostream>
 
-#include <cstdlib>
+//#include <cstdlib>
 
 // ***** local includes *****
-#include "glbcls.h"
-#include "glbfunc.h"
+#include "kernel.h"
+//#include "glbfunc.h"
+
+using namespace std;
 
 //constructor to inizialize the data members
-Kernel::Kernel(const double smoothingLength)
+Kernel::Kernel(double smoothingLength)
     : smoothingLength(smoothingLength)
 {
     if (smoothingLength <= 0.0)
     {
-      std::cout << "\n FAILURE: The Kernel gets a non-positive smoothing length \"" 
-		<< smoothingLength << "\"!\n";
-      std::cout << __FILE__ << ':' << __LINE__ << std::endl;
-      exit(1);
+        cout << "\n FAILURE: The Kernel gets a non-positive smoothing length \"" << smoothingLength << "\"!\n";
+        exit(1);
     }
 }
 //----------------------------------------------------------------------------------------

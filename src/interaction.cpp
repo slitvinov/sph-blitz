@@ -1,100 +1,122 @@
-///\file interaction.cpp
-///\author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
+// interaction.cpp
+// author: Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
+// changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
 
 //----------------------------------------------------------------------------------------
 //		defines interaction between particles
 //		interaction.cpp
 //----------------------------------------------------------------------------------------
+#define NOMULTIPHASE
 
-#include <iostream>
-#include <fstream>
-#include <string>
-
-#include <cstdio>
-#include <cstdlib>
-
-// ***** localincludes *****
-#include "glbcls.h"
+#include "interaction.h"
+#include "initiation.h"
+#include "material.h"
+#include "quinticspline.h"
+#include "force.h"
 #include "glbfunc.h"
+#include "node.h"
+#include "particle.h"
+#include <cmath>
 
-using namespace std;
 
+//using namespace std;
+long Interaction::nInteraction = 0;
 int Interaction::number_of_materials = 0;
 double Interaction::smoothinglength = 0.0;
-double Interaction::art_vis = 0.0;
+double Interaction::art_vis = 0.0; 
 double Interaction::delta = 0.0;
 //----------------------------------------------------------------------------------------
 //					constructor
 //----------------------------------------------------------------------------------------
-Interaction::Interaction(Initiation &ini) 
+Interaction::Interaction(const Initiation* const ini) 
 {
-        ///- copy properties from initiation
-	number_of_materials = ini.number_of_materials;
-	smoothinglength = ini.smoothinglength;
-	art_vis = ini.art_vis;
-	delta = ini.delta;
+	//copy properties from initiation
+	number_of_materials = ini->number_of_materials;
+	smoothinglength = ini->smoothinglength;
+	art_vis = ini->art_vis;
+	delta = ini->delta;
 }
+
 //----------------------------------------------------------------------------------------
 //					constructor
 //----------------------------------------------------------------------------------------
-Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
-				QuinticSpline &weight_function, double dstc)
+Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, 
+			 Force **forces,
+			 QuinticSpline &weight_function, 
+			 double dstc):
+  Org(prtl_org), Dest(prtl_dest)
 {
-        ///- assign the original and the destinate particle in the reaction pair
-	Org = prtl_org;
-	Dest = prtl_dest;
+	//the original and the destinate particle in the reaction pair
+  //	Org = prtl_org;
+  //	Dest = prtl_dest;
+	assert(Org->getParticleID() >= Dest->getParticleID());
+	assert((Org->getParticleID()>0) 
+	       || (Dest->getParticleID()>0));
+	//interaction parameters
+	noi = Org->getMaterialNumber();
+	noj = Dest->getMaterialNumber(); 
 	
-	///- determine interaction parameters
-	noi = Org->mtl->number;
-	noj = Dest->mtl->number; 
 	frc_ij = forces;
 
-	///- define pair values (mass, viscosity), do not change in sub time steps
-	mi = Org->m; mj = Dest->m;
+	//define pair values do not change in sub time steps
+	mi = Org->getMass(); mj = Dest->getMass();
 	rmi = 1.0/mi; rmj =1.0/mj;
-	etai = Org->eta; etaj = Dest->eta; 
-	zetai = Org->zeta; zetaj = Dest->zeta; 
+	etai = Org->getEta(); etaj = Dest->getEta(); 
+	zetai = Org->getZeta(); zetaj = Dest->getZeta(); 
 
-	///- calculate pair parameters (weight functions, shear- and bulk-)
+	//the pair parameters
 	rij = dstc;
 	rrij = 1.0/(rij + 1.0e-30);
-	eij = (Org->R - Dest->R)*rrij;
+	eij = (Org->R() - Dest->R())*rrij;
 	Wij = weight_function.w(rij);
-//	Fij = weight_function.F(rij); //for BetaSpline weight fuction
+//	Fij = weight_function.F(rij); //for BetaSpline wight fuction
 	Fij = weight_function.F(rij)*rrij; //for QuinticSpline wight fuction
 	LapWij = weight_function.LapW(rij); //for QuinticSpline fuction
 	shear_rij = 2.0*etai*etaj*rij/(etai*(rij + 2.0*frc_ij[noj][noi].shear_slip) 
-							 + etaj*(rij + 2.0*frc_ij[noi][noj].shear_slip) + 1.0e-30);
+				       + etaj*(rij + 2.0*frc_ij[noi][noj].shear_slip) + 1.0e-30);
 	bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij + 2.0*frc_ij[noj][noi].bulk_slip) 
-							   + zetaj*(rij + 2.0*frc_ij[noi][noj].bulk_slip) + 1.0e-30);
+					 + zetaj*(rij + 2.0*frc_ij[noi][noj].bulk_slip) + 1.0e-30);
+	nInteraction++;	
+	if (std::fmod(nInteraction, 1e4) == 0) {
+	  cout << "nInteraction = " << nInteraction << '\n';
+	}
+	
+}
+
+
+//destructor
+Interaction::~Interaction() {
+  nInteraction--;
 }
 
 //----------------------------------------------------------------------------------------
 //	use old interaction object for new interaction
 //----------------------------------------------------------------------------------------
-void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
-				QuinticSpline &weight_function, double dstc)
+void Interaction::NewInteraction(Particle *prtl_org, 
+				 Particle *prtl_dest, 	
+				 Force **forces,
+				 QuinticSpline &weight_function, 
+				 double dstc)
 {
-	///- assign the original and the destinate particle in the reaction pair
+	//the original and the destinate particle in the reaction pair
 	Org = prtl_org;
 	Dest = prtl_dest;
 	
-	///- determine interaction parameters
-	noi = Org->mtl->number;
-	noj = Dest->mtl->number; 
+	//interaction parameters
+	noi = Org->getMaterialNumber();
+	noj = Dest->getMaterialNumber(); 
 	frc_ij = forces;
 
-	///- define pair values(mass, viscosity), do not change in sub time steps
-	mi = Org->m; mj = Dest->m;
+	//define pair values do not change in sub time steps
+	mi = Org->getMass(); mj = Dest->getMass();
 	rmi = 1.0/mi; rmj =1.0/mj;
-	etai = Org->eta; etaj = Dest->eta; 
-	zetai = Org->zeta; zetaj = Dest->zeta; 
+	etai = Org->getEta(); etaj = Dest->getEta(); 
+	zetai = Org->getZeta(); zetaj = Dest->getZeta(); 
 
-	///- calculate pair parameters (weight functions, shear- and bulk-)
+	//the pair parameters
 	rij = dstc;
 	rrij = 1.0/(rij + 1.0e-30);
-	eij = (Org->R - Dest->R)*rrij;
+	eij = (Org->R() - Dest->R())*rrij;
 	Wij = weight_function.w(rij);
 //	Fij = weight_function.F(rij); //for BetaSpline wight fuction
 	Fij = weight_function.F(rij)*rrij; //for QuinticSpline wight fuction
@@ -111,12 +133,12 @@ void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force 
 //----------------------------------------------------------------------------------------
 // Changes: Interaction object
 // Depends on: Interaction Object, Org, Dest
-void Interaction::RenewInteraction(QuinticSpline &weight_function)
+void Interaction::RenewInteraction(const QuinticSpline &weight_function)
 {
-	///- calculate pair parameters (weight functions, shear- and bulk-)
-	rij = v_abs(Org->R - Dest->R);
+	//the pair parameters
+	rij = v_abs(Org->R() - Dest->R());
 	rrij = 1.0/(rij + 1.0e-30);
-	eij = (Org->R - Dest->R)*rrij;
+	eij = (Org->R() - Dest->R())*rrij;
 	Wij = weight_function.w(rij);
 //	Fij = weight_function.F(rij); //for BetaSpline wight fuction
 	Fij = weight_function.F(rij)*rrij; //for QuinticSpline fuction
@@ -127,16 +149,16 @@ void Interaction::RenewInteraction(QuinticSpline &weight_function)
 							   + zetaj*(rij + 2.0*frc_ij[noi][noj].bulk_slip) + 1.0e-30);
 }
 //----------------------------------------------------------------------------------------
-//					summation of the density
+//					summation the density
 //					the idea is different from the original sph method
 //----------------------------------------------------------------------------------------
 // Changes: Org(rho:summation), Dest(rho:summation)
 // Depends on: Interaction Object, Org(rho), Dest(rho)
 void Interaction::SummationDensity()
 {
-	//summation according to: rho_i=sum{m_j*W_ij} (here only the contribution of the pair in questiion)
-	Org->rho += mi*Wij;
-	if(Org->ID != Dest->ID) Dest->rho += mj*Wij; 
+	//summation
+	Org->rho() += mi*Wij;
+	if(Org->getParticleID() != Dest->getParticleID()) Dest->rho() += mj*Wij; 
 
 }
 //----------------------------------------------------------------------------------------
@@ -151,17 +173,20 @@ void Interaction::SummationShearRate()
 	Vec2d Uij; //velocity, velocity difference and midddle point velocity
 	Vec2d ShearRate_xi, ShearRate_yi; //shear rates
 		
-	///- define particle state values
-	vi = mi/Org->rho; vj = mj/Dest->rho;
-	Uij = Org->U - Dest->U;
+	//define particle state values
+	vi = mi/Org->rho(); vj = mj/Dest->rho();
+	Uij = Org->U() - Dest->U();
 	ShearRate_xi = Uij*eij[0]*Fij*rij;
 	ShearRate_yi = Uij*eij[1]*Fij*rij;
 	
-	///- summation of shear rates
-	Org->ShearRate_x = Org->ShearRate_x + ShearRate_xi*vj;
-	Org->ShearRate_y = Org->ShearRate_y + ShearRate_yi*vj;
-	Dest->ShearRate_x = Dest->ShearRate_x + ShearRate_xi*vi;
-	Dest->ShearRate_y = Dest->ShearRate_y + ShearRate_yi*vi;
+	//summation
+// 	Org->ShearRate_x = Org->ShearRate_x + ShearRate_xi*vj;
+// 	Org->ShearRate_y = Org->ShearRate_y + ShearRate_yi*vj;
+// 	Dest->ShearRate_x = Dest->ShearRate_x + ShearRate_xi*vi;
+// 	Dest->ShearRate_y = Dest->ShearRate_y + ShearRate_yi*vi;
+
+	Org->increaseShearRate(ShearRate_xi*vj, ShearRate_yi*vj);
+	Dest->increaseShearRate(ShearRate_xi*vi, ShearRate_yi*vi);
 }
 //----------------------------------------------------------------------------------------
 //						phase field
@@ -171,10 +196,14 @@ void Interaction::SummationShearRate()
 void Interaction::SummationPhaseField()
 {
 	double vi, vj; //particle volumes
-	vi = mi/Org->rho; vj = mj/Dest->rho;
+	vi = mi/Org->rho(); vj = mj/Dest->rho();
+	//Org->phi[noi][noj] += Wij*vj;
+	Org->increasePhi(Wij*vj, noi, noj);
 
-	Org->phi[noi][noj] += Wij*vj;
-	if(Org->ID != Dest->ID) Dest->phi[noj][noi] += Wij*vi;
+	if(Org->getParticleID() != Dest->getParticleID()) {
+	  // Dest->phi[noj][noi] += Wij*vi;
+	  Dest->increasePhi(Wij*vi, noi, noj);
+	}
 }
 //----------------------------------------------------------------------------------------
 //						density or phase gradient
@@ -185,13 +214,13 @@ void Interaction::SummationPhaseGradient()
 {
 
 	double Vi, rVi, Vj, rVj; //mometum change rate
-	Vi = mi/Org->rho; Vj = mj/Dest->rho;
+	Vi = mi/Org->rho(); Vj = mj/Dest->rho();
 	rVi = 1.0/Vi; rVj = 1.0/Vj;
 	double Vi2 = Vi*Vi, Vj2 = Vj*Vj;
 	Vec2d dphi = eij*Fij*rij*frc_ij[noi][noj].sigma;
 
-	Org->del_phi += dphi*rVi*Vj2;
-	Dest->del_phi -= dphi*rVj*Vi2;
+	Org->del_phi() += dphi*rVi*Vj2;
+	Dest->del_phi() -= dphi*rVj*Vi2;
 }
 //----------------------------------------------------------------------------------------
 //						phase field Laplacian
@@ -203,12 +232,14 @@ void Interaction::SummationPhaseLaplacian()
 	double lapi;
 		
 	//define particle state values
-	vi = mi/Org->rho; vj = mj/Dest->rho;
+	vi = mi/Org->rho(); vj = mj/Dest->rho();
 	lapi = LapWij;
 	
 	//summation
-	Org->lap_phi[noi][noj] += lapi*vj;
-	Dest->lap_phi[noj][noi] += lapi*vi;
+	//Org->lap_phi[noi][noj] += lapi*vj;
+	Org->increaseLapPhi(lapi*vj, noi, noj);
+	//Dest->lap_phi[noj][noi] += lapi*vi;
+	Dest->increaseLapPhi(lapi*vi, noi, noj);
 }
 //----------------------------------------------------------------------------------------
 //					Curvature
@@ -216,94 +247,80 @@ void Interaction::SummationPhaseLaplacian()
 void Interaction::SummationCurvature()
 {
 	double vi, vj; //particle volumes
-	vi = mi/Org->rho; vj = mj/Dest->rho;
+	vi = mi/Org->rho(); vj = mj/Dest->rho();
 	double phii = Fij*rij;
-
-		Org->phi[noi][noj] += phii*vj;
-		Dest->phi[noj][noi] += phii*vi;
+	//Org->phi[noi][noj] += phii*vj;
+	Org->increasePhi(phii*vj, noi, noj);
+	//Dest->phi[noj][noi] += phii*vi;
+	Dest->increasePhi(phii*vi, noi, noj);
+	
 }
 //----------------------------------------------------------------------------------------
 //					update pair forces
 //----------------------------------------------------------------------------------------
 void Interaction::UpdateForces()
 {	
-	//pressure, density and inverse density and middle point pressure
-	double pi, rhoi, Vi, rVi, pj, rhoj, Vj, rVj, Uijdoteij; 
-	//velocity and velocity difference
-	Vec2d Ui, Uj, Uij; 
+  //pressure, density and inverse density and middle point pressure
+  //double pi, Vi, pj, Vj;
+  //define pair values change in sub time steps
+  // double rhoi(Org->rho()); 
+  //double rhoj(Dest->rho());
+  
+  double Vi(mi/Org->rho());
+  double Vj(mj/Dest->rho());
 
-	//define pair values change in sub time steps
-	rhoi = Org->rho; rhoj = Dest->rho;
-	Vi = mi/rhoi; Vj = mj/rhoj;
-	rVi = 1.0/Vi; rVj = 1.0/Vj;
-	pi = Org->p; pj = Dest->p;
-	Ui = Org->U; Uj = Dest->U;
-	Uij = Ui - Uj;
-	Uijdoteij = dot(Uij, eij);
+  //  double pi(Org->getP()); 
+  //  double pj(Dest->getP());
+  
+  Vec2d Ui(Org->U());
+  Vec2d Uj(Dest->U());
+    
+  Vec2d Uij(Ui - Uj);
 
-	//pair focres or change rate
-	Vec2d dPdti, dUi; //mometum change rate
-	double drhodti; //density change rate
-	double Vi2 = Vi*Vi, Vj2 = Vj*Vj;
-	///- calculate artificial viscosity or Neumann_Richtmyer viscosity
-	double theta, Csi, Csj, NR_vis;
-	Csi = Org->Cs; Csj = Dest->Cs;
-	theta = Uijdoteij*rij*delta/(rij*rij + 0.01*delta*delta);
-	NR_vis = Uijdoteij > 0.0 ? 0.0 : art_vis*theta*(rhoi*Csi*mj + rhoj*Csj*mi)/(mi + mj);
-	
-	//normalize velocity
-	dUi = - eij*theta*Wij*art_vis/(rhoi + rhoj);
+  //  double Uijdoteij(
+  
+  //pair focres or change rate
+  //Vec2d dPdti; //mometum change rate
+  //Vec2d dUi; //mometum change rate
+  //double drhodti;
 
-	///- calculate density change rate
-	drhodti = - Fij*rij*dot((Ui*Vi2 - Uj*Vj2), eij);
+  double Vi2(Vi*Vi) ;
+  double Vj2(Vj*Vj);
+  
+  Vec2d Uijdoteijeij(eij*dot(Uij, eij));
+  
+   //density change rate
+  double drhodti(- Fij*rij*dot((Ui*Vi2 - Uj*Vj2), eij));  
+  //momentum change rate
+  //  cout << shear_rij << ' ' << bulk_rij << '\n';
+  Vec2d dPdti(eij*Fij*rij*(Org->getP()*Vi2 + Dest->getP()*Vj2)
+              - (  (Uij - Uijdoteijeij)*shear_rij + 
+		    Uijdoteijeij*2.0*bulk_rij
+         	)*Fij*(Vi2 + Vj2)
+	      );
+    
+  //summation
+  ///Fix:
+  /// calculate drhodti without coefficient \rho^2/m
+  //  Org->increasedrhodt(drhodti*rhoi*rVi);
+  //  Dest->increasedrhodt(drhodti*rhoj*rVj);
 
-	///- calculate momentum change rate
-	dPdti =   eij*Fij*rij*(pi*Vi2 + pj*Vj2)
-			- ((Uij - eij*Uijdoteij)*shear_rij + eij*(Uijdoteij*2.0*bulk_rij + NR_vis))
-			*Fij*(Vi2 + Vj2);
-	
-	//surface tension with a simple model
-//	dPdti += eij*frc_ij[noi][noj].sigma*Fij*Wij*rij*(Vi2 + Vj2);
+  /// this part was removed
 
-	///- calculate additional momentum change rate contribution due to surface tension (with simplified model)
-	Vec2d Surfi, Surfj, SurfaceForcei, SurfaceForcej;
-	Surfi = Org->del_phi; Surfj = Dest->del_phi;
+  //  Particle* porg(Org->getState());
+  //  Particle* pdst(Dest->getState());
+  
+  
+   Org->increasedrhodt(drhodti);
+   Dest->increasedrhodt(drhodti);
 
-	SurfaceForcei[0] = Surfi[0]*eij[0] + Surfi[1]*eij[1];
-	SurfaceForcei[1] = Surfi[1]*eij[0] - Surfi[0]*eij[1];
-	SurfaceForcej[0] = Surfj[0]*eij[0] + Surfj[1]*eij[1];
-	SurfaceForcej[1] = Surfj[1]*eij[0] - Surfj[0]*eij[1];
-	dPdti +=  (SurfaceForcei*Vi2 + SurfaceForcej*Vj2)*rij*Fij;
-
-	//summation
-#ifdef _OPENMP
-	_dU1 = dUi*mi;
-	_dU2 = dUi*mj;
-	drhodt1 = drhodti*rhoi*rVi;
-	drhodt2 = drhodti*rhoj*rVj;
-	dUdt1 = dPdti*rmi;
-	dUdt2 = dPdti*rmj;
-#else
-	Org->_dU += dUi*mi;
-	Dest->_dU -= dUi*mj;
-	Org->drhodt += drhodti*rhoi*rVi;
-	Dest->drhodt += drhodti*rhoj*rVj;
-	Org->dUdt += dPdti*rmi;
-	Dest->dUdt -= dPdti*rmj;
-#endif
+   Org->increasedUdt(dPdti*rmi);
+   //Org->dUdt += dPdti*rmi;
+   Dest->increasedUdt(-dPdti*rmj);	  
+   //Dest->dUdt -= dPdti*rmj;
+  
 }
 
-#ifdef _OPENMP
-void Interaction::SummationUpdateForces()
-{
-	Org->_dU += _dU1;
-	Dest->_dU -= _dU2;
-	Org->drhodt += drhodt1;
-	Dest->drhodt += drhodt2;
-	Org->dUdt += dUdt1;
-	Dest->dUdt -= dUdt2;
-}
-#endif
 
 //----------------------------------------------------------------------------------------
 //				update forces with summation viscosity
@@ -316,11 +333,12 @@ void Interaction::UpdateForces_vis()
 	Vec2d Ui, Uj, Uij, _Uij; 
 
 	//define pair values change in sub time steps
-	rhoi = Org->rho; rhoj = Dest->rho;
+	rhoi = Org->rho(); rhoj = Dest->rho();
 	rrhoi = 1.0/rhoi; rrhoj = 1.0/rhoj;
-	pi = Org->p; pj = Dest->p;
-	Ui = Org->U; Uj = Dest->U;
-	Uij = Org->U - Dest->U;
+	pi = Org->getP(); pj = Dest->getP();
+	
+	Ui = Org->U(); Uj = Dest->U();
+	Uij = Org->U() - Dest->U();
 	_pij = (pi + pj)*0.5;
 	_Uij = (Ui + Uj)*0.5;
 
@@ -333,9 +351,15 @@ void Interaction::UpdateForces_vis()
 	//pair focres or change rate
 	Vec2d dPdti; //mometum change rate
 
-	///- calculate shear force
-	ShearRate_xi = Org->ShearRate_x; ShearRate_yi =  Org->ShearRate_y;
-	ShearRate_xj = Dest->ShearRate_x; ShearRate_yj =  Dest->ShearRate_y;
+	
+	//shear force
+	//ShearRate_xi = Org->ShearRate_x; ShearRate_yi =  Org->ShearRate_y;
+	//ShearRate_xj = Dest->ShearRate_x; ShearRate_yj =  Dest->ShearRate_y;
+	
+	ShearRate_xi = Org->getShearRateX();
+	ShearRate_yi = Org->getShearRateY();
+	ShearRate_xj = Dest->getShearRateX();
+	ShearRate_yj = Dest->getShearRateY();
 
 	ShearStress[0][0] = (ShearRate_xi[0] + ShearRate_xj[0]);
 	ShearStress[0][1] = ((ShearRate_xi[1] + ShearRate_xj[1]) + (ShearRate_yi[0] + ShearRate_yj[0]))*0.5;
@@ -350,87 +374,141 @@ void Interaction::UpdateForces_vis()
 			   + eij*CompressRate*2.0*zetai*zetaj/(zetai + zetaj); 
 
 	
-	///- define pair force or momentum change rate
+	//define pair force or change rates
 	dPdti =   eij*Fij*rij*_pij*(rrhoi*rrhoi + rrhoj*rrhoj)
 			- ShearForce*Fij*rij*(rrhoi*rrhoi + rrhoj*rrhoj);
-	///summation (acceleration (=velovity change rate)=force (=momentum change rate)* mass
-	Org->dUdt = Org->dUdt + dPdti*mj;
-	Dest->dUdt = Dest->dUdt - dPdti*mi;
+	//summation
+	//Org->dUdt = Org->dUdt + dPdti*mj;
+	Org->increasedUdt(dPdti*mj);
+	//Dest->dUdt = Dest->dUdt - dPdti*mi;
+	Dest->increasedUdt(-dPdti*mi);
 
 }
 //----------------------------------------------------------------------------------------
 //					update random forces
 //----------------------------------------------------------------------------------------
-void Interaction::RandomForces(Wiener &wiener, double sqrtdt)
+void Interaction::RandomForces(Wiener &wiener, 
+			       double sqrtdt)
 {
+
 	//pair particle state values
 	double Vi, Vj; 
 	double Ti, Tj; //temperature
-	Vec2d v_eij; //90 degree rotation of pair direction
-
+	//Fix::
+	Vec2d v_eij(-eij[1], eij[0]) ; //90 degree rotation of pair direction
 	extern double k_bltz;
 
 	//define particle state values
-	Vi = mi/Org->rho; Vj = mj/Dest->rho;
-	Ti =Org->T; Tj = Dest->T;
+	Vi = mi/Org->rho(); Vj = mj/Dest->rho();
+	Ti =Org->getT(); Tj = Dest->getT();
 	
 	wiener.get_wiener(sqrtdt);
 
 	//pair focres or change rate
 	Vec2d _dUi; //mometum change rate
 	double Vi2 = Vi*Vi, Vj2 = Vj*Vj;
-
-	_dUi = v_eij*wiener.Random_p*sqrt(16.0*k_bltz*shear_rij*Ti*Tj/(Ti + Tj)*(Vi2 + Vj2)*Fij) +
-		   eij*wiener.Random_v*sqrt(16.0*k_bltz*bulk_rij*Ti*Tj/(Ti + Tj)*(Vi2 + Vj2)*Fij);
-
+	
+	_dUi = eij*(wiener.Random_v)*sqrt(16.0*k_bltz*bulk_rij*Ti*Tj/(Ti + Tj)*(Vi2 + Vj2)*Fij) +
+	  v_eij*(wiener.Random_p)*sqrt(16.0*k_bltz*shear_rij*Ti*Tj/(Ti + Tj)*(Vi2 + Vj2)*Fij);
+	   
+	
 	//summation
 	//modify for perodic boundary condition
-	if(Dest->bd_type == 1) {
-		Org->_dU	= Org->_dU + _dUi*rmi*0.5;
-		Dest->rl_prtl->_dU	= Dest->rl_prtl->_dU - _dUi*rmj*0.5;
+	if(Dest->getBDtype() == 1) {
+	  //Org->_dU	= Org->_dU + _dUi*rmi*0.5;
+	  //Dest->rl_prtl->_dU	= Dest->rl_prtl->_dU - _dUi*rmj*0.5;
+	  Org->increaseRandomU(_dUi*rmi*0.5);
+	  Dest->increaseRandomUReal(- _dUi*rmi*0.5);
 	}
-	else {
-		Org->_dU = Org->_dU + _dUi*rmi;
-		Dest->_dU = Dest->_dU - _dUi*rmj;
+	else {	  
+	  //Org->_dU = Org->_dU + _dUi*rmi;
+	  Org->increaseRandomU(_dUi*rmi);
+	  //Dest->_dU = Dest->_dU - _dUi*rmj;
+	  Dest->increaseRandomU(-_dUi*rmj);
 	}
 }
 //----------------------------------------------------------------------------------------
 //					update random forces with Espanol's method
 //----------------------------------------------------------------------------------------
-void Interaction::RandomForces_Espanol(Wiener &wiener, double sqrtdt)
+void Interaction::RandomForces_Espanol(Wiener &wiener, 
+				       double sqrtdt)
 {
-	//pair particle state values
-	double smimj, smjmi, rrhoi, rrhoj; 
-	double Ti, Tj; //temperature
-	Vec2d v_eij; //90 degree rotation of pair direction
-
-	extern double k_bltz;
-
-	//pair focres or change rate
-	Vec2d _dUi, random_force; //mometum change rate
-
-	//define particle state values
-	smimj = sqrt(mi/mj); smjmi = 1.0/smimj;
-	rrhoi = 1.0/Org->rho; rrhoj = 1.0/Dest->rho;
-	Ti =Org->T; Tj = Dest->T;
+  //pair particle state values
+  //double smimj, smjmi;
+  //  double Ti, Tj; //temperature
+  //  Vec2d v_eij; //90 degree rotation of pair direction
+  
 	
-	wiener.get_wiener_Espanol(sqrtdt);
+  extern double k_bltz;
+  
+  //pair focres or change rate
+  Vec2d random_force; //mometum change rate
+  
+  //define particle state values
+  double smimj(sqrt(mi/mj)); 
+  double smjmi(1.0/smimj);
+  double rrhoi(1.0/Org->rho()); 
+  double rrhoj(1.0/Dest->rho());
 
-	random_force[0] = wiener.sym_trclss[0][0]*eij[0] + wiener.sym_trclss[0][1]*eij[1];
-	random_force[1] = wiener.sym_trclss[1][0]*eij[0] + wiener.sym_trclss[1][1]*eij[1];
 
-	_dUi = random_force*sqrt(16.0*k_bltz*etai*etaj/(etai + etaj)*Ti*Tj/(Ti + Tj)*(rrhoi*rrhoi + rrhoj*rrhoj)*Fij) +
-		   eij*wiener.trace_d*sqrt(16.0*k_bltz*zetai*zetaj/(zetai + zetaj)*Ti*Tj/(Ti + Tj)*(rrhoi*rrhoi + rrhoj*rrhoj)*Fij);
+  double Ti(Org->getT()); 
+  double Tj(Dest->getT());
 
-	//summation
-	//modify for perodic boundary condition
-	if(Dest->bd_type == 1) {
-		Org->_dU	= Org->_dU + _dUi*smjmi*0.5;
-		Dest->rl_prtl->_dU	= Dest->rl_prtl->_dU - _dUi*smimj*0.5;
-	}
-	else {
-		Org->_dU	= Org->_dU + _dUi*smjmi;
-		Dest->_dU	= Dest->_dU - _dUi*smimj;
-	}
-
+  if ((Ti>0) && (Tj>0)) {
+  
+    wiener.get_wiener_Espanol(sqrtdt);
+    random_force[0] = wiener.sym_trclss[0][0]*eij[0] + wiener.sym_trclss[0][1]*eij[1];
+    random_force[1] = wiener.sym_trclss[1][0]*eij[0] + wiener.sym_trclss[1][1]*eij[1];
+    
+    Vec2d _dUi(random_force*sqrt(16.0*k_bltz*etai*etaj/(etai + etaj)*Ti*Tj/(Ti + Tj)*(rrhoi*rrhoi + rrhoj*rrhoj)*Fij) +
+	       eij*wiener.trace_d*sqrt(16.0*k_bltz*zetai*zetaj/(zetai + zetaj)*Ti*Tj/(Ti + Tj)*(rrhoi*rrhoi + rrhoj*rrhoj)*Fij));
+    
+    //  cerr << "dUi = " << _dUi << endl;
+    
+    if(Dest->getBDtype() == 1) {
+      Org->increaseRandomU(_dUi*smjmi*0.5);
+      Dest->increaseRandomUReal( - _dUi*smjmi*0.5);
+    }
+    else {
+      //Org->_dU	= Org->_dU + _dUi*smjmi;
+      Org->increaseRandomU(_dUi*smjmi);
+      //Dest->_dU	= Dest->_dU - _dUi*smimj;
+      Dest->increaseRandomU(- _dUi*smimj);
+    }
+  }
 }
+
+///accept data collector object
+void Interaction::acceptDataCollector(DataCollector* dc) {
+  assert(dc != NULL);
+  dc->VisitInteraction(this);
+}
+
+///get particle with larger ID
+Particle* Interaction::getOrg() const {
+  return Org;
+}
+
+///get particle with larger ID
+Particle* Interaction::getDest() const {
+  return Dest;
+};
+
+
+ostream& Interaction::put(ostream& ostr) const{
+  ///get a pointer to initiation Singelton
+  ///Initiation* pini = Initiation::Instance();
+  ///output
+  
+  /// output nothing
+  ostr << "";
+//   ostr<<pini->dms_length(Org->R()[0])<<' ' <<
+//     pini->dms_length(Org->R()[1])<<'\n'<<
+//     pini->dms_length(Dest->R()[0])<<' ' <<
+//     pini->dms_length(Dest->R()[1]) << '\n';
+    ///0: plane interaction
+    ///1: polymer polymer interaction
+  return ostr;
+}
+
+

@@ -1,83 +1,26 @@
-*Install*
-Run 
 
-./local-install.sh
+./configure
+make 
+mv src/sphopt .
+mkdir outdata
+awk/sphrmcm.awk cases/test-p.cfg > test-p.cfg
 
-*Restart file format*
-<start time>
-<number of particles>
-...
-<material name> <X> <Y> <Vx> <Vy> <density> <pressure> <temperature>
-...
-<empty line>
+parameter files:
+polymer.cfg
+test-p.cfg
 
-*Input file format*
-To use restart file 
-INITIAL_CONDITION	1
+./start.sh
 
-The level of statistics output
-DIAGNOSE			2
+Marco's cases (see test-conf.cfg, CELLS options)
+Ly= 1*10^-6  2 altix
+    2*10^-6  4 shige /scratch/files/cpp/sph-opt/outdata/par.nc (done)
+    4*10^-6  8 shige
+    6*10^-6  12 sachiko /scratch/litvinov/src/sph-opt/outdata/par.nc
 
-number of cells in x and y direction
-CELLS 
+Output is in outdata/par.nc
+to get a text file 
+cdf2punto.sh par.nc 0 
 
-size of one cell
-CELL_SIZE			5.0e-3
-
-support length
-SMOOTHING_LENGTH	5.0e-3
-
-the number of particle in one direction in a cell
-CELL_RATIO			3
-
-the basic of dimensions
-DIMENSION
-
-TIMING  <inital time> <the last time> <output timestep>
-
-gravity force vector
-G_FORCE
-
-DIMENSION
-
-type code of coundary
-1: periodic
-0: wall coundary
-BOUNDARY <use or not wall file, must be 0> <type codes of boundry X0, X1, Y0,
-Y1>
-<velocity of the wall>
-
-NUMBER_OF_MATERIALS <numb_mat>
-
-
-MATERIALS
-<material_name><material_type>	<cv>	<eta>	<zeta>	<kappa>	<gamma>	<b0>	<rho0>	<a0>
-(one line for each material)
-
-FORCES
-<mat#k>	<mat#m>		<epsilon>	<sigma>	<shear_slip>	<bulk_slip>	<heat_slip>
-(numb_mat*numb_mat lines, one for each material pair)
-
-
-*Simulations*
-cd src
-Couette simulation
-./sph ../cases/couette
-To stop CTRL+c
-
-*Postprocessing*
-cd outdata/
-../../scripts/dat2punto.sh > punto.dat
-
-*Visualization*
-punto -D 2 -V -s 50 punto.dat
-punto -D 2 -c 4 -B 0:0:0.04:0.04 -G -0.2:0.2 punto.dat
-<s> to start 
-
-gnuplot 
-plot n=1, 'punto.dat' u 2:3 every :::n::n
-plot n=10, A=250.0, 'punto.dat' u 2:3 every :::n::n+5, A*x*(L-x)
-
-*Others*
-To remove output directory
-rm -rf outdata/
+CXXFLAGS='-g -pg' ./configure --with-netcdf=$HOME
+./configure --with-netcdf-include=$HOME/include --with-netcdf-libdir=$HOME/lib 
+ncks -s "%e\n" -d timestep,0,0 -v R test/par.nc | awk 'n==1; !NF{n=1}' | xargs -n 3 

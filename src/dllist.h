@@ -8,21 +8,22 @@
 
 #ifndef DLLIST_H
 #define DLLIST_H
+#include <iostream>
 
-///----------------------------------------------------------------------------------------
-///      Define a universal template double linked list
-///		dllist.h
-///----------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------
+//      Define a universla template double linked list
+//		dllist.h
+//----------------------------------------------------------------------------------------
 template <class Ldata> class Llist; 
-///-----------------------------------------------------------------------
-///				a template node on the list
-///-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
+//				a template node on the list
+//-----------------------------------------------------------------------
 /// \brief A template node in the linked list
 ///
 /// This class represents a node of the generic double linked list Llist
 template <class Ldata> class LlistNode {
 
-	///the list class which manipulates the nodes
+	//the list class which manipulates the nodes
 	friend class Llist<Ldata>;
 
 private:
@@ -32,7 +33,7 @@ private:
 	/// The next and the previous nodes
 	LlistNode<Ldata> *next, *prev;
 	
-	///constructors
+	//constructors
 
 	/// An empty node, used for the head node
 	LlistNode()                         { data = 0; next = prev = this; }
@@ -43,24 +44,24 @@ private:
 	LlistNode(Ldata *d, LlistNode<Ldata> *n)    { data = d; next = n;
 												prev = n->prev; n->prev = this; }
 };
-///-----------------------------------------------------------------------
-///				the template linked list
-///-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
+//				the template linked list
+//-----------------------------------------------------------------------
 /// \brief Double linked list implementation
 ///
 /// This class implements a double linked list with generic data.
 /// The next pointer of the last node points to the first node and the prev pointer of the first node point to the node itself
 template <class Ldata> class Llist {
 private:
-	///list length
+	//list length
 	int len;
 
-	///the list head
+	//the list head
 	LlistNode<Ldata> *node;
 
 public:
 	//constructor
-	/// creates a list with an empty head node (no data in the head, but the node exists)
+	/// Creates a list with an empty head node (no data in the head, but the node exists)
 	Llist() { node = new LlistNode<Ldata>; len = 0; }
 
 	/// Check if the list is empty (the first node is the last)
@@ -99,13 +100,26 @@ public:
 	inline void clear() {while (!empty()) remove(first());
 						len = 0; }
 	///re-initialize to empty list
-	inline void clear_data()  {while (!empty()) { delete retrieve(first()); remove(first()); }
-						len = 0; }
+	inline void clear_data()  
+	{ 
+	  //	  std::cerr << "dllist::clear_data called" << std::endl;
+	  unsigned long i(0);
+	  while (!empty()) { 
+	    delete retrieve(first()); 
+	    remove(first()); 
+	    i++;
+	  }
+	  len = 0; 
+	  //	  std::cerr << "the number of elements was: " << i << std::endl;
+	}
+	
+	
 	
 	///deconstructor
-	inline ~Llist() { while (!empty()) remove(first());
-					 delete node; }
-
+	inline ~Llist() { 
+	  while (!empty()) remove(first());
+	  delete node; 
+	}
 };
 
 #endif
