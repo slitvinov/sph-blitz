@@ -1,4 +1,3 @@
-
 ./configure
 make 
 mv src/sphopt .

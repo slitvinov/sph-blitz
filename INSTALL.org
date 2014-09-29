@@ -1,0 +1,12 @@
+* Installation
+
+On debian install third party libraries
+#+BEGIN_EXAMPLE
+sudo apt-get install libgsl0-dev
+#+END_EXAMPLE
+
+
+./configure
+make 
+mv src/sphopt .
+mkdir outdata
