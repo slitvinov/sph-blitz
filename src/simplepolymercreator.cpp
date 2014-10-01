@@ -85,6 +85,7 @@ void SimplePolymerCreator::CreatePolymer(const ParticleManager& particles) {
      
      ///change the particle state to polymer
      Pa->ChangeState(new PolymerParticle(Pa));
+     std::cout << "Polymer particle position: " << Pa->R() << '\n';
 
      ///put the polymer particle into the vector
      //     polyVector_.push_back(Pa);
@@ -100,7 +101,11 @@ Vec2d SimplePolymerCreator::getForce(const Vec2d& eij,
 
 
   //the distance should be less then maximum extens
-  assert(rij < R0_);
+  if (rij >= R0_) {
+    std::cout << "rij = " << rij << '\n';
+    std::cout << "R0_ = " << R0_ << '\n';
+    assert(true);
+  };
   return -H_ * rij*eij / ( 1 - (rij*rij) / (R0_* R0_));
 }
 

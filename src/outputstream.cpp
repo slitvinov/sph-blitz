@@ -24,7 +24,7 @@ OutputStream* OutputStream::instance_ = NULL;
 OutputStream* OutputStream::Instance() {
   const Initiation* const ini(Initiation::Instance());
   if (ini->outputstream == "TEXT") {
-    instance_ = new TextOutputStream;
+    instance_ = new SafeOutputStream(new TextOutputStream);
   }
   else {
     instance_ = new SafeOutputStream(new NetCDFOutputStream);

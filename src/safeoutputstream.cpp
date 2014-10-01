@@ -83,7 +83,7 @@ SafeOutputStream::~SafeOutputStream() {
   ///current PolyID
   long int cID;
   while (!vecPP.empty()) {
-    //    cout << "Get " <<  vecPP.top()->getPolyID() << '\n';
+    cout << "Get " <<  vecPP.top()->getPolyID() << '\n';
     stream_->VisitPolymerParticle(vecPP.top());
     cID = vecPP.top()->getPolyID();
 #ifndef NOLOG
@@ -135,6 +135,8 @@ void SafeOutputStream::VisitPolymerParticle(PolymerParticle* pp)  {
     log4cxx::Logger::getLogger("safeoutputstream");
   LOG4CXX_DEBUG(Logger, "VisitPolymerParticle");
 #endif
+  std::cout << "vecPP gets a PolymerParticle with (pID, globalID) : " << 
+    pp->getPolyID() << ' ' << pp->getParticleID() << '\n';
   vecPP.push(pp);
 }
 

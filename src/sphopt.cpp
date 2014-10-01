@@ -104,7 +104,6 @@ int main(int argc, char *argv[]) {
   OutputStream* datast = OutputStream::Instance();
   timesolver.Attach(datast);
 
-
   ///add data collector to the ini object
   
 //   datast->AddTimeStepAttribute("a", co);
