@@ -59,10 +59,8 @@ sphopt_SOURCES = abspolymercreator.cpp abspolymercreator.h\
 	particlecommand.h\
 	sphopt.cpp
 
-AM_CXXFLAGS=-Wall -DNOLOG -DQFIX  $(GSL_CFLAGS) \
+sphopt_CPPFLAGS=-Wall -DNOLOG -DQFIX  $(GSL_CFLAGS) \
 	$(BOOST_CPPFLAGS) $(CPPFLAGS)
 
-AM_LDFLAGS=$(GSL_LIBS) $(LDFLAGS)\
-	$(BOOST_PROGRAM_OPTIONS_LIB) $(BOOST_LDFLAGS) -lnetcdf_c++
-
-
+#sphopt_LDADD=$(GSL_LIBS)
+#	$(BOOST_PROGRAM_OPTIONS_LIB) $(BOOST_LDFLAGS)

@@ -76,6 +76,8 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+build_triplet = @build@
+host_triplet = @host@
 bin_PROGRAMS = sphopt$(EXEEXT)
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
@@ -93,26 +95,35 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_sphopt_OBJECTS = abspolymercreator.$(OBJEXT) betaspline.$(OBJEXT) \
-	boundary.$(OBJEXT) boundarystruct.$(OBJEXT) command.$(OBJEXT) \
-	compositedatacollector.$(OBJEXT) ConfigFile.$(OBJEXT) \
-	datacollector.$(OBJEXT) diagnose.$(OBJEXT) force.$(OBJEXT) \
-	glbfunc.$(OBJEXT) hydrodynamics.$(OBJEXT) initiation.$(OBJEXT) \
-	input.$(OBJEXT) interaction.$(OBJEXT) \
-	interactionstate.$(OBJEXT) kernel.$(OBJEXT) \
-	massdatacollector.$(OBJEXT) material.$(OBJEXT) mls.$(OBJEXT) \
-	netcdfoutputstream.$(OBJEXT) newrgdatacollector.$(OBJEXT) \
-	node.$(OBJEXT) observer.$(OBJEXT) output.$(OBJEXT) \
-	outputstream.$(OBJEXT) particle.$(OBJEXT) \
-	particlemanager.$(OBJEXT) polymerdatacollector.$(OBJEXT) \
-	polymerinteraction.$(OBJEXT) polymerparticle.$(OBJEXT) \
-	quinticspline.$(OBJEXT) reflection.$(OBJEXT) \
-	rgdatacollector.$(OBJEXT) safeoutputstream.$(OBJEXT) \
-	simpledatacollector.$(OBJEXT) simpleparticlecommand.$(OBJEXT) \
-	simplepolymercreator.$(OBJEXT) subject.$(OBJEXT) \
-	textoutputstream.$(OBJEXT) timer.$(OBJEXT) \
-	timesolver.$(OBJEXT) torrgdatacollector.$(OBJEXT) \
-	vec2d.$(OBJEXT) wiener.$(OBJEXT) sphopt.$(OBJEXT)
+am_sphopt_OBJECTS = sphopt-abspolymercreator.$(OBJEXT) \
+	sphopt-betaspline.$(OBJEXT) sphopt-boundary.$(OBJEXT) \
+	sphopt-boundarystruct.$(OBJEXT) sphopt-command.$(OBJEXT) \
+	sphopt-compositedatacollector.$(OBJEXT) \
+	sphopt-ConfigFile.$(OBJEXT) sphopt-datacollector.$(OBJEXT) \
+	sphopt-diagnose.$(OBJEXT) sphopt-force.$(OBJEXT) \
+	sphopt-glbfunc.$(OBJEXT) sphopt-hydrodynamics.$(OBJEXT) \
+	sphopt-initiation.$(OBJEXT) sphopt-input.$(OBJEXT) \
+	sphopt-interaction.$(OBJEXT) sphopt-interactionstate.$(OBJEXT) \
+	sphopt-kernel.$(OBJEXT) sphopt-massdatacollector.$(OBJEXT) \
+	sphopt-material.$(OBJEXT) sphopt-mls.$(OBJEXT) \
+	sphopt-netcdfoutputstream.$(OBJEXT) \
+	sphopt-newrgdatacollector.$(OBJEXT) sphopt-node.$(OBJEXT) \
+	sphopt-observer.$(OBJEXT) sphopt-output.$(OBJEXT) \
+	sphopt-outputstream.$(OBJEXT) sphopt-particle.$(OBJEXT) \
+	sphopt-particlemanager.$(OBJEXT) \
+	sphopt-polymerdatacollector.$(OBJEXT) \
+	sphopt-polymerinteraction.$(OBJEXT) \
+	sphopt-polymerparticle.$(OBJEXT) \
+	sphopt-quinticspline.$(OBJEXT) sphopt-reflection.$(OBJEXT) \
+	sphopt-rgdatacollector.$(OBJEXT) \
+	sphopt-safeoutputstream.$(OBJEXT) \
+	sphopt-simpledatacollector.$(OBJEXT) \
+	sphopt-simpleparticlecommand.$(OBJEXT) \
+	sphopt-simplepolymercreator.$(OBJEXT) sphopt-subject.$(OBJEXT) \
+	sphopt-textoutputstream.$(OBJEXT) sphopt-timer.$(OBJEXT) \
+	sphopt-timesolver.$(OBJEXT) \
+	sphopt-torrgdatacollector.$(OBJEXT) sphopt-vec2d.$(OBJEXT) \
+	sphopt-wiener.$(OBJEXT) sphopt-sphopt.$(OBJEXT)
 sphopt_OBJECTS = $(am_sphopt_OBJECTS)
 sphopt_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_@AM_V@)
@@ -131,6 +142,10 @@ DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/config/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
+AM_V_lt = $(am__v_lt_@AM_V@)
+am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
+am__v_lt_0 = --silent
+am__v_lt_1 = 
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 AM_V_CXX = $(am__v_CXX_@AM_V@)
@@ -254,14 +269,22 @@ am__quote = @am__quote@
 am__tar = @am__tar@
 am__untar = @am__untar@
 bindir = @bindir@
+build = @build@
 build_alias = @build_alias@
+build_cpu = @build_cpu@
+build_os = @build_os@
+build_vendor = @build_vendor@
 builddir = @builddir@
 datadir = @datadir@
 datarootdir = @datarootdir@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
+host = @host@
 host_alias = @host_alias@
+host_cpu = @host_cpu@
+host_os = @host_os@
+host_vendor = @host_vendor@
 htmldir = @htmldir@
 includedir = @includedir@
 infodir = @infodir@
@@ -344,11 +367,8 @@ sphopt_SOURCES = abspolymercreator.cpp abspolymercreator.h\
 	particlecommand.h\
 	sphopt.cpp
 
-AM_CXXFLAGS = -Wall -DNOLOG -DQFIX  $(GSL_CFLAGS) \
+sphopt_CPPFLAGS = -Wall -DNOLOG -DQFIX  $(GSL_CFLAGS) \
 	$(BOOST_CPPFLAGS) $(CPPFLAGS)
-
-AM_LDFLAGS = $(GSL_LIBS) $(LDFLAGS)\
-	$(BOOST_PROGRAM_OPTIONS_LIB) $(BOOST_LDFLAGS) -lnetcdf_c++
 
 all: all-am
 
@@ -437,52 +457,52 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ConfigFile.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/abspolymercreator.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/betaspline.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boundary.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boundarystruct.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/command.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/compositedatacollector.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/datacollector.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/diagnose.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/force.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/glbfunc.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hydrodynamics.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/initiation.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/input.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interaction.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interactionstate.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kernel.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/massdatacollector.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/material.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mls.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/netcdfoutputstream.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/newrgdatacollector.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/node.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/observer.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/outputstream.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/particle.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/particlemanager.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/polymerdatacollector.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/polymerinteraction.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/polymerparticle.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/quinticspline.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/reflection.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rgdatacollector.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/safeoutputstream.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/simpledatacollector.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/simpleparticlecommand.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/simplepolymercreator.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/subject.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/textoutputstream.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timer.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timesolver.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/torrgdatacollector.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vec2d.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wiener.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-ConfigFile.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-abspolymercreator.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-betaspline.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-boundary.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-boundarystruct.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-command.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-compositedatacollector.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-datacollector.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-diagnose.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-force.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-glbfunc.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-hydrodynamics.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-initiation.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-input.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-interaction.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-interactionstate.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-kernel.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-massdatacollector.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-material.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-mls.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-netcdfoutputstream.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-newrgdatacollector.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-node.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-observer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-output.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-outputstream.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-particle.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-particlemanager.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-polymerdatacollector.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-polymerinteraction.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-polymerparticle.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-quinticspline.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-reflection.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-rgdatacollector.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-safeoutputstream.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-simpledatacollector.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-simpleparticlecommand.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-simplepolymercreator.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-sphopt.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-subject.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-textoutputstream.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-timer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-timesolver.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-torrgdatacollector.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-vec2d.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sphopt-wiener.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -497,6 +517,650 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+sphopt-abspolymercreator.o: abspolymercreator.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-abspolymercreator.o -MD -MP -MF $(DEPDIR)/sphopt-abspolymercreator.Tpo -c -o sphopt-abspolymercreator.o `test -f 'abspolymercreator.cpp' || echo '$(srcdir)/'`abspolymercreator.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-abspolymercreator.Tpo $(DEPDIR)/sphopt-abspolymercreator.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='abspolymercreator.cpp' object='sphopt-abspolymercreator.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-abspolymercreator.o `test -f 'abspolymercreator.cpp' || echo '$(srcdir)/'`abspolymercreator.cpp
+
+sphopt-abspolymercreator.obj: abspolymercreator.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-abspolymercreator.obj -MD -MP -MF $(DEPDIR)/sphopt-abspolymercreator.Tpo -c -o sphopt-abspolymercreator.obj `if test -f 'abspolymercreator.cpp'; then $(CYGPATH_W) 'abspolymercreator.cpp'; else $(CYGPATH_W) '$(srcdir)/abspolymercreator.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-abspolymercreator.Tpo $(DEPDIR)/sphopt-abspolymercreator.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='abspolymercreator.cpp' object='sphopt-abspolymercreator.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-abspolymercreator.obj `if test -f 'abspolymercreator.cpp'; then $(CYGPATH_W) 'abspolymercreator.cpp'; else $(CYGPATH_W) '$(srcdir)/abspolymercreator.cpp'; fi`
+
+sphopt-betaspline.o: betaspline.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-betaspline.o -MD -MP -MF $(DEPDIR)/sphopt-betaspline.Tpo -c -o sphopt-betaspline.o `test -f 'betaspline.cpp' || echo '$(srcdir)/'`betaspline.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-betaspline.Tpo $(DEPDIR)/sphopt-betaspline.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='betaspline.cpp' object='sphopt-betaspline.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-betaspline.o `test -f 'betaspline.cpp' || echo '$(srcdir)/'`betaspline.cpp
+
+sphopt-betaspline.obj: betaspline.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-betaspline.obj -MD -MP -MF $(DEPDIR)/sphopt-betaspline.Tpo -c -o sphopt-betaspline.obj `if test -f 'betaspline.cpp'; then $(CYGPATH_W) 'betaspline.cpp'; else $(CYGPATH_W) '$(srcdir)/betaspline.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-betaspline.Tpo $(DEPDIR)/sphopt-betaspline.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='betaspline.cpp' object='sphopt-betaspline.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-betaspline.obj `if test -f 'betaspline.cpp'; then $(CYGPATH_W) 'betaspline.cpp'; else $(CYGPATH_W) '$(srcdir)/betaspline.cpp'; fi`
+
+sphopt-boundary.o: boundary.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-boundary.o -MD -MP -MF $(DEPDIR)/sphopt-boundary.Tpo -c -o sphopt-boundary.o `test -f 'boundary.cpp' || echo '$(srcdir)/'`boundary.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-boundary.Tpo $(DEPDIR)/sphopt-boundary.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='boundary.cpp' object='sphopt-boundary.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-boundary.o `test -f 'boundary.cpp' || echo '$(srcdir)/'`boundary.cpp
+
+sphopt-boundary.obj: boundary.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-boundary.obj -MD -MP -MF $(DEPDIR)/sphopt-boundary.Tpo -c -o sphopt-boundary.obj `if test -f 'boundary.cpp'; then $(CYGPATH_W) 'boundary.cpp'; else $(CYGPATH_W) '$(srcdir)/boundary.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-boundary.Tpo $(DEPDIR)/sphopt-boundary.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='boundary.cpp' object='sphopt-boundary.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-boundary.obj `if test -f 'boundary.cpp'; then $(CYGPATH_W) 'boundary.cpp'; else $(CYGPATH_W) '$(srcdir)/boundary.cpp'; fi`
+
+sphopt-boundarystruct.o: boundarystruct.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-boundarystruct.o -MD -MP -MF $(DEPDIR)/sphopt-boundarystruct.Tpo -c -o sphopt-boundarystruct.o `test -f 'boundarystruct.cpp' || echo '$(srcdir)/'`boundarystruct.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-boundarystruct.Tpo $(DEPDIR)/sphopt-boundarystruct.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='boundarystruct.cpp' object='sphopt-boundarystruct.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-boundarystruct.o `test -f 'boundarystruct.cpp' || echo '$(srcdir)/'`boundarystruct.cpp
+
+sphopt-boundarystruct.obj: boundarystruct.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-boundarystruct.obj -MD -MP -MF $(DEPDIR)/sphopt-boundarystruct.Tpo -c -o sphopt-boundarystruct.obj `if test -f 'boundarystruct.cpp'; then $(CYGPATH_W) 'boundarystruct.cpp'; else $(CYGPATH_W) '$(srcdir)/boundarystruct.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-boundarystruct.Tpo $(DEPDIR)/sphopt-boundarystruct.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='boundarystruct.cpp' object='sphopt-boundarystruct.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-boundarystruct.obj `if test -f 'boundarystruct.cpp'; then $(CYGPATH_W) 'boundarystruct.cpp'; else $(CYGPATH_W) '$(srcdir)/boundarystruct.cpp'; fi`
+
+sphopt-command.o: command.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-command.o -MD -MP -MF $(DEPDIR)/sphopt-command.Tpo -c -o sphopt-command.o `test -f 'command.cpp' || echo '$(srcdir)/'`command.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-command.Tpo $(DEPDIR)/sphopt-command.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='command.cpp' object='sphopt-command.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-command.o `test -f 'command.cpp' || echo '$(srcdir)/'`command.cpp
+
+sphopt-command.obj: command.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-command.obj -MD -MP -MF $(DEPDIR)/sphopt-command.Tpo -c -o sphopt-command.obj `if test -f 'command.cpp'; then $(CYGPATH_W) 'command.cpp'; else $(CYGPATH_W) '$(srcdir)/command.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-command.Tpo $(DEPDIR)/sphopt-command.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='command.cpp' object='sphopt-command.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-command.obj `if test -f 'command.cpp'; then $(CYGPATH_W) 'command.cpp'; else $(CYGPATH_W) '$(srcdir)/command.cpp'; fi`
+
+sphopt-compositedatacollector.o: compositedatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-compositedatacollector.o -MD -MP -MF $(DEPDIR)/sphopt-compositedatacollector.Tpo -c -o sphopt-compositedatacollector.o `test -f 'compositedatacollector.cpp' || echo '$(srcdir)/'`compositedatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-compositedatacollector.Tpo $(DEPDIR)/sphopt-compositedatacollector.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='compositedatacollector.cpp' object='sphopt-compositedatacollector.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-compositedatacollector.o `test -f 'compositedatacollector.cpp' || echo '$(srcdir)/'`compositedatacollector.cpp
+
+sphopt-compositedatacollector.obj: compositedatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-compositedatacollector.obj -MD -MP -MF $(DEPDIR)/sphopt-compositedatacollector.Tpo -c -o sphopt-compositedatacollector.obj `if test -f 'compositedatacollector.cpp'; then $(CYGPATH_W) 'compositedatacollector.cpp'; else $(CYGPATH_W) '$(srcdir)/compositedatacollector.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-compositedatacollector.Tpo $(DEPDIR)/sphopt-compositedatacollector.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='compositedatacollector.cpp' object='sphopt-compositedatacollector.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-compositedatacollector.obj `if test -f 'compositedatacollector.cpp'; then $(CYGPATH_W) 'compositedatacollector.cpp'; else $(CYGPATH_W) '$(srcdir)/compositedatacollector.cpp'; fi`
+
+sphopt-ConfigFile.o: ConfigFile.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-ConfigFile.o -MD -MP -MF $(DEPDIR)/sphopt-ConfigFile.Tpo -c -o sphopt-ConfigFile.o `test -f 'ConfigFile.cpp' || echo '$(srcdir)/'`ConfigFile.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-ConfigFile.Tpo $(DEPDIR)/sphopt-ConfigFile.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='ConfigFile.cpp' object='sphopt-ConfigFile.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-ConfigFile.o `test -f 'ConfigFile.cpp' || echo '$(srcdir)/'`ConfigFile.cpp
+
+sphopt-ConfigFile.obj: ConfigFile.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-ConfigFile.obj -MD -MP -MF $(DEPDIR)/sphopt-ConfigFile.Tpo -c -o sphopt-ConfigFile.obj `if test -f 'ConfigFile.cpp'; then $(CYGPATH_W) 'ConfigFile.cpp'; else $(CYGPATH_W) '$(srcdir)/ConfigFile.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-ConfigFile.Tpo $(DEPDIR)/sphopt-ConfigFile.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='ConfigFile.cpp' object='sphopt-ConfigFile.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-ConfigFile.obj `if test -f 'ConfigFile.cpp'; then $(CYGPATH_W) 'ConfigFile.cpp'; else $(CYGPATH_W) '$(srcdir)/ConfigFile.cpp'; fi`
+
+sphopt-datacollector.o: datacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-datacollector.o -MD -MP -MF $(DEPDIR)/sphopt-datacollector.Tpo -c -o sphopt-datacollector.o `test -f 'datacollector.cpp' || echo '$(srcdir)/'`datacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-datacollector.Tpo $(DEPDIR)/sphopt-datacollector.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='datacollector.cpp' object='sphopt-datacollector.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-datacollector.o `test -f 'datacollector.cpp' || echo '$(srcdir)/'`datacollector.cpp
+
+sphopt-datacollector.obj: datacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-datacollector.obj -MD -MP -MF $(DEPDIR)/sphopt-datacollector.Tpo -c -o sphopt-datacollector.obj `if test -f 'datacollector.cpp'; then $(CYGPATH_W) 'datacollector.cpp'; else $(CYGPATH_W) '$(srcdir)/datacollector.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-datacollector.Tpo $(DEPDIR)/sphopt-datacollector.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='datacollector.cpp' object='sphopt-datacollector.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-datacollector.obj `if test -f 'datacollector.cpp'; then $(CYGPATH_W) 'datacollector.cpp'; else $(CYGPATH_W) '$(srcdir)/datacollector.cpp'; fi`
+
+sphopt-diagnose.o: diagnose.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-diagnose.o -MD -MP -MF $(DEPDIR)/sphopt-diagnose.Tpo -c -o sphopt-diagnose.o `test -f 'diagnose.cpp' || echo '$(srcdir)/'`diagnose.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-diagnose.Tpo $(DEPDIR)/sphopt-diagnose.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='diagnose.cpp' object='sphopt-diagnose.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-diagnose.o `test -f 'diagnose.cpp' || echo '$(srcdir)/'`diagnose.cpp
+
+sphopt-diagnose.obj: diagnose.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-diagnose.obj -MD -MP -MF $(DEPDIR)/sphopt-diagnose.Tpo -c -o sphopt-diagnose.obj `if test -f 'diagnose.cpp'; then $(CYGPATH_W) 'diagnose.cpp'; else $(CYGPATH_W) '$(srcdir)/diagnose.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-diagnose.Tpo $(DEPDIR)/sphopt-diagnose.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='diagnose.cpp' object='sphopt-diagnose.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-diagnose.obj `if test -f 'diagnose.cpp'; then $(CYGPATH_W) 'diagnose.cpp'; else $(CYGPATH_W) '$(srcdir)/diagnose.cpp'; fi`
+
+sphopt-force.o: force.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-force.o -MD -MP -MF $(DEPDIR)/sphopt-force.Tpo -c -o sphopt-force.o `test -f 'force.cpp' || echo '$(srcdir)/'`force.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-force.Tpo $(DEPDIR)/sphopt-force.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='force.cpp' object='sphopt-force.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-force.o `test -f 'force.cpp' || echo '$(srcdir)/'`force.cpp
+
+sphopt-force.obj: force.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-force.obj -MD -MP -MF $(DEPDIR)/sphopt-force.Tpo -c -o sphopt-force.obj `if test -f 'force.cpp'; then $(CYGPATH_W) 'force.cpp'; else $(CYGPATH_W) '$(srcdir)/force.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-force.Tpo $(DEPDIR)/sphopt-force.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='force.cpp' object='sphopt-force.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-force.obj `if test -f 'force.cpp'; then $(CYGPATH_W) 'force.cpp'; else $(CYGPATH_W) '$(srcdir)/force.cpp'; fi`
+
+sphopt-glbfunc.o: glbfunc.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-glbfunc.o -MD -MP -MF $(DEPDIR)/sphopt-glbfunc.Tpo -c -o sphopt-glbfunc.o `test -f 'glbfunc.cpp' || echo '$(srcdir)/'`glbfunc.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-glbfunc.Tpo $(DEPDIR)/sphopt-glbfunc.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='glbfunc.cpp' object='sphopt-glbfunc.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-glbfunc.o `test -f 'glbfunc.cpp' || echo '$(srcdir)/'`glbfunc.cpp
+
+sphopt-glbfunc.obj: glbfunc.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-glbfunc.obj -MD -MP -MF $(DEPDIR)/sphopt-glbfunc.Tpo -c -o sphopt-glbfunc.obj `if test -f 'glbfunc.cpp'; then $(CYGPATH_W) 'glbfunc.cpp'; else $(CYGPATH_W) '$(srcdir)/glbfunc.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-glbfunc.Tpo $(DEPDIR)/sphopt-glbfunc.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='glbfunc.cpp' object='sphopt-glbfunc.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-glbfunc.obj `if test -f 'glbfunc.cpp'; then $(CYGPATH_W) 'glbfunc.cpp'; else $(CYGPATH_W) '$(srcdir)/glbfunc.cpp'; fi`
+
+sphopt-hydrodynamics.o: hydrodynamics.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-hydrodynamics.o -MD -MP -MF $(DEPDIR)/sphopt-hydrodynamics.Tpo -c -o sphopt-hydrodynamics.o `test -f 'hydrodynamics.cpp' || echo '$(srcdir)/'`hydrodynamics.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-hydrodynamics.Tpo $(DEPDIR)/sphopt-hydrodynamics.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='hydrodynamics.cpp' object='sphopt-hydrodynamics.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-hydrodynamics.o `test -f 'hydrodynamics.cpp' || echo '$(srcdir)/'`hydrodynamics.cpp
+
+sphopt-hydrodynamics.obj: hydrodynamics.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-hydrodynamics.obj -MD -MP -MF $(DEPDIR)/sphopt-hydrodynamics.Tpo -c -o sphopt-hydrodynamics.obj `if test -f 'hydrodynamics.cpp'; then $(CYGPATH_W) 'hydrodynamics.cpp'; else $(CYGPATH_W) '$(srcdir)/hydrodynamics.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-hydrodynamics.Tpo $(DEPDIR)/sphopt-hydrodynamics.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='hydrodynamics.cpp' object='sphopt-hydrodynamics.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-hydrodynamics.obj `if test -f 'hydrodynamics.cpp'; then $(CYGPATH_W) 'hydrodynamics.cpp'; else $(CYGPATH_W) '$(srcdir)/hydrodynamics.cpp'; fi`
+
+sphopt-initiation.o: initiation.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-initiation.o -MD -MP -MF $(DEPDIR)/sphopt-initiation.Tpo -c -o sphopt-initiation.o `test -f 'initiation.cpp' || echo '$(srcdir)/'`initiation.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-initiation.Tpo $(DEPDIR)/sphopt-initiation.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='initiation.cpp' object='sphopt-initiation.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-initiation.o `test -f 'initiation.cpp' || echo '$(srcdir)/'`initiation.cpp
+
+sphopt-initiation.obj: initiation.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-initiation.obj -MD -MP -MF $(DEPDIR)/sphopt-initiation.Tpo -c -o sphopt-initiation.obj `if test -f 'initiation.cpp'; then $(CYGPATH_W) 'initiation.cpp'; else $(CYGPATH_W) '$(srcdir)/initiation.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-initiation.Tpo $(DEPDIR)/sphopt-initiation.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='initiation.cpp' object='sphopt-initiation.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-initiation.obj `if test -f 'initiation.cpp'; then $(CYGPATH_W) 'initiation.cpp'; else $(CYGPATH_W) '$(srcdir)/initiation.cpp'; fi`
+
+sphopt-input.o: input.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-input.o -MD -MP -MF $(DEPDIR)/sphopt-input.Tpo -c -o sphopt-input.o `test -f 'input.cpp' || echo '$(srcdir)/'`input.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-input.Tpo $(DEPDIR)/sphopt-input.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='input.cpp' object='sphopt-input.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-input.o `test -f 'input.cpp' || echo '$(srcdir)/'`input.cpp
+
+sphopt-input.obj: input.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-input.obj -MD -MP -MF $(DEPDIR)/sphopt-input.Tpo -c -o sphopt-input.obj `if test -f 'input.cpp'; then $(CYGPATH_W) 'input.cpp'; else $(CYGPATH_W) '$(srcdir)/input.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-input.Tpo $(DEPDIR)/sphopt-input.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='input.cpp' object='sphopt-input.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-input.obj `if test -f 'input.cpp'; then $(CYGPATH_W) 'input.cpp'; else $(CYGPATH_W) '$(srcdir)/input.cpp'; fi`
+
+sphopt-interaction.o: interaction.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-interaction.o -MD -MP -MF $(DEPDIR)/sphopt-interaction.Tpo -c -o sphopt-interaction.o `test -f 'interaction.cpp' || echo '$(srcdir)/'`interaction.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-interaction.Tpo $(DEPDIR)/sphopt-interaction.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='interaction.cpp' object='sphopt-interaction.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-interaction.o `test -f 'interaction.cpp' || echo '$(srcdir)/'`interaction.cpp
+
+sphopt-interaction.obj: interaction.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-interaction.obj -MD -MP -MF $(DEPDIR)/sphopt-interaction.Tpo -c -o sphopt-interaction.obj `if test -f 'interaction.cpp'; then $(CYGPATH_W) 'interaction.cpp'; else $(CYGPATH_W) '$(srcdir)/interaction.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-interaction.Tpo $(DEPDIR)/sphopt-interaction.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='interaction.cpp' object='sphopt-interaction.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-interaction.obj `if test -f 'interaction.cpp'; then $(CYGPATH_W) 'interaction.cpp'; else $(CYGPATH_W) '$(srcdir)/interaction.cpp'; fi`
+
+sphopt-interactionstate.o: interactionstate.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-interactionstate.o -MD -MP -MF $(DEPDIR)/sphopt-interactionstate.Tpo -c -o sphopt-interactionstate.o `test -f 'interactionstate.cpp' || echo '$(srcdir)/'`interactionstate.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-interactionstate.Tpo $(DEPDIR)/sphopt-interactionstate.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='interactionstate.cpp' object='sphopt-interactionstate.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-interactionstate.o `test -f 'interactionstate.cpp' || echo '$(srcdir)/'`interactionstate.cpp
+
+sphopt-interactionstate.obj: interactionstate.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-interactionstate.obj -MD -MP -MF $(DEPDIR)/sphopt-interactionstate.Tpo -c -o sphopt-interactionstate.obj `if test -f 'interactionstate.cpp'; then $(CYGPATH_W) 'interactionstate.cpp'; else $(CYGPATH_W) '$(srcdir)/interactionstate.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-interactionstate.Tpo $(DEPDIR)/sphopt-interactionstate.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='interactionstate.cpp' object='sphopt-interactionstate.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-interactionstate.obj `if test -f 'interactionstate.cpp'; then $(CYGPATH_W) 'interactionstate.cpp'; else $(CYGPATH_W) '$(srcdir)/interactionstate.cpp'; fi`
+
+sphopt-kernel.o: kernel.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-kernel.o -MD -MP -MF $(DEPDIR)/sphopt-kernel.Tpo -c -o sphopt-kernel.o `test -f 'kernel.cpp' || echo '$(srcdir)/'`kernel.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-kernel.Tpo $(DEPDIR)/sphopt-kernel.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kernel.cpp' object='sphopt-kernel.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-kernel.o `test -f 'kernel.cpp' || echo '$(srcdir)/'`kernel.cpp
+
+sphopt-kernel.obj: kernel.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-kernel.obj -MD -MP -MF $(DEPDIR)/sphopt-kernel.Tpo -c -o sphopt-kernel.obj `if test -f 'kernel.cpp'; then $(CYGPATH_W) 'kernel.cpp'; else $(CYGPATH_W) '$(srcdir)/kernel.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-kernel.Tpo $(DEPDIR)/sphopt-kernel.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='kernel.cpp' object='sphopt-kernel.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-kernel.obj `if test -f 'kernel.cpp'; then $(CYGPATH_W) 'kernel.cpp'; else $(CYGPATH_W) '$(srcdir)/kernel.cpp'; fi`
+
+sphopt-massdatacollector.o: massdatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-massdatacollector.o -MD -MP -MF $(DEPDIR)/sphopt-massdatacollector.Tpo -c -o sphopt-massdatacollector.o `test -f 'massdatacollector.cpp' || echo '$(srcdir)/'`massdatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-massdatacollector.Tpo $(DEPDIR)/sphopt-massdatacollector.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='massdatacollector.cpp' object='sphopt-massdatacollector.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-massdatacollector.o `test -f 'massdatacollector.cpp' || echo '$(srcdir)/'`massdatacollector.cpp
+
+sphopt-massdatacollector.obj: massdatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-massdatacollector.obj -MD -MP -MF $(DEPDIR)/sphopt-massdatacollector.Tpo -c -o sphopt-massdatacollector.obj `if test -f 'massdatacollector.cpp'; then $(CYGPATH_W) 'massdatacollector.cpp'; else $(CYGPATH_W) '$(srcdir)/massdatacollector.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-massdatacollector.Tpo $(DEPDIR)/sphopt-massdatacollector.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='massdatacollector.cpp' object='sphopt-massdatacollector.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-massdatacollector.obj `if test -f 'massdatacollector.cpp'; then $(CYGPATH_W) 'massdatacollector.cpp'; else $(CYGPATH_W) '$(srcdir)/massdatacollector.cpp'; fi`
+
+sphopt-material.o: material.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-material.o -MD -MP -MF $(DEPDIR)/sphopt-material.Tpo -c -o sphopt-material.o `test -f 'material.cpp' || echo '$(srcdir)/'`material.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-material.Tpo $(DEPDIR)/sphopt-material.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='material.cpp' object='sphopt-material.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-material.o `test -f 'material.cpp' || echo '$(srcdir)/'`material.cpp
+
+sphopt-material.obj: material.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-material.obj -MD -MP -MF $(DEPDIR)/sphopt-material.Tpo -c -o sphopt-material.obj `if test -f 'material.cpp'; then $(CYGPATH_W) 'material.cpp'; else $(CYGPATH_W) '$(srcdir)/material.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-material.Tpo $(DEPDIR)/sphopt-material.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='material.cpp' object='sphopt-material.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-material.obj `if test -f 'material.cpp'; then $(CYGPATH_W) 'material.cpp'; else $(CYGPATH_W) '$(srcdir)/material.cpp'; fi`
+
+sphopt-mls.o: mls.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-mls.o -MD -MP -MF $(DEPDIR)/sphopt-mls.Tpo -c -o sphopt-mls.o `test -f 'mls.cpp' || echo '$(srcdir)/'`mls.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-mls.Tpo $(DEPDIR)/sphopt-mls.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mls.cpp' object='sphopt-mls.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-mls.o `test -f 'mls.cpp' || echo '$(srcdir)/'`mls.cpp
+
+sphopt-mls.obj: mls.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-mls.obj -MD -MP -MF $(DEPDIR)/sphopt-mls.Tpo -c -o sphopt-mls.obj `if test -f 'mls.cpp'; then $(CYGPATH_W) 'mls.cpp'; else $(CYGPATH_W) '$(srcdir)/mls.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-mls.Tpo $(DEPDIR)/sphopt-mls.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mls.cpp' object='sphopt-mls.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-mls.obj `if test -f 'mls.cpp'; then $(CYGPATH_W) 'mls.cpp'; else $(CYGPATH_W) '$(srcdir)/mls.cpp'; fi`
+
+sphopt-netcdfoutputstream.o: netcdfoutputstream.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-netcdfoutputstream.o -MD -MP -MF $(DEPDIR)/sphopt-netcdfoutputstream.Tpo -c -o sphopt-netcdfoutputstream.o `test -f 'netcdfoutputstream.cpp' || echo '$(srcdir)/'`netcdfoutputstream.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-netcdfoutputstream.Tpo $(DEPDIR)/sphopt-netcdfoutputstream.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='netcdfoutputstream.cpp' object='sphopt-netcdfoutputstream.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-netcdfoutputstream.o `test -f 'netcdfoutputstream.cpp' || echo '$(srcdir)/'`netcdfoutputstream.cpp
+
+sphopt-netcdfoutputstream.obj: netcdfoutputstream.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-netcdfoutputstream.obj -MD -MP -MF $(DEPDIR)/sphopt-netcdfoutputstream.Tpo -c -o sphopt-netcdfoutputstream.obj `if test -f 'netcdfoutputstream.cpp'; then $(CYGPATH_W) 'netcdfoutputstream.cpp'; else $(CYGPATH_W) '$(srcdir)/netcdfoutputstream.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-netcdfoutputstream.Tpo $(DEPDIR)/sphopt-netcdfoutputstream.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='netcdfoutputstream.cpp' object='sphopt-netcdfoutputstream.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-netcdfoutputstream.obj `if test -f 'netcdfoutputstream.cpp'; then $(CYGPATH_W) 'netcdfoutputstream.cpp'; else $(CYGPATH_W) '$(srcdir)/netcdfoutputstream.cpp'; fi`
+
+sphopt-newrgdatacollector.o: newrgdatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-newrgdatacollector.o -MD -MP -MF $(DEPDIR)/sphopt-newrgdatacollector.Tpo -c -o sphopt-newrgdatacollector.o `test -f 'newrgdatacollector.cpp' || echo '$(srcdir)/'`newrgdatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-newrgdatacollector.Tpo $(DEPDIR)/sphopt-newrgdatacollector.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='newrgdatacollector.cpp' object='sphopt-newrgdatacollector.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-newrgdatacollector.o `test -f 'newrgdatacollector.cpp' || echo '$(srcdir)/'`newrgdatacollector.cpp
+
+sphopt-newrgdatacollector.obj: newrgdatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-newrgdatacollector.obj -MD -MP -MF $(DEPDIR)/sphopt-newrgdatacollector.Tpo -c -o sphopt-newrgdatacollector.obj `if test -f 'newrgdatacollector.cpp'; then $(CYGPATH_W) 'newrgdatacollector.cpp'; else $(CYGPATH_W) '$(srcdir)/newrgdatacollector.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-newrgdatacollector.Tpo $(DEPDIR)/sphopt-newrgdatacollector.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='newrgdatacollector.cpp' object='sphopt-newrgdatacollector.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-newrgdatacollector.obj `if test -f 'newrgdatacollector.cpp'; then $(CYGPATH_W) 'newrgdatacollector.cpp'; else $(CYGPATH_W) '$(srcdir)/newrgdatacollector.cpp'; fi`
+
+sphopt-node.o: node.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-node.o -MD -MP -MF $(DEPDIR)/sphopt-node.Tpo -c -o sphopt-node.o `test -f 'node.cpp' || echo '$(srcdir)/'`node.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-node.Tpo $(DEPDIR)/sphopt-node.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='node.cpp' object='sphopt-node.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-node.o `test -f 'node.cpp' || echo '$(srcdir)/'`node.cpp
+
+sphopt-node.obj: node.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-node.obj -MD -MP -MF $(DEPDIR)/sphopt-node.Tpo -c -o sphopt-node.obj `if test -f 'node.cpp'; then $(CYGPATH_W) 'node.cpp'; else $(CYGPATH_W) '$(srcdir)/node.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-node.Tpo $(DEPDIR)/sphopt-node.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='node.cpp' object='sphopt-node.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-node.obj `if test -f 'node.cpp'; then $(CYGPATH_W) 'node.cpp'; else $(CYGPATH_W) '$(srcdir)/node.cpp'; fi`
+
+sphopt-observer.o: observer.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-observer.o -MD -MP -MF $(DEPDIR)/sphopt-observer.Tpo -c -o sphopt-observer.o `test -f 'observer.cpp' || echo '$(srcdir)/'`observer.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-observer.Tpo $(DEPDIR)/sphopt-observer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='observer.cpp' object='sphopt-observer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-observer.o `test -f 'observer.cpp' || echo '$(srcdir)/'`observer.cpp
+
+sphopt-observer.obj: observer.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-observer.obj -MD -MP -MF $(DEPDIR)/sphopt-observer.Tpo -c -o sphopt-observer.obj `if test -f 'observer.cpp'; then $(CYGPATH_W) 'observer.cpp'; else $(CYGPATH_W) '$(srcdir)/observer.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-observer.Tpo $(DEPDIR)/sphopt-observer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='observer.cpp' object='sphopt-observer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-observer.obj `if test -f 'observer.cpp'; then $(CYGPATH_W) 'observer.cpp'; else $(CYGPATH_W) '$(srcdir)/observer.cpp'; fi`
+
+sphopt-output.o: output.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-output.o -MD -MP -MF $(DEPDIR)/sphopt-output.Tpo -c -o sphopt-output.o `test -f 'output.cpp' || echo '$(srcdir)/'`output.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-output.Tpo $(DEPDIR)/sphopt-output.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='output.cpp' object='sphopt-output.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-output.o `test -f 'output.cpp' || echo '$(srcdir)/'`output.cpp
+
+sphopt-output.obj: output.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-output.obj -MD -MP -MF $(DEPDIR)/sphopt-output.Tpo -c -o sphopt-output.obj `if test -f 'output.cpp'; then $(CYGPATH_W) 'output.cpp'; else $(CYGPATH_W) '$(srcdir)/output.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-output.Tpo $(DEPDIR)/sphopt-output.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='output.cpp' object='sphopt-output.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-output.obj `if test -f 'output.cpp'; then $(CYGPATH_W) 'output.cpp'; else $(CYGPATH_W) '$(srcdir)/output.cpp'; fi`
+
+sphopt-outputstream.o: outputstream.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-outputstream.o -MD -MP -MF $(DEPDIR)/sphopt-outputstream.Tpo -c -o sphopt-outputstream.o `test -f 'outputstream.cpp' || echo '$(srcdir)/'`outputstream.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-outputstream.Tpo $(DEPDIR)/sphopt-outputstream.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='outputstream.cpp' object='sphopt-outputstream.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-outputstream.o `test -f 'outputstream.cpp' || echo '$(srcdir)/'`outputstream.cpp
+
+sphopt-outputstream.obj: outputstream.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-outputstream.obj -MD -MP -MF $(DEPDIR)/sphopt-outputstream.Tpo -c -o sphopt-outputstream.obj `if test -f 'outputstream.cpp'; then $(CYGPATH_W) 'outputstream.cpp'; else $(CYGPATH_W) '$(srcdir)/outputstream.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-outputstream.Tpo $(DEPDIR)/sphopt-outputstream.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='outputstream.cpp' object='sphopt-outputstream.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-outputstream.obj `if test -f 'outputstream.cpp'; then $(CYGPATH_W) 'outputstream.cpp'; else $(CYGPATH_W) '$(srcdir)/outputstream.cpp'; fi`
+
+sphopt-particle.o: particle.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-particle.o -MD -MP -MF $(DEPDIR)/sphopt-particle.Tpo -c -o sphopt-particle.o `test -f 'particle.cpp' || echo '$(srcdir)/'`particle.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-particle.Tpo $(DEPDIR)/sphopt-particle.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='particle.cpp' object='sphopt-particle.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-particle.o `test -f 'particle.cpp' || echo '$(srcdir)/'`particle.cpp
+
+sphopt-particle.obj: particle.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-particle.obj -MD -MP -MF $(DEPDIR)/sphopt-particle.Tpo -c -o sphopt-particle.obj `if test -f 'particle.cpp'; then $(CYGPATH_W) 'particle.cpp'; else $(CYGPATH_W) '$(srcdir)/particle.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-particle.Tpo $(DEPDIR)/sphopt-particle.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='particle.cpp' object='sphopt-particle.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-particle.obj `if test -f 'particle.cpp'; then $(CYGPATH_W) 'particle.cpp'; else $(CYGPATH_W) '$(srcdir)/particle.cpp'; fi`
+
+sphopt-particlemanager.o: particlemanager.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-particlemanager.o -MD -MP -MF $(DEPDIR)/sphopt-particlemanager.Tpo -c -o sphopt-particlemanager.o `test -f 'particlemanager.cpp' || echo '$(srcdir)/'`particlemanager.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-particlemanager.Tpo $(DEPDIR)/sphopt-particlemanager.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='particlemanager.cpp' object='sphopt-particlemanager.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-particlemanager.o `test -f 'particlemanager.cpp' || echo '$(srcdir)/'`particlemanager.cpp
+
+sphopt-particlemanager.obj: particlemanager.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-particlemanager.obj -MD -MP -MF $(DEPDIR)/sphopt-particlemanager.Tpo -c -o sphopt-particlemanager.obj `if test -f 'particlemanager.cpp'; then $(CYGPATH_W) 'particlemanager.cpp'; else $(CYGPATH_W) '$(srcdir)/particlemanager.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-particlemanager.Tpo $(DEPDIR)/sphopt-particlemanager.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='particlemanager.cpp' object='sphopt-particlemanager.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-particlemanager.obj `if test -f 'particlemanager.cpp'; then $(CYGPATH_W) 'particlemanager.cpp'; else $(CYGPATH_W) '$(srcdir)/particlemanager.cpp'; fi`
+
+sphopt-polymerdatacollector.o: polymerdatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-polymerdatacollector.o -MD -MP -MF $(DEPDIR)/sphopt-polymerdatacollector.Tpo -c -o sphopt-polymerdatacollector.o `test -f 'polymerdatacollector.cpp' || echo '$(srcdir)/'`polymerdatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-polymerdatacollector.Tpo $(DEPDIR)/sphopt-polymerdatacollector.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='polymerdatacollector.cpp' object='sphopt-polymerdatacollector.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-polymerdatacollector.o `test -f 'polymerdatacollector.cpp' || echo '$(srcdir)/'`polymerdatacollector.cpp
+
+sphopt-polymerdatacollector.obj: polymerdatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-polymerdatacollector.obj -MD -MP -MF $(DEPDIR)/sphopt-polymerdatacollector.Tpo -c -o sphopt-polymerdatacollector.obj `if test -f 'polymerdatacollector.cpp'; then $(CYGPATH_W) 'polymerdatacollector.cpp'; else $(CYGPATH_W) '$(srcdir)/polymerdatacollector.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-polymerdatacollector.Tpo $(DEPDIR)/sphopt-polymerdatacollector.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='polymerdatacollector.cpp' object='sphopt-polymerdatacollector.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-polymerdatacollector.obj `if test -f 'polymerdatacollector.cpp'; then $(CYGPATH_W) 'polymerdatacollector.cpp'; else $(CYGPATH_W) '$(srcdir)/polymerdatacollector.cpp'; fi`
+
+sphopt-polymerinteraction.o: polymerinteraction.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-polymerinteraction.o -MD -MP -MF $(DEPDIR)/sphopt-polymerinteraction.Tpo -c -o sphopt-polymerinteraction.o `test -f 'polymerinteraction.cpp' || echo '$(srcdir)/'`polymerinteraction.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-polymerinteraction.Tpo $(DEPDIR)/sphopt-polymerinteraction.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='polymerinteraction.cpp' object='sphopt-polymerinteraction.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-polymerinteraction.o `test -f 'polymerinteraction.cpp' || echo '$(srcdir)/'`polymerinteraction.cpp
+
+sphopt-polymerinteraction.obj: polymerinteraction.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-polymerinteraction.obj -MD -MP -MF $(DEPDIR)/sphopt-polymerinteraction.Tpo -c -o sphopt-polymerinteraction.obj `if test -f 'polymerinteraction.cpp'; then $(CYGPATH_W) 'polymerinteraction.cpp'; else $(CYGPATH_W) '$(srcdir)/polymerinteraction.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-polymerinteraction.Tpo $(DEPDIR)/sphopt-polymerinteraction.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='polymerinteraction.cpp' object='sphopt-polymerinteraction.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-polymerinteraction.obj `if test -f 'polymerinteraction.cpp'; then $(CYGPATH_W) 'polymerinteraction.cpp'; else $(CYGPATH_W) '$(srcdir)/polymerinteraction.cpp'; fi`
+
+sphopt-polymerparticle.o: polymerparticle.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-polymerparticle.o -MD -MP -MF $(DEPDIR)/sphopt-polymerparticle.Tpo -c -o sphopt-polymerparticle.o `test -f 'polymerparticle.cpp' || echo '$(srcdir)/'`polymerparticle.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-polymerparticle.Tpo $(DEPDIR)/sphopt-polymerparticle.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='polymerparticle.cpp' object='sphopt-polymerparticle.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-polymerparticle.o `test -f 'polymerparticle.cpp' || echo '$(srcdir)/'`polymerparticle.cpp
+
+sphopt-polymerparticle.obj: polymerparticle.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-polymerparticle.obj -MD -MP -MF $(DEPDIR)/sphopt-polymerparticle.Tpo -c -o sphopt-polymerparticle.obj `if test -f 'polymerparticle.cpp'; then $(CYGPATH_W) 'polymerparticle.cpp'; else $(CYGPATH_W) '$(srcdir)/polymerparticle.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-polymerparticle.Tpo $(DEPDIR)/sphopt-polymerparticle.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='polymerparticle.cpp' object='sphopt-polymerparticle.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-polymerparticle.obj `if test -f 'polymerparticle.cpp'; then $(CYGPATH_W) 'polymerparticle.cpp'; else $(CYGPATH_W) '$(srcdir)/polymerparticle.cpp'; fi`
+
+sphopt-quinticspline.o: quinticspline.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-quinticspline.o -MD -MP -MF $(DEPDIR)/sphopt-quinticspline.Tpo -c -o sphopt-quinticspline.o `test -f 'quinticspline.cpp' || echo '$(srcdir)/'`quinticspline.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-quinticspline.Tpo $(DEPDIR)/sphopt-quinticspline.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='quinticspline.cpp' object='sphopt-quinticspline.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-quinticspline.o `test -f 'quinticspline.cpp' || echo '$(srcdir)/'`quinticspline.cpp
+
+sphopt-quinticspline.obj: quinticspline.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-quinticspline.obj -MD -MP -MF $(DEPDIR)/sphopt-quinticspline.Tpo -c -o sphopt-quinticspline.obj `if test -f 'quinticspline.cpp'; then $(CYGPATH_W) 'quinticspline.cpp'; else $(CYGPATH_W) '$(srcdir)/quinticspline.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-quinticspline.Tpo $(DEPDIR)/sphopt-quinticspline.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='quinticspline.cpp' object='sphopt-quinticspline.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-quinticspline.obj `if test -f 'quinticspline.cpp'; then $(CYGPATH_W) 'quinticspline.cpp'; else $(CYGPATH_W) '$(srcdir)/quinticspline.cpp'; fi`
+
+sphopt-reflection.o: reflection.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-reflection.o -MD -MP -MF $(DEPDIR)/sphopt-reflection.Tpo -c -o sphopt-reflection.o `test -f 'reflection.cpp' || echo '$(srcdir)/'`reflection.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-reflection.Tpo $(DEPDIR)/sphopt-reflection.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='reflection.cpp' object='sphopt-reflection.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-reflection.o `test -f 'reflection.cpp' || echo '$(srcdir)/'`reflection.cpp
+
+sphopt-reflection.obj: reflection.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-reflection.obj -MD -MP -MF $(DEPDIR)/sphopt-reflection.Tpo -c -o sphopt-reflection.obj `if test -f 'reflection.cpp'; then $(CYGPATH_W) 'reflection.cpp'; else $(CYGPATH_W) '$(srcdir)/reflection.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-reflection.Tpo $(DEPDIR)/sphopt-reflection.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='reflection.cpp' object='sphopt-reflection.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-reflection.obj `if test -f 'reflection.cpp'; then $(CYGPATH_W) 'reflection.cpp'; else $(CYGPATH_W) '$(srcdir)/reflection.cpp'; fi`
+
+sphopt-rgdatacollector.o: rgdatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-rgdatacollector.o -MD -MP -MF $(DEPDIR)/sphopt-rgdatacollector.Tpo -c -o sphopt-rgdatacollector.o `test -f 'rgdatacollector.cpp' || echo '$(srcdir)/'`rgdatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-rgdatacollector.Tpo $(DEPDIR)/sphopt-rgdatacollector.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='rgdatacollector.cpp' object='sphopt-rgdatacollector.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-rgdatacollector.o `test -f 'rgdatacollector.cpp' || echo '$(srcdir)/'`rgdatacollector.cpp
+
+sphopt-rgdatacollector.obj: rgdatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-rgdatacollector.obj -MD -MP -MF $(DEPDIR)/sphopt-rgdatacollector.Tpo -c -o sphopt-rgdatacollector.obj `if test -f 'rgdatacollector.cpp'; then $(CYGPATH_W) 'rgdatacollector.cpp'; else $(CYGPATH_W) '$(srcdir)/rgdatacollector.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-rgdatacollector.Tpo $(DEPDIR)/sphopt-rgdatacollector.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='rgdatacollector.cpp' object='sphopt-rgdatacollector.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-rgdatacollector.obj `if test -f 'rgdatacollector.cpp'; then $(CYGPATH_W) 'rgdatacollector.cpp'; else $(CYGPATH_W) '$(srcdir)/rgdatacollector.cpp'; fi`
+
+sphopt-safeoutputstream.o: safeoutputstream.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-safeoutputstream.o -MD -MP -MF $(DEPDIR)/sphopt-safeoutputstream.Tpo -c -o sphopt-safeoutputstream.o `test -f 'safeoutputstream.cpp' || echo '$(srcdir)/'`safeoutputstream.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-safeoutputstream.Tpo $(DEPDIR)/sphopt-safeoutputstream.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='safeoutputstream.cpp' object='sphopt-safeoutputstream.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-safeoutputstream.o `test -f 'safeoutputstream.cpp' || echo '$(srcdir)/'`safeoutputstream.cpp
+
+sphopt-safeoutputstream.obj: safeoutputstream.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-safeoutputstream.obj -MD -MP -MF $(DEPDIR)/sphopt-safeoutputstream.Tpo -c -o sphopt-safeoutputstream.obj `if test -f 'safeoutputstream.cpp'; then $(CYGPATH_W) 'safeoutputstream.cpp'; else $(CYGPATH_W) '$(srcdir)/safeoutputstream.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-safeoutputstream.Tpo $(DEPDIR)/sphopt-safeoutputstream.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='safeoutputstream.cpp' object='sphopt-safeoutputstream.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-safeoutputstream.obj `if test -f 'safeoutputstream.cpp'; then $(CYGPATH_W) 'safeoutputstream.cpp'; else $(CYGPATH_W) '$(srcdir)/safeoutputstream.cpp'; fi`
+
+sphopt-simpledatacollector.o: simpledatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-simpledatacollector.o -MD -MP -MF $(DEPDIR)/sphopt-simpledatacollector.Tpo -c -o sphopt-simpledatacollector.o `test -f 'simpledatacollector.cpp' || echo '$(srcdir)/'`simpledatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-simpledatacollector.Tpo $(DEPDIR)/sphopt-simpledatacollector.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='simpledatacollector.cpp' object='sphopt-simpledatacollector.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-simpledatacollector.o `test -f 'simpledatacollector.cpp' || echo '$(srcdir)/'`simpledatacollector.cpp
+
+sphopt-simpledatacollector.obj: simpledatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-simpledatacollector.obj -MD -MP -MF $(DEPDIR)/sphopt-simpledatacollector.Tpo -c -o sphopt-simpledatacollector.obj `if test -f 'simpledatacollector.cpp'; then $(CYGPATH_W) 'simpledatacollector.cpp'; else $(CYGPATH_W) '$(srcdir)/simpledatacollector.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-simpledatacollector.Tpo $(DEPDIR)/sphopt-simpledatacollector.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='simpledatacollector.cpp' object='sphopt-simpledatacollector.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-simpledatacollector.obj `if test -f 'simpledatacollector.cpp'; then $(CYGPATH_W) 'simpledatacollector.cpp'; else $(CYGPATH_W) '$(srcdir)/simpledatacollector.cpp'; fi`
+
+sphopt-simpleparticlecommand.o: simpleparticlecommand.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-simpleparticlecommand.o -MD -MP -MF $(DEPDIR)/sphopt-simpleparticlecommand.Tpo -c -o sphopt-simpleparticlecommand.o `test -f 'simpleparticlecommand.cpp' || echo '$(srcdir)/'`simpleparticlecommand.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-simpleparticlecommand.Tpo $(DEPDIR)/sphopt-simpleparticlecommand.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='simpleparticlecommand.cpp' object='sphopt-simpleparticlecommand.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-simpleparticlecommand.o `test -f 'simpleparticlecommand.cpp' || echo '$(srcdir)/'`simpleparticlecommand.cpp
+
+sphopt-simpleparticlecommand.obj: simpleparticlecommand.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-simpleparticlecommand.obj -MD -MP -MF $(DEPDIR)/sphopt-simpleparticlecommand.Tpo -c -o sphopt-simpleparticlecommand.obj `if test -f 'simpleparticlecommand.cpp'; then $(CYGPATH_W) 'simpleparticlecommand.cpp'; else $(CYGPATH_W) '$(srcdir)/simpleparticlecommand.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-simpleparticlecommand.Tpo $(DEPDIR)/sphopt-simpleparticlecommand.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='simpleparticlecommand.cpp' object='sphopt-simpleparticlecommand.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-simpleparticlecommand.obj `if test -f 'simpleparticlecommand.cpp'; then $(CYGPATH_W) 'simpleparticlecommand.cpp'; else $(CYGPATH_W) '$(srcdir)/simpleparticlecommand.cpp'; fi`
+
+sphopt-simplepolymercreator.o: simplepolymercreator.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-simplepolymercreator.o -MD -MP -MF $(DEPDIR)/sphopt-simplepolymercreator.Tpo -c -o sphopt-simplepolymercreator.o `test -f 'simplepolymercreator.cpp' || echo '$(srcdir)/'`simplepolymercreator.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-simplepolymercreator.Tpo $(DEPDIR)/sphopt-simplepolymercreator.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='simplepolymercreator.cpp' object='sphopt-simplepolymercreator.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-simplepolymercreator.o `test -f 'simplepolymercreator.cpp' || echo '$(srcdir)/'`simplepolymercreator.cpp
+
+sphopt-simplepolymercreator.obj: simplepolymercreator.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-simplepolymercreator.obj -MD -MP -MF $(DEPDIR)/sphopt-simplepolymercreator.Tpo -c -o sphopt-simplepolymercreator.obj `if test -f 'simplepolymercreator.cpp'; then $(CYGPATH_W) 'simplepolymercreator.cpp'; else $(CYGPATH_W) '$(srcdir)/simplepolymercreator.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-simplepolymercreator.Tpo $(DEPDIR)/sphopt-simplepolymercreator.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='simplepolymercreator.cpp' object='sphopt-simplepolymercreator.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-simplepolymercreator.obj `if test -f 'simplepolymercreator.cpp'; then $(CYGPATH_W) 'simplepolymercreator.cpp'; else $(CYGPATH_W) '$(srcdir)/simplepolymercreator.cpp'; fi`
+
+sphopt-subject.o: subject.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-subject.o -MD -MP -MF $(DEPDIR)/sphopt-subject.Tpo -c -o sphopt-subject.o `test -f 'subject.cpp' || echo '$(srcdir)/'`subject.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-subject.Tpo $(DEPDIR)/sphopt-subject.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='subject.cpp' object='sphopt-subject.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-subject.o `test -f 'subject.cpp' || echo '$(srcdir)/'`subject.cpp
+
+sphopt-subject.obj: subject.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-subject.obj -MD -MP -MF $(DEPDIR)/sphopt-subject.Tpo -c -o sphopt-subject.obj `if test -f 'subject.cpp'; then $(CYGPATH_W) 'subject.cpp'; else $(CYGPATH_W) '$(srcdir)/subject.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-subject.Tpo $(DEPDIR)/sphopt-subject.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='subject.cpp' object='sphopt-subject.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-subject.obj `if test -f 'subject.cpp'; then $(CYGPATH_W) 'subject.cpp'; else $(CYGPATH_W) '$(srcdir)/subject.cpp'; fi`
+
+sphopt-textoutputstream.o: textoutputstream.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-textoutputstream.o -MD -MP -MF $(DEPDIR)/sphopt-textoutputstream.Tpo -c -o sphopt-textoutputstream.o `test -f 'textoutputstream.cpp' || echo '$(srcdir)/'`textoutputstream.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-textoutputstream.Tpo $(DEPDIR)/sphopt-textoutputstream.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='textoutputstream.cpp' object='sphopt-textoutputstream.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-textoutputstream.o `test -f 'textoutputstream.cpp' || echo '$(srcdir)/'`textoutputstream.cpp
+
+sphopt-textoutputstream.obj: textoutputstream.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-textoutputstream.obj -MD -MP -MF $(DEPDIR)/sphopt-textoutputstream.Tpo -c -o sphopt-textoutputstream.obj `if test -f 'textoutputstream.cpp'; then $(CYGPATH_W) 'textoutputstream.cpp'; else $(CYGPATH_W) '$(srcdir)/textoutputstream.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-textoutputstream.Tpo $(DEPDIR)/sphopt-textoutputstream.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='textoutputstream.cpp' object='sphopt-textoutputstream.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-textoutputstream.obj `if test -f 'textoutputstream.cpp'; then $(CYGPATH_W) 'textoutputstream.cpp'; else $(CYGPATH_W) '$(srcdir)/textoutputstream.cpp'; fi`
+
+sphopt-timer.o: timer.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-timer.o -MD -MP -MF $(DEPDIR)/sphopt-timer.Tpo -c -o sphopt-timer.o `test -f 'timer.cpp' || echo '$(srcdir)/'`timer.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-timer.Tpo $(DEPDIR)/sphopt-timer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='timer.cpp' object='sphopt-timer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-timer.o `test -f 'timer.cpp' || echo '$(srcdir)/'`timer.cpp
+
+sphopt-timer.obj: timer.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-timer.obj -MD -MP -MF $(DEPDIR)/sphopt-timer.Tpo -c -o sphopt-timer.obj `if test -f 'timer.cpp'; then $(CYGPATH_W) 'timer.cpp'; else $(CYGPATH_W) '$(srcdir)/timer.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-timer.Tpo $(DEPDIR)/sphopt-timer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='timer.cpp' object='sphopt-timer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-timer.obj `if test -f 'timer.cpp'; then $(CYGPATH_W) 'timer.cpp'; else $(CYGPATH_W) '$(srcdir)/timer.cpp'; fi`
+
+sphopt-timesolver.o: timesolver.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-timesolver.o -MD -MP -MF $(DEPDIR)/sphopt-timesolver.Tpo -c -o sphopt-timesolver.o `test -f 'timesolver.cpp' || echo '$(srcdir)/'`timesolver.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-timesolver.Tpo $(DEPDIR)/sphopt-timesolver.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='timesolver.cpp' object='sphopt-timesolver.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-timesolver.o `test -f 'timesolver.cpp' || echo '$(srcdir)/'`timesolver.cpp
+
+sphopt-timesolver.obj: timesolver.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-timesolver.obj -MD -MP -MF $(DEPDIR)/sphopt-timesolver.Tpo -c -o sphopt-timesolver.obj `if test -f 'timesolver.cpp'; then $(CYGPATH_W) 'timesolver.cpp'; else $(CYGPATH_W) '$(srcdir)/timesolver.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-timesolver.Tpo $(DEPDIR)/sphopt-timesolver.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='timesolver.cpp' object='sphopt-timesolver.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-timesolver.obj `if test -f 'timesolver.cpp'; then $(CYGPATH_W) 'timesolver.cpp'; else $(CYGPATH_W) '$(srcdir)/timesolver.cpp'; fi`
+
+sphopt-torrgdatacollector.o: torrgdatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-torrgdatacollector.o -MD -MP -MF $(DEPDIR)/sphopt-torrgdatacollector.Tpo -c -o sphopt-torrgdatacollector.o `test -f 'torrgdatacollector.cpp' || echo '$(srcdir)/'`torrgdatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-torrgdatacollector.Tpo $(DEPDIR)/sphopt-torrgdatacollector.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='torrgdatacollector.cpp' object='sphopt-torrgdatacollector.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-torrgdatacollector.o `test -f 'torrgdatacollector.cpp' || echo '$(srcdir)/'`torrgdatacollector.cpp
+
+sphopt-torrgdatacollector.obj: torrgdatacollector.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-torrgdatacollector.obj -MD -MP -MF $(DEPDIR)/sphopt-torrgdatacollector.Tpo -c -o sphopt-torrgdatacollector.obj `if test -f 'torrgdatacollector.cpp'; then $(CYGPATH_W) 'torrgdatacollector.cpp'; else $(CYGPATH_W) '$(srcdir)/torrgdatacollector.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-torrgdatacollector.Tpo $(DEPDIR)/sphopt-torrgdatacollector.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='torrgdatacollector.cpp' object='sphopt-torrgdatacollector.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-torrgdatacollector.obj `if test -f 'torrgdatacollector.cpp'; then $(CYGPATH_W) 'torrgdatacollector.cpp'; else $(CYGPATH_W) '$(srcdir)/torrgdatacollector.cpp'; fi`
+
+sphopt-vec2d.o: vec2d.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-vec2d.o -MD -MP -MF $(DEPDIR)/sphopt-vec2d.Tpo -c -o sphopt-vec2d.o `test -f 'vec2d.cpp' || echo '$(srcdir)/'`vec2d.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-vec2d.Tpo $(DEPDIR)/sphopt-vec2d.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='vec2d.cpp' object='sphopt-vec2d.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-vec2d.o `test -f 'vec2d.cpp' || echo '$(srcdir)/'`vec2d.cpp
+
+sphopt-vec2d.obj: vec2d.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-vec2d.obj -MD -MP -MF $(DEPDIR)/sphopt-vec2d.Tpo -c -o sphopt-vec2d.obj `if test -f 'vec2d.cpp'; then $(CYGPATH_W) 'vec2d.cpp'; else $(CYGPATH_W) '$(srcdir)/vec2d.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-vec2d.Tpo $(DEPDIR)/sphopt-vec2d.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='vec2d.cpp' object='sphopt-vec2d.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-vec2d.obj `if test -f 'vec2d.cpp'; then $(CYGPATH_W) 'vec2d.cpp'; else $(CYGPATH_W) '$(srcdir)/vec2d.cpp'; fi`
+
+sphopt-wiener.o: wiener.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-wiener.o -MD -MP -MF $(DEPDIR)/sphopt-wiener.Tpo -c -o sphopt-wiener.o `test -f 'wiener.cpp' || echo '$(srcdir)/'`wiener.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-wiener.Tpo $(DEPDIR)/sphopt-wiener.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='wiener.cpp' object='sphopt-wiener.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-wiener.o `test -f 'wiener.cpp' || echo '$(srcdir)/'`wiener.cpp
+
+sphopt-wiener.obj: wiener.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-wiener.obj -MD -MP -MF $(DEPDIR)/sphopt-wiener.Tpo -c -o sphopt-wiener.obj `if test -f 'wiener.cpp'; then $(CYGPATH_W) 'wiener.cpp'; else $(CYGPATH_W) '$(srcdir)/wiener.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-wiener.Tpo $(DEPDIR)/sphopt-wiener.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='wiener.cpp' object='sphopt-wiener.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-wiener.obj `if test -f 'wiener.cpp'; then $(CYGPATH_W) 'wiener.cpp'; else $(CYGPATH_W) '$(srcdir)/wiener.cpp'; fi`
+
+sphopt-sphopt.o: sphopt.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-sphopt.o -MD -MP -MF $(DEPDIR)/sphopt-sphopt.Tpo -c -o sphopt-sphopt.o `test -f 'sphopt.cpp' || echo '$(srcdir)/'`sphopt.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-sphopt.Tpo $(DEPDIR)/sphopt-sphopt.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='sphopt.cpp' object='sphopt-sphopt.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-sphopt.o `test -f 'sphopt.cpp' || echo '$(srcdir)/'`sphopt.cpp
+
+sphopt-sphopt.obj: sphopt.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sphopt-sphopt.obj -MD -MP -MF $(DEPDIR)/sphopt-sphopt.Tpo -c -o sphopt-sphopt.obj `if test -f 'sphopt.cpp'; then $(CYGPATH_W) 'sphopt.cpp'; else $(CYGPATH_W) '$(srcdir)/sphopt.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/sphopt-sphopt.Tpo $(DEPDIR)/sphopt-sphopt.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='sphopt.cpp' object='sphopt-sphopt.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(sphopt_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sphopt-sphopt.obj `if test -f 'sphopt.cpp'; then $(CYGPATH_W) 'sphopt.cpp'; else $(CYGPATH_W) '$(srcdir)/sphopt.cpp'; fi`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -702,6 +1366,9 @@ uninstall-am: uninstall-binPROGRAMS
 	ps ps-am tags tags-am uninstall uninstall-am \
 	uninstall-binPROGRAMS
 
+
+#sphopt_LDADD=$(GSL_LIBS)
+#	$(BOOST_PROGRAM_OPTIONS_LIB) $(BOOST_LDFLAGS)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

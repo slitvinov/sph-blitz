@@ -11,7 +11,6 @@ AC_CONFIG_HEADER([config.h])
 
 # Checks for programs.
 AC_PROG_CXX
-AC_PROG_CC
 
 # Checks for libraries.
 
@@ -32,14 +31,19 @@ AC_FUNC_STRTOD
 #Test for program options library from the Boost C++ libraries
 AX_BOOST_BASE([1.33])
 AX_BOOST_PROGRAM_OPTIONS
+CPPFLAGS="$BOOST_CPPFLAGS $CPPFLAGS"
+LDFLAGS="$BOOST_LDFLAGS $LDFLAGS"
+LIBS="$LIBS -lnetcdf_c++ $BOOST_PROGRAM_OPTIONS_LIB"
 
 GSLVERSION=1.2
 AM_PATH_GSL($GSLVERSION,,
             AC_MSG_ERROR([need to have at least GNU scientific library $GSLVERSION installed]))
+CPPFLAGS="$BOOST_CPPFLAGS $CPPFLAGS"
+LIBS="$GSL_LIBS $LIBS"
 
 AC_CHECK_NETCDF(
   [
-       LIBS="$LIBS $NC_LIBS"
+       LIBS="$LIBS -lnetcdf_c++ $NC_LIBS"
        LDFLAGS="$LDFLAGS $NC_LDFLAGS"
        CPPFLAGS="$CPPFLAGS $NC_CPPFLAGS"
    ],
@@ -51,6 +55,4 @@ AC_CHECK_NETCDF(
    ]
 )
 
-
-AC_CONFIG_FILES([Makefile src/Makefile])
-AC_OUTPUT
+AC_OUTPUT(Makefile src/Makefile)
