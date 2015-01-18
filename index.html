@@ -154,14 +154,14 @@ Preparing and Runnig simulations</h2>
 <td>q1Dshock.tcl </td><td>q1DshockSpaceConst.ivs,<br/>
  q1DshockMConst.ivs </td><td>&ndash;   </td></tr>
 <tr>
-<td>1DOscillation.tcl </td><td>1DOscillation.ivs </td><td>uncomment line 158 in <a class="el" href="sph_8cpp.html">sph.cpp</a> for mass calculation   </td></tr>
+<td>1DOscillation.tcl </td><td>1DOscillation.ivs </td><td>see <a class="el" href="sph_8cpp.html">sph.cpp</a> for mass calculation   </td></tr>
 <tr>
 <td>1DTravelingWave.tcl </td><td>1DTravelingWave.ivs </td><td><ul>
 <li>
 concerning artificial viscosity:c.f footnote under table <br/>
  </li>
 <li>
-uncomment line 158 in <a class="el" href="sph_8cpp.html">sph.cpp</a> for mass calculation </li>
+see <a class="el" href="sph_8cpp.html">sph.cpp</a> for mass calculation </li>
 </ul>
 </td></tr>
 <tr>
@@ -170,14 +170,14 @@ uncomment line 158 in <a class="el" href="sph_8cpp.html">sph.cpp</a> for mass ca
 concerning artificial viscosity:c.f footnote under table <br/>
  </li>
 <li>
-uncomment line 158 in <a class="el" href="sph_8cpp.html">sph.cpp</a> for mass calculation </li>
+for mass calculation </li>
 <li>
-uncomment line 71-81 in Timesolver/gastimesolverLeapfrog.cpp for moving wall </li>
+see Timesolver/gastimesolverLeapfrog.cpp for moving wall </li>
 </ul>
 <p class="endtd"></p>
 </td></tr>
 </table>
-<p>Note: as artificial viscosity is implemented and only turned on for approaching particles (as recommended for shock tube in literature), the traveling waves are distorded. To get rid of this effect one would have to turn on art. visc. globally (<a class="el" href="interaction_8cpp.html">interaction.cpp</a>, line 159, if-statement,e.g. change to if(-1&lt;0) ). A simulation without any art. visc. is not (physically) stable as the SPH code does not introduce any intrinsic numerical dissipation</p>
+<p>Note: A simulation without any art. visc. is not (physically) stable as the SPH code does not introduce any intrinsic numerical dissipation</p>
 <p class="endli"></p>
 </li>
 </ol>
@@ -233,7 +233,7 @@ sph-blitz/results/ShockTubeTestCase/1DpartDist_constMass_LeapFrog_sumDes <br/>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 18 2015 17:52:26 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 18 2015 17:54:17 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
