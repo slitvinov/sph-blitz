@@ -30,8 +30,8 @@
 <area shape="rect" id="node26" href="$interactionin_8h_source.html" title="Interaction/interactionin.h" alt="" coords="1398,163,1564,189"/>
 <area shape="rect" id="node27" href="$interactions1_8h_source.html" title="Interaction/interactions1.h" alt="" coords="1590,163,1760,189"/>
 <area shape="rect" id="node29" href="$solidcontext_8h_source.html" title="ParticleContext/solidcontext.h" alt="" coords="1785,163,1978,189"/>
-<area shape="rect" id="node30" href="$nocontext_8h.html" title="define dummy context for particles " alt="" coords="2054,163,2234,189"/>
-<area shape="rect" id="node31" href="$rotcontext_8h.html" title="define rotating object " alt="" coords="879,163,1060,189"/>
+<area shape="rect" id="node30" href="$nocontext_8h.html" title="define dummy context for particles Particle moves with prescribed velocity " alt="" coords="2054,163,2234,189"/>
+<area shape="rect" id="node31" href="$rotcontext_8h.html" title="define rotating object A group of particles rotates as a rigid body. " alt="" coords="879,163,1060,189"/>
 <area shape="rect" id="node33" href="$gastimesolverLeapFrog_8h.html" title="Time solver class. " alt="" coords="3148,155,3322,197"/>
 <area shape="rect" id="node34" href="$gastimesolverPredCorr_8h.html" title="Time solver class. " alt="" coords="2951,155,3124,197"/>
 <area shape="rect" id="node35" href="$hydrotimesolver_8h.html" title="Time solver class. " alt="" coords="3797,163,3990,189"/>

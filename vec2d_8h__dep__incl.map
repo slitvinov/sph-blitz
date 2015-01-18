@@ -34,6 +34,6 @@
 <area shape="rect" id="node29" href="$harmonic_8cpp.html" title="Kernel/harmonic.cpp" alt="" coords="2899,320,3039,347"/>
 <area shape="rect" id="node32" href="$quinticspline_8cpp.html" title="Kernel/quinticspline.cpp" alt="" coords="3063,320,3221,347"/>
 <area shape="rect" id="node35" href="$solidcontext_8h_source.html" title="ParticleContext/solidcontext.h" alt="" coords="1305,155,1497,181"/>
-<area shape="rect" id="node36" href="$nocontext_8h.html" title="define dummy context for particles " alt="" coords="1101,155,1280,181"/>
-<area shape="rect" id="node37" href="$rotcontext_8h.html" title="define rotating object " alt="" coords="1523,155,1704,181"/>
+<area shape="rect" id="node36" href="$nocontext_8h.html" title="define dummy context for particles Particle moves with prescribed velocity " alt="" coords="1101,155,1280,181"/>
+<area shape="rect" id="node37" href="$rotcontext_8h.html" title="define rotating object A group of particles rotates as a rigid body. " alt="" coords="1523,155,1704,181"/>
 </map>
