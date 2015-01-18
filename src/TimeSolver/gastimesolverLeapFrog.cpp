@@ -1,6 +1,7 @@
 /// \file gastimesolverLeapFrog.cpp
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-/// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
+/// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>,
+/// \author changes by: Sergey Litvinov <slitvinov@gmail.com>
 
 //-----------------------------------------------------------------------
 //			Time solver class
@@ -51,7 +52,7 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     
     ///<ul><li> call automatic time step control GasDyn or take manual dt (depending on preference specified in .tcl-file)
     double dt;//time step
-    if(ini.autom_dt_control==1)
+    if (ini.autom_dt_control==1)
       dt=hydro.GetTimestepGas(ini);
     else
       dt=ini.manually_choosen_dt;
@@ -79,19 +80,16 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     //   boundary.UxBl[0]=0.05916*sin(14.86873023*Time);
     // if(Time>=2.112885637-1e-7)
     //   boundary.UxBl[0]=0;
-   
-
     
     ///<li>screen information for the iteration
-    if(ite % 10 == 0) cout<<"N="<<ite<<" Time: " <<Time<<"	dt: "<<dt<<"\n";
-    if(ite!=1)
-      {
-	hydro.UpdateUe2Half(dt);
-	
-	if  (!ini.disable_boundary)//check if boundary disabled
-	  ///build the boundary particles
-	  boundary.BuildBoundaryParticle(particles,hydro);
-      }
+    if (ite % 10 == 0) cout<<"N="<<ite<<" Time: " <<Time<<"	dt: "<<dt<<"\n";
+    if (ite!=1) {
+      hydro.UpdateUe2Half(dt);
+      
+      if  (!ini.disable_boundary)//check if boundary disabled
+	///build the boundary particles
+	boundary.BuildBoundaryParticle(particles,hydro);
+    }
     ///build interactions
     hydro.BuildInteractions(particles, weight_function, ini);
     ///calculate density (by summation)
@@ -102,7 +100,7 @@ void GasTimeSolverLeapFrog::TimeIntegral_summation(Hydrodynamics &hydro, Particl
     ///calculate change rate
     hydro.UpdateChangeRate(ini);
     
-    if(ite==1)  
+    if (ite==1)  
       hydro.AdvanceFirstStep(dt);
     else 
       hydro.AdvanceStandardStep(dt);
@@ -128,7 +126,7 @@ void GasTimeSolverLeapFrog::TimeIntegral(Hydrodynamics &hydro, ParticleManager &
 
     ///<ul><li> call automatic time step control GasDyn or take manual dt (depending on preference specified in .tcl-file)
     double dt;//time step
-    if(ini.autom_dt_control==1)
+    if (ini.autom_dt_control==1)
       dt=hydro.GetTimestepGas(ini);
     else
       dt=ini.manually_choosen_dt;

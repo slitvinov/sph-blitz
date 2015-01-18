@@ -1,6 +1,7 @@
 ///\file harmonic.cpp
 ///\author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
+///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>,
+///\author changes by: Sergey Litvinov <slitvinov@gmail.com>
 
 //----------------------------------------------------------------------------------------
 //      A concrete kernel class
@@ -46,10 +47,10 @@ Harmonic::Harmonic(const double supportlength, const double harmonic_n)
 //----------------------------------------------------------------------------------------
 double Harmonic::w(const double distance) const {
   const double R= 2.0 * distance/ supportlength;
-  if(R>2.0) {
+  if (R>2.0) {
     return 0.0;
   }
-  else if(R==0.0) {
+  else if (R==0.0) {
     return norm;
   } else {
     const double aux  = pi*R/2.0;
@@ -72,7 +73,7 @@ double Harmonic::F(const double distance) const {
   if (R>2.0) {
     return 0.0;
   }
-  else if(R==0.0 ) {
+  else if (R==0.0 ) {
     return 0.0;
   } else {
     const double x  = pi*R/2.0;

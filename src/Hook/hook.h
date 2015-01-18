@@ -1,3 +1,6 @@
+/// \file hook.h
+/// \brief A hook class for particles' preparation
+
 #ifndef SRC_HOOK_HOOK
 #define SRC_HOOK_HOOK
 #include "src/glbtype.h"
@@ -5,6 +8,9 @@
 
 class Initiation;
 class Hydrodynamics;
+
+/// Use a hook to change particle velocity and position (for example
+/// to setupt Taylor-Green flow)
 class Hook {
 public: 
   Hook(Initiation& ini, Hydrodynamics& hydro);

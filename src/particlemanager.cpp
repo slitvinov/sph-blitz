@@ -1,6 +1,7 @@
 // particlemanager.cpp
 // author: Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-// changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
+// changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>,
+// \author changes by: Sergey Litvinov <slitvinov@gmail.com>
 
 //----------------------------------------------------------------------------------------
 //      Define 2-d vectors and associated operations
@@ -80,17 +81,17 @@ void ParticleManager::UpdateCellLinkedLists()
       while(p != cell_lists(i,j).end()) {
 	///<ul><li>check the position of the real particle
 	spParticle prtl = *p;
-	if(prtl->bd == 0) {
+	if (prtl->bd == 0) {
 	  //where is the particle
 	  const int k = int ((prtl->R[0] + cll_sz)/ cll_sz);
 	  const int m = int ((prtl->R[1] + cll_sz)/ cll_sz);
 				
 	  ///<ul><li>if the partilce runs out of the current cell
-	  if(k != i || m !=j) {
+	  if (k != i || m !=j) {
 	    ///<ul><li>delete the current node
 	      p = cell_lists(i,j).erase(p);
 	    ///<li>insert it to the new cell linked list</ul></ul></ul></ul>
-	    if(prtl->R[0]>=0.0 &&prtl->R[0]<=cll_sz*x_clls)
+	    if (prtl->R[0]>=0.0 &&prtl->R[0]<=cll_sz*x_clls)
 	      cell_lists(k,m).insert(cell_lists(k,m).begin(), prtl);
 	  } 
 	} 
@@ -117,7 +118,7 @@ std::list<spParticle> ParticleManager::BuildNNP(Vec2d &point)
     ///<li>loop on this and all surrounding cells
     for(int i = k - 1; i <= k + 1; i++) {
       for(int j = m - 1; j <= m + 1; j++) { 
-	if(i < x_clls && j < y_clls && i >= 0 && j >= 0) {
+	if (i < x_clls && j < y_clls && i >= 0 && j >= 0) {
 	  ///<ul><li>iterate this cell list
 	  for (std::list<spParticle >::const_iterator p = cell_lists(i,j).begin(); 
 	       p != cell_lists(i,j).end(); 
@@ -127,7 +128,7 @@ std::list<spParticle> ParticleManager::BuildNNP(Vec2d &point)
 	    ///and (if particle is NNP) insert the nearest particle to the list
 	    spParticle prtl = *p;
 	    const double dstc = v_distance(point, prtl->R);
-	    if(dstc < supportlength) {///<li>(line 137)
+	    if (dstc < supportlength) {///<li>(line 137)
 	      NNP_list.insert(NNP_list.begin(), prtl);
 	    }
 	  }
@@ -147,7 +148,7 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
   interactions.clear();
   ///<ul><li>iterate particles on the particle list
   BOOST_FOREACH(spParticle prtl_org, particle_list) {
-    if(prtl_org->bd == 0) {
+    if (prtl_org->bd == 0) {
       ///<li>find out where(in which cell) the particle is
       const int i = int ((prtl_org->R[0] + cll_sz)/ cll_sz);
       const int j = int ((prtl_org->R[1] + cll_sz)/ cll_sz);
@@ -160,7 +161,7 @@ void ParticleManager::BuildInteraction(std::list<spInteraction> &interactions,
 	    ///and destination particle (which is iterated)and if 
 	    ///interaction takes place: add pair to inetraction list 
 	    const double dstc = v_sq(prtl_org->R - prtl_dest->R);
-	    if( (dstc < supportlengthsquare) && (prtl_org->ID > prtl_dest->ID)) {
+	    if ( (dstc < supportlengthsquare) && (prtl_org->ID > prtl_dest->ID)) {
 	      switch (ini.simu_mode) {
 	      /// choose the type of interaction
 	      case 1: 
@@ -223,7 +224,7 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
 					Initiation &ini) {
   LOG(INFO) << "Start BuildRealParticle\n";
   //initialize particles from the file .tlc
-  if(initial_condition==0) {	
+  if (initial_condition==0) {	
     //initialize the real particles inside the boundary
     LOG(INFO) << "Run simu_mode = 1 (3, 4), initial_condition = 0 version of BuildRealParticle";
     ParticleGenerator pgen;
@@ -263,7 +264,7 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
   } /// initial_condition==0 condition
 	
   //initialize real particles from the non-dimensional restart file .rst
-  if(initial_condition==1) {	
+  if (initial_condition==1) {	
     //the restart file name
     const std::string inputfile = ini.Project_Name + ".rst";
     //check if the restart exist
@@ -294,8 +295,8 @@ void ParticleManager::BuildRealParticle(vecMaterial materials,
       //find the right material number
       int material_no = -1;
       for(int k = 0;  k <= ini.number_of_materials; k++) 
-	if(material_name == materials[k]->material_name) material_no = k;
-      if(material_no != -1) {	
+	if (material_name == materials[k]->material_name) material_no = k;
+      if (material_no != -1) {	
 	pressure = materials[material_no]->get_p(density);
 	spParticle prtl = boost::make_shared<Particle> ( position, velocity, density, pressure, Temperature, 
 							 materials[material_no]);

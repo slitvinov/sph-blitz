@@ -1,6 +1,7 @@
 /// \file output.cpp
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 /// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>,
+/// \author changes by: Sergey Litvinov <slitvinov@gmail.com>
 #include <fstream>
 #include <boost/foreach.hpp>
 #include <boost/format.hpp>
@@ -39,7 +40,7 @@ void TecplotOutput::OutputParticle(const Hydrodynamics &hydro, const Boundary &b
 
   ///<li>defining header for tecplot(plot software)
   out<<"title='particle position' \n";
-  if( ini.simu_mode==1)
+  if (ini.simu_mode==1)
     out<<"variables=x, y, Ux, Uy, Fx, Fy, contextID, rho\n";
   if (ini.simu_mode==2) {
     if (ini.splash_optimized_output==0)
@@ -57,11 +58,11 @@ void TecplotOutput::OutputParticle(const Hydrodynamics &hydro, const Boundary &b
       f++;
       assert(prtl != NULL);
       assert(prtl->mtl != NULL);
-      if(hydro.materials[i]->material_name == prtl->mtl->material_name) {
+      if (hydro.materials[i]->material_name == prtl->mtl->material_name) {
         j ++;
         a++;
-        if( ini.simu_mode == 1) {
-          if(j == 1)  {
+        if (ini.simu_mode == 1) {
+          if (j == 1)  {
             out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
           }
           out << prtl->R[0] << "  " << prtl->R[1]
@@ -99,25 +100,13 @@ void TecplotOutput::OutputParticle(const Hydrodynamics &hydro, const Boundary &b
 	}
       }
     }
-    // if(ini.simu_mode==2&&ini.splash_optimized_output==1) {
-    //   out<<endl;
-    //   out<<"Boudnary Particles"<<endl;
-    // }
 
     /// <li>iterate the boundary partilce list
     BOOST_FOREACH(spParticle prtl, boundary.boundary_particle_list) {
       g++;		
-      if(hydro.materials[i]->material_name == prtl->mtl->material_name) { 
+      if (hydro.materials[i]->material_name == prtl->mtl->material_name) { 
 	j ++;
 	b++;
-	if( ini.simu_mode == 1) {
-	  if(j == 1)  {
-	    //out<<"zone t='"<<hydro.materials[i]->material_name<<"' \n";
-	  }
-	  //out << prtl->R[0] << "  " << prtl->R[1]
-	  //    << "  " << prtl->U[0] << "  " << prtl->U[1]
-	  //    << "  " << prtl->rho << '\n';
-	}
 	if (ini.simu_mode == 2) {
 	  if (ini.splash_optimized_output==0)
 	    out<<setprecision(9)

@@ -1,6 +1,7 @@
 ///\file material.cpp
 ///\author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 ///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
+///\author changes by: Sergey Litvinov <slitvinov@gmail.com>
 
 //-------------------------------------------------------------------
 //				Define material properties
@@ -14,9 +15,6 @@
 
 using namespace std;
 
-//int Material::number_of_materials = 0;
-//double Material::supportlength = 0.0; //smoothinglenth
-//double Material::delta = 0.0; //smoothinglenth
 //----------------------------------------------------------------------------------------
 //					constructors
 //----------------------------------------------------------------------------------------
@@ -30,7 +28,7 @@ Material::Material(Initiation &ini, const int index):
   // b0 = ini.interp->getat("material_b0",  index);
   rho0 = ini.interp->getat("material_rho0",  index);
   sound_speed = ini.interp->getat("material_sound_speed",  index);
-  rho_ref = ini.interp->getat("material_rho_ref",  index);
+  rho_ref = ini.interp->getat("material_rho0",  index);
   eta = ini.interp->getat("material_eta",  index);
   if (ini.simu_mode == 2) {
     zeta = ini.interp->getat("material_zeta",  index);

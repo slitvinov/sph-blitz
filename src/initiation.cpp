@@ -1,6 +1,7 @@
 /// \file initiation.cpp
 /// \author author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
+// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>,
+/// \author changes by: Sergey Litvinov <slitvinov@gmail.com>
 //----------------------------------------------------------------------------------------
 //      initialize the progam
 //		initiation.cpp
@@ -117,7 +118,7 @@ Initiation::Initiation(const std::string& project_name, const std::string& ivs_f
     assert(artificial_viscosity_marker==0||artificial_viscosity_marker==1||artificial_viscosity_marker==2);
     autom_dt_control=interp->getval("AUTOMATIC_DT_CONTROL_MARKER");
     assert(autom_dt_control==0||autom_dt_control==1);
-    if(autom_dt_control==0)//if dt_auto turned out, take man. choosen dt
+    if (autom_dt_control==0)//if dt_auto turned out, take man. choosen dt
       manually_choosen_dt = interp->getval("manually_choosen_dt");
   }
   x_cells = interp->getat("CELLS", 0);

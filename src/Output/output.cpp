@@ -1,6 +1,7 @@
 /// \file output.cpp
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 /// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>,
+/// \author changes by: Sergey Litvinov <slitvinov@gmail.com>
 #include <fstream>
 #include <boost/foreach.hpp>
 #include <boost/format.hpp>
@@ -31,7 +32,7 @@ void Output::OutputRestart(const Hydrodynamics &hydro, const double Time, const 
   //calculate the real particle number
   int n = 0;
   BOOST_FOREACH(spParticle prtl, hydro.particle_list) {
-    if(prtl->bd == 0) n ++;
+    if (prtl->bd == 0) n++;
   }
 
   ///- out reinitiation Time

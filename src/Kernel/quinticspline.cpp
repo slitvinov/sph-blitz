@@ -1,6 +1,8 @@
 ///\file quinticspline.cpp
 ///\author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 ///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
+///\author changes by: Sergey Litvinov <slitvinov@gmail.com>
+
 
 //----------------------------------------------------------------------------------------
 //      A concrete kernel class

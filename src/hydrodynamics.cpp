@@ -1,6 +1,7 @@
 /// \file hydrodynamics.cpp
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 /// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>
+/// \author changes by: Sergey Litvinov <slitvinov@gmail.com>
 
 //-----------------------------------------------------------------------------------
 //      Define materials and their hydrodynamical interactions

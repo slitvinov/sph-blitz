@@ -1,6 +1,7 @@
 ///\file cubicspline.cpp
 ///\author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
+///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>,
+///\author changes by: Sergey Litvinov <slitvinov@gmail.com>
 
 //----------------------------------------------------------------------------------------
 //      A concrete kernel class
@@ -32,12 +33,12 @@ CubicSpline::CubicSpline(const double supportlength)
 double CubicSpline::w(const double distance) const
 {
   const double R= 2.0 * distance/ supportlength;
-  if(R>2.0)
+  if (R>2.0)
     {
       //support of 4h (supportlength =2h, h=0.015), everything beyond is zero
       return 0.0;
     }
-  else if(R>1.0) {
+  else if (R>1.0) {
     const double s2 = 2.0 - R;
     return norm * s2 * s2 * s2 ;
   }
@@ -67,7 +68,7 @@ double CubicSpline::F(const double distance) const
     //support of 4h, everything beyond is zero    
     return 0.0;
   }
-  else if(R>1.0 ) {
+  else if (R>1.0 ) {
     const double s2 = 2.0 - R;
     return/*minus inserted!!! */ - factorGradW * ( 3.0 * s2*s2);
   } else  {

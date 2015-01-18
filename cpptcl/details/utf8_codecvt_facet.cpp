@@ -104,7 +104,7 @@ std::codecvt_base::result utf8_codecvt_facet::do_in(
     to_next = to;
 
     // Were we done converting or did we run out of destination space?
-    if(from == from_end) return std::codecvt_base::ok;
+    if (from == from_end) return std::codecvt_base::ok;
     else return std::codecvt_base::partial;
 }
 
@@ -154,7 +154,7 @@ std::codecvt_base::result utf8_codecvt_facet::do_out(
             ++i;
         }
         // If   we filled up the out buffer before encoding the character
-        if(to   == to_end && i != cont_octet_count) {
+        if (to   == to_end && i != cont_octet_count) {
             from_next = from;
             to_next = to - (i+1);
             return std::codecvt_base::partial;

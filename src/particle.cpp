@@ -1,6 +1,6 @@
 ///\file particle.cpp
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-/// \author changes by: 
+/// \author changes by: Sergey Litvinov <slitvinov@gmail.com>
 
 //-------------------------------------------------------------------
 //				Particle data type definition

@@ -1,5 +1,6 @@
 /// \file glbfunc.h
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
+/// \author changes by: Sergey Litvinov <slitvinov@gmail.com>
 #ifndef GLBFUNC_H
 #define GLBFUNC_H
 

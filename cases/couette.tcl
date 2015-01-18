@@ -63,7 +63,7 @@ set G_FORCE(1) 0.0
 
 
 set Start_time 0.0
-set End_time 1.0
+set End_time 1e-6
 # time between output
 set D_time 1e-6
 

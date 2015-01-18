@@ -1,6 +1,9 @@
 // \file boundary.cpp
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
 /// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>
+/// \author changes by: Sergey Litvinov <slitvinov@gmail.com>
+
+
 #include <glog/logging.h>
 #include <boost/smart_ptr/make_shared.hpp>
 
@@ -21,7 +24,11 @@ Boundary::Boundary(Initiation &ini, const ParticleManager &particles) {
   y_clls = particles.y_clls;
   // check if input-file exist
   /// - reading key words and configuration data from input file
-  ///\todo{perhaps also implement an open boundary condition. at the moment shock tube simulations are done with "artificial" open edge by defining the domain from 0 til 3.9 and only placing particles from 1-3, so whatever boundary condition is  for xbl and xbr in the initiation file (tcl) it practically has no effect.}
+  ///\todo{perhaps also implement an open boundary condition. at the
+  ///moment shock tube simulations are done with "artificial" open
+  ///edge by defining the domain from 0 til 3.9 and only placing
+  ///particles from 1-3, so whatever boundary condition is for xbl and
+  ///xbr in the initiation file (tcl) it practically has no effect.}
   xBr = ini.interp->eval("[return $xBr]");
   UxBr[0] = ini.interp->eval("[return $UxBr(0)]");
   UxBr[1] = ini.interp->eval("[return $UxBr(1)]");
@@ -44,14 +51,16 @@ Boundary::Boundary(Initiation &ini, const ParticleManager &particles) {
     if (xBl == 0) xTl = ini.interp->getval("xTl");
     if (yBd == 0) yTd = ini.interp->getval("yTd");
     if (yBu == 0) yTu = ini.interp->getval("yTu");
-    LOG(INFO) << "Temperature of the walls (xr, xl, yd, yu) is " << xTr << ' ' << xTl << ' ' << 
+    LOG(INFO) << "Temperature of the walls (xr, xl, yd, yu) is " << xTr << ' ' << xTl << ' ' <<
       yTd << ' ' << yTu;
   }
 
   show_information();
 
-  //BuildBoundaryParticles is removed from the constructor and moved to the sph.cpp as an individual method call. In this way it can be switched of for 1D simulation
-  //BuildBoundaryParticle(particles, hydro);
+  //BuildBoundaryParticles is removed from the constructor and moved
+  //to the sph.cpp as an individual method call. In this way it can be
+  //switched of for 1D simulation BuildBoundaryParticle(particles,
+  //hydro);
    
   LOG(INFO) << "boundary condition constructor successfully executed";
 }
@@ -69,7 +78,7 @@ void Boundary::show_information() const {
 // check particle if the real particles run out of the computational domain
 void Boundary::RunAwayCheck(Hydrodynamics &hydro) {
   /// - iterate the particle list
-  for (std::list<spParticle>::const_iterator  p = hydro.particle_list.begin(); 
+  for (std::list<spParticle>::const_iterator  p = hydro.particle_list.begin();
        p != hydro.particle_list.end();
        p++) {
     spParticle prtl = *p;
@@ -82,10 +91,10 @@ void Boundary::RunAwayCheck(Hydrodynamics &hydro) {
     if (prtl->bd == 0) {
       //west boundary
       if (prtl->R[0] < 0.0) {
-        switch(xBl) {
+        switch (xBl) {
           //wall
           case 0: 
-            prtl->R[0] = - prtl->R[0]; 
+            prtl->R[0] = - prtl->R[0];
             break;
             //periodic
           case 1:
@@ -93,59 +102,59 @@ void Boundary::RunAwayCheck(Hydrodynamics &hydro) {
             break;
             //free slip
           case 2:
-            prtl->R[0] = - prtl->R[0]; 
+            prtl->R[0] = - prtl->R[0];
             break;
             //symmetry
           case 3:
-            prtl->R[0] = - prtl->R[0]; 
+            prtl->R[0] = - prtl->R[0];
             break;
         }
       }
       //east boundary
-      if(prtl->R[0] > box_size[0]) {
+      if  (prtl->R[0] > box_size[0]) {
         switch(xBr) {
           //wall
-          case 0: 
-            prtl->R[0] = 2.0*box_size[0] - prtl->R[0]; 
+          case 0:
+            prtl->R[0] = 2.0*box_size[0] - prtl->R[0];
             break;
             //periodic
           case 1:
             prtl->R[0] = prtl->R[0] - box_size[0];
             break;
             //free slip
-          case 2: 
-            prtl->R[0] = 2.0*box_size[0] - prtl->R[0]; 
+          case 2:
+            prtl->R[0] = 2.0*box_size[0] - prtl->R[0];
             break;
             //symmetry
           case 3:
-            prtl->R[0] = 2.0*box_size[0] - prtl->R[0]; 
+            prtl->R[0] = 2.0*box_size[0] - prtl->R[0];
             break;
         }
       }
       //south boundary
-      if(prtl->R[1] < 0.0) {
+      if (prtl->R[1] < 0.0) {
         switch(yBd) {
           //wall
-          case 0: 
-            prtl->R[1] = - prtl->R[1]; 
+          case 0:
+            prtl->R[1] = - prtl->R[1];
             break;
             //periodic
           case 1:
             prtl->R[1] = box_size[1] + prtl->R[1];
             break;
             //free slip
-          case 2: 
-            prtl->R[1] = - prtl->R[1]; 
+          case 2:
+            prtl->R[1] = - prtl->R[1];
             break;
             //symmetry
           case 3:
-            prtl->R[1] = - prtl->R[1]; 
+            prtl->R[1] = - prtl->R[1];
             break;
         }
       }
       //north boundary
-      if(prtl->R[1] > box_size[1]) {
-        switch(yBu) {
+      if (prtl->R[1] > box_size[1]) {
+        switch (yBu) {
           //wall
           case 0: 
             prtl->R[1] = 2.0*box_size[1] - prtl->R[1]; 
@@ -182,23 +191,25 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
   int mu = x_clls;
     
   //corners to be considered    
-  if(xBl == yBd) kb = 1; //south-west corner
-  if(xBr == yBd) mb = x_clls - 1; // south-east corner
-  if(xBl == yBu) ku = 1; //north-west corner
-  if(xBr == yBu) mu = x_clls - 1; //north-east corner
+  if (xBl == yBd) kb = 1; //south-west corner
+  if (xBr == yBd) mb = x_clls - 1; // south-east corner
+  if (xBl == yBu) ku = 1; //north-west corner
+  if (xBr == yBu) mu = x_clls - 1; //north-east corner
 
   /// <li>boundary condition for each side
-  //x direction
+  // x direction
   for(int j = 1; j < y_clls - 1; j++) {
-    /// <ul><li>west side: test boundary parameter for one of the following cases and then build the appropriate boundary particles
-    //clear cell linked list data (particles)
-    particles.cell_lists(0,j).clear();
+    /// <ul><li>west side: test boundary parameter for one of the
+    //following cases and then build the appropriate boundary
+    //particles clear cell linked list data (particles)
+    
+    particles.cell_lists(0, j).clear();
         
     /// <ul>
     /// <li>the rigid wall conditions     
-    if(xBl == 0 || xBl == 2) {
+    if (xBl == 0 || xBl == 2) {
       //iterate the corresponded cell linked list
-      for (std::list<spParticle>::const_iterator  p10 = particles.cell_lists(1,j).begin(); 
+      for (std::list<spParticle>::const_iterator  p10 = particles.cell_lists(1, j).begin(); 
            p10!=particles.cell_lists(1,j).end(); 
            p10++) {
                 
@@ -219,7 +230,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     }
         
     /// <li>the symmetry conditions     
-    if(xBl == 3) {
+    if (xBl == 3) {
       //iterate the corresponded cell linked list
       for (std::list<spParticle>::const_iterator  p13 = particles.cell_lists(1,j).begin(); 
            p13 != particles.cell_lists(1,j).end(); 
@@ -242,7 +253,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     }
 
     /// <li>the periodic conditions </ul>    
-    if(xBl == 1) {
+    if (xBl == 1) {
       //iterate the corresponded cell linked list
       for (std::list<spParticle>::const_iterator  p11 = particles.cell_lists(x_clls - 2,j).begin(); 
            p11 != particles.cell_lists(x_clls - 2,j).end(); 
@@ -267,7 +278,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     particles.cell_lists(x_clls - 1,j).clear();
 
     /// <ul><li>the rigid wall conditions     
-    if(xBr == 0 || xBr == 2) {
+    if (xBr == 0 || xBr == 2) {
       //iterate the corresponded cell linked list
       for (std::list<spParticle>::const_iterator  p20 = particles.cell_lists(x_clls - 2,j).begin(); 
            p20 != particles.cell_lists(x_clls - 2,j).end(); 
@@ -290,7 +301,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     }
         
     /// <li>the symmetry conditions     
-    if(xBr == 3) {
+    if (xBr == 3) {
       //iterate the corresponded cell linked list
       for (std::list<spParticle>::const_iterator  p23 = particles.cell_lists(x_clls - 2,j).begin(); 
            p23 != particles.cell_lists(x_clls - 2,j).end(); 
@@ -313,7 +324,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     }
 
     /// <li>the perodic conditions</ul>    
-    if(xBr == 1) {
+    if (xBr == 1) {
       //iterate the correspeond cell for real and wall partilces
       for (std::list<spParticle>::const_iterator  p21 = particles.cell_lists(1,j).begin(); 
            p21 != particles.cell_lists(1,j).end(); 
@@ -344,7 +355,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     particles.cell_lists(i,0).clear();
 
     /// <ul><li>the rigid wall conditions     
-    if(yBd == 0 || yBd == 2) {
+    if (yBd == 0 || yBd == 2) {
       //iterate the correspeond cell linked list
       for (std::list<spParticle>::const_iterator  p30 = particles.cell_lists(i,1).begin(); 
            p30 != particles.cell_lists(i,1).end(); 
@@ -367,7 +378,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     }
 
     /// <li>the symmetry conditions     
-    if(yBd == 3) {
+    if (yBd == 3) {
       //iterate the correspeond cell linked list
       for (std::list<spParticle>::const_iterator  p33 = particles.cell_lists(i,1).begin(); 
            p33 != particles.cell_lists(i,1).end(); 
@@ -390,7 +401,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     }
 
     /// <li>the perodic conditions</ul>    
-    if(yBd == 1) {
+    if (yBd == 1) {
       //iterate the correspeond cell for real and wall partilces
       for (std::list<spParticle>::const_iterator  p31 = particles.cell_lists(i,y_clls - 2).begin(); 
            p31 != particles.cell_lists(i,y_clls - 2).end(); 
@@ -419,7 +430,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     particles.cell_lists(i,y_clls - 1).clear();
 
     /// <ul><li>the rigid wall conditions     
-    if(yBu == 0 || yBu == 2) {
+    if (yBu == 0 || yBu == 2) {
       //iterate the correspeond cell for real and wall partilces
       for (std::list<spParticle>::const_iterator  p40 = particles.cell_lists(i,y_clls - 2).begin(); 
            p40 != particles.cell_lists(i,y_clls - 2).end(); 
@@ -442,7 +453,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     }
     
     /// <li>the symmetry conditions     
-    if(yBu == 3) {
+    if (yBu == 3) {
       //iterate the correspeond cell for real and wall partilces
       for (std::list<spParticle>::const_iterator  p43 = particles.cell_lists(i,y_clls - 2).begin(); 
            p43 != particles.cell_lists(i,y_clls - 2).end(); 
@@ -465,7 +476,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
     }
 
     /// <li>the perodic conditions</ul></ul>    
-    if(yBu == 1) {
+    if (yBu == 1) {
       //iterate the correspeond cell for real and wall partilces
       for (std::list<spParticle>::const_iterator  p41 = particles.cell_lists(i,1).begin(); 
            p41 != particles.cell_lists(i,1).end(); 
@@ -492,7 +503,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
 
   /// <ul><li>south-west corner
   /// <ul><li>the rigid wall conditions     
-  if( (xBl == 0 && yBd == 0) || (xBl == 2 && yBd == 2) ) {
+  if ((xBl == 0 && yBd == 0) || (xBl == 2 && yBd == 2) ) {
     //clear cell linked list data (particles)
     particles.cell_lists(0,0).clear();
     //iterate the correspeond cell linked list
@@ -517,7 +528,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
   }
 
   /// <li>the symmetry conditions     
-  if(xBl == 3 && yBd == 3) {
+  if (xBl == 3 && yBd == 3) {
     //clear cell linked list data (particles)
     particles.cell_lists(0,0).clear();
     //iterate the correspeond cell linked list
@@ -542,7 +553,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
   }
     
   /// <li> the perodic conditions </ul>    
-  if(xBl == 1 && yBd == 1) {
+  if (xBl == 1 && yBd == 1) {
     //clear cell linked list data (particles)
     particles.cell_lists(0,0).clear();
     //iterate the correspeond cell for real and wall partilces
@@ -569,7 +580,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
   /// <li>north-west corner
 
   /// <ul><li>the rigid wall conditions     
-  if( (xBl == 0 && yBu == 0) || (xBl == 2 && yBu == 2) ) {
+  if ((xBl == 0 && yBu == 0) || (xBl == 2 && yBu == 2) ) {
     //clear the linked list data (particles)
     particles.cell_lists(0,y_clls - 1).clear();
     //iterate the correspeond cell for real and wall partilces
@@ -594,7 +605,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
   }
     
   /// <li>the symmetry conditions     
-  if(xBl == 3 && yBu == 3) {
+  if (xBl == 3 && yBu == 3) {
     //clear the linked list data (particles)
     particles.cell_lists(0,y_clls - 1).clear();
     //iterate the correspeond cell for real and wall partilces
@@ -619,7 +630,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
   }
 
   /// <li>the perodic conditions</ul>    
-  if(xBl == 1 && yBu == 1) {
+  if (xBl == 1 && yBu == 1) {
     //clear the linked list data (particles)
     particles.cell_lists(0,y_clls - 1).clear();
     //iterate the correspeond cell for real and wall partilces
@@ -646,7 +657,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
   /// <li>north-east corner
     
   /// <ul><li>the rigid wall conditions     
-  if( (xBr == 0 && yBu == 0) || (xBr == 2 && yBu == 2) ) {
+  if ((xBr == 0 && yBu == 0) || (xBr == 2 && yBu == 2) ) {
     //clear the linked list data (particles)
     particles.cell_lists(x_clls - 1,y_clls - 1).clear();
     //iterate the correspeond cell linked list
@@ -671,7 +682,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
   }
         
   /// <li>the symmetry conditions     
-  if(xBr == 3 && yBu == 3) {
+  if (xBr == 3 && yBu == 3) {
     //clear the linked list data (particles)
     particles.cell_lists(x_clls - 1,y_clls - 1).clear();
     //iterate the correspeond cell linked list
@@ -696,7 +707,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
   }
 
   /// <li>the perodic conditions</ul>    
-  if(xBr == 1 && yBu == 1) {
+  if (xBr == 1 && yBu == 1) {
     //clear the linked list data (particles)
     particles.cell_lists(x_clls - 1,y_clls - 1).clear();
     //iterate the correspeond cell for real and wall partilces
@@ -723,7 +734,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
   /// <li>south-east corner
     
   /// <ul> <li>the rigid wall conditions     
-  if( (xBr == 0 && yBd == 0) || (xBr == 2 && yBd == 2) ) {
+  if ((xBr == 0 && yBd == 0) || (xBr == 2 && yBd == 2) ) {
     //clear the linked list data (particles)
     particles.cell_lists(x_clls - 1,0).clear();
     //iterate the correspeond cell linked list
@@ -748,7 +759,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
   }
 
   /// <li>the symmetry conditions     
-  if(xBr == 3 && yBd == 3) {
+  if (xBr == 3 && yBd == 3) {
     //clear the linked list data (particles)
     particles.cell_lists(x_clls - 1,0).clear();
     //iterate the correspeond cell linked list
@@ -773,7 +784,7 @@ void Boundary::BuildBoundaryParticle(ParticleManager &particles, Hydrodynamics &
   }
 
   /// <li>the perodic conditions</ul></ul>
-  if(xBr == 1 && yBd == 1) {
+  if (xBr == 1 && yBd == 1) {
     //clear the linked list data (particles)
     particles.cell_lists(x_clls - 1,0).clear();
     //iterate the correspeond cell for real and wall partilces
@@ -807,10 +818,10 @@ void Boundary::BoundaryCondition(ParticleManager &particles) {
   ku = 0; mu = x_clls;
     
   //coners to be considered    
-  if(xBl == yBd) kb = 1; //south-west corner
-  if(xBr == yBd) mb = x_clls - 1; // south-east corner
-  if(xBl == yBu) ku = 1; //north-west corner
-  if(xBr == yBu) mu = x_clls - 1; //north-east corner
+  if (xBl == yBd) kb = 1; //south-west corner
+  if (xBr == yBd) mb = x_clls - 1; // south-east corner
+  if (xBl == yBu) ku = 1; //north-west corner
+  if (xBr == yBu) mu = x_clls - 1; //north-east corner
 
   //x direction
   for(int j = 1; j < y_clls - 1; j++) {
@@ -818,7 +829,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles) {
     /// <ul> <li>west side
 
     /// <ul> <li>the rigid wall conditions</ul>    
-    if(xBl == 0 || xBl == 2) {
+    if (xBl == 0 || xBl == 2) {
       //iterate the correspeond cell linked list
       for (std::list<spParticle>::const_iterator  p1 = particles.cell_lists(0,j).begin(); 
            p1 != particles.cell_lists(0,j).end(); 
@@ -832,7 +843,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles) {
       }
     }
     /// <ul> <li>the perodic or symmetry conditions </ul>
-    if(xBl == 1 || xBl == 3) {
+    if (xBl == 1 || xBl == 3) {
       //iterate the correspeond cell linked list
       for (std::list<spParticle>::const_iterator  p1 = particles.cell_lists(0,j).begin(); 
            p1 != particles.cell_lists(0,j).end(); 
@@ -849,7 +860,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles) {
 
     /// <li> east side
     /// <ul> <li> the rigid wall conditions    
-    if(xBr == 0 || xBr == 2) {
+    if (xBr == 0 || xBr == 2) {
       //iterate the correspeond cell linked list
       for (std::list<spParticle>::const_iterator  p2 = particles.cell_lists(x_clls - 1,j).begin(); 
            p2 != particles.cell_lists(x_clls - 1,j).end(); 
@@ -864,7 +875,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles) {
       }
     }
     /// <li>the perodic or symmetry conditions</ul>    
-    if(xBr == 1 || xBr == 3) {
+    if (xBr == 1 || xBr == 3) {
       //iterate the correspeond cell linked list
       for (std::list<spParticle>::const_iterator  p2 = particles.cell_lists(x_clls - 1,j).begin(); 
            p2 != particles.cell_lists(x_clls - 1,j).end(); 
@@ -885,7 +896,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles) {
   /// <li>south side
   for (int i = kb; i < mb; i++) {
     /// <ul><li>the rigid wall conditions    
-    if(yBd == 0 || yBd == 2) {
+    if (yBd == 0 || yBd == 2) {
       //iterate the correspeond cell linked list
       for (std::list<spParticle>::const_iterator  p3 = particles.cell_lists(i,0).begin(); 
            p3 != particles.cell_lists(i,0).end(); 
@@ -900,7 +911,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles) {
       }
     }
     /// <li>the perodic or symmetry conditions</ul>    
-    if(yBd == 1 || yBd == 3) {
+    if (yBd == 1 || yBd == 3) {
       //iterate the correspeond cell linked list
       for (std::list<spParticle>::const_iterator  p3 = particles.cell_lists(i,0).begin(); 
            p3 != particles.cell_lists(i,0).end(); 
@@ -919,7 +930,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles) {
   /// <li>north side
   for (int i = ku; i < mu; i++) {
     /// <ul><li>the rigid wall conditions    
-    if(yBu == 0 || yBu == 2) {
+    if (yBu == 0 || yBu == 2) {
       //iterate the correspeond cell for real and wall partilces
       for (std::list<spParticle>::const_iterator  p4 = particles.cell_lists(i,y_clls - 1).begin(); 
            p4 != particles.cell_lists(i,y_clls - 1).end(); 
@@ -935,7 +946,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles) {
       }
     }
     /// <li>the perodic or symmetry conditions</ul></ul>    
-    if(yBu == 1 || yBu == 3) {
+    if (yBu == 1 || yBu == 3) {
       //iterate the correspeond cell for real and wall partilces
       for (std::list<spParticle>::const_iterator  p4 = particles.cell_lists(i,y_clls - 1).begin(); 
            p4 != particles.cell_lists(i,y_clls - 1).end(); 
@@ -956,7 +967,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles) {
 
   /// <ul><li>south-west corner
   /// <ul><li>the rigid wall conditions     
-  if( (xBl == 0 && yBd == 0) || (xBl == 2 && yBd == 2) ) {
+  if ( (xBl == 0 && yBd == 0) || (xBl == 2 && yBd == 2) ) {
     //iterate the correspeond cell linked list
     for (std::list<spParticle>::const_iterator  p13 = particles.cell_lists(0,0).begin(); 
          p13 != particles.cell_lists(0,0).end(); 
@@ -971,7 +982,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles) {
     }
   }
   /// <li>the perodic or symmetry conditions</ul>    
-  if( (xBl == 1 && yBd == 1) || (xBl == 3 && yBd == 3) ) {
+  if ( (xBl == 1 && yBd == 1) || (xBl == 3 && yBd == 3) ) {
     //iterate the correspeond cell linked list
     for (std::list<spParticle>::const_iterator  p13 = particles.cell_lists(0,0).begin(); 
          p13 != particles.cell_lists(0,0).end(); 
@@ -988,7 +999,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles) {
         
   /// <li>north-west corner
   /// <ul><li>the rigid wall conditions     
-  if( (xBl == 0 && yBu == 0) || (xBl == 2 && yBu == 2) ) {
+  if ( (xBl == 0 && yBu == 0) || (xBl == 2 && yBu == 2) ) {
     //iterate the correspeond cell for real and wall partilces
     for (std::list<spParticle>::const_iterator  p14 = particles.cell_lists(0,y_clls - 1).begin(); 
          p14 != particles.cell_lists(0,y_clls - 1).end(); 
@@ -1004,7 +1015,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles) {
     }
   }
   /// <li>the perodic or symmetry conditions</ul>    
-  if( (xBl == 1 && yBu == 1) || (xBl == 3 && yBu == 3) ) {
+  if ( (xBl == 1 && yBu == 1) || (xBl == 3 && yBu == 3) ) {
     //iterate the correspeond cell for real and wall partilces
     for (std::list<spParticle>::const_iterator  p14 = particles.cell_lists(0,y_clls - 1).begin(); 
          p14 != particles.cell_lists(0,y_clls - 1).end(); 
@@ -1022,7 +1033,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles) {
 
   /// <li>north-east corner
   /// <ul><li>the rigid wall conditions     
-  if( (xBr == 0 && yBu == 0) || (xBr == 2 && yBu == 2) ) {
+  if ( (xBr == 0 && yBu == 0) || (xBr == 2 && yBu == 2) ) {
     //iterate the correspeond cell linked list
     for (std::list<spParticle>::const_iterator  p24 = particles.cell_lists(x_clls - 1,y_clls - 1).begin(); 
          p24 != particles.cell_lists(x_clls - 1,y_clls - 1).end(); 
@@ -1038,7 +1049,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles) {
     }
   }
   /// <li>the perodic or symmetry conditions</ul>    
-  if( (xBr == 1 && yBu == 1) || (xBr == 3 && yBu == 3) ) {
+  if ( (xBr == 1 && yBu == 1) || (xBr == 3 && yBu == 3) ) {
     //iterate the correspeond cell linked list
     for (std::list<spParticle>::const_iterator  p24 = particles.cell_lists(x_clls - 1,y_clls - 1).begin(); 
          p24 != particles.cell_lists(x_clls - 1,y_clls - 1).end(); 
@@ -1056,7 +1067,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles) {
 
   /// <li>south-east corner
   /// <ul><li>the rigid wall conditions     
-  if( (xBr == 0 && yBd == 0) || (xBr == 2 && yBd == 2) ) {    
+  if ( (xBr == 0 && yBd == 0) || (xBr == 2 && yBd == 2) ) {    
     //iterate the correspeond cell linked list
     for (std::list<spParticle>::const_iterator  p23 = particles.cell_lists(x_clls - 1,0).begin(); 
          p23 != particles.cell_lists(x_clls - 1,0).end(); 
@@ -1073,7 +1084,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles) {
   }
 
   /// <li>the perodic or symmetry conditions</ul></ul></ul>    
-  if( (xBr == 1 && yBd == 1) || (xBr == 3 && yBd == 3) ) {    
+  if ( (xBr == 1 && yBd == 1) || (xBr == 3 && yBd == 3) ) {    
     //iterate the correspeond cell linked list
     for (std::list<spParticle>::const_iterator  p23 = particles.cell_lists(x_clls - 1,0).begin(); 
          p23 != particles.cell_lists(x_clls - 1,0).end(); 

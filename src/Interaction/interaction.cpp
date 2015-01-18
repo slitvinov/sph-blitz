@@ -1,6 +1,7 @@
 ///\file interaction.cpp
 ///\author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
+///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>,
+///\author changes by: Sergey Litvinov <slitvinov@gmail.com>
 
 //----------------------------------------------------------------------------------------
 //		defines interaction between particles
@@ -150,10 +151,6 @@ void Interaction::UpdateForcesAndRho() {
     ///Monaghan artificial viscosity
     double piij = 0.0;
     
-    //parameter for time step control
-    double mue_ab=0.0;
-    
-    
     //control flag for artificial viscosity
     ///\brief control variable for artificial viscosity (to command if-loop):
     ///
@@ -176,13 +173,9 @@ void Interaction::UpdateForcesAndRho() {
       const double phiij=(hij*UijdotRij)/(pow(rij,2)+ini.epsilon_artVis*pow(hij,2)); 
       //according to formula monaghan artificial viscosity
       piij=(-1*ini.alpha_artVis*cij*phiij+ini.beta_artVis*pow(phiij,2))/rhoij; 
-      //parameter for time control
-      mue_ab=-phiij;
-      assert(mue_ab>=0);
     }
     else {
       piij=0;
-      mue_ab=0;//parameter for time control, in Monaghan1989:=0, if no compression
     };
     LOG_EVERY_N(INFO, 100000)<<Org->ID<<"  "<<Dest->ID<<" artvis: "<<piij;
     const Vec2d dUdti=-mj*(pi/pow(rhoi,2)+pj/pow(rhoj,2)+piij)*gradWij;

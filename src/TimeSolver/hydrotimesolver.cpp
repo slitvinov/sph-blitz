@@ -1,6 +1,7 @@
 /// \file timesolver.cpp
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-/// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
+/// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>,
+/// \author changes by: Sergey Litvinov <slitvinov@gmail.com>
 
 //-----------------------------------------------------------------------
 //			Time solver class
@@ -70,7 +71,7 @@ void HydroTimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
     ini.timer->update_dt(dt);
 	  
     ///<ul><li>screen information for the iteration
-    if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
+    if (ite % 10 == 0) cout<<"N="<<ite<<" Time: "
 			  <<Time<<"	dt: "<<dt<<"\n";
 	  
     //predictor and corrector method used
@@ -133,7 +134,7 @@ void HydroTimeSolver::TimeIntegral(Hydrodynamics &hydro,
     ini.timer->update_dt(dt);
 	  
     ///<ul><li>screen information for the iteration
-    if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
+    if (ite % 10 == 0) cout<<"N="<<ite<<" Time: "
 			  <<Time<<"	dt: "<<dt<<"\n";
     //predictor and corrector method used
     ///<li> the prediction step

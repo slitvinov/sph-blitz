@@ -22,7 +22,7 @@ int determinant_sign(const bnu::permutation_matrix<std ::size_t>& pm)
 double determinant( bnu::matrix<double>& m ) {
     bnu::permutation_matrix<std ::size_t> pm(m.size1());
     double det = 1.0;
-    if( bnu::lu_factorize(m,pm) ) {
+    if ( bnu::lu_factorize(m,pm) ) {
         det = 0.0;
     } else {
         for(int i = 0; i < m.size1(); i++) 

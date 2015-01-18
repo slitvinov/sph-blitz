@@ -1,5 +1,6 @@
 /// \file glbfunc.cpp
 /// \ author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
+/// \author changes by: Sergey Litvinov <slitvinov@gmail.com>
 //      Define globle paremeters and functions
 #include "glbfunc.h"
 #include <algorithm>

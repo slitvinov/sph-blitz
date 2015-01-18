@@ -1,6 +1,7 @@
 /// \file s1timesolver.cpp
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-/// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
+/// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>,
+/// \author changes by: Sergey Litvinov <slitvinov@gmail.com>
 
 //-----------------------------------------------------------------------
 //			Time solver class
@@ -71,7 +72,7 @@ void S1TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro,
     ini.timer->update_dt(dt);
 	  
     ///<ul><li>screen information for the iteration
-    if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
+    if (ite % 10 == 0) cout<<"N="<<ite<<" Time: "
 			  <<Time<<"	dt: "<<dt<<"\n";
 	  
     //predictor and corrector method used
@@ -141,7 +142,7 @@ void S1TimeSolver::TimeIntegral(Hydrodynamics &hydro,
     ini.timer->update_dt(dt);
 	  
     ///<ul><li>screen information for the iteration
-    if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
+    if (ite % 10 == 0) cout<<"N="<<ite<<" Time: "
 			  <<Time<<"	dt: "<<dt<<"\n";
     //predictor and corrector method used
     ///<li> the prediction step
@@ -270,11 +271,7 @@ void s1PressureUpdate(spInteraction pair, spKernel weight_function,
     const double mi = Org->m;
     const double mj = Dest->m;
 
-    const double rmi = 1.0/mi;
-    const double rmj = 1.0/mj;
-    
     const double rij = v_distance(Org->R, Dest->R);
-    const double gradWij = weight_function->F(rij);
 
     const double pi = Org->p; 
     const double pj = Dest->p;
@@ -282,9 +279,6 @@ void s1PressureUpdate(spInteraction pair, spKernel weight_function,
 
     const Vec2d eij = (Org->R - Dest->R)*rrij;
     const double Fij = weight_function->F(rij)*rrij;
-
-    const double sigmai = rhoi / mi ;
-    const double sigmaj = rhoj / mj;
 
     const double Vi = mi/rhoi;
     const double Vj = mj/rhoj;
@@ -302,7 +296,4 @@ void s1PressureUpdate(spInteraction pair, spKernel weight_function,
     if (Dest->ID>0) {
       ini.context->UpdateVelocity(Dest, Uj_n);
     }
-
-    //ini.context->UpdatePosition(Org, dPdti_pre*pdt*pdt/2.0);
-    //    ini.context->UpdatePosition(Dest, -dPdti_pre*pdt*pdt/2.0);
  }
