@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classKernel.html" title="Kernel abstract base. " alt="" coords="5,132,64,159"/>
+<area shape="rect" id="node2" href="$classBSpline.html" title="A concrete kernel class. " alt="" coords="132,5,199,32"/>
+<area shape="rect" id="node3" href="$classCubicSpline.html" title="CubicSpline class. " alt="" coords="120,56,211,83"/>
+<area shape="rect" id="node4" href="$classCubicSpline1D.html" title="CubicSpline class. " alt="" coords="112,107,219,133"/>
+<area shape="rect" id="node5" href="$classHarmonic.html" title="Harmonic kernel class. " alt="" coords="126,157,205,184"/>
+<area shape="rect" id="node6" href="$classQuinticSpline.html" title="Quintic spline class. " alt="" coords="116,208,215,235"/>
+<area shape="rect" id="node7" href="$classWavelet.html" title="A concrete kernel class. " alt="" coords="131,259,200,285"/>
+</map>

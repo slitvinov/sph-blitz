@@ -1,0 +1,10 @@
+<map id="Interaction" name="Interaction">
+<area shape="rect" id="node1" href="dir_8e60dd837f38c0e6e8935eb1bdaf29e2.html" title="Interaction" alt="" coords="37,5,119,53"/>
+<area shape="rect" id="node2" href="dir_52bed8acfaac088d5968cb2c84d7645d.html" title="Kernel" alt="" coords="5,197,77,245"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000001_000002.html" title="4" alt="" coords="34,170,42,185"/>
+<area shape="rect" id="node3" href="dir_b05a5fa85f84bfc9013183c9d87f9a36.html" title="Utilities" alt="" coords="43,101,115,149"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000001_000010.html" title="2" alt="" coords="83,76,91,90"/>
+<area shape="rect" id="node4" href="dir_58f2bbc06ecfd927b37657f76ba141b3.html" title="ParticleContext" alt="" coords="139,101,249,149"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000001_000004.html" title="3" alt="" coords="153,76,161,91"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000010_000002.html" title="5" alt="" coords="61,176,69,191"/>
+</map>

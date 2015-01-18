@@ -1,3 +1,5 @@
-<area shape="rect" href="$vec2d_8h.html" title="Define 2&#45;d vectors and associated operations." alt="" coords="119,155,185,181">
-<area shape="rect" href="$particle_8h.html" title="a sph particle" alt="" coords="200,80,275,107">
-<area shape="rect" href="$glbtype_8h.html" title="Global types." alt="" coords="209,155,284,181">
+<map id="particlemanager.h" name="particlemanager.h">
+<area shape="rect" id="node3" href="$vec2d_8h.html" title="Define 2&#45;d vectors and associated operations. " alt="" coords="95,155,161,181"/>
+<area shape="rect" id="node5" href="$particle_8h.html" title="a sph particle " alt="" coords="180,80,253,107"/>
+<area shape="rect" id="node6" href="$glbtype_8h.html" title="Global types. " alt="" coords="186,155,259,181"/>
+</map>

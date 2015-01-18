@@ -1,2 +1,4 @@
-<area shape="rect" href="$harmonic_8cpp.html" title="Kernel/harmonic.cpp" alt="" coords="5,80,144,107">
-<area shape="rect" href="$sph_8cpp.html" title="sph.cpp" alt="" coords="168,80,235,107">
+<map id="Kernel/harmonic.h" name="Kernel/harmonic.h">
+<area shape="rect" id="node2" href="$harmonic_8cpp.html" title="Kernel/harmonic.cpp" alt="" coords="5,80,144,107"/>
+<area shape="rect" id="node3" href="$utilities_8cpp.html" title="Utilities/utilities.cpp" alt="" coords="169,80,303,107"/>
+</map>

@@ -1,10 +1,12 @@
-<area shape="rect" href="$hydrodynamics_8h.html" title="Definition of materials and their hydrodynamical interactions." alt="" coords="360,80,480,107">
-<area shape="rect" href="$material_8cpp.html" title="material.cpp" alt="" coords="504,80,595,107">
-<area shape="rect" href="$particle_8cpp.html" title="particle.cpp" alt="" coords="619,80,707,107">
-<area shape="rect" href="$hydrodynamics_8cpp.html" title="hydrodynamics.cpp" alt="" coords="5,155,139,181">
-<area shape="rect" href="$initiation_8cpp.html" title="initiation.cpp" alt="" coords="163,155,256,181">
-<area shape="rect" href="$output_8cpp.html" title="output.cpp" alt="" coords="280,155,363,181">
-<area shape="rect" href="$sph_8cpp.html" title="sph.cpp" alt="" coords="387,155,453,181">
-<area shape="rect" href="$gastimesolverLeapFrog_8cpp.html" title="TimeSolver/gastimesolverLeapFrog.cpp" alt="" coords="477,155,728,181">
-<area shape="rect" href="$gastimesolverPredCorr_8cpp.html" title="TimeSolver/gastimesolverPredCorr.cpp" alt="" coords="752,155,1000,181">
-<area shape="rect" href="$timesolver_8cpp.html" title="TimeSolver/timesolver.cpp" alt="" coords="1024,155,1200,181">
+<map id="material.h" name="material.h">
+<area shape="rect" id="node2" href="$hydrodynamics_8h.html" title="Definition of materials and their hydrodynamical interactions. " alt="" coords="403,80,521,107"/>
+<area shape="rect" id="node10" href="$material_8cpp.html" title="material.cpp" alt="" coords="546,80,637,107"/>
+<area shape="rect" id="node11" href="$particle_8cpp.html" title="particle.cpp" alt="" coords="663,80,751,107"/>
+<area shape="rect" id="node3" href="$hydrodynamics_8cpp.html" title="hydrodynamics.cpp" alt="" coords="5,163,136,189"/>
+<area shape="rect" id="node4" href="$initiation_8cpp.html" title="initiation.cpp" alt="" coords="161,163,255,189"/>
+<area shape="rect" id="node5" href="$output_8cpp.html" title="Output/output.cpp" alt="" coords="280,163,405,189"/>
+<area shape="rect" id="node6" href="$sph_8cpp.html" title="sph.cpp" alt="" coords="429,163,496,189"/>
+<area shape="rect" id="node7" href="$gastimesolverLeapFrog_8cpp.html" title="TimeSolver/gastimesolver\lLeapFrog.cpp" alt="" coords="520,155,693,197"/>
+<area shape="rect" id="node8" href="$gastimesolverPredCorr_8cpp.html" title="TimeSolver/gastimesolver\lPredCorr.cpp" alt="" coords="717,155,891,197"/>
+<area shape="rect" id="node9" href="$s1timesolver_8cpp.html" title="TimeSolver/s1timesolver.cpp" alt="" coords="915,163,1105,189"/>
+</map>

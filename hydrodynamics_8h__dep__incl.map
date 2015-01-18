@@ -1,7 +1,9 @@
-<area shape="rect" href="$hydrodynamics_8cpp.html" title="hydrodynamics.cpp" alt="" coords="5,80,139,107">
-<area shape="rect" href="$initiation_8cpp.html" title="initiation.cpp" alt="" coords="163,80,256,107">
-<area shape="rect" href="$output_8cpp.html" title="output.cpp" alt="" coords="280,80,363,107">
-<area shape="rect" href="$sph_8cpp.html" title="sph.cpp" alt="" coords="387,80,453,107">
-<area shape="rect" href="$gastimesolverLeapFrog_8cpp.html" title="TimeSolver/gastimesolverLeapFrog.cpp" alt="" coords="477,80,728,107">
-<area shape="rect" href="$gastimesolverPredCorr_8cpp.html" title="TimeSolver/gastimesolverPredCorr.cpp" alt="" coords="752,80,1000,107">
-<area shape="rect" href="$timesolver_8cpp.html" title="TimeSolver/timesolver.cpp" alt="" coords="1024,80,1200,107">
+<map id="hydrodynamics.h" name="hydrodynamics.h">
+<area shape="rect" id="node2" href="$hydrodynamics_8cpp.html" title="hydrodynamics.cpp" alt="" coords="5,88,136,115"/>
+<area shape="rect" id="node3" href="$initiation_8cpp.html" title="initiation.cpp" alt="" coords="161,88,255,115"/>
+<area shape="rect" id="node4" href="$output_8cpp.html" title="Output/output.cpp" alt="" coords="280,88,405,115"/>
+<area shape="rect" id="node5" href="$sph_8cpp.html" title="sph.cpp" alt="" coords="429,88,496,115"/>
+<area shape="rect" id="node6" href="$gastimesolverLeapFrog_8cpp.html" title="TimeSolver/gastimesolver\lLeapFrog.cpp" alt="" coords="520,81,693,122"/>
+<area shape="rect" id="node7" href="$gastimesolverPredCorr_8cpp.html" title="TimeSolver/gastimesolver\lPredCorr.cpp" alt="" coords="717,81,891,122"/>
+<area shape="rect" id="node8" href="$s1timesolver_8cpp.html" title="TimeSolver/s1timesolver.cpp" alt="" coords="915,88,1105,115"/>
+</map>

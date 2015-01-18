@@ -1,26 +1,39 @@
-<area shape="rect" href="$hydrodynamics_8h.html" title="Definition of materials and their hydrodynamical interactions." alt="" coords="612,155,732,181">
-<area shape="rect" href="$sph_8cpp.html" title="sph.cpp" alt="" coords="1379,229,1445,256">
-<area shape="rect" href="$particlemanager_8h.html" title="particle manager" alt="" coords="756,155,879,181">
-<area shape="rect" href="$particle_8h.html" title="a sph particle" alt="" coords="997,80,1072,107">
-<area shape="rect" href="$initiation_8h.html" title="initializes the simulation data" alt="" coords="903,155,983,181">
-<area shape="rect" href="$kernel_8h.html" title="Kernel abstract base." alt="" coords="1477,80,1584,107">
-<area shape="rect" href="$hydrodynamics_8cpp.html" title="hydrodynamics.cpp" alt="" coords="859,229,992,256">
-<area shape="rect" href="$initiation_8cpp.html" title="initiation.cpp" alt="" coords="1016,229,1109,256">
-<area shape="rect" href="$output_8cpp.html" title="output.cpp" alt="" coords="477,229,560,256">
-<area shape="rect" href="$gastimesolverLeapFrog_8cpp.html" title="TimeSolver/gastimesolverLeapFrog.cpp" alt="" coords="584,229,835,256">
-<area shape="rect" href="$gastimesolverPredCorr_8cpp.html" title="TimeSolver/gastimesolverPredCorr.cpp" alt="" coords="205,229,453,256">
-<area shape="rect" href="$timesolver_8cpp.html" title="TimeSolver/timesolver.cpp" alt="" coords="5,229,181,256">
-<area shape="rect" href="$interaction_8cpp.html" title="interaction.cpp" alt="" coords="1248,229,1355,256">
-<area shape="rect" href="$particle_8cpp.html" title="particle.cpp" alt="" coords="1007,155,1095,181">
-<area shape="rect" href="$material_8cpp.html" title="material.cpp" alt="" coords="1133,229,1224,256">
-<area shape="rect" href="$betaspline_8h.html" title="Beta spline kernel function." alt="" coords="1871,155,2004,181">
-<area shape="rect" href="$cubicspline_8h.html" title="cubic spline kernel 1D" alt="" coords="2028,155,2167,181">
-<area shape="rect" href="$cubicspline1D_8h_source.html" title="Kernel/cubicspline1D.h" alt="" coords="1372,155,1527,181">
-<area shape="rect" href="$harmonic_8h.html" title="harmonic kernel" alt="" coords="1551,155,1676,181">
-<area shape="rect" href="$kernel_8cpp.html" title="the abstract kernel base class" alt="" coords="2191,155,2313,181">
-<area shape="rect" href="$quinticspline_8h.html" title="Quintic spline kernel." alt="" coords="1700,155,1847,181">
-<area shape="rect" href="$betaspline_8cpp.html" title="Kernel/betaspline.cpp" alt="" coords="2008,229,2155,256">
-<area shape="rect" href="$cubicspline_8cpp.html" title="Kernel/cubicspline.cpp" alt="" coords="2179,229,2331,256">
-<area shape="rect" href="$cubicspline1D_8cpp.html" title="Kernel/cubicspline1D.cpp" alt="" coords="1469,229,1637,256">
-<area shape="rect" href="$harmonic_8cpp.html" title="Kernel/harmonic.cpp" alt="" coords="1661,229,1800,256">
-<area shape="rect" href="$quinticspline_8cpp.html" title="Kernel/quinticspline.cpp" alt="" coords="1824,229,1984,256">
+<map id="vec2d.h" name="vec2d.h">
+<area shape="rect" id="node2" href="$hydrodynamics_8h.html" title="Definition of materials and their hydrodynamical interactions. " alt="" coords="603,155,721,181"/>
+<area shape="rect" id="node6" href="$sph_8cpp.html" title="sph.cpp" alt="" coords="549,237,616,264"/>
+<area shape="rect" id="node10" href="$particlemanager_8h.html" title="particle manager " alt="" coords="746,155,869,181"/>
+<area shape="rect" id="node11" href="$particle_8h.html" title="a sph particle " alt="" coords="1856,80,1929,107"/>
+<area shape="rect" id="node13" href="$interactionangular_8cpp.html" title="Interaction/interactionangular.cpp" alt="" coords="1748,237,1961,264"/>
+<area shape="rect" id="node14" href="$interactioncomp_8cpp.html" title="Interaction/interactioncomp.cpp" alt="" coords="2036,237,2239,264"/>
+<area shape="rect" id="node19" href="$initiation_8h.html" title="initializes the simulation data " alt="" coords="996,155,1075,181"/>
+<area shape="rect" id="node21" href="$kernel_8h.html" title="Kernel abstract base. " alt="" coords="2481,155,2588,181"/>
+<area shape="rect" id="node34" href="$particlecontext_8h.html" title="define default methods for ParticleContext " alt="" coords="1087,80,1295,107"/>
+<area shape="rect" id="node38" href="$particlegenerator_8h_source.html" title="ParticleGenerator/particlegenerator.h" alt="" coords="2297,80,2529,107"/>
+<area shape="rect" id="node3" href="$hydrodynamics_8cpp.html" title="hydrodynamics.cpp" alt="" coords="641,237,772,264"/>
+<area shape="rect" id="node4" href="$initiation_8cpp.html" title="initiation.cpp" alt="" coords="1179,237,1273,264"/>
+<area shape="rect" id="node5" href="$output_8cpp.html" title="Output/output.cpp" alt="" coords="5,237,131,264"/>
+<area shape="rect" id="node7" href="$gastimesolverLeapFrog_8cpp.html" title="TimeSolver/gastimesolver\lLeapFrog.cpp" alt="" coords="155,230,328,271"/>
+<area shape="rect" id="node8" href="$gastimesolverPredCorr_8cpp.html" title="TimeSolver/gastimesolver\lPredCorr.cpp" alt="" coords="352,230,525,271"/>
+<area shape="rect" id="node9" href="$s1timesolver_8cpp.html" title="TimeSolver/s1timesolver.cpp" alt="" coords="797,237,987,264"/>
+<area shape="rect" id="node12" href="$interaction_8cpp.html" title="Interaction/interaction.cpp" alt="" coords="2263,237,2433,264"/>
+<area shape="rect" id="node15" href="$particle_8cpp.html" title="particle.cpp" alt="" coords="1981,155,2069,181"/>
+<area shape="rect" id="node16" href="$rotcontext_8cpp.html" title="define a context for rotating particle " alt="" coords="1529,237,1724,264"/>
+<area shape="rect" id="node17" href="$solidcontext_8cpp.html" title="define solid context " alt="" coords="1298,237,1504,264"/>
+<area shape="rect" id="node18" href="$utilities_8cpp.html" title="Utilities/utilities.cpp" alt="" coords="2691,320,2825,347"/>
+<area shape="rect" id="node20" href="$material_8cpp.html" title="material.cpp" alt="" coords="1011,237,1103,264"/>
+<area shape="rect" id="node22" href="$bspline_8h.html" title="Beta spline kernel function. " alt="" coords="3247,237,3361,264"/>
+<area shape="rect" id="node24" href="$cubicspline_8h.html" title="cubic spline kernel 1D " alt="" coords="3385,237,3524,264"/>
+<area shape="rect" id="node26" href="$cubicspline1D_8h_source.html" title="Kernel/cubicspline1D.h" alt="" coords="2457,237,2611,264"/>
+<area shape="rect" id="node28" href="$harmonic_8h.html" title="harmonic kernel " alt="" coords="2926,237,3052,264"/>
+<area shape="rect" id="node30" href="$kernel_8cpp.html" title="the abstract kernel base class " alt="" coords="2779,237,2901,264"/>
+<area shape="rect" id="node31" href="$quinticspline_8h.html" title="Quintic spline kernel. " alt="" coords="3077,237,3221,264"/>
+<area shape="rect" id="node33" href="$wavelet_8h.html" title="Wavelet kernel function. " alt="" coords="2635,237,2753,264"/>
+<area shape="rect" id="node23" href="$bspline_8cpp.html" title="Kernel/bspline.cpp" alt="" coords="3247,320,3375,347"/>
+<area shape="rect" id="node25" href="$cubicspline_8cpp.html" title="Kernel/cubicspline.cpp" alt="" coords="3399,320,3551,347"/>
+<area shape="rect" id="node27" href="$cubicspline1D_8cpp.html" title="Kernel/cubicspline1D.cpp" alt="" coords="2451,320,2619,347"/>
+<area shape="rect" id="node29" href="$harmonic_8cpp.html" title="Kernel/harmonic.cpp" alt="" coords="2899,320,3039,347"/>
+<area shape="rect" id="node32" href="$quinticspline_8cpp.html" title="Kernel/quinticspline.cpp" alt="" coords="3063,320,3221,347"/>
+<area shape="rect" id="node35" href="$solidcontext_8h_source.html" title="ParticleContext/solidcontext.h" alt="" coords="1305,155,1497,181"/>
+<area shape="rect" id="node36" href="$nocontext_8h.html" title="define dummy context for particles " alt="" coords="1101,155,1280,181"/>
+<area shape="rect" id="node37" href="$rotcontext_8h.html" title="define rotating object " alt="" coords="1523,155,1704,181"/>
+</map>

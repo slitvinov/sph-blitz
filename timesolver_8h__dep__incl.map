@@ -1,7 +1,11 @@
-<area shape="rect" href="$gastimesolverLeapFrog_8h.html" title="Time solver class." alt="" coords="12,80,249,107">
-<area shape="rect" href="$gastimesolverPredCorr_8h.html" title="Time solver class." alt="" coords="489,80,721,107">
-<area shape="rect" href="$hydrotimesolver_8h.html" title="Time solver class." alt="" coords="273,80,465,107">
-<area shape="rect" href="$timesolver_8cpp.html" title="TimeSolver/timesolver.cpp" alt="" coords="745,80,921,107">
-<area shape="rect" href="$sph_8cpp.html" title="sph.cpp" alt="" coords="336,155,403,181">
-<area shape="rect" href="$gastimesolverLeapFrog_8cpp.html" title="TimeSolver/gastimesolverLeapFrog.cpp" alt="" coords="5,155,256,181">
-<area shape="rect" href="$gastimesolverPredCorr_8cpp.html" title="TimeSolver/gastimesolverPredCorr.cpp" alt="" coords="481,155,729,181">
+<map id="TimeSolver/timesolver.h" name="TimeSolver/timesolver.h">
+<area shape="rect" id="node2" href="$gastimesolverLeapFrog_8h.html" title="Time solver class. " alt="" coords="621,81,795,122"/>
+<area shape="rect" id="node5" href="$gastimesolverPredCorr_8h.html" title="Time solver class. " alt="" coords="5,81,179,122"/>
+<area shape="rect" id="node7" href="$hydrotimesolver_8h.html" title="Time solver class. " alt="" coords="203,88,396,115"/>
+<area shape="rect" id="node8" href="$s1timesolver_8h_source.html" title="TimeSolver/s1timesolver.h" alt="" coords="421,88,597,115"/>
+<area shape="rect" id="node10" href="$timesolver_8cpp.html" title="TimeSolver/timesolver.cpp" alt="" coords="819,88,995,115"/>
+<area shape="rect" id="node3" href="$sph_8cpp.html" title="sph.cpp" alt="" coords="292,179,359,205"/>
+<area shape="rect" id="node4" href="$gastimesolverLeapFrog_8cpp.html" title="TimeSolver/gastimesolver\lLeapFrog.cpp" alt="" coords="625,171,799,213"/>
+<area shape="rect" id="node6" href="$gastimesolverPredCorr_8cpp.html" title="TimeSolver/gastimesolver\lPredCorr.cpp" alt="" coords="5,171,179,213"/>
+<area shape="rect" id="node9" href="$s1timesolver_8cpp.html" title="TimeSolver/s1timesolver.cpp" alt="" coords="410,179,600,205"/>
+</map>

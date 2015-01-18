@@ -1,5 +1,8 @@
-<area shape="rect" href="$classBetaSpline.html" title="A concrete kernel class." alt="" coords="5,80,88,107">
-<area shape="rect" href="$classCubicSpline.html" title="CubicSpline class." alt="" coords="112,80,203,107">
-<area shape="rect" href="$classCubicSpline1D.html" title="CubicSpline class." alt="" coords="227,80,333,107">
-<area shape="rect" href="$classHarmonic.html" title="Harmonic kernel class." alt="" coords="357,80,432,107">
-<area shape="rect" href="$classQuinticSpline.html" title="Quintic spline class." alt="" coords="456,80,555,107">
+<map id="Kernel" name="Kernel">
+<area shape="rect" id="node2" href="$classBSpline.html" title="A concrete kernel class. " alt="" coords="5,80,72,107"/>
+<area shape="rect" id="node3" href="$classCubicSpline.html" title="CubicSpline class. " alt="" coords="96,80,187,107"/>
+<area shape="rect" id="node4" href="$classCubicSpline1D.html" title="CubicSpline class. " alt="" coords="211,80,317,107"/>
+<area shape="rect" id="node5" href="$classHarmonic.html" title="Harmonic kernel class. " alt="" coords="342,80,420,107"/>
+<area shape="rect" id="node6" href="$classQuinticSpline.html" title="Quintic spline class. " alt="" coords="445,80,544,107"/>
+<area shape="rect" id="node7" href="$classWavelet.html" title="A concrete kernel class. " alt="" coords="568,80,637,107"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="InteractionComp" name="InteractionComp">
+<area shape="rect" id="node2" href="$classInteraction.html" title="Defines interaction between particles. " alt="" coords="21,173,103,200"/>
+<area shape="rect" id="node3" href="$classInitiation.html" title="Initiates the simulation It must be a one copy of Initiation object and copying is prevented..." alt="" coords="27,83,97,109"/>
+</map>

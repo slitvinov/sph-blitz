@@ -1,3 +1,6 @@
-<area shape="rect" href="$classGasTimeSolverLeapFrog.html" title="Time solver class." alt="" coords="5,80,171,107">
-<area shape="rect" href="$classGasTimeSolverPredCorr.html" title="Time solver class." alt="" coords="195,80,357,107">
-<area shape="rect" href="$classHydroTimeSolver.html" title="Time solver class." alt="" coords="381,80,501,107">
+<map id="TimeSolver" name="TimeSolver">
+<area shape="rect" id="node3" href="$classGasTimeSolverLeapFrog.html" title="Time solver class. " alt="" coords="5,155,171,181"/>
+<area shape="rect" id="node4" href="$classGasTimeSolverPredCorr.html" title="Time solver class. " alt="" coords="196,155,359,181"/>
+<area shape="rect" id="node5" href="$classHydroTimeSolver.html" title="Time solver class. " alt="" coords="383,155,505,181"/>
+<area shape="rect" id="node6" href="$classS1TimeSolver.html" title="S1TimeSolver" alt="" coords="529,155,633,181"/>
+</map>

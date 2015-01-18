@@ -1,2 +1,4 @@
-<area shape="rect" href="$kernel_8h.html" title="Kernel abstract base." alt="" coords="131,80,237,107">
-<area shape="rect" href="$vec2d_8h.html" title="Define 2&#45;d vectors and associated operations." alt="" coords="100,155,167,181">
+<map id="Kernel/kernel.cpp" name="Kernel/kernel.cpp">
+<area shape="rect" id="node3" href="$kernel_8h.html" title="Kernel abstract base. " alt="" coords="131,80,260,107"/>
+<area shape="rect" id="node4" href="$vec2d_8h.html" title="Define 2&#45;d vectors and associated operations. " alt="" coords="95,155,184,181"/>
+</map>

@@ -1,3 +1,13 @@
-<area shape="rect" href="$hydrodynamics_8cpp.html" title="hydrodynamics.cpp" alt="" coords="5,80,139,107">
-<area shape="rect" href="$interaction_8cpp.html" title="interaction.cpp" alt="" coords="163,80,269,107">
-<area shape="rect" href="$sph_8cpp.html" title="sph.cpp" alt="" coords="293,80,360,107">
+<map id="Interaction/interaction.h" name="Interaction/interaction.h">
+<area shape="rect" id="node2" href="$hydrodynamics_8cpp.html" title="hydrodynamics.cpp" alt="" coords="5,80,136,107"/>
+<area shape="rect" id="node3" href="$interaction_8cpp.html" title="Interaction/interaction.cpp" alt="" coords="161,80,332,107"/>
+<area shape="rect" id="node4" href="$interactionangular_8h_source.html" title="Interaction/interactionangular.h" alt="" coords="357,80,555,107"/>
+<area shape="rect" id="node6" href="$interactioncomp_8h_source.html" title="Interaction/interactioncomp.h" alt="" coords="580,80,769,107"/>
+<area shape="rect" id="node8" href="$interactioncond_8h_source.html" title="Interaction/interactioncond.h" alt="" coords="794,80,979,107"/>
+<area shape="rect" id="node9" href="$interactionin_8h_source.html" title="Interaction/interactionin.h" alt="" coords="1003,80,1169,107"/>
+<area shape="rect" id="node10" href="$interactions1_8h_source.html" title="Interaction/interactions1.h" alt="" coords="1195,80,1365,107"/>
+<area shape="rect" id="node11" href="$sph_8cpp.html" title="sph.cpp" alt="" coords="1389,80,1456,107"/>
+<area shape="rect" id="node12" href="$s1timesolver_8cpp.html" title="TimeSolver/s1timesolver.cpp" alt="" coords="1481,80,1671,107"/>
+<area shape="rect" id="node5" href="$interactionangular_8cpp.html" title="Interaction/interactionangular.cpp" alt="" coords="343,155,556,181"/>
+<area shape="rect" id="node7" href="$interactioncomp_8cpp.html" title="Interaction/interactioncomp.cpp" alt="" coords="580,155,783,181"/>
+</map>

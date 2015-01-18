@@ -1,10 +1,17 @@
-<area shape="rect" href="$particlemanager_8h.html" title="particle manager" alt="" coords="359,80,481,107">
-<area shape="rect" href="$interaction_8cpp.html" title="interaction.cpp" alt="" coords="505,80,612,107">
-<area shape="rect" href="$particle_8cpp.html" title="particle.cpp" alt="" coords="636,80,724,107">
-<area shape="rect" href="$hydrodynamics_8cpp.html" title="hydrodynamics.cpp" alt="" coords="5,155,139,181">
-<area shape="rect" href="$initiation_8cpp.html" title="initiation.cpp" alt="" coords="163,155,256,181">
-<area shape="rect" href="$output_8cpp.html" title="output.cpp" alt="" coords="280,155,363,181">
-<area shape="rect" href="$sph_8cpp.html" title="sph.cpp" alt="" coords="387,155,453,181">
-<area shape="rect" href="$gastimesolverLeapFrog_8cpp.html" title="TimeSolver/gastimesolverLeapFrog.cpp" alt="" coords="477,155,728,181">
-<area shape="rect" href="$gastimesolverPredCorr_8cpp.html" title="TimeSolver/gastimesolverPredCorr.cpp" alt="" coords="752,155,1000,181">
-<area shape="rect" href="$timesolver_8cpp.html" title="TimeSolver/timesolver.cpp" alt="" coords="1024,155,1200,181">
+<map id="particle.h" name="particle.h">
+<area shape="rect" id="node2" href="$particlemanager_8h.html" title="particle manager " alt="" coords="401,80,524,107"/>
+<area shape="rect" id="node10" href="$interaction_8cpp.html" title="Interaction/interaction.cpp" alt="" coords="549,80,720,107"/>
+<area shape="rect" id="node11" href="$interactionangular_8cpp.html" title="Interaction/interactionangular.cpp" alt="" coords="744,80,957,107"/>
+<area shape="rect" id="node12" href="$interactioncomp_8cpp.html" title="Interaction/interactioncomp.cpp" alt="" coords="981,80,1184,107"/>
+<area shape="rect" id="node13" href="$particle_8cpp.html" title="particle.cpp" alt="" coords="1208,80,1296,107"/>
+<area shape="rect" id="node14" href="$rotcontext_8cpp.html" title="define a context for rotating particle " alt="" coords="1320,80,1515,107"/>
+<area shape="rect" id="node15" href="$solidcontext_8cpp.html" title="define solid context " alt="" coords="1539,80,1745,107"/>
+<area shape="rect" id="node16" href="$utilities_8cpp.html" title="Utilities/utilities.cpp" alt="" coords="1770,80,1904,107"/>
+<area shape="rect" id="node3" href="$hydrodynamics_8cpp.html" title="hydrodynamics.cpp" alt="" coords="5,163,136,189"/>
+<area shape="rect" id="node4" href="$initiation_8cpp.html" title="initiation.cpp" alt="" coords="161,163,255,189"/>
+<area shape="rect" id="node5" href="$output_8cpp.html" title="Output/output.cpp" alt="" coords="280,163,405,189"/>
+<area shape="rect" id="node6" href="$sph_8cpp.html" title="sph.cpp" alt="" coords="429,163,496,189"/>
+<area shape="rect" id="node7" href="$gastimesolverLeapFrog_8cpp.html" title="TimeSolver/gastimesolver\lLeapFrog.cpp" alt="" coords="520,155,693,197"/>
+<area shape="rect" id="node8" href="$gastimesolverPredCorr_8cpp.html" title="TimeSolver/gastimesolver\lPredCorr.cpp" alt="" coords="717,155,891,197"/>
+<area shape="rect" id="node9" href="$s1timesolver_8cpp.html" title="TimeSolver/s1timesolver.cpp" alt="" coords="915,163,1105,189"/>
+</map>
