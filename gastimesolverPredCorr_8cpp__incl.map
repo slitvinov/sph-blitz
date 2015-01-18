@@ -1,5 +1,5 @@
 <map id="TimeSolver/gastimesolverPredCorr.cpp" name="TimeSolver/gastimesolverPredCorr.cpp">
-<area shape="rect" id="node4" href="$hydrodynamics_8h.html" title="Definition of materials and their hydrodynamical interactions. " alt="" coords="398,187,516,213"/>
+<area shape="rect" id="node4" href="$hydrodynamics_8h.html" title="Definition of hydrodynamical interactions. " alt="" coords="398,187,516,213"/>
 <area shape="rect" id="node13" href="$particlemanager_8h.html" title="particle manager " alt="" coords="281,104,404,131"/>
 <area shape="rect" id="node16" href="$gastimesolverPredCorr_8h.html" title="Time solver class. " alt="" coords="540,97,713,138"/>
 <area shape="rect" id="node19" href="$initiation_8h.html" title="initializes the simulation data " alt="" coords="540,187,619,213"/>

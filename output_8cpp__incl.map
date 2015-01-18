@@ -1,5 +1,5 @@
 <map id="Output/output.cpp" name="Output/output.cpp">
-<area shape="rect" id="node6" href="$hydrodynamics_8h.html" title="Definition of materials and their hydrodynamical interactions. " alt="" coords="399,163,539,189"/>
+<area shape="rect" id="node6" href="$hydrodynamics_8h.html" title="Definition of hydrodynamical interactions. " alt="" coords="399,163,539,189"/>
 <area shape="rect" id="node15" href="$particlemanager_8h.html" title="particle manager " alt="" coords="565,80,712,107"/>
 <area shape="rect" id="node18" href="$output_8h.html" title="Output the computational results Output class. " alt="" coords="915,80,1048,107"/>
 <area shape="rect" id="node19" href="$initiation_8h.html" title="initializes the simulation data " alt="" coords="787,80,889,107"/>

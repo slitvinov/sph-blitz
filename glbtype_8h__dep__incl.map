@@ -1,5 +1,5 @@
 <map id="glbtype.h" name="glbtype.h">
-<area shape="rect" id="node2" href="$hydrodynamics_8h.html" title="Definition of materials and their hydrodynamical interactions. " alt="" coords="2509,163,2627,189"/>
+<area shape="rect" id="node2" href="$hydrodynamics_8h.html" title="Definition of hydrodynamical interactions. " alt="" coords="2509,163,2627,189"/>
 <area shape="rect" id="node9" href="$s1timesolver_8cpp.html" title="TimeSolver/s1timesolver.cpp" alt="" coords="2680,253,2870,280"/>
 <area shape="rect" id="node10" href="$particle_8h.html" title="a sph particle " alt="" coords="218,80,291,107"/>
 <area shape="rect" id="node19" href="$initiation_8h.html" title="initializes the simulation data " alt="" coords="1084,163,1163,189"/>

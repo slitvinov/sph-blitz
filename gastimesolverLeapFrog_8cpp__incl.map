@@ -1,5 +1,5 @@
 <map id="TimeSolver/gastimesolverLeapFrog.cpp" name="TimeSolver/gastimesolverLeapFrog.cpp">
-<area shape="rect" id="node6" href="$hydrodynamics_8h.html" title="Definition of materials and their hydrodynamical interactions. " alt="" coords="574,187,692,213"/>
+<area shape="rect" id="node6" href="$hydrodynamics_8h.html" title="Definition of hydrodynamical interactions. " alt="" coords="574,187,692,213"/>
 <area shape="rect" id="node15" href="$particlemanager_8h.html" title="particle manager " alt="" coords="462,104,585,131"/>
 <area shape="rect" id="node18" href="$gastimesolverLeapFrog_8h.html" title="Time solver class. " alt="" coords="712,97,885,138"/>
 <area shape="rect" id="node21" href="$initiation_8h.html" title="initializes the simulation data " alt="" coords="716,187,795,213"/>

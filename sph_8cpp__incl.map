@@ -2,7 +2,7 @@
 <area shape="rect" id="node4" href="$utilities_8h.html" title="src/Utilities/utilities.h" alt="" coords="1225,171,1367,197"/>
 <area shape="rect" id="node9" href="$particlemanager_8h.html" title="particle manager " alt="" coords="603,88,749,115"/>
 <area shape="rect" id="node10" href="$vec2d_8h.html" title="Define 2&#45;d vectors and associated operations. " alt="" coords="480,245,547,272"/>
-<area shape="rect" id="node14" href="$hydrodynamics_8h.html" title="Definition of materials and their hydrodynamical interactions. " alt="" coords="683,171,823,197"/>
+<area shape="rect" id="node14" href="$hydrodynamics_8h.html" title="Definition of hydrodynamical interactions. " alt="" coords="683,171,823,197"/>
 <area shape="rect" id="node17" href="$gastimesolverLeapFrog_8h.html" title="Time solver class. " alt="" coords="1471,81,1665,122"/>
 <area shape="rect" id="node20" href="$gastimesolverPredCorr_8h.html" title="Time solver class. " alt="" coords="1689,81,1884,122"/>
 <area shape="rect" id="node21" href="$hydrotimesolver_8h.html" title="Time solver class. " alt="" coords="1909,88,2123,115"/>

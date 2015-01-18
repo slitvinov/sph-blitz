@@ -1,5 +1,5 @@
 <map id="vec2d.h" name="vec2d.h">
-<area shape="rect" id="node2" href="$hydrodynamics_8h.html" title="Definition of materials and their hydrodynamical interactions. " alt="" coords="603,155,721,181"/>
+<area shape="rect" id="node2" href="$hydrodynamics_8h.html" title="Definition of hydrodynamical interactions. " alt="" coords="603,155,721,181"/>
 <area shape="rect" id="node6" href="$sph_8cpp.html" title="sph.cpp" alt="" coords="549,237,616,264"/>
 <area shape="rect" id="node10" href="$particlemanager_8h.html" title="particle manager " alt="" coords="746,155,869,181"/>
 <area shape="rect" id="node11" href="$particle_8h.html" title="a sph particle " alt="" coords="1856,80,1929,107"/>

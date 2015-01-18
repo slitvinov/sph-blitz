@@ -1,5 +1,5 @@
 <map id="material.h" name="material.h">
-<area shape="rect" id="node2" href="$hydrodynamics_8h.html" title="Definition of materials and their hydrodynamical interactions. " alt="" coords="403,80,521,107"/>
+<area shape="rect" id="node2" href="$hydrodynamics_8h.html" title="Definition of hydrodynamical interactions. " alt="" coords="403,80,521,107"/>
 <area shape="rect" id="node10" href="$material_8cpp.html" title="material.cpp" alt="" coords="546,80,637,107"/>
 <area shape="rect" id="node11" href="$particle_8cpp.html" title="particle.cpp" alt="" coords="663,80,751,107"/>
 <area shape="rect" id="node3" href="$hydrodynamics_8cpp.html" title="hydrodynamics.cpp" alt="" coords="5,163,136,189"/>
