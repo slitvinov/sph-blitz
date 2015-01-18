@@ -9,7 +9,7 @@
 <area shape="rect" id="node24" href="$interaction_8h.html" title="Defines interaction between particles. " alt="" coords="1148,80,1326,107"/>
 <area shape="rect" id="node25" href="$kernel_8h.html" title="Kernel abstract base. " alt="" coords="530,80,660,107"/>
 <area shape="rect" id="node27" href="$particlecontext_8h.html" title="define default methods for ParticleContext " alt="" coords="866,155,997,197"/>
-<area shape="rect" id="node5" href="$material_8h.html" title="Material. " alt="" coords="62,245,140,272"/>
+<area shape="rect" id="node5" href="$material_8h.html" title="Material Defines properties of a material (viscosity, sound speed, specific heat). Every particle should have a link to a Material. " alt="" coords="62,245,140,272"/>
 <area shape="rect" id="node8" href="$vec2d_8h.html" title="Define 2&#45;d vectors and associated operations. " alt="" coords="448,245,514,272"/>
 <area shape="rect" id="node13" href="$particle_8h.html" title="a sph particle " alt="" coords="336,163,409,189"/>
 <area shape="rect" id="node16" href="$timesolver_8h.html" title="Time solver class. " alt="" coords="1305,163,1468,189"/>

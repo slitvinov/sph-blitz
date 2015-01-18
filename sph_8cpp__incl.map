@@ -16,7 +16,7 @@
 <area shape="rect" id="node33" href="$hook_8h.html" title="A hook class for particles&#39; preparation. " alt="" coords="1391,171,1507,197"/>
 <area shape="rect" id="node5" href="$glbtype_8h.html" title="Global types. " alt="" coords="1239,245,1333,272"/>
 <area shape="rect" id="node12" href="$particle_8h.html" title="a sph particle " alt="" coords="584,171,657,197"/>
-<area shape="rect" id="node15" href="$material_8h.html" title="Material. " alt="" coords="815,245,893,272"/>
+<area shape="rect" id="node15" href="$material_8h.html" title="Material Defines properties of a material (viscosity, sound speed, specific heat). Every particle should have a link to a Material. " alt="" coords="815,245,893,272"/>
 <area shape="rect" id="node18" href="$timesolver_8h.html" title="Time solver class. " alt="" coords="1785,171,1948,197"/>
 <area shape="rect" id="node25" href="$timer_8h_source.html" title="src/Timer/timer.h" alt="" coords="1029,171,1149,197"/>
 <area shape="rect" id="node28" href="$output_8h.html" title="Output the computational results Output class. " alt="" coords="2393,171,2527,197"/>

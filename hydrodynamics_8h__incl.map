@@ -1,5 +1,5 @@
 <map id="hydrodynamics.h" name="hydrodynamics.h">
-<area shape="rect" id="node3" href="$material_8h.html" title="Material. " alt="" coords="122,80,200,107"/>
+<area shape="rect" id="node3" href="$material_8h.html" title="Material Defines properties of a material (viscosity, sound speed, specific heat). Every particle should have a link to a Material. " alt="" coords="122,80,200,107"/>
 <area shape="rect" id="node6" href="$vec2d_8h.html" title="Define 2&#45;d vectors and associated operations. " alt="" coords="387,80,453,107"/>
 <area shape="rect" id="node8" href="$glbtype_8h.html" title="Global types. " alt="" coords="225,80,297,107"/>
 </map>
