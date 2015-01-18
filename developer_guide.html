@@ -72,50 +72,52 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock"><ul>
 <li>boost smart pointers <a href="http://www.boost.org/doc/libs/1_43_0/libs/smart_ptr/shared_ptr.html">http://www.boost.org/doc/libs/1_43_0/libs/smart_ptr/shared_ptr.html</a> <br/>
-<div class="fragment"><div class="line"><span class="comment">//#include &lt;cstdlib&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><span class="comment">//#include &lt;boost/smart_ptr/shared_ptr.hpp&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;boost/smart_ptr/make_shared.hpp&gt;</span></div>
-<div class="line"><span class="keyword">class </span>A {</div>
-<div class="line"><span class="keyword">public</span>: </div>
-<div class="line">  A() {</div>
-<div class="line">    std::cerr &lt;&lt; <span class="stringliteral">&quot;constructor of A\n&quot;</span>;</div>
-<div class="line">  }</div>
-<div class="line">  A(<span class="keyword">const</span> <span class="keywordtype">int</span> n) {</div>
-<div class="line">    std::cerr &lt;&lt; <span class="stringliteral">&quot;constructor of A with n=&quot;</span> &lt;&lt; n &lt;&lt; <span class="stringliteral">&quot; called\n&quot;</span>;</div>
-<div class="line">  }</div>
-<div class="line">  ~A() {</div>
-<div class="line">    std::cerr &lt;&lt; <span class="stringliteral">&quot;destructor of A\n&quot;</span>;</div>
-<div class="line">  }</div>
-<div class="line">  <span class="keywordtype">void</span> say()<span class="keyword"> const </span>{</div>
-<div class="line">    std::cerr &lt;&lt; <span class="stringliteral">&quot;(A.say) I am object of A class\n&quot;</span>;</div>
-<div class="line">  }</div>
-<div class="line">};</div>
-<div class="line"></div>
-<div class="line"><span class="keywordtype">int</span> <a class="code" href="sph_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">main</a>() {</div>
-<div class="line">  <span class="comment">// crate a shared pointer to an object of A class</span></div>
-<div class="line"><span class="comment"></span>  boost::shared_ptr&lt;A&gt; spa1 = boost::make_shared&lt;A&gt;();</div>
-<div class="line">  spa1-&gt;say();</div>
-<div class="line">  boost::shared_ptr&lt;A&gt; spa2 = boost::make_shared&lt;A&gt;(42);</div>
-<div class="line">  spa2-&gt;say();</div>
-<div class="line">  <span class="comment">// overwrite a pointer </span></div>
-<div class="line">  spa2 = boost::make_shared&lt;A&gt;();</div>
-<div class="line">  <span class="comment">// at this point destructor is called </span></div>
-<div class="line">  <span class="comment">// because there are no references to </span></div>
-<div class="line">  <span class="comment">// the object</span></div>
-<div class="line">  spa2-&gt;say();</div>
-<div class="line">  <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
-<div class="line">}</div>
-</div><!-- fragment --></li>
-<li>BOOST_FOREACH for iterations <a href="http://www.boost.org/doc/libs/1_43_0/doc/html/foreach.html">http://www.boost.org/doc/libs/1_43_0/doc/html/foreach.html</a></li>
+<pre class="fragment">  #include &lt;iostream&gt;
+//#include &lt;boost/smart_ptr/shared_ptr.hpp&gt;
+#include &lt;boost/smart_ptr/make_shared.hpp&gt;
+/// example class 
+class A {
+public: 
+  A() {
+    std::cerr &lt;&lt; "constructor of A\n";
+  }
+  A(const int n) {
+    std::cerr &lt;&lt; "constructor of A with n=" &lt;&lt; n &lt;&lt; " called\n";
+  }
+  ~A() {
+    std::cerr &lt;&lt; "destructor of A\n";
+  }
+  void say() const {
+    std::cerr &lt;&lt; "(A.say) I am object of A class\n";
+  }
+};
+
+int main() {
+  // crate a shared pointer to an object of A class
+  /// call constructor with no arguments
+  boost::shared_ptr&lt;A&gt; spa1 = boost::make_shared&lt;A&gt;();
+  spa1-&gt;say();
+  /// call constructor with one arguments
+  boost::shared_ptr&lt;A&gt; spa2 = boost::make_shared&lt;A&gt;(42);
+  spa2-&gt;say();
+  // overwrite a pointer 
+  spa2 = boost::make_shared&lt;A&gt;();
+  // at this point destructor is called 
+  // because there are no references to 
+  // the object
+  spa2-&gt;say();
+  return EXIT_SUCCESS;
+}</pre></li>
+<li>BOOST_FOREACH for iterations <br/>
+ <a href="http://www.boost.org/doc/libs/1_57_0/doc/html/foreach.html">http://www.boost.org/doc/libs/1_57_0/doc/html/foreach.html</a></li>
 <li>TCL for configuration files (see sph-blitz/cases/) <a href="http://www.tcl.tk/man/tcl/tutorial/tcltutorial.html">http://www.tcl.tk/man/tcl/tutorial/tcltutorial.html</a></li>
-<li>google logging <a href="http://google-glog.googlecode.com/svn/trunk/doc/glog.html">http://google-glog.googlecode.com/svn/trunk/doc/glog.html</a> Log files are stored in /tmp/ directory. The symbolic links /tmp/sph.WARNING /tmp/sph.INFO point to the last log files. Use <pre class="fragment">tail -f /tmp/sph.INFO</pre> to follow the output <pre class="fragment">GLOG_logtostderr=1 ./sph &lt;project name&gt;</pre> sends all logging messages to stderr and they can be seen in the text terminal.</li>
-<li>To add a new file: add the name to the list in sph-blitz/src/Makefile.am Run <pre class="fragment">./bootstrap.sh</pre> in sph-blitz directory </li>
+<li>google logging <a href="http://google-glog.googlecode.com/svn/trunk/doc/glog.html">http://google-glog.googlecode.com/svn/trunk/doc/glog.html</a> Log files are stored in /tmp/ directory. The symbolic links /tmp/sph.WARNING /tmp/sph.INFO point to the last log files. Use <pre class="fragment">  tail -f /tmp/sph.INFO</pre> to follow the output <pre class="fragment">  GLOG_logtostderr=1 ./sph &lt;project name&gt;</pre> sends all logging messages to stderr and they can be seen in the text terminal.</li>
+<li>To add a new file: add the name to the list in sph-blitz/src/Makefile.am Run <pre class="fragment">  ./bootstrap.sh</pre> in sph-blitz directory </li>
 </ul>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 18 2015 17:43:34 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 18 2015 17:48:47 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
