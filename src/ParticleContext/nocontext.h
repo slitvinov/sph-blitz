@@ -2,6 +2,7 @@
 #define SRC_PARTICECONTEXT_NONTEXT
 /// \file nocontext.h
 /// \brief define dummy context for particles
+/// Particle moves with prescribed velocity
 #include "ParticleContext/particlecontext.h"
 class  Particle;
 

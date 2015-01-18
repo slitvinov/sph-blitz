@@ -2,6 +2,7 @@
 #define SRC_PARTICECONTEXT_ROTCONTEXT
 /// \file rotcontext.h
 /// \brief define rotating object
+/// A group of particles rotates as a rigid body.
 #include <blitz/tinymat.h>
 #include <set>
 #include "src/ParticleContext/particlecontext.h"

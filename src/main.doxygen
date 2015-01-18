@@ -4,7 +4,7 @@
  
   \section intro_sec Introduction
  
-  SPH 2D code 
+  Smoothed Particle Hydrodynamic (SPH) code
  
   \section install_sec Installation
   Check the source code from github and compile 
@@ -13,14 +13,18 @@
  cd sph-blitz
  ./local-install.sh  \endverbatim
  The script configures and compiles the third party libraries
- - tcl http://www.tcl.tk/
- - cpptcl http://cpptcl.sourceforge.net/
- - blitz++ http://www.oonumerics.org/blitz/
- - glog http://code.google.com/p/google-glog/
+ - tcl \n
+ http://www.tcl.tk/
+ - cpptcl \n
+ http://cpptcl.sourceforge.net/
+ - blitz++ \n
+ http://www.oonumerics.org/blitz/
+ - glog \n
+ http://code.google.com/p/google-glog/
  \section incomp_code Incompressible Version 
   \subsection restart_file Restart file format 
   \subsection input_file Input file format
-  Examples of input files are sotred in sph-blitz/case directory.
+  Examples of input files are stored in sph-blitz/case directory.
   Input files are writen in <b>TCL</b> language. See comments 
   in the files for explanation.
   
@@ -114,30 +118,27 @@ the following couples go together
 <tr>
 <td>1DOscillation.tcl</td>
 <td>1DOscillation.ivs</td>
-<td>  uncomment line 158 in sph.cpp for mass calculation  </td>
+<td>  see sph.cpp for mass calculation  </td>
 </tr>
 <tr>
 <td>1DTravelingWave.tcl</td>
 <td>1DTravelingWave.ivs</td>
 <td> <UL> <LI> concerning artificial viscosity:c.f footnote under table <br/>
-<LI> uncomment line 158 in sph.cpp for mass calculation </UL> </td>
+<LI> see sph.cpp for mass calculation </UL> </td>
 </tr>
 <tr>
 <td>singleWaveWithReflection.tcl </td>
 <td>1DunperturbedDomain.ivs</td>
 <td> <UL> <LI> concerning artificial viscosity:c.f footnote under table <br/>
-<LI> uncomment line 158 in sph.cpp for mass calculation
-<LI> uncomment line 71-81 in Timesolver/gastimesolverLeapfrog.cpp for moving wall </UL> </td>
+<LI> for mass calculation
+<LI> see Timesolver/gastimesolverLeapfrog.cpp for moving wall </UL> </td>
 
 
 </tr>
-</table> 
-Note: as artificial viscosity is implemented and only turned on for
-approaching particles (as recommended for shock tube in literature), the
-traveling waves are distorded. To get rid of this effect one would have to
-turn on art. visc. globally (interaction.cpp, line 159,
-if-statement,e.g. change to if(-1<0) ). A simulation without any art. visc. is not
-(physically) stable as the SPH code does not introduce any intrinsic numerical dissipation
+</table>
+
+Note: A simulation without any art. visc. is not (physically) stable
+as the SPH code does not introduce any intrinsic numerical dissipation
 
   \subsection postCompr Postprocessing
 <OL>
@@ -204,15 +205,52 @@ refer to README in sph-blitz/scripts/postProcessingShockTube.
 /*! \page developer_guide Developer Guide
   - boost smart pointers
   http://www.boost.org/doc/libs/1_43_0/libs/smart_ptr/shared_ptr.html \n
-  \include sandbox/spParticle.cpp
+  \verbatim
+  #include <iostream>
+//#include <boost/smart_ptr/shared_ptr.hpp>
+#include <boost/smart_ptr/make_shared.hpp>
+/// example class 
+class A {
+public: 
+  A() {
+    std::cerr << "constructor of A\n";
+  }
+  A(const int n) {
+    std::cerr << "constructor of A with n=" << n << " called\n";
+  }
+  ~A() {
+    std::cerr << "destructor of A\n";
+  }
+  void say() const {
+    std::cerr << "(A.say) I am object of A class\n";
+  }
+};
 
-  - BOOST_FOREACH for iterations 
-  http://www.boost.org/doc/libs/1_43_0/doc/html/foreach.html  
+int main() {
+  // crate a shared pointer to an object of A class
+  /// call constructor with no arguments
+  boost::shared_ptr<A> spa1 = boost::make_shared<A>();
+  spa1->say();
+  /// call constructor with one arguments
+  boost::shared_ptr<A> spa2 = boost::make_shared<A>(42);
+  spa2->say();
+  // overwrite a pointer 
+  spa2 = boost::make_shared<A>();
+  // at this point destructor is called 
+  // because there are no references to 
+  // the object
+  spa2->say();
+  return EXIT_SUCCESS;
+}
+  \endverbatim
 
-  - TCL for configuration files (see sph-blitz/cases/) 
+  - BOOST_FOREACH for iterations \n
+  http://www.boost.org/doc/libs/1_57_0/doc/html/foreach.html
+
+  - TCL for configuration files (see sph-blitz/cases/) \n
   http://www.tcl.tk/man/tcl/tutorial/tcltutorial.html
 
-  - google logging 
+  - google logging \n
   http://google-glog.googlecode.com/svn/trunk/doc/glog.html
   Log files are stored in /tmp/ directory. The symbolic 
   links /tmp/sph.WARNING /tmp/sph.INFO point to the 

@@ -2,6 +2,10 @@
 #define SRC_PARTICLECONTEXT_PARTICECONTEXT
 /// \file particlecontext.h
 /// \brief define abstract particle context class
+/// Particle context defines how a particle moves after all forces are
+/// known. With NoContext it moves as Newtonian body, with
+/// SolidContext a group of particles move as a rigid body.
+
 #include "src/vec2d.h"
 #include "src/glbtype.h"
 #include "src/Timer/timeobserver.h"

@@ -1,7 +1,9 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 /// \file material.h 
-/// \brief Material 
+/// \brief Material
+/// Defines properties of a material (viscosity, sound speed, specific
+/// heat). Every particle should have a link to a Material.
 
 #include <string>
 #include <boost/smart_ptr/shared_ptr.hpp>

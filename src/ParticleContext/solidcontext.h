@@ -2,6 +2,7 @@
 #define SRC_PARTICECONTEXT_SOLIDCONTEXT
 /// \file nocontext.h
 /// \brief define dummy context for particles
+/// A group of particles moves as a solid body.
 #include "ParticleContext/particlecontext.h"
 #include <set>
 class  Particle;

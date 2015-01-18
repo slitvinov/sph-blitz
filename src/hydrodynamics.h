@@ -1,13 +1,12 @@
 #ifndef HYDRODYNAMICS_H
 #define HYDRODYNAMICS_H
 /// \file hydrodynamics.h
-/// \brief  Definition of  materials and their hydrodynamical interactions
+/// \brief  Definition of  hydrodynamical interactions
 
 #include <list>
 #include "material.h"
 #include "vec2d.h"
 #include "glbtype.h"
-
 
 class Interaction;
 class Particle ;
