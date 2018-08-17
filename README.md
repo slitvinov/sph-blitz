@@ -8,18 +8,17 @@ Run
 
 	./local-install.sh
 
-# Initial conditon file format
+# Initial conditon file
 
 	<start time>
 	<number of particles>
 	...
 	<material name> <X> <Y> <Vx> <Vy> <density> <pressure> <temperature>
 	...
-	<empty line>
 
 [example](cases/couette.rst)
 
-# Input file format
+# Input file
 
 To use restart file
 
@@ -82,11 +81,13 @@ Couette flow simulation
 Watter drop in air starting from [initial condtion file](cases/ellipse.cfg)
 
 	./sph ../cases/ellipse
+	
+# Output
 
-# Postprocessing
+Output is in ASCII tecplot files, to convert to punto format run
 
-	cd outdata/
-	../../scripts/dat2punto.sh > punto.dat
+	cd outdata
+	../../scripts/2punto > punto.dat
 
 # Visualization
 

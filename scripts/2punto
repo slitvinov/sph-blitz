@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 for i in prtl[0-9]*.dat
 do awk '
