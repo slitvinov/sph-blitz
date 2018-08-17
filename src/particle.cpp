@@ -8,6 +8,8 @@
 //----------------------------------------------------------------
 
 // ***** local includes *****
+#include <cmath>
+#include <cstdio>
 #include "glbcls.h"
 #include "glbfunc.h"
 

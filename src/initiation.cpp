@@ -10,6 +10,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cmath>
+#include <cstring>
 
 #include <cstdio>
 #include <cstdlib>

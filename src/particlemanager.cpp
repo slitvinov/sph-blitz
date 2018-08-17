@@ -9,7 +9,7 @@
 // ***** system includes *****
 #include <iostream>
 #include <fstream>
-#include <string>
+#include <cstring>
 
 #include <cstdio>
 #include <cstdlib>

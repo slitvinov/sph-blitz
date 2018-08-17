@@ -10,6 +10,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cmath>
+#include <cstring>
 
 #include <cstdio>
 #include <cstdlib>
@@ -365,6 +367,7 @@ void Hydrodynamics::UpdateRandom(double sqrtdt)
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::ZeroChangeRate()
 {
+    enum {X, Y};
   ///- iterate particles on the real particle list
   for (LlistNode<Particle> *p = particle_list.first(); 
        !particle_list.isEnd(p); 
@@ -376,8 +379,8 @@ void Hydrodynamics::ZeroChangeRate()
     ///- set for each particle change rates to zero
     prtl->dedt = 0.0;
     prtl->drhodt = 0.0;
-    (prtl->dUdt) = 0.0;
-    (prtl->_dU) = 0.0;
+    prtl->dUdt[X] = prtl->dUdt[Y] = 0.0;
+    prtl->_dU[X] = prtl->_dU[Y] = 0.0;
 
   }
 }
@@ -403,6 +406,7 @@ void Hydrodynamics::Zero_density()
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::Zero_ShearRate()
 {
+    enum {X, Y};
   ///- iterate particles on the real particle list
   for (LlistNode<Particle> *p = particle_list.first(); 
        !particle_list.isEnd(p); 
@@ -412,8 +416,8 @@ void Hydrodynamics::Zero_ShearRate()
     Particle *prtl = particle_list.retrieve(p);
 
     ///- set ShearRate to zero for each particle
-    (prtl->ShearRate_x) = 0.0;
-    (prtl->ShearRate_y) = 0.0;
+    prtl->ShearRate_x[X] = prtl->ShearRate_x[Y] = 0.0;
+    prtl->ShearRate_y[X] = prtl->ShearRate_y[Y] = 0.0;
   }
 }
 //----------------------------------------------------------------------------------------
@@ -421,6 +425,7 @@ void Hydrodynamics::Zero_ShearRate()
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::Zero_PhaseGradient(Boundary &boundary)
 {
+    enum {X, Y};
   ///- iterate particles on the real particle list
   for (LlistNode<Particle> *p = particle_list.first(); 
        !particle_list.isEnd(p); 
@@ -430,7 +435,7 @@ void Hydrodynamics::Zero_PhaseGradient(Boundary &boundary)
     Particle *prtl = particle_list.retrieve(p);
 
     ///- set phase gradient to zeo for each of these particles
-    (prtl->del_phi) = 0.0;
+    prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
   }
 
   ///- iterate particles on the boundary particle list
@@ -442,7 +447,7 @@ void Hydrodynamics::Zero_PhaseGradient(Boundary &boundary)
     Particle *prtl = boundary.boundary_particle_list.retrieve(p1);
 
      ///- set phase gradient to zeo for each of these particle
-    (prtl->del_phi) = 0.0;
+    prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
   }
 }
 //----------------------------------------------------------------------------------------
@@ -518,6 +523,7 @@ void Hydrodynamics::Zero_PhaseField(Boundary &boundary)
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::Zero_Velocity()
 {
+    enum {X, Y};
   ///- iterate particles on the real particle list
   for (LlistNode<Particle> *p = particle_list.first(); 
        !particle_list.isEnd(p); 
@@ -527,7 +533,7 @@ void Hydrodynamics::Zero_Velocity()
     Particle *prtl = particle_list.retrieve(p);
 
     ///- all velocities to zero
-    (prtl->U) = 0.0;
+    prtl->U[X] = prtl->U[Y] = 0.0;
   }
 }
 //----------------------------------------------------------------------------------------
@@ -535,6 +541,7 @@ void Hydrodynamics::Zero_Velocity()
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::Zero_Random()
 {
+    enum {X, Y};
   ///- iterate particles on the real particle list
   for (LlistNode<Particle> *p = particle_list.first(); 
        !particle_list.isEnd(p); 
@@ -544,7 +551,7 @@ void Hydrodynamics::Zero_Random()
     Particle *prtl = particle_list.retrieve(p);
 
     ///- all random values to zero (so, _dU is random value???)
-    (prtl->_dU) = 0.0;
+    prtl->_dU[X] = prtl->_dU[Y] = 0.0;
   }
 }
 //----------------------------------------------------------------------------------------

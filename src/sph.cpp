@@ -49,6 +49,8 @@
  */
 
 #include <cmath>
+#include <cstdio>
+#include <iostream>
 
 // ***** local includes *****
 #include "glbfunc.h"
@@ -77,7 +79,7 @@ int main(int argc, char *argv[]) {
 
 	//check if project name specified
 	if (argc<2)  {
-		cout<<"No Project Name Specified!!\n";
+                std::cout<<"No Project Name Specified!!\n";
 		std::cout << __FILE__ << ':' << __LINE__ << std::endl;
 		exit(1);
     }
