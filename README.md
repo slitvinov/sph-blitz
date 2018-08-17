@@ -74,7 +74,7 @@ type code
 	NUMBER_OF_MATERIALS <numb_mat>
 
 	MATERIALS
-	<material_name> <material_type>	<cv>	<eta>	<zeta>	<gamma>	<b0>	<rho0>	<a0>
+	<material_name> <material_type>	<cv>	<eta>	<zeta>	<gamma>	<rho0>	<a0>
 	(numb_mat lines)
 
 	FORCES
