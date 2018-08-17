@@ -81,9 +81,6 @@ double k_bltz  = 1.380662e-023; //[J/K]
 int main(int argc, char *argv[]) {
   //the following line of comment is for doxygen only
   ///\n <b>below  the rough structure of the main function:</b> 
-
-	time_t bm_start_time = time(NULL);
-
 	//computation time
 	double Time;
 
@@ -148,8 +145,5 @@ int main(int argc, char *argv[]) {
 			diagnose.OutputAverage(Time, ini);	
 		}
 	}
-
-	cout << time(NULL) - bm_start_time << " seconds.\n";
-
-	return 0; //end the program
+	return 0;
 }
