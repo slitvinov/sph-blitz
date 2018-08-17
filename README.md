@@ -74,7 +74,7 @@ type code
 	(one line for each material)
 
 	 FORCES
-	 <mat#k>	<mat#m>		<epsilon>	<sigma>	<shear_slip>	<bulk_slip>	<heat_slip>
+	 <mat#k>	<mat#m>		<sigma>	<shear_slip>	<bulk_slip>	<heat_slip>
 	 (numb_mat*numb_mat lines, one for each material pair)
 
 `sigma` is a surface tension coefficient

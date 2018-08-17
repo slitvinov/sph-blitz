@@ -13,8 +13,6 @@ class Force {
 	///smoothinglenth
 	static double smoothinglength;
 
-	///interactive force parameters
-	double epsilon;
 	double heat_slip; ///heat conduction slip length 
 
 public:
