@@ -133,7 +133,7 @@ Ellipsoid water drop in air
 
 ![ellipse](img/ellipse.png)
 
-Fluctuation liquid
+Fluctuating liquid
 
 ![thermal](img/thermal.gif)
 
