@@ -1,6 +1,6 @@
 ///\file hydrodynamics.cpp
 /// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
+///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>,
 
 //----------------------------------------------------------------------------------------
 //      Define materials and their hydrodynamical interactions
@@ -26,7 +26,7 @@ using namespace std;
 //						constructor
 //----------------------------------------------------------------------------------------
 Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
-	
+
   int k, m;
   int l, n;
 
@@ -56,49 +56,49 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
     std::cout << __FILE__ << ':' << __LINE__ << std::endl;
     exit(1);
   }
-  else cout<<"\nMaterial: read the propeties of materials and interaction forces \n"; 
+  else cout<<"\nMaterial: read the propeties of materials and interaction forces \n";
 
   ///<li>reading all key words and configuration data
   while(!fin.eof()) {
-		
+
     //read a string block
     fin>>Key_word;
-		
-    //comparing the key words for the materials 
-    if(!strcmp(Key_word, "MATERIALS")) 
+
+    //comparing the key words for the materials
+    if(!strcmp(Key_word, "MATERIALS"))
       ///<li>if  key word material: read all materials (from .cfg file)
       for(k = 0; k < number_of_materials; k++) {
-	//the material number
-	///<ul><li>save each one of them in materials matrix
-	materials[k].number = k;
-	fin>>materials[k].material_name>>materials[k].material_type;
-	fin>>materials[k].eta>>materials[k].zeta
-	   >>materials[k].gamma>>materials[k].rho0>>materials[k].a0;
-	///<li>output the material property parameters to the screen
-	cout<<"The properties of the material No. "<<k<<"\n";		
-	materials[k].show_properties();
-	///<li>non-dimensionalize</ul>
-	materials[k].non_dimensionalize(ini);
+        //the material number
+        ///<ul><li>save each one of them in materials matrix
+        materials[k].number = k;
+        fin>>materials[k].material_name>>materials[k].material_type;
+        fin>>materials[k].eta>>materials[k].zeta
+           >>materials[k].gamma>>materials[k].rho0>>materials[k].a0;
+        ///<li>output the material property parameters to the screen
+        cout<<"The properties of the material No. "<<k<<"\n";
+        materials[k].show_properties();
+        ///<li>non-dimensionalize</ul>
+        materials[k].non_dimensionalize(ini);
       }
 
-    //comparing the key words for the force matrix 
-    if(!strcmp(Key_word, "FORCES")) 
+    //comparing the key words for the force matrix
+    if(!strcmp(Key_word, "FORCES"))
    ///<li>if  key word forces: read all forces for all materials (from .cfg file)
       //read all materials
       ///<ul><li> save eahc one of them in forces matrix
-      for(l = 0; l < number_of_materials; l++) 
-	for(n = 0; n < number_of_materials; n++) {
-	  fin>>k>>m;
-	  fin>>forces[k][m].epsilon>>forces[k][m].sigma
-	     >>forces[k][m].shear_slip>>forces[k][m].bulk_slip;
-	  ///<li>copy smoothing length fro initiation
-	  forces[k][m].smoothinglength = ini.smoothinglength;
-	  ///<li>and non-dimensionalize</ul>
-	  forces[k][m].non_dimensionalize(ini);
-	}
+      for(l = 0; l < number_of_materials; l++)
+        for(n = 0; n < number_of_materials; n++) {
+          fin>>k>>m;
+          fin>>forces[k][m].epsilon>>forces[k][m].sigma
+             >>forces[k][m].shear_slip>>forces[k][m].bulk_slip;
+          ///<li>copy smoothing length fro initiation
+          forces[k][m].smoothinglength = ini.smoothinglength;
+          ///<li>and non-dimensionalize</ul>
+          forces[k][m].non_dimensionalize(ini);
+        }
   }
   fin.close();
- 	
+
   ///<li>initialize parameters for time step and the artificial compressiblity
   viscosity_max = 0.0; surface_max = 0.0;
   for(k = 0; k < number_of_materials; k++) {
@@ -139,8 +139,8 @@ void Hydrodynamics::UpdatePair(QuinticSpline &weight_function)
 {
 
   ///- iterate the interaction list
-  for (LlistNode<Interaction> *p = interaction_list.first(); 
-       !interaction_list.isEnd(p); 
+  for (LlistNode<Interaction> *p = interaction_list.first();
+       !interaction_list.isEnd(p);
        p = interaction_list.next(p)) {
     ///- and for each interactionpair call RenewInteraction method
     //a interaction pair
@@ -153,18 +153,18 @@ void Hydrodynamics::UpdatePair(QuinticSpline &weight_function)
 //		summation for shear rates with updating interaction list
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::UpdateShearRate(ParticleManager &particles, QuinticSpline &weight_function)
-{	
+{
 
   ///- obtain the interaction pairs
   particles.BuildInteraction(interaction_list, particle_list, forces, weight_function);
-	
+
   ///- initiate by calling  Zero_ShearRate Method
   Zero_ShearRate();
   ///- iterate the interaction list
-  for (LlistNode<Interaction> *p2 = interaction_list.first(); 
-       !interaction_list.isEnd(p2); 
+  for (LlistNode<Interaction> *p2 = interaction_list.first();
+       !interaction_list.isEnd(p2);
        p2 = interaction_list.next(p2)) {
-		
+
     //a interaction pair
     Interaction *pair = interaction_list.retrieve(p2);
     ///- calculate for each pair the pair forces or change rate
@@ -181,10 +181,10 @@ void Hydrodynamics::UpdatePhaseGradient(Boundary &boundary)
   ///- initiate by callingZer_PhaseGradient()
   Zero_PhaseGradient(boundary);
   ///- iterate the interaction list
-  for (LlistNode<Interaction> *p2 = interaction_list.first(); 
-       !interaction_list.isEnd(p2); 
+  for (LlistNode<Interaction> *p2 = interaction_list.first();
+       !interaction_list.isEnd(p2);
        p2 = interaction_list.next(p2)) {
-		
+
     //a interaction pair
     Interaction *pair = interaction_list.retrieve(p2);
     ///- calculate for each pair the pair forces or change rate
@@ -199,10 +199,10 @@ void Hydrodynamics::UpdatePhaseLaplacian(Boundary &boundary)
   ///- initiate zero shear rateby calling Zero_PhaseLaplacian()
   Zero_PhaseLaplacian(boundary);
   ///- iterate the interaction list
-  for (LlistNode<Interaction> *p2 = interaction_list.first(); 
-       !interaction_list.isEnd(p2); 
+  for (LlistNode<Interaction> *p2 = interaction_list.first();
+       !interaction_list.isEnd(p2);
        p2 = interaction_list.next(p2)) {
-		
+
     //a interaction pair
     Interaction *pair = interaction_list.retrieve(p2);
     ///- calculate for each pair the pair forces or change rate
@@ -217,10 +217,10 @@ void Hydrodynamics::UpdatePhaseField(Boundary &boundary)
   ///- initiate by calling Zero_PhaseField()
   Zero_PhaseField(boundary);
   ///- iterate the interaction list
-  for (LlistNode<Interaction> *p2 = interaction_list.first(); 
-       !interaction_list.isEnd(p2); 
+  for (LlistNode<Interaction> *p2 = interaction_list.first();
+       !interaction_list.isEnd(p2);
        p2 = interaction_list.next(p2)) {
-		
+
     //a interaction pair
     Interaction *pair = interaction_list.retrieve(p2);
     ///- calculate for each pair the pair forces or change rate
@@ -232,24 +232,24 @@ void Hydrodynamics::UpdatePhaseField(Boundary &boundary)
 //		summation for particles density with updating interaction list
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::UpdateDensity(ParticleManager &particles, QuinticSpline &weight_function)
-{	
+{
 
   ///- obtain the interaction pairs
   particles.BuildInteraction(interaction_list, particle_list, forces, weight_function);
-	
+
   ///- initiate by calling Zero_density method
   Zero_density();
   ///- iterate the interaction list
-  for (LlistNode<Interaction> *p1 = interaction_list.first(); 
-       !interaction_list.isEnd(p1); 
+  for (LlistNode<Interaction> *p1 = interaction_list.first();
+       !interaction_list.isEnd(p1);
        p1 = interaction_list.next(p1)) {
-		
+
     //a interaction pair
     Interaction *pair = interaction_list.retrieve(p1);
     ///- calculate for each pair the pair forces or change rate by calling SummationDensity() method
-    pair->SummationDensity();	
+    pair->SummationDensity();
   }
-		
+
   ///- calulate new pressure by calling UpdateState() Method
   UpdateState();
 }
@@ -257,14 +257,14 @@ void Hydrodynamics::UpdateDensity(ParticleManager &particles, QuinticSpline &wei
 //		summation for shear rates without updating interaction list
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::UpdateShearRate()
-{	
+{
   ///- initiate by calling Zero_ShearRate(
   Zero_ShearRate();
   ///- iterate the interaction list
-  for (LlistNode<Interaction> *p2 = interaction_list.first(); 
-       !interaction_list.isEnd(p2); 
+  for (LlistNode<Interaction> *p2 = interaction_list.first();
+       !interaction_list.isEnd(p2);
        p2 = interaction_list.next(p2)) {
-		
+
     //a interaction pair
     Interaction *pair = interaction_list.retrieve(p2);
     ///- calculate for each pair the pair forces or change rate
@@ -276,18 +276,18 @@ void Hydrodynamics::UpdateShearRate()
 //		summation for particles density without updating interaction list
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::UpdateDensity()
-{	
+{
   ///- initiate zero density
   Zero_density();
   ///- iterate the interaction list
-  for (LlistNode<Interaction> *p1 = interaction_list.first(); 
-       !interaction_list.isEnd(p1); 
+  for (LlistNode<Interaction> *p1 = interaction_list.first();
+       !interaction_list.isEnd(p1);
        p1 = interaction_list.next(p1)) {
-		
+
     //a interaction pair
     Interaction *pair = interaction_list.retrieve(p1);
     ///- calculate for each pair the pair forces or change rate
-    pair->SummationDensity();	
+    pair->SummationDensity();
   }
 
   ///- calulate new pressure by calling UpdateState()
@@ -305,10 +305,10 @@ void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, QuinticSpline &
   particles.BuildInteraction(interaction_list, particle_list, forces, weight_function);
 
   ///- iterate the interaction list
-  for (LlistNode<Interaction> *p = interaction_list.first(); 
-       !interaction_list.isEnd(p); 
+  for (LlistNode<Interaction> *p = interaction_list.first();
+       !interaction_list.isEnd(p);
        p = interaction_list.next(p)) {
-		
+
     //a interaction pair
     Interaction *pair = interaction_list.retrieve(p);
     ///- calculate for eahc pair the pair forces or change rate
@@ -325,15 +325,15 @@ void Hydrodynamics::UpdateChangeRate(ParticleManager &particles, QuinticSpline &
 void Hydrodynamics::UpdateChangeRate()
 {
   ///- initiate the change rate of each real particle by calling ZeroChangeRate()
-  ZeroChangeRate();	
+  ZeroChangeRate();
 
     ///- iterate the interaction list
-    for (LlistNode<Interaction> *p = interaction_list.first(); 
-	 !interaction_list.isEnd(p); 
-	 p = interaction_list.next(p)) {
-	//a interaction pair
-	///- calculate for each pair the pair forces or change rate
-	interaction_list.retrieve(p)->UpdateForces();
+    for (LlistNode<Interaction> *p = interaction_list.first();
+         !interaction_list.isEnd(p);
+         p = interaction_list.next(p)) {
+        //a interaction pair
+        ///- calculate for each pair the pair forces or change rate
+        interaction_list.retrieve(p)->UpdateForces();
     }
 
   ///- include the gravity effects
@@ -351,16 +351,16 @@ void Hydrodynamics::UpdateRandom(double sqrtdt)
   //	wiener.Ranils();
 
   //iterate the interaction list
-  for (LlistNode<Interaction> *p = interaction_list.first(); 
-       !interaction_list.isEnd(p); 
+  for (LlistNode<Interaction> *p = interaction_list.first();
+       !interaction_list.isEnd(p);
        p = interaction_list.next(p)) {
-		
+
     //a interaction pair
     Interaction *pair = interaction_list.retrieve(p);
     //calculate the pair forces or change rate
-    pair->RandomForces(wiener, sqrtdt);		
+    pair->RandomForces(wiener, sqrtdt);
   }
-	
+
 }
 //----------------------------------------------------------------------------------------
 //						initiate particle change rate
@@ -369,10 +369,10 @@ void Hydrodynamics::ZeroChangeRate()
 {
     enum {X, Y};
   ///- iterate particles on the real particle list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-					
+
     //particle
     Particle *prtl = particle_list.retrieve(p);
 
@@ -390,10 +390,10 @@ void Hydrodynamics::ZeroChangeRate()
 void Hydrodynamics::Zero_density()
 {
   ///- iterate particles on the real particle list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-					
+
     //particle
     Particle *prtl = particle_list.retrieve(p);
 
@@ -408,10 +408,10 @@ void Hydrodynamics::Zero_ShearRate()
 {
     enum {X, Y};
   ///- iterate particles on the real particle list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-					
+
     //particle
     Particle *prtl = particle_list.retrieve(p);
 
@@ -427,10 +427,10 @@ void Hydrodynamics::Zero_PhaseGradient(Boundary &boundary)
 {
     enum {X, Y};
   ///- iterate particles on the real particle list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-					
+
     //particle
     Particle *prtl = particle_list.retrieve(p);
 
@@ -439,10 +439,10 @@ void Hydrodynamics::Zero_PhaseGradient(Boundary &boundary)
   }
 
   ///- iterate particles on the boundary particle list
-  for (LlistNode<Particle> *p1 = boundary.boundary_particle_list.first(); 
-       !boundary.boundary_particle_list.isEnd(p1); 
+  for (LlistNode<Particle> *p1 = boundary.boundary_particle_list.first();
+       !boundary.boundary_particle_list.isEnd(p1);
        p1 = boundary.boundary_particle_list.next(p1)) {
-					
+
     //particle
     Particle *prtl = boundary.boundary_particle_list.retrieve(p1);
 
@@ -451,17 +451,17 @@ void Hydrodynamics::Zero_PhaseGradient(Boundary &boundary)
   }
 }
 //----------------------------------------------------------------------------------------
-//						initiate pahse Laplacian 
+//						initiate pahse Laplacian
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::Zero_PhaseLaplacian(Boundary &boundary)
 {
   int i, j;
 
   ///- iterate particles on the real particle list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-					
+
     //particle
     Particle *prtl = particle_list.retrieve(p);
 
@@ -471,10 +471,10 @@ void Hydrodynamics::Zero_PhaseLaplacian(Boundary &boundary)
   }
 
   ///- iterate particles on the boundary particle list
-  for (LlistNode<Particle> *p1 = boundary.boundary_particle_list.first(); 
-       !boundary.boundary_particle_list.isEnd(p1); 
+  for (LlistNode<Particle> *p1 = boundary.boundary_particle_list.first();
+       !boundary.boundary_particle_list.isEnd(p1);
        p1 = boundary.boundary_particle_list.next(p1)) {
-					
+
     //particle
     Particle *prtl = boundary.boundary_particle_list.retrieve(p1);
 
@@ -492,10 +492,10 @@ void Hydrodynamics::Zero_PhaseField(Boundary &boundary)
   int i, j;
 
   ///- iterate particles on the real particle list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-					
+
     //particle
     Particle *prtl = particle_list.retrieve(p);
 
@@ -505,10 +505,10 @@ void Hydrodynamics::Zero_PhaseField(Boundary &boundary)
   }
 
   ///- iterate particles on the boundary particle list
-  for (LlistNode<Particle> *p1 = boundary.boundary_particle_list.first(); 
-       !boundary.boundary_particle_list.isEnd(p1); 
+  for (LlistNode<Particle> *p1 = boundary.boundary_particle_list.first();
+       !boundary.boundary_particle_list.isEnd(p1);
        p1 = boundary.boundary_particle_list.next(p1)) {
-					
+
     //particle
     Particle *prtl = boundary.boundary_particle_list.retrieve(p1);
 
@@ -525,10 +525,10 @@ void Hydrodynamics::Zero_Velocity()
 {
     enum {X, Y};
   ///- iterate particles on the real particle list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-					
+
     //particle
     Particle *prtl = particle_list.retrieve(p);
 
@@ -543,10 +543,10 @@ void Hydrodynamics::Zero_Random()
 {
     enum {X, Y};
   ///- iterate particles on the real particle list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-					
+
     //particle
     Particle *prtl = particle_list.retrieve(p);
 
@@ -560,10 +560,10 @@ void Hydrodynamics::Zero_Random()
 void Hydrodynamics::AddGravity()
 {
   ///- iterate particles on the real particle list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-					
+
     //a particle
     Particle *prtl = particle_list.retrieve(p);
 
@@ -577,10 +577,10 @@ void Hydrodynamics::AddGravity()
 void Hydrodynamics::UpdateState()
 {
   ///- iterate particles on the real particle list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-					
+
     //a particle
     Particle *prtl = particle_list.retrieve(p);
 
@@ -596,32 +596,32 @@ void Hydrodynamics::UpdateState()
 void Hydrodynamics::UpdatePahseMatrix(Boundary &boundary)
 {
   ///- iterate particles on the real particle list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-					
+
     //a particle
     Particle *prtl = particle_list.retrieve(p);
 
     ///- all phase surface stress (currently no action is performed)
     for(int i = 0; i < number_of_materials; i++)
       for(int j = 0; j < number_of_materials; j++) {
-	if( i != j) prtl->phi[i][j] = prtl->phi[i][j]; //prtl->phi[i][i]/(prtl->phi[i][i] + prtl->phi[j][j] + 1.0e-30);
+        if( i != j) prtl->phi[i][j] = prtl->phi[i][j]; //prtl->phi[i][i]/(prtl->phi[i][i] + prtl->phi[j][j] + 1.0e-30);
       }
   }
 
   ///- iterate particles on the boundary particle list
-  for (LlistNode<Particle> *p1 = boundary.boundary_particle_list.first(); 
-       !boundary.boundary_particle_list.isEnd(p1); 
+  for (LlistNode<Particle> *p1 = boundary.boundary_particle_list.first();
+       !boundary.boundary_particle_list.isEnd(p1);
        p1 = boundary.boundary_particle_list.next(p1)) {
-					
+
     //particle
     Particle *prtl = boundary.boundary_particle_list.retrieve(p1);
 
     ///- all phase surface stress (currently no action is perforemd)
     for(int i = 0; i < number_of_materials; i++)
       for(int j = 0; j < number_of_materials; j++) {
-	if( i != j) prtl->phi[i][j] = prtl->phi[i][j]; //prtl->phi[i][i]/(prtl->phi[i][i] + prtl->phi[j][j] + 1.0e-30);
+        if( i != j) prtl->phi[i][j] = prtl->phi[i][j]; //prtl->phi[i][i]/(prtl->phi[i][i] + prtl->phi[j][j] + 1.0e-30);
       }
   }
 }
@@ -635,10 +635,10 @@ void Hydrodynamics::UpdateSurfaceStress(Boundary &boundary)
   double interm0, interm1, interm2;
 
   ///- iterate particles on the real particle list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-					
+
     //a particle
     Particle *prtl = particle_list.retrieve(p);
 
@@ -651,10 +651,10 @@ void Hydrodynamics::UpdateSurfaceStress(Boundary &boundary)
   }
 
   ///- iterate particles on the boundary particle list
-  for (LlistNode<Particle> *p1 = boundary.boundary_particle_list.first(); 
-       !boundary.boundary_particle_list.isEnd(p1); 
+  for (LlistNode<Particle> *p1 = boundary.boundary_particle_list.first();
+       !boundary.boundary_particle_list.isEnd(p1);
        p1 = boundary.boundary_particle_list.next(p1)) {
-					
+
     //particle
     Particle *prtl = boundary.boundary_particle_list.retrieve(p1);
 
@@ -675,10 +675,10 @@ double Hydrodynamics::SurfaceTensionCoefficient()
   double coefficient = 0.0; double totalvolume = 0.0;
 
   ///- iterate particles on the real particle list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-					
+
     //a particle
     Particle *prtl = particle_list.retrieve(p);
 
@@ -697,30 +697,30 @@ void Hydrodynamics::UpdateVolume(ParticleManager &particles, QuinticSpline &weig
   double reciprocV; //the inverse of volume or volume
 
   ///<ul><li> iterate particles on the particle list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-					
+
     ///<ul><li>take origin particle
     Particle *prtl_org = particle_list.retrieve(p);
     //<li>build the nearest particle list
     particles.BuildNNP(prtl_org->R);
 
-    reciprocV = 0.0; 
+    reciprocV = 0.0;
     //<li>iterate this Nearest Neighbor Particle list
-    for (LlistNode<Particle> *p1 = particles.NNP_list.first(); 
-	 !particles.NNP_list.isEnd(p1); 
-	 p1 = particles.NNP_list.next(p1)) {
-			
+    for (LlistNode<Particle> *p1 = particles.NNP_list.first();
+         !particles.NNP_list.isEnd(p1);
+         p1 = particles.NNP_list.next(p1)) {
+
       //get a particle
       Particle *prtl_dest = particles.NNP_list.retrieve(p1);
-				
+
       ///<ul><li>sum the weights for all of these particles (because they are the inverse of a volume!?!)</ul>
       reciprocV += weight_function.w(v_distance(prtl_org->R, prtl_dest->R));
     }
     ///<li>calculate volume
     prtl_org->V = 1.0/reciprocV;
-		
+
     ///<li>clear the NNP_list</ul></ul>
     particles.NNP_list.clear();
   }
@@ -737,10 +737,10 @@ double Hydrodynamics::GetTimestep()
 
   //predict the time step
   //iterate the partilce list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-				
+
     Particle *prtl = particle_list.retrieve(p);
     Cs_max = AMAX1(Cs_max, prtl->Cs);
     V_max = AMAX1(V_max, v_abs(prtl->U));
@@ -757,22 +757,22 @@ double Hydrodynamics::GetTimestep()
 void Hydrodynamics::Predictor(double dt)
 {
   ///<ul><li> iterate the real partilce list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-		
+
     Particle *prtl = particle_list.retrieve(p);
-	
+
     ///<ul><li>save values at step n
     prtl->R_I = prtl->R;
     prtl->rho_I = prtl->rho;
     prtl->U_I = prtl->U;
-			
+
     ///<li>predict values at step n+1
     prtl->R = prtl->R + prtl->U*dt;
     prtl->rho = prtl->rho + prtl->drhodt*dt;
     prtl->U = prtl->U + prtl->dUdt*dt;
-			
+
     ///<li>calculate the middle values at step n+1/2</ul></ul>
     prtl->R = (prtl->R + prtl->R_I)*0.5;
     prtl->rho = (prtl->rho + prtl->rho_I)*0.5;
@@ -785,12 +785,12 @@ void Hydrodynamics::Predictor(double dt)
 void Hydrodynamics::Corrector(double dt)
 {
   ///- iterate the real partilce list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-	
+
     Particle *prtl = particle_list.retrieve(p);
-			
+
     ///- for each particle: correction based on values on n step and change rate at n+1/2
     prtl->R = prtl->R_I + prtl->U*dt;
     prtl->rho = prtl->rho + prtl->drhodt*dt;
@@ -803,21 +803,21 @@ void Hydrodynamics::Corrector(double dt)
 void Hydrodynamics::Predictor_summation(double dt)
 {
   ///<ul><li>iterate the real partilce list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-		
+
     Particle *prtl = particle_list.retrieve(p);
-	
+
     ///<ul><li>save values (R,U)  at step n in intermediate variables ._I
     prtl->R_I = prtl->R;
     prtl->U += prtl->_dU; //renormalize velocity
     prtl->U_I = prtl->U;
-			
+
     ///<li>predict values at step n+1
     prtl->R = prtl->R + prtl->U*dt;
     prtl->U = prtl->U + prtl->dUdt*dt;
-			
+
     ///<li>calculate the middle values at step n+1/2 and save them in Particle objects prtl</ul></ul>
     prtl->R = (prtl->R + prtl->R_I)*0.5;
     prtl->U = (prtl->U + prtl->U_I)*0.5;
@@ -829,12 +829,12 @@ void Hydrodynamics::Predictor_summation(double dt)
 void Hydrodynamics::Corrector_summation(double dt)
 {
   ///- iterate the real partilce list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-	
+
     Particle *prtl = particle_list.retrieve(p);
-			
+
     ///- for each particle: correction (advances R,U) based on values on n step and change rate at n+1/2
     prtl->U += prtl->_dU; //renormalize velocity
     prtl->R = prtl->R_I + prtl->U*dt;
@@ -847,12 +847,12 @@ void Hydrodynamics::Corrector_summation(double dt)
 void Hydrodynamics::RandomEffects()
 {
   ///- iterate the real partilce list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-	
+
     Particle *prtl = particle_list.retrieve(p);
-			
+
     ///- for each particle: add random velocity _dU
     prtl->U = prtl->U + prtl->_dU;
   }
@@ -865,12 +865,12 @@ void Hydrodynamics::MovingTest(Initiation &ini)
   //a random double between 0.0 and 1.0
   Vec2d test_v;
   double f_rdmx = (float)RAND_MAX;
-	
+
   //iterate the partilce list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
-	
+
     Particle *prtl = particle_list.retrieve(p);
     if(prtl->bd == 0) {
       prtl->U_I = prtl->U;
@@ -885,10 +885,10 @@ double Hydrodynamics::ConservationTest()
 {
   Vec2d sdU = 0.0;
   Vec2d sU = 0.0;
-  Vec2d U = 0.0; 
+  Vec2d U = 0.0;
   //iterate the partilce list
-  for (LlistNode<Particle> *p = particle_list.first(); 
-       !particle_list.isEnd(p); 
+  for (LlistNode<Particle> *p = particle_list.first();
+       !particle_list.isEnd(p);
        p = particle_list.next(p)) {
     const Particle *prtl = particle_list.retrieve(p);
     sU = sU + prtl->dUdt;

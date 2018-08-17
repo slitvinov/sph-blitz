@@ -147,9 +147,9 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
 		boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
 		hydro.UpdateSurfaceStress(boundary);///<li>hydro.UpdateSurfaceStress
 		hydro.UpdateChangeRate(); ///<li>hydro.UpdateChangeRate
-//		hydro.UpdateRandom(sqrt(dt));///
+                hydro.UpdateRandom(sqrt(dt));///
 		hydro.Corrector_summation(dt);///<li>hydro.Corrector_summation</ol>
-//		hydro.RandomEffects();
+                hydro.RandomEffects();
 
 		///<li> renew boundary particles
 		boundary.RunAwayCheck(hydro);///<ol><li>boundary.RunAwayCheck
