@@ -25,7 +25,7 @@ using namespace std;
 //construtor
 Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &particles)
 {
-  char Key_word[25];
+  char Key_word[FILENAME_MAX];
   char inputfile[FILENAME_MAX];
 
   ///copy global properties from initiation class

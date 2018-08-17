@@ -25,7 +25,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 Initiation::Initiation(const char *project_name) {
 	
-	char Key_word[25];
+	char Key_word[FILENAME_MAX];
 
 	//the project name
 	strcpy(Project_name, project_name);
