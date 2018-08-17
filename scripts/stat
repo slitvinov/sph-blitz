@@ -1,0 +1,24 @@
+: ${AWK=awk}
+
+"$AWK" '
+BEGIN { BIG = 1e42; xmin = ymin = zmin = BIG; xmax = ymax = zmax = -BIG }
+NR == 1 { next }
+NR == 2 { n = $1; next}
+{
+    x = $2; y = $3; z = $4
+    xmin = min(x, xmin)
+    ymin = min(y, ymin)
+    zmin = min(z, zmin)
+
+    xmax = max(x, xmax)
+    ymax = max(y, ymax)
+    zmax = max(z, zmax)
+}
+END {
+    print "x", xmin, xmax
+    print "y", ymin, ymax
+    print "z", zmin, zmax    
+}
+function min(a, b) { return a < b ? a : b }
+function max(a, b) { return a > b ? a : b }
+' "$@"
