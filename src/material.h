@@ -48,14 +48,10 @@ public:
 	///obtain parameter b0
 	void Get_b0(double sound);
 	
-	//equation of states
-
 	///get pressure
 	double get_p(double rho);
 	///get rho from pressure
 	double get_rho(double p);
-	///get temperature (function is defined nowhere)
-	double get_T(double e);
 	///get sound speed
 	double get_Cs(double p, double rho);
 
