@@ -154,3 +154,5 @@ Ellipsoid water drop in air
 - tecplot http://paulbourke.net/dataformats/tp
 
 - atest https://github.com/slitvinov/atest
+
+- SPH (Smoothed-particle hydrodynamics), SDPD (smoothed dissipative particle dynamics)
