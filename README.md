@@ -99,10 +99,12 @@ in gnuplot shell
 Generate documntation with doxygen
 
 	make doc
+	firefox src/html/index.html
 
 Update autotools files
 
 	./bootstrap.sh
+
 
 # Images
 
@@ -117,3 +119,7 @@ Update autotools files
 - gnuplot http://www.gnuplot.info
 
 - punto http://punto.sourceforge.net
+
+- doxygen https://www.stack.nl/~dimitri/doxygen/
+
+- autotools https://en.wikipedia.org/wiki/GNU_Build_System
