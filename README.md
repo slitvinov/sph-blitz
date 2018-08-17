@@ -1,6 +1,6 @@
 # Introduction
 
-2D multiphase SPH/SDPD code (authors: Xiangyu Hu, Sergey Litvinov)
+2D multiphase SPH/SDPD code (authors: Xiangyu Hu, Sergey Litvinov, Martin Bernreuther, Andreas Mattes)
 
 # Install
 
