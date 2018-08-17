@@ -94,7 +94,7 @@ Couette flow simulation
 
 	./sph ../cases/couette
 
-Watter drop in air starting from [initial condtion file](cases/ellipse.cfg)
+Water drop in air starting from [initial condtion file](cases/ellipse.cfg)
 
 	./sph ../cases/ellipse
 
