@@ -6,11 +6,11 @@
 
 Run
 
-	./local-install.sh
+	scripts/install
 
-or to take advantage of several core/processers
+or to take advantage of several core/processors
 
-	MAKEFLAGS=-j4 ./local-install.sh
+	MAKEFLAGS=-j4 scripts/install
 
 # Initial conditon file
 
