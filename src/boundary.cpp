@@ -16,9 +16,22 @@
 #include <cstdlib>
 #include <cmath>
 
+class ParticleManager;
+class Particle; class Initiation; class Boundary; class Force;
+class Hydrodynamics; class Material; class BetaSpline; class QuinticSpline;
+
 // ***** localincludes *****
-#include "glbcls.h"
 #include "glbfunc.h"
+#include "vec2d.h"
+#include "dllist.h"
+#include "wiener.h"
+#include "interaction.h"
+#include "hydrodynamics.h"
+#include "initiation.h"
+#include "particlemanager.h"
+#include "particle.h"
+#include "material.h"
+#include "boundary.h"
 
 using namespace std;
 
