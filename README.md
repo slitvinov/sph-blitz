@@ -1,6 +1,6 @@
 # Introduction
 
-2D multiphase SPH code (authors: Xiangyu Hu, Sergey Litvinov)
+2D multiphase SPH/SDPD code (authors: Xiangyu Hu, Sergey Litvinov)
 
 # Install
 
@@ -108,7 +108,11 @@ Update autotools files
 
 # Images
 
+Poiseuille flow
 ![poiseuille](img/poiseuille.png)
+
+Ellipsoid water drop in air
+![ellipse](img/ellipse.png)
 
 # References
 

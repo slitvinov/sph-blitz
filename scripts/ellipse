@@ -1,7 +1,7 @@
 : ${AWK=awk}
 
 "$AWK" '
-BEGIN { x0 = y0 = 1; a = 0.8; b = 0.5 }
+BEGIN { x0 = y0 = 1; a = 0.6; b = 0.4 }
 NR == 1 { print; next }
 NR == 2 { print; next }
 {
