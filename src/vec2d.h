@@ -6,7 +6,6 @@
 /// \author changes by: Andreas Mattes
 /// \brief Define 2-d vectors and associated operations
 
-#include <cmath>
 #include <blitz/tinyvec.h>
 #include <blitz/tinyvec-et.h>
 
