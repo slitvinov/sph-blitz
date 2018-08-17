@@ -40,15 +40,15 @@ number of cells in x and y direction
 
 size of one cell
 
-	 CELL_SIZE			5.0e-3
+	 CELL_SIZE 5.0e-3
 
 support length
 
-	 SMOOTHING_LENGTH	5.0e-3
+	 SMOOTHING_LENGTH 5.0e-3
 
 the number of particle in one direction in a cell
 
-	 CELL_RATIO			3
+	 CELL_RATIO	3
 
 the basic of units (used for dimensionless calculations)
 
@@ -56,7 +56,7 @@ the basic of units (used for dimensionless calculations)
 
 simulation time
 
-	 TIMING  <inital time> <the last time> <output time interval>
+	 TIMING <inital time> <the last time> <output time interval>
 
 gravity force vector
 
