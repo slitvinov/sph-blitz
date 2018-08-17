@@ -5,9 +5,9 @@ Martin Bernreuther, Andreas Mattes)
 
 # Build
 
-
+       git clone https://github.com/slitvinov/sph-blitz
+       cd sph-blitz
        ./configure && make
-
 
 # Test
 
