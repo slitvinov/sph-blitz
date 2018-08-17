@@ -6,10 +6,6 @@
 
 ///\brief Initiates the simulation
 class Initiation {
-	
-	friend class Material;
-	friend class Hydrodynamics;
-
 	//reference length, speed, and density for non-dimensionalization
 	double _length;///<reference length for non dimensional value 
 	double _v;///<reference speed for non dimensional value
