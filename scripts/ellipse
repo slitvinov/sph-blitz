@@ -1,24 +1,17 @@
 : ${AWK=awk}
 
 "$AWK" '
-BEGIN { BIG = 1e42; xmin = ymin = zmin = BIG; xmax = ymax = zmax = -BIG }
-NR == 1 { next }
-NR == 2 { n = $1; next}
+BEGIN { x0 = y0 = 1; a = 0.8; b = 0.5 }
+NR == 1 { print; next }
+NR == 2 { print; next }
 {
-    x = $2; y = $3; z = $4
-    xmin = min(x, xmin)
-    ymin = min(y, ymin)
-    zmin = min(z, zmin)
-
-    xmax = max(x, xmax)
-    ymax = max(y, ymax)
-    zmax = max(z, zmax)
+    $1 = $1
+    x = $2; y = $3
+    if (ellipse(x, y, z)) $1 = "Water"; else $1 = "Air"
+    print
 }
-END {
-    print "x", xmin, xmax
-    print "y", ymin, ymax
-    print "z", zmin, zmax    
+function ellipse(x, y, z) {
+    x -= x0; y -= y0
+    return (x/a)^2 + (y/b)^2 < 1
 }
-function min(a, b) { return a < b ? a : b }
-function max(a, b) { return a > b ? a : b }
 ' "$@"
