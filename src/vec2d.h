@@ -30,18 +30,11 @@ public:
         inline Vec2d operator/(double a) const; ///divide
         inline Vec2d operator*(double a) const; ///multiply
 
-        ///reload bool operaters
-        inline bool operator>(const Vec2d &) const; ///larger
-        inline bool operator<(const Vec2d &) const;	///smaller
-        inline bool operator==(const Vec2d &) const; ///equal
-        inline bool operator!=(const Vec2d &) const; ///non-equal
-
         inline double  operator  [](int i) const { return D[i]; }
         inline double& operator  [](int i)       { return D[i]; }
 
         ///other operations
         inline Vec2d normalized() const; ///normalize
-        inline void set_zero(); ///set zero
         inline double abs() const;
         inline double sq() const; ///square value
         inline double sqdiff() const; ///v[0]^2 - v[1]^2
@@ -120,38 +113,6 @@ inline Vec2d Vec2d::normalized() const{
   double rlen=( len==0? 0: 1.0/len);
   return Vec2d(D[X]*rlen, D[Y]*rlen);
 }
-
-/// Vector comparison: smaller than
-inline bool Vec2d::operator<(const Vec2d &v) const{
-  enum {X, Y};
-  return  ((D[X]<v[X])||(D[Y]<v[Y]));
-}
-
-/// Vector comparison: larger than
-inline bool Vec2d::operator>(const Vec2d &v) const{
-  enum {X, Y};
-  return  ((D[X]>v[X])||(D[Y]>v[Y]));
-}
-
-/// Vector comparison: equal
-inline bool Vec2d::operator==(const Vec2d &v) const{
-  enum {X, Y};
-  return  (D[X]==v[X])&&(D[Y]==v[Y]);
-}
-
-/// Vector comparison: unequal
-inline bool Vec2d::operator!=(const Vec2d &v) const{
-  enum {X, Y};    
-  return  (D[X]!=v[X])||(D[Y]!=v[Y]);
-}
-
-
-/// Set this vector to 0
-inline void Vec2d::set_zero(){
-  enum {X, Y};
-  D[X] = D[Y] = 0.0;
-}
-
 
 /// Return the absolute value of the vector (the length)
 inline double v_abs(const Vec2d &v) {
