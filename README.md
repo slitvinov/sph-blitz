@@ -18,9 +18,9 @@ Run
 
 [example](cases/couette.rst)
 
-# Input file
+# Configuration file
 
-To use restart file
+To use initial condition file
 
 	INITIAL_CONDITION	1
 
