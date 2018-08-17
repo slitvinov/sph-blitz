@@ -8,6 +8,10 @@ Run
 
 	./local-install.sh
 
+or to take advantage of several core/processers
+
+	MAKEFLAGS=-j4 ./local-install.sh
+
 # Initial conditon file
 
 	<start time>
@@ -70,7 +74,7 @@ type code
 	NUMBER_OF_MATERIALS <numb_mat>
 
 	MATERIALS
-	<material_name><material_type>	<cv>	<eta>	<zeta>	<kappa>	<gamma>	<b0>	<rho0>	<a0>
+	<material_name> <material_type>	<cv>	<eta>	<zeta>	<kappa>	<gamma>	<b0>	<rho0>	<a0>
 	(one line for each material)
 
 	 FORCES

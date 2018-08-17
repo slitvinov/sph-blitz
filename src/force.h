@@ -13,16 +13,7 @@ class Force {
 	///smoothinglenth
 	static double smoothinglength;
 
-	double heat_slip; ///heat conduction slip length 
-
-public:
-
-	double sigma; ///surface tension parameters, its dimension is rho*u^2*L
-	double shear_slip, bulk_slip; ///shear and bulk slip length
-
-	///constructor
-	Force();
-	explicit Force(Initiation &ini);
+	Force(Initiation &ini);
 
 	///non-dimensionalize
 	void non_dimensionalize(Initiation &ini);
