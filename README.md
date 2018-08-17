@@ -1,3 +1,7 @@
+# Introduction
+
+2D multiphase SPH code (authors: Xiangyu Hu, Sergey Litvinov)
+
 # Install
 
 Run
@@ -12,6 +16,8 @@ Run
 	<material name> <X> <Y> <Vx> <Vy> <density> <pressure> <temperature>
 	...
 	<empty line>
+
+[example](couette.rst)
 
 # Input file format
 
@@ -93,3 +99,13 @@ in gnuplot shell
 To remove output directory
 
 	rm -rf outdata/
+
+# References
+
+- Hu, Xianguy, and Nikolaus A. Adams. "A multi-phase SPH method for
+  macroscopic and mesoscopic flows." Journal of Computational Physics
+  213.2 (2006): 844-861. https://doi.org/10.1016/j.jcp.2005.09.001
+
+- gnuplot http://www.gnuplot.info
+
+- punto http://punto.sourceforge.net
