@@ -88,8 +88,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
 	for(n = 0; n < number_of_materials; n++) {
 	  fin>>k>>m;
 	  fin>>forces[k][m].epsilon>>forces[k][m].sigma
-	     >>forces[k][m].shear_slip>>forces[k][m].bulk_slip
-	     >>forces[k][m].heat_slip;
+	     >>forces[k][m].shear_slip>>forces[k][m].bulk_slip;
 	  ///<li>copy smoothing length fro initiation
 	  forces[k][m].smoothinglength = ini.smoothinglength;
 	  ///<li>and non-dimensionalize</ul>
