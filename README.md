@@ -132,3 +132,5 @@ Ellipsoid water drop in air
 - doxygen https://www.stack.nl/~dimitri/doxygen/
 
 - autotools https://en.wikipedia.org/wiki/GNU_Build_System
+
+- tecplot http://paulbourke.net/dataformats/tp
