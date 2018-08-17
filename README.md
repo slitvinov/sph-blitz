@@ -44,21 +44,28 @@ the number of particle in one direction in a cell
 
 	 CELL_RATIO			3
 
-the basic of dimensions
+the basic of units (used for dimensionless calculations)
 
-	 DIMENSION
-	 TIMING  <inital time> <the last time> <output timestep>
+	 DIMENSION <length> <velcoity> <density> <temperature>
+
+simulation time
+
+	 TIMING  <inital time> <the last time> <output time interval>
 
 gravity force vector
 
-	 G_FORCE
+	 G_FORCE <gx> <gy>
 
-type code of coundary
+Boundary conditons (order is as follow X0, X1, Y0, Y1)
+type code
 1: periodic
-0: wall coundary
+0: wall
 
-	BOUNDARY <use or not wall file, must be 0> <type codes of boundry X0, X1, Y0, Y1>
-	<velocity of the wall>
+	BOUNDARY <use or not wall file>
+	<type codes of boundry <velocity of the wall>
+	...
+
+
 
 	NUMBER_OF_MATERIALS <numb_mat>
 
@@ -69,6 +76,8 @@ type code of coundary
 	 FORCES
 	 <mat#k>	<mat#m>		<epsilon>	<sigma>	<shear_slip>	<bulk_slip>	<heat_slip>
 	 (numb_mat*numb_mat lines, one for each material pair)
+
+`sigma` is a surface tension coefficient
 
 # Simulations
 
@@ -81,7 +90,7 @@ Couette flow simulation
 Watter drop in air starting from [initial condtion file](cases/ellipse.cfg)
 
 	./sph ../cases/ellipse
-	
+
 # Output
 
 Output is in ASCII tecplot files, to convert to punto format run
