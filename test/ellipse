@@ -3,4 +3,4 @@ c=/tmp/ellipse.$$.cfg r=/tmp/ellipse.$$.rst
 cp cases/ellipse.cfg $c
 cp cases/ellipse.rst $r
 src/sph /tmp/ellipse.$$
-cp outdata/p.0000057361.dat p.out.dat
+cp outdata/p.0000022135.dat p.out.dat
