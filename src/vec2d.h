@@ -45,7 +45,6 @@ public:
         inline double abs() const;
         inline double sq() const; ///square value
         inline double sqdiff() const; ///v[0]^2 - v[1]^2
-        inline double xyprod() const; ///product of x and y
 
 };
 
@@ -170,12 +169,6 @@ inline double v_sq(const Vec2d &v) {
 inline double v_sqdiff(const Vec2d &v) {
   enum {X, Y};
   return v[X]*v[X] - v[Y]*v[Y];
-}
-
-/// Return the product of the vector values
-inline double Vec2d::xyprod() const {
-  enum {X, Y};    
-  return D[X]*D[Y];
 }
 
 
