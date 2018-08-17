@@ -109,3 +109,7 @@ To remove output directory
 - gnuplot http://www.gnuplot.info
 
 - punto http://punto.sourceforge.net
+
+# Images
+
+[poiseuille](img/poiseuille.png)
