@@ -9,9 +9,8 @@
 #include <blitz/tinyvec.h>
 #include <blitz/tinyvec-et.h>
 
-using namespace blitz;
 
-typedef TinyVector<double,2> Vec2d;
+typedef blitz::TinyVector<double,2> Vec2d;
 /*
 /// 2-d vector class
 class Vec2d {
