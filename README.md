@@ -5,13 +5,9 @@ Martin Bernreuther, Andreas Mattes)
 
 # Build
 
-Run
 
-	scripts/install
+       ./configure && make
 
-or to take advantage of several core/processors
-
-	MAKEFLAGS=-j4 scripts/install
 
 # Test
 
