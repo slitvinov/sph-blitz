@@ -20,8 +20,6 @@ public:
         ///copy constructor
         Vec2d(const Vec2d &);
 
-        ///reload arithmetics operaters
-        inline Vec2d operator=(const Vec2d &); ///equality
         inline Vec2d operator-() const; ///minus
         inline Vec2d operator+(const Vec2d &) const; ///plus
         inline Vec2d operator+=(const Vec2d &); ///accumulate
@@ -40,20 +38,6 @@ public:
         inline double sqdiff() const; ///v[0]^2 - v[1]^2
 
 };
-
-
-
-///-----------------------------------------------------------------
-///			define inline functions
-///-----------------------------------------------------------------
-
-/// Copies the values
-inline Vec2d Vec2d::operator=(const Vec2d &v){
-  enum {X, Y};
-  D[X] = v[X];
-  D[Y] = v[Y];
-  return *this;
-}
 
 /// Inverses the vector value sign
 inline Vec2d Vec2d::operator-() const{
