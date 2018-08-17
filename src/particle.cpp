@@ -82,9 +82,9 @@ Particle::Particle(Vec2d position, Vec2d velocity, double density, double pressu
 	U = velocity; U_I = U;
 	
 	///- set conservative values and their  intermediate values
-	m = 0.0; V = 0.0; e = mtl->get_e(T); e_I = e;
+	m = 0.0; V = 0.0;
 	R_I = R; P_I = P; rho_I = rho;
-	P_n = P; U_n = U; rho_n = rho; e_n = e; 
+	P_n = P; U_n = U; rho_n = rho;
 
 	///- set up phase field
 	phi = new double*[number_of_materials];
@@ -151,10 +151,9 @@ Particle::Particle(Particle &RealParticle) : bd(1), bd_type(1)
 	
 	///- set conservative values and their  intermediate values
 	m = RealParticle.m; V = RealParticle.V; e = RealParticle.e; 
-	R_I = RealParticle.R_I;	e_I = RealParticle.e_I;
+	R_I = RealParticle.R_I;
 	P = RealParticle.P; P_I = RealParticle.P_I; rho_I = rho;
 	P_n = RealParticle.P_n; U_n = RealParticle.U_n; rho_n = RealParticle.rho_n;
-	e_n = RealParticle.e_n;
 	
 	///- set up phase field
 	phi = new double*[number_of_materials];
@@ -197,10 +196,9 @@ Particle::Particle(Particle &RealParticle, Material &material): bd(1), bd_type(0
 	
 	///- set conservative values and their  intermediate values
 	m = RealParticle.m; V = RealParticle.V; e = RealParticle.e; 
-	R_I = RealParticle.R_I;	e_I = RealParticle.e_I;
+	R_I = RealParticle.R_I;
 	P = RealParticle.P; P_I = RealParticle.P_I; rho_I = rho;
 	P_n = RealParticle.P_n; U_n = RealParticle.U_n; rho_n = RealParticle.rho_n;
-	e_n = RealParticle.e_n; 
 
 	///- set up phase field
 	phi = new double*[number_of_materials];

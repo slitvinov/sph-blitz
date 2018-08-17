@@ -63,8 +63,6 @@ public:
 	Vec2d U_I;///<intermediate velocity
 	Vec2d P_n;///<do not knwo what this is n=?conservative???<b>!!!Question!!!</b>
 	Vec2d U_n; ///<do not knwo what this is n=?conservative???<b>!!!Question!!!</b>
-	double e_I;///<intermediate value of internal enegry (used in the integrator)
-        double e_n; ///intermediate volume, internal energy used in integrator
 	Vec2d ShearRate_x, ShearRate_y;
 
 	//for multimaterials

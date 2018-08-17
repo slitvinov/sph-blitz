@@ -316,14 +316,6 @@ double Initiation::non_dms_kinetic_viscosity(double nu)
 	return nu/_v/_length;
 }
 //-------------------------------------------------------
-//			Non_dimensionalize heat ratio
-//-------------------------------------------------------
-double Initiation::non_dms_heat_ratio(double cv)
-{
-	return cv*_T/_v/_v;
-
-}
-//-------------------------------------------------------
 //			Non_dimensionalize heat conduction rate
 //-------------------------------------------------------
 double Initiation::non_dms_heat_conduction(double kappa)

@@ -24,7 +24,6 @@ public:
 	///-  2: gas
 	int material_type;
 
-	double cv;///<heat capacity
 	double eta;///<viscosity
 	double zeta;///<heat conduction rate
 	double gamma; ///<???
@@ -55,8 +54,6 @@ public:
 	double get_p(double rho);
 	///get rho from pressure
 	double get_rho(double p);
-	///get interal energy
-	double get_e(double T);
 	///get temperature (function is defined nowhere)
 	double get_T(double e);
 	///get sound speed

@@ -68,7 +68,7 @@ Material::Material(char *material_name, Initiation &ini)
 		fin>>Key_word;
 		  ///-read material properties from .cfg file
 		//comparing the key words for the material name
-		if(!strcmp(Key_word, material_name)) fin>>cv>>eta>>zeta>>gamma>>rho0>>a0;
+		if(!strcmp(Key_word, material_name)) fin>>eta>>zeta>>gamma>>rho0>>a0;
 
 	}
 	fin.close();
@@ -84,7 +84,6 @@ Material::Material(char *material_name, Initiation &ini)
 //----------------------------------------------------------------------------------------
 void Material::non_dimensionalize(Initiation &ini)
 {
-	cv = ini.non_dms_heat_ratio(cv);
 	eta = ini.non_dms_viscosity(eta);
 	zeta = ini.non_dms_viscosity(zeta);
 	nu = ini.non_dms_viscosity(nu);
@@ -99,7 +98,6 @@ void Material::show_properties()
 	nu = AMAX1(eta, zeta)/rho0;
 	
 	cout<<"Material: "<<material_name<<"\n";		
-	cout<<"The heat capacity is  "<<cv<<" J/kg/K\n";
 	cout<<"The viscosity is "<<eta<<" Pa.s \n";
 	cout<<"The heat ratio is "<<gamma<<"\n";
 	cout<<"The reference pressure b0 is "<<b0<<" Pa\n";
@@ -128,13 +126,6 @@ double Material::get_p(double rho)
 double Material::get_rho(double p)
 {
 	return rho0*pow(p/b0, 1.0/gamma);
-}
-//----------------------------------------------------------------------------------------
-//				get internal energy
-//----------------------------------------------------------------------------------------
-double Material::get_e(double T)
-{
-	return cv*T;
 }
 //----------------------------------------------------------------------------------------
 //					get sound speed

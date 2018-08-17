@@ -91,7 +91,6 @@ public:
 	double non_dms_acceleration(double acceleration);///<a non dimensionalize method
 	Vec2d non_dms_acceleration(Vec2d acceleration);///<a non dimensionalize method
 	double non_dms_viscosity(double mu);///<a non dimensionalize method
-	double non_dms_heat_ratio(double cv);///<a non dimensionalize method
 	double non_dms_heat_conduction(double kappa);///<a non dimensionalize method
 	double non_dms_Boltzmann(double k_bltz);///<a non dimensionalize method
 	double non_dms_surface(double sigma);///<a non dimensionalize method
