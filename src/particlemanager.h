@@ -37,7 +37,7 @@ public:
 	///"empty" constructor
 	ParticleManager();
 	/// constructor
-	ParticleManager(Initiation &ini);
+	explicit ParticleManager(Initiation &ini);
 	///
 	ParticleManager(double cell_size, int x_cells, int y_cells);
 

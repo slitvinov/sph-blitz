@@ -20,7 +20,7 @@ class TimeSolver{
 public:
 	
 	///constructor
-	TimeSolver(Initiation &ini);
+	explicit TimeSolver(Initiation &ini);
 	
 	///advance time interval D_time (=output time interval)
 	void TimeIntegral(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary,

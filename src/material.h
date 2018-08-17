@@ -38,7 +38,7 @@ public:
 	///constructor
 	Material();
 	///constructor
-	Material(Initiation &ini);
+	explicit Material(Initiation &ini);
 	///constructor
 	Material(char *material_name, Initiation &ini);
 	

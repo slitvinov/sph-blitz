@@ -15,7 +15,7 @@ public:
 	//constructors-------------------------------------------------------------------
 	
 	///a particle constructur for empty particles
-	Particle(Initiation &ini);
+	explicit Particle(Initiation &ini);
 
 	///\brief construct a real particle
 	///NOTE the particle mass and volume will be specified in initiation::VolumeMass(w)

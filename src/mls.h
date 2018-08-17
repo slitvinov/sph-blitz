@@ -25,7 +25,7 @@ public:
 	Vec2d *dphi; ///<derivatives (pointer to): have not been implemented!
 
 	///constructor
-	MLS(Initiation &ini);
+	explicit MLS(Initiation &ini);
 
 	///\brief MLS Mapping to grid points
 	///

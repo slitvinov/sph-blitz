@@ -13,7 +13,7 @@ class BetaSpline : public Kernel
 
 public:
     ///constructor to initialize the data members and
-    BetaSpline(double smoothingLength);
+    explicit BetaSpline(double smoothingLength);
 
     ///\brief Calculates the kernel value for the given distance of two particles.
     ///

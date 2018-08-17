@@ -20,7 +20,7 @@ class Output {
 public:
 
 	///constructor
-	Output(Initiation &ini);
+	explicit Output(Initiation &ini);
 
 	///output particle positions respected different materials
 	void OutputParticles(Hydrodynamics &hydro, Boundary &boundary, 

@@ -22,7 +22,7 @@ public:
 
 	///constructor
 	Force();
-	Force(Initiation &ini);
+	explicit Force(Initiation &ini);
 
 	///non-dimensionalize
 	void non_dimensionalize(Initiation &ini);

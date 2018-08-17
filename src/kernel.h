@@ -10,7 +10,7 @@ class Kernel
 public:
 
     ///Constructor to initialize data members
-  Kernel(double smoothingLength);
+  explicit Kernel(double smoothingLength);
     
     ///Base classes with virtual member functions should have a virtual destructor
     virtual ~Kernel();

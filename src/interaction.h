@@ -55,7 +55,7 @@ class Interaction {
 public:
 	
 	///constructor
-	Interaction(Initiation &ini);
+	explicit Interaction(Initiation &ini);
 	///constructor
 	Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
 				QuinticSpline &weight_function, double dstc);

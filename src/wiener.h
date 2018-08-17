@@ -35,7 +35,7 @@ public:
 	Wiener();
 
 	///costructure
-	Wiener(const int dimension);
+	explicit Wiener(const int dimension);
 
 	///produce wiener vlaue matrix with symmetric tracless part, and the trace
 	void get_wiener_Espanol(const double sqrtdt);
