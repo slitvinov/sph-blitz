@@ -123,9 +123,11 @@ Update autotools files
 # Images
 
 Poiseuille flow
+
 ![poiseuille](img/poiseuille.png)
 
 Ellipsoid water drop in air
+
 ![ellipse](img/ellipse.png)
 
 # References
