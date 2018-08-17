@@ -13,16 +13,9 @@ or to take advantage of several core/processors
 
 	MAKEFLAGS=-j4 scripts/install
 
+# Test
 
-# Initial condition file
-
-	<start time>
-	<number of particles>
-	...
-	<material name> <X> <Y> <Vx> <Vy> <density> <pressure> <temperature>
-	...
-
-[example](cases/couette.rst)
+`make test` runs test in [test/](test/) (requres atest).
 
 # Configuration file
 
@@ -82,6 +75,16 @@ type code
 	(numb_mat*numb_mat lines, one for each material pair)
 
 `sigma` is a surface tension coefficient
+
+# Initial condition file
+
+	<start time>
+	<number of particles>
+	...
+	<material name> <X> <Y> <Vx> <Vy> <density> <pressure> <temperature>
+	...
+
+[example](cases/couette.rst)
 
 # Simulations
 
@@ -149,3 +152,5 @@ Ellipsoid water drop in air
 - autotools https://en.wikipedia.org/wiki/GNU_Build_System
 
 - tecplot http://paulbourke.net/dataformats/tp
+
+- atest https://github.com/slitvinov/atest
