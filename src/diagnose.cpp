@@ -6,7 +6,7 @@
 //      Output the diagnosal results
 //              output.cpp
 //----------------------------------------------------------------------------------------
-
+#include <cmath>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -15,11 +15,22 @@
 #include <cstdlib>
 
 // ***** localincludes *****
-#include "glbcls.h"
+class Initiation;
+class Hydrodynamics;
+class ParticleManager;
+class MLS;
+class QuinticSpline;
+class Material;
+class Interaction;
+class Force;
+class Boundary;
 #include "glbfunc.h"
+#include "dllist.h"
+#include "vec2d.h"
 #include "diagnose.h"
 #include "initiation.h"
 #include "particle.h"
+#include "wiener.h"
 #include "hydrodynamics.h"
 #include "mls.h"
 #include "particlemanager.h"
