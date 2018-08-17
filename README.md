@@ -94,11 +94,19 @@ in gnuplot shell
 	plot n=1, 'punto.dat' u 2:3 every :::n::n
 	plot n=10, A=250.0, 'punto.dat' u 2:3 every :::n::n+5, A*x*(L-x)
 
-# Others
+# More
 
-To remove output directory
+Generate documntation with doxygen
 
-	rm -rf outdata/
+	make doc
+
+Update autotools files
+
+	./bootstrap.sh
+
+# Images
+
+![poiseuille](img/poiseuille.png)
 
 # References
 
@@ -109,7 +117,3 @@ To remove output directory
 - gnuplot http://www.gnuplot.info
 
 - punto http://punto.sourceforge.net
-
-# Images
-
-![poiseuille](img/poiseuille.png)
