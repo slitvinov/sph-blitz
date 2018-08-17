@@ -2,5 +2,6 @@ ACLOCAL_AMFLAGS = -I m4
 SUBDIRS= src
 
 doc:; cd src; doxygen
+test:; atest test/*
 
-.PHONY: clean
+.PHONY: doc test
