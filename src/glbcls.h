@@ -10,7 +10,6 @@
 #include <omp.h>
 #endif
 
-///#include <iostream>
 #include "vec2d.h"
 #include "wiener.h"
 #include "dllist.h"
