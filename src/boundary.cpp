@@ -63,7 +63,7 @@ Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &parti
     fin>>Key_word;
 		
      ///- compare the key words for left, right, upper and lower boundary condition type and their velocities
-    if(!strcmp(Key_word, "BOUNDARY")) fin>>wall_file>>xBl>>UxBl[0]>>UxBl[1]
+    if(!strcmp(Key_word, "BOUNDARY")) fin>>xBl>>UxBl[0]>>UxBl[1]
 					 >>xBr>>UxBr[0]>>UxBr[1]
 					 >>yBd>>UyBd[0]>>UyBd[1]
 					 >>yBu>>UyBu[0]>>UyBu[1];
@@ -93,7 +93,6 @@ void Boundary::non_dimensionalize(Initiation &ini)
 void Boundary::show_information(Initiation &ini)
 {
   ///- output the property parameters to the screen
-  if(wall_file == 1) cout<<"We read wall particle data from " <<ini.Project_name<<".wll \n";
   cout<<"The left, right, lower and upper boundary conditions are "
       <<xBl<<", "<<xBr<<", "<<yBd<<", "<<yBu<<" \n";
   cout<<"0: wall boundary condition\n";
