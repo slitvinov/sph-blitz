@@ -27,7 +27,6 @@ public:
 	double cv;///<heat capacity
 	double eta;///<viscosity
 	double zeta;///<heat conduction rate
-	double kappa;///<???
 	double gamma; ///<???
 
 	double nu; ///<kinetice viscosity

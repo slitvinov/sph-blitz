@@ -70,7 +70,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
 	///<ul><li>save each one of them in materials matrix
 	materials[k].number = k;
 	fin>>materials[k].material_name>>materials[k].material_type;
-	fin>>materials[k].cv>>materials[k].eta>>materials[k].zeta>>materials[k].kappa
+	fin>>materials[k].cv>>materials[k].eta>>materials[k].zeta
 	   >>materials[k].gamma>>materials[k].b0>>materials[k].rho0>>materials[k].a0;
 	///<li>output the material property parameters to the screen
 	cout<<"The properties of the material No. "<<k<<"\n";		

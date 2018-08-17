@@ -68,7 +68,7 @@ Material::Material(char *material_name, Initiation &ini)
 		fin>>Key_word;
 		  ///-read material properties from .cfg file
 		//comparing the key words for the material name
-		if(!strcmp(Key_word, material_name)) fin>>cv>>eta>>zeta>>kappa>>gamma>>b0>>rho0>>a0;
+		if(!strcmp(Key_word, material_name)) fin>>cv>>eta>>zeta>>gamma>>b0>>rho0>>a0;
 
 	}
 	fin.close();
@@ -88,7 +88,6 @@ void Material::non_dimensionalize(Initiation &ini)
 	eta = ini.non_dms_viscosity(eta);
 	zeta = ini.non_dms_viscosity(zeta);
 	nu = ini.non_dms_viscosity(nu);
-	kappa = ini.non_dms_heat_conduction(kappa);
 	b0 =ini.non_dms_p(b0);
 	rho0 = ini.non_dms_rho(rho0);
 }
@@ -103,7 +102,6 @@ void Material::show_properties()
 	cout<<"Material: "<<material_name<<"\n";		
 	cout<<"The heat capacity is  "<<cv<<" J/kg/K\n";
 	cout<<"The viscosity is "<<eta<<" Pa.s \n";
-	cout<<"The heat conduction coefficient is "<<kappa<<" J/s/m^2/T\n";
 	cout<<"The heat ratio is "<<gamma<<"\n";
 	cout<<"The reference pressure b0 is "<<b0<<" Pa\n";
 	cout<<"The reference density is "<<rho0<<" kg/m^3 \n";
