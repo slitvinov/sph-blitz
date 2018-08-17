@@ -15,7 +15,7 @@ or to take advantage of several core/processors
 
 # Test
 
-`make test` runs test in [test/](test/) (requres atest).
+`make test` runs [tests](test/) (requres atest).
 
 # Configuration file
 
