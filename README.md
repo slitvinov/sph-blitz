@@ -133,6 +133,10 @@ Ellipsoid water drop in air
 
 ![ellipse](img/ellipse.png)
 
+Fluctuation liquid
+
+![thermal](img/thermal.gif)
+
 # References
 
 - Hu, Xianguy, and Nikolaus A. Adams. "A multi-phase SPH method for
