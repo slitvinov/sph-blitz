@@ -100,7 +100,6 @@ void Material::show_properties()
 	cout<<"Material: "<<material_name<<"\n";		
 	cout<<"The viscosity is "<<eta<<" Pa.s \n";
 	cout<<"The heat ratio is "<<gamma<<"\n";
-	cout<<"The reference pressure b0 is "<<b0<<" Pa\n";
 	cout<<"The reference density is "<<rho0<<" kg/m^3 \n";
 	cout<<"The premited compressibilty a0 is "<<1.0/a0*100.0<<" percent\n";
 }
