@@ -60,7 +60,7 @@ type code
 1: periodic
 0: wall
 
-	BOUNDARY <use or not wall file>
+	BOUNDARY
 	<type codes of boundry <velocity of the wall>
 	...
 
