@@ -1,8 +1,9 @@
 # Introduction
 
-2D multiphase SPH/SDPD code (authors: Xiangyu Hu, Sergey Litvinov, Martin Bernreuther, Andreas Mattes)
+2D multiphase SPH/SDPD code (authors: Xiangyu Hu, Sergey Litvinov,
+Martin Bernreuther, Andreas Mattes)
 
-# Install
+# Build
 
 Run
 
@@ -12,7 +13,8 @@ or to take advantage of several core/processors
 
 	MAKEFLAGS=-j4 scripts/install
 
-# Initial conditon file
+
+# Initial condition file
 
 	<start time>
 	<number of particles>
@@ -26,15 +28,15 @@ or to take advantage of several core/processors
 
 To use initial condition file
 
-	INITIAL_CONDITION	1
+	INITIAL_CONDITION <1/0>
 
 The level of statistics output
 
-	DIAGNOSE			2
+	DIAGNOSE 2
 
 number of cells in x and y direction
 
-	CELLS
+	CELLS <nx> <ny>
 
 size of one cell
 
@@ -69,17 +71,15 @@ type code
 	<type codes of boundry <velocity of the wall>
 	...
 
-
-
 	NUMBER_OF_MATERIALS <numb_mat>
 
 	MATERIALS
 	<material_name> <material_type>	<cv>	<eta>	<zeta>	<kappa>	<gamma>	<b0>	<rho0>	<a0>
-	(one line for each material)
+	(numb_mat lines)
 
-	 FORCES
-	 <mat#k>	<mat#m>		<sigma>	<shear_slip>	<bulk_slip>	<heat_slip>
-	 (numb_mat*numb_mat lines, one for each material pair)
+	FORCES
+	<mat#k>	<mat#m>		<sigma>	<shear_slip>	<bulk_slip>	<heat_slip>
+	(numb_mat*numb_mat lines, one for each material pair)
 
 `sigma` is a surface tension coefficient
 
