@@ -118,8 +118,6 @@ int main(int argc, char *argv[]) {
 	//output initial conditions
 	output.OutputParticles(hydro, boundary, Time, ini); //particle positions and velocites
 	output.OutputStates(particles, mls, weight_function, Time, ini); //initial states on uniform grid
-	output.CreatParticleMovie(); //the particle movie file head
-	output.WriteParticleMovie(hydro, Time, ini); //the first frame of the movie
 	//output diagnose information
 	if(ini.diagnose == 2 ) diagnose.KineticInformation(Time, ini, hydro);
 
@@ -142,7 +140,6 @@ int main(int argc, char *argv[]) {
 		output.OutputParticles(hydro, boundary, Time, ini); //particle positions and velocites
 //		output.OutputStates(particles, mls, weight_function, Time, ini); //states on uniform grid
 //		output.OutAverage(particles, mls, weight_function, Time, ini);
-		output.WriteParticleMovie(hydro, Time, ini); //a frame of the particle movie
 		output.OutRestart(hydro, Time, ini); //restarting file
 
 		//output diagnose information
