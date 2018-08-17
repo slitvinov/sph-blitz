@@ -19,7 +19,7 @@ class Initiation {
 public:
 	
 	///the project name
-	char Project_name[25];
+	char Project_name[FILENAME_MAX];
 
 	///\brief number of materials
 	///
@@ -27,7 +27,7 @@ public:
 	///- therefore at least 2 materials should be included
 	int number_of_materials;
 	///the global inputfile name: a *.cfg file
-	char inputfile[25];
+	char inputfile[FILENAME_MAX];
 
 	/// \brief initial condition marker:
 	///

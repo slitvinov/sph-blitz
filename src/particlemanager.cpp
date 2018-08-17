@@ -344,7 +344,7 @@ void ParticleManager::BiuldRealParticles(Hydrodynamics &hydro, Initiation &ini)
   if(initial_condition==1) {	
 
     int n, N;
-    char inputfile[25];
+    char inputfile[FILENAME_MAX];
     char material_name[25];
 		
     //the restart file name

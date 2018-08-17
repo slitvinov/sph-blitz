@@ -16,7 +16,7 @@ class Diagnose {
 	int hdelta; 
 
 	///the project name
-	char Project_name[25];
+	char Project_name[FILENAME_MAX];
 	int number_of_materials;
 
 	double vx_dstrb[2][101];///<x-velocity distribution

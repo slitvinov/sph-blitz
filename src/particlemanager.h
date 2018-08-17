@@ -7,7 +7,7 @@
 class ParticleManager
 {
 	//parameters copied from initiation
-	char Project_name[25]; ///<the project name
+	char Project_name[FILENAME_MAX]; ///<the project name
 	int number_of_materials;
 	double smoothinglength; ///<smoothinglenth
 	double smoothinglengthsquare; ///<smoothinglenth

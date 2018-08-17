@@ -48,7 +48,7 @@ Material::Material(char *material_name, Initiation &ini)
 {
 
 	char Key_word[25];
-	char inputfile[25];
+	char inputfile[FILENAME_MAX];
 
 	strcpy(inputfile, ini.inputfile);
 	

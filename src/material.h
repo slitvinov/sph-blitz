@@ -14,7 +14,7 @@ class Material {
 public:
 	
 	///material name string
-	char material_name[25];
+	char material_name[FILENAME_MAX];
 	int number; ///<the material NO.
 
 	///\brief material type
