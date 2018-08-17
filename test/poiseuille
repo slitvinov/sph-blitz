@@ -1,0 +1,3 @@
+# TEST: poiseuille
+./src/sph cases/poiseuille
+cp outdata/p.0000001006.dat p.out.dat

@@ -44,8 +44,8 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
 
   ///<ul><li>produce output file name
   Itime = ini.dms_time(Time)*1.0e6;
-  strcpy(file_name,"./outdata/prtl");
-  sprintf(file_list, "%.10d", (int)Itime);
+  strcpy(file_name,"./outdata/p.");
+  sprintf(file_list, "%.10lld", (long long)Itime);
   strcat(file_name, file_list);
   strcat(file_name, ".dat");
 
