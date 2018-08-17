@@ -17,7 +17,7 @@ Run
 	...
 	<empty line>
 
-[example](couette.rst)
+[example](cases/couette.rst)
 
 # Input file format
 
