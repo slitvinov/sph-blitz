@@ -112,4 +112,4 @@ To remove output directory
 
 # Images
 
-[poiseuille](img/poiseuille.png)
+![poiseuille](img/poiseuille.png)
