@@ -326,43 +326,14 @@ void Hydrodynamics::UpdateChangeRate()
   ///- initiate the change rate of each real particle by calling ZeroChangeRate()
   ZeroChangeRate();	
 
-#ifdef _OPENMP
-#pragma omp parallel
-  {
-    int current_thread = 0;
-    int thread_num = omp_get_num_threads();
-    int this_thread_num = omp_get_thread_num();
-#endif
     ///- iterate the interaction list
     for (LlistNode<Interaction> *p = interaction_list.first(); 
 	 !interaction_list.isEnd(p); 
 	 p = interaction_list.next(p)) {
-#ifdef _OPENMP
-      if (current_thread == this_thread_num)
-#endif
 	//a interaction pair
 	///- calculate for each pair the pair forces or change rate
 	interaction_list.retrieve(p)->UpdateForces();
-#ifdef _OPENMP
-      current_thread++;
-      if (current_thread == thread_num)
-	current_thread = 0;
-#endif
     }
-#ifdef _OPENMP
-  }
-
-  for (LlistNode<Interaction> *p = interaction_list.first(); 
-       !interaction_list.isEnd(p); 
-       p = interaction_list.next(p)) {
-		
-    //a interaction pair
-    Interaction *pair = interaction_list.retrieve(p);
-    //calculate the pair forces or change rate
-    pair->SummationUpdateForces();
-
-  }
-#endif
 
   ///- include the gravity effects
   AddGravity();

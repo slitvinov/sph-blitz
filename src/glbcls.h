@@ -6,10 +6,6 @@
 /// \author changes by: Andreas Mattes
 /// \brief Global class declarations
 
-#ifdef _OPENMP
-#include <omp.h>
-#endif
-
 #include "vec2d.h"
 #include "wiener.h"
 #include "dllist.h"

@@ -41,16 +41,6 @@ class Interaction {
 	Vec2d eij; ///<pair direction from orginal particle to destination particle 
 	double shear_rij ;///<particle length to implement slip boundary<<b>!!!question!!!<b>
 	double bulk_rij; ///<particle length to implement slip boundary<<b>!!!question!!!<b>
-
-#ifdef _OPENMP
-
-	double drhodt1;///<for temporary storage of computation terms
-	double drhodt2;///<for temporary storage of computation terms
-	Vec2d _dU1;///<for temporary storage of computation terms
-	Vec2d _dU2;///<for temporary storage of computation terms
-	Vec2d dUdt1;///<for temporary storage of computation terms
-	Vec2d dUdt2;///<for temporary storage of computation terms
-#endif
 		
 public:
 	
@@ -105,9 +95,6 @@ public:
 	void UpdateForces();
 	///update forces with summation of viscosity
 	void UpdateForces_vis();
-#ifdef _OPENMP
-	void SummationUpdateForces();
-#endif
 
 	///update random forces
 	void RandomForces(Wiener &wiener, double sqrtdt);

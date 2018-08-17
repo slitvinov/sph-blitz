@@ -276,34 +276,13 @@ void Interaction::UpdateForces()
 	dPdti +=  (SurfaceForcei*Vi2 + SurfaceForcej*Vj2)*rij*Fij;
 
 	//summation
-#ifdef _OPENMP
-	_dU1 = dUi*mi;
-	_dU2 = dUi*mj;
-	drhodt1 = drhodti*rhoi*rVi;
-	drhodt2 = drhodti*rhoj*rVj;
-	dUdt1 = dPdti*rmi;
-	dUdt2 = dPdti*rmj;
-#else
 	Org->_dU += dUi*mi;
 	Dest->_dU -= dUi*mj;
 	Org->drhodt += drhodti*rhoi*rVi;
 	Dest->drhodt += drhodti*rhoj*rVj;
 	Org->dUdt += dPdti*rmi;
 	Dest->dUdt -= dPdti*rmj;
-#endif
 }
-
-#ifdef _OPENMP
-void Interaction::SummationUpdateForces()
-{
-	Org->_dU += _dU1;
-	Dest->_dU -= _dU2;
-	Org->drhodt += drhodt1;
-	Dest->drhodt += drhodt2;
-	Org->dUdt += dUdt1;
-	Dest->dUdt -= dUdt2;
-}
-#endif
 
 //----------------------------------------------------------------------------------------
 //				update forces with summation viscosity
