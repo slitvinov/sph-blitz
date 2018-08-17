@@ -196,7 +196,7 @@ void Output::OutRestart(Hydrodynamics &hydro, double Time, Initiation &ini)
     Particle *prtl = hydro.particle_list.retrieve(p);
     if(prtl->bd == 0) 
       out<<prtl->mtl->material_name<<"  "<<prtl->R[0]<<"  "<<prtl->R[1]<<"  "<<prtl->U[0]<<"  "<<prtl->U[1]
-	 <<"  "<<prtl->rho<<"  "<<prtl->p<<"  "<<prtl->T<<"  \n";
+	 <<"  "<<prtl->rho<<"  "<<prtl->p<<"  "<<prtl->T<< '\n';
   }
   out.close();
 }
