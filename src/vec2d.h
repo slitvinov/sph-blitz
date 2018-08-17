@@ -133,15 +133,4 @@ inline double product(const Vec2d &v) {
     return v[X]*v[Y];
 }
 
-/// Return the perodic position
-inline void perodic_position(Vec2d &va, const Vec2d &vb, const Vec2d &perodic)
-{
-        if(vb[0] < perodic[0]/2) va[0] = vb[0] + perodic[0];
-        else va[0] = vb[0] - perodic[0];
-
-        if(vb[1] < perodic[1]/2) va[1] = vb[1] + perodic[1];
-        else va[1] = vb[1] - perodic[1];
-
-}
-
 #endif //VEC2D_H
