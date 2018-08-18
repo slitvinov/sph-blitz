@@ -27,7 +27,6 @@ class Boundary;
 #include "glbfunc.h"
 #include "dllist.h"
 #include "vec2d.h"
-#include "diagnose.h"
 #include "initiation.h"
 #include "particle.h"
 #include "wiener.h"
@@ -35,6 +34,7 @@ class Boundary;
 #include "mls.h"
 #include "particlemanager.h"
 #include "material.h"
+#include "diagnose.h"
 
 using namespace std;
 

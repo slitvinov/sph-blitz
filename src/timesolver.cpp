@@ -18,6 +18,7 @@
 // ***** localincludes *****
 #include "glbcls.h"
 #include "glbfunc.h"
+#include "diagnose.h"
 
 using namespace std;
 
