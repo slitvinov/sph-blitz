@@ -87,7 +87,6 @@ void Material::non_dimensionalize(Initiation &ini)
 	eta = ini.non_dms_viscosity(eta);
 	zeta = ini.non_dms_viscosity(zeta);
 	nu = ini.non_dms_viscosity(nu);
-	rho0 = ini.non_dms_rho(rho0);
 }
 //----------------------------------------------------------------------------------------
 //			output the property parameters to the screen

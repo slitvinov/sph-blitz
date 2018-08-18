@@ -285,7 +285,7 @@ void Diagnose::OutputAverage(double Time, Initiation &ini)
             pstn[0] = i*delta; pstn[1] = j*delta;
 
             out<<ini.dms_length(pstn[0])<<"  "<<ini.dms_length(pstn[1])
-               <<"  "<<ini.dms_p(U[1][i][j])<<"  "<<ini.dms_rho(U[0][i][j])
+               <<"  "<<ini.dms_p(U[1][i][j])<<"  "<<U[0][i][j]
                <<"  "<<ini.dms_velocity(U[3][i][j])<<"  "<<ini.dms_velocity(U[4][i][j])
                <<"  "<<U[2][i][j]<<"\n";
         }
@@ -325,7 +325,7 @@ void Diagnose::KineticInformation(double Time, Initiation &ini, Hydrodynamics &h
         glb_ave_Ek += 0.5*sqrt(v_abs(prtl->U))*prtl->m;
     }
 
-    out<<ini.dms_time(Time)<<"  "<<ini.dms_mass(ttl_m)<<"  "<<ini.dms_energy(glb_ave_Ek)<<"  ";
+    out<<ini.dms_time(Time)<<"  "<<ttl_m<<"  "<<ini.dms_energy(glb_ave_Ek)<<"  ";
     for(k = 0; k < number_of_materials; k++) {
         out<<ini.dms_length(wght_cntr[k][0]/mtl_m[k])<<"  "<<ini.dms_length(wght_cntr[k][1]/mtl_m[k])<<"  ";
         out<<ini.dms_length(wght_v[k][0]/mtl_m[k])<<"  "<<ini.dms_length(wght_v[k][1]/mtl_m[k])<<"  ";

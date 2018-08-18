@@ -9,7 +9,6 @@ class Initiation {
 	//reference length, speed, and density for non-dimensionalization
 	double _length;///<reference length for non dimensional value 
 	double _v;///<reference speed for non dimensional value
-	double _rho;///<reference density for non dimensional value
 public:
 	
 	///the project name
@@ -73,8 +72,6 @@ public:
 
 	//non-dimesionlize
 	double non_dms_p(double p);///<a non dimensionalize method
-	double non_dms_rho(double rho);///<a non dimensionalize method
-	double non_dms_mass(double mass);///<a non dimensionalize method
 	double non_dms_time(double time);///<a non dimensionalize method
 	double non_dms_length(double length);///<a non dimensionalize method
 	Vec2d non_dms_box_size(Vec2d box_size);///<a non dimensionalize method
@@ -90,8 +87,6 @@ public:
 
 	//re-dimesionlize
 	double dms_p(double p_non);///<a re-dimensionalize method
-	double dms_rho(double rho_non);///<a re-dimensionalize method
-	double dms_mass(double mass_non);///<a re-dimensionalize method
 	double dms_time(double time_non);///<a re-dimensionalize method
 	double dms_length(double length_non);///<a re-dimensionalize method
 	Vec2d dms_box_size(Vec2d box_size_non);///<a re-dimensionalize method
