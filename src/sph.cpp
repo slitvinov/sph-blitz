@@ -55,6 +55,7 @@
 // ***** local includes *****
 #include "glbfunc.h"
 #include "glbcls.h"
+#include "mls.h"
 
 using namespace std;
 
