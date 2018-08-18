@@ -20,7 +20,7 @@ class ParticleManager
 	double rho0, p0, T0; ///<initial particle mass and density, pressure and temperature
 
 	///buid the initial wall particles and the linked lists
-	void BiuldWallParticles(Hydrodynamics &hydro, Initiation &ini, Boundary &boundary);
+	void BuildWallParticles(Hydrodynamics &hydro, Initiation &ini, Boundary &boundary);
 
 public:
 
@@ -42,8 +42,8 @@ public:
 	ParticleManager(double cell_size, int x_cells, int y_cells);
 
 	///buid the initial particles and the linked lists
-	void BiuldRealParticles(Hydrodynamics &hydro, Initiation &ini);
-	void BiuldRealParticles(Hydrodynamics &hydro);
+	void BuildRealParticles(Hydrodynamics &hydro, Initiation &ini);
+	void BuildRealParticles(Hydrodynamics &hydro);
 
 	///update the cell linked lists for real particles
 	void UpdateCellLinkedLists();
