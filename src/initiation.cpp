@@ -78,7 +78,7 @@ Initiation::Initiation(const char *project_name) {
 		if(!strcmp(Key_word, "ARTIFICIAL_VISCOSITY")) fin>>art_vis;
 
 		//comparing the key words for dimension
-		if(!strcmp(Key_word, "DIMENSION")) fin>>_length>>_v;
+		if(!strcmp(Key_word, "DIMENSION")) fin>>_length;
 		
 		//comparing the key words for number ofmaterials
 		if(!strcmp(Key_word, "NUMBER_OF_MATERIALS")) fin>>number_of_materials;
@@ -127,7 +127,7 @@ void Initiation::show_information()
 	cout<<"The initial particle width is "<<delta<<" micrometers\n";
 	cout<<"The g force is "<<g_force[0]<<" m/s^2 x "<<g_force[1]<<" m/s^2 \n";
 	cout<<"The dimensionless reference length, speed, density and temperature are \n"
-            <<_length<<" micrometer, "<<_v<<" m/s\n";
+            <<_length<<" micrometer\n";
 
 	///- output the timing information on screen
 	cout<<"\nInitialtion: Time controlling:\nStarting time is "<<Start_time<<" \n";
@@ -228,14 +228,14 @@ void Initiation::non_dimensionalize()
 //-------------------------------------------------------
 double Initiation::non_dms_p(double p)
 {
-	return p/_v/_v;
+	return p;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize time
 //-------------------------------------------------------
 double Initiation::non_dms_time(double time)
 {
-	return time*_v/_length;
+	return time/_length;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize length
@@ -256,61 +256,61 @@ Vec2d Initiation::non_dms_box_size(Vec2d box_size)
 //-------------------------------------------------------
 double Initiation::non_dms_velocity(double velocity)
 {
-	return velocity/_v;
+	return velocity;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize vector velocity
 //-------------------------------------------------------
 Vec2d Initiation::non_dms_velocity(Vec2d velocity)
 {
-	return velocity/_v;
+	return velocity;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize acceleration vector
 //-------------------------------------------------------
 Vec2d Initiation::non_dms_acceleration(Vec2d acceleration)
 {
-	 return acceleration*_length/_v/_v;
+	 return acceleration*_length;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize surface tension coefficient
 //-------------------------------------------------------
 double Initiation::non_dms_surface(double sigma)
 {
-	return sigma/_v/_v/_length;
+	return sigma/_length;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize viscosity
 //-------------------------------------------------------
 double Initiation::non_dms_viscosity(double mu)
 {
-	return mu/_v/_length;
+	return mu/_length;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize kinetic viscosity
 //-------------------------------------------------------
 double Initiation::non_dms_kinetic_viscosity(double nu)
 {
-	return nu/_v/_length;
+	return nu/_length;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize Boltzmann constant
 //-------------------------------------------------------
 double Initiation::non_dms_Boltzmann(double k_bltz)
 {
-	return k_bltz/_v/_v/_length/_length/_length;
+	return k_bltz/_length/_length/_length;
 }
 //-------------------------------------------------------
 //			Dimensionalize functions
 //-------------------------------------------------------
 double Initiation::dms_p(double p_non)
 {
-	return p_non*_v*_v;
+	return p_non;
 }
 //-------------------------------------------------------
 double Initiation::dms_time(double time_non)
 {
-	return time_non/_v*_length;
+	return time_non*_length;
 }
 //-------------------------------------------------------
 double Initiation::dms_length(double length_non)
@@ -325,26 +325,26 @@ Vec2d Initiation::dms_box_size(Vec2d box_size_non)
 //-------------------------------------------------------
 double Initiation::dms_velocity(double velocity_non)
 {
-	return velocity_non*_v;
+	return velocity_non;
 }
 //-------------------------------------------------------
 Vec2d Initiation::dms_velocity(Vec2d velocity_non)
 {
-	return velocity_non*_v;
+	return velocity_non;
 }
 //-------------------------------------------------------
 double Initiation::dms_energy(double energy_non)
 {
-	return energy_non*_length*_length*_length*_v*_v;
+	return energy_non*_length*_length*_length;
 }
 //-------------------------------------------------------
 Vec2d Initiation::dms_acceleration(Vec2d acceleration_non)
 {
-	 return acceleration_non*_v*_v/_length;
+	 return acceleration_non/_length;
 }
 //-------------------------------------------------------
 double Initiation::dms_viscosity(double mu_non)
 {
-	return mu_non*_v*_length;
+	return mu_non*_length;
 }
 //-------------------------------------------------------
