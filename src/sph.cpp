@@ -57,6 +57,7 @@
 #include "glbcls.h"
 #include "mls.h"
 #include "diagnose.h"
+#include "output.h"
 
 using namespace std;
 

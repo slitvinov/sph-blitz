@@ -18,6 +18,7 @@
 #include "glbcls.h"
 #include "glbfunc.h"
 #include "mls.h"
+#include "output.h"
 
 using namespace std;
 
