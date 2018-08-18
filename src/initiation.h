@@ -10,8 +10,6 @@ class Initiation {
 	double _length;///<reference length for non dimensional value 
 	double _v;///<reference speed for non dimensional value
 	double _rho;///<reference density for non dimensional value
-	double _T;///<reference temperature for non dimensional value
-
 public:
 	
 	///the project name
@@ -75,7 +73,6 @@ public:
 
 	//non-dimesionlize
 	double non_dms_p(double p);///<a non dimensionalize method
-	double non_dms_T(double T);///<a non dimensionalize method
 	double non_dms_rho(double rho);///<a non dimensionalize method
 	double non_dms_mass(double mass);///<a non dimensionalize method
 	double non_dms_time(double time);///<a non dimensionalize method
@@ -93,7 +90,6 @@ public:
 
 	//re-dimesionlize
 	double dms_p(double p_non);///<a re-dimensionalize method
-	double dms_T(double T_non);///<a re-dimensionalize method
 	double dms_rho(double rho_non);///<a re-dimensionalize method
 	double dms_mass(double mass_non);///<a re-dimensionalize method
 	double dms_time(double time_non);///<a re-dimensionalize method

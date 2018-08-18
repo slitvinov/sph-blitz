@@ -78,7 +78,7 @@ Initiation::Initiation(const char *project_name) {
 		if(!strcmp(Key_word, "ARTIFICIAL_VISCOSITY")) fin>>art_vis;
 
 		//comparing the key words for dimension
-		if(!strcmp(Key_word, "DIMENSION")) fin>>_length>>_v>>_rho>>_T;
+		if(!strcmp(Key_word, "DIMENSION")) fin>>_length>>_v>>_rho;
 		
 		//comparing the key words for number ofmaterials
 		if(!strcmp(Key_word, "NUMBER_OF_MATERIALS")) fin>>number_of_materials;
@@ -127,7 +127,7 @@ void Initiation::show_information()
 	cout<<"The initial particle width is "<<delta<<" micrometers\n";
 	cout<<"The g force is "<<g_force[0]<<" m/s^2 x "<<g_force[1]<<" m/s^2 \n";
 	cout<<"The dimensionless reference length, speed, density and temperature are \n"
-		<<_length<<" micrometer, "<<_v<<" m/s, "<<_rho<<" kg/m^3, "<<_T<<" K\n";
+            <<_length<<" micrometer, "<<_v<<" m/s, "<<_rho<<" kg/m^3\n";
 
 	///- output the timing information on screen
 	cout<<"\nInitialtion: Time controlling:\nStarting time is "<<Start_time<<" \n";
@@ -222,7 +222,6 @@ void Initiation::non_dimensionalize()
 		U0 = non_dms_velocity(U0);
 		rho0 = non_dms_rho(rho0);
 		p0 = non_dms_p(p0);
-		T0 = non_dms_T(T0);
 	}
 }
 //-------------------------------------------------------
@@ -231,13 +230,6 @@ void Initiation::non_dimensionalize()
 double Initiation::non_dms_p(double p)
 {
 	return p/_v/_v/_rho;
-}
-//-------------------------------------------------------
-//			Non_dimensionalize temperature
-//-------------------------------------------------------
-double Initiation::non_dms_T(double T)
-{
-	return T/_T;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize density
@@ -318,18 +310,11 @@ double Initiation::non_dms_kinetic_viscosity(double nu)
 	return nu/_v/_length;
 }
 //-------------------------------------------------------
-//			Non_dimensionalize heat conduction rate
-//-------------------------------------------------------
-double Initiation::non_dms_heat_conduction(double kappa)
-{
-	return kappa*_T/_v/_v/_v/_rho;
-}
-//-------------------------------------------------------
 //			Non_dimensionalize Boltzmann constant
 //-------------------------------------------------------
 double Initiation::non_dms_Boltzmann(double k_bltz)
 {
-	return k_bltz*_T/_v/_v/_rho/_length/_length/_length;
+	return k_bltz/_v/_v/_rho/_length/_length/_length;
 }
 //-------------------------------------------------------
 //			Dimensionalize functions
@@ -337,11 +322,6 @@ double Initiation::non_dms_Boltzmann(double k_bltz)
 double Initiation::dms_p(double p_non)
 {
 	return p_non*_v*_v*_rho;
-}
-//-------------------------------------------------------
-double Initiation::dms_T(double T_non)
-{
-	return T_non*_T;
 }
 //-------------------------------------------------------
 double Initiation::dms_rho(double rho_non)

@@ -287,7 +287,7 @@ void Diagnose::OutputAverage(double Time, Initiation &ini)
             out<<ini.dms_length(pstn[0])<<"  "<<ini.dms_length(pstn[1])
                <<"  "<<ini.dms_p(U[1][i][j])<<"  "<<ini.dms_rho(U[0][i][j])
                <<"  "<<ini.dms_velocity(U[3][i][j])<<"  "<<ini.dms_velocity(U[4][i][j])
-               <<"  "<<ini.dms_T(U[2][i][j])<<"\n";
+               <<"  "<<U[2][i][j]<<"\n";
         }
     }
     out.close();
