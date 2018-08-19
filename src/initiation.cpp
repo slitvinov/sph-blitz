@@ -216,7 +216,6 @@ void Initiation::non_dimensionalize()
 	cell_size = non_dms_length(cell_size);
 	smoothinglength = non_dms_length(smoothinglength);
 	delta = non_dms_length(delta); 
-	g_force = non_dms_acceleration(g_force);
 	Start_time = non_dms_time(Start_time);
 	End_time = non_dms_time(End_time);
 	D_time = non_dms_time(D_time);
@@ -273,13 +272,6 @@ double Initiation::non_dms_velocity(double velocity)
 Vec2d Initiation::non_dms_velocity(Vec2d velocity)
 {
 	return velocity;
-}
-//-------------------------------------------------------
-//			Non_dimensionalize acceleration vector
-//-------------------------------------------------------
-Vec2d Initiation::non_dms_acceleration(Vec2d acceleration)
-{
-	 return acceleration*_length;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize surface tension coefficient

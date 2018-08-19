@@ -80,8 +80,6 @@ public:
 	double non_dms_velocity(double velocity);///<a non dimensionalize method
 	double non_dms_kinetic_viscosity(double nu);///<a non dimensionalize method
 	Vec2d non_dms_velocity(Vec2d velocity);///<a non dimensionalize method
-	double non_dms_acceleration(double acceleration);///<a non dimensionalize method
-	Vec2d non_dms_acceleration(Vec2d acceleration);///<a non dimensionalize method
 	double non_dms_viscosity(double mu);///<a non dimensionalize method
 	double non_dms_heat_conduction(double kappa);///<a non dimensionalize method
 	double non_dms_Boltzmann(double k_bltz);///<a non dimensionalize method
