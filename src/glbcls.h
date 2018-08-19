@@ -25,6 +25,5 @@ class Hydrodynamics; class ListNode; class Material; class BetaSpline; class Qui
 #include "force.h"
 #include "interaction.h"
 #include "hydrodynamics.h"
-#include "timesolver.h"
 
 #endif //GLBCLS_H

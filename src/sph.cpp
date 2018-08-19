@@ -55,6 +55,7 @@
 // ***** local includes *****
 #include "glbfunc.h"
 #include "glbcls.h"
+#include "timesolver.h"
 #include "mls.h"
 #include "diagnose.h"
 #include "output.h"

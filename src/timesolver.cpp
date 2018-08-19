@@ -19,6 +19,7 @@
 #include "glbcls.h"
 #include "glbfunc.h"
 #include "diagnose.h"
+#include "timesolver.h"
 
 using namespace std;
 
