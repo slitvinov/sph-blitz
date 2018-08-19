@@ -283,7 +283,7 @@ void Diagnose::OutputAverage(double Time, Initiation &ini)
         for(i = 0; i < gridx; i++) {
             pstn[0] = i*delta; pstn[1] = j*delta;
 
-            out<<ini.dms_length(pstn[0])<<"  "<<ini.dms_length(pstn[1])
+            out<<pstn[0]<<"  "<<pstn[1]
                <<"  "<<U[1][i][j]<<"  "<<U[0][i][j]
                <<"  "<<U[3][i][j]<<"  "<<U[4][i][j]
                <<"  "<<U[2][i][j]<<"\n";
@@ -326,8 +326,8 @@ void Diagnose::KineticInformation(double Time, Initiation &ini, Hydrodynamics &h
 
     out<<Time<<"  "<<ttl_m<<"  "<<glb_ave_Ek<<"  ";
     for(k = 0; k < number_of_materials; k++) {
-        out<<ini.dms_length(wght_cntr[k][0]/mtl_m[k])<<"  "<<ini.dms_length(wght_cntr[k][1]/mtl_m[k])<<"  ";
-        out<<ini.dms_length(wght_v[k][0]/mtl_m[k])<<"  "<<ini.dms_length(wght_v[k][1]/mtl_m[k])<<"  ";
+        out<<wght_cntr[k][0]/mtl_m[k]<<"  "<<wght_cntr[k][1]/mtl_m[k]<<"  ";
+        out<<wght_v[k][0]/mtl_m[k]<<"  "<<wght_v[k][1]/mtl_m[k]<<"  ";
     }
     out<<"\n";
     out.close();

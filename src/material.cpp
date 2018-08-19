@@ -77,15 +77,6 @@ Material::Material(char *material_name, Initiation &ini)
 
 	  ///- output the property parameters to the screen
 	show_properties();
-
-	  //- /non-dimensionalize
-	non_dimensionalize(ini);
-}
-//----------------------------------------------------------------------------------------
-//					non-dimensionalize
-//----------------------------------------------------------------------------------------
-void Material::non_dimensionalize(Initiation &ini)
-{
 }
 //----------------------------------------------------------------------------------------
 //			output the property parameters to the screen

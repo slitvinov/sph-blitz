@@ -79,7 +79,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
       if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) {
 	j ++;
 	if(j == 1) 	out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
-	out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
+	out<<prtl->R[0]<<"  "<<prtl->R[1]
 	   <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
       }
     }
@@ -93,7 +93,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
       if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) { 
 	j ++;
 	if(j == 1) 	out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
-	out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
+	out<<prtl->R[0]<<"  "<<prtl->R[1]
 	   <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
       }
     }
@@ -163,7 +163,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
       //clear the NNP_list
       particles.NNP_list.clear();
 
-      out<<ini.dms_length(pstn[0])<<"  "<<ini.dms_length(pstn[1])
+      out<<pstn[0]<<"  "<<pstn[1]
 	 <<"  "<<pressure<<"  "<<rho
 	 <<"  "<<phi
 	 <<"  "<<x_velocity<<"  "<<y_velocity
@@ -279,7 +279,7 @@ void Output::OutAverage(ParticleManager &particles, MLS &mls, QuinticSpline &wei
       l ++;
     }
 		
-    out<<ini.dms_length(pstn[1])<<"  "<<pressure/double(l)<<"  "
+    out<<pstn[1]<<"  "<<pressure/double(l)<<"  "
        <<rho/double(l)<<"  "<<x_velocity/double(l)<<"  "
        <<y_velocity/double(l)<<"  "<<Temperature/double(l)<<"\n";
   }

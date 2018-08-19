@@ -23,10 +23,6 @@ public:
 	///constructor
 	Force();
 	explicit Force(Initiation &ini);
-
-	///non-dimensionalize
-	void non_dimensionalize(Initiation &ini);
-	
 };
 
 #endif //FORCE_H

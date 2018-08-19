@@ -94,8 +94,6 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
         ///<li>output the material property parameters to the screen
         cout<<"The properties of the material No. "<<k<<"\n";
         materials[k].show_properties();
-        ///<li>non-dimensionalize</ul>
-        materials[k].non_dimensionalize(ini);
       }
 
     //comparing the key words for the force matrix
@@ -111,7 +109,6 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
           ///<li>copy smoothing length fro initiation
           forces[k][m].smoothinglength = ini.smoothinglength;
           ///<li>and non-dimensionalize</ul>
-          forces[k][m].non_dimensionalize(ini);
         }
   }
   fin.close();

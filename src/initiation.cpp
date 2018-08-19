@@ -86,9 +86,6 @@ Initiation::Initiation(const char *project_name) {
 		//comparing the key words for the artificial viscosity
 		if(!strcmp(Key_word, "ARTIFICIAL_VISCOSITY")) fin>>art_vis;
 
-		//comparing the key words for dimension
-		if(!strcmp(Key_word, "DIMENSION")) fin>>_length;
-		
 		//comparing the key words for number ofmaterials
 		if(!strcmp(Key_word, "NUMBER_OF_MATERIALS")) fin>>number_of_materials;
 
@@ -116,10 +113,6 @@ Initiation::Initiation(const char *project_name) {
 	
 	///<li>output information to screen
 	show_information();
-
-	///<li>non-dimensionalize \n\n
-	non_dimensionalize();
-
 }
 //----------------------------------------------------------------------------------------
 //					show information to screen
@@ -135,8 +128,6 @@ void Initiation::show_information()
 	cout<<"The ratio between cell size and initial particle width is "<<hdelta<<"\n";
 	cout<<"The initial particle width is "<<delta<<" micrometers\n";
 	cout<<"The g force is "<<g_force[0]<<" m/s^2 x "<<g_force[1]<<" m/s^2 \n";
-	cout<<"The dimensionless reference length, speed, density and temperature are \n"
-            <<_length<<" micrometer\n";
 
 	///- output the timing information on screen
 	cout<<"\nInitialtion: Time controlling:\nStarting time is "<<Start_time<<" \n";
@@ -204,43 +195,4 @@ void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, Qu
 			/// <li> clear the NNP_list</ul> </ul>
 			particles.NNP_list.clear();
 	}
-}
-//----------------------------------------------------------------------------------------
-//				Non-dimensionalize the initial condition and parameters
-//----------------------------------------------------------------------------------------
-void Initiation::non_dimensionalize()
-{
-        ///method calls the individual non_dms_methods vor each variable\n
-        ///remark:to avoid confusion: the non dimensional variables have the same identifiers like the dimensional ones!!!\n\n
-	box_size = non_dms_box_size(box_size);
-	cell_size = non_dms_length(cell_size);
-	smoothinglength = non_dms_length(smoothinglength);
-	delta = non_dms_length(delta); 
-	Start_time = Start_time;
-	End_time = End_time;
-	D_time = D_time;
-}
-//-------------------------------------------------------
-//			Non_dimensionalize length
-//-------------------------------------------------------
-double Initiation::non_dms_length(double length)
-{
-	return length/_length;
-}
-//-------------------------------------------------------
-//			Non_dimensionalize boxsize in 2-d
-//-------------------------------------------------------
-Vec2d Initiation::non_dms_box_size(Vec2d box_size)
-{
-	return box_size/_length;
-}
-//-------------------------------------------------------
-double Initiation::dms_length(double length_non)
-{
-	return length_non*_length;
-}
-//-------------------------------------------------------
-Vec2d Initiation::dms_box_size(Vec2d box_size_non)
-{
-	return box_size_non*_length;
 }

@@ -9,10 +9,7 @@ class QuinticSpline;
 
 ///\brief Initiates the simulation
 class Initiation {
-	//reference length, speed, and density for non-dimensionalization
-	double _length;///<reference length for non dimensional value 
 public:
-	
 	///the project name
 	char Project_name[FILENAME_MAX];
 
@@ -65,22 +62,9 @@ public:
 	///constructor
 	///\param *project_name: a pointer to the project name array (the project name is defined as a main-function argument and therefore given as an additional command line element when running the progam) 
 	explicit Initiation(const char *project_name);
-	///non-dimensionalize initial condition and parameters
-	void non_dimensionalize();
-	///show information on screen
 	void show_information();
 	///predict the particle volume and mass
 	void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline &weight_function);
-
-	//non-dimesionlize
-	double non_dms_length(double length);///<a non dimensionalize method
-	Vec2d non_dms_box_size(Vec2d box_size);///<a non dimensionalize method
-	double non_dms_heat_conduction(double kappa);///<a non dimensionalize method
-
-	//re-dimesionlize
-	double dms_length(double length_non);///<a re-dimensionalize method
-	Vec2d dms_box_size(Vec2d box_size_non);///<a re-dimensionalize method
-
 };
 
 #endif //INITIATION_H
