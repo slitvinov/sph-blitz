@@ -6,6 +6,13 @@
 ///provides methods that iterate over one output time interval (D_time) either with the summation density approach or with the continuity density approach
 //-----------------------------------------------------------------------
 
+class Initiation;
+class Hydrodynamics;
+class ParticleManager;
+class Boundary;
+class QuinticSpline;
+class Diagnose;
+class MLS;
 /// Time solver class 
 class TimeSolver{
 

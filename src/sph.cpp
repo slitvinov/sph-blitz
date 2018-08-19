@@ -56,15 +56,21 @@
 #include "vec2d.h"
 #include "kernel.h"
 #include "glbfunc.h"
-#include "glbcls.h"
 #include "timesolver.h"
+#include "dllist.h"
 #include "mls.h"
 #include "diagnose.h"
 #include "output.h"
 #include "quinticspline.h"
+#include "initiation.h"
+#include "particle.h"
+#include "wiener.h"
+#include "interaction.h"
+#include "particlemanager.h"
+#include "hydrodynamics.h"
+#include "boundary.h"
 
 using namespace std;
-
 //-----------------------------------------------------------------------
 //					Basic global physical values
 //-----------------------------------------------------------------------
