@@ -108,7 +108,6 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
              >>forces[k][m].shear_slip>>forces[k][m].bulk_slip;
           ///<li>copy smoothing length fro initiation
           forces[k][m].smoothinglength = ini.smoothinglength;
-          ///<li>and non-dimensionalize</ul>
         }
   }
   fin.close();
