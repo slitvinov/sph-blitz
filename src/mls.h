@@ -5,6 +5,7 @@
 
 class Initiation;
 class Particle;
+class QuinticSpline;
 
 /// \brief Moving Least Squares (MLS) class 
 ///

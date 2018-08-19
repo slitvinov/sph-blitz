@@ -10,6 +10,8 @@ class Particle;
 class ParticleManager;
 class Initiation;
 class Boundary;
+class Material;
+
 /// Definition of  materials and their hydrodynamical interactions
 class Hydrodynamics
 {	

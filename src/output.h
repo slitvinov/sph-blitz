@@ -3,6 +3,10 @@
 /// \file output.h 
 /// \brief Output the computational results
 
+class Hydrodynamics;
+class Boundary;
+class ParticleManager;
+
 /// Output class 
 class Output {
 	
