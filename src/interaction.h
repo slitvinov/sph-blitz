@@ -5,7 +5,7 @@
 
 class Particle;
 class Force;
-
+class Initiation;
 /// Defines interaction between particles
 class Interaction {
 

@@ -6,6 +6,8 @@
 ///note: reference a particle by pointer or adress
 ///never reference a particle directly!
 
+class Material;
+
 /// Particle class 
 class Particle {
 	static int number_of_materials;

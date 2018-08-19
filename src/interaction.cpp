@@ -17,9 +17,15 @@
 // ***** localincludes *****
 #include "vec2d.h"
 #include "kernel.h"
-#include "glbcls.h"
 #include "glbfunc.h"
 #include "quinticspline.h"
+#include "wiener.h"
+#include "initiation.h"
+#include "particle.h"
+#include "material.h"
+#include "force.h"
+
+#include "interaction.h"
 
 using namespace std;
 
