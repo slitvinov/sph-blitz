@@ -26,16 +26,12 @@ class Wiener {
 public:
 	double **sym_trclss;
 
-  /// trace of the matrix
+        /// trace of the matrix
 	double trace_d;
-	
 	double Random_p, Random_v;
 
 	///costructure
 	Wiener();
-
-	///costructure
-	explicit Wiener(const int dimension);
 
 	///produce wiener vlaue matrix with symmetric tracless part, and the trace
 	void get_wiener_Espanol(const double sqrtdt);

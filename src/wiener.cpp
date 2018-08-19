@@ -39,22 +39,6 @@ Wiener::Wiener()
 
 }
 //----------------------------------------------------------------------------------------
-//							constructor
-//----------------------------------------------------------------------------------------
-Wiener::Wiener(int dimension)
-{	
-	int k;
-
-	this->dimension = dimension;
-
-	//creat the Wiener matrix
-	randoms = new double*[dimension];
-	for(k = 0; k < dimension; k++) randoms[k] = new double[dimension];
-
-	sym_trclss = new double*[dimension];
-	for(k = 0; k < dimension; k++) sym_trclss[k] = new double[dimension];
-}
-//----------------------------------------------------------------------------------------
 //						produce wiener process with Flekkoy's form
 //----------------------------------------------------------------------------------------
 void Wiener::get_wiener(const double sqrtdt)
