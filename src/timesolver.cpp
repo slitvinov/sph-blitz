@@ -18,9 +18,16 @@
 // ***** localincludes *****
 #include "vec2d.h"
 #include "kernel.h"
-#include "glbcls.h"
 #include "glbfunc.h"
+
+#include "dllist.h"
 #include "diagnose.h"
+
+#include "initiation.h"
+#include "wiener.h"
+#include "hydrodynamics.h"
+#include "boundary.h"
+#include "particlemanager.h"
 #include "timesolver.h"
 
 using namespace std;

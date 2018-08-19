@@ -3,6 +3,13 @@
 /// \file diagnose.h
 /// \brief Output the diagnosal results
 
+class Initiation;
+class Hydrodynamics;
+class ParticleManager;
+class MLS;
+class QuinticSpline;
+class Boundary;
+
 /// Output diagnosal 
 class Diagnose {
 	
