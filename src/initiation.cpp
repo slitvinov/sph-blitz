@@ -216,21 +216,9 @@ void Initiation::non_dimensionalize()
 	cell_size = non_dms_length(cell_size);
 	smoothinglength = non_dms_length(smoothinglength);
 	delta = non_dms_length(delta); 
-	Start_time = non_dms_time(Start_time);
-	End_time = non_dms_time(End_time);
-	D_time = non_dms_time(D_time);
-	
-	//non-dimensionalize initial states
-	if(initial_condition==0) {
-		U0 = non_dms_velocity(U0);
-	}
-}
-//-------------------------------------------------------
-//			Non_dimensionalize time
-//-------------------------------------------------------
-double Initiation::non_dms_time(double time)
-{
-	return time;
+	Start_time = Start_time;
+	End_time = End_time;
+	D_time = D_time;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize length
@@ -247,25 +235,6 @@ Vec2d Initiation::non_dms_box_size(Vec2d box_size)
 	return box_size/_length;
 }
 //-------------------------------------------------------
-//			Non_dimensionalize velocity
-//-------------------------------------------------------
-double Initiation::non_dms_velocity(double velocity)
-{
-	return velocity;
-}
-//-------------------------------------------------------
-//			Non_dimensionalize vector velocity
-//-------------------------------------------------------
-Vec2d Initiation::non_dms_velocity(Vec2d velocity)
-{
-	return velocity;
-}
-//-------------------------------------------------------
-double Initiation::dms_time(double time_non)
-{
-	return time_non;
-}
-//-------------------------------------------------------
 double Initiation::dms_length(double length_non)
 {
 	return length_non*_length;
@@ -274,14 +243,4 @@ double Initiation::dms_length(double length_non)
 Vec2d Initiation::dms_box_size(Vec2d box_size_non)
 {
 	return box_size_non*_length;
-}
-//-------------------------------------------------------
-double Initiation::dms_velocity(double velocity_non)
-{
-	return velocity_non;
-}
-//-------------------------------------------------------
-Vec2d Initiation::dms_velocity(Vec2d velocity_non)
-{
-	return velocity_non;
 }

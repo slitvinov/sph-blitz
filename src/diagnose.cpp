@@ -142,7 +142,7 @@ void Diagnose::OutputProfile(double Time, Initiation &ini)
     char file_name[FILENAME_MAX], file_list[110];
 
     //produce output file name
-    Itime = ini.dms_time(Time)*1.0e8;
+    Itime = Time*1.0e8;
     strcpy(file_name,"./outdata/dstr");
     sprintf(file_list, "%d", (int)Itime);
     strcat(file_name, file_list);
@@ -266,7 +266,7 @@ void Diagnose::OutputAverage(double Time, Initiation &ini)
     char file_name[FILENAME_MAX], file_list[110];
 
     //produce output file name
-    Itime = ini.dms_time(Time)*1.0e8;
+    Itime = Time*1.0e8;
     strcpy(file_name,"./outdata/statistics");
     sprintf(file_list, "%d", (int)Itime);
     strcat(file_name, file_list);
@@ -285,7 +285,7 @@ void Diagnose::OutputAverage(double Time, Initiation &ini)
 
             out<<ini.dms_length(pstn[0])<<"  "<<ini.dms_length(pstn[1])
                <<"  "<<U[1][i][j]<<"  "<<U[0][i][j]
-               <<"  "<<ini.dms_velocity(U[3][i][j])<<"  "<<ini.dms_velocity(U[4][i][j])
+               <<"  "<<U[3][i][j]<<"  "<<U[4][i][j]
                <<"  "<<U[2][i][j]<<"\n";
         }
     }
@@ -324,7 +324,7 @@ void Diagnose::KineticInformation(double Time, Initiation &ini, Hydrodynamics &h
         glb_ave_Ek += 0.5*sqrt(v_abs(prtl->U))*prtl->m;
     }
 
-    out<<ini.dms_time(Time)<<"  "<<ttl_m<<"  "<<glb_ave_Ek<<"  ";
+    out<<Time<<"  "<<ttl_m<<"  "<<glb_ave_Ek<<"  ";
     for(k = 0; k < number_of_materials; k++) {
         out<<ini.dms_length(wght_cntr[k][0]/mtl_m[k])<<"  "<<ini.dms_length(wght_cntr[k][1]/mtl_m[k])<<"  ";
         out<<ini.dms_length(wght_v[k][0]/mtl_m[k])<<"  "<<ini.dms_length(wght_v[k][1]/mtl_m[k])<<"  ";

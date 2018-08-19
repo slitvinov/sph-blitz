@@ -55,7 +55,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
   char file_name[FILENAME_MAX], file_list[FILENAME_MAX];
 
   ///<ul><li>produce output file name
-  Itime = ini.dms_time(Time)*1.0e6;
+  Itime = Time*1.0e6;
   strcpy(file_name,"./outdata/p.");
   sprintf(file_list, "%.10lld", (long long)Itime);
   strcat(file_name, file_list);
@@ -80,7 +80,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
 	j ++;
 	if(j == 1) 	out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
 	out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
-	   <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])<<"\n";
+	   <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
       }
     }
 
@@ -94,7 +94,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
 	j ++;
 	if(j == 1) 	out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
 	out<<ini.dms_length(prtl->R[0])<<"  "<<ini.dms_length(prtl->R[1])
-	   <<"  "<<ini.dms_velocity(prtl->U[0])<<"  "<<ini.dms_velocity(prtl->U[1])<<"\n";
+	   <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
       }
     }
   }
@@ -118,7 +118,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
   gridx = x_cells*hdelta; gridy = y_cells*hdelta;
 	
   ///- produce output file name
-  Itime = ini.dms_time(Time)*1.0e6;
+  Itime = Time*1.0e6;
   strcpy(file_name,"./outdata/states");
   sprintf(file_list, "%d", (int)Itime);
   strcat(file_name, file_list);
@@ -166,7 +166,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
       out<<ini.dms_length(pstn[0])<<"  "<<ini.dms_length(pstn[1])
 	 <<"  "<<pressure<<"  "<<rho
 	 <<"  "<<phi
-	 <<"  "<<ini.dms_velocity(x_velocity)<<"  "<<ini.dms_velocity(y_velocity)
+	 <<"  "<<x_velocity<<"  "<<y_velocity
 	 <<"  "<<Temperature<<"\n";
     }
   }
@@ -232,7 +232,7 @@ void Output::OutAverage(ParticleManager &particles, MLS &mls, QuinticSpline &wei
   gridx = x_cells*hdelta; gridy = y_cells*hdelta;
 	
   ///- produce output file name
-  Itime = ini.dms_time(Time)*1.0e6;
+  Itime = Time*1.0e6;
   strcpy(file_name,"./outdata/averages");
   sprintf(file_list, "%d", (int)Itime);
   strcat(file_name, file_list);
@@ -280,8 +280,8 @@ void Output::OutAverage(ParticleManager &particles, MLS &mls, QuinticSpline &wei
     }
 		
     out<<ini.dms_length(pstn[1])<<"  "<<pressure/double(l)<<"  "
-       <<rho/double(l)<<"  "<<ini.dms_velocity(x_velocity)/double(l)<<"  "
-       <<ini.dms_velocity(y_velocity)/double(l)<<"  "<<Temperature/double(l)<<"\n";
+       <<rho/double(l)<<"  "<<x_velocity/double(l)<<"  "
+       <<y_velocity/double(l)<<"  "<<Temperature/double(l)<<"\n";
   }
   out.close();
 }

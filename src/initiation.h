@@ -73,19 +73,13 @@ public:
 	void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline &weight_function);
 
 	//non-dimesionlize
-	double non_dms_time(double time);///<a non dimensionalize method
 	double non_dms_length(double length);///<a non dimensionalize method
 	Vec2d non_dms_box_size(Vec2d box_size);///<a non dimensionalize method
-	double non_dms_velocity(double velocity);///<a non dimensionalize method
-	Vec2d non_dms_velocity(Vec2d velocity);///<a non dimensionalize method
 	double non_dms_heat_conduction(double kappa);///<a non dimensionalize method
 
 	//re-dimesionlize
-	double dms_time(double time_non);///<a re-dimensionalize method
 	double dms_length(double length_non);///<a re-dimensionalize method
 	Vec2d dms_box_size(Vec2d box_size_non);///<a re-dimensionalize method
-	double dms_velocity(double velocity_non);///<a re-dimensionalize method
-	Vec2d dms_velocity(Vec2d velocity_non);///<a re-dimensionalize method
 
 };
 
