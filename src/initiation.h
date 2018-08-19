@@ -5,6 +5,7 @@
 
 class Hydrodynamics;
 class ParticleManager;
+class QuinticSpline;
 
 ///\brief Initiates the simulation
 class Initiation {

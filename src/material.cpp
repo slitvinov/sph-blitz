@@ -18,8 +18,10 @@
 // ***** localincludes *****
 #include "vec2d.h"
 #include "kernel.h"
-#include "glbcls.h"
 #include "glbfunc.h"
+#include "initiation.h"
+
+#include "material.h"
 
 using namespace std;
 
