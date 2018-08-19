@@ -19,9 +19,9 @@
 #include <cmath>
 
 //local includes
+#include "glbfunc.h"
 #include "vec2d.h"
 #include "kernel.h"
-#include "glbfunc.h"
 #include "betaspline.h"
 
 using namespace std;

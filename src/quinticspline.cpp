@@ -19,7 +19,8 @@
 #include <cmath>
 
 //local includes
-#include "glbcls.h"
+#include "vec2d.h"
+#include "kernel.h"
 #include "glbfunc.h"
 #include "quinticspline.h"
 

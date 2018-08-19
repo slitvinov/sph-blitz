@@ -16,6 +16,8 @@
 #include <cmath>
 
 // ***** localincludes *****
+#include "vec2d.h"
+#include "kernel.h"
 #include "glbcls.h"
 #include "glbfunc.h"
 
