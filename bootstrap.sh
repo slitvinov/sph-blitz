@@ -2,6 +2,6 @@
 
 set -eu
 
-aclocal -I m4
+aclocal
 autoconf
 automake --foreign --add-missing --copy
