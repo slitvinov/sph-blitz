@@ -244,7 +244,7 @@ double Initiation::non_dms_p(double p)
 //-------------------------------------------------------
 double Initiation::non_dms_time(double time)
 {
-	return time/_length;
+	return time;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize length
@@ -319,7 +319,7 @@ double Initiation::dms_p(double p_non)
 //-------------------------------------------------------
 double Initiation::dms_time(double time_non)
 {
-	return time_non*_length;
+	return time_non;
 }
 //-------------------------------------------------------
 double Initiation::dms_length(double length_non)
