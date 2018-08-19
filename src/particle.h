@@ -7,6 +7,7 @@
 ///never reference a particle directly!
 
 class Material;
+class Initiation;
 
 /// Particle class 
 class Particle {
