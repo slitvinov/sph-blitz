@@ -74,7 +74,7 @@ using namespace std;
 //					Basic global physical values
 //-----------------------------------------------------------------------
 ///Bltzmann constant, will be non-dimensionalized in the program
-double k_bltz  = 1.380662e-023; //[J/K]
+double k_bltz  = 1.380662e-023/0.02/0.02/0.02; //[J/K]
 
 
 ///

@@ -219,10 +219,6 @@ void Initiation::non_dimensionalize()
 	Start_time = non_dms_time(Start_time);
 	End_time = non_dms_time(End_time);
 	D_time = non_dms_time(D_time);
-
-	//Bltzmann constant
-	extern double k_bltz;
-	k_bltz = non_dms_Boltzmann(k_bltz);
 	
 	//non-dimensionalize initial states
 	if(initial_condition==0) {
@@ -272,13 +268,6 @@ double Initiation::non_dms_velocity(double velocity)
 Vec2d Initiation::non_dms_velocity(Vec2d velocity)
 {
 	return velocity;
-}
-//-------------------------------------------------------
-//			Non_dimensionalize Boltzmann constant
-//-------------------------------------------------------
-double Initiation::non_dms_Boltzmann(double k_bltz)
-{
-	return k_bltz/_length/_length/_length;
 }
 //-------------------------------------------------------
 //			Dimensionalize functions
