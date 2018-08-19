@@ -274,13 +274,6 @@ Vec2d Initiation::non_dms_velocity(Vec2d velocity)
 	return velocity;
 }
 //-------------------------------------------------------
-//			Non_dimensionalize viscosity
-//-------------------------------------------------------
-double Initiation::non_dms_viscosity(double mu)
-{
-	return mu/_length;
-}
-//-------------------------------------------------------
 //			Non_dimensionalize Boltzmann constant
 //-------------------------------------------------------
 double Initiation::non_dms_Boltzmann(double k_bltz)
@@ -325,9 +318,4 @@ double Initiation::dms_energy(double energy_non)
 	return energy_non*_length*_length*_length;
 }
 //-------------------------------------------------------
-//-------------------------------------------------------
-double Initiation::dms_viscosity(double mu_non)
-{
-	return mu_non*_length;
-}
 //-------------------------------------------------------
