@@ -222,17 +222,8 @@ void Initiation::non_dimensionalize()
 	
 	//non-dimensionalize initial states
 	if(initial_condition==0) {
-
 		U0 = non_dms_velocity(U0);
-		p0 = non_dms_p(p0);
 	}
-}
-//-------------------------------------------------------
-//			Non_dimensionalize pressure
-//-------------------------------------------------------
-double Initiation::non_dms_p(double p)
-{
-	return p;
 }
 //-------------------------------------------------------
 //			Non_dimensionalize time
@@ -268,13 +259,6 @@ double Initiation::non_dms_velocity(double velocity)
 Vec2d Initiation::non_dms_velocity(Vec2d velocity)
 {
 	return velocity;
-}
-//-------------------------------------------------------
-//			Dimensionalize functions
-//-------------------------------------------------------
-double Initiation::dms_p(double p_non)
-{
-	return p_non;
 }
 //-------------------------------------------------------
 double Initiation::dms_time(double time_non)

@@ -164,7 +164,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
       particles.NNP_list.clear();
 
       out<<ini.dms_length(pstn[0])<<"  "<<ini.dms_length(pstn[1])
-	 <<"  "<<ini.dms_p(pressure)<<"  "<<rho
+	 <<"  "<<pressure<<"  "<<rho
 	 <<"  "<<phi
 	 <<"  "<<ini.dms_velocity(x_velocity)<<"  "<<ini.dms_velocity(y_velocity)
 	 <<"  "<<Temperature<<"\n";
@@ -279,7 +279,7 @@ void Output::OutAverage(ParticleManager &particles, MLS &mls, QuinticSpline &wei
       l ++;
     }
 		
-    out<<ini.dms_length(pstn[1])<<"  "<<ini.dms_p(pressure)/double(l)<<"  "
+    out<<ini.dms_length(pstn[1])<<"  "<<pressure/double(l)<<"  "
        <<rho/double(l)<<"  "<<ini.dms_velocity(x_velocity)/double(l)<<"  "
        <<ini.dms_velocity(y_velocity)/double(l)<<"  "<<Temperature/double(l)<<"\n";
   }
