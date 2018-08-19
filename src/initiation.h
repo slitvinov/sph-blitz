@@ -93,8 +93,6 @@ public:
 	double dms_velocity(double velocity_non);///<a re-dimensionalize method
 	Vec2d dms_velocity(Vec2d velocity_non);///<a re-dimensionalize method
 	double dms_energy(double energy_non);///<a re-dimensionalize method
-	double dms_acceleration(double acceleration_non);///<a re-dimensionalize method
-	Vec2d dms_acceleration(Vec2d acceleration_non);///<a re-dimensionalize method
 	double dms_viscosity(double mu_non);///<a re-dimensionalize method
 	double dms_surface(double sigma_non);///<a re-dimensionalize method
 

@@ -339,10 +339,6 @@ double Initiation::dms_energy(double energy_non)
 	return energy_non*_length*_length*_length;
 }
 //-------------------------------------------------------
-Vec2d Initiation::dms_acceleration(Vec2d acceleration_non)
-{
-	 return acceleration_non/_length;
-}
 //-------------------------------------------------------
 double Initiation::dms_viscosity(double mu_non)
 {
