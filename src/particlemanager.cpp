@@ -18,8 +18,17 @@
 // ***** local includes *****
 #include "vec2d.h"
 #include "kernel.h"
-#include "glbcls.h"
 #include "glbfunc.h"
+
+#include "initiation.h"
+#include "dllist.h"
+#include "particle.h"
+#include "wiener.h"
+#include "interaction.h"
+#include "hydrodynamics.h"
+#include "material.h"
+#include "boundary.h"
+#include "particlemanager.h"
 
 using namespace std;
 
