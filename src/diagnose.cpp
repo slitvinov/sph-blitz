@@ -324,7 +324,7 @@ void Diagnose::KineticInformation(double Time, Initiation &ini, Hydrodynamics &h
         glb_ave_Ek += 0.5*sqrt(v_abs(prtl->U))*prtl->m;
     }
 
-    out<<ini.dms_time(Time)<<"  "<<ttl_m<<"  "<<ini.dms_energy(glb_ave_Ek)<<"  ";
+    out<<ini.dms_time(Time)<<"  "<<ttl_m<<"  "<<glb_ave_Ek<<"  ";
     for(k = 0; k < number_of_materials; k++) {
         out<<ini.dms_length(wght_cntr[k][0]/mtl_m[k])<<"  "<<ini.dms_length(wght_cntr[k][1]/mtl_m[k])<<"  ";
         out<<ini.dms_length(wght_v[k][0]/mtl_m[k])<<"  "<<ini.dms_length(wght_v[k][1]/mtl_m[k])<<"  ";

@@ -312,10 +312,3 @@ Vec2d Initiation::dms_velocity(Vec2d velocity_non)
 {
 	return velocity_non;
 }
-//-------------------------------------------------------
-double Initiation::dms_energy(double energy_non)
-{
-	return energy_non*_length*_length*_length;
-}
-//-------------------------------------------------------
-//-------------------------------------------------------

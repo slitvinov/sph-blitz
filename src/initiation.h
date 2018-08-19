@@ -89,7 +89,6 @@ public:
 	Vec2d dms_box_size(Vec2d box_size_non);///<a re-dimensionalize method
 	double dms_velocity(double velocity_non);///<a re-dimensionalize method
 	Vec2d dms_velocity(Vec2d velocity_non);///<a re-dimensionalize method
-	double dms_energy(double energy_non);///<a re-dimensionalize method
 
 };
 
