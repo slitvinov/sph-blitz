@@ -281,13 +281,6 @@ double Initiation::non_dms_viscosity(double mu)
 	return mu/_length;
 }
 //-------------------------------------------------------
-//			Non_dimensionalize kinetic viscosity
-//-------------------------------------------------------
-double Initiation::non_dms_kinetic_viscosity(double nu)
-{
-	return nu/_length;
-}
-//-------------------------------------------------------
 //			Non_dimensionalize Boltzmann constant
 //-------------------------------------------------------
 double Initiation::non_dms_Boltzmann(double k_bltz)
