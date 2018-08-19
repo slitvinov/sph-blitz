@@ -17,7 +17,6 @@ class Hydrodynamics; class ListNode; class Material; class BetaSpline; class Qui
 #include "initiation.h"
 #include "kernel.h"
 #include "betaspline.h"
-#include "quinticspline.h"
 #include "particle.h"
 #include "particlemanager.h"
 #include "boundary.h"

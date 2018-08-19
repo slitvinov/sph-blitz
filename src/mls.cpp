@@ -18,6 +18,7 @@
 // ***** localincludes *****
 #include "glbcls.h"
 #include "glbfunc.h"
+#include "quinticspline.h"
 #include "mls.h"
 
 using namespace std;

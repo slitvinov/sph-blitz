@@ -59,6 +59,7 @@
 #include "mls.h"
 #include "diagnose.h"
 #include "output.h"
+#include "quinticspline.h"
 
 using namespace std;
 
