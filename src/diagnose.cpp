@@ -29,7 +29,6 @@ class Boundary;
 #include "vec2d.h"
 #include "initiation.h"
 #include "particle.h"
-#include "wiener.h"
 #include "hydrodynamics.h"
 #include "mls.h"
 #include "particlemanager.h"

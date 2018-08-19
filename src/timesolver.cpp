@@ -24,7 +24,6 @@
 #include "diagnose.h"
 
 #include "initiation.h"
-#include "wiener.h"
 #include "hydrodynamics.h"
 #include "boundary.h"
 #include "particlemanager.h"

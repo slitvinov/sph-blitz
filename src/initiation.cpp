@@ -22,7 +22,6 @@
 #include "glbfunc.h"
 #include "dllist.h"
 #include "quinticspline.h"
-#include "wiener.h"
 #include "particlemanager.h"
 #include "hydrodynamics.h"
 #include "particle.h"

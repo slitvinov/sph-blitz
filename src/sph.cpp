@@ -64,7 +64,6 @@
 #include "quinticspline.h"
 #include "initiation.h"
 #include "particle.h"
-#include "wiener.h"
 #include "interaction.h"
 #include "particlemanager.h"
 #include "hydrodynamics.h"

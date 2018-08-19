@@ -23,7 +23,6 @@
 #include "initiation.h"
 #include "dllist.h"
 #include "particle.h"
-#include "wiener.h"
 #include "interaction.h"
 #include "hydrodynamics.h"
 #include "material.h"

@@ -349,7 +349,7 @@ void Interaction::UpdateForces_vis()
 //----------------------------------------------------------------------------------------
 //					update random forces
 //----------------------------------------------------------------------------------------
-void Interaction::RandomForces(Wiener &wiener, double sqrtdt)
+void Interaction::RandomForces(Wiener *wiener, double sqrtdt)
 {
         //pair particle state values
         double Vi, Vj;
@@ -363,14 +363,14 @@ void Interaction::RandomForces(Wiener &wiener, double sqrtdt)
 
         Vi = mi/Org->rho; Vj = mj/Dest->rho;
 
-        wiener.get_wiener(sqrtdt);
+        wiener->get_wiener(sqrtdt);
 
         //pair focres or change rate
         Vec2d _dUi; //mometum change rate
         double Vi2 = Vi*Vi, Vj2 = Vj*Vj;
 
-        _dUi = v_eij*wiener.Random_p*sqrt(16.0*k_bltz*shear_rij*Ti*Tj/(Ti + Tj)*(Vi2 + Vj2)*Fij) +
-                   eij*wiener.Random_v*sqrt(16.0*k_bltz*bulk_rij*Ti*Tj/(Ti + Tj)*(Vi2 + Vj2)*Fij);
+        _dUi = v_eij*wiener->Random_p*sqrt(16.0*k_bltz*shear_rij*Ti*Tj/(Ti + Tj)*(Vi2 + Vj2)*Fij) +
+            eij*wiener->Random_v*sqrt(16.0*k_bltz*bulk_rij*Ti*Tj/(Ti + Tj)*(Vi2 + Vj2)*Fij);
 
         //summation
         //modify for perodic boundary condition
@@ -386,7 +386,7 @@ void Interaction::RandomForces(Wiener &wiener, double sqrtdt)
 //----------------------------------------------------------------------------------------
 //					update random forces with Espanol's method
 //----------------------------------------------------------------------------------------
-void Interaction::RandomForces_Espanol(Wiener &wiener, double sqrtdt)
+void Interaction::RandomForces_Espanol(Wiener *wiener, double sqrtdt)
 {
         //pair particle state values
         double smimj, smjmi, rrhoi, rrhoj;
@@ -403,13 +403,13 @@ void Interaction::RandomForces_Espanol(Wiener &wiener, double sqrtdt)
         rrhoi = 1.0/Org->rho; rrhoj = 1.0/Dest->rho;
         Ti =Org->T; Tj = Dest->T;
 
-        wiener.get_wiener_Espanol(sqrtdt);
+        wiener->get_wiener_Espanol(sqrtdt);
 
-        random_force[0] = wiener.sym_trclss[0][0]*eij[0] + wiener.sym_trclss[0][1]*eij[1];
-        random_force[1] = wiener.sym_trclss[1][0]*eij[0] + wiener.sym_trclss[1][1]*eij[1];
+        random_force[0] = wiener->sym_trclss[0][0]*eij[0] + wiener->sym_trclss[0][1]*eij[1];
+        random_force[1] = wiener->sym_trclss[1][0]*eij[0] + wiener->sym_trclss[1][1]*eij[1];
 
         _dUi = random_force*sqrt(16.0*k_bltz*etai*etaj/(etai + etaj)*Ti*Tj/(Ti + Tj)*(rrhoi*rrhoi + rrhoj*rrhoj)*Fij) +
-                   eij*wiener.trace_d*sqrt(16.0*k_bltz*zetai*zetaj/(zetai + zetaj)*Ti*Tj/(Ti + Tj)*(rrhoi*rrhoi + rrhoj*rrhoj)*Fij);
+            eij*wiener->trace_d*sqrt(16.0*k_bltz*zetai*zetaj/(zetai + zetaj)*Ti*Tj/(Ti + Tj)*(rrhoi*rrhoi + rrhoj*rrhoj)*Fij);
 
         //summation
         //modify for perodic boundary condition

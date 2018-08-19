@@ -27,7 +27,6 @@ class Boundary;
 #include "vec2d.h"
 #include "kernel.h"
 #include "dllist.h"
-#include "wiener.h"
 #include "interaction.h"
 #include "hydrodynamics.h"
 #include "initiation.h"
