@@ -3,6 +3,9 @@
 /// \file mls.h
 /// contains MLS class
 
+class Initiation;
+class Particle;
+
 /// \brief Moving Least Squares (MLS) class 
 ///
 ///  Using  Moving Least Squares Approximation
