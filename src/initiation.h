@@ -83,7 +83,6 @@ public:
 	double non_dms_viscosity(double mu);///<a non dimensionalize method
 	double non_dms_heat_conduction(double kappa);///<a non dimensionalize method
 	double non_dms_Boltzmann(double k_bltz);///<a non dimensionalize method
-	double non_dms_surface(double sigma);///<a non dimensionalize method
 
 	//re-dimesionlize
 	double dms_p(double p_non);///<a re-dimensionalize method
@@ -94,7 +93,6 @@ public:
 	Vec2d dms_velocity(Vec2d velocity_non);///<a re-dimensionalize method
 	double dms_energy(double energy_non);///<a re-dimensionalize method
 	double dms_viscosity(double mu_non);///<a re-dimensionalize method
-	double dms_surface(double sigma_non);///<a re-dimensionalize method
 
 };
 
