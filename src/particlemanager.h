@@ -3,6 +3,9 @@
 /// \file particlemanager.h 
 /// \brief particle manager
 
+class Particle;
+class Boundary;
+
 /// Particle manager class 
 class ParticleManager
 {

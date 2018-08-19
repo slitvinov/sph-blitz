@@ -3,6 +3,9 @@
 /// \file interaction.h 
 /// \brief Defines interaction between particles
 
+class Particle;
+class Force;
+
 /// Defines interaction between particles
 class Interaction {
 

@@ -16,12 +16,24 @@
 #include <cstdio>
 #include <cstdlib>
 
+class Hydrodynamics;
+class ParticleManager;
+
 // ***** localincludes *****
 #include "vec2d.h"
 #include "kernel.h"
-#include "glbcls.h"
 #include "glbfunc.h"
 #include "quinticspline.h"
+#include "dllist.h"
+#include "wiener.h"
+#include "initiation.h"
+#include "material.h"
+#include "force.h"
+#include "interaction.h"
+#include "particlemanager.h"
+#include "particle.h"
+#include "boundary.h"
+#include "hydrodynamics.h"
 
 using namespace std;
 
