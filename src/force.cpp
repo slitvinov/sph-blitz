@@ -15,10 +15,23 @@
 #include <cstdlib>
 #include <cmath>
 
+class Particle;
+class Force;
+class Initiation;
+class QuinticSpline;
+class Material;
+class ParticleManager;
+class Boundary;
+
 // ***** localincludes *****
 #include "vec2d.h"
 #include "kernel.h"
-#include "glbcls.h"
+#include "dllist.h"
+#include "wiener.h"
+#include "interaction.h"
+#include "hydrodynamics.h"
+#include "initiation.h"
+#include "force.h"
 #include "glbfunc.h"
 
 using namespace std;
