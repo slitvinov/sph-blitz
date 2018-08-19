@@ -3,6 +3,13 @@
 /// \file hydrodynamics.h
 /// \brief  Definition of  materials and their hydrodynamical interactions
 
+class Material;
+class Interaction;
+class Force;
+class Particle;
+class ParticleManager;
+class Initiation;
+class Boundary;
 /// Definition of  materials and their hydrodynamical interactions
 class Hydrodynamics
 {	

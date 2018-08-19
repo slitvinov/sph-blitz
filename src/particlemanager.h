@@ -5,6 +5,10 @@
 
 class Particle;
 class Boundary;
+class Hydrodynamics;
+class Initiation;
+class Interaction;
+class Force;
 
 /// Particle manager class 
 class ParticleManager

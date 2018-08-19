@@ -3,6 +3,8 @@
 /// \file initiation.h 
 /// \brief Initiates the simulation
 
+class Hydrodynamics;
+class ParticleManager;
 
 ///\brief Initiates the simulation
 class Initiation {
