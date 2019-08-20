@@ -110,7 +110,7 @@ int main(int argc, char *argv[]) {
     Boundary boundary(ini, hydro, particles); ///- initiate boundary conditions and boundary particles
     TimeSolver timesolver(ini); ///- initialize the time solver
     Output output(ini); ///- initialize output class (should be the last to be initialized)
-    ini.VolumeMass(hydro, particles, weight_function); //predict particle volume and mass
+    VolumeMass(hydro, particles, weight_function); //predict particle volume and mass
     boundary.BoundaryCondition(particles); //repose the boundary condition
     Diagnose diagnose(ini, hydro); //initialize the diagnose applications
 

@@ -62,6 +62,6 @@ public:
 	explicit Initiation(const char *project_name);
 	void show_information();
 	///predict the particle volume and mass
-	void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline &weight_function);
 };
 
+void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline &weight_function);

@@ -151,7 +151,7 @@ void Initiation::show_information()
 //----------------------------------------------------------------------------------------
 //					predict the particle volume and mass
 //----------------------------------------------------------------------------------------
-void Initiation::VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline &weight_function)
+void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline &weight_function)
 {
 
 	double reciprocV; //the inverse of volume or volume
