@@ -8,12 +8,7 @@
 //----------------------------------------------------------------------------------------
 // ***** system includes *****
 #include <iostream>
-#include <fstream>
-#include <string>
-
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
+#include <tgmath.h>
 
 // ***** localincludes *****
 #include "vec2d.h"
