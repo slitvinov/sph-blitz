@@ -12,8 +12,8 @@ class Material;
 class Wiener;
 
 /// Definition of  materials and their hydrodynamical interactions
-class Hydrodynamics
-{	
+struct Hydrodynamics
+{
 	int number_of_materials;
 	Vec2d gravity;
 	double smoothinglength;
@@ -26,9 +26,6 @@ class Hydrodynamics
 	//for time step 
 	double viscosity_max;///<for first time step
 	double  surface_max;///<for first time step
-
-
-public:
 
 	///the materials used
 	Material *materials;

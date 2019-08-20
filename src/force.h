@@ -2,7 +2,7 @@
 /// \brief The class defining force on or between particles
 
 /// The class defining force on or between particles
-class Force {
+struct Force {
 	///total number of materials
 	static int number_of_materials;
 	///smoothinglenth
@@ -10,8 +10,6 @@ class Force {
 
 	///interactive force parameters
 	double epsilon;
-public:
-
 	double sigma; ///surface tension parameters, its dimension is rho*u^2*L
 	double shear_slip, bulk_slip; ///shear and bulk slip length
 
