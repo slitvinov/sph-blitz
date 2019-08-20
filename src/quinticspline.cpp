@@ -1,7 +1,7 @@
 #include <tgmath.h>
-#include "glbfunc.h"
 #include "quinticspline.h"
 
+static const double pi = 3.141592653589793;
 QuinticSpline::QuinticSpline(const double _smoothingLength)
 {
     smoothingLength = _smoothingLength;
@@ -15,27 +15,27 @@ QuinticSpline::QuinticSpline(const double _smoothingLength)
 double QuinticSpline::w(const double distance) const
 {
     double normedDist = 3.0*distance * reciprocH;
-	double ss3, ss2, ss1;
+    double ss3, ss2, ss1;
 
-	ss3 = (3.0 - normedDist);
-	ss2 = (2.0 - normedDist);
-	ss1 = (1.0 - normedDist);
+    ss3 = (3.0 - normedDist);
+    ss2 = (2.0 - normedDist);
+    ss1 = (1.0 - normedDist);
     if (normedDist < 1.0)
-    {
-	return factorW * (ss3*ss3*ss3*ss3*ss3 - 6.0*ss2*ss2*ss2*ss2*ss2 + 15.0*ss1*ss1*ss1*ss1*ss1);
-    }
+	{
+	    return factorW * (ss3*ss3*ss3*ss3*ss3 - 6.0*ss2*ss2*ss2*ss2*ss2 + 15.0*ss1*ss1*ss1*ss1*ss1);
+	}
     else if (normedDist < 2.0)
-    {
-	return factorW * (ss3*ss3*ss3*ss3*ss3 - 6.0*ss2*ss2*ss2*ss2*ss2);
-    }
+	{
+	    return factorW * (ss3*ss3*ss3*ss3*ss3 - 6.0*ss2*ss2*ss2*ss2*ss2);
+	}
     else if (normedDist < 3.0)
-    {
-	return factorW * ss3*ss3*ss3*ss3*ss3;
-    }
+	{
+	    return factorW * ss3*ss3*ss3*ss3*ss3;
+	}
     else
-    {
-	return 0.0;
-    }
+	{
+	    return 0.0;
+	}
 }
 //----------------------------------------------------------------------------------------
 //		Calculates the kernel derivation (a double not vector) to distance
@@ -47,47 +47,46 @@ double QuinticSpline::F(const double distance) const
     double ss2 = (2.0 - normedDist);
     double ss1 = (1.0 - normedDist);
     if (normedDist < 1.0)
-    {
-	return factorGradW * (ss3*ss3*ss3*ss3 - 6.0*ss2*ss2*ss2*ss2 + 15.0*ss1*ss1*ss1*ss1);
-    }
+	{
+	    return factorGradW * (ss3*ss3*ss3*ss3 - 6.0*ss2*ss2*ss2*ss2 + 15.0*ss1*ss1*ss1*ss1);
+	}
     else if (normedDist < 2.0)
-    {
-	return factorGradW * (ss3*ss3*ss3*ss3 - 6.0*ss2*ss2*ss2*ss2);
-    }
+	{
+	    return factorGradW * (ss3*ss3*ss3*ss3 - 6.0*ss2*ss2*ss2*ss2);
+	}
     else if (normedDist < 3.0)
-    {
-	return factorGradW * ss3*ss3*ss3*ss3;
-    }
+	{
+	    return factorGradW * ss3*ss3*ss3*ss3;
+	}
     else
-    {
-	return 0.0;
-    }
+	{
+	    return 0.0;
+	}
 }
 
 double QuinticSpline::LapW(const double distance) const
 {
     double normedDist = 3.0*distance * reciprocH;
-	double ss3, ss2, ss1;
+    double ss3, ss2, ss1;
 
-	ss3 = (3.0 - normedDist);
-	ss2 = (2.0 - normedDist);
-	ss1 = (1.0 - normedDist);
+    ss3 = (3.0 - normedDist);
+    ss2 = (2.0 - normedDist);
+    ss1 = (1.0 - normedDist);
 
     if (normedDist < 1.0)
-    {
-	return factorLapW * (ss3*ss3*ss3 - 6.0*ss2*ss2*ss2 + 15.0*ss1*ss1*ss1);
-    }
+	{
+	    return factorLapW * (ss3*ss3*ss3 - 6.0*ss2*ss2*ss2 + 15.0*ss1*ss1*ss1);
+	}
     else if (normedDist < 2.0)
-    {
-	return factorLapW * (ss3*ss3*ss3 - 6.0*ss2*ss2*ss2);
-    }
+	{
+	    return factorLapW * (ss3*ss3*ss3 - 6.0*ss2*ss2*ss2);
+	}
     else if (normedDist < 3.0)
-    {
-	return factorLapW * ss3*ss3*ss3;
-    }
+	{
+	    return factorLapW * ss3*ss3*ss3;
+	}
     else
-    {
-	return 0.0;
-    }
-
+	{
+	    return 0.0;
+	}
 }
