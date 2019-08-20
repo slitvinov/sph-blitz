@@ -30,7 +30,6 @@ public:
         inline double& operator  [](int i)       { return D[i]; }
 
         ///other operations
-        inline Vec2d normalized() const; ///normalize
         inline double abs() const;
         inline double sq() const; ///square value
         inline double sqdiff() const; ///v[0]^2 - v[1]^2
@@ -86,14 +85,6 @@ inline Vec2d Vec2d::operator*(double a) const{
 inline double Vec2d::abs() const {
     enum {X, Y};
     return sqrt(D[X]*D[X] + D[Y]*D[Y]);
-}
-
-/// Returns this vector normalized
-inline Vec2d Vec2d::normalized() const{
-  enum {X, Y};
-  double len=abs();
-  double rlen=( len==0? 0: 1.0/len);
-  return Vec2d(D[X]*rlen, D[Y]*rlen);
 }
 
 /// Return the absolute value of the vector (the length)
