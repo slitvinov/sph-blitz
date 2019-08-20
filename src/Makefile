@@ -34,7 +34,5 @@ sph: $O
 .cpp:
 %: %.cppy
 
-.PHONY: clean doc
-doc:
-	doxygen
+.PHONY: clean
 clean:; rm -f $M $O

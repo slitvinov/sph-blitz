@@ -111,13 +111,6 @@ in gnuplot shell
 	plot n=1, 'punto.dat' u 2:3 every :::n::n
 	plot n=10, A=250.0, 'punto.dat' u 2:3 every :::n::n+5, A*x*(L-x)
 
-# More
-
-Generate documntation with doxygen
-
-	(cd src; make doc)
-	firefox src/html/index.html
-
 # Images
 
 Poiseuille flow
@@ -141,8 +134,6 @@ Fluctuating liquid
 - gnuplot http://www.gnuplot.info
 
 - punto http://punto.sourceforge.net
-
-- doxygen https://www.stack.nl/~dimitri/doxygen/
 
 - tecplot http://paulbourke.net/dataformats/tp
 

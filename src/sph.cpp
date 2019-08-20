@@ -1,57 +1,6 @@
-/// \file sph.cpp
-/// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-/// \author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>
-/// \author changes by: Andreas Mattes
-
-
-
-/*! \mainpage Smoothed-particle hydrodynamics (SPH) code
- *
- * \section intro_sec Introduction
- *
- * SPH and SDPD 2D code
- *
- * \section install_sec Installation
- * Check the source code from github and compile
- * \verbatim
- git clone git://github.com/slitvinov/sph-blitz
- cd sph-blitz
- ./local-install.sh  \endverbatim
- *
- * \section restart_file Restart file format
- *
- * \section input_file Input file format
- *
- * \section sim Runnig simulations
- * \verbatim
- cd src
- ./sph ../cases/couette \endverbatim
- * \section post Postprocessing
- * To combine all time snapshots in one file
- \verbatim
- cd outdata/
- ../../scripts/dat2punto.sh > punto.dat
- \endverbatim
- *
- * \section vis Visuzalization
- *
- * \subsection vis_gnuplot gnuplot
- * \image html pognuplot.png "Poiseuille flow: velocites of the particles visualization with gnuplot"
- *
- * \subsection vis_punto punto
-
- * \verbatim
- punto -D 2 -c 4 -B 0:0:0.04:0.04 -G -0.6:0.6 -s 8 -lc black -bg white  punto.dat \endverbatim
- * \image html couette.png "Couette flow: particle visualization with punto"
- * \image html poiseuille.png "Poiseuille flow: particle visualization with punto"
- *
- *
- */
-
 #include <cmath>
 #include <iostream>
 
-// ***** local includes *****
 #include "vec2d.h"
 #include "glbfunc.h"
 #include "timesolver.h"
