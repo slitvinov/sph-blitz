@@ -7,7 +7,7 @@ Martin Bernreuther, Andreas Mattes)
 
        git clone https://github.com/slitvinov/sph-blitz
        cd sph-blitz
-       ./configure && make
+	   (cd src ; make)
 
 # Test
 
@@ -115,13 +115,8 @@ in gnuplot shell
 
 Generate documntation with doxygen
 
-	make doc
+	(cd src; make doc)
 	firefox src/html/index.html
-
-Update autotools files
-
-	./bootstrap.sh
-
 
 # Images
 
@@ -148,8 +143,6 @@ Fluctuating liquid
 - punto http://punto.sourceforge.net
 
 - doxygen https://www.stack.nl/~dimitri/doxygen/
-
-- autotools https://en.wikipedia.org/wiki/GNU_Build_System
 
 - tecplot http://paulbourke.net/dataformats/tp
 
