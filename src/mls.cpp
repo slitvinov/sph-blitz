@@ -45,8 +45,6 @@ MLS::MLS(Initiation &ini)
   ///- declares shape function matrix and assigns it to corresponding pointer
   phi = new double[MLS_MAX]; 
 
-  ///- declares derivatives matrix (HAS NOT BEEN IMPLEMENTED!!!) and assigns it to corresponding pointer
-  dphi = new Vec2d[MLS_MAX]; 
 }
 //----------------------------------------------------------------------------------------
 //						calculate the shape function 

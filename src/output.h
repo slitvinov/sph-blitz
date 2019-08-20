@@ -7,7 +7,6 @@ class ParticleManager;
 
 /// Output class 
 class Output {
-	
 	///the project name
 	char Project_name[25];
 
