@@ -1,4 +1,5 @@
 #include <tgmath.h>
+#include <stdlib.h>
 #include "wiener.h"
 
 void wiener_seed(unsigned seed)
