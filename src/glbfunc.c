@@ -1,24 +1,5 @@
-///\file glbfunc.cpp
-///\ author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>, 
-
-//----------------------------------------------------------------------------------------
-//      Define globle paremeters and functions
-//		glbfunc.h
-//----------------------------------------------------------------------------------------
-// ***** system includes *****
-#include <iostream>
-#include <fstream>
-#include <string>
-
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
-
-// ***** localincludes *****
+#include <tgmath.h>
 #include "glbfunc.h"
-
-using namespace std;
 
 //----------------------------------------------------------------------------------------
 //	a. Get the maximum

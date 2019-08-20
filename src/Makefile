@@ -29,6 +29,9 @@ sph: $O
 .cpp.o:
 	$(CXX) $(CXXFLAGS) $< -c -o $@
 
+.c.o:
+	$(CC) $(CFLAGS) $< -c -o $@
+
 .cpp:
 %: %.cppy
 
