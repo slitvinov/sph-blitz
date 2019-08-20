@@ -10,20 +10,11 @@
 //----------------------------------------------------------------------------------------
 
 // ***** system includes *****
-#include <iostream>
-#include <fstream>
-#include <string>
-
-#include <cstdio>
-#include <cstdlib>
 #include <cmath>
 
 //local includes
-#include "vec2d.h"
 #include "glbfunc.h"
 #include "quinticspline.h"
-
-using namespace std;
 
 //----------------------------------------------------------------------------------------
 //										constructor
