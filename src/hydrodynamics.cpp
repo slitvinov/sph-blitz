@@ -40,7 +40,7 @@ using namespace std;
 //						constructor
 //----------------------------------------------------------------------------------------
 Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
-
+    enum {X, Y};
   int k, m;
   int l, n;
 
@@ -50,7 +50,8 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
 
   ///<ul><li>copy properties from initiation class
   number_of_materials = ini.number_of_materials;
-  gravity = ini.g_force;
+  gravity[X] = ini.g_force[X];
+  gravity[Y] = ini.g_force[Y];
   smoothinglength = ini.smoothinglength;
   delta = ini.delta; delta2 = delta*delta; delta3 = delta2*delta;
 
@@ -121,7 +122,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   ///<li>determine the artificial compressiblity
   double sound;
   //g force and viscosity
-  sound = AMAX1(v_abs(ini.g_force), viscosity_max);
+  sound = AMAX1(vv_abs(ini.g_force), viscosity_max);
   //surface tension effects
   sound = AMAX1(surface_max, sound);
   for(k = 0; k < number_of_materials; k++) materials[k].Get_b0(sound);

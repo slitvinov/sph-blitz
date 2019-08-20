@@ -32,7 +32,7 @@ public:
 	///smoothinglength
 	double smoothinglength;
 	///the compuational domain size
-	Vec2d box_size;
+	double box_size[2];
 	///cell size
 	double cell_size;
 	///the inital particle distance
@@ -42,14 +42,14 @@ public:
 	///cells matrix for real particles
 	int x_cells, y_cells;
 	///g force on particles
-	Vec2d g_force;
+	double g_force[2];
 
 	//timing control
 	double Start_time;///<Simulation start time
 	double End_time;///<Simulation end time
         double D_time;///<time interval for output (every D_time: output)
 
-	Vec2d U0;///<inital flow speed (if initial condition is defined here)w
+	double U0[2];///<inital flow speed (if initial condition is defined here)w
 	double rho0;///<initial particle density(if initial condition is defined here)
 	double p0;///<initial pressure(if initial condition is defined here)
 	double T0;///<initial temperature(if initial condition is defined here)

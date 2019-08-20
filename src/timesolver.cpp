@@ -29,6 +29,7 @@
 #include "timesolver.h"
 
 using namespace std;
+enum {X, Y};
 
 //----------------------------------------------------------------------------------------
 //							constructor
@@ -37,7 +38,8 @@ TimeSolver::TimeSolver(Initiation &ini)
 {
         ///- copy properties from class Initiation
 	cell_size = ini.cell_size;
-	box_size = ini.box_size;
+	box_size[X] = ini.box_size[X];
+	box_size[Y] = ini.box_size[Y];	
 	smoothinglength = ini.smoothinglength;
 	
 	///- initialize the iteration

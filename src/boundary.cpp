@@ -28,6 +28,7 @@ class QuinticSpline;
 #include "material.h"
 #include "boundary.h"
 
+enum {X, Y};
 using namespace std;
 
 //construtor
@@ -37,7 +38,8 @@ Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &parti
   char inputfile[FILENAME_MAX];
 
   ///copy global properties from initiation class
-  box_size = ini.box_size;
+  box_size[X] = ini.box_size[X];
+  box_size[Y] = ini.box_size[Y];
   x_clls = particles.x_clls; y_clls = particles.y_clls;
   number_of_materials = ini.number_of_materials;
 

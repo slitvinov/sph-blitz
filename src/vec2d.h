@@ -10,23 +10,23 @@ class Vec2d {
 private:
     double D[2];
 public:
-        ///constructor
-        Vec2d();
-        Vec2d(double xval, double yval);
+	///constructor
+	Vec2d();
+	Vec2d(double xval, double yval);
 
-        ///copy constructor
-        Vec2d(const Vec2d &);
+	///copy constructor
+	Vec2d(const Vec2d &);
 
-        inline Vec2d operator-() const; ///minus
-        inline Vec2d operator+(const Vec2d &) const; ///plus
-        inline Vec2d operator+=(const Vec2d &); ///accumulate
-        inline Vec2d operator-(const Vec2d &) const; ///subtract
-        inline Vec2d operator-=(const Vec2d &); ///subtract to
-        inline Vec2d operator/(double a) const; ///divide
-        inline Vec2d operator*(double a) const; ///multiply
+	inline Vec2d operator-() const; ///minus
+	inline Vec2d operator+(const Vec2d &) const; ///plus
+	inline Vec2d operator+=(const Vec2d &); ///accumulate
+	inline Vec2d operator-(const Vec2d &) const; ///subtract
+	inline Vec2d operator-=(const Vec2d &); ///subtract to
+	inline Vec2d operator/(double a) const; ///divide
+	inline Vec2d operator*(double a) const; ///multiply
 
-        inline double  operator  [](int i) const { return D[i]; }
-        inline double& operator  [](int i)       { return D[i]; }
+	inline double  operator  [](int i) const { return D[i]; }
+	inline double& operator  [](int i)       { return D[i]; }
 };
 
 /// Inverses the vector value sign
@@ -71,7 +71,7 @@ inline Vec2d Vec2d::operator/(double a) const{
 
 /// Multiplies this vector with a double and returns the value
 inline Vec2d Vec2d::operator*(double a) const{
-  enum {X, Y};    
+  enum {X, Y};
   return Vec2d(D[X]*a, D[Y]*a);
 }
 
@@ -110,3 +110,7 @@ inline double product(const Vec2d &v) {
     return v[X]*v[Y];
 }
 
+inline double vv_abs(double *v) {
+    enum {X, Y};
+    return sqrt(v[X]*v[X] + v[Y]*v[Y]);
+}
