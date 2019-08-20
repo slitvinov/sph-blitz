@@ -25,14 +25,14 @@ public:
 
 	///output particle positions respected different materials
 	void OutputParticles(Hydrodynamics &hydro, Boundary &boundary, 
-						double Time, Initiation &ini);
+						double Time);
 	///output material states on uniform grid
 	void OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, 
-					  double Time, Initiation &ini);
+					  double Time);
 	///Output real particle data for restart the computation
-	void OutRestart(Hydrodynamics &hydro, double Time, Initiation &ini);
+	void OutRestart(Hydrodynamics &hydro, double Time);
 	///avergaed values for Poiseuille and Couette flows (average is taken in horizontal direction)
 	void OutAverage(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, 
-					double Time, Initiation &ini);
+					double Time);
 };
 

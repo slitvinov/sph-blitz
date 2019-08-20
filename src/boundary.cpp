@@ -65,7 +65,7 @@ Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &parti
 
   }
   fin.close();
-  show_information(ini);	
+  show_information();	
 
   ///- build boundary particles
   BuildBoundaryParticles(particles, hydro);
@@ -73,7 +73,7 @@ Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &parti
 //----------------------------------------------------------------------------------------
 //								show information on screen
 //----------------------------------------------------------------------------------------
-void Boundary::show_information(Initiation &ini)
+void Boundary::show_information(void)
 {
   ///- output the property parameters to the screen
   cout<<"The left, right, lower and upper boundary conditions are "

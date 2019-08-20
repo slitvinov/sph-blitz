@@ -67,10 +67,10 @@ int main(int argc, char *argv[]) {
     Time = ini.Start_time;
 
     //output initial conditions
-    output.OutputParticles(hydro, boundary, Time, ini); //particle positions and velocites
-    output.OutputStates(particles, mls, weight_function, Time, ini); //initial states on uniform grid
+    output.OutputParticles(hydro, boundary, Time); //particle positions and velocites
+    output.OutputStates(particles, mls, weight_function, Time); //initial states on uniform grid
     //output diagnose information
-    if(ini.diagnose == 2 ) diagnose.KineticInformation(Time, ini, hydro);
+    if(ini.diagnose == 2 ) diagnose.KineticInformation(Time, hydro);
 
     ///\n computation loop starts
 
@@ -88,15 +88,15 @@ int main(int argc, char *argv[]) {
 					  ini.D_time, diagnose, ini, weight_function, mls);
 
 	///- output results after a time interval\n\n
-	output.OutputParticles(hydro, boundary, Time, ini); //particle positions and velocites
+	output.OutputParticles(hydro, boundary, Time); //particle positions and velocites
 	//		output.OutputStates(particles, mls, weight_function, Time, ini); //states on uniform grid
 	//		output.OutAverage(particles, mls, weight_function, Time, ini);
-	output.OutRestart(hydro, Time, ini); //restarting file
+	output.OutRestart(hydro, Time); //restarting file
 
 	//output diagnose information
 	if(ini.diagnose == 1) {
-	    diagnose.OutputProfile(Time, ini);
-	    diagnose.OutputAverage(Time, ini);
+	    diagnose.OutputProfile(Time);
+	    diagnose.OutputAverage(Time);
 	}
     }
     return 0;

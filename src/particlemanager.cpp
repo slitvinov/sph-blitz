@@ -357,7 +357,7 @@ void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation &ini)
 //----------------------------------------------------------------------------------------
 //				buid the initial wall particles and the linked lists
 //----------------------------------------------------------------------------------------
-void ParticleManager::BuildWallParticles(Hydrodynamics &hydro, Initiation &ini, Boundary &boundary)
+void ParticleManager::BuildWallParticles(Hydrodynamics &hydro, Boundary &boundary)
 {
   int i, j, k, m;
 

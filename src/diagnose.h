@@ -56,15 +56,15 @@ public:
 	void SaveStates(Hydrodynamics &hydro);
 
 	///output distribution up to the time
-	void OutputProfile(double Time, Initiation &ini);
+	void OutputProfile(double Time);
 
 	///calculate the average values
-	void Average(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, Initiation &ini);
+	void Average(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function);
 
 	///output the average values
-	void OutputAverage(double Time, Initiation &ini);
+	void OutputAverage(double Time);
 
 	///track the globle average kinetic energy, weight center position and velocity
-	void KineticInformation(double Time, Initiation &ini, Hydrodynamics &hydro);
+	void KineticInformation(double Time, Hydrodynamics &hydro);
 };
 

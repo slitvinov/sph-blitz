@@ -68,11 +68,11 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
 		///<li>calculating diagnose information
 		if(ini.diagnose == 1) {
 			diagnose.SaveStates(hydro);
-			diagnose.Average(particles, mls, weight_function, ini);
+			diagnose.Average(particles, mls, weight_function);
 		}
 
 		///<li>output diagnose information
-		if(ini.diagnose == 2 && ite % 10 == 0) diagnose.KineticInformation(Time, ini, hydro);
+		if(ini.diagnose == 2 && ite % 10 == 0) diagnose.KineticInformation(Time, hydro);
 
 		//predictor and corrector method used
 		///<li>the prediction step

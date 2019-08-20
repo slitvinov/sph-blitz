@@ -25,7 +25,7 @@ class ParticleManager
 	double rho0, p0, T0; ///<initial particle mass and density, pressure and temperature
 
 	///buid the initial wall particles and the linked lists
-	void BuildWallParticles(Hydrodynamics &hydro, Initiation &ini, Boundary &boundary);
+	void BuildWallParticles(Hydrodynamics &hydro, Boundary &boundary);
 
 public:
 

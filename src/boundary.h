@@ -13,7 +13,7 @@ class Boundary
 	///non-dimensionalize
 	void non_dimensionalize(Initiation &ini);
 	///show information on screen
-	void show_information(Initiation &ini);
+	void show_information();
 
 	//implement a side boundary by modifying particle states
 

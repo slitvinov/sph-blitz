@@ -47,7 +47,7 @@ Output::Output(Initiation &ini)
 //				output particle positions respected different materials
 //--------------------------------------------------------------------------------------------
 void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary, 
-			     double Time, Initiation &ini)
+			     double Time)
 {
   int i, j;
   double Itime;
@@ -103,7 +103,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,
 //							output material states on uniform grid
 //--------------------------------------------------------------------------------------------
 void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, 
-			  double Time, Initiation &ini)
+			  double Time)
 {
   int i, j, n;
   int gridx, gridy;
@@ -175,7 +175,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
 //--------------------------------------------------------------------------------------------
 //		Output real particle data for restart the computation
 //--------------------------------------------------------------------------------------------
-void Output::OutRestart(Hydrodynamics &hydro, double Time, Initiation &ini)
+void Output::OutRestart(Hydrodynamics &hydro, double Time)
 {
   int n;
   char outputfile[FILENAME_MAX];
@@ -216,8 +216,7 @@ void Output::OutRestart(Hydrodynamics &hydro, double Time, Initiation &ini)
 //					avergaed values for Poiseuille and Couette flows
 //					the average is taken in horizontal direction
 //--------------------------------------------------------------------------------------------
-void Output::OutAverage(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, 
-			double Time, Initiation &ini)
+void Output::OutAverage(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, double Time)
 {
   int i, j, l, n;
   int gridx, gridy;

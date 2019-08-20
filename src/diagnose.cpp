@@ -135,7 +135,7 @@ void Diagnose::SaveStates(Hydrodynamics &hydro)
 //----------------------------------------------------------------------------------------
 //                                      output distribution up to the time
 //----------------------------------------------------------------------------------------
-void Diagnose::OutputProfile(double Time, Initiation &ini)
+void Diagnose::OutputProfile(double Time)
 {
     int k, m;
     double Itime;
@@ -203,7 +203,7 @@ void Diagnose::BuildDistribution(Llist<double> &list, double dstrb[2][101])
 //----------------------------------------------------------------------------------------
 //                                              calculate the average values
 //----------------------------------------------------------------------------------------
-void Diagnose::Average(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, Initiation &ini)
+void Diagnose::Average(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function)
 {
     int i, j, n;
     Vec2d pstn;
@@ -258,7 +258,7 @@ void Diagnose::Average(ParticleManager &particles, MLS &mls, QuinticSpline &weig
 //----------------------------------------------------------------------------------------
 //                                                      output the average values
 //----------------------------------------------------------------------------------------
-void Diagnose::OutputAverage(double Time, Initiation &ini)
+void Diagnose::OutputAverage(double Time)
 {
     int i, j;
     Vec2d pstn;
@@ -294,7 +294,7 @@ void Diagnose::OutputAverage(double Time, Initiation &ini)
 //----------------------------------------------------------------------------------------
 //              track the globle average kinetic energy, weight center position and velocity
 //----------------------------------------------------------------------------------------
-void Diagnose::KineticInformation(double Time, Initiation &ini, Hydrodynamics &hydro)
+void Diagnose::KineticInformation(double Time, Hydrodynamics &hydro)
 {
     enum {X, Y};
     int k;

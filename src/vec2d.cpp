@@ -30,5 +30,5 @@ Vec2d::Vec2d(const Vec2d &v){
 
 Vec2d::Vec2d(double a) {
     enum {X, Y};
-    D[X] = D[Y] = 0.0;
+    D[X] = D[Y] = a;
 }
