@@ -27,11 +27,6 @@ public:
 
         inline double  operator  [](int i) const { return D[i]; }
         inline double& operator  [](int i)       { return D[i]; }
-
-        ///other operations
-        inline double sq() const; ///square value
-        inline double sqdiff() const; ///v[0]^2 - v[1]^2
-
 };
 
 /// Inverses the vector value sign
