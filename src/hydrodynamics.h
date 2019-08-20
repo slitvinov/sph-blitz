@@ -66,11 +66,7 @@ struct Hydrodynamics
 	//update phase field
 	void UpdatePhaseGradient(Boundary &boundary);///< not independant with UpdateDensity
 	void Zero_PhaseGradient(Boundary &boundary);
-	void UpdatePhaseField(Boundary &boundary);
-	void Zero_PhaseField(Boundary &boundary);
 	void UpdateSurfaceStress(Boundary &boundary);
-	void UpdatePhaseLaplacian(Boundary &boundary);
-	void Zero_PhaseLaplacian(Boundary &boundary);
 	///calculate surface tension coefficient
 	double SurfaceTensionCoefficient();
 	///this method currently does <b>NOTHING</b>

@@ -200,43 +200,6 @@ void Hydrodynamics::UpdatePhaseGradient(Boundary &boundary)
   }
 }
 //----------------------------------------------------------------------------------------
-//		summation Phase Divergen
-//----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdatePhaseLaplacian(Boundary &boundary)
-{
-  ///- initiate zero shear rateby calling Zero_PhaseLaplacian()
-  Zero_PhaseLaplacian(boundary);
-  ///- iterate the interaction list
-  for (LlistNode<Interaction> *p2 = interaction_list.first();
-       !interaction_list.isEnd(p2);
-       p2 = interaction_list.next(p2)) {
-
-    //a interaction pair
-    Interaction *pair = interaction_list.retrieve(p2);
-    ///- calculate for each pair the pair forces or change rate
-    pair->SummationPhaseLaplacian();
-  }
-}
-//----------------------------------------------------------------------------------------
-//		summation for pahse field gradient
-//----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdatePhaseField(Boundary &boundary)
-{
-  ///- initiate by calling Zero_PhaseField()
-  Zero_PhaseField(boundary);
-  ///- iterate the interaction list
-  for (LlistNode<Interaction> *p2 = interaction_list.first();
-       !interaction_list.isEnd(p2);
-       p2 = interaction_list.next(p2)) {
-
-    //a interaction pair
-    Interaction *pair = interaction_list.retrieve(p2);
-    ///- calculate for each pair the pair forces or change rate
-    pair->SummationPhaseField();
-    //			pair->SummationCurvature();
-  }
-}
-//----------------------------------------------------------------------------------------
 //		summation for particles density with updating interaction list
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::UpdateDensity(ParticleManager &particles, QuinticSpline &weight_function)
@@ -457,74 +420,6 @@ void Hydrodynamics::Zero_PhaseGradient(Boundary &boundary)
      ///- set phase gradient to zeo for each of these particle
     prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
   }
-}
-//----------------------------------------------------------------------------------------
-//						initiate pahse Laplacian
-//----------------------------------------------------------------------------------------
-void Hydrodynamics::Zero_PhaseLaplacian(Boundary &boundary)
-{
-  int i, j;
-
-  ///- iterate particles on the real particle list
-  for (LlistNode<Particle> *p = particle_list.first();
-       !particle_list.isEnd(p);
-       p = particle_list.next(p)) {
-
-    //particle
-    Particle *prtl = particle_list.retrieve(p);
-
-    ///- set to zero all phase Laplacians for these particles
-    for(i = 0; i < number_of_materials; i++)
-      for(j = 0; j < number_of_materials; j++) prtl->lap_phi[i][j] = 0.0;
-  }
-
-  ///- iterate particles on the boundary particle list
-  for (LlistNode<Particle> *p1 = boundary.boundary_particle_list.first();
-       !boundary.boundary_particle_list.isEnd(p1);
-       p1 = boundary.boundary_particle_list.next(p1)) {
-
-    //particle
-    Particle *prtl = boundary.boundary_particle_list.retrieve(p1);
-
-    ///- set to zero all phase Laplacians for these particles
-    for(i = 0; i < number_of_materials; i++)
-      for(j = 0; j < number_of_materials; j++) prtl->lap_phi[i][j] = 0.0;
-  }
-
-}
-//----------------------------------------------------------------------------------------
-//						initiate pahse field
-//----------------------------------------------------------------------------------------
-void Hydrodynamics::Zero_PhaseField(Boundary &boundary)
-{
-  int i, j;
-
-  ///- iterate particles on the real particle list
-  for (LlistNode<Particle> *p = particle_list.first();
-       !particle_list.isEnd(p);
-       p = particle_list.next(p)) {
-
-    //particle
-    Particle *prtl = particle_list.retrieve(p);
-
-    ///-  set all phases for all of these particles to zero
-    for(i = 0; i < number_of_materials; i++)
-      for(j = 0; j < number_of_materials; j++) prtl->phi[i][j] = 0.0;
-  }
-
-  ///- iterate particles on the boundary particle list
-  for (LlistNode<Particle> *p1 = boundary.boundary_particle_list.first();
-       !boundary.boundary_particle_list.isEnd(p1);
-       p1 = boundary.boundary_particle_list.next(p1)) {
-
-    //particle
-    Particle *prtl = boundary.boundary_particle_list.retrieve(p1);
-
-    ///-  set all phases for all of these particles to zero
-    for(i = 0; i < number_of_materials; i++)
-      for(j = 0; j < number_of_materials; j++) prtl->phi[i][j] = 0.0;
-  }
-
 }
 //----------------------------------------------------------------------------------------
 //					static solution: set velocity to zero
