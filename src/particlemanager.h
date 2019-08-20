@@ -17,11 +17,11 @@ class ParticleManager
 	double smoothinglength; ///<smoothinglenth
 	double smoothinglengthsquare; ///<smoothinglenth
 	double cll_sz; ///<cell size
-	Vec2d box_size; ///<computational domain size
+	double box_size[2]; ///<computational domain size
 	int initial_condition; ///<initial condition marker
 	double delta; ///<the inital particle distance
 	int hdelta; ///<the ration between smoothing length and inital particle distance
-	Vec2d U0; ///<inital flow speed
+	double U0[2]; ///<inital flow speed
 	double rho0, p0, T0; ///<initial particle mass and density, pressure and temperature
 
 	///buid the initial wall particles and the linked lists

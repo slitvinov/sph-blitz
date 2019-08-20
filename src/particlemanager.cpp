@@ -252,7 +252,8 @@ void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation &ini)
 {
 
   int i, j, k, m;
-  Vec2d position, velocity;
+  Vec2d position;
+  double velocity[2];
   double density, pressure, Temperature;
   int material_no;
 
@@ -272,7 +273,10 @@ void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation &ini)
 	    position[1] = (j - 1)*cll_sz + (m + 0.5)*delta;
 
 	    material_no = 1;
-	    velocity = U0;
+	    
+	    velocity[X] = U0[X];
+	    velocity[Y] = U0[Y];
+	    
 	    Temperature = T0;
 	    density = hydro.materials[material_no].rho0;
 	    pressure = hydro.materials[material_no].get_p(density);

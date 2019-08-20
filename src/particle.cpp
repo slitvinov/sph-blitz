@@ -17,6 +17,8 @@
 #include "material.h"
 #include "particle.h"
 
+enum {X, Y};
+
 long Particle::ID_max = 0;
 int Particle::number_of_materials = 0;
 //----------------------------------------------------------------------------------------
@@ -63,7 +65,7 @@ Particle::~Particle()
 //							real particle
 //		NOTE the particle mass and volume will be specified initiation::VolumeMass(w)
 //----------------------------------------------------------------------------------------
-Particle::Particle(Vec2d position, Vec2d velocity, double density, double pressure, double temperature, 
+Particle::Particle(Vec2d position, double velocity[2], double density, double pressure, double temperature, 
 				   Material &material) : bd(0)
 {
 	int i, j;
@@ -85,7 +87,10 @@ Particle::Particle(Vec2d position, Vec2d velocity, double density, double pressu
 	
 	///- set states
 	rho = density; p = pressure; T = temperature; Cs = mtl->get_Cs(p, rho);
-	U = velocity; U_I = U;
+	U[X] = velocity[X];
+	U[Y] = velocity[Y];
+	
+	U_I = U;
 	
 	///- set conservative values and their  intermediate values
 	m = 0.0; V = 0.0;
