@@ -3,8 +3,6 @@
 #include "wiener.h"
 
 static const int dimension = 2, ntab = 32;
-static double randoms[2][2];
-static double sym_trclss[2][2];
 
 Wiener::Wiener()
 {	
@@ -15,6 +13,7 @@ void Wiener::get_wiener_Espanol(double sqrtdt)
 {
     int i, j;
     double rd1, rd2;
+    double randoms[2][2];
 
     Gaussian(&rd1, &rd2);
    

@@ -1,6 +1,7 @@
 struct Wiener {
     long int idum, idum2, iy, iseed;
     long int iv[32];
+    double sym_trclss[2][2];
     double trace_d;
     double Random_p, Random_v;
     Wiener();
