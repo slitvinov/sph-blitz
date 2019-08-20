@@ -3,9 +3,6 @@
 
 /// The class defining force on or between particles
 class Force {
-
-	friend class Hydrodynamics;
-	
 	///total number of materials
 	static int number_of_materials;
 	///smoothinglenth
@@ -22,4 +19,3 @@ public:
 	Force();
 	explicit Force(Initiation &ini);
 };
-
