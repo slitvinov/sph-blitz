@@ -1,16 +1,8 @@
 #include <iostream>
-#include <fstream>
-#include <cstring>
-
-#include <cstdio>
-#include <cstdlib>
 #include <cmath>
 
 // ***** localincludes *****
-#include "vec2d.h"
 #include "glbfunc.h"
-#include "initiation.h"
-
 #include "material.h"
 
 using namespace std;
