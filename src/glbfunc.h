@@ -4,7 +4,7 @@ extern "C" {
 static const double pi=3.141592653589793;
 double AMAX1(double a, double b);
 double AMIN1(double a, double b);
-inline double ABS(double a) { return fabs(a); }
+double ABS(double a);
 double SIGN(double a, double b);
 double AMAX4(double a, double b, double c, double d);
 int SymmetricInverse3x3(double M[3][3]);
