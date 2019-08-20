@@ -25,7 +25,6 @@ class Boundary;
 
 // ***** localincludes *****
 #include "vec2d.h"
-#include "kernel.h"
 #include "dllist.h"
 #include "interaction.h"
 #include "hydrodynamics.h"

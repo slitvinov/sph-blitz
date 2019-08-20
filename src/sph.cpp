@@ -53,7 +53,6 @@
 
 // ***** local includes *****
 #include "vec2d.h"
-#include "kernel.h"
 #include "glbfunc.h"
 #include "timesolver.h"
 #include "dllist.h"

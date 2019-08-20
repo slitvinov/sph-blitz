@@ -20,7 +20,6 @@
 
 //local includes
 #include "vec2d.h"
-#include "kernel.h"
 #include "glbfunc.h"
 #include "quinticspline.h"
 
@@ -29,10 +28,10 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //										constructor
 //----------------------------------------------------------------------------------------
-QuinticSpline::QuinticSpline(const double smoothingLength)
-  : Kernel(smoothingLength), 
-    norm(63.0 / 478.0 / pi)
+QuinticSpline::QuinticSpline(const double _smoothingLength)
 {
+    smoothingLength = _smoothingLength;
+    norm = 63.0 / 478.0 / pi;
   // initialize the auxiliary factors
     reciprocH = 1.0 / smoothingLength;
       

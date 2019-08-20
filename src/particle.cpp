@@ -11,7 +11,6 @@
 #include <cmath>
 #include <cstdio>
 #include "vec2d.h"
-#include "kernel.h"
 #include "glbfunc.h"
 
 #include "initiation.h"

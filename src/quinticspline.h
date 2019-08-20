@@ -2,7 +2,7 @@
 /// \brief Quintic spline kernel
 
 /// Quintic spline class 
-class QuinticSpline : public Kernel
+class QuinticSpline
 {
 
 public:
@@ -30,7 +30,7 @@ public:
 
 private:
     ///Normalization factor
-    const double norm;
+    double norm;
 
     ///Auxiliary factors for intermediate results: The inverse smoothing length
     double reciprocH;
@@ -43,6 +43,6 @@ private:
 
     ///Auxiliary factors for Laplacian
     double factorLapW;
-
+    double smoothingLength;
 };
 

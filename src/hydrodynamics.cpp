@@ -21,7 +21,6 @@ class ParticleManager;
 
 // ***** localincludes *****
 #include "vec2d.h"
-#include "kernel.h"
 #include "glbfunc.h"
 #include "quinticspline.h"
 #include "dllist.h"

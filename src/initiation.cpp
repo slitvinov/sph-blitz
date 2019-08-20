@@ -18,7 +18,6 @@
 
 // ***** localincludes *****
 #include "vec2d.h"
-#include "kernel.h"
 #include "glbfunc.h"
 #include "dllist.h"
 #include "quinticspline.h"
