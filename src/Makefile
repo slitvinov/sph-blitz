@@ -1,6 +1,7 @@
 .POSIX:
 LINK = $(CXX)
 CXXFLAGS = -g -O2
+CFLAGS = -g -O2
 
 M = sph
 O = \
