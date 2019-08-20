@@ -7,18 +7,14 @@
 ///			boundary.cpp
 ///----------------------------------------------------------------
 /// ***** system includes *****
-
 #include <iostream>
 #include <fstream>
-#include <cstring>
-
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
+#include <string.h>
+#include <tgmath.h>
 
 class ParticleManager;
 class Particle; class Initiation; class Boundary; class Force;
-class Hydrodynamics; class Material; class QuinticSpline;
+class QuinticSpline;
 
 // ***** localincludes *****
 #include "glbfunc.h"
