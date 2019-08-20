@@ -2,7 +2,6 @@
 #include <iostream>
 
 #include "vec2d.h"
-#include "glbfunc.h"
 #include "timesolver.h"
 #include "dllist.h"
 #include "mls.h"
