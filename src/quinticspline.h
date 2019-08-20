@@ -16,12 +16,6 @@ public:
   /// but used a tripled smoothing length for the definition of the interaction radius. 
   virtual double w(const double distance) const;
   
-  ///\brief Calculates the kernel derivation  for the given distance of two particles 
-  ///
-  /// We take this from Morris, Fox and Zhu (1997)
-  /// but used a tripled smoothing length for the definition of the interaction radius.
-  virtual Vec2d gradW(const double distance, const Vec2d& distanceVector) const;
-  
   ///Calculates the kernel derivation (a double, not a vector) to distance
   double F(const double distance) const;
 
