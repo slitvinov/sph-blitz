@@ -19,7 +19,7 @@ class Wiener {
 	double Ranuls();
 	///get two random numbers y1, y2 with guassian distribution with zero mean and variance one
 	///from random numbers uniform distributed in [0, 1]
-	void Gaussian(double &y1, double &y2);
+	void Gaussian(double *y1, double *y2);
 
 public:
 	double sym_trclss[2][2];

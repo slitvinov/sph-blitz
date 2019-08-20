@@ -30,7 +30,7 @@ void Wiener::get_wiener(const double sqrtdt)
 	double rd1, rd2;
 
 	//two random numbers with Gaussian distribution
-	Gaussian(rd1, rd2);
+	Gaussian(&rd1, &rd2);
 	
 	//increments of Wieneir process
 	Random_p = sqrtdt * rd1;
@@ -46,11 +46,11 @@ void Wiener::get_wiener_Espanol(const double sqrtdt)
 	int i, j;
  	double rd1, rd2;
 
-	Gaussian(rd1, rd2);
+	Gaussian(&rd1, &rd2);
    
 	//Wiener processe matrix
 	for (i = 0; i < dimension; i++) {	
-		Gaussian(rd1, rd2);
+		Gaussian(&rd1, &rd2);
 		randoms[i][0] = sqrtdt * rd1; randoms[i][1] = sqrtdt * rd2;
 	}
 
@@ -145,17 +145,17 @@ void Wiener::Ranils()
 //		get two random numbers y1, y2 with guassian distribution with zero mean and variance one
 //		from random numbers uniform distributed in [0, 1]
 //----------------------------------------------------------------------------------------
-void  Wiener::Gaussian(double &y1, double &y2)
+void  Wiener::Gaussian(double *y1, double *y2)
 {
-	double x1, x2, w;
+    double x1, x2, w;
  
-	do {
-		x1 = 2.0 * Ranuls() - 1.0;
-		x2 = 2.0 * Ranuls() - 1.0;
-		w = x1 * x1 + x2 * x2;
+    do {
+	x1 = 2.0 * Ranuls() - 1.0;
+	x2 = 2.0 * Ranuls() - 1.0;
+	w = x1 * x1 + x2 * x2;
     } while ( w >= 1.0 || w == 0.0);
-
-	w = sqrt( (-2.0 * log( w ) ) / w );
-	y1 = x1 * w;
-	y2 = x2 * w;
+	
+    w = sqrt( (-2.0 * log( w ) ) / w );
+    *y1 = x1 * w;
+    *y2 = x2 * w;
 }
