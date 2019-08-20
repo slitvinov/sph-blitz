@@ -23,4 +23,3 @@ public:
 	explicit Force(Initiation &ini);
 };
 
-#endif //FORCE_H

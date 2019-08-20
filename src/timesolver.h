@@ -38,4 +38,3 @@ public:
 
 };
 
-#endif //TIMESOLVER_H

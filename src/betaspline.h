@@ -43,4 +43,3 @@ private:
 
 };
 
-#endif //BETASPLINE_H

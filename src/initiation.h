@@ -65,4 +65,3 @@ public:
 	void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline &weight_function);
 };
 
-#endif //INITIATION_H

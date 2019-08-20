@@ -131,4 +131,3 @@ inline double product(const Vec2d &v) {
     return v[X]*v[Y];
 }
 
-#endif //VEC2D_H

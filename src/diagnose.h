@@ -68,4 +68,3 @@ public:
 	void KineticInformation(double Time, Initiation &ini, Hydrodynamics &hydro);
 };
 
-#endif //DIAGNOSE_H

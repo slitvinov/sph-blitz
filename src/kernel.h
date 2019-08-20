@@ -26,4 +26,3 @@ protected:
     const double smoothingLength;
 };
 
-#endif //KERNEL_H

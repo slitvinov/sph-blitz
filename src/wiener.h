@@ -41,4 +41,3 @@ public:
 	void Ranils();
 };
 
-#endif //WIENER_H

@@ -46,4 +46,3 @@ private:
 
 };
 
-#endif //QUINTICSPLINE_H

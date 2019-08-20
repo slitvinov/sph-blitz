@@ -37,4 +37,3 @@ public:
 					double Time, Initiation &ini);
 };
 
-#endif //OUTPUT_H
