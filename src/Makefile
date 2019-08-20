@@ -1,26 +1,36 @@
 .POSIX:
-include ../../conf.mk
-M = main
-PREC = d
-CO_CFLAGS = `co.conf --cflags $(PREC)`
-CO_LDFLAGS = `co.conf --libs $(PREC)` `alg.conf --libs $(PREC)` `co.conf --libs $(PREC)`
+LINK = $(CXX)
+CXXFLAGS = -g -O2
 
-LINK = $(CC)
+M = sph
+O = betaspline.o\
+boundary.o\
+diagnose.o\
+force.o\
+glbfunc.o\
+hydrodynamics.o\
+initiation.o\
+interaction.o\
+kernel.o\
+material.o\
+mls.o\
+output.o\
+particle.o\
+particlemanager.o\
+quinticspline.o\
+sph.o\
+timesolver.o\
+vec2d.o\
+wiener.o\
 
-all: $M
-.o:
-	$(LINK) $< $(LDFLAGS) $(CO_LDFLAGS) -o $@
+sph: $O
+	$(LINK) $O $(LDFLAGS) -o $@
 
-.c.o:
-	$(CC) $(CFLAGS) $(CO_CFLAGS) $< -c -o $@
+.cpp.o:
+	$(CXX) $(CXXFLAGS) $< -c -o $@
 
-.c:
-%: %.c
+.cpp:
+%: %.cppy
 
-lint:; make CFLAGS='-Wall -Wextra -g -O2'
-test: $M; atest test/*
-install:
-run: $M; @co.run ./rbc
-
-.PHONY: clean test install run lint
-clean:; rm -f $M $(M:=.o)
+.PHONY: clean
+clean:; rm -f $M $O
