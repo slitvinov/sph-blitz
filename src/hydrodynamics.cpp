@@ -35,12 +35,12 @@ class ParticleManager;
 #include "hydrodynamics.h"
 
 using namespace std;
+enum {X, Y};
 
 //----------------------------------------------------------------------------------------
 //						constructor
 //----------------------------------------------------------------------------------------
 Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
-    enum {X, Y};
   int k, m;
   int l, n;
 
@@ -116,7 +116,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
       surface_max = AMAX1(surface_max, forces[k][l].sigma);
     }
   }
-  dt_g_vis = AMIN1(sqrt(delta/v_abs(gravity)), 0.5*delta2/viscosity_max);
+  dt_g_vis = AMIN1(sqrt(delta/vv_abs(gravity)), 0.5*delta2/viscosity_max);
   dt_surf = 0.4*sqrt(delta3/surface_max);
 
   ///<li>determine the artificial compressiblity
@@ -471,8 +471,8 @@ void Hydrodynamics::AddGravity()
     //a particle
     Particle *prtl = particle_list.retrieve(p);
 
-    ///- to each particles dUdt: add the gravity effects
-    prtl->dUdt = prtl->dUdt + gravity;
+    prtl->dUdt[X] += gravity[X];
+    prtl->dUdt[Y] += gravity[Y];    
   }
 }
 //----------------------------------------------------------------------------------------

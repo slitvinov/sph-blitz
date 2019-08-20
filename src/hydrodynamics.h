@@ -14,7 +14,7 @@ class Material;
 struct Hydrodynamics
 {
 	int number_of_materials;
-	Vec2d gravity;
+	double gravity[2];
 	double smoothinglength;
 	double delta, delta2, delta3;
 	double dt_g_vis, dt_surf;
