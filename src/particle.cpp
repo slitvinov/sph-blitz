@@ -131,7 +131,6 @@ Particle::Particle(double x, double y, double u, double v,
 	
 	///- set distance and normal directions to boundary
 	bd_dst = distance;
-	nrml[0] = normal_x; nrml[1] = normal_y;
 
 	///- set states value to avoid error
 	rho = 0.0, p = 0.0, T = 0.0;

@@ -25,7 +25,7 @@ public:
 	double *phi; ///<shape function (pointer to)
 
 	///constructor
-	explicit MLS(Initiation &ini);
+	explicit MLS(int MLS_MAX);
 
 	///\brief MLS Mapping to grid points
 	///

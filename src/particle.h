@@ -106,7 +106,5 @@ public:
 
 	//for wall boundary particles
 	double bd_dst;///<for wall boundary particles
-	Vec2d  nrml;///<for wall boundary particles
-
 };
 

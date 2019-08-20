@@ -25,12 +25,10 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //								constructor
 //----------------------------------------------------------------------------------------
-MLS::MLS(Initiation &ini)
+MLS::MLS(int MLS_MAX_)
 {
   int k;
-
-  MLS_MAX = ini.MLS_MAX;
-	
+  MLS_MAX = MLS_MAX_;
   ///- declares the weighted moment matrix and assigns it to corresponding pointer
   B = new double *[3];
   for(k = 0; k < 3; k++) B[k] = new double[MLS_MAX];

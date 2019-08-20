@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
     Interaction interaction(ini);
 
     QuinticSpline weight_function(ini.smoothinglength); ///- initiate the weight function
-    MLS mls(ini); ///- initiate the Moving Least Squares approximation
+    MLS mls(ini.MLS_MAX); ///- initiate the Moving Least Squares approximation
     ParticleManager particles(ini); ///- initiate the particle manager
     Hydrodynamics hydro(particles, ini); ///- create materials, forces and real particles
     Boundary boundary(ini, hydro, particles); ///- initiate boundary conditions and boundary particles
