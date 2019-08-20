@@ -31,6 +31,8 @@ sph: $O
 .c.o:
 	$(CC) $(CFLAGS) $< -c -o $@
 
+include dep.make
+
 .cpp:
 %: %.cppy
 

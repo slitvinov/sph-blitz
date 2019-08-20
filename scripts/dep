@@ -1,0 +1,18 @@
+#!/bin/sh
+
+awk -v me="$0" '
+BEGIN {
+    printf "# generate by %s\n", me
+}
+FNR == 1 {
+    f = FILENAME
+    sub(/.c/, ".o", f)
+    sub(/.cpp/, ".o", f)
+}
+sub(/^[\t ]*#[\t ]*include[\t ]*/, "") &&
+sub(/^\"/, "") &&
+sub(/".*/, "") {
+    print f ": " $0
+}
+' *.c *.cpp  > dep.make
+echo >&2 update dep.make
