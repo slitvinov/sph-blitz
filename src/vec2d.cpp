@@ -27,8 +27,3 @@ Vec2d::Vec2d(const Vec2d &v){
   D[X] = v[X];
   D[Y] = v[Y];
 }
-
-Vec2d::Vec2d(double a) {
-    enum {X, Y};
-    D[X] = D[Y] = a;
-}

@@ -13,7 +13,6 @@ public:
         ///constructor
         Vec2d();
         Vec2d(double xval, double yval);
-        Vec2d(double val);
 
         ///copy constructor
         Vec2d(const Vec2d &);

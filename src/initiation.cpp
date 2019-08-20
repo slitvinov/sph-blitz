@@ -153,7 +153,7 @@ void Initiation::show_information()
 //----------------------------------------------------------------------------------------
 void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline &weight_function)
 {
-
+    enum {X, Y};
 	double reciprocV; //the inverse of volume or volume
 	double dstc;
 	Vec2d eij, sumdw;
@@ -168,7 +168,7 @@ void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline 
 			/// <li> build the nearest neighbor particle list for chosen origin particle
 			particles.BuildNNP(prtl_org->R);
 
-			reciprocV = 0.0; sumdw = 0.0;
+			reciprocV = 0.0; sumdw[X] = sumdw[Y] = 0.0;
 			/// <li>iterate this Nearest Neighbor Particle list
 			for (LlistNode<Particle> *p1 = particles.NNP_list.first(); 
 			!particles.NNP_list.isEnd(p1); 
