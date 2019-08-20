@@ -345,12 +345,13 @@ void Interaction::UpdateForces_vis()
 //----------------------------------------------------------------------------------------
 //					update random forces
 //----------------------------------------------------------------------------------------
-void Interaction::RandomForces(Wiener *wiener, double sqrtdt)
+void Interaction::RandomForces(double sqrtdt)
 {
         //pair particle state values
         double Vi, Vj;
         double Ti, Tj; //temperature
         Vec2d v_eij; //90 degree rotation of pair direction
+	double Random_p, Random_v;
         extern double k_bltz;
 
         //define particle state values
@@ -359,14 +360,16 @@ void Interaction::RandomForces(Wiener *wiener, double sqrtdt)
 
         Vi = mi/Org->rho; Vj = mj/Dest->rho;
 
-        wiener->get_wiener(sqrtdt);
+	wiener_gaussian(&Random_p, &Random_v);
+	Random_p *= sqrtdt;
+	Random_v *= sqrtdt;
 
         //pair focres or change rate
         Vec2d _dUi; //mometum change rate
         double Vi2 = Vi*Vi, Vj2 = Vj*Vj;
 
-        _dUi = v_eij*wiener->Random_p*sqrt(16.0*k_bltz*shear_rij*Ti*Tj/(Ti + Tj)*(Vi2 + Vj2)*Fij) +
-            eij*wiener->Random_v*sqrt(16.0*k_bltz*bulk_rij*Ti*Tj/(Ti + Tj)*(Vi2 + Vj2)*Fij);
+        _dUi = v_eij*Random_p*sqrt(16.0*k_bltz*shear_rij*Ti*Tj/(Ti + Tj)*(Vi2 + Vj2)*Fij) +
+            eij*Random_v*sqrt(16.0*k_bltz*bulk_rij*Ti*Tj/(Ti + Tj)*(Vi2 + Vj2)*Fij);
 
         //summation
         //modify for perodic boundary condition

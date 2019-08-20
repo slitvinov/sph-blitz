@@ -48,8 +48,6 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   char Key_word[FILENAME_MAX];
   char inputfile[FILENAME_MAX];
 
-  wiener = new Wiener();
-
   ///<ul><li>copy properties from initiation class
   number_of_materials = ini.number_of_materials;
   gravity = ini.g_force;
@@ -134,8 +132,6 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   particles.BuildRealParticles(*this, ini);
 
 }
-
-Hydrodynamics::~Hydrodynamics() { delete wiener; }
 
 //----------------------------------------------------------------------------------------
 //						Build new pairs
@@ -372,7 +368,7 @@ void Hydrodynamics::UpdateRandom(double sqrtdt)
     //a interaction pair
     Interaction *pair = interaction_list.retrieve(p);
     //calculate the pair forces or change rate
-    pair->RandomForces(wiener, sqrtdt);
+    pair->RandomForces(sqrtdt);
   }
 
 }

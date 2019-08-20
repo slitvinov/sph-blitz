@@ -9,7 +9,6 @@ class ParticleManager;
 class Initiation;
 class Boundary;
 class Material;
-class Wiener;
 
 /// Definition of  materials and their hydrodynamical interactions
 struct Hydrodynamics
@@ -33,14 +32,8 @@ struct Hydrodynamics
 	Force **forces;
 	Llist<Particle> particle_list; ///<particle list for all particles
 
-	///Wiener process
-	Wiener *wiener;
-
 	///constructor
 	Hydrodynamics(ParticleManager &particles, Initiation &ini);
-
-        ///destructor
-        ~Hydrodynamics();
 
 	///get the time step
 	double GetTimestep();

@@ -4,7 +4,6 @@
 class Particle;
 class Force;
 class Initiation;
-class Wiener;
 
 /// Defines interaction between particles
 class Interaction {
@@ -100,9 +99,7 @@ public:
 	void UpdateForces_vis();
 
 	///update random forces
-	void RandomForces(Wiener*, double sqrtdt);
-	///update random forces with Espanol's method
-	void RandomForces_Espanol(Wiener*, double sqrtdt);
+	void RandomForces(double sqrtdt);
 	
 };
 
