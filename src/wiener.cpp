@@ -7,10 +7,8 @@
 //			wiener2d.cpp
 //-----------------------------------------------------------------------
 // ***** system includes *****
-#include <iostream>
-
-#include <cstdlib>
-#include <cmath>
+#include <stdlib.h>
+#include <tgmath.h>
 
 // ***** localincludes *****
 #include "wiener.h"
@@ -152,9 +150,8 @@ void Wiener::Ranils()
 	}
 	iy = iv[0];
 	if(iy < 0) {
-		cout<<"iy ="<<iy<<"   Wiener: Random number fails \n"; 
-		std::cout << __FILE__ << ':' << __LINE__ << std::endl;
-		exit(1);
+	    fprintf(stderr, "%s:%d: iy = %d : Wiener failed",  __FILE__, __LINE__, iy);
+	    exit(1);
 	}
 
 }
