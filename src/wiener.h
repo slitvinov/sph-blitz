@@ -9,12 +9,12 @@
 class Wiener {
 
 	int dimension;
-	double **randoms;
+	double randoms[2][2];
 
 	///for random number generator
 	///variables
 	long int idum, idum2, iy, ntab, iseed;
-	long int *iv;
+	long int iv[32];
 	///get the random number uniform distributed in [0, 1]
 	double Ranuls();
 	///get two random numbers y1, y2 with guassian distribution with zero mean and variance one
@@ -22,7 +22,7 @@ class Wiener {
 	void Gaussian(double &y1, double &y2);
 
 public:
-	double **sym_trclss;
+	double sym_trclss[2][2];
 
         /// trace of the matrix
 	double trace_d;

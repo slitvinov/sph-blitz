@@ -13,28 +13,14 @@
 // ***** localincludes *****
 #include "wiener.h"
 
-using namespace std;
-
 //----------------------------------------------------------------------------------------
 //							constructor
 //----------------------------------------------------------------------------------------
 Wiener::Wiener()
 {	
-
 	dimension = 2;
-
-	//creat the Wiener matrix
-	randoms = new double*[dimension];
-	for(int k = 0; k < dimension; k++) randoms[k] = new double[dimension];
-
-	sym_trclss = new double*[dimension];
-	for(int k = 0; k < dimension; k++) sym_trclss[k] = new double[dimension];
-
 	ntab = 32;
-	iv = new long int[ntab];
-	
 	Ranils();
-
 }
 //----------------------------------------------------------------------------------------
 //						produce wiener process with Flekkoy's form
