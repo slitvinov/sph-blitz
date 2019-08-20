@@ -1,5 +1,3 @@
-#ifndef FORCE_H
-#define FORCE_H
 /// \file force.h
 /// \brief The class defining force on or between particles
 

@@ -6,8 +6,6 @@
 ///
 /// Declares and defines a generic double linked list template
 
-#ifndef DLLIST_H
-#define DLLIST_H
 
 ///----------------------------------------------------------------------------------------
 ///      Define a universal template double linked list

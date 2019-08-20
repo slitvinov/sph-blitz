@@ -1,5 +1,3 @@
-#ifndef INITIATION_H
-#define INITIATION_H
 /// \file initiation.h 
 /// \brief Initiates the simulation
 

@@ -1,5 +1,3 @@
-#ifndef TIMESOLVER_H
-#define TIMESOLVER_H
 /// \file timesolver.h 
 /// \brief Time solver class
 ///

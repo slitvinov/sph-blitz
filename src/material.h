@@ -1,5 +1,3 @@
-#ifndef MATERIAL_H
-#define MATERIAL_H
 /// \file material.h 
 /// \brief Material 
 

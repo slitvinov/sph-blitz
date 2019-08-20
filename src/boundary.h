@@ -1,5 +1,3 @@
-#ifndef BOUNDARY_H
-#define BOUNDARY_H
 /// \file boundary.h
 /// \brief Bonudary conditions
 

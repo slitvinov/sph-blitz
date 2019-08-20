@@ -1,5 +1,3 @@
-#ifndef INTERACTION_H
-#define INTERACTION_H
 /// \file interaction.h 
 /// \brief Defines interaction between particles
 

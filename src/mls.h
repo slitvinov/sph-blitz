@@ -1,5 +1,3 @@
-#ifndef MLS_H
-#define MLS_H
 /// \file mls.h
 /// contains MLS class
 

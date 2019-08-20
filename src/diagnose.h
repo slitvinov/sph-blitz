@@ -1,5 +1,3 @@
-#ifndef DIAGNOSE_H
-#define DIAGNOSE_H
 /// \file diagnose.h
 /// \brief Output the diagnosal results
 

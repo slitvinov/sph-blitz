@@ -1,5 +1,3 @@
-#ifndef PARTICLEMANAGER_H
-#define PARTICLEMANAGER_H
 /// \file particlemanager.h 
 /// \brief particle manager
 

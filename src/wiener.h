@@ -1,5 +1,3 @@
-#ifndef WIENER_H
-#define WIENER_H
 /// \file wiener.h
 /// \brief Wiener process
 

@@ -1,5 +1,3 @@
-#ifndef OUTPUT_H
-#define OUTPUT_H
 /// \file output.h 
 /// \brief Output the computational results
 
