@@ -36,5 +36,8 @@ include dep.make
 .cpp:
 %: %.cppy
 
+dep:
+	../scripts/dep
+
 .PHONY: clean
 clean:; rm -f $M $O
