@@ -51,13 +51,13 @@ gravity force vector
 
 	 G_FORCE <gx> <gy>
 
-Boundary conditons (order is as follow X0, X1, Y0, Y1)
+Boundary conditions (order is as follow X0, X1, Y0, Y1)
 type code
 1: periodic
 0: wall
 
 	BOUNDARY
-	<type codes of boundry <velocity of the wall>
+	<type codes of boundary <velocity of the wall>
 	...
 
 	NUMBER_OF_MATERIALS <numb_mat>
@@ -90,7 +90,7 @@ Couette flow simulation
 
 	./sph ../cases/couette
 
-Water drop in air starting from [initial condtion file](cases/ellipse.cfg)
+Water drop in air starting from [initial condition file](cases/ellipse.cfg)
 
 	./sph ../cases/ellipse
 
