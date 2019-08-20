@@ -3,7 +3,7 @@ LINK = $(CXX)
 CXXFLAGS = -g -O2
 
 M = sph
-O = betaspline.o\
+O = \
 boundary.o\
 diagnose.o\
 force.o\

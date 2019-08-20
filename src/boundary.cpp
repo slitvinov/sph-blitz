@@ -18,7 +18,7 @@
 
 class ParticleManager;
 class Particle; class Initiation; class Boundary; class Force;
-class Hydrodynamics; class Material; class BetaSpline; class QuinticSpline;
+class Hydrodynamics; class Material; class QuinticSpline;
 
 // ***** localincludes *****
 #include "glbfunc.h"
