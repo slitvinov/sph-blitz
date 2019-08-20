@@ -29,11 +29,8 @@ public:
 	double b0;///<reference pressure
 	double rho0;///<reference density
 	double a0; ///<reference <b>sound speed??? was not commented</b>
-
 	///constructor
 	Material();
-	///constructor
-	explicit Material(Initiation &ini);
 	///constructor
 	Material(char *material_name, Initiation &ini);
 	///show properties

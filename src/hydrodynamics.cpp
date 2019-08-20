@@ -56,7 +56,6 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   delta = ini.delta; delta2 = delta*delta; delta3 = delta2*delta;
 
   ///<li>create material matrix
-  Material sample_material(ini);
   materials = new Material[number_of_materials];
   ///<li>create the force matrix
   forces = new Force*[number_of_materials];
