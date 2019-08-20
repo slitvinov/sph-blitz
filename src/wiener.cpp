@@ -23,21 +23,6 @@ Wiener::Wiener()
 	Ranils();
 }
 //----------------------------------------------------------------------------------------
-//						produce wiener process with Flekkoy's form
-//----------------------------------------------------------------------------------------
-void Wiener::get_wiener(const double sqrtdt)
-{	
-	double rd1, rd2;
-
-	//two random numbers with Gaussian distribution
-	Gaussian(&rd1, &rd2);
-	
-	//increments of Wieneir process
-	Random_p = sqrtdt * rd1;
-	Random_v = sqrtdt * rd2;
-
-}
-//----------------------------------------------------------------------------------------
 //	produce wiener vlaue matrix with symmetric tracless part, and the trace/dimension
 //	Please refer to Espanol's paper
 //----------------------------------------------------------------------------------------

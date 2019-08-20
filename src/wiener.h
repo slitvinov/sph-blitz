@@ -34,9 +34,6 @@ public:
 	///produce wiener vlaue matrix with symmetric tracless part, and the trace
 	void get_wiener_Espanol(const double sqrtdt);
 
-	///wiener process with Flekkoy's form
-	void get_wiener(const double sqrtdt);
-
 	///set the random seed
 	void Ranils();
 };

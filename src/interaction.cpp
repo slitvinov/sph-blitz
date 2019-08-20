@@ -359,7 +359,7 @@ void Interaction::RandomForces(Wiener *wiener, double sqrtdt)
 
         Vi = mi/Org->rho; Vj = mj/Dest->rho;
 
-        wiener->get_wiener(sqrtdt);
+        wiener->get_wiener_Espanol(sqrtdt);
 
         //pair focres or change rate
         Vec2d _dUi; //mometum change rate
