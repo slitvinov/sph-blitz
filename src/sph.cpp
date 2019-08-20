@@ -49,7 +49,6 @@
  */
 
 #include <cmath>
-#include <cstdio>
 #include <iostream>
 
 // ***** local includes *****
