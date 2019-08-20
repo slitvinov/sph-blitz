@@ -55,10 +55,9 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   delta = ini.delta; delta2 = delta*delta; delta3 = delta2*delta;
 
   ///<li>create material matrix
-  Material sample_material(ini);  //set satatic numbers
+  Material sample_material(ini);
   materials = new Material[number_of_materials];
   ///<li>create the force matrix
-  Force sample_force(ini); //set satatic numbers
   forces = new Force*[number_of_materials];
   for(k = 0; k < number_of_materials; k++) forces[k] = new Force[number_of_materials];
 
@@ -103,8 +102,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
           fin>>k>>m;
           fin>>forces[k][m].epsilon>>forces[k][m].sigma
              >>forces[k][m].shear_slip>>forces[k][m].bulk_slip;
-          ///<li>copy smoothing length fro initiation
-          forces[k][m].smoothinglength = ini.smoothinglength;
+
         }
   }
   fin.close();

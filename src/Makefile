@@ -7,7 +7,6 @@ M = sph
 O = \
 boundary.o\
 diagnose.o\
-force.o\
 glbfunc.o\
 hydrodynamics.o\
 initiation.o\
