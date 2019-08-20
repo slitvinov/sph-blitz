@@ -9,32 +9,16 @@ Wiener::Wiener()
     Ranils();
 }
 
-void Wiener::get_wiener_Espanol(double sqrtdt)
-{
-    int i, j;
-    double rd1, rd2;
-    double randoms[2][2];
+void Wiener::get_wiener(const double sqrtdt)
+{	
+	double rd1, rd2;
 
-    Gaussian(&rd1, &rd2);
-   
-    //Wiener processe matrix
-    for (i = 0; i < dimension; i++) {	
+	//two random numbers with Gaussian distribution
 	Gaussian(&rd1, &rd2);
-	randoms[i][0] = sqrtdt * rd1;
-	randoms[i][1] = sqrtdt * rd2;
-    }
-
-    //trace/dimension
-    trace_d = 0.0;
-    for (i = 0; i < dimension; i++) trace_d += randoms[i][i];
-    trace_d = trace_d/dimension;
-
-    //symmeteric matrix
-    for (i = 0; i < dimension; i++) 
-	for (j = 0; j < dimension; j++) sym_trclss[i][j] = 0.5*(randoms[i][j] + randoms[j][i]);
-
-    //tracless symmeteric matrix
-    for (i = 0; i < dimension; i++) sym_trclss[i][i] -= trace_d;
+	
+	//increments of Wieneir process
+	Random_p = sqrtdt * rd1;
+	Random_v = sqrtdt * rd2;
 }
 
 double Wiener::Ranuls()

@@ -1,11 +1,10 @@
 struct Wiener {
+    Wiener();
+    double Random_p, Random_v;
+    void get_wiener(double sqrtdt);
+private:
     long int idum, idum2, iy, iseed;
     long int iv[32];
-    double sym_trclss[2][2];
-    double trace_d;
-    double Random_p, Random_v;
-    Wiener();
-    void get_wiener_Espanol(double sqrtdt);
     void Ranils();
     double Ranuls();
     void Gaussian(double *y1, double *y2);
