@@ -30,7 +30,6 @@ public:
         inline double& operator  [](int i)       { return D[i]; }
 
         ///other operations
-        inline double abs() const;
         inline double sq() const; ///square value
         inline double sqdiff() const; ///v[0]^2 - v[1]^2
 
@@ -80,11 +79,6 @@ inline Vec2d Vec2d::operator/(double a) const{
 inline Vec2d Vec2d::operator*(double a) const{
   enum {X, Y};    
   return Vec2d(D[X]*a, D[Y]*a);
-}
-
-inline double Vec2d::abs() const {
-    enum {X, Y};
-    return sqrt(D[X]*D[X] + D[Y]*D[Y]);
 }
 
 /// Return the absolute value of the vector (the length)
