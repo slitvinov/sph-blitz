@@ -49,7 +49,7 @@ public:
 	double End_time;///<Simulation end time
         double D_time;///<time interval for output (every D_time: output)
 
-	double U0[2];///<inital flow speed (if initial condition is defined here)w
+	double U0[2];///<inital flow speed (if initial condition is defined here)
 	double rho0;///<initial particle density(if initial condition is defined here)
 	double p0;///<initial pressure(if initial condition is defined here)
 	double T0;///<initial temperature(if initial condition is defined here)
