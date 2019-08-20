@@ -99,10 +99,6 @@ struct Hydrodynamics
 	///including random effects (DPD simulation)
 	void RandomEffects();
 
-	//test for debug
-	void MovingTest(Initiation &ini);///test for debug
-	double ConservationTest();//test for debug
-
 	///special uitilities
 	void Zero_Velocity();
 
