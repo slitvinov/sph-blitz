@@ -38,13 +38,8 @@ public:
 	
 	Llist<Particle> NNP_list; ///<list for the nearest neighbor particles
 
-	//constructors
-	///"empty" constructor
-	ParticleManager();
 	/// constructor
 	explicit ParticleManager(Initiation &ini);
-	///
-	ParticleManager(double cell_size, int x_cells, int y_cells);
 
 	///buid the initial particles and the linked lists
 	void BuildRealParticles(Hydrodynamics &hydro, Initiation &ini);

@@ -33,12 +33,6 @@ using namespace std;
 //----------------------------------------------------------------------------------------
 //									constructor
 //----------------------------------------------------------------------------------------
-ParticleManager::ParticleManager()
-{
-}
-//----------------------------------------------------------------------------------------
-//									constructor
-//----------------------------------------------------------------------------------------
 ParticleManager::ParticleManager(Initiation &ini)
 {
 	
@@ -65,16 +59,6 @@ ParticleManager::ParticleManager(Initiation &ini)
   ///- strore the cell linked lists in a 2-d array
   cell_lists = new Llist<Particle>*[x_clls];
   for(i = 0; i < x_clls; i++) cell_lists[i] = new Llist<Particle>[y_clls];
-
-}
-//----------------------------------------------------------------------------------------
-//								constructor
-//----------------------------------------------------------------------------------------
-ParticleManager::ParticleManager(double cell_size, int x_cells, int y_cells)
-{
-
-  cll_sz = cell_size;
-  x_clls = x_cells + 2; y_clls = y_cells + 2;
 
 }
 //----------------------------------------------------------------------------------------

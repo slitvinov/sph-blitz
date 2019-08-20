@@ -1,12 +1,11 @@
 class QuinticSpline
 {
 public:
-    explicit QuinticSpline(const double smoothingLength);
-    double w(const double distance) const;
-    double F(const double distance) const;
-    double LapW(const double distance) const;
+    explicit QuinticSpline(double smoothingLength);
+    double w(double distance);
+    double F(double distance);
+    double LapW(double distance);
 private:
-    double norm;
     double reciprocH;
     double factorW;
     double factorGradW;

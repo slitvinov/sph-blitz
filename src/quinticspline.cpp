@@ -2,17 +2,17 @@
 #include "quinticspline.h"
 
 static const double pi = 3.141592653589793;
-QuinticSpline::QuinticSpline(const double _smoothingLength)
+QuinticSpline::QuinticSpline(double _smoothingLength)
 {
+    double norm = 63.0 / 478.0 / pi;
     smoothingLength = _smoothingLength;
-    norm = 63.0 / 478.0 / pi;
     reciprocH = 1.0 / smoothingLength;
     factorW     = norm * pow(reciprocH, 2);
     factorGradW = 15.0*norm * pow(reciprocH, 3);
     factorLapW = 15.0*12.0*norm * pow(reciprocH, 4);
 }
 
-double QuinticSpline::w(const double distance) const
+double QuinticSpline::w(double distance)
 {
     double normedDist = 3.0*distance * reciprocH;
     double ss3, ss2, ss1;
@@ -40,7 +40,7 @@ double QuinticSpline::w(const double distance) const
 //----------------------------------------------------------------------------------------
 //		Calculates the kernel derivation (a double not vector) to distance
 //----------------------------------------------------------------------------------------
-double QuinticSpline::F(const double distance) const
+double QuinticSpline::F(double distance)
 {
     double normedDist = 3.0*distance * reciprocH;
     double ss3 = (3.0 - normedDist);
@@ -64,7 +64,7 @@ double QuinticSpline::F(const double distance) const
 	}
 }
 
-double QuinticSpline::LapW(const double distance) const
+double QuinticSpline::LapW(double distance)
 {
     double normedDist = 3.0*distance * reciprocH;
     double ss3, ss2, ss1;
