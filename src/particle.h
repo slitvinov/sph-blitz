@@ -1,9 +1,3 @@
-/// \file partilce.h 
-/// \brief a sph particle
-
-///note: reference a particle by pointer or adress
-///never reference a particle directly!
-
 class Material;
 class Initiation;
 
