@@ -75,8 +75,8 @@ Diagnose::Diagnose(Initiation &ini, Hydrodynamics &hydro)
     //total mass
     if(ini.diagnose == 2) {
         mtl_m = new double [number_of_materials];
-        wght_cntr = new Vec2d [number_of_materials];
-        wght_v = new Vec2d [number_of_materials];
+        wght_cntr = new double [2*number_of_materials];
+        wght_v = new double [2*number_of_materials];
 
         ttl_m = 1.0e-40;
         for(k = 0; k < number_of_materials; k++) mtl_m[k] = 1.0e-40;
@@ -305,8 +305,8 @@ void Diagnose::KineticInformation(double Time, Hydrodynamics &hydro)
     ofstream out(file_name, ios::out | ios::ate);
 
     for(k = 0; k < number_of_materials; k++) {
-        wght_cntr[k][X] = wght_cntr[k][Y] = 0.0;
-        wght_v[k][X] = wght_v[k][Y] = 0.0;
+        wght_cntr[2*k + X] = wght_cntr[2*k + Y] = 0.0;
+        wght_v[2*k + X] = wght_v[2*k + Y] = 0.0;
     }
     glb_ave_Ek = 0.0;
     //iterate the partilce list
@@ -318,18 +318,18 @@ void Diagnose::KineticInformation(double Time, Hydrodynamics &hydro)
         //find the number of the material
         for(k = 0;  k < number_of_materials; k++)
             if(strcmp(prtl->mtl->material_name, hydro.materials[k].material_name) == 0) {
-                wght_cntr[k][X] += prtl->R[X]*prtl->m;
-                wght_cntr[k][Y] += prtl->R[Y]*prtl->m;		
-                wght_v[k][X] += prtl->U[X]*prtl->m;
-                wght_v[k][Y] += prtl->U[Y]*prtl->m;		
+                wght_cntr[2*k + X] += prtl->R[X]*prtl->m;
+                wght_cntr[2*k + Y] += prtl->R[Y]*prtl->m;		
+                wght_v[2*k + X] += prtl->U[X]*prtl->m;
+                wght_v[2*k + Y] += prtl->U[Y]*prtl->m;		
             }
         glb_ave_Ek += 0.5*sqrt(vv_abs(prtl->U))*prtl->m;
     }
 
     out<<Time<<"  "<<ttl_m<<"  "<<glb_ave_Ek<<"  ";
     for(k = 0; k < number_of_materials; k++) {
-        out<<wght_cntr[k][0]/mtl_m[k]<<"  "<<wght_cntr[k][1]/mtl_m[k]<<"  ";
-        out<<wght_v[k][0]/mtl_m[k]<<"  "<<wght_v[k][1]/mtl_m[k]<<"  ";
+        out<<wght_cntr[2*k + X]/mtl_m[k]<<"  "<<wght_cntr[2*k + Y]/mtl_m[k]<<"  ";
+        out<<wght_v[2*k + X]/mtl_m[k]<<"  "<<wght_v[2*k + Y]/mtl_m[k]<<"  ";
     }
     out<<"\n";
     out.close();

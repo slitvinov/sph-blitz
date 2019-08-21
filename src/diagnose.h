@@ -44,8 +44,8 @@ class Diagnose {
         double ttl_m;///<total mass
         double *mtl_m;///<??????<b>(diagnose.h, line 36)</b>
         double glb_ave_Ek;///<global average kinetic energy
-        Vec2d *wght_cntr ;///<material weight center position
-        Vec2d *wght_v; ///<material weight center velocity
+        double *wght_cntr ;///<material weight center position
+        double *wght_v; ///<material weight center velocity
 
 public:
 
