@@ -105,11 +105,6 @@ inline double v_distance(const Vec2d &va, const Vec2d &vb){
     return v_abs(va - vb);
 }
 
-inline double product(const Vec2d &v) {
-    enum {X, Y};
-    return v[X]*v[Y];
-}
-
 inline double vv_abs(double *v) {
     enum {X, Y};
     return sqrt(v[X]*v[X] + v[Y]*v[Y]);

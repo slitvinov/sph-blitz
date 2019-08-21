@@ -548,7 +548,7 @@ void Hydrodynamics::UpdateSurfaceStress(Boundary &boundary)
     ///- update phase surface stress for all particles on this list
     interm0 = 1.0/(v_abs(prtl->del_phi) + epsilon);
     interm1 = 0.5*v_sqdiff(prtl->del_phi);
-    interm2 = product(prtl->del_phi);
+    interm2 = prtl->del_phi[X] * prtl->del_phi[Y];
     prtl->del_phi[0] = interm1*interm0;
     prtl->del_phi[1] = interm2*interm0;
   }
@@ -564,7 +564,7 @@ void Hydrodynamics::UpdateSurfaceStress(Boundary &boundary)
     ///- update phase surface stress for all particles on this list
     interm0 = v_abs(prtl->del_phi) + epsilon;
     interm1 = 0.5*v_sqdiff(prtl->del_phi);
-    interm2 = product(prtl->del_phi);
+    interm2 = prtl->del_phi[X] * prtl->del_phi[Y];
     prtl->del_phi[0] = interm1/interm0;
     prtl->del_phi[1] = interm2/interm0;
   }
