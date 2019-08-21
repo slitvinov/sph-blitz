@@ -76,8 +76,6 @@ public:
 	/// Changes: Org(del_phi:summation), Dest(del_phi:summation)\n
 	/// Depends on: Interaction Object, Org(del_phi,rho), Dest(del_phi,rho)
 	void SummationPhaseGradient();
-	void SummationPhaseGradient_old();
-	void SummationPhaseLaplacian();
 
 	///update forces
 	void UpdateForces();
