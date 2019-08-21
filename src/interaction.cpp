@@ -28,6 +28,9 @@
 
 using namespace std;
 
+static double k_bltz  = 1.380662e-023/0.02/0.02/0.02;
+
+
 int Interaction::number_of_materials = 0;
 double Interaction::smoothinglength = 0.0;
 double Interaction::art_vis = 0.0;
@@ -352,7 +355,6 @@ void Interaction::RandomForces(double sqrtdt)
         double Ti, Tj; //temperature
         Vec2d v_eij; //90 degree rotation of pair direction
 	double Random_p, Random_v;
-        extern double k_bltz;
 
         //define particle state values
         Ti =Org->T; Tj = Dest->T;
