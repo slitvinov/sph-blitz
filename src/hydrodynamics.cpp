@@ -420,24 +420,6 @@ void Hydrodynamics::Zero_PhaseGradient(Boundary &boundary)
   }
 }
 //----------------------------------------------------------------------------------------
-//					static solution: set velocity to zero
-//----------------------------------------------------------------------------------------
-void Hydrodynamics::Zero_Velocity()
-{
-    enum {X, Y};
-  ///- iterate particles on the real particle list
-  for (LlistNode<Particle> *p = particle_list.first();
-       !particle_list.isEnd(p);
-       p = particle_list.next(p)) {
-
-    //particle
-    Particle *prtl = particle_list.retrieve(p);
-
-    ///- all velocities to zero
-    prtl->U[X] = prtl->U[Y] = 0.0;
-  }
-}
-//----------------------------------------------------------------------------------------
 //						initiate random force
 //----------------------------------------------------------------------------------------
 void Hydrodynamics::Zero_Random()

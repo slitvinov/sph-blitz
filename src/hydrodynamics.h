@@ -95,8 +95,5 @@ struct Hydrodynamics
 	///including random effects (DPD simulation)
 	void RandomEffects();
 
-	///special uitilities
-	void Zero_Velocity();
-
 };
 
