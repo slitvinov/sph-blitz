@@ -7,8 +7,10 @@
 //		mls.cpp
 //----------------------------------------------------------------------------------------
 // ***** system includes *****
+#include <stdio.h>
 #include <iostream>
-#include <tgmath.h>
+#include <math.h>
+#include <stdlib.h>
 
 // ***** localincludes *****
 #include "vec2d.h"

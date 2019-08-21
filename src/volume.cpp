@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include <tgmath.h>
+#include <math.h>
 #include "vec2d.h"
 #include "dllist.h"
 #include "quinticspline.h"

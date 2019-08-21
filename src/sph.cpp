@@ -1,5 +1,7 @@
 #include <cmath>
 #include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include "vec2d.h"
 #include "timesolver.h"

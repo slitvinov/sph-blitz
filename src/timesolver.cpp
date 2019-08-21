@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <stdio.h>
 
 #include "vec2d.h"
 #include "dllist.h"
