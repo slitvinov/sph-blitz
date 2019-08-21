@@ -34,15 +34,12 @@ Particle::Particle(Initiation &ini)
 
 	///- set up phase field
 	phi = new double*[number_of_materials];
-	lap_phi = new double*[number_of_materials];
 	for(i = 0; i < number_of_materials; i++) {
 		phi[i] = new double[number_of_materials];
-		lap_phi[i] = new double[number_of_materials];
 	}
 	for(i = 0; i < number_of_materials; i++)
 		for(j = 0; j < number_of_materials; j++) {
 			phi[i][j] = 0.0;
-			lap_phi[i][j] = 0.0;
 		}
 }
 //----------------------------------------------------------------------------------------
@@ -55,11 +52,9 @@ Particle::~Particle()
 	///- delete phase field
 	for(i = 0; i < number_of_materials; i++) {
 		delete[] phi[i];
-		delete[] lap_phi[i];
 	}
 	///- delete pahse field gradient matrix
 	delete[] phi;
-	delete[] lap_phi;
 }
 //----------------------------------------------------------------------------------------
 //							real particle
@@ -99,15 +94,12 @@ Particle::Particle(Vec2d position, double velocity[2], double density, double pr
 
 	///- set up phase field
 	phi = new double*[number_of_materials];
-	lap_phi = new double*[number_of_materials];
 	for(i = 0; i < number_of_materials; i++) {
 		phi[i] = new double[number_of_materials];
-		lap_phi[i] = new double[number_of_materials];
 	}
 	for(i = 0; i < number_of_materials; i++)
 		for(j = 0; j < number_of_materials; j++) {
 			phi[i][j] = 0.0;
-			lap_phi[i][j] = 0.0;
 		}
 }
 //----------------------------------------------------------------------------------------
@@ -167,15 +159,12 @@ Particle::Particle(Particle &RealParticle) : bd(1), bd_type(1)
 	
 	///- set up phase field
 	phi = new double*[number_of_materials];
-	lap_phi = new double*[number_of_materials];
 	for(i = 0; i < number_of_materials; i++) {
 		phi[i] = new double[number_of_materials];
-		lap_phi[i] = new double[number_of_materials];
 	}
 	for(i = 0; i < number_of_materials; i++)
 		for(j = 0; j < number_of_materials; j++) {
 			phi[i][j] = 0.0;
-			lap_phi[i][j] = 0.0;
 		}
 
 }
@@ -212,15 +201,12 @@ Particle::Particle(Particle &RealParticle, Material &material): bd(1), bd_type(0
 
 	///- set up phase field
 	phi = new double*[number_of_materials];
-	lap_phi = new double*[number_of_materials];
 	for(i = 0; i < number_of_materials; i++) {
 		phi[i] = new double[number_of_materials];
-		lap_phi[i] = new double[number_of_materials];
 	}
 	for(i = 0; i < number_of_materials; i++)
 		for(j = 0; j < number_of_materials; j++) {
 			phi[i][j] = 0.0;
-			lap_phi[i][j] = 0.0;
 		}
 
 }
@@ -246,7 +232,6 @@ void Particle::StatesCopier(Particle &RealParticle, int type)
 		for(i = 0; i < number_of_materials; i++) {
 			for(j = 0; j < number_of_materials; j++) {
 				phi[i][j] = RealParticle.phi[i][j];
-				lap_phi[i][j] = RealParticle.lap_phi[i][j];
 			}
 		}
 	}
