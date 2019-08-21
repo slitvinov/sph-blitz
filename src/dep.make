@@ -1,5 +1,6 @@
 # generate by ../scripts/dep
 glbfunc.o: glbfunc.h
+initiation.o: initiation.h
 quinticspline.o: quinticspline.h
 wiener.o: wiener.h
 boundary.o: vec2d.h
@@ -33,14 +34,6 @@ hydrodynamics.o: particlemanager.h
 hydrodynamics.o: particle.h
 hydrodynamics.o: boundary.h
 hydrodynamics.o: hydrodynamics.h
-initiation.o: vec2d.h
-initiation.o: glbfunc.h
-initiation.o: dllist.h
-initiation.o: quinticspline.h
-initiation.o: particlemanager.h
-initiation.o: hydrodynamics.h
-initiation.o: particle.h
-initiation.o: initiation.h
 interaction.o: vec2d.h
 interaction.o: glbfunc.h
 interaction.o: quinticspline.h
@@ -98,6 +91,7 @@ sph.o: interaction.h
 sph.o: particlemanager.h
 sph.o: hydrodynamics.h
 sph.o: boundary.h
+sph.o: volume.h
 sph.o: wiener.h
 timesolver.o: vec2d.h
 timesolver.o: dllist.h
@@ -108,3 +102,10 @@ timesolver.o: boundary.h
 timesolver.o: particlemanager.h
 timesolver.o: timesolver.h
 vec2d.o: vec2d.h
+volume.o: vec2d.h
+volume.o: dllist.h
+volume.o: quinticspline.h
+volume.o: particlemanager.h
+volume.o: hydrodynamics.h
+volume.o: particle.h
+volume.o: volume.h
