@@ -3,10 +3,9 @@ template <class Ldata> class LlistNode {
     friend class Llist<Ldata>;
 private:
     Ldata *data;
-    LlistNode<Ldata> *next, *prev;
-    LlistNode()                         { data = 0; next = prev = this; }
-    LlistNode(Ldata *d, LlistNode<Ldata> *n)    { data = d; next = n;
-	prev = n->prev; n->prev = this; }
+    LlistNode<Ldata> *next;
+    LlistNode()                         { data = 0; next = this; }
+    LlistNode(Ldata *d, LlistNode<Ldata> *n)    { data = d; next = n; }
 };
 
 template <class Ldata> class Llist {
@@ -27,7 +26,7 @@ public:
 	p->next = new LlistNode<Ldata>(d, p->next);
     }
     inline void remove(LlistNode<Ldata> *p)	{ LlistNode<Ldata> *t = p->next; p->next = t->next;
-	t->next->prev = t->prev; delete t; len--; }
+	delete t; len--; }
     inline void clear() {while (!empty()) remove(first());
 	len = 0; }
     inline void clear_data()  {while (!empty()) { delete retrieve(first()); remove(first()); }
