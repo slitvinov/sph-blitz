@@ -20,7 +20,7 @@ class Hydrodynamics;
 class ParticleManager;
 
 // ***** localincludes *****
-#include "vec2d.h"
+#include "vv.h"
 #include "glbfunc.h"
 #include "quinticspline.h"
 #include "dllist.h"

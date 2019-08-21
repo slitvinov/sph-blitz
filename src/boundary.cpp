@@ -16,7 +16,6 @@
 struct QuinticSpline;
 
 // ***** localincludes *****
-#include "vec2d.h"
 #include "dllist.h"
 #include "hydrodynamics.h"
 #include "initiation.h"

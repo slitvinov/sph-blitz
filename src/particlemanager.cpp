@@ -5,9 +5,8 @@
 #include <cstdlib>
 #include <cmath>
 
-#include "vec2d.h"
 #include "glbfunc.h"
-
+#include "vv.h"
 #include "initiation.h"
 #include "dllist.h"
 #include "particle.h"

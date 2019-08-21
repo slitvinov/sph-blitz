@@ -5,7 +5,6 @@ material.o: glbfunc.h
 material.o: material.h
 quinticspline.o: quinticspline.h
 wiener.o: wiener.h
-boundary.o: vec2d.h
 boundary.o: dllist.h
 boundary.o: hydrodynamics.h
 boundary.o: initiation.h
@@ -23,7 +22,7 @@ diagnose.o: mls.h
 diagnose.o: particlemanager.h
 diagnose.o: material.h
 diagnose.o: diagnose.h
-hydrodynamics.o: vec2d.h
+hydrodynamics.o: vv.h
 hydrodynamics.o: glbfunc.h
 hydrodynamics.o: quinticspline.h
 hydrodynamics.o: dllist.h
@@ -36,7 +35,7 @@ hydrodynamics.o: particlemanager.h
 hydrodynamics.o: particle.h
 hydrodynamics.o: boundary.h
 hydrodynamics.o: hydrodynamics.h
-interaction.o: vec2d.h
+interaction.o: vv.h
 interaction.o: glbfunc.h
 interaction.o: quinticspline.h
 interaction.o: wiener.h
@@ -45,14 +44,13 @@ interaction.o: particle.h
 interaction.o: material.h
 interaction.o: force.h
 interaction.o: interaction.h
-mls.o: vec2d.h
+mls.o: vv.h
 mls.o: glbfunc.h
 mls.o: quinticspline.h
 mls.o: initiation.h
 mls.o: particle.h
 mls.o: dllist.h
 mls.o: mls.h
-output.o: vec2d.h
 output.o: glbfunc.h
 output.o: dllist.h
 output.o: mls.h
@@ -63,13 +61,13 @@ output.o: particle.h
 output.o: boundary.h
 output.o: particlemanager.h
 output.o: output.h
-particle.o: vec2d.h
+particle.o: vv.h
 particle.o: glbfunc.h
 particle.o: initiation.h
 particle.o: material.h
 particle.o: particle.h
-particlemanager.o: vec2d.h
 particlemanager.o: glbfunc.h
+particlemanager.o: vv.h
 particlemanager.o: initiation.h
 particlemanager.o: dllist.h
 particlemanager.o: particle.h
@@ -102,7 +100,7 @@ timesolver.o: boundary.h
 timesolver.o: particlemanager.h
 timesolver.o: timesolver.h
 vec2d.o: vec2d.h
-volume.o: vec2d.h
+volume.o: vv.h
 volume.o: dllist.h
 volume.o: quinticspline.h
 volume.o: particlemanager.h

@@ -15,7 +15,6 @@
 #include <cstdlib>
 
 // ***** localincludes *****
-#include "vec2d.h"
 #include "glbfunc.h"
 #include "dllist.h"
 #include "mls.h"
