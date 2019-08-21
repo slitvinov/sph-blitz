@@ -48,10 +48,10 @@ public:
 	void UpdateCellLinkedLists();
 
 	///do NNP search around a point and build the NNP list
-	void BuildNNP(Vec2d &point);
+	void BuildNNP(double point[2]);
 
 	///do NNP search around a point and build the NNP list for MLS approximation
-	void BuildNNP_MLSMapping(Vec2d &point);
+	void BuildNNP_MLSMapping(double point[2]);
 
 	///build the interaction (particle pair) list
 	void BuildInteraction(Llist<Interaction> &interactions, Llist<Particle> &particle_list, 

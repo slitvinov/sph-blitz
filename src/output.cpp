@@ -107,7 +107,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
 {
   int i, j, n;
   int gridx, gridy;
-  Vec2d pstn;
+  double pstn[2];
   double rho, phi, pressure, Temperature, x_velocity, y_velocity;
   double Itime;
   char file_name[FILENAME_MAX], file_list[10];

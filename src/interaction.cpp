@@ -92,7 +92,7 @@ void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force 
 void Interaction::RenewInteraction(QuinticSpline &weight_function)
 {
     ///- calculate pair parameters (weight functions, shear- and bulk-)
-    rij = v_abs(Org->R - Dest->R);
+    rij = vv_distance(Org->R, Dest->R);
     rrij = 1.0/(rij + 1.0e-30);
     eij[X] = (Org->R[X] - Dest->R[X])*rrij;
     eij[Y] = (Org->R[Y] - Dest->R[Y])*rrij;

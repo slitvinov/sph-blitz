@@ -6,7 +6,7 @@ class Particle {
 public:
 	///\brief construct a real particle
 	///NOTE the particle mass and volume will be specified in initiation::VolumeMass(w)
-	Particle(Vec2d position, double velocity[2], double density, double pressure, double temperature, Material &material);
+	Particle(double position[2], double velocity[2], double density, double pressure, double temperature, Material &material);
 	///construct a wall particle
 	Particle(double x, double y, double u, double v, Material &material);
 	
@@ -32,9 +32,9 @@ public:
 	Particle *rl_prtl;
 
 	//Physical data
-	Vec2d R;///<position
-        Vec2d P;///<momentum
-        Vec2d U; ///<velocityy
+	double R[2];///<position
+        double P[2];///<momentum
+        double U[2]; ///<velocityy
         double rho;///<density
         double p;///<pressure
         double T;///<Temperature

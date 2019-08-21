@@ -39,8 +39,11 @@ void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline 
 	    Particle *prtl_dest = particles.NNP_list.retrieve(p1);
 				
 	    /// <li> calculate distance (origin<-> neighbor)
-	    dstc = v_distance(prtl_org->R, prtl_dest->R);
-	    eij = (prtl_org->R - prtl_dest->R)/(dstc + 1.e-30);
+	    dstc = vv_distance(prtl_org->R, prtl_dest->R);
+	    
+	    eij[X] = (prtl_org->R[X] - prtl_dest->R[X])/(dstc + 1.e-30);
+	    eij[Y] = (prtl_org->R[Y] - prtl_dest->R[Y])/(dstc + 1.e-30);
+	    
 	    /// <li> calculate weight function for given distance (w=0, if dist>supportlengtg) an summ it up </ul> 
 	    reciprocV += w(&weight_function, dstc);
 	    sumdw = sumdw + eij*F(&weight_function, dstc);

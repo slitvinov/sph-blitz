@@ -93,7 +93,7 @@ void ParticleManager::UpdateCellLinkedLists()
 //----------------------------------------------------------------------------------------
 //						do NNP search and build the NNP list
 //----------------------------------------------------------------------------------------
-void ParticleManager::BuildNNP(Vec2d &point)
+void ParticleManager::BuildNNP(double point[2])
 {
   int i, j; //current cell postions
   int k, m; //possible new cell postions
@@ -118,7 +118,7 @@ void ParticleManager::BuildNNP(Vec2d &point)
 	  ///<ul><li>check the position of the particle
 	  ///and (if particle is NNP) insert the nearest particle to the list
 	  Particle *prtl = cell_lists[i][j].retrieve(p);
-	  dstc = v_distance(point, prtl->R);
+	  dstc = vv_distance(point, prtl->R);
 	  if(dstc < smoothinglength) {///<li>(line 137)<b>Question: WHY SMOOTHINGLENGTH AND NOT SUPPORT LENGT???</b>
 	    NNP_list.insert(NNP_list.first(), prtl);
 	  }
@@ -130,7 +130,7 @@ void ParticleManager::BuildNNP(Vec2d &point)
 //----------------------------------------------------------------------------------------
 //				do NNP search and biuld the NNP list for MLS Mapping
 //----------------------------------------------------------------------------------------
-void ParticleManager::BuildNNP_MLSMapping(Vec2d &point)
+void ParticleManager::BuildNNP_MLSMapping(double point[2])
 {
   int i, j; //current cell postions
   int k, m; //possible new cell postions
@@ -153,7 +153,7 @@ void ParticleManager::BuildNNP_MLSMapping(Vec2d &point)
 	  ///<ul><li>check the position of the real particle
 	  ///and (if particle is NNP) insert it to the list
 	  Particle *prtl = cell_lists[i][j].retrieve(p);
-	  dstc = v_distance(point, prtl->R);
+	  dstc = vv_distance(point, prtl->R);
 	  //only real particles included
 	  if(dstc < smoothinglength && prtl->bd == 0) {
 	    NNP_list.insert(NNP_list.first(), prtl);
@@ -209,7 +209,7 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
 	      Particle *prtl_dest = cell_lists[k][m].retrieve(p1);
 
 	      ///<ul><li>calculate distance between particle in question and destination particle (which is iterated)and if interaction takes place: add pair to inetraction list (<b>question: why is dst compared to h^2 and not support length to determine if there is interaction or not??</b>
-	      dstc = v_sq(prtl_org->R - prtl_dest->R);
+	      dstc = vv_sq_distance(prtl_org->R, prtl_dest->R);
 	      if(dstc <= smoothinglengthsquare && prtl_org->ID >= prtl_dest->ID) {
 		if(current_used == old_length) {
 		    Interaction *pair = new Interaction(prtl_org, prtl_dest, forces, weight_function, sqrt(dstc));
@@ -241,7 +241,7 @@ void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation &ini)
 {
 
   int i, j, k, m;
-  Vec2d position;
+  double position[2];
   double velocity[2];
   double density, pressure, Temperature;
   int material_no;

@@ -30,5 +30,5 @@ public:
 	///\brief MLS Mapping to grid points
 	///
 	///set up the enviroment for MLS calculation and run MLS solver
-	void MLSMapping(Vec2d &point, Llist<Particle> &NNP_list, QuinticSpline &weight_function, int order);
+	void MLSMapping(double point[2], Llist<Particle> &NNP_list, QuinticSpline &weight_function, int order);
 };

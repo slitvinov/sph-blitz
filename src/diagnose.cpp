@@ -206,7 +206,7 @@ void Diagnose::BuildDistribution(Llist<double> &list, double dstrb[2][101])
 void Diagnose::Average(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function)
 {
     int i, j, n;
-    Vec2d pstn;
+    double pstn[2];
     double rho, pressure, Temperature, x_velocity, y_velocity;
     double m_n_average, r_n_average;
 
@@ -318,10 +318,12 @@ void Diagnose::KineticInformation(double Time, Hydrodynamics &hydro)
         //find the number of the material
         for(k = 0;  k < number_of_materials; k++)
             if(strcmp(prtl->mtl->material_name, hydro.materials[k].material_name) == 0) {
-                wght_cntr[k] += prtl->R*prtl->m;
-                wght_v[k] += prtl->U*prtl->m;
+                wght_cntr[k][X] += prtl->R[X]*prtl->m;
+                wght_cntr[k][Y] += prtl->R[Y]*prtl->m;		
+                wght_v[k][X] += prtl->U[X]*prtl->m;
+                wght_v[k][Y] += prtl->U[Y]*prtl->m;		
             }
-        glb_ave_Ek += 0.5*sqrt(v_abs(prtl->U))*prtl->m;
+        glb_ave_Ek += 0.5*sqrt(vv_abs(prtl->U))*prtl->m;
     }
 
     out<<Time<<"  "<<ttl_m<<"  "<<glb_ave_Ek<<"  ";

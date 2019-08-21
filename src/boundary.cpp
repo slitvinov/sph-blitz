@@ -1246,7 +1246,8 @@ void Boundary::Boundary_SW(Particle *prtl)
   switch(xBl) {
     //wall
   case 0:
-    prtl->R = - prtl->R;
+    prtl->R[X] = - prtl->R[X];
+    prtl->R[Y] = - prtl->R[Y];    
     prtl->U[0] = UyBd[0]*2.0 - prtl->U[0];
     prtl->U[1] = UxBl[1]*2.0 - prtl->U[1];
     break;
@@ -1257,13 +1258,15 @@ void Boundary::Boundary_SW(Particle *prtl)
     break;
     //free slip wall
   case 2:
-    prtl->R = - prtl->R;
+    prtl->R[X] = - prtl->R[X];
+    prtl->R[Y] = - prtl->R[Y];    
     prtl->U[0] = UyBd[0]*2.0 - prtl->U[0];
     prtl->U[1] = UxBl[1]*2.0 - prtl->U[1];
     break;
     //symmetry
   case 3:
-    prtl->R = - prtl->R;
+    prtl->R[X] = - prtl->R[X];
+    prtl->R[Y] = - prtl->R[Y];    
     prtl->U[0] = UyBd[0]*2.0 - prtl->U[0];
     prtl->U[1] = UxBl[1]*2.0 - prtl->U[1];
     prtl->del_phi = - prtl->del_phi;

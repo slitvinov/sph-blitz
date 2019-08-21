@@ -81,13 +81,13 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
     if(!strcmp(Key_word, "MATERIALS"))
       ///<li>if  key word material: read all materials (from .cfg file)
       for(k = 0; k < number_of_materials; k++) {
-        //the material number
-        ///<ul><li>save each one of them in materials matrix
-        materials[k].number = k;
-        fin>>materials[k].material_name>>materials[k].material_type;
-        fin>>materials[k].eta>>materials[k].zeta
-           >>materials[k].gamma>>materials[k].rho0>>materials[k].a0;
-        Set_nu(&materials[k]);
+	//the material number
+	///<ul><li>save each one of them in materials matrix
+	materials[k].number = k;
+	fin>>materials[k].material_name>>materials[k].material_type;
+	fin>>materials[k].eta>>materials[k].zeta
+	   >>materials[k].gamma>>materials[k].rho0>>materials[k].a0;
+	Set_nu(&materials[k]);
       }
 
     //comparing the key words for the force matrix
@@ -96,12 +96,12 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
       //read all materials
       ///<ul><li> save eahc one of them in forces matrix
       for(l = 0; l < number_of_materials; l++)
-        for(n = 0; n < number_of_materials; n++) {
-          fin>>k>>m;
-          fin>>forces[k][m].epsilon>>forces[k][m].sigma
-             >>forces[k][m].shear_slip>>forces[k][m].bulk_slip;
+	for(n = 0; n < number_of_materials; n++) {
+	  fin>>k>>m;
+	  fin>>forces[k][m].epsilon>>forces[k][m].sigma
+	     >>forces[k][m].shear_slip>>forces[k][m].bulk_slip;
 
-        }
+	}
   }
   fin.close();
 
@@ -257,11 +257,11 @@ void Hydrodynamics::UpdateChangeRate()
 
     ///- iterate the interaction list
     for (LlistNode<Interaction> *p = interaction_list.first();
-         !interaction_list.isEnd(p);
-         p = interaction_list.next(p)) {
-        //a interaction pair
-        ///- calculate for each pair the pair forces or change rate
-        interaction_list.retrieve(p)->UpdateForces();
+	 !interaction_list.isEnd(p);
+	 p = interaction_list.next(p)) {
+	//a interaction pair
+	///- calculate for each pair the pair forces or change rate
+	interaction_list.retrieve(p)->UpdateForces();
     }
 
   ///- include the gravity effects
@@ -410,7 +410,7 @@ void Hydrodynamics::AddGravity()
     Particle *prtl = particle_list.retrieve(p);
 
     prtl->dUdt[X] += gravity[X];
-    prtl->dUdt[Y] += gravity[Y];    
+    prtl->dUdt[Y] += gravity[Y];
   }
 }
 //----------------------------------------------------------------------------------------
@@ -448,7 +448,7 @@ void Hydrodynamics::UpdatePahseMatrix(Boundary &boundary)
     ///- all phase surface stress (currently no action is performed)
     for(int i = 0; i < number_of_materials; i++)
       for(int j = 0; j < number_of_materials; j++) {
-        if( i != j) prtl->phi[i][j] = prtl->phi[i][j]; //prtl->phi[i][i]/(prtl->phi[i][i] + prtl->phi[j][j] + 1.0e-30);
+	if( i != j) prtl->phi[i][j] = prtl->phi[i][j]; //prtl->phi[i][i]/(prtl->phi[i][i] + prtl->phi[j][j] + 1.0e-30);
       }
   }
 
@@ -463,7 +463,7 @@ void Hydrodynamics::UpdatePahseMatrix(Boundary &boundary)
     ///- all phase surface stress (currently no action is perforemd)
     for(int i = 0; i < number_of_materials; i++)
       for(int j = 0; j < number_of_materials; j++) {
-        if( i != j) prtl->phi[i][j] = prtl->phi[i][j]; //prtl->phi[i][i]/(prtl->phi[i][i] + prtl->phi[j][j] + 1.0e-30);
+	if( i != j) prtl->phi[i][j] = prtl->phi[i][j]; //prtl->phi[i][i]/(prtl->phi[i][i] + prtl->phi[j][j] + 1.0e-30);
       }
   }
 }
@@ -551,14 +551,14 @@ void Hydrodynamics::UpdateVolume(ParticleManager &particles, QuinticSpline &weig
     reciprocV = 0.0;
     //<li>iterate this Nearest Neighbor Particle list
     for (LlistNode<Particle> *p1 = particles.NNP_list.first();
-         !particles.NNP_list.isEnd(p1);
-         p1 = particles.NNP_list.next(p1)) {
+	 !particles.NNP_list.isEnd(p1);
+	 p1 = particles.NNP_list.next(p1)) {
 
       //get a particle
       Particle *prtl_dest = particles.NNP_list.retrieve(p1);
 
       ///<ul><li>sum the weights for all of these particles (because they are the inverse of a volume!?!)</ul>
-      reciprocV += w(&weight_function, v_distance(prtl_org->R, prtl_dest->R));
+      reciprocV += w(&weight_function, vv_distance(prtl_org->R, prtl_dest->R));
     }
     ///<li>calculate volume
     prtl_org->V = 1.0/reciprocV;
@@ -585,7 +585,7 @@ double Hydrodynamics::GetTimestep()
 
     Particle *prtl = particle_list.retrieve(p);
     Cs_max = AMAX1(Cs_max, prtl->Cs);
-    V_max = AMAX1(V_max, v_abs(prtl->U));
+    V_max = AMAX1(V_max, vv_abs(prtl->U));
     rho_min = AMIN1(rho_min, prtl->rho);
     rho_max = AMAX1(rho_max, prtl->rho);
   }
@@ -606,19 +606,29 @@ void Hydrodynamics::Predictor(double dt)
     Particle *prtl = particle_list.retrieve(p);
 
     ///<ul><li>save values at step n
-    prtl->R_I = prtl->R;
+    prtl->R_I[X] = prtl->R[X];
+    prtl->R_I[Y] = prtl->R[Y];
+
     prtl->rho_I = prtl->rho;
-    prtl->U_I = prtl->U;
+    prtl->U_I[X] = prtl->U[X];
+    prtl->U_I[Y] = prtl->U[Y];
 
     ///<li>predict values at step n+1
-    prtl->R = prtl->R + prtl->U*dt;
+    prtl->R[X] = prtl->R[X] + prtl->U[X]*dt;
+    prtl->R[Y] = prtl->R[Y] + prtl->U[Y]*dt;
+
     prtl->rho = prtl->rho + prtl->drhodt*dt;
-    prtl->U = prtl->U + prtl->dUdt*dt;
+    prtl->U[X] = prtl->U[X] + prtl->dUdt[X]*dt;
+    prtl->U[Y] = prtl->U[Y] + prtl->dUdt[Y]*dt;
 
     ///<li>calculate the middle values at step n+1/2</ul></ul>
-    prtl->R = (prtl->R + prtl->R_I)*0.5;
+    prtl->R[X] = (prtl->R[X] + prtl->R_I[X])*0.5;
+    prtl->R[Y] = (prtl->R[Y] + prtl->R_I[Y])*0.5;
+
     prtl->rho = (prtl->rho + prtl->rho_I)*0.5;
-    prtl->U = (prtl->U + prtl->U_I)*0.5;
+
+    prtl->U[X] = (prtl->U[X] + prtl->U_I[X])*0.5;
+    prtl->U[Y] = (prtl->U[Y] + prtl->U_I[Y])*0.5;
   }
 }
 //----------------------------------------------------------------------------------------
@@ -634,9 +644,13 @@ void Hydrodynamics::Corrector(double dt)
     Particle *prtl = particle_list.retrieve(p);
 
     ///- for each particle: correction based on values on n step and change rate at n+1/2
-    prtl->R = prtl->R_I + prtl->U*dt;
+    prtl->R[X] = prtl->R_I[X] + prtl->U[X]*dt;
+    prtl->R[Y] = prtl->R_I[Y] + prtl->U[Y]*dt;
+
     prtl->rho = prtl->rho + prtl->drhodt*dt;
-    prtl->U = prtl->U_I + prtl->dUdt*dt;
+
+    prtl->U[X] = prtl->U_I[X] + prtl->dUdt[X]*dt;
+    prtl->U[Y] = prtl->U_I[Y] + prtl->dUdt[Y]*dt;
   }
 }
 //----------------------------------------------------------------------------------------
@@ -652,17 +666,28 @@ void Hydrodynamics::Predictor_summation(double dt)
     Particle *prtl = particle_list.retrieve(p);
 
     ///<ul><li>save values (R,U)  at step n in intermediate variables ._I
-    prtl->R_I = prtl->R;
-    prtl->U += prtl->_dU; //renormalize velocity
-    prtl->U_I = prtl->U;
+    prtl->R_I[X] = prtl->R[X];
+    prtl->R_I[Y] = prtl->R[Y];
+
+    prtl->U[X] += prtl->_dU[X];
+    prtl->U[Y] += prtl->_dU[Y];
+
+    prtl->U_I[X] = prtl->U[X];
+    prtl->U_I[Y] = prtl->U[Y];
 
     ///<li>predict values at step n+1
-    prtl->R = prtl->R + prtl->U*dt;
-    prtl->U = prtl->U + prtl->dUdt*dt;
+    prtl->R[X] = prtl->R[X] + prtl->U[X]*dt;
+    prtl->R[Y] = prtl->R[Y] + prtl->U[Y]*dt;
+
+    prtl->U[X] = prtl->U[X] + prtl->dUdt[X]*dt;
+    prtl->U[Y] = prtl->U[Y] + prtl->dUdt[Y]*dt;
 
     ///<li>calculate the middle values at step n+1/2 and save them in Particle objects prtl</ul></ul>
-    prtl->R = (prtl->R + prtl->R_I)*0.5;
-    prtl->U = (prtl->U + prtl->U_I)*0.5;
+    prtl->R[X] = (prtl->R[X] + prtl->R_I[X])*0.5;
+    prtl->R[Y] = (prtl->R[Y] + prtl->R_I[Y])*0.5;
+
+    prtl->U[X] = (prtl->U[X] + prtl->U_I[X])*0.5;
+    prtl->U[Y] = (prtl->U[Y] + prtl->U_I[Y])*0.5;
   }
 }
 //----------------------------------------------------------------------------------------
@@ -678,9 +703,14 @@ void Hydrodynamics::Corrector_summation(double dt)
     Particle *prtl = particle_list.retrieve(p);
 
     ///- for each particle: correction (advances R,U) based on values on n step and change rate at n+1/2
-    prtl->U += prtl->_dU; //renormalize velocity
-    prtl->R = prtl->R_I + prtl->U*dt;
-    prtl->U = prtl->U_I + prtl->dUdt*dt;
+    prtl->U[X] += prtl->_dU[X];
+    prtl->U[Y] += prtl->_dU[Y];
+    
+    prtl->R[X] = prtl->R_I[X] + prtl->U[X]*dt;
+    prtl->R[Y] = prtl->R_I[Y] + prtl->U[Y]*dt;    
+    
+    prtl->U[X] = prtl->U_I[X] + prtl->dUdt[X]*dt;
+    prtl->U[Y] = prtl->U_I[Y] + prtl->dUdt[Y]*dt;
   }
 }
 //----------------------------------------------------------------------------------------
@@ -696,6 +726,7 @@ void Hydrodynamics::RandomEffects()
     Particle *prtl = particle_list.retrieve(p);
 
     ///- for each particle: add random velocity _dU
-    prtl->U = prtl->U + prtl->_dU;
+    prtl->U[X] = prtl->U[X] + prtl->_dU[X];
+    prtl->U[Y] = prtl->U[Y] + prtl->_dU[Y];    
   }
 }
