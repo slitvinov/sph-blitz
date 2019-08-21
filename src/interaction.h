@@ -1,6 +1,3 @@
-/// \file interaction.h 
-/// \brief Defines interaction between particles
-
 class Particle;
 class Force;
 class Initiation;
@@ -21,10 +18,10 @@ class Interaction {
 	Particle *Org;	///<pointer to particle with larger ID (of particle pair)
 	Particle *Dest;	///<pointer to particle with smaller ID (of particle pair)
 	Force **frc_ij;	///<force from particle i to particle j
-	
+
 	//pair values do not change in sub time steps
 	int noi; ///<material NO. of the partilce i
-        int noj; ///<material NO. of the partilce j
+	int noj; ///<material NO. of the partilce j
 	double mi;///<mass particle i
 	double rmi;///<reciprocal value of mass particle i
 	double etai;///<viscosity for particle i
@@ -36,39 +33,39 @@ class Interaction {
 
 	//distance between the two particles, weight and derivatives
 	double rij;///<distance between 2 particles
-        double rrij;///< reciprocal value of distance between 2 particles
-        double Wij;///<<b>!!!question!!!<b>
-        double Fij;///<<b>!!!question!!!<b>
-        double Wij2;///<<b>!!!question!!!<b>
-	Vec2d eij; ///<pair direction from orginal particle to destination particle 
+	double rrij;///< reciprocal value of distance between 2 particles
+	double Wij;///<<b>!!!question!!!<b>
+	double Fij;///<<b>!!!question!!!<b>
+	double Wij2;///<<b>!!!question!!!<b>
+	double eij[2]; ///<pair direction from orginal particle to destination particle
 	double shear_rij ;///<particle length to implement slip boundary<<b>!!!question!!!<b>
 	double bulk_rij; ///<particle length to implement slip boundary<<b>!!!question!!!<b>
-		
+
 public:
-	
+
 	Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
 				QuinticSpline &weight_function, double dstc);
-	
+
 	///use old interaction object for new interaction
 	void NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
 				QuinticSpline &weight_function, double dstc);
 
 	///\brief renew pair parameters and changing pair values
 	///
-        ///Changes: Interaction object\n
-        ///Depends on: Interaction Object, Org, Dest
+	///Changes: Interaction object\n
+	///Depends on: Interaction Object, Org, Dest
 	void RenewInteraction(QuinticSpline &weight_function);
 
 	//pair interaction
 
 	///\brief summation of the density
 	///
-        ///Changes: Org(rho:summation), Dest(rho:summation)\n
-        ///Depends on: Interaction Object, Org(rho), Dest(rho)
-        ///Remark: the idea is different from the original sph method
+	///Changes: Org(rho:summation), Dest(rho:summation)\n
+	///Depends on: Interaction Object, Org(rho), Dest(rho)
+	///Remark: the idea is different from the original sph method
 	void SummationDensity();
 
-        ///\brief sum phase gradient contribution of interaction pair
+	///\brief sum phase gradient contribution of interaction pair
 	///
 	/// Changes: Org(del_phi:summation), Dest(del_phi:summation)\n
 	/// Depends on: Interaction Object, Org(del_phi,rho), Dest(del_phi,rho)
@@ -79,6 +76,5 @@ public:
 
 	///update random forces
 	void RandomForces(double sqrtdt);
-	
-};
 
+};
