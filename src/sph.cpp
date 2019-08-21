@@ -26,21 +26,11 @@ extern long particle_ID_max;
 extern int particle_number_of_materials;
 
 using namespace std;
-///
-/// \brief The main program
-///
-/// Starts the initialization methods and contains the main computation loop
-/// \param argc The number of command line arguments, should be two: program name (by default) and project name
-/// \param argv The command line arguments array: by default program name at first position (index 0), and then the project( which is specified when calling the program name (e.g. s./sph ../cases/couette) at index 1
 int main(int argc, char *argv[]) {
-    //the following line of comment is for doxygen only
-    ///\n <b>below  the rough structure of the main function:</b>
-    //computation time
     double Time;
     Initiation ini;
     QuinticSpline weight_function;
 
-    //check if project name specified
     if (argc<2)  {
 	std::cout<<"No Project Name Specified!!\n";
 	std::cout << __FILE__ << ':' << __LINE__ << std::endl;
@@ -48,7 +38,6 @@ int main(int argc, char *argv[]) {
     }
 	
     wiener_seed(12345);
-    /// initializations
     initiation_ini(argv[1], &ini);
     interaction_art_vis = ini.art_vis;
     interaction_delta = ini.delta;
@@ -58,41 +47,27 @@ int main(int argc, char *argv[]) {
 
     quinticspline_ini(ini.smoothinglength, &weight_function);
     MLS mls(ini.MLS_MAX); ///- initiate the Moving Least Squares approximation
-    ParticleManager particles(ini); ///- initiate the particle manager
+    ParticleManager particles(ini);
     Hydrodynamics hydro(particles, ini); ///- create materials, forces and real particles
-    Boundary boundary(ini, hydro, particles); ///- initiate boundary conditions and boundary particles
-    TimeSolver timesolver(ini); ///- initialize the time solver
-    Output output(ini); ///- initialize output class (should be the last to be initialized)
+    Boundary boundary(ini, hydro, particles);
+    TimeSolver timesolver(ini);
+    Output output(ini);
     VolumeMass(hydro, particles, weight_function); //predict particle volume and mass
     boundary.BoundaryCondition(particles); //repose the boundary condition
-    Diagnose diagnose(ini, hydro); //initialize the diagnose applications
+    Diagnose diagnose(ini, hydro);
 
-    //start time
     Time = ini.Start_time;
+    output.OutputParticles(hydro, boundary, Time);
+    output.OutputStates(particles, mls, weight_function, Time);
+    if(ini.diagnose == 2)
+      diagnose.KineticInformation(Time, hydro);
 
-    //output initial conditions
-    output.OutputParticles(hydro, boundary, Time); //particle positions and velocites
-    output.OutputStates(particles, mls, weight_function, Time); //initial states on uniform grid
-    //output diagnose information
-    if(ini.diagnose == 2 ) diagnose.KineticInformation(Time, hydro);
-
-    ///\n computation loop starts
     while(Time < ini.End_time) {
-
-	// adjust the last D_time(=output time) in a way that there is an output at last timestep
 	if(Time + ini.D_time >=  ini.End_time) ini.D_time = ini.End_time - Time;
-
-	///- call the time slover (who iterates over one output time interval)
-	//		timesolver.TimeIntegral(hydro, particles, boundary, Time,
-	//			ini.D_time, diagnose, ini, weight_function, mls);
 	timesolver.TimeIntegral_summation(hydro, particles, boundary, Time,
 					  ini.D_time, diagnose, ini, weight_function, mls);
-
-	///- output results after a time interval\n\n
-	output.OutputParticles(hydro, boundary, Time); //particle positions and velocites
-	output.OutRestart(hydro, Time); //restarting file
-
-	//output diagnose information
+	output.OutputParticles(hydro, boundary, Time);
+	output.OutRestart(hydro, Time);
 	if(ini.diagnose == 1) {
 	    diagnose.OutputProfile(Time);
 	    diagnose.OutputAverage(Time);
