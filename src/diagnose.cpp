@@ -1,11 +1,3 @@
-// diagnose.cpp
-// author: Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-// changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>,
-
-//----------------------------------------------------------------------------------------
-//      Output the diagnosal results
-//              output.cpp
-//----------------------------------------------------------------------------------------
 #include <cmath>
 #include <iostream>
 #include <fstream>
