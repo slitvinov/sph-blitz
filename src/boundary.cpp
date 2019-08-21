@@ -7,10 +7,11 @@
 ///			boundary.cpp
 ///----------------------------------------------------------------
 /// ***** system includes *****
+#include <stdlib.h>
 #include <iostream>
 #include <fstream>
 #include <string.h>
-#include <tgmath.h>
+#include <math.h>
 
 struct QuinticSpline;
 
