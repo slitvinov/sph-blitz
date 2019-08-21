@@ -57,11 +57,8 @@ struct Hydrodynamics
 	void Zero_ShearRate();
 	///summation for particles density (with updating interaction list)
 	void UpdateDensity(ParticleManager &particles, QuinticSpline &weight_function);
-        ///summation for shear rates (with updating interaction list)
-	void UpdateShearRate(ParticleManager &particles, QuinticSpline &weight_function);
 	///currently no shear rate calculated  without updating interaction list
 	void UpdateDensity();///???
-	void UpdateShearRate();
 	
 	//update phase field
 	void UpdatePhaseGradient(Boundary &boundary);///< not independant with UpdateDensity

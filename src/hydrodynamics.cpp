@@ -156,29 +156,6 @@ void Hydrodynamics::UpdatePair(QuinticSpline &weight_function)
   }
 }
 //----------------------------------------------------------------------------------------
-//		summation for shear rates with updating interaction list
-//----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateShearRate(ParticleManager &particles, QuinticSpline &weight_function)
-{
-
-  ///- obtain the interaction pairs
-  particles.BuildInteraction(interaction_list, particle_list, forces, weight_function);
-
-  ///- initiate by calling  Zero_ShearRate Method
-  Zero_ShearRate();
-  ///- iterate the interaction list
-  for (LlistNode<Interaction> *p2 = interaction_list.first();
-       !interaction_list.isEnd(p2);
-       p2 = interaction_list.next(p2)) {
-
-    //a interaction pair
-    Interaction *pair = interaction_list.retrieve(p2);
-    ///- calculate for each pair the pair forces or change rate
-    pair->SummationShearRate();
-  }
-
-}
-//----------------------------------------------------------------------------------------
 //		summation for pahse field gradient
 //----------------------------------------------------------------------------------------
 // not independant with UpdateDensity
@@ -221,25 +198,6 @@ void Hydrodynamics::UpdateDensity(ParticleManager &particles, QuinticSpline &wei
 
   ///- calulate new pressure by calling UpdateState() Method
   UpdateState();
-}
-//----------------------------------------------------------------------------------------
-//		summation for shear rates without updating interaction list
-//----------------------------------------------------------------------------------------
-void Hydrodynamics::UpdateShearRate()
-{
-  ///- initiate by calling Zero_ShearRate(
-  Zero_ShearRate();
-  ///- iterate the interaction list
-  for (LlistNode<Interaction> *p2 = interaction_list.first();
-       !interaction_list.isEnd(p2);
-       p2 = interaction_list.next(p2)) {
-
-    //a interaction pair
-    Interaction *pair = interaction_list.retrieve(p2);
-    ///- calculate for each pair the pair forces or change rate
-    pair->SummationShearRate();
-  }
-
 }
 //----------------------------------------------------------------------------------------
 //		summation for particles density without updating interaction list
