@@ -19,14 +19,14 @@ Particle::~Particle()
     delete[] phi;
 }
 
-Particle::Particle(double position[2], double velocity[2], double density, double pressure, double temperature, Material &material)
+Particle::Particle(double position[2], double velocity[2], double density, double pressure, double temperature, Material *material)
 {
     int i, j;
     bd = 0;
     particle_ID_max++;
 
     ID = particle_ID_max;
-    mtl = &material;
+    mtl = material;
     eta = mtl->eta; zeta = mtl->zeta;
     R[X] = position[X];
     R[Y] = position[Y];
@@ -60,12 +60,12 @@ Particle::Particle(double position[2], double velocity[2], double density, doubl
 	}
 }
 
-Particle::Particle(double x, double y, double u, double v, Material &material)
+Particle::Particle(double x, double y, double u, double v, Material *material)
 {
     bd = 1;
     bd_type = 0;
     ID = 0;
-    mtl = &material;
+    mtl = material;
     R[0] = x;
     R[1] = y;
     U[0] = u;
@@ -123,14 +123,14 @@ Particle::Particle(Particle &RealParticle)
 	}
 }
 
-Particle::Particle(Particle &RealParticle, Material &material)
+Particle::Particle(Particle &RealParticle, Material *material)
 {
     int i, j;
     bd = 1;
     bd_type = 0;
     ID = 0;
     rl_prtl = &RealParticle;
-    mtl = &material;
+    mtl = material;
     eta = RealParticle.eta;
     zeta = RealParticle.zeta;
     R[X] = RealParticle.R[X];

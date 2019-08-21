@@ -225,7 +225,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
 
 	//the original real particle
 	Particle *prtl_old = particles.cell_lists[1][j].retrieve(p10);
-	Particle *prtl = new Particle(*prtl_old, hydro.materials[0]);
+	Particle *prtl = new Particle(*prtl_old, &hydro.materials[0]);
 
 	//boundary condition
 	Boundary_W(prtl);
@@ -298,7 +298,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
 
 	//the original real particle
 	Particle *prtl_old = particles.cell_lists[x_clls - 2][j].retrieve(p20);
-	Particle *prtl = new Particle(*prtl_old, hydro.materials[0]);
+	Particle *prtl = new Particle(*prtl_old, &hydro.materials[0]);
 
 	//boundary condition
 	Boundary_E(prtl);
@@ -375,7 +375,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
 
 	//the original real particle
 	Particle *prtl_old = particles.cell_lists[i][1].retrieve(p30);
-	Particle *prtl = new Particle(*prtl_old, hydro.materials[0]);
+	Particle *prtl = new Particle(*prtl_old, &hydro.materials[0]);
 
 	//boundary condition
 	Boundary_S(prtl);
@@ -450,7 +450,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
 
 	//the original real particle
 	Particle *prtl_old = particles.cell_lists[i][y_clls - 2].retrieve(p40);
-	Particle *prtl = new Particle(*prtl_old, hydro.materials[0]);
+	Particle *prtl = new Particle(*prtl_old, &hydro.materials[0]);
 
 	//boundary condition
 	Boundary_N(prtl);
@@ -525,7 +525,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
 
       //the original real particle
       Particle *prtl_old = particles.cell_lists[1][1].retrieve(p130);
-      Particle *prtl = new Particle(*prtl_old, hydro.materials[0]);
+      Particle *prtl = new Particle(*prtl_old, &hydro.materials[0]);
 
       //boundary condition
       Boundary_SW(prtl);
@@ -602,7 +602,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
 
       //the original real particle
       Particle *prtl_old = particles.cell_lists[1][y_clls - 2].retrieve(p140);
-      Particle *prtl = new Particle(*prtl_old, hydro.materials[0]);
+      Particle *prtl = new Particle(*prtl_old, &hydro.materials[0]);
 
       //boundary condition
       Boundary_NW(prtl);
@@ -679,7 +679,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
 
       //the original real particle
       Particle *prtl_old = particles.cell_lists[x_clls - 2][y_clls - 2].retrieve(p240);
-      Particle *prtl = new Particle(*prtl_old, hydro.materials[0]);
+      Particle *prtl = new Particle(*prtl_old, &hydro.materials[0]);
 
       //boundary condition
       Boundary_NE(prtl);
@@ -756,7 +756,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics 
 
       //the original real particle
       Particle *prtl_old = particles.cell_lists[x_clls - 2][1].retrieve(p230);
-      Particle *prtl = new Particle(*prtl_old, hydro.materials[0]);
+      Particle *prtl = new Particle(*prtl_old, &hydro.materials[0]);
 
       //boundary condition
       Boundary_SE(prtl);
