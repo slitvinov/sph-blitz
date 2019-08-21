@@ -59,5 +59,4 @@ public:
     ///- an ghost particle (for perodic boundary condition)
     ///has a negtive ID of its corresponding real particle
     long ID;
-    static long ID_max;
 };
