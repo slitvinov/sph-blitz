@@ -1,88 +1,29 @@
-/// \file boundary.h
-/// \brief Bonudary conditions
-
-/// Boundary conditions
 class Boundary
 {
-	///computational domain size
-	double box_size[2];
-	///cell matrix size
-	int x_clls, y_clls;
-	int number_of_materials;
-
-	///show information on screen
-	void show_information();
-
-	//implement a side boundary by modifying particle states
-
-        ///implement west side boundary by modifying particle states
-	void Boundary_W(Particle *prtl);
-	///implement east side boundary by modifying particle states
-	void Boundary_E(Particle *prtl);
-	///implement south side boundary by modifying particle states
-	void Boundary_S(Particle *prtl);
-	///implement north side boundary by modifying particle states
-	void Boundary_N(Particle *prtl);
-	///implement south-west corner boundary by modifying particle states
-	void Boundary_SW(Particle *prtl);
-	///implement south-east corner boundary by modifying particle states
-	void Boundary_SE(Particle *prtl);
-	///implement north-west corner boundary by modifying particle states
-	void Boundary_NW(Particle *prtl);
-	///implement north-east corner boundary by modifying particle states
-	void Boundary_NE(Particle *prtl);
-
+    double box_size[2];
+    int x_clls, y_clls;
+    int number_of_materials;
+    void show_information();
+    void Boundary_W(Particle *prtl);
+    void Boundary_E(Particle *prtl);
+    void Boundary_S(Particle *prtl);
+    void Boundary_N(Particle *prtl);
+    void Boundary_SW(Particle *prtl);
+    void Boundary_SE(Particle *prtl);
+    void Boundary_NW(Particle *prtl);
+    void Boundary_NE(Particle *prtl);
 public:
-	///\brief boundary condition indicator left hand side
-	///
-	///- 0: wall boundary condition
-	///- 1: perodic boundary condition
-	///- 2: free slip wall boundary condition
-	///- 3: symmetry boundary condition 
-	int  xBl;
-
-        ///\brief boundary condition indicator right hand side
-	///
-	///- 0: wall boundary condition
-	///- 1: perodic boundary condition
-	///- 2: free slip wall boundary condition
-	///- 3: symmetry boundary condition 
-	int xBr;
-
-	///\brief boundary condition indicator bottom side
-	///
-	///- 0: wall boundary condition
-	///- 1: perodic boundary condition
-	///- 2: free slip wall boundary condition
-	///- 3: symmetry boundary condition 
-	int yBd;
-
-	///\brief boundary condition indicator upper side
-	///
-	///- 0: wall boundary condition
-	///- 1: perodic boundary condition
-	///- 2: free slip wall boundary condition
-	///- 3: symmetry boundary condition 
-	int yBu;
-
-
-	//boundary velocities
-	double UxBl[2];///<left hand side boundary velocity
-	double UxBr[2];///<right hand side boundary velocity
-	double UyBd[2];///<bottom side boundary velocity
-	double UyBu[2];///<upper side boundary velocity
-
-	///boundary particle lists
-	Llist<Particle> boundary_particle_list; ///boundary particle list for all boundray particles
-
-	///constructor
-	Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &particles);
-
-	///build boundary particles
-	void BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics &hydro);
-	///boundary conditions
-	void BoundaryCondition(ParticleManager &particles);
-	///check particle if particle run out of the computational domain
-	void RunAwayCheck(Hydrodynamics &hydro);
+    int xBl;
+    int xBr;
+    int yBd;
+    int yBu;
+    double UxBl[2];
+    double UxBr[2];
+    double UyBd[2];
+    double UyBu[2];
+    Llist<Particle> boundary_particle_list; 
+    Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &particles);
+    void BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics &hydro);
+    void BoundaryCondition(ParticleManager &particles);
+    void RunAwayCheck(Hydrodynamics &hydro);
 };
-
