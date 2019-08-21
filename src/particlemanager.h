@@ -43,7 +43,6 @@ public:
 
 	///buid the initial particles and the linked lists
 	void BuildRealParticles(Hydrodynamics &hydro, Initiation &ini);
-	void BuildRealParticles(Hydrodynamics &hydro);
 
 	///update the cell linked lists for real particles
 	void UpdateCellLinkedLists();

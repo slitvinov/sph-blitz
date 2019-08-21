@@ -100,7 +100,6 @@ sph.o: hydrodynamics.h
 sph.o: boundary.h
 sph.o: wiener.h
 timesolver.o: vec2d.h
-timesolver.o: glbfunc.h
 timesolver.o: dllist.h
 timesolver.o: diagnose.h
 timesolver.o: initiation.h
