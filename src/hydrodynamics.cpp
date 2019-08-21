@@ -619,7 +619,7 @@ void Hydrodynamics::UpdateVolume(ParticleManager &particles, QuinticSpline &weig
       Particle *prtl_dest = particles.NNP_list.retrieve(p1);
 
       ///<ul><li>sum the weights for all of these particles (because they are the inverse of a volume!?!)</ul>
-      reciprocV += weight_function.w(v_distance(prtl_org->R, prtl_dest->R));
+      reciprocV += w(&weight_function, v_distance(prtl_org->R, prtl_dest->R));
     }
     ///<li>calculate volume
     prtl_org->V = 1.0/reciprocV;

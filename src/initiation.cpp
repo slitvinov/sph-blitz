@@ -181,8 +181,8 @@ void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline 
 				dstc = v_distance(prtl_org->R, prtl_dest->R);
 				eij = (prtl_org->R - prtl_dest->R)/(dstc + 1.e-30);
 				/// <li> calculate weight function for given distance (w=0, if dist>supportlengtg) an summ it up </ul> 
-				reciprocV += weight_function.w(dstc);
-				sumdw = sumdw + eij*weight_function.F(dstc);
+				reciprocV += w(&weight_function, dstc);
+				sumdw = sumdw + eij*F(&weight_function, dstc);
 			}
 			/// <li> calculate volume as reciprocal value of weight function
 			reciprocV = 1.0/reciprocV;
