@@ -111,7 +111,6 @@ Initiation::Initiation(const char *project_name) {
 	delta = cell_size/hdelta;///(line 104) this is only true if h=cell_size (which is not necessarily given, as h, cell_size can be initiated independently in configuration file)
 	
 	///<li>output information to screen
-	show_information();
 }
 //----------------------------------------------------------------------------------------
 //					predict the particle volume and mass
