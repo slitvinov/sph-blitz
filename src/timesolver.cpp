@@ -2,7 +2,6 @@
 #include <cmath>
 #include <stdio.h>
 
-#include "vec2d.h"
 #include "dllist.h"
 #include "diagnose.h"
 #include "initiation.h"

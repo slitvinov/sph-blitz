@@ -26,7 +26,7 @@ class Force;
 class Boundary;
 #include "glbfunc.h"
 #include "dllist.h"
-#include "vec2d.h"
+#include "vv.h"
 #include "initiation.h"
 #include "particle.h"
 #include "hydrodynamics.h"

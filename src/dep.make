@@ -14,7 +14,6 @@ boundary.o: material.h
 boundary.o: boundary.h
 diagnose.o: glbfunc.h
 diagnose.o: dllist.h
-diagnose.o: vec2d.h
 diagnose.o: initiation.h
 diagnose.o: particle.h
 diagnose.o: hydrodynamics.h
@@ -76,7 +75,6 @@ particlemanager.o: hydrodynamics.h
 particlemanager.o: material.h
 particlemanager.o: boundary.h
 particlemanager.o: particlemanager.h
-sph.o: vec2d.h
 sph.o: timesolver.h
 sph.o: dllist.h
 sph.o: mls.h
@@ -91,7 +89,6 @@ sph.o: hydrodynamics.h
 sph.o: boundary.h
 sph.o: volume.h
 sph.o: wiener.h
-timesolver.o: vec2d.h
 timesolver.o: dllist.h
 timesolver.o: diagnose.h
 timesolver.o: initiation.h
@@ -99,7 +96,6 @@ timesolver.o: hydrodynamics.h
 timesolver.o: boundary.h
 timesolver.o: particlemanager.h
 timesolver.o: timesolver.h
-vec2d.o: vec2d.h
 volume.o: vv.h
 volume.o: dllist.h
 volume.o: quinticspline.h

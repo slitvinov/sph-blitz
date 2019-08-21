@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "vec2d.h"
 #include "timesolver.h"
 #include "dllist.h"
 #include "mls.h"
