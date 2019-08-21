@@ -138,7 +138,7 @@ Particle::Particle(Particle &RealParticle, Material *material)
     rho = RealParticle.rho;
     p = RealParticle.p;
     T = RealParticle.T;
-    Cs =RealParticle.Cs;
+    Cs = RealParticle.Cs;
     U[X] = RealParticle.U[X];
     U[Y] = RealParticle.U[Y];
     U_I[X] = RealParticle.U_I[X];
@@ -168,7 +168,7 @@ Particle::Particle(Particle &RealParticle, Material *material)
     }
     for(i = 0; i < particle_number_of_materials; i++)
 	for(j = 0; j < particle_number_of_materials; j++) {
-	    phi[i][j] = 0.0;
+	    phi[i][j] = 0;
 	}
 }
 
