@@ -57,7 +57,6 @@ Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces
         eij = (Org->R - Dest->R)*rrij;
         Wij = w(&weight_function, rij);
         Fij = F(&weight_function, rij)*rrij;
-        LapWij = LapW(&weight_function, rij);
         shear_rij = 2.0*etai*etaj*rij/(etai*(rij + 2.0*frc_ij[noj][noi].shear_slip)
                                                          + etaj*(rij + 2.0*frc_ij[noi][noj].shear_slip) + 1.0e-30);
         bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij + 2.0*frc_ij[noj][noi].bulk_slip)
@@ -88,7 +87,6 @@ void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force 
         eij = (Org->R - Dest->R)*rrij;
         Wij = w(&weight_function, rij);
         Fij = F(&weight_function, rij)*rrij; //for QuinticSpline wight fuction
-        LapWij = LapW(&weight_function, rij); //for QuinticSpline fuction
         shear_rij = 2.0*etai*etaj*rij/(etai*(rij + 2.0*frc_ij[noj][noi].shear_slip)
                                                          + etaj*(rij + 2.0*frc_ij[noi][noj].shear_slip) + 1.0e-30);
         bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij + 2.0*frc_ij[noj][noi].bulk_slip)
@@ -104,7 +102,6 @@ void Interaction::RenewInteraction(QuinticSpline &weight_function)
         eij = (Org->R - Dest->R)*rrij;
         Wij = w(&weight_function, rij);
         Fij = F(&weight_function, rij)*rrij;
-        LapWij = LapW(&weight_function, rij);
         shear_rij = 2.0*etai*etaj*rij/(etai*(rij + 2.0*frc_ij[noj][noi].shear_slip)
                                                          + etaj*(rij + 2.0*frc_ij[noi][noj].shear_slip) + 1.0e-30);
         bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij + 2.0*frc_ij[noj][noi].bulk_slip)

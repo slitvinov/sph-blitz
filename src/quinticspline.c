@@ -9,7 +9,6 @@ int quinticspline_ini(double smoothingLength, struct QuinticSpline *q)
     q->reciprocH = 1.0 / smoothingLength;
     q->factorW     = norm * pow(q->reciprocH, 2);
     q->factorGradW = 15.0*norm * pow(q->reciprocH, 3);
-    q->factorLapW = 15.0*12.0*norm * pow(q->reciprocH, 4);
     return 0;
 }
 
@@ -58,33 +57,6 @@ double F(struct QuinticSpline *q, double distance)
     else if (normedDist < 3.0)
 	{
 	    return q->factorGradW * ss3*ss3*ss3*ss3;
-	}
-    else
-	{
-	    return 0.0;
-	}
-}
-
-double LapW(struct QuinticSpline *q, double distance)
-{
-    double normedDist = 3.0*distance * q->reciprocH;
-    double ss3, ss2, ss1;
-
-    ss3 = (3.0 - normedDist);
-    ss2 = (2.0 - normedDist);
-    ss1 = (1.0 - normedDist);
-
-    if (normedDist < 1.0)
-	{
-	    return q->factorLapW * (ss3*ss3*ss3 - 6.0*ss2*ss2*ss2 + 15.0*ss1*ss1*ss1);
-	}
-    else if (normedDist < 2.0)
-	{
-	    return q->factorLapW * (ss3*ss3*ss3 - 6.0*ss2*ss2*ss2);
-	}
-    else if (normedDist < 3.0)
-	{
-	    return q->factorLapW * ss3*ss3*ss3;
 	}
     else
 	{

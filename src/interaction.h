@@ -38,7 +38,6 @@ class Interaction {
         double rrij;///< reciprocal value of distance between 2 particles
         double Wij;///<<b>!!!question!!!<b>
         double Fij;///<<b>!!!question!!!<b>
-        double LapWij;///<<b>!!!question!!!<b>
         double Wij2;///<<b>!!!question!!!<b>
 	Vec2d eij; ///<pair direction from orginal particle to destination particle 
 	double shear_rij ;///<particle length to implement slip boundary<<b>!!!question!!!<b>
