@@ -10,6 +10,22 @@ enum {X, Y};
 long particle_ID_max;
 int particle_number_of_materials;
 
+static int
+phi_ini(double ***pq)
+{
+    int n, i, j;
+    double **q;
+    n = particle_number_of_materials;
+    q = new double*[n];
+    for(i = 0; i < n; i++)
+	q[i] = new double[n];
+    for(i = 0; i < n; i++)
+	for(j = 0; j < n; j++)
+	    q[i][j] = 0.0;
+    *pq = q;
+    return 0;
+}
+
 Particle::~Particle()
 {
     int i;
@@ -50,14 +66,7 @@ Particle::Particle(double position[2], double velocity[2], double density, doubl
     U_n[X] = U[X];
     U_n[Y] = U[Y];
     rho_n = rho;
-    phi = new double*[particle_number_of_materials];
-    for(i = 0; i < particle_number_of_materials; i++) {
-	phi[i] = new double[particle_number_of_materials];
-    }
-    for(i = 0; i < particle_number_of_materials; i++)
-	for(j = 0; j < particle_number_of_materials; j++) {
-	    phi[i][j] = 0.0;
-	}
+    phi_ini(&phi);
 }
 
 Particle::Particle(double x, double y, double u, double v, Material *material)
@@ -113,14 +122,7 @@ Particle::Particle(Particle &RealParticle)
     U_n[X] = RealParticle.U_n[X];
     U_n[Y] = RealParticle.U_n[Y];
     rho_n = RealParticle.rho_n;
-    phi = new double*[particle_number_of_materials];
-    for(i = 0; i < particle_number_of_materials; i++) {
-	phi[i] = new double[particle_number_of_materials];
-    }
-    for(i = 0; i < particle_number_of_materials; i++)
-	for(j = 0; j < particle_number_of_materials; j++) {
-	    phi[i][j] = 0.0;
-	}
+    phi_ini(&phi);
 }
 
 Particle::Particle(Particle &RealParticle, Material *material)
@@ -162,14 +164,7 @@ Particle::Particle(Particle &RealParticle, Material *material)
     U_n[X] = RealParticle.U_n[X];
     U_n[Y] = RealParticle.U_n[Y];
     rho_n = RealParticle.rho_n;
-    phi = new double*[particle_number_of_materials];
-    for(i = 0; i < particle_number_of_materials; i++) {
-	phi[i] = new double[particle_number_of_materials];
-    }
-    for(i = 0; i < particle_number_of_materials; i++)
-	for(j = 0; j < particle_number_of_materials; j++) {
-	    phi[i][j] = 0;
-	}
+    phi_ini(&phi);
 }
 
 void Particle::StatesCopier(Particle *RealParticle, int type)
