@@ -83,7 +83,6 @@ public:
         /// Changes: Org(phi:summation), Dest(phi:summation)\n
         /// Depends on: Interaction Object, Org(phi, rho), Dest(phi, rho)
 	void SummationPhaseField();
-	void SummationCurvature();
 
 	///\brief sum phase gradient contribution of interaction pair
 	///

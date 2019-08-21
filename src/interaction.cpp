@@ -219,18 +219,6 @@ void Interaction::SummationPhaseLaplacian()
         Dest->lap_phi[noj][noi] += lapi*vi;
 }
 //----------------------------------------------------------------------------------------
-//					Curvature
-//----------------------------------------------------------------------------------------
-void Interaction::SummationCurvature()
-{
-        double vi, vj; //particle volumes
-        vi = mi/Org->rho; vj = mj/Dest->rho;
-        double phii = Fij*rij;
-
-                Org->phi[noi][noj] += phii*vj;
-                Dest->phi[noj][noi] += phii*vi;
-}
-//----------------------------------------------------------------------------------------
 //					update pair forces
 //----------------------------------------------------------------------------------------
 void Interaction::UpdateForces()
