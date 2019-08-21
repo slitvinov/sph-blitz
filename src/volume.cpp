@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-#include "vec2d.h"
+#include "vv.h"
 #include "dllist.h"
 #include "quinticspline.h"
 #include "particlemanager.h"
@@ -17,7 +17,7 @@ void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline 
     enum {X, Y};
     double reciprocV; //the inverse of volume or volume
     double dstc;
-    Vec2d eij, sumdw;
+    double eij[2], sumdw[2];
 
     /// <ul><li>iterate particles on the particle list
     for (LlistNode<Particle> *p = hydro.particle_list.first(); 
@@ -46,7 +46,8 @@ void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline 
 	    
 	    /// <li> calculate weight function for given distance (w=0, if dist>supportlengtg) an summ it up </ul> 
 	    reciprocV += w(&weight_function, dstc);
-	    sumdw = sumdw + eij*F(&weight_function, dstc);
+	    sumdw[X] += eij[X]*F(&weight_function, dstc);
+	    sumdw[Y] += eij[Y]*F(&weight_function, dstc);	    
 	}
 	/// <li> calculate volume as reciprocal value of weight function
 	reciprocV = 1.0/reciprocV;

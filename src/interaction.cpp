@@ -5,7 +5,7 @@
 #include <cstdio>
 #include <cstdlib>
 
-#include "vec2d.h"
+#include "vv.h"
 #include "glbfunc.h"
 #include "quinticspline.h"
 #include "wiener.h"
