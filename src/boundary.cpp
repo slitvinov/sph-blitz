@@ -12,9 +12,7 @@
 #include <string.h>
 #include <tgmath.h>
 
-class ParticleManager; class Material;
-class Particle; class Initiation; class Boundary; class Force;
-class QuinticSpline;
+struct QuinticSpline;
 
 // ***** localincludes *****
 #include "vec2d.h"
