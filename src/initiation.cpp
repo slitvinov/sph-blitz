@@ -114,41 +114,6 @@ Initiation::Initiation(const char *project_name) {
 	show_information();
 }
 //----------------------------------------------------------------------------------------
-//					show information to screen
-//----------------------------------------------------------------------------------------
-void Initiation::show_information()
-{
-	///- output general information on screen
-	cout<<"The number of materials in the simulation is  "<<number_of_materials<<"\n";
-	cout<<"The computational domain size is  "<<box_size[0]<<" micrometers x "<<box_size[1]<<" micrometers\n";
-	cout<<"The cell size is "<<cell_size<<" micrometers \n";
-	cout<<"The smoothing length is "<<smoothinglength<<" micrometers \n";
-	cout<<"The cell matrix size is "<<x_cells<<" x "<<y_cells<<"\n";
-	cout<<"The ratio between cell size and initial particle width is "<<hdelta<<"\n";
-	cout<<"The initial particle width is "<<delta<<" micrometers\n";
-	cout<<"The g force is "<<g_force[0]<<" m/s^2 x "<<g_force[1]<<" m/s^2 \n";
-
-	///- output the timing information on screen
-	cout<<"\nInitialtion: Time controlling:\nStarting time is "<<Start_time<<" \n";
-	cout<<"Ending time is "<<End_time<<" \n";
-	cout<<"Output time interval is "<<D_time<<" \n";
-
-	///- output iniformation on initialization mode (.cfg file or .rst file)
-	//Initialize the initial conditions from .cfg file
-	if (initial_condition==0) {
-		cout<<"\nInitialize the initial conditions from "<<inputfile<<" \n";
-		cout<<"The initial flow speed is "<<U0[0]<<" m/s x "<<U0[1]<<" m/s\n";
-		cout<<"The initial density is "<<rho0<<" kg/m^3\n";
-		cout<<"The initial pressure is "<<p0<<" Pa\n";
-		cout<<"The initial temperature is "<<T0<<" K\n";
-
-	}
-	
-	//Initialize the initial conditions from .rst file
-	if (initial_condition == 1)
-		cout<<"Read the initial conditions from separated restat file "<<Project_name<<".rst \n";
-}
-//----------------------------------------------------------------------------------------
 //					predict the particle volume and mass
 //----------------------------------------------------------------------------------------
 void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline &weight_function)

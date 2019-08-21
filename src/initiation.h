@@ -60,7 +60,6 @@ public:
 	///constructor
 	///\param *project_name: a pointer to the project name array (the project name is defined as a main-function argument and therefore given as an additional command line element when running the progam) 
 	explicit Initiation(const char *project_name);
-	void show_information();
 	///predict the particle volume and mass
 };
 
