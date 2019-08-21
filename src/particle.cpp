@@ -90,9 +90,6 @@ Particle::Particle(double x, double y, double u, double v,
 	///- set states
 	U[0] = u; U[1] = v;
 	
-	///- set distance and normal directions to boundary
-	bd_dst = distance;
-
 	///- set states value to avoid error
 	rho = 0.0, p = 0.0, T = 0.0;
 }

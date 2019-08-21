@@ -93,8 +93,5 @@ public:
 	
 	///maximum ID number for non-ghost particles (real or wall particles) in the simulation
 	static long ID_max;
-
-	//for wall boundary particles
-	double bd_dst;///<for wall boundary particles
 };
 
