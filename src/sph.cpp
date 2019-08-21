@@ -19,6 +19,9 @@
 #include "volume.h"
 #include "wiener.h"
 
+extern double interaction_art_vis;
+extern double interaction_delta;
+
 using namespace std;
 ///
 /// \brief The main program
@@ -43,10 +46,11 @@ int main(int argc, char *argv[]) {
     wiener_seed(12345);
     /// initializations
     initiation_ini(argv[1], &ini);
+    interaction_art_vis = ini.art_vis;
+    interaction_delta = ini.delta;
     
     //a sample particle and interaction for static numbers
     Particle sample(ini);
-    Interaction interaction(ini);
 
     QuinticSpline weight_function;
     quinticspline_ini(ini.smoothinglength, &weight_function);
@@ -70,9 +74,6 @@ int main(int argc, char *argv[]) {
     if(ini.diagnose == 2 ) diagnose.KineticInformation(Time, hydro);
 
     ///\n computation loop starts
-
-    //set the machine random seed
-    srand( (unsigned)time( NULL ) );
     while(Time < ini.End_time) {
 
 	// adjust the last D_time(=output time) in a way that there is an output at last timestep

@@ -20,18 +20,8 @@ using namespace std;
 
 static double k_bltz  = 1.380662e-023/0.02/0.02/0.02;
 
-int Interaction::number_of_materials = 0;
-double Interaction::smoothinglength = 0.0;
-double Interaction::art_vis = 0.0;
-double Interaction::delta = 0.0;
-
-Interaction::Interaction(Initiation &ini)
-{
-    number_of_materials = ini.number_of_materials;
-    smoothinglength = ini.smoothinglength;
-    art_vis = ini.art_vis;
-    delta = ini.delta;
-}
+double interaction_art_vis;
+double interaction_delta;
 
 Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
 			 QuinticSpline &weight_function, double dstc)
@@ -153,6 +143,9 @@ void Interaction::UpdateForces()
     double Vi2 = Vi*Vi, Vj2 = Vj*Vj;
     ///- calculate artificial viscosity or Neumann_Richtmyer viscosity
     double theta, Csi, Csj, NR_vis;
+    double delta = interaction_delta;
+    double art_vis = interaction_art_vis;
+    
     Csi = Org->Cs; Csj = Dest->Cs;
     theta = Uijdoteij*rij*delta/(rij*rij + 0.01*delta*delta);
     NR_vis = Uijdoteij > 0.0 ? 0.0 : art_vis*theta*(rhoi*Csi*mj + rhoj*Csj*mi)/(mi + mj);
