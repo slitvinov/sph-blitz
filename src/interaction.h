@@ -94,8 +94,6 @@ public:
 
 	///update forces
 	void UpdateForces();
-	///update forces with summation of viscosity
-	void UpdateForces_vis();
 
 	///update random forces
 	void RandomForces(double sqrtdt);
