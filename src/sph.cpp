@@ -87,8 +87,6 @@ int main(int argc, char *argv[]) {
 
 	///- output results after a time interval\n\n
 	output.OutputParticles(hydro, boundary, Time); //particle positions and velocites
-	//		output.OutputStates(particles, mls, weight_function, Time, ini); //states on uniform grid
-	//		output.OutAverage(particles, mls, weight_function, Time, ini);
 	output.OutRestart(hydro, Time); //restarting file
 
 	//output diagnose information

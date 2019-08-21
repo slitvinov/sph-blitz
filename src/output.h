@@ -32,7 +32,5 @@ public:
 	///Output real particle data for restart the computation
 	void OutRestart(Hydrodynamics &hydro, double Time);
 	///avergaed values for Poiseuille and Couette flows (average is taken in horizontal direction)
-	void OutAverage(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, 
-					double Time);
 };
 
