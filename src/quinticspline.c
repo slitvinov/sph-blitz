@@ -2,17 +2,18 @@
 #include "quinticspline.h"
 
 static const double pi = 3.141592653589793;
-QuinticSpline::QuinticSpline(double _smoothingLength)
+int quinticspline_ini(double smoothingLength, struct QuinticSpline *q)
 {
     double norm = 63.0 / 478.0 / pi;
-    smoothingLength = _smoothingLength;
-    reciprocH = 1.0 / smoothingLength;
-    factorW     = norm * pow(reciprocH, 2);
-    factorGradW = 15.0*norm * pow(reciprocH, 3);
-    factorLapW = 15.0*12.0*norm * pow(reciprocH, 4);
+    q->smoothingLength = smoothingLength;
+    q->reciprocH = 1.0 / smoothingLength;
+    q->factorW     = norm * pow(q->reciprocH, 2);
+    q->factorGradW = 15.0*norm * pow(q->reciprocH, 3);
+    q->factorLapW = 15.0*12.0*norm * pow(q->reciprocH, 4);
+    return 0;
 }
 
-double w(QuinticSpline *q, double distance)
+double w(struct QuinticSpline *q, double distance)
 {
     double normedDist = 3.0*distance * q->reciprocH;
     double ss3, ss2, ss1;
@@ -40,7 +41,7 @@ double w(QuinticSpline *q, double distance)
 //----------------------------------------------------------------------------------------
 //		Calculates the kernel derivation (a double not vector) to distance
 //----------------------------------------------------------------------------------------
-double F(QuinticSpline *q, double distance)
+double F(struct QuinticSpline *q, double distance)
 {
     double normedDist = 3.0*distance * q->reciprocH;
     double ss3 = (3.0 - normedDist);
@@ -64,9 +65,9 @@ double F(QuinticSpline *q, double distance)
 	}
 }
 
-double LapW(QuinticSpline *q, double distance)
+double LapW(struct QuinticSpline *q, double distance)
 {
-    double normedDist = 3.0*distance * reciprocH;
+    double normedDist = 3.0*distance * q->reciprocH;
     double ss3, ss2, ss1;
 
     ss3 = (3.0 - normedDist);
@@ -75,15 +76,15 @@ double LapW(QuinticSpline *q, double distance)
 
     if (normedDist < 1.0)
 	{
-	    return factorLapW * (ss3*ss3*ss3 - 6.0*ss2*ss2*ss2 + 15.0*ss1*ss1*ss1);
+	    return q->factorLapW * (ss3*ss3*ss3 - 6.0*ss2*ss2*ss2 + 15.0*ss1*ss1*ss1);
 	}
     else if (normedDist < 2.0)
 	{
-	    return factorLapW * (ss3*ss3*ss3 - 6.0*ss2*ss2*ss2);
+	    return q->factorLapW * (ss3*ss3*ss3 - 6.0*ss2*ss2*ss2);
 	}
     else if (normedDist < 3.0)
 	{
-	    return factorLapW * ss3*ss3*ss3;
+	    return q->factorLapW * ss3*ss3*ss3;
 	}
     else
 	{

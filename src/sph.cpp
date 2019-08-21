@@ -44,7 +44,8 @@ int main(int argc, char *argv[]) {
     Particle sample(ini);
     Interaction interaction(ini);
 
-    QuinticSpline weight_function(ini.smoothinglength); ///- initiate the weight function
+    QuinticSpline weight_function;
+    quinticspline_ini(ini.smoothinglength, &weight_function);
     MLS mls(ini.MLS_MAX); ///- initiate the Moving Least Squares approximation
     ParticleManager particles(ini); ///- initiate the particle manager
     Hydrodynamics hydro(particles, ini); ///- create materials, forces and real particles
