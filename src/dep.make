@@ -1,6 +1,8 @@
 # generate by ../scripts/dep
 glbfunc.o: glbfunc.h
 initiation.o: initiation.h
+material.o: glbfunc.h
+material.o: material.h
 quinticspline.o: quinticspline.h
 wiener.o: wiener.h
 boundary.o: vec2d.h
@@ -43,8 +45,6 @@ interaction.o: particle.h
 interaction.o: material.h
 interaction.o: force.h
 interaction.o: interaction.h
-material.o: glbfunc.h
-material.o: material.h
 mls.o: vec2d.h
 mls.o: glbfunc.h
 mls.o: quinticspline.h

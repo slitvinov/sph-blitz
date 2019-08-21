@@ -1,5 +1,7 @@
-class Material {
-public:
+#ifdef __cplusplus
+extern "C" {
+#endif
+struct Material {
 	///material name string
 	char material_name[FILENAME_MAX];
 	int number; ///<the material NO.
@@ -19,18 +21,16 @@ public:
 	double b0;///<reference pressure
 	double rho0;///<reference density
 	double a0; ///<reference <b>sound speed??? was not commented</b>
-	///show properties
-	void Set_nu();
-
-	///obtain parameter b0
-	void Get_b0(double sound);
-	
-	///get pressure
-	double get_p(double rho);
-	///get rho from pressure
-	double get_rho(double p);
-	///get sound speed
-	double get_Cs(double p, double rho);
-
 };
+
+void Set_nu(struct Material*);
+void Set_b0(struct Material*, double sound);
+double get_p(struct Material*, double rho);
+double get_rho(struct Material*, double p);
+double get_Cs(struct Material*, double p, double rho);
+#ifdef __cplusplus
+}
+#endif
+
+
 

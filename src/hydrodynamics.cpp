@@ -87,7 +87,7 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
         fin>>materials[k].material_name>>materials[k].material_type;
         fin>>materials[k].eta>>materials[k].zeta
            >>materials[k].gamma>>materials[k].rho0>>materials[k].a0;
-        materials[k].Set_nu();
+        Set_nu(&materials[k]);
       }
 
     //comparing the key words for the force matrix
@@ -122,7 +122,8 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   sound = AMAX1(vv_abs(ini.g_force), viscosity_max);
   //surface tension effects
   sound = AMAX1(surface_max, sound);
-  for(k = 0; k < number_of_materials; k++) materials[k].Get_b0(sound);
+  for(k = 0; k < number_of_materials; k++)
+    Set_b0(&materials[k], sound);
 
   ///<li>biuld the real particles
   particles.BuildRealParticles(*this, ini);
@@ -426,7 +427,7 @@ void Hydrodynamics::UpdateState()
     Particle *prtl = particle_list.retrieve(p);
 
     ///- calculate pressure for each particle
-    prtl->p = prtl->mtl->get_p(prtl->rho);
+    prtl->p = get_p(prtl->mtl, prtl->rho);
     //			prtl->T = prtl->mtl->get_T(prtl->e);
   }
 

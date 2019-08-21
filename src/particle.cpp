@@ -50,7 +50,7 @@ Particle::Particle(Vec2d position, double velocity[2], double density, double pr
 	R = position; 
 	
 	///- set states
-	rho = density; p = pressure; T = temperature; Cs = mtl->get_Cs(p, rho);
+	rho = density; p = pressure; T = temperature; Cs = get_Cs(mtl, p, rho);
 	U[X] = velocity[X];
 	U[Y] = velocity[Y];
 	

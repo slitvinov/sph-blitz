@@ -268,7 +268,7 @@ void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation &ini)
 	    
 	    Temperature = T0;
 	    density = hydro.materials[material_no].rho0;
-	    pressure = hydro.materials[material_no].get_p(density);
+	    pressure = get_p(&hydro.materials[material_no], density);
 
 	    //creat a new real particle
 	    Particle *prtl = new Particle( position, velocity, density, pressure, Temperature,
@@ -327,7 +327,7 @@ void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation &ini)
 	if(strcmp(material_name, hydro.materials[k].material_name) == 0) material_no = k;
       if(material_no != -1) {
 
-	pressure = hydro.materials[material_no].get_p(density);
+	pressure = get_p(&hydro.materials[material_no], density);
 	Particle *prtl = new Particle( position, velocity, density, pressure, Temperature,
 				       hydro.materials[material_no]);
 	//insert its poistion on the particle list
