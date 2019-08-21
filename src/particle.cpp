@@ -16,70 +16,70 @@ int particle_number_of_materials;
 //----------------------------------------------------------------------------------------
 Particle::~Particle()
 {
-	int i;
+    int i;
 
-	///- delete phase field
-	for(i = 0; i < particle_number_of_materials; i++) {
-		delete[] phi[i];
-	}
-	///- delete pahse field gradient matrix
-	delete[] phi;
+    ///- delete phase field
+    for(i = 0; i < particle_number_of_materials; i++) {
+	delete[] phi[i];
+    }
+    ///- delete pahse field gradient matrix
+    delete[] phi;
 }
 //----------------------------------------------------------------------------------------
 //							real particle
 //		NOTE the particle mass and volume will be specified initiation::VolumeMass(w)
 //----------------------------------------------------------------------------------------
 Particle::Particle(double position[2], double velocity[2], double density, double pressure, double temperature,
-				   Material &material) : bd(0)
+		   Material &material) : bd(0)
 {
-	int i, j;
+    int i, j;
 
-	///- increase the total particle number
-	particle_ID_max++;
+    ///- increase the total particle number
+    particle_ID_max++;
 
-	///- give a new ID number
-	ID = particle_ID_max;
+    ///- give a new ID number
+    ID = particle_ID_max;
 
-	///- point to the material properties
-	mtl = &material;
+    ///- point to the material properties
+    mtl = &material;
 
-	///- set viscosity
-	eta = mtl->eta; zeta = mtl->zeta;
+    ///- set viscosity
+    eta = mtl->eta; zeta = mtl->zeta;
 
-	///- set particle position
-	R[X] = position[X];
-	R[Y] = position[Y];
+    ///- set particle position
+    R[X] = position[X];
+    R[Y] = position[Y];
 
-	///- set states
-	rho = density; p = pressure; T = temperature; Cs = get_Cs(mtl, p, rho);
-	U[X] = velocity[X];
-	U[Y] = velocity[Y];
+    ///- set states
+    rho = density; p = pressure; T = temperature; Cs = get_Cs(mtl, p, rho);
+    U[X] = velocity[X];
+    U[Y] = velocity[Y];
 
-	U_I[X] = U[X];
-	U_I[Y] = U[Y];
+    U_I[X] = U[X];
+    U_I[Y] = U[Y];
 
-	///- set conservative values and their  intermediate values
-	m = 0.0; V = 0.0;
-	R_I[X] = R[X];
-	R_I[Y] = R[Y];
-	P_I[X] = P[X];
-	P_I[Y] = P[Y];
-	rho_I = rho;
-	P_n[X] = P[X];
-	P_n[Y] = P[Y];
-	U_n[X] = U[X];
-	U_n[Y] = U[Y];
-	rho_n = rho;
+    ///- set conservative values and their  intermediate values
+    m = 0.0; V = 0.0;
+    R_I[X] = R[X];
+    R_I[Y] = R[Y];
+    P_I[X] = P[X];
+    P_I[Y] = P[Y];
+    rho_I = rho;
+    P_n[X] = P[X];
+    P_n[Y] = P[Y];
+    U_n[X] = U[X];
+    U_n[Y] = U[Y];
+    rho_n = rho;
 
-	///- set up phase field
-	phi = new double*[particle_number_of_materials];
-	for(i = 0; i < particle_number_of_materials; i++) {
-		phi[i] = new double[particle_number_of_materials];
+    ///- set up phase field
+    phi = new double*[particle_number_of_materials];
+    for(i = 0; i < particle_number_of_materials; i++) {
+	phi[i] = new double[particle_number_of_materials];
+    }
+    for(i = 0; i < particle_number_of_materials; i++)
+	for(j = 0; j < particle_number_of_materials; j++) {
+	    phi[i][j] = 0.0;
 	}
-	for(i = 0; i < particle_number_of_materials; i++)
-		for(j = 0; j < particle_number_of_materials; j++) {
-			phi[i][j] = 0.0;
-		}
 }
 //----------------------------------------------------------------------------------------
 //								construct a wall particle
@@ -88,91 +88,91 @@ Particle::Particle(double x, double y, double u, double v,
 		   Material &material) : bd(1), bd_type(0)
 {
 
-	///- give a new ID number
-	ID = 0;
+    ///- give a new ID number
+    ID = 0;
 
-	///- point to the material properties
-	mtl = &material;
+    ///- point to the material properties
+    mtl = &material;
 
-	///- set particle position
-	R[0] = x; R[1] = y;
+    ///- set particle position
+    R[0] = x; R[1] = y;
 
-	///- set states
-	U[0] = u; U[1] = v;
+    ///- set states
+    U[0] = u; U[1] = v;
 
-	///- set states value to avoid error
-	rho = 0.0, p = 0.0, T = 0.0;
+    ///- set states value to avoid error
+    rho = 0.0, p = 0.0, T = 0.0;
 }
 //----------------------------------------------------------------------------------------
 //						creat a ghost particle
 //----------------------------------------------------------------------------------------
 Particle::Particle(Particle &RealParticle) : bd(1), bd_type(1)
 {
-	int i, j;
+    int i, j;
 
-	///- give a new ID number
-	ID = 0;
+    ///- give a new ID number
+    ID = 0;
 
-	///- point to its real particle
-	rl_prtl = &RealParticle;
+    ///- point to its real particle
+    rl_prtl = &RealParticle;
 
-	///- point to the material properties
-	mtl = RealParticle.mtl;
+    ///- point to the material properties
+    mtl = RealParticle.mtl;
 
-	///- set viscosity
-	eta = mtl->eta; zeta = mtl->zeta;
+    ///- set viscosity
+    eta = mtl->eta; zeta = mtl->zeta;
 
-	///- set states
-	R[X] = RealParticle.R[X];
-	R[Y] = RealParticle.R[Y];
+    ///- set states
+    R[X] = RealParticle.R[X];
+    R[Y] = RealParticle.R[Y];
 
-	rho = RealParticle.rho; p = RealParticle.p; T = RealParticle.T;
-	Cs =RealParticle.Cs;
+    rho = RealParticle.rho; p = RealParticle.p; T = RealParticle.T;
+    Cs =RealParticle.Cs;
 
-	U[X] = RealParticle.U[X];
-	U[Y] = RealParticle.U[Y];
+    U[X] = RealParticle.U[X];
+    U[Y] = RealParticle.U[Y];
 
-	U_I[X] = RealParticle.U_I[X];
-	U_I[Y] = RealParticle.U_I[Y];
+    U_I[X] = RealParticle.U_I[X];
+    U_I[Y] = RealParticle.U_I[Y];
 
-	ShearRate_x[X] = RealParticle.ShearRate_x[X];
-	ShearRate_x[Y] = RealParticle.ShearRate_x[Y];
+    ShearRate_x[X] = RealParticle.ShearRate_x[X];
+    ShearRate_x[Y] = RealParticle.ShearRate_x[Y];
 
-	ShearRate_y[X] = RealParticle.ShearRate_y[X];
-	ShearRate_y[Y] = RealParticle.ShearRate_y[Y];
+    ShearRate_y[X] = RealParticle.ShearRate_y[X];
+    ShearRate_y[Y] = RealParticle.ShearRate_y[Y];
 
-	///- set conservative values and their  intermediate values
-	m = RealParticle.m;
-	V = RealParticle.V;
-	e = RealParticle.e;
-	R_I[X] = RealParticle.R_I[X];
-	R_I[Y] = RealParticle.R_I[Y];
+    ///- set conservative values and their  intermediate values
+    m = RealParticle.m;
+    V = RealParticle.V;
+    e = RealParticle.e;
+    R_I[X] = RealParticle.R_I[X];
+    R_I[Y] = RealParticle.R_I[Y];
 
-	P[X] = RealParticle.P[X];
-	P[Y] = RealParticle.P[Y];
+    P[X] = RealParticle.P[X];
+    P[Y] = RealParticle.P[Y];
 
-	P_I[X] = RealParticle.P_I[X];
-	P_I[Y] = RealParticle.P_I[Y];
+    P_I[X] = RealParticle.P_I[X];
+    P_I[Y] = RealParticle.P_I[Y];
 
-	rho_I = rho;
+    rho_I = rho;
 
-	P_n[X] = RealParticle.P_n[X];
-	P_n[Y] = RealParticle.P_n[Y];
+    P_n[X] = RealParticle.P_n[X];
+    P_n[Y] = RealParticle.P_n[Y];
 
-	U_n[X] = RealParticle.U_n[X];
-	U_n[Y] = RealParticle.U_n[Y];
+    U_n[X] = RealParticle.U_n[X];
+    U_n[Y] = RealParticle.U_n[Y];
 
-	rho_n = RealParticle.rho_n;
+    rho_n = RealParticle.rho_n;
 
-	///- set up phase field
-	phi = new double*[particle_number_of_materials];
-	for(i = 0; i < particle_number_of_materials; i++) {
-		phi[i] = new double[particle_number_of_materials];
+    ///- set up phase field
+    phi = new double*[particle_number_of_materials];
+    for(i = 0; i < particle_number_of_materials; i++) {
+	phi[i] = new double[particle_number_of_materials];
+    }
+    for(i = 0; i < particle_number_of_materials; i++)
+	for(j = 0; j < particle_number_of_materials; j++) {
+	    phi[i][j] = 0.0;
 	}
-	for(i = 0; i < particle_number_of_materials; i++)
-		for(j = 0; j < particle_number_of_materials; j++) {
-			phi[i][j] = 0.0;
-		}
 
 }
 //----------------------------------------------------------------------------------------
@@ -180,71 +180,71 @@ Particle::Particle(Particle &RealParticle) : bd(1), bd_type(1)
 //----------------------------------------------------------------------------------------
 Particle::Particle(Particle &RealParticle, Material &material): bd(1), bd_type(0)
 {
-	int i, j;
+    int i, j;
 
-	///- give a new ID number
-	ID = 0;
+    ///- give a new ID number
+    ID = 0;
 
-	///- point to its real particle
-	rl_prtl = &RealParticle;
+    ///- point to its real particle
+    rl_prtl = &RealParticle;
 
-	///- point to the material properties
-	mtl = &material;
+    ///- point to the material properties
+    mtl = &material;
 
-	///- set viscosity
-	eta = RealParticle.eta; zeta = RealParticle.zeta;
+    ///- set viscosity
+    eta = RealParticle.eta; zeta = RealParticle.zeta;
 
 
-	///- set states
-	R[X] = RealParticle.R[X];
-	R[Y] = RealParticle.R[Y];
+    ///- set states
+    R[X] = RealParticle.R[X];
+    R[Y] = RealParticle.R[Y];
 
-	rho = RealParticle.rho;
-	p = RealParticle.p;
-	T = RealParticle.T;
-	Cs =RealParticle.Cs;
+    rho = RealParticle.rho;
+    p = RealParticle.p;
+    T = RealParticle.T;
+    Cs =RealParticle.Cs;
 
-	U[X] = RealParticle.U[X];
-	U[Y] = RealParticle.U[Y];
+    U[X] = RealParticle.U[X];
+    U[Y] = RealParticle.U[Y];
 
-	U_I[X] = RealParticle.U_I[X];
-	U_I[Y] = RealParticle.U_I[Y];
+    U_I[X] = RealParticle.U_I[X];
+    U_I[Y] = RealParticle.U_I[Y];
 
-	ShearRate_x[X] = RealParticle.ShearRate_x[X];
-	ShearRate_x[Y] = RealParticle.ShearRate_x[Y];
+    ShearRate_x[X] = RealParticle.ShearRate_x[X];
+    ShearRate_x[Y] = RealParticle.ShearRate_x[Y];
 
-	ShearRate_y[X] = RealParticle.ShearRate_y[X];
-	ShearRate_y[Y] = RealParticle.ShearRate_y[Y];
+    ShearRate_y[X] = RealParticle.ShearRate_y[X];
+    ShearRate_y[Y] = RealParticle.ShearRate_y[Y];
 
-	///- set conservative values and their  intermediate values
-	m = RealParticle.m; V = RealParticle.V; e = RealParticle.e;
-	R_I[X] = RealParticle.R_I[X];
-	R_I[Y] = RealParticle.R_I[Y];
+    ///- set conservative values and their  intermediate values
+    m = RealParticle.m; V = RealParticle.V; e = RealParticle.e;
+    R_I[X] = RealParticle.R_I[X];
+    R_I[Y] = RealParticle.R_I[Y];
 
-	P[X] = RealParticle.P[X];
-	P[Y] = RealParticle.P[Y];
+    P[X] = RealParticle.P[X];
+    P[Y] = RealParticle.P[Y];
 
-	P_I[X] = RealParticle.P_I[X];
-	P_I[Y] = RealParticle.P_I[Y];
+    P_I[X] = RealParticle.P_I[X];
+    P_I[Y] = RealParticle.P_I[Y];
 
-	rho_I = rho;
-	P_n[X] = RealParticle.P_n[X];
-	P_n[Y] = RealParticle.P_n[Y];
+    rho_I = rho;
+    P_n[X] = RealParticle.P_n[X];
+    P_n[Y] = RealParticle.P_n[Y];
 
-	U_n[X] = RealParticle.U_n[X];
-	U_n[Y] = RealParticle.U_n[Y];
+    U_n[X] = RealParticle.U_n[X];
+    U_n[Y] = RealParticle.U_n[Y];
 
-	rho_n = RealParticle.rho_n;
+    rho_n = RealParticle.rho_n;
 
-	///- set up phase field
-	phi = new double*[particle_number_of_materials];
-	for(i = 0; i < particle_number_of_materials; i++) {
-		phi[i] = new double[particle_number_of_materials];
+    ///- set up phase field
+    phi = new double*[particle_number_of_materials];
+    for(i = 0; i < particle_number_of_materials; i++) {
+	phi[i] = new double[particle_number_of_materials];
+    }
+    for(i = 0; i < particle_number_of_materials; i++)
+	for(j = 0; j < particle_number_of_materials; j++) {
+	    phi[i][j] = 0.0;
 	}
-	for(i = 0; i < particle_number_of_materials; i++)
-		for(j = 0; j < particle_number_of_materials; j++) {
-			phi[i][j] = 0.0;
-		}
 
 }
 //----------------------------------------------------------------------------------------
@@ -252,47 +252,47 @@ Particle::Particle(Particle &RealParticle, Material &material): bd(1), bd_type(0
 //----------------------------------------------------------------------------------------
 void Particle::StatesCopier(Particle &RealParticle, int type)
 {
-	int i, j;
+    int i, j;
 
-	///- copy states
-	R[X] = RealParticle.R[X];
-	R[Y] = RealParticle.R[Y];
-	m = RealParticle.m;
+    ///- copy states
+    R[X] = RealParticle.R[X];
+    R[Y] = RealParticle.R[Y];
+    m = RealParticle.m;
 
-	rho = RealParticle.rho; V = RealParticle.V;
-	p = RealParticle.p; T = RealParticle.T;
-	rho_I = RealParticle.rho_I;
-	Cs =RealParticle.Cs;
+    rho = RealParticle.rho; V = RealParticle.V;
+    p = RealParticle.p; T = RealParticle.T;
+    rho_I = RealParticle.rho_I;
+    Cs =RealParticle.Cs;
 
-	U[X] = RealParticle.U[X];
-	U[Y] = RealParticle.U[Y];
+    U[X] = RealParticle.U[X];
+    U[Y] = RealParticle.U[Y];
 
-	U_I[X] = RealParticle.U_I[X];
-	U_I[Y] = RealParticle.U_I[Y];
+    U_I[X] = RealParticle.U_I[X];
+    U_I[Y] = RealParticle.U_I[Y];
 
-	ShearRate_x[X] = RealParticle.ShearRate_x[X];
-	ShearRate_x[Y] = RealParticle.ShearRate_x[Y];
+    ShearRate_x[X] = RealParticle.ShearRate_x[X];
+    ShearRate_x[Y] = RealParticle.ShearRate_x[Y];
 
-	ShearRate_y[X] = RealParticle.ShearRate_y[X];
-	ShearRate_y[Y] = RealParticle.ShearRate_y[Y];
+    ShearRate_y[X] = RealParticle.ShearRate_y[X];
+    ShearRate_y[Y] = RealParticle.ShearRate_y[Y];
 
-	///- set phase field (depending on boundary type: periodic/wall)
-	//perodic boundary
-	if (type == 1 ) {
-		del_phi[X] = RealParticle.del_phi[X];
-		del_phi[Y] = RealParticle.del_phi[Y];
-		for(i = 0; i < particle_number_of_materials; i++) {
-			for(j = 0; j < particle_number_of_materials; j++) {
-				phi[i][j] = RealParticle.phi[i][j];
-			}
-		}
+    ///- set phase field (depending on boundary type: periodic/wall)
+    //perodic boundary
+    if (type == 1 ) {
+	del_phi[X] = RealParticle.del_phi[X];
+	del_phi[Y] = RealParticle.del_phi[Y];
+	for(i = 0; i < particle_number_of_materials; i++) {
+	    for(j = 0; j < particle_number_of_materials; j++) {
+		phi[i][j] = RealParticle.phi[i][j];
+	    }
 	}
+    }
 
-	//wall boundary
-	if (type == 0) {
-		phi[0][0] = 0.0;
-		for(i = 1; i < particle_number_of_materials; i++)
-		  phi[0][0] += RealParticle.phi[i][i];
-	}
+    //wall boundary
+    if (type == 0) {
+	phi[0][0] = 0.0;
+	for(i = 1; i < particle_number_of_materials; i++)
+	    phi[0][0] += RealParticle.phi[i][i];
+    }
 
 }
