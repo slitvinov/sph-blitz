@@ -1,21 +1,10 @@
-// particlemanager.cpp
-// author: Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-// changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>,
-
-//----------------------------------------------------------------------------------------
-//      Define 2-d vectors and associated operations
-//		particlemanager.cpp
-//----------------------------------------------------------------------------------------
-// ***** system includes *****
 #include <iostream>
 #include <fstream>
 #include <cstring>
-
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
 
-// ***** local includes *****
 #include "vec2d.h"
 #include "glbfunc.h"
 

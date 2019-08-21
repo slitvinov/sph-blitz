@@ -1,12 +1,3 @@
-///\file interaction.cpp
-///\author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>,
-
-//----------------------------------------------------------------------------------------
-//		defines interaction between particles
-//		interaction.cpp
-//----------------------------------------------------------------------------------------
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -14,7 +5,6 @@
 #include <cstdio>
 #include <cstdlib>
 
-// ***** localincludes *****
 #include "vec2d.h"
 #include "glbfunc.h"
 #include "quinticspline.h"
@@ -30,25 +20,19 @@ using namespace std;
 
 static double k_bltz  = 1.380662e-023/0.02/0.02/0.02;
 
-
 int Interaction::number_of_materials = 0;
 double Interaction::smoothinglength = 0.0;
 double Interaction::art_vis = 0.0;
 double Interaction::delta = 0.0;
-//----------------------------------------------------------------------------------------
-//					constructor
-//----------------------------------------------------------------------------------------
+
 Interaction::Interaction(Initiation &ini)
 {
-        ///- copy properties from initiation
         number_of_materials = ini.number_of_materials;
         smoothinglength = ini.smoothinglength;
         art_vis = ini.art_vis;
         delta = ini.delta;
 }
-//----------------------------------------------------------------------------------------
-//					constructor
-//----------------------------------------------------------------------------------------
+
 Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
                                 QuinticSpline &weight_function, double dstc)
 {
@@ -72,17 +56,14 @@ Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces
         rrij = 1.0/(rij + 1.0e-30);
         eij = (Org->R - Dest->R)*rrij;
         Wij = w(&weight_function, rij);
-        Fij = F(&weight_function, rij)*rrij; //for QuinticSpline wight fuction
-        LapWij = LapW(&weight_function, rij); //for QuinticSpline fuction
+        Fij = F(&weight_function, rij)*rrij;
+        LapWij = LapW(&weight_function, rij);
         shear_rij = 2.0*etai*etaj*rij/(etai*(rij + 2.0*frc_ij[noj][noi].shear_slip)
                                                          + etaj*(rij + 2.0*frc_ij[noi][noj].shear_slip) + 1.0e-30);
         bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij + 2.0*frc_ij[noj][noi].bulk_slip)
                                                            + zetaj*(rij + 2.0*frc_ij[noi][noj].bulk_slip) + 1.0e-30);
 }
 
-//----------------------------------------------------------------------------------------
-//	use old interaction object for new interaction
-//----------------------------------------------------------------------------------------
 void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
                                 QuinticSpline &weight_function, double dstc)
 {
@@ -115,11 +96,6 @@ void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force 
 }
 
 
-//----------------------------------------------------------------------------------------
-                                        //renew pair parameters and changing pair values
-//----------------------------------------------------------------------------------------
-// Changes: Interaction object
-// Depends on: Interaction Object, Org, Dest
 void Interaction::RenewInteraction(QuinticSpline &weight_function)
 {
         ///- calculate pair parameters (weight functions, shear- and bulk-)
@@ -134,61 +110,14 @@ void Interaction::RenewInteraction(QuinticSpline &weight_function)
         bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij + 2.0*frc_ij[noj][noi].bulk_slip)
                                                            + zetaj*(rij + 2.0*frc_ij[noi][noj].bulk_slip) + 1.0e-30);
 }
-//----------------------------------------------------------------------------------------
-//					summation of the density
-//					the idea is different from the original sph method
-//----------------------------------------------------------------------------------------
-// Changes: Org(rho:summation), Dest(rho:summation)
-// Depends on: Interaction Object, Org(rho), Dest(rho)
+
 void Interaction::SummationDensity()
 {
         //summation according to: rho_i=sum{m_j*W_ij} (here only the contribution of the pair in questiion)
         Org->rho += mi*Wij;
         if(Org->ID != Dest->ID) Dest->rho += mj*Wij;
-
 }
-//----------------------------------------------------------------------------------------
-//					summation of the shear rates
-//----------------------------------------------------------------------------------------
-// Changes: Org(ShearRate_x, ShearRate_y:summation), Dest(ShearRate_x, ShearRate_y:summation)
-// Depends on: Interaction Object, Org(ShearRate_x, ShearRate_y, U, rho), Dest(ShearRate_x, ShearRate_y, U, rho)
-void Interaction::SummationShearRate()
-{
-        //pair particle state values
-        double vi, vj; //particle volumes
-        Vec2d Uij; //velocity, velocity difference and midddle point velocity
-        Vec2d ShearRate_xi, ShearRate_yi; //shear rates
 
-        ///- define particle state values
-        vi = mi/Org->rho; vj = mj/Dest->rho;
-        Uij = Org->U - Dest->U;
-        ShearRate_xi = Uij*eij[0]*Fij*rij;
-        ShearRate_yi = Uij*eij[1]*Fij*rij;
-
-        ///- summation of shear rates
-        Org->ShearRate_x = Org->ShearRate_x + ShearRate_xi*vj;
-        Org->ShearRate_y = Org->ShearRate_y + ShearRate_yi*vj;
-        Dest->ShearRate_x = Dest->ShearRate_x + ShearRate_xi*vi;
-        Dest->ShearRate_y = Dest->ShearRate_y + ShearRate_yi*vi;
-}
-//----------------------------------------------------------------------------------------
-//						phase field
-//----------------------------------------------------------------------------------------
-// Changes: Org(phi:summation), Dest(phi:summation)
-// Depends on: Interaction Object, Org(phi, rho), Dest(phi, rho)
-void Interaction::SummationPhaseField()
-{
-        double vi, vj; //particle volumes
-        vi = mi/Org->rho; vj = mj/Dest->rho;
-
-        Org->phi[noi][noj] += Wij*vj;
-        if(Org->ID != Dest->ID) Dest->phi[noj][noi] += Wij*vi;
-}
-//----------------------------------------------------------------------------------------
-//						density or phase gradient
-//----------------------------------------------------------------------------------------
-// Changes: Org(del_phi:summation), Dest(del_phi:summation)
-// Depends on: Interaction Object, Org(del_phi,rho), Dest(del_phi,rho)
 void Interaction::SummationPhaseGradient()
 {
 

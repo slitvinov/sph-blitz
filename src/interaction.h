@@ -71,20 +71,7 @@ public:
         ///Remark: the idea is different from the original sph method
 	void SummationDensity();
 
-	/// \brief summation of the shear rates
-	///
-	/// Changes: Org(ShearRate_x, ShearRate_y:summation), Dest(ShearRate_x, ShearRate_y:summation)\n
-        /// Depends on: Interaction Object, Org(ShearRate_x, ShearRate_y, U, rho), Dest(ShearRate_x, ShearRate_y, U, rho)
-	void SummationShearRate();
-
-	//pahse field and phase gradient
-	///\brief sum phase field contribution of interaction pair
-	///
-        /// Changes: Org(phi:summation), Dest(phi:summation)\n
-        /// Depends on: Interaction Object, Org(phi, rho), Dest(phi, rho)
-	void SummationPhaseField();
-
-	///\brief sum phase gradient contribution of interaction pair
+        ///\brief sum phase gradient contribution of interaction pair
 	///
 	/// Changes: Org(del_phi:summation), Dest(del_phi:summation)\n
 	/// Depends on: Interaction Object, Org(del_phi,rho), Dest(del_phi,rho)
