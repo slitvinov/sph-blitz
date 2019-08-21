@@ -172,39 +172,39 @@ Particle::Particle(Particle &RealParticle, Material *material)
 	}
 }
 
-void Particle::StatesCopier(Particle &RealParticle, int type)
+void Particle::StatesCopier(Particle *RealParticle, int type)
 {
     int i, j;
 
-    R[X] = RealParticle.R[X];
-    R[Y] = RealParticle.R[Y];
-    m = RealParticle.m;
-    rho = RealParticle.rho;
-    V = RealParticle.V;
-    p = RealParticle.p;
-    T = RealParticle.T;
-    rho_I = RealParticle.rho_I;
-    Cs =RealParticle.Cs;
-    U[X] = RealParticle.U[X];
-    U[Y] = RealParticle.U[Y];
-    U_I[X] = RealParticle.U_I[X];
-    U_I[Y] = RealParticle.U_I[Y];
-    ShearRate_x[X] = RealParticle.ShearRate_x[X];
-    ShearRate_x[Y] = RealParticle.ShearRate_x[Y];
-    ShearRate_y[X] = RealParticle.ShearRate_y[X];
-    ShearRate_y[Y] = RealParticle.ShearRate_y[Y];
+    R[X] = RealParticle->R[X];
+    R[Y] = RealParticle->R[Y];
+    m = RealParticle->m;
+    rho = RealParticle->rho;
+    V = RealParticle->V;
+    p = RealParticle->p;
+    T = RealParticle->T;
+    rho_I = RealParticle->rho_I;
+    Cs =RealParticle->Cs;
+    U[X] = RealParticle->U[X];
+    U[Y] = RealParticle->U[Y];
+    U_I[X] = RealParticle->U_I[X];
+    U_I[Y] = RealParticle->U_I[Y];
+    ShearRate_x[X] = RealParticle->ShearRate_x[X];
+    ShearRate_x[Y] = RealParticle->ShearRate_x[Y];
+    ShearRate_y[X] = RealParticle->ShearRate_y[X];
+    ShearRate_y[Y] = RealParticle->ShearRate_y[Y];
     if (type == 1 ) {
-	del_phi[X] = RealParticle.del_phi[X];
-	del_phi[Y] = RealParticle.del_phi[Y];
+	del_phi[X] = RealParticle->del_phi[X];
+	del_phi[Y] = RealParticle->del_phi[Y];
 	for(i = 0; i < particle_number_of_materials; i++) {
 	    for(j = 0; j < particle_number_of_materials; j++) {
-		phi[i][j] = RealParticle.phi[i][j];
+		phi[i][j] = RealParticle->phi[i][j];
 	    }
 	}
     }
     if (type == 0) {
-	phi[0][0] = 0.0;
+	phi[0][0] = 0;
 	for(i = 1; i < particle_number_of_materials; i++)
-	    phi[0][0] += RealParticle.phi[i][i];
+	    phi[0][0] += RealParticle->phi[i][i];
     }
 }

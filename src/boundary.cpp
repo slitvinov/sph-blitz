@@ -852,7 +852,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
 
 	Particle *prtl = particles.cell_lists[0][j].retrieve(p1);
 	//copy states from the original particle
-	prtl->StatesCopier(*prtl->rl_prtl, 0);
+	prtl->StatesCopier(prtl->rl_prtl, 0);
 
 	//boundary condition
 	Boundary_W(prtl);
@@ -867,7 +867,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
 
 	Particle *prtl = particles.cell_lists[0][j].retrieve(p1);
 	//copy states from the original particle
-	prtl->StatesCopier(*prtl->rl_prtl, 1);
+	prtl->StatesCopier(prtl->rl_prtl, 1);
 
 	//boundary condition
 	Boundary_W(prtl);
@@ -884,7 +884,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
 
 	Particle *prtl = particles.cell_lists[x_clls - 1][j].retrieve(p2);
 	//copy states from the original particle
-	prtl->StatesCopier(*prtl->rl_prtl, 0);
+	prtl->StatesCopier(prtl->rl_prtl, 0);
 
 	//boundary condition
 	Boundary_E(prtl);
@@ -899,7 +899,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
 
 	Particle *prtl = particles.cell_lists[x_clls - 1][j].retrieve(p2);
 	//copy states from the original particle
-	prtl->StatesCopier(*prtl->rl_prtl, 1);
+	prtl->StatesCopier(prtl->rl_prtl, 1);
 
 	//boundary condition
 	Boundary_E(prtl);
@@ -920,7 +920,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
 
 	Particle *prtl = particles.cell_lists[i][0].retrieve(p3);
 	//copy states from the original particle
-	prtl->StatesCopier(*prtl->rl_prtl, 0);
+	prtl->StatesCopier(prtl->rl_prtl, 0);
 
 	//boundary condition
 	Boundary_S(prtl);
@@ -935,7 +935,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
 
 	Particle *prtl = particles.cell_lists[i][0].retrieve(p3);
 	//copy states from the original particle
-	prtl->StatesCopier(*prtl->rl_prtl, 1);
+	prtl->StatesCopier(prtl->rl_prtl, 1);
 
 	//boundary condition
 	Boundary_S(prtl);
@@ -955,7 +955,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
 	//the original real particle
 	Particle *prtl = particles.cell_lists[i][y_clls - 1].retrieve(p4);
 	//copy states from the original particle
-	prtl->StatesCopier(*prtl->rl_prtl, 0);
+	prtl->StatesCopier(prtl->rl_prtl, 0);
 
 	//boundary condition
 	Boundary_N(prtl);
@@ -971,7 +971,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
 	//the original real particle
 	Particle *prtl = particles.cell_lists[i][y_clls - 1].retrieve(p4);
 	//copy states from the original particle
-	prtl->StatesCopier(*prtl->rl_prtl, 1);
+	prtl->StatesCopier(prtl->rl_prtl, 1);
 
 	//boundary condition
 	Boundary_N(prtl);
@@ -991,7 +991,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
 
       Particle *prtl = particles.cell_lists[0][0].retrieve(p13);
       //copy states from the original particle
-      prtl->StatesCopier(*prtl->rl_prtl, 0);
+      prtl->StatesCopier(prtl->rl_prtl, 0);
 
       //boundary condition
       Boundary_SW(prtl);
@@ -1006,7 +1006,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
 
       Particle *prtl = particles.cell_lists[0][0].retrieve(p13);
       //copy states from the original particle
-      prtl->StatesCopier(*prtl->rl_prtl, 1);
+      prtl->StatesCopier(prtl->rl_prtl, 1);
 
       //boundary condition
       Boundary_SW(prtl);
@@ -1024,7 +1024,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
       //the original real particle
       Particle *prtl = particles.cell_lists[0][y_clls - 1].retrieve(p14);
       //copy states from the original particle
-      prtl->StatesCopier(*prtl->rl_prtl, 0);
+      prtl->StatesCopier(prtl->rl_prtl, 0);
 
       //boundary condition
       Boundary_NW(prtl);
@@ -1040,7 +1040,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
       //the original real particle
       Particle *prtl = particles.cell_lists[0][y_clls - 1].retrieve(p14);
       //copy states from the original particle
-      prtl->StatesCopier(*prtl->rl_prtl, 1);
+      prtl->StatesCopier(prtl->rl_prtl, 1);
 
       //boundary condition
       Boundary_NW(prtl);
@@ -1058,7 +1058,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
       //the original real particle
       Particle *prtl = particles.cell_lists[x_clls - 1][y_clls - 1].retrieve(p24);
       //copy states from the original particle
-      prtl->StatesCopier(*prtl->rl_prtl, 0);
+      prtl->StatesCopier(prtl->rl_prtl, 0);
 
       //boundary condition
       Boundary_NE(prtl);
@@ -1074,7 +1074,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
       //the original real particle
       Particle *prtl = particles.cell_lists[x_clls - 1][y_clls - 1].retrieve(p24);
       //copy states from the original particle
-      prtl->StatesCopier(*prtl->rl_prtl, 1);
+      prtl->StatesCopier(prtl->rl_prtl, 1);
 
       //boundary condition
       Boundary_NE(prtl);
@@ -1092,7 +1092,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
       //the original real particle
       Particle *prtl = particles.cell_lists[x_clls - 1][0].retrieve(p23);
       //copy states from the original particle
-      prtl->StatesCopier(*prtl->rl_prtl, 0);
+      prtl->StatesCopier(prtl->rl_prtl, 0);
 
       //boundary condition
       Boundary_SE(prtl);
@@ -1109,7 +1109,7 @@ void Boundary::BoundaryCondition(ParticleManager &particles)
       //the original real particle
       Particle *prtl = particles.cell_lists[x_clls - 1][0].retrieve(p23);
       //copy states from the original particle
-      prtl->StatesCopier(*prtl->rl_prtl, 1);
+      prtl->StatesCopier(prtl->rl_prtl, 1);
 
       //boundary condition
       Boundary_SE(prtl);

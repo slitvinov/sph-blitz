@@ -6,7 +6,7 @@ public:
     Particle(Particle &RealParticle);
     Particle(Particle &RealParticle, Material *material);
     ~Particle();
-    void StatesCopier(Particle &RealParticle, int type);
+    void StatesCopier(Particle *RealParticle, int type);
     int cell_i;
     int cell_j;
     Material *mtl;
