@@ -22,6 +22,9 @@
 extern double interaction_art_vis;
 extern double interaction_delta;
 
+extern long particle_ID_max;
+extern int particle_number_of_materials;
+
 using namespace std;
 ///
 /// \brief The main program
@@ -35,6 +38,7 @@ int main(int argc, char *argv[]) {
     //computation time
     double Time;
     Initiation ini;
+    QuinticSpline weight_function;
 
     //check if project name specified
     if (argc<2)  {
@@ -48,11 +52,10 @@ int main(int argc, char *argv[]) {
     initiation_ini(argv[1], &ini);
     interaction_art_vis = ini.art_vis;
     interaction_delta = ini.delta;
-    
-    //a sample particle and interaction for static numbers
-    Particle sample(ini);
 
-    QuinticSpline weight_function;
+    particle_number_of_materials = ini.number_of_materials;
+    particle_ID_max = 0;
+
     quinticspline_ini(ini.smoothinglength, &weight_function);
     MLS mls(ini.MLS_MAX); ///- initiate the Moving Least Squares approximation
     ParticleManager particles(ini); ///- initiate the particle manager

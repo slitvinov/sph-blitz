@@ -9,15 +9,7 @@ class Initiation;
 
 /// Particle class 
 class Particle {
-	static int number_of_materials;
-	
 public:
-	
-	//constructors-------------------------------------------------------------------
-	
-	///a particle constructur for empty particles
-	explicit Particle(Initiation &ini);
-
 	///\brief construct a real particle
 	///NOTE the particle mass and volume will be specified in initiation::VolumeMass(w)
 	Particle(Vec2d position, double velocity[2], double density, double pressure, double temperature, Material &material);

@@ -1,13 +1,3 @@
-///\file particle.cpp
-/// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-/// \author changes by: 
-
-//-------------------------------------------------------------------
-//				Particle data type definition
-//				particle.cpp
-//----------------------------------------------------------------
-
-// ***** local includes *****
 #include <cmath>
 #include <cstdio>
 #include "vec2d.h"
@@ -19,29 +9,8 @@
 
 enum {X, Y};
 
-long Particle::ID_max = 0;
-int Particle::number_of_materials = 0;
-//----------------------------------------------------------------------------------------
-//							constructors
-//							empty particle
-//----------------------------------------------------------------------------------------
-Particle::Particle(Initiation &ini)
-{
-	int i, j;
-
-	///- copy properties from initiation
-	number_of_materials = ini.number_of_materials;
-
-	///- set up phase field
-	phi = new double*[number_of_materials];
-	for(i = 0; i < number_of_materials; i++) {
-		phi[i] = new double[number_of_materials];
-	}
-	for(i = 0; i < number_of_materials; i++)
-		for(j = 0; j < number_of_materials; j++) {
-			phi[i][j] = 0.0;
-		}
-}
+long particle_ID_max;
+int particle_number_of_materials;
 //----------------------------------------------------------------------------------------
 //	deconstructor particle
 //----------------------------------------------------------------------------------------
@@ -50,7 +19,7 @@ Particle::~Particle()
 	int i;
 
 	///- delete phase field
-	for(i = 0; i < number_of_materials; i++) {
+	for(i = 0; i < particle_number_of_materials; i++) {
 		delete[] phi[i];
 	}
 	///- delete pahse field gradient matrix
@@ -66,10 +35,10 @@ Particle::Particle(Vec2d position, double velocity[2], double density, double pr
 	int i, j;
 
 	///- increase the total particle number
-	ID_max++;
+	particle_ID_max++;
 	
 	///- give a new ID number
-	ID = ID_max;
+	ID = particle_ID_max;
 
 	///- point to the material properties
 	mtl = &material;
@@ -93,12 +62,12 @@ Particle::Particle(Vec2d position, double velocity[2], double density, double pr
 	P_n = P; U_n = U; rho_n = rho;
 
 	///- set up phase field
-	phi = new double*[number_of_materials];
-	for(i = 0; i < number_of_materials; i++) {
-		phi[i] = new double[number_of_materials];
+	phi = new double*[particle_number_of_materials];
+	for(i = 0; i < particle_number_of_materials; i++) {
+		phi[i] = new double[particle_number_of_materials];
 	}
-	for(i = 0; i < number_of_materials; i++)
-		for(j = 0; j < number_of_materials; j++) {
+	for(i = 0; i < particle_number_of_materials; i++)
+		for(j = 0; j < particle_number_of_materials; j++) {
 			phi[i][j] = 0.0;
 		}
 }
@@ -158,12 +127,12 @@ Particle::Particle(Particle &RealParticle) : bd(1), bd_type(1)
 	P_n = RealParticle.P_n; U_n = RealParticle.U_n; rho_n = RealParticle.rho_n;
 	
 	///- set up phase field
-	phi = new double*[number_of_materials];
-	for(i = 0; i < number_of_materials; i++) {
-		phi[i] = new double[number_of_materials];
+	phi = new double*[particle_number_of_materials];
+	for(i = 0; i < particle_number_of_materials; i++) {
+		phi[i] = new double[particle_number_of_materials];
 	}
-	for(i = 0; i < number_of_materials; i++)
-		for(j = 0; j < number_of_materials; j++) {
+	for(i = 0; i < particle_number_of_materials; i++)
+		for(j = 0; j < particle_number_of_materials; j++) {
 			phi[i][j] = 0.0;
 		}
 
@@ -200,12 +169,12 @@ Particle::Particle(Particle &RealParticle, Material &material): bd(1), bd_type(0
 	P_n = RealParticle.P_n; U_n = RealParticle.U_n; rho_n = RealParticle.rho_n;
 
 	///- set up phase field
-	phi = new double*[number_of_materials];
-	for(i = 0; i < number_of_materials; i++) {
-		phi[i] = new double[number_of_materials];
+	phi = new double*[particle_number_of_materials];
+	for(i = 0; i < particle_number_of_materials; i++) {
+		phi[i] = new double[particle_number_of_materials];
 	}
-	for(i = 0; i < number_of_materials; i++)
-		for(j = 0; j < number_of_materials; j++) {
+	for(i = 0; i < particle_number_of_materials; i++)
+		for(j = 0; j < particle_number_of_materials; j++) {
 			phi[i][j] = 0.0;
 		}
 
@@ -229,8 +198,8 @@ void Particle::StatesCopier(Particle &RealParticle, int type)
 	//perodic boundary
 	if (type == 1 ) {
 		del_phi = RealParticle.del_phi;
-		for(i = 0; i < number_of_materials; i++) {
-			for(j = 0; j < number_of_materials; j++) {
+		for(i = 0; i < particle_number_of_materials; i++) {
+			for(j = 0; j < particle_number_of_materials; j++) {
 				phi[i][j] = RealParticle.phi[i][j];
 			}
 		}
@@ -239,7 +208,8 @@ void Particle::StatesCopier(Particle &RealParticle, int type)
 	//wall boundary
 	if (type == 0) {
 		phi[0][0] = 0.0;
-		for(i = 1; i < number_of_materials; i++) phi[0][0] += RealParticle.phi[i][i];
+		for(i = 1; i < particle_number_of_materials; i++)
+                  phi[0][0] += RealParticle.phi[i][i];
 	}
 
 }
