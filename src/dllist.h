@@ -20,9 +20,7 @@ public:
     bool isEnd(LlistNode<Ldata> *p) const { return (p->next == node); }
     LlistNode<Ldata> *first() const { return node; }
     LlistNode<Ldata> *next(LlistNode<Ldata> *p) const     { return p->next; }
-    LlistNode<Ldata> *prev(LlistNode<Ldata> *p) const     { return p->prev; }
     Ldata *retrieve(LlistNode<Ldata> *p) const    { return p->next->data; }
-    void store(LlistNode<Ldata> *p, Ldata *d)     { p->next->data = d; }
     int length() const                  { return len; }
     inline void insert(LlistNode<Ldata> *p, Ldata *d) {
 	len++;
