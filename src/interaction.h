@@ -4,6 +4,7 @@
 class Particle;
 class Force;
 class Initiation;
+struct QuinticSpline;
 
 /// Defines interaction between particles
 class Interaction {

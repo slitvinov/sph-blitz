@@ -14,6 +14,7 @@
 #include "particlemanager.h"
 #include "hydrodynamics.h"
 #include "boundary.h"
+#include "volume.h"
 #include "wiener.h"
 
 using namespace std;
@@ -28,6 +29,7 @@ int main(int argc, char *argv[]) {
     ///\n <b>below  the rough structure of the main function:</b>
     //computation time
     double Time;
+    Initiation ini;
 
     //check if project name specified
     if (argc<2)  {
@@ -38,8 +40,8 @@ int main(int argc, char *argv[]) {
 	
     wiener_seed(12345);
     /// initializations
-    Initiation ini(argv[1]); ///- global initialization (by defining an object of class Initiation (initialization "automatically" done at this moment (from .cfg or .rst file) by constructor method of Initiation class. That is by the way the reason why the initiation::initiation method does not figure in the call grapf of the main function (constructors are not shwon there)
-
+    initiation_ini(argv[1], &ini);
+    
     //a sample particle and interaction for static numbers
     Particle sample(ini);
     Interaction interaction(ini);

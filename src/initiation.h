@@ -1,13 +1,7 @@
-/// \file initiation.h 
-/// \brief Initiates the simulation
-
-class Hydrodynamics;
-class ParticleManager;
-class QuinticSpline;
-
-///\brief Initiates the simulation
-class Initiation {
-public:
+#ifdef __cplusplus
+extern "C" {
+#endif
+struct Initiation {
 	///the project name
 	char Project_name[FILENAME_MAX];
 
@@ -56,11 +50,9 @@ public:
 
 	///Moving Least Squarr
 	int MLS_MAX;
-
-	///constructor
-	///\param *project_name: a pointer to the project name array (the project name is defined as a main-function argument and therefore given as an additional command line element when running the progam) 
-	explicit Initiation(const char *project_name);
-	///predict the particle volume and mass
 };
 
-void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline &weight_function);
+int initiation_ini(const char*, struct Initiation*);
+#ifdef __cplusplus
+}
+#endif
