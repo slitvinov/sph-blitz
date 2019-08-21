@@ -5,7 +5,7 @@
 class Boundary
 {
 	///computational domain size
-	Vec2d box_size;
+	double box_size[2];
 	///cell matrix size
 	int x_clls, y_clls;
 	int number_of_materials;
@@ -69,10 +69,10 @@ public:
 
 
 	//boundary velocities
-	Vec2d UxBl;///<left hand side boundary velocity
-	Vec2d UxBr;///<right hand side boundary velocity
-	Vec2d UyBd;///<bottom side boundary velocity
-	Vec2d UyBu;///<upper side boundary velocity
+	double UxBl[2];///<left hand side boundary velocity
+	double UxBr[2];///<right hand side boundary velocity
+	double UyBd[2];///<bottom side boundary velocity
+	double UyBu[2];///<upper side boundary velocity
 
 	///boundary particle lists
 	Llist<Particle> boundary_particle_list; ///boundary particle list for all boundray particles
