@@ -20,7 +20,7 @@ public:
 	double rho0;///<reference density
 	double a0; ///<reference <b>sound speed??? was not commented</b>
 	///show properties
-	void show_properties();
+	void Set_nu();
 
 	///obtain parameter b0
 	void Get_b0(double sound);
