@@ -17,14 +17,6 @@ double AMIN1(double a, double b){
 }
 
 //----------------------------------------------------------------------------------------
-// e. Get the maximum from four
-//----------------------------------------------------------------------------------------
-double AMAX4(double a, double b, double c, double d){
-	a = AMAX1(a, b);
-	c = AMAX1(c, d);
-	return AMAX1(a, c);
-}
-//----------------------------------------------------------------------------------------
 //	f. Get the inverse of symmetric 3x3 array
 //----------------------------------------------------------------------------------------
 int SymmetricInverse3x3(double M[3][3]) {
@@ -86,23 +78,6 @@ int SymmetricInverse3x3(double M[3][3]) {
 	M[0][1] = M[1][0] = z6;
      
 	return 1;
-}
-//----------------------------------------------------------------------------------------
-//	g. Kronecker delta
-//----------------------------------------------------------------------------------------
-double Kronecker(int a, int b)
-{
-	return a == b ? 1.0 : 0.0;
-}
-//	g. Sign function
-double K_sign(int a, int b)
-{
-	return a == b ? 1.0 : -1.0;
-}
-//	h. comparing
-double compare(int a, int b)
-{
-	return a >= b ? 1.0 : 0.0;
 }
 //  i. square
 double sq(double a)
