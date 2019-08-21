@@ -1269,7 +1269,8 @@ void Boundary::Boundary_SW(Particle *prtl)
     prtl->R[Y] = - prtl->R[Y];    
     prtl->U[0] = UyBd[0]*2.0 - prtl->U[0];
     prtl->U[1] = UxBl[1]*2.0 - prtl->U[1];
-    prtl->del_phi = - prtl->del_phi;
+    prtl->del_phi[X] = - prtl->del_phi[X];
+    prtl->del_phi[Y] = - prtl->del_phi[Y];    
     break;
   }
 }
@@ -1305,7 +1306,8 @@ void Boundary::Boundary_NW(Particle *prtl)
     prtl->R[1] = box_size[1]*2.0 - prtl->R[1];
     prtl->U[0] = UyBu[0]*2.0 - prtl->U[0];
     prtl->U[1] = UxBl[1]*2.0 - prtl->U[1];
-    prtl->del_phi = - prtl->del_phi;
+    prtl->del_phi[X] = - prtl->del_phi[X];
+    prtl->del_phi[Y] = - prtl->del_phi[Y];    
     break;
   }
 }
@@ -1341,7 +1343,8 @@ void Boundary::Boundary_NE(Particle *prtl)
     prtl->R[Y] = box_size[Y]*2.0 - prtl->R[Y];    
     prtl->U[0] = UyBu[0]*2.0 - prtl->U[0];
     prtl->U[1] = UxBr[1]*2.0 - prtl->U[1];
-    prtl->del_phi = - prtl->del_phi;
+    prtl->del_phi[X] = - prtl->del_phi[X];
+    prtl->del_phi[Y] = - prtl->del_phi[Y];    
     break;
   }
 }
@@ -1377,7 +1380,8 @@ void Boundary::Boundary_SE(Particle *prtl)
     prtl->R[1] = - prtl->R[1];
     prtl->U[0] = UyBd[0]*2.0 - prtl->U[0];
     prtl->U[1] = UxBr[1]*2.0 - prtl->U[1];
-    prtl->del_phi = - prtl->del_phi;
+    prtl->del_phi[X] = - prtl->del_phi[X];
+    prtl->del_phi[Y] = - prtl->del_phi[Y];    
     break;
   }
 }

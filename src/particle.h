@@ -44,25 +44,25 @@ public:
 	double m;///<mass
 	double V;///<volume
 	double e; ///<internal energy
-	Vec2d R_I;///<intermediate position
-	Vec2d P_I;///<intermediate momentim
-	Vec2d U_I;///<intermediate velocity
-	Vec2d P_n;///<do not knwo what this is n=?conservative???<b>!!!Question!!!</b>
-	Vec2d U_n; ///<do not knwo what this is n=?conservative???<b>!!!Question!!!</b>
-	Vec2d ShearRate_x, ShearRate_y;
+	double R_I[2];///<intermediate position
+	double P_I[2];///<intermediate momentim
+	double U_I[2];///<intermediate velocity
+	double P_n[2];///<do not knwo what this is n=?conservative???<b>!!!Question!!!</b>
+	double U_n[2]; ///<do not knwo what this is n=?conservative???<b>!!!Question!!!</b>
+	double ShearRate_x[2], ShearRate_y[2];
 
 	//for multimaterials
 	double eta, zeta; ///particle.h(line 69-74) viscosity of each particle<b>!!!Question!!!</b>
 	double **phi; ///phase field matrix<b>!!!Question!!!</b>
 	///first as phase field gradient matrix <b>!!!Question!!!</b>
 	///then the independent values ([0][0] and [0][1]) of suface stress matrix <b>!!!Question!!!</b>
-	Vec2d del_phi;
+	double del_phi[2];
 	
 	//change rate for real particles
 	double drhodt; ///<density change rate for real particles
         double dedt; ///<internal energy change rate for real particles
-	Vec2d dUdt;///<acceleration change for real particles <b>or is it the other wa round</b>
-        Vec2d _dU; ///< random velocity change for real particles <b>or is it the other wa round</b>
+	double dUdt[2];///<acceleration change for real particles <b>or is it the other wa round</b>
+        double _dU[2]; ///< random velocity change for real particles <b>or is it the other wa round</b>
 
 	//other data
 	

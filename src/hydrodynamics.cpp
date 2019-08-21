@@ -485,8 +485,8 @@ void Hydrodynamics::UpdateSurfaceStress(Boundary &boundary)
     Particle *prtl = particle_list.retrieve(p);
 
     ///- update phase surface stress for all particles on this list
-    interm0 = 1.0/(v_abs(prtl->del_phi) + epsilon);
-    interm1 = 0.5*v_sqdiff(prtl->del_phi);
+    interm0 = 1.0/(vv_abs(prtl->del_phi) + epsilon);
+    interm1 = 0.5*vv_sqdiff(prtl->del_phi);
     interm2 = prtl->del_phi[X] * prtl->del_phi[Y];
     prtl->del_phi[0] = interm1*interm0;
     prtl->del_phi[1] = interm2*interm0;
@@ -501,8 +501,8 @@ void Hydrodynamics::UpdateSurfaceStress(Boundary &boundary)
     Particle *prtl = boundary.boundary_particle_list.retrieve(p1);
 
     ///- update phase surface stress for all particles on this list
-    interm0 = v_abs(prtl->del_phi) + epsilon;
-    interm1 = 0.5*v_sqdiff(prtl->del_phi);
+    interm0 = vv_abs(prtl->del_phi) + epsilon;
+    interm1 = 0.5*vv_sqdiff(prtl->del_phi);
     interm2 = prtl->del_phi[X] * prtl->del_phi[Y];
     prtl->del_phi[0] = interm1/interm0;
     prtl->del_phi[1] = interm2/interm0;
@@ -527,7 +527,7 @@ double Hydrodynamics::SurfaceTensionCoefficient()
     ///- calculate  phase surface stress for all particles
     double interm1 = prtl->m/prtl->rho;
     totalvolume += interm1;
-    coefficient += v_sq(prtl->del_phi)*interm1;
+    coefficient += vv_sq(prtl->del_phi)*interm1;
   }
   return coefficient/sqrt(totalvolume);
 }
