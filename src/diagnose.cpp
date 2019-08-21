@@ -261,7 +261,7 @@ void Diagnose::Average(ParticleManager &particles, MLS &mls, QuinticSpline &weig
 void Diagnose::OutputAverage(double Time)
 {
     int i, j;
-    Vec2d pstn;
+    double pstn[2];
     double Itime;
     char file_name[FILENAME_MAX], file_list[110];
 
