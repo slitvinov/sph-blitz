@@ -2,8 +2,6 @@
 #include <cstdio>
 #include "vv.h"
 #include "glbfunc.h"
-
-#include "initiation.h"
 #include "material.h"
 #include "particle.h"
 

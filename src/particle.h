@@ -1,6 +1,4 @@
 class Material;
-class Initiation;
-
 class Particle {
 public:
     Particle(double position[2], double velocity[2], double density, double pressure, double temperature, Material &material);
