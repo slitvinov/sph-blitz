@@ -114,7 +114,7 @@ Particle::Particle(Vec2d position, double velocity[2], double density, double pr
 //								construct a wall particle
 //----------------------------------------------------------------------------------------
 Particle::Particle(double x, double y, double u, double v, 
-				   double distance, double normal_x, double normal_y, Material &material) : bd(1), bd_type(0)
+				   double distance, Material &material) : bd(1), bd_type(0)
 {
 
 	///- give a new ID number

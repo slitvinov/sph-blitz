@@ -22,8 +22,7 @@ public:
 	///NOTE the particle mass and volume will be specified in initiation::VolumeMass(w)
 	Particle(Vec2d position, double velocity[2], double density, double pressure, double temperature, Material &material);
 	///construct a wall particle
-	Particle(double x, double y, double u, double v, 
-			 double distance, double normal_x, double normal_y, Material &material);
+	Particle(double x, double y, double u, double v, double distance, Material &material);
 	
 	///ghost particle creator
 	Particle(Particle &RealParticle);
