@@ -1,31 +1,18 @@
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <cmath>
+#include <tgmath.h>
 #include <cstring>
-
-#include <cstdio>
-#include <cstdlib>
-
-// ***** localincludes *****
 #include "vec2d.h"
-#include "glbfunc.h"
 #include "dllist.h"
 #include "quinticspline.h"
 #include "particlemanager.h"
 #include "hydrodynamics.h"
 #include "particle.h"
-
 #include "initiation.h"
-
 
 using namespace std;
 
-//----------------------------------------------------------------------------------------
-//							constructor
-//----------------------------------------------------------------------------------------
 Initiation::Initiation(const char *project_name) {
-	
     char Key_word[FILENAME_MAX];
 
     //the project name
