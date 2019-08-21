@@ -1,37 +1,19 @@
 class Material;
 class Initiation;
 
-/// Particle class 
 class Particle {
 public:
-	///\brief construct a real particle
-	///NOTE the particle mass and volume will be specified in initiation::VolumeMass(w)
 	Particle(double position[2], double velocity[2], double density, double pressure, double temperature, Material &material);
-	///construct a wall particle
 	Particle(double x, double y, double u, double v, Material &material);
-	
-	///ghost particle creator
 	Particle(Particle &RealParticle);
-	///Mirror image particle creator
 	Particle(Particle &RealParticle, Material &material);
-
-	///deconstructor particle
 	~Particle();
 	
-	///particle states copier for boundary particles
 	void StatesCopier(Particle &RealParticle, int type);
-
-
-	int cell_i;///<i-position in cells
-        int cell_j; ///<j-position in cells
-	
-	///pointer to the material
+	int cell_i;
+        int cell_j;
 	Material *mtl; 
-
-	///pointer to a real particle
 	Particle *rl_prtl;
-
-	//Physical data
 	double R[2];///<position
         double P[2];///<momentum
         double U[2]; ///<velocityy
@@ -84,8 +66,6 @@ public:
 	///- an ghost particle (for perodic boundary condition)
 	///has a negtive ID of its corresponding real particle
 	long ID; 
-	
-	///maximum ID number for non-ghost particles (real or wall particles) in the simulation
 	static long ID_max;
 };
 
