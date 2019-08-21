@@ -20,6 +20,7 @@ quinticspline.o\
 sph.o\
 timesolver.o\
 volume.o\
+vv.o\
 wiener.o\
 
 sph: $O
