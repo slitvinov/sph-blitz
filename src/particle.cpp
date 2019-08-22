@@ -40,13 +40,14 @@ Particle::~Particle()
 Particle::Particle(double position[2], double velocity[2], double density, double pressure, double temperature, Material *material)
 {
     int i, j;
-    bd = 0;
-    bd_type = 0;
     particle_ID_max++;
 
+    bd = 0;
+    bd_type = 0;
     ID = particle_ID_max;
     mtl = material;
-    eta = mtl->eta; zeta = mtl->zeta;
+    eta = mtl->eta;
+    zeta = mtl->zeta;
     R[X] = position[X];
     R[Y] = position[Y];
     rho = density;
