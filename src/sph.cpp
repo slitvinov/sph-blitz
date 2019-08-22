@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
     Hydrodynamics hydro(&particles, &ini); 
     particles.BuildRealParticles(hydro, ini);
     Boundary boundary(&ini, &hydro, &particles);
-    TimeSolver timesolver(ini);
+    TimeSolver timesolver(&ini);
     Output output(ini);
     VolumeMass(hydro, particles, weight_function); 
     boundary.BoundaryCondition(&particles); 

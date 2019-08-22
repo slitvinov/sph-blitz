@@ -10,17 +10,15 @@
 #include "timesolver.h"
 using namespace std;
 enum {X, Y};
-TimeSolver::TimeSolver(Initiation &ini)
+TimeSolver::TimeSolver(Initiation *ini)
 {
-    cell_size = ini.cell_size;
-    box_size[X] = ini.box_size[X];
-    box_size[Y] = ini.box_size[Y];	
-    smoothinglength = ini.smoothinglength;
+    cell_size = ini->cell_size;
+    box_size[X] = ini->box_size[X];
+    box_size[Y] = ini->box_size[Y];
+    smoothinglength = ini->smoothinglength;
     ite = 0;
 }
-void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary,
-					double &Time, double D_time, Diagnose &diagnose,
-					Initiation &ini, QuinticSpline &weight_function, MLS &mls)
+void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary, double &Time, double D_time, Diagnose &diagnose, Initiation &ini, QuinticSpline &weight_function, MLS &mls)
 {
     double integeral_time = 0.0;
     while(integeral_time < D_time) {
@@ -50,7 +48,7 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
 	hydro.UpdatePhaseGradient(&boundary);
 	boundary.BoundaryCondition(&particles);
 	hydro.UpdateSurfaceStress(&boundary);
-	hydro.UpdateChangeRate(); 
+	hydro.UpdateChangeRate();
 	hydro.UpdateRandom(sqrt(dt));
 	hydro.Corrector_summation(dt);
 	hydro.RandomEffects();

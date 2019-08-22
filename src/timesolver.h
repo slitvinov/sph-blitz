@@ -1,9 +1,3 @@
-/// \file timesolver.h 
-/// \brief Time solver class
-///
-///provides methods that iterate over one output time interval (D_time) either with the summation density approach or with the continuity density approach
-//-----------------------------------------------------------------------
-
 class Initiation;
 class Hydrodynamics;
 class ParticleManager;
@@ -11,25 +5,13 @@ class Boundary;
 class QuinticSpline;
 class Diagnose;
 class MLS;
-/// Time solver class 
 class TimeSolver{
-
-	//parameters copied from initiation
-	double cell_size;///<will be copied from initiation
-	double box_size[2];///<will be copied from initiation
-	double smoothinglength;///<will be copied from initiation
-
-	int ite; ///<number of iteration
-	double dt; ///<time step
-
+	double cell_size;
+	double box_size[2];
+	double smoothinglength;
+	int ite;
+	double dt;
 public:
-	
-	///constructor
-	explicit TimeSolver(Initiation &ini);
-	
-	///advance time interval D_time with summation for density
-	void TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary, double &Time, double D_time, Diagnose &diagnose,
-				   Initiation &ini, QuinticSpline &weight_function, MLS &mls);
-
+	explicit TimeSolver(Initiation *ini);
+	void TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &particles, Boundary &boundary, double &Time, double D_time, Diagnose &diagnose, Initiation &ini, QuinticSpline &weight_function, MLS &mls);
 };
-
