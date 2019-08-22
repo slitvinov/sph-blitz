@@ -51,11 +51,11 @@ Boundary::Boundary(Initiation *ini, Hydrodynamics *hydro, ParticleManager *q)
 }
 void Boundary::show_information(void)
 {
-    printf("The left, right, lower and upper boundary %d %d %d %d", xBl, xBr, yBd, yBu);
+    printf("The left, right, lower and upper boundary %d %d %d %d\n", xBl, xBr, yBd, yBu);
     puts("0: wall boundary condition");
-    puts("1: perodic boundary condition\n");
-    puts("2: free slip wall boundary condition\n");
-    puts("3: symmetry boundary condition\n");
+    puts("1: perodic boundary condition");
+    puts("2: free slip wall boundary condition");
+    puts("3: symmetry boundary condition");
 }
 void Boundary::RunAwayCheck(Hydrodynamics *hydro)
 {
