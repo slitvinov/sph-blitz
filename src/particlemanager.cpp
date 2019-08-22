@@ -21,6 +21,7 @@ enum {X, Y};
 
 #define NEW_BND(x, y, mtl) new Particle(x, y, mtl)
 #define NEW(pos, vel, den, pre, tem, mtl) new Particle(pos, vel, den, pre, tem, mtl)
+#define LIST LlistNode<Particle>
 
 ParticleManager::ParticleManager(Initiation &ini)
 {
@@ -55,7 +56,7 @@ void ParticleManager::UpdateCellLinkedLists()
   int k, m;
   for(i = 0; i < x_clls; i++) {
     for(j = 0; j < y_clls; j++) {
-      LlistNode<Particle> *p = cell_lists[i][j].first();
+      LIST *p = cell_lists[i][j].first();
       while(!cell_lists[i][j].isEnd(p)) {
 	Particle *prtl = cell_lists[i][j].retrieve(p);
 	if(prtl->bd == 0) {
@@ -84,7 +85,7 @@ void ParticleManager::BuildNNP(double point[2])
   for(i = k - 1; i <= k + 1; i++) {
     for(j = m - 1; j <= m + 1; j++) {
       if(i < x_clls && j < y_clls && i >= 0 && j >= 0) {
-	for (LlistNode<Particle> *p = cell_lists[i][j].first();
+	for (LIST *p = cell_lists[i][j].first();
 	     !cell_lists[i][j].isEnd(p);
 	     p = cell_lists[i][j].next(p)) {
 	  Particle *prtl = cell_lists[i][j].retrieve(p);
@@ -109,7 +110,7 @@ void ParticleManager::BuildNNP_MLSMapping(double point[2])
   for(i = k - 1; i <= k + 1; i++) {
     for(j = m - 1; j <= m + 1; j++) {
       if(i < x_clls && j < y_clls && i >= 0 && j >= 0) {
-	for (LlistNode<Particle> *p = cell_lists[i][j].first();
+	for (LIST *p = cell_lists[i][j].first();
 	     !cell_lists[i][j].isEnd(p);
 	     p = cell_lists[i][j].next(p)) {
 	  Particle *prtl = cell_lists[i][j].retrieve(p);
@@ -134,7 +135,7 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
     int i, j, k, m;
     double dstc;
     int current_used = 0;
-    for (LlistNode<Particle> *p = particle_list.first();
+    for (LIST *p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
       Particle *prtl_org = particle_list.retrieve(p);
@@ -143,7 +144,7 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
 	j = int ((prtl_org->R[1] + cll_sz)/ cll_sz);
 	for(k = i - 1; k <= i + 1; k++)
 	  for(m = j - 1; m <= j + 1; m++) {
-	    for (LlistNode<Particle> *p1 = cell_lists[k][m].first();
+	    for (LIST *p1 = cell_lists[k][m].first();
 		 !cell_lists[k][m].isEnd(p1);
 		 p1 = cell_lists[k][m].next(p1)) {
 	      Particle *prtl_dest = cell_lists[k][m].retrieve(p1);

@@ -15,6 +15,7 @@
 #include "particlemanager.h"
 #include "output.h"
 using namespace std;
+#define LIST LlistNode<Particle>
 Output::Output(Initiation &ini)
 {
     strcpy(Project_name, ini.Project_name);
@@ -39,7 +40,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,  double T
     out<<"variables=x, y, Ux, Uy \n";
     for(i = 0; i < number_of_materials; i++) {
 	j = 0;
-	for (LlistNode<Particle> *p = hydro.particle_list.first(); 
+	for (LIST *p = hydro.particle_list.first(); 
 	     !hydro.particle_list.isEnd(p); 
 	     p = hydro.particle_list.next(p)) {
 	    prtl = hydro.particle_list.retrieve(p);
@@ -49,7 +50,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,  double T
 		out<<prtl->R[0]<<"  "<<prtl->R[1] <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
 	    }
 	}
-	for (LlistNode<Particle> *p1 = boundary.b.first(); 
+	for (LIST *p1 = boundary.b.first(); 
 	     !boundary.b.isEnd(p1); 
 	     p1 = boundary.b.next(p1)) {
 	    prtl = boundary.b.retrieve(p1);
@@ -89,7 +90,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
 	    n = 0;
 	    rho = 0.0; phi = 0.0; pressure = 0.0; Temperature = 0.0;
 	    x_velocity = 0.0; y_velocity = 0.0;
-	    for (LlistNode<Particle> *p = particles.NNP_list.first(); 
+	    for (LIST *p = particles.NNP_list.first(); 
 		 !particles.NNP_list.isEnd(p); 
 		 p = particles.NNP_list.next(p)) {
 		prtl = particles.NNP_list.retrieve(p);
@@ -116,7 +117,7 @@ void Output::OutRestart(Hydrodynamics &hydro, double Time)
     strcat(outputfile,".rst");
     ofstream out(outputfile);
     n = 0;
-    for (LlistNode<Particle> *pp = hydro.particle_list.first(); 
+    for (LIST *pp = hydro.particle_list.first(); 
 	 !hydro.particle_list.isEnd(pp); 
 	 pp = hydro.particle_list.next(pp)) {
 	Particle *prtl = hydro.particle_list.retrieve(pp);
@@ -124,7 +125,7 @@ void Output::OutRestart(Hydrodynamics &hydro, double Time)
     }
     out<<Time<<"\n";
     out<<n<<"\n";
-    for (LlistNode<Particle> *p = hydro.particle_list.first(); 
+    for (LIST *p = hydro.particle_list.first(); 
 	 !hydro.particle_list.isEnd(p); 
 	 p = hydro.particle_list.next(p)) {
 	prtl = hydro.particle_list.retrieve(p);

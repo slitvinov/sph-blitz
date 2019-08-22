@@ -18,9 +18,10 @@ void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline 
     double reciprocV; //the inverse of volume or volume
     double dstc;
     double eij[2], sumdw[2];
+    LlistNode<Particle> *p, p1;
 
     /// <ul><li>iterate particles on the particle list
-    for (LlistNode<Particle> *p = hydro.particle_list.first(); 
+    for (p = hydro.particle_list.first(); 
 	 !hydro.particle_list.isEnd(p); 
 	 p = hydro.particle_list.next(p)) {
 					
@@ -31,7 +32,7 @@ void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline 
 
 	reciprocV = 0.0; sumdw[X] = sumdw[Y] = 0.0;
 	/// <li>iterate this Nearest Neighbor Particle list
-	for (LlistNode<Particle> *p1 = particles.NNP_list.first(); 
+	for (p1 = particles.NNP_list.first(); 
 	     !particles.NNP_list.isEnd(p1); 
 	     p1 = particles.NNP_list.next(p1)) {
 			

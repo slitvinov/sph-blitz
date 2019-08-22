@@ -20,6 +20,9 @@ class ParticleManager;
 #include "particle.h"
 #include "boundary.h"
 #include "hydrodynamics.h"
+
+#define LIST LlistNode<Particle>
+
 using namespace std;
 enum {X, Y};
 Hydrodynamics::Hydrodynamics(ParticleManager *particles, Initiation *ini)
@@ -164,10 +167,12 @@ void Hydrodynamics::UpdateRandom(double sqrtdt)
 }
 void Hydrodynamics::ZeroChangeRate()
 {
-    for (LlistNode<Particle> *p = particle_list.first();
+    LIST *p;
+    Particle *prtl;
+    for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-	Particle *prtl = particle_list.retrieve(p);
+	prtl = particle_list.retrieve(p);
 	prtl->dedt = 0.0;
 	prtl->drhodt = 0.0;
 	prtl->dUdt[X] = prtl->dUdt[Y] = 0.0;
@@ -176,16 +181,18 @@ void Hydrodynamics::ZeroChangeRate()
 }
 void Hydrodynamics::Zero_density()
 {
-    for (LlistNode<Particle> *p = particle_list.first();
+    LIST *p;
+    Particle *prtl;
+    for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-	Particle *prtl = particle_list.retrieve(p);
+	prtl = particle_list.retrieve(p);
 	prtl->rho = 0.0;
     }
 }
 void Hydrodynamics::Zero_ShearRate()
 {
-    LlistNode<Particle> *p;
+    LIST *p;
     Particle *prtl;
     for (p = particle_list.first();
 	 !particle_list.isEnd(p);
@@ -197,7 +204,7 @@ void Hydrodynamics::Zero_ShearRate()
 }
 void Hydrodynamics::Zero_PhaseGradient(Boundary *boundary)
 {
-    LlistNode<Particle> *p;
+    LIST *p;
     Particle *prtl;
     for (p = particle_list.first();
 	 !particle_list.isEnd(p);
@@ -214,7 +221,7 @@ void Hydrodynamics::Zero_PhaseGradient(Boundary *boundary)
 }
 void Hydrodynamics::Zero_Random()
 {
-    LlistNode<Particle> *p;
+    LIST *p;
     Particle *prtl;
     for (p = particle_list.first();
 	 !particle_list.isEnd(p);
@@ -225,7 +232,7 @@ void Hydrodynamics::Zero_Random()
 }
 void Hydrodynamics::AddGravity()
 {
-    LlistNode<Particle> *p;
+    LIST *p;
     Particle *prtl;
     for (p = particle_list.first();
 	 !particle_list.isEnd(p);
@@ -237,7 +244,7 @@ void Hydrodynamics::AddGravity()
 }
 void Hydrodynamics::UpdateState()
 {
-    LlistNode<Particle> *p;
+    LIST *p;
     for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
@@ -247,7 +254,7 @@ void Hydrodynamics::UpdateState()
 }
 void Hydrodynamics::UpdatePahseMatrix(Boundary *boundary)
 {
-    LlistNode<Particle> *p;
+    LIST *p;
     Particle *prtl;
     int i, j;
     for (p = particle_list.first();
@@ -274,7 +281,7 @@ void Hydrodynamics::UpdateSurfaceStress(Boundary *boundary)
     double epsilon =1.0e-30;
     double interm0, interm1, interm2;
     Particle *prtl;
-    LlistNode<Particle> *p;
+    LIST *p;
     for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
@@ -302,7 +309,7 @@ double Hydrodynamics::SurfaceTensionCoefficient()
     double totalvolume = 0.0;
     Particle *prtl;
     double interm1;
-    LlistNode<Particle> *p;
+    LIST *p;
     for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
@@ -316,7 +323,7 @@ double Hydrodynamics::SurfaceTensionCoefficient()
 void Hydrodynamics::UpdateVolume(ParticleManager *particles, QuinticSpline *weight_function)
 {
     double reciprocV;
-    LlistNode<Particle> *p, *p1;
+    LIST *p, *p1;
     Particle *prtl_org, *prtl_dest;
     for (p = particle_list.first();
 	 !particle_list.isEnd(p);
@@ -337,7 +344,7 @@ void Hydrodynamics::UpdateVolume(ParticleManager *particles, QuinticSpline *weig
 double Hydrodynamics::GetTimestep()
 {
     Particle *prtl;
-    LlistNode<Particle> *p;
+    LIST *p;
     double Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = 1.0;
     double dt;
     for (p = particle_list.first();
@@ -354,7 +361,7 @@ double Hydrodynamics::GetTimestep()
 }
 void Hydrodynamics::Predictor(double dt)
 {
-    LlistNode<Particle> *p;
+    LIST *p;
     Particle *prtl;
     for (p = particle_list.first();
 	 !particle_list.isEnd(p);
@@ -379,7 +386,7 @@ void Hydrodynamics::Predictor(double dt)
 }
 void Hydrodynamics::Corrector(double dt)
 {
-    LlistNode<Particle> *p;
+    LIST *p;
     Particle *prtl;    
     for (p = particle_list.first();
 	 !particle_list.isEnd(p);
@@ -394,7 +401,7 @@ void Hydrodynamics::Corrector(double dt)
 }
 void Hydrodynamics::Predictor_summation(double dt)
 {
-    LlistNode<Particle> *p;
+    LIST *p;
     Particle *prtl;
     for (p = particle_list.first();
 	 !particle_list.isEnd(p);
@@ -418,7 +425,7 @@ void Hydrodynamics::Predictor_summation(double dt)
 }
 void Hydrodynamics::Corrector_summation(double dt)
 {
-    LlistNode<Particle> *p;
+    LIST *p;
     Particle *prtl;    
     for (p = particle_list.first();
 	 !particle_list.isEnd(p);
@@ -434,7 +441,7 @@ void Hydrodynamics::Corrector_summation(double dt)
 }
 void Hydrodynamics::RandomEffects()
 {
-    LlistNode<Particle> *p;
+    LIST *p;
     Particle *prtl;
     for (p = particle_list.first();
 	 !particle_list.isEnd(p);

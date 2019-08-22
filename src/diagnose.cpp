@@ -24,6 +24,7 @@ class Boundary;
 #include "material.h"
 #include "diagnose.h"
 using namespace std;
+#define LIST LlistNode<Particle>
 Diagnose::Diagnose(Initiation &ini, Hydrodynamics &hydro)
 {
     int k, l, m;
@@ -48,7 +49,7 @@ Diagnose::Diagnose(Initiation &ini, Hydrodynamics &hydro)
         wght_v = new double [2*number_of_materials];
         ttl_m = 1.0e-40;
         for(k = 0; k < number_of_materials; k++) mtl_m[k] = 1.0e-40;
-        for (LlistNode<Particle> *p = hydro.particle_list.first();
+        for (LIST *p = hydro.particle_list.first();
              !hydro.particle_list.isEnd(p);
              p = hydro.particle_list.next(p)) {
             Particle *prtl = hydro.particle_list.retrieve(p);
@@ -73,7 +74,7 @@ Diagnose::Diagnose(Initiation &ini, Hydrodynamics &hydro)
 void Diagnose::SaveStates(Hydrodynamics &hydro)
 {
     int k;
-    LlistNode<Particle> *p = hydro.particle_list.first();
+    LIST *p = hydro.particle_list.first();
     for(k = 0; k < 1; k++) p = hydro.particle_list.next(p);
     Particle *prtl = hydro.particle_list.retrieve(p);
     double *p1 = new double;
@@ -148,7 +149,7 @@ void Diagnose::Average(ParticleManager &particles, MLS &mls, QuinticSpline &weig
             n = 0;
             rho = 0.0; pressure = 0.0; Temperature = 0.0;
             x_velocity = 0.0; y_velocity = 0.0;
-            for (LlistNode<Particle> *p = particles.NNP_list.first();
+            for (LIST *p = particles.NNP_list.first();
                  !particles.NNP_list.isEnd(p);
                  p = particles.NNP_list.next(p)) {
                 Particle *prtl = particles.NNP_list.retrieve(p);
@@ -208,7 +209,7 @@ void Diagnose::KineticInformation(double Time, Hydrodynamics &hydro)
         wght_v[2*k + X] = wght_v[2*k + Y] = 0.0;
     }
     glb_ave_Ek = 0.0;
-    for (LlistNode<Particle> *p = hydro.particle_list.first();
+    for (LIST *p = hydro.particle_list.first();
          !hydro.particle_list.isEnd(p);
          p = hydro.particle_list.next(p)) {
         Particle *prtl = hydro.particle_list.retrieve(p);
