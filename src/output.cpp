@@ -53,31 +53,27 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,  double T
 				
       Particle *prtl = hydro.particle_list.retrieve(p);
       if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) {
-	j ++;
-	if(j == 1) 	out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
-	out<<prtl->R[0]<<"  "<<prtl->R[1]
-	   <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
+	j++;
+	if(j == 1) out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
+	out<<prtl->R[0]<<"  "<<prtl->R[1] <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
       }
     }
 
     for (LlistNode<Particle> *p1 = boundary.boundary_particle_list.first(); 
 	 !boundary.boundary_particle_list.isEnd(p1); 
 	 p1 = boundary.boundary_particle_list.next(p1)) {
-				
-      Particle *prtl = boundary.boundary_particle_list.retrieve(p1);
-      if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) { 
-	j ++;
-	if(j == 1) 	out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
-	out<<prtl->R[0]<<"  "<<prtl->R[1]
-	   <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
-      }
+	Particle *prtl = boundary.boundary_particle_list.retrieve(p1);
+	if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) { 
+	    j++;
+	    if(j == 1) 	out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
+	    out<<prtl->R[0]<<"  "<<prtl->R[1]
+	       <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
+	}
     }
   }
-
 }
 
-void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, 
-			  double Time)
+void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, double Time)
 {
   int i, j, n;
   int gridx, gridy;
@@ -138,17 +134,14 @@ void Output::OutRestart(Hydrodynamics &hydro, double Time)
   for (LlistNode<Particle> *pp = hydro.particle_list.first(); 
        !hydro.particle_list.isEnd(pp); 
        pp = hydro.particle_list.next(pp)) {
-			
     Particle *prtl = hydro.particle_list.retrieve(pp);
-    if(prtl->bd == 0) n ++;
-						
+    if(prtl->bd == 0) n++;
   }
   out<<Time<<"\n";
   out<<n<<"\n";
   for (LlistNode<Particle> *p = hydro.particle_list.first(); 
        !hydro.particle_list.isEnd(p); 
        p = hydro.particle_list.next(p)) {
-				
     Particle *prtl = hydro.particle_list.retrieve(p);
     if(prtl->bd == 0) 
       out<<prtl->mtl->material_name<<"  "<<prtl->R[0]<<"  "<<prtl->R[1]<<"  "<<prtl->U[0]<<"  "<<prtl->U[1] <<"  "<<prtl->rho<<"  "<<prtl->p<<"  "<<prtl->T<< '\n';
