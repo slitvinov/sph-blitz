@@ -9,11 +9,11 @@ NR == 2 { print; next }
 {
     $1 = $1
     x = $2; y = $3
-    if (ellipse(x, y, z)) $1 = "Water"; else $1 = "Air"
+    if (ellipse(x, y)) $1 = "Water"; else $1 = "Air"
     $8 = T
     print
 }
-function ellipse(x, y, z) {
+function ellipse(x, y) {
     x -= x0; y -= y0
     return (x/a)^2 + (y/b)^2 < 1
 }
