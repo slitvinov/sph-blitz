@@ -187,10 +187,12 @@ void Hydrodynamics::Zero_density()
 void Hydrodynamics::Zero_ShearRate()
 {
     enum {X, Y};
-    for (LlistNode<Particle> *p = particle_list.first();
+    LlistNode<Particle> *p;
+    Particle *prtl;
+    for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-	Particle *prtl = particle_list.retrieve(p);
+	prtl = particle_list.retrieve(p);
 	prtl->ShearRate_x[X] = prtl->ShearRate_x[Y] = 0.0;
 	prtl->ShearRate_y[X] = prtl->ShearRate_y[Y] = 0.0;
     }
@@ -198,14 +200,15 @@ void Hydrodynamics::Zero_ShearRate()
 void Hydrodynamics::Zero_PhaseGradient(Boundary *boundary)
 {
     enum {X, Y};
+    LlistNode<Particle> *p;
     Particle *prtl;
-    for (LlistNode<Particle> *p = particle_list.first();
+    for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
 	prtl = particle_list.retrieve(p);
 	prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
     }
-    for (LlistNode<Particle> *p = boundary->b.first();
+    for (p = boundary->b.first();
 	 !boundary->b.isEnd(p);
 	 p = boundary->b.next(p)) {
 	Particle *prtl = boundary->b.retrieve(p);
@@ -235,7 +238,8 @@ void Hydrodynamics::AddGravity()
 }
 void Hydrodynamics::UpdateState()
 {
-    for (LlistNode<Particle> *p = particle_list.first();
+    LlistNode<Particle> *p;
+    for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
 	Particle *prtl = particle_list.retrieve(p);
@@ -244,7 +248,8 @@ void Hydrodynamics::UpdateState()
 }
 void Hydrodynamics::UpdatePahseMatrix(Boundary *boundary)
 {
-    for (LlistNode<Particle> *p = particle_list.first();
+    LlistNode<Particle> *p;
+    for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
 	Particle *prtl = particle_list.retrieve(p);
@@ -253,7 +258,7 @@ void Hydrodynamics::UpdatePahseMatrix(Boundary *boundary)
 		if( i != j) prtl->phi[i][j] = prtl->phi[i][j];
 	    }
     }
-    for (LlistNode<Particle> *p = boundary->b.first();
+    for (p = boundary->b.first();
 	 !boundary->b.isEnd(p);
 	 p = boundary->b.next(p)) {
 	Particle *prtl = boundary->b.retrieve(p);
@@ -294,11 +299,13 @@ double Hydrodynamics::SurfaceTensionCoefficient()
 {
     double coefficient = 0.0;
     double totalvolume = 0.0;
+    Particle *prtl;
+    double interm1;
     for (LlistNode<Particle> *p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-	Particle *prtl = particle_list.retrieve(p);
-	double interm1 = prtl->m/prtl->rho;
+	prtl = particle_list.retrieve(p);
+	interm1 = prtl->m/prtl->rho;
 	totalvolume += interm1;
 	coefficient += vv_sq(prtl->del_phi)*interm1;
     }
@@ -308,16 +315,17 @@ void Hydrodynamics::UpdateVolume(ParticleManager *particles, QuinticSpline *weig
 {
     double reciprocV;
     LlistNode<Particle> *p, *p1;
+    Particle *prtl_org, *prtl_dest;
     for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-	Particle *prtl_org = particle_list.retrieve(p);
+	prtl_org = particle_list.retrieve(p);
 	particles->BuildNNP(prtl_org->R);
 	reciprocV = 0.0;
 	for (p1 = particles->NNP_list.first();
 	     !particles->NNP_list.isEnd(p1);
 	     p1 = particles->NNP_list.next(p1)) {
-	    Particle *prtl_dest = particles->NNP_list.retrieve(p1);
+	    prtl_dest = particles->NNP_list.retrieve(p1);
 	    reciprocV += w(weight_function, vv_distance(prtl_org->R, prtl_dest->R));
 	}
 	prtl_org->V = 1.0/reciprocV;
