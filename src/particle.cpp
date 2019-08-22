@@ -173,29 +173,29 @@ Particle::Particle(Particle *q, Material *material)
 void Particle::StatesCopier(Particle *q, int type)
 {
     int i, j;
-    R[X] = q->R[X];
-    R[Y] = q->R[Y];
-    m = q->m;
-    rho = q->rho;
-    V = q->V;
-    p = q->p;
-    T = q->T;
-    rho_I = q->rho_I;
-    Cs =q->Cs;
-    U[X] = q->U[X];
-    U[Y] = q->U[Y];
-    U_I[X] = q->U_I[X];
-    U_I[Y] = q->U_I[Y];
-    ShearRate_x[X] = q->ShearRate_x[X];
-    ShearRate_x[Y] = q->ShearRate_x[Y];
-    ShearRate_y[X] = q->ShearRate_y[X];
-    ShearRate_y[Y] = q->ShearRate_y[Y];
+    A(R[X]);
+    A(R[Y]);
+    A(m);
+    A(rho);
+    A(V);
+    A(p);
+    A(T);
+    A(rho_I);
+    A(Cs);
+    A(U[X]);
+    A(U[Y]);
+    A(U_I[X]);
+    A(U_I[Y]);
+    A(ShearRate_x[X]);
+    A(ShearRate_x[Y]);
+    A(ShearRate_y[X]);
+    A(ShearRate_y[Y]);
     if (type == 1 ) {
-	del_phi[X] = q->del_phi[X];
-	del_phi[Y] = q->del_phi[Y];
+	A(del_phi[X]);
+	A(del_phi[Y]);
 	for(i = 0; i < particle_number_of_materials; i++) {
 	    for(j = 0; j < particle_number_of_materials; j++) {
-		phi[i][j] = q->phi[i][j];
+		A(phi[i][j]);
 	    }
 	}
     }
