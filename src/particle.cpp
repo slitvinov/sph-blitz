@@ -41,6 +41,7 @@ Particle::Particle(double position[2], double velocity[2], double density, doubl
 {
     int i, j;
     bd = 0;
+    bd_type = 0;
     particle_ID_max++;
 
     ID = particle_ID_max;
