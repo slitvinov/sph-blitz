@@ -48,6 +48,7 @@ int main(int argc, char *argv[]) {
     MLS mls(ini.MLS_MAX); ///- initiate the Moving Least Squares approximation
     ParticleManager particles(ini);
     Hydrodynamics hydro(particles, ini); ///- create materials, forces and real particles
+    particles.BuildRealParticles(hydro, ini);
     Boundary boundary(ini, hydro, particles);
     TimeSolver timesolver(ini);
     Output output(ini);

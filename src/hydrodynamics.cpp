@@ -125,9 +125,6 @@ Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
   for(k = 0; k < number_of_materials; k++)
     Set_b0(&materials[k], sound);
 
-  ///<li>biuld the real particles
-  particles.BuildRealParticles(*this, ini);
-
 }
 
 //----------------------------------------------------------------------------------------
