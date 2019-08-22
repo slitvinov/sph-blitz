@@ -8,7 +8,6 @@ bool List::isEnd(ListNode *p) { return (p->next == node); }
 ListNode *List::first() { return node; }
 ListNode *List::next(ListNode *p)     { return p->next; }
 Particle *List::retrieve(ListNode *p)    { return p->next->data; }
-int List::length()                   { return len; }
 void List::insert(ListNode *p, Particle *d) {
     len++;
     p->next = new ListNode(d, p->next);

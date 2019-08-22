@@ -19,7 +19,6 @@ public:
     ListNode *first();
     ListNode *next(ListNode *p);
     Particle *retrieve(ListNode *p);
-    int length();
     void insert(ListNode *p, Particle *d);
     void remove(ListNode *p);
     void clear();
