@@ -316,46 +316,6 @@ double Hydrodynamics::GetTimestep()
     dt = AMIN1(sqrt(0.5*(rho_min + rho_max))*dt_surf, dt_g_vis);
     return  0.25*AMIN1(dt, delta/(Cs_max + V_max));
 }
-void Hydrodynamics::Predictor(double dt)
-{
-    LIST *p;
-    Particle *prtl;
-    for (p = particle_list.first();
-	 !particle_list.isEnd(p);
-	 p = particle_list.next(p)) {
-	prtl = particle_list.retrieve(p);
-	prtl->R_I[X] = prtl->R[X];
-	prtl->R_I[Y] = prtl->R[Y];
-	prtl->rho_I = prtl->rho;
-	prtl->U_I[X] = prtl->U[X];
-	prtl->U_I[Y] = prtl->U[Y];
-	prtl->R[X] = prtl->R[X] + prtl->U[X]*dt;
-	prtl->R[Y] = prtl->R[Y] + prtl->U[Y]*dt;
-	prtl->rho = prtl->rho + prtl->drhodt*dt;
-	prtl->U[X] = prtl->U[X] + prtl->dUdt[X]*dt;
-	prtl->U[Y] = prtl->U[Y] + prtl->dUdt[Y]*dt;
-	prtl->R[X] = (prtl->R[X] + prtl->R_I[X])*0.5;
-	prtl->R[Y] = (prtl->R[Y] + prtl->R_I[Y])*0.5;
-	prtl->rho = (prtl->rho + prtl->rho_I)*0.5;
-	prtl->U[X] = (prtl->U[X] + prtl->U_I[X])*0.5;
-	prtl->U[Y] = (prtl->U[Y] + prtl->U_I[Y])*0.5;
-    }
-}
-void Hydrodynamics::Corrector(double dt)
-{
-    LIST *p;
-    Particle *prtl;    
-    for (p = particle_list.first();
-	 !particle_list.isEnd(p);
-	 p = particle_list.next(p)) {
-	prtl = particle_list.retrieve(p);
-	prtl->R[X] = prtl->R_I[X] + prtl->U[X]*dt;
-	prtl->R[Y] = prtl->R_I[Y] + prtl->U[Y]*dt;
-	prtl->rho = prtl->rho + prtl->drhodt*dt;
-	prtl->U[X] = prtl->U_I[X] + prtl->dUdt[X]*dt;
-	prtl->U[Y] = prtl->U_I[Y] + prtl->dUdt[Y]*dt;
-    }
-}
 void Hydrodynamics::Predictor_summation(double dt)
 {
     LIST *p;

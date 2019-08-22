@@ -35,8 +35,6 @@ struct Hydrodynamics
 	void UpdatePahseMatrix(Boundary *boundary);
 	void UpdateState();
 	void UpdateVolume(ParticleManager *particles, QuinticSpline *weight_function);
-	void Predictor(double dt);
-	void Corrector(double dt);
 	void Predictor_summation(double dt);
 	void Corrector_summation(double dt);
 	void Zero_Random();
