@@ -8,8 +8,9 @@
 #include "glbfunc.h"
 #include "vv.h"
 #include "initiation.h"
-#include "dllist.h"
 #include "particle.h"
+#include "dllist.h"
+#include "list.h"
 #include "interaction.h"
 #include "hydrodynamics.h"
 #include "material.h"
@@ -21,7 +22,7 @@ enum {X, Y};
 
 #define NEW_BND(x, y, mtl) new Particle(x, y, mtl)
 #define NEW(pos, vel, den, pre, tem, mtl) new Particle(pos, vel, den, pre, tem, mtl)
-#define LIST LlistNode<Particle>
+#define LIST ListNode
 
 ParticleManager::ParticleManager(Initiation &ini)
 {
@@ -45,8 +46,8 @@ ParticleManager::ParticleManager(Initiation &ini)
     p0 = ini.p0;
     T0 = ini.T0;
   }
-  cell_lists = new Llist<Particle>*[x_clls];
-  for(i = 0; i < x_clls; i++) cell_lists[i] = new Llist<Particle>[y_clls];
+  cell_lists = new List*[x_clls];
+  for(i = 0; i < x_clls; i++) cell_lists[i] = new List[y_clls];
 
 }
 void ParticleManager::UpdateCellLinkedLists()
@@ -124,7 +125,7 @@ void ParticleManager::BuildNNP_MLSMapping(double point[2])
   }
 }
 
-void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<Particle> &particle_list,
+void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, List &particle_list,
 				       Force **forces, QuinticSpline &weight_function)
 {
   LlistNode<Interaction> *current = interactions.first();

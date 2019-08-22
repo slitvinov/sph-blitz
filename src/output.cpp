@@ -4,18 +4,19 @@
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
+#include "particle.h"
 #include "glbfunc.h"
+#include "list.h"
 #include "dllist.h"
 #include "mls.h"
 #include "initiation.h"
 #include "hydrodynamics.h"
 #include "material.h"
-#include "particle.h"
 #include "boundary.h"
 #include "particlemanager.h"
 #include "output.h"
 using namespace std;
-#define LIST LlistNode<Particle>
+#define LIST ListNode
 Output::Output(Initiation &ini)
 {
     strcpy(Project_name, ini.Project_name);

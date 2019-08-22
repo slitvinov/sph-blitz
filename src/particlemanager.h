@@ -25,12 +25,12 @@ class ParticleManager
 public:
   int x_clls;
   int y_clls;
-  Llist<Particle> **cell_lists;
-  Llist<Particle> NNP_list;
+  List **cell_lists;
+  List NNP_list;
   explicit ParticleManager(Initiation&);
   void BuildRealParticles(Hydrodynamics&, Initiation&);
   void UpdateCellLinkedLists();
   void BuildNNP(double[2]);
   void BuildNNP_MLSMapping(double[2]);
-  void BuildInteraction(Llist<Interaction>&, Llist<Particle>&, Force**, QuinticSpline&);
+  void BuildInteraction(Llist<Interaction>&, List&, Force**, QuinticSpline&);
 };

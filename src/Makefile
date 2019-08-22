@@ -11,6 +11,7 @@ glbfunc.o\
 hydrodynamics.o\
 initiation.o\
 interaction.o\
+list.o\
 material.o\
 mls.o\
 output.o\

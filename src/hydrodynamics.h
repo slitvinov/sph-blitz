@@ -18,7 +18,7 @@ struct Hydrodynamics
 	double  surface_max;
 	Material *materials;
 	Force **forces;
-	Llist<Particle> particle_list; 
+	List particle_list; 
 	Hydrodynamics(ParticleManager *particles, Initiation *ini);
 	double GetTimestep();
 	void BuildPair(ParticleManager *particles, QuinticSpline *weight_function);

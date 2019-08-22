@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include "particle.h"
 #include "vv.h"
 #include "dllist.h"
+#include "list.h"
 #include "quinticspline.h"
 #include "particlemanager.h"
 #include "hydrodynamics.h"
-#include "particle.h"
 #include "volume.h"
 void VolumeMass(Hydrodynamics *hydro, ParticleManager *particles, QuinticSpline *weight_function)
 {
@@ -14,7 +15,7 @@ void VolumeMass(Hydrodynamics *hydro, ParticleManager *particles, QuinticSpline 
     double reciprocV;
     double dstc;
     double eij[2], sumdw[2];
-    LlistNode<Particle> *p, *p1;
+    ListNode *p, *p1;
     Particle *prtl_org, *prtl_dest;
     for (p = hydro->particle_list.first();
 	 !hydro->particle_list.isEnd(p);

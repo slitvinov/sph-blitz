@@ -4,11 +4,12 @@
 #include <string.h>
 #include <math.h>
 struct QuinticSpline;
+#include "particle.h"
 #include "dllist.h"
+#include "list.h"
 #include "hydrodynamics.h"
 #include "initiation.h"
 #include "particlemanager.h"
-#include "particle.h"
 #include "material.h"
 #include "boundary.h"
 enum {X, Y};
@@ -21,7 +22,7 @@ using namespace std;
 	    abort();				\
 	prtl->StatesCopier(prtl->rl_prtl, t);	\
     } while (0)
-#define LIST LlistNode<Particle>
+#define LIST ListNode
 
 Boundary::Boundary(Initiation *ini, Hydrodynamics *hydro, ParticleManager *q)
 {
@@ -144,7 +145,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     int i, j;
     Particle *prtl, *prtl_old;
     int kb, ku, mb, mu;
-    Llist<Particle> **c;
+    List **c;
     LIST *p;
 
     c = q->cell_lists;
@@ -472,7 +473,7 @@ void Boundary::BoundaryCondition(ParticleManager *q)
     int kb, ku, mb, mu;
     Particle *prtl;
     LIST *p;
-    Llist<Particle> **c;
+    List **c;
 
     c = q->cell_lists;
     kb = 0; mb = x_clls;

@@ -1,36 +1,24 @@
-class List;
-class ListNode {
-    friend class List;
-private:
-    Particle *data;
-    ListNode *next;
-    ListNode()                         { data = 0; next = this; }
-    ListNode(Particle *d, ListNode *n)    { data = d; next = n; }
-};
+#include "particle.h"
+#include "list.h"
+ListNode::ListNode()                         { data = 0; next = this; }
+ListNode::ListNode(Particle *d, ListNode *n)    { data = d; next = n; }
+List::List() { node = new ListNode; len = 0; }
+bool List::empty() { return (node == node->next); }
+bool List::isEnd(ListNode *p) { return (p->next == node); }
+ListNode *List::first() { return node; }
+ListNode *List::next(ListNode *p)     { return p->next; }
+Particle *List::retrieve(ListNode *p)    { return p->next->data; }
+int List::length()                   { return len; }
+void List::insert(ListNode *p, Particle *d) {
+    len++;
+    p->next = new ListNode(d, p->next);
+}
+void List::remove(ListNode *p)	{ ListNode *t = p->next; p->next = t->next;
+    delete t; len--; }
+void List::clear() {while (!empty()) remove(first());
+    len = 0; }
+void List::clear_data()  {while (!empty()) { delete retrieve(first()); remove(first()); }
+    len = 0; }
+List::~List() { while (!empty()) remove(first());
+    delete node; }
 
-class List {
-private:
-    int len;
-    ListNode *node;
-
-public:
-    List() { node = new ListNode; len = 0; }
-    bool empty() const { return (node == node->next); }
-    bool isEnd(ListNode *p) const { return (p->next == node); }
-    ListNode *first() const { return node; }
-    ListNode *next(ListNode *p) const     { return p->next; }
-    Particle *retrieve(ListNode *p) const    { return p->next->data; }
-    int length() const                  { return len; }
-    void insert(ListNode *p, Particle *d) {
-	len++;
-	p->next = new ListNode(d, p->next);
-    }
-    void remove(ListNode *p)	{ ListNode *t = p->next; p->next = t->next;
-	delete t; len--; }
-    void clear() {while (!empty()) remove(first());
-	len = 0; }
-    void clear_data()  {while (!empty()) { delete retrieve(first()); remove(first()); }
-	len = 0; }
-    ~List() { while (!empty()) remove(first());
-	delete node; }
-};

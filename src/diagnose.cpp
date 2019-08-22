@@ -14,17 +14,18 @@ class Interaction;
 class Force;
 class Boundary;
 #include "glbfunc.h"
+#include "particle.h"
 #include "dllist.h"
+#include "list.h"
 #include "vv.h"
 #include "initiation.h"
-#include "particle.h"
 #include "hydrodynamics.h"
 #include "mls.h"
 #include "particlemanager.h"
 #include "material.h"
 #include "diagnose.h"
 using namespace std;
-#define LIST LlistNode<Particle>
+#define LIST ListNode
 Diagnose::Diagnose(Initiation &ini, Hydrodynamics &hydro)
 {
     int k, l, m;

@@ -10,18 +10,19 @@ class ParticleManager;
 #include "vv.h"
 #include "glbfunc.h"
 #include "quinticspline.h"
+#include "particle.h"
 #include "dllist.h"
+#include "list.h"
 #include "wiener.h"
 #include "initiation.h"
 #include "material.h"
 #include "force.h"
 #include "interaction.h"
 #include "particlemanager.h"
-#include "particle.h"
 #include "boundary.h"
 #include "hydrodynamics.h"
 
-#define LIST LlistNode<Particle>
+#define LIST ListNode
 
 using namespace std;
 enum {X, Y};
