@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "vv.h"
 #include "glbfunc.h"
 #include "material.h"
 #include "particle.h"
