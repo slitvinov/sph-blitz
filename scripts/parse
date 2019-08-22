@@ -1,0 +1,57 @@
+awk '
+BEGIN {
+     VAR = "[a-zA-Z_][a-zA-Z0-9_]*"
+     SPACE = "[\\t ]*"
+     OPEN = "\\["
+     CLOSE = "\\]"
+     EQ = "="
+     QDOT = "q\\->"
+}
+
+/q\->/ {
+      idx = idx1 = "NONE"
+      s = $0
+      nxt(SPACE)
+      tab = t
+      nxt(VAR); var = t
+      if (nxt(OPEN)) {
+         nxt(SPACE)
+         nxt(VAR); idx = t
+         nxt(SPACE)
+         if (!nxt(CLOSE))
+            err("no ] : " $0)
+      }
+      nxt(SPACE)
+      nxt(EQ)
+      nxt(SPACE)
+      nxt(QDOT)
+      nxt(VAR); var1 = t
+      if (nxt(OPEN)) {
+         nxt(SPACE)
+         nxt(VAR); idx1 = t
+         nxt(SPACE)
+         if (!nxt(CLOSE))
+            err("no ] : " $0)
+      }
+
+      A = var (idx == "NONE" ? "" : "[" idx "]")
+      print tab "B(" A ");"
+      next
+}
+{
+        print
+}
+
+function nxt(p,   i) {
+      i = match(s, "^" p)
+      t = substr(s, RSTART, RLENGTH)
+      s = substr(s, RSTART + RLENGTH)
+      return i
+}
+
+function err(s) {
+         print s | "cat >&2"
+         exit(2)
+}
+
+' "$@"
