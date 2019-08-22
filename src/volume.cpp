@@ -18,7 +18,7 @@ void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline 
     double reciprocV; //the inverse of volume or volume
     double dstc;
     double eij[2], sumdw[2];
-    LlistNode<Particle> *p, p1;
+    LlistNode<Particle> *p, *p1;
 
     /// <ul><li>iterate particles on the particle list
     for (p = hydro.particle_list.first(); 
