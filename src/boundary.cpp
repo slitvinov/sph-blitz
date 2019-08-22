@@ -16,6 +16,7 @@ using namespace std;
 
 #define A prtl = new Particle(prtl_old, &hydro.materials[0])
 #define B prtl = new Particle(*prtl_old)
+#define C(t) prtl->StatesCopier(prtl->rl_prtl, t)
 
 Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &q)
 {
@@ -480,7 +481,7 @@ void Boundary::BoundaryCondition(ParticleManager &q)
 	   !c[X][j].isEnd(p);
 	   p = c[X][j].next(p)) {
 	prtl = c[X][j].retrieve(p);
-	prtl->StatesCopier(prtl->rl_prtl, 0);
+	C(0);
 	Boundary_W(prtl);
       }
     }
@@ -489,7 +490,7 @@ void Boundary::BoundaryCondition(ParticleManager &q)
 	   !c[X][j].isEnd(p);
 	   p = c[X][j].next(p)) {
 	prtl = c[X][j].retrieve(p);
-	prtl->StatesCopier(prtl->rl_prtl, 1);
+	C(1);
 	Boundary_W(prtl);
       }
     }
@@ -498,7 +499,7 @@ void Boundary::BoundaryCondition(ParticleManager &q)
 	   !c[x_clls - 1][j].isEnd(p);
 	   p = c[x_clls - 1][j].next(p)) {
 	prtl = c[x_clls - 1][j].retrieve(p);
-	prtl->StatesCopier(prtl->rl_prtl, 0);
+	C(0);
 	Boundary_E(prtl);
       }
     }
@@ -507,7 +508,7 @@ void Boundary::BoundaryCondition(ParticleManager &q)
 	   !c[x_clls - 1][j].isEnd(p);
 	   p = c[x_clls - 1][j].next(p)) {
 	prtl = c[x_clls - 1][j].retrieve(p);
-	prtl->StatesCopier(prtl->rl_prtl, 1);
+	C(1);
 	Boundary_E(prtl);
       }
     }
@@ -518,7 +519,7 @@ void Boundary::BoundaryCondition(ParticleManager &q)
 	   !c[i][0].isEnd(p);
 	   p = c[i][0].next(p)) {
 	prtl = c[i][0].retrieve(p);
-	prtl->StatesCopier(prtl->rl_prtl, 0);
+	C(0);
 	Boundary_S(prtl);
       }
     }
@@ -527,7 +528,7 @@ void Boundary::BoundaryCondition(ParticleManager &q)
 	   !c[i][0].isEnd(p);
 	   p = c[i][0].next(p)) {
 	prtl = c[i][0].retrieve(p);
-	prtl->StatesCopier(prtl->rl_prtl, 1);
+	C(1);
 	Boundary_S(prtl);
       }
     }
@@ -538,7 +539,7 @@ void Boundary::BoundaryCondition(ParticleManager &q)
 	   !c[i][y_clls - 1].isEnd(p);
 	   p = c[i][y_clls - 1].next(p)) {
 	prtl = c[i][y_clls - 1].retrieve(p);
-	prtl->StatesCopier(prtl->rl_prtl, 0);
+	C(0);
 	Boundary_N(prtl);
       }
     }
@@ -547,7 +548,7 @@ void Boundary::BoundaryCondition(ParticleManager &q)
 	   !c[i][y_clls - 1].isEnd(p);
 	   p = c[i][y_clls - 1].next(p)) {
 	prtl = c[i][y_clls - 1].retrieve(p);
-	prtl->StatesCopier(prtl->rl_prtl, 1);
+	C(1);
 	Boundary_N(prtl);
       }
     }
@@ -557,7 +558,7 @@ void Boundary::BoundaryCondition(ParticleManager &q)
 	 !c[X][0].isEnd(p);
 	 p = c[X][0].next(p)) {
       prtl = c[X][0].retrieve(p);
-      prtl->StatesCopier(prtl->rl_prtl, 0);
+      C(0);
       Boundary_SW(prtl);
     }
   }
@@ -566,7 +567,7 @@ void Boundary::BoundaryCondition(ParticleManager &q)
 	 !c[X][0].isEnd(p);
 	 p = c[X][0].next(p)) {
       prtl = c[X][0].retrieve(p);
-      prtl->StatesCopier(prtl->rl_prtl, 1);
+      C(1);
       Boundary_SW(prtl);
     }
   }
@@ -575,7 +576,7 @@ void Boundary::BoundaryCondition(ParticleManager &q)
 	 !c[X][y_clls - 1].isEnd(p);
 	 p = c[X][y_clls - 1].next(p)) {
       prtl = c[X][y_clls - 1].retrieve(p);
-      prtl->StatesCopier(prtl->rl_prtl, 0);
+      C(0);
       Boundary_NW(prtl);
     }
   }
@@ -584,7 +585,7 @@ void Boundary::BoundaryCondition(ParticleManager &q)
 	 !c[X][y_clls - 1].isEnd(p);
 	 p = c[X][y_clls - 1].next(p)) {
       prtl = c[X][y_clls - 1].retrieve(p);
-      prtl->StatesCopier(prtl->rl_prtl, 1);
+      C(1);
       Boundary_NW(prtl);
     }
   }
@@ -593,7 +594,7 @@ void Boundary::BoundaryCondition(ParticleManager &q)
 	 !c[x_clls - 1][y_clls - 1].isEnd(p);
 	 p = c[x_clls - 1][y_clls - 1].next(p)) {
       prtl = c[x_clls - 1][y_clls - 1].retrieve(p);
-      prtl->StatesCopier(prtl->rl_prtl, 0);
+      C(0);
       Boundary_NE(prtl);
     }
   }
@@ -602,7 +603,7 @@ void Boundary::BoundaryCondition(ParticleManager &q)
 	 !c[x_clls - 1][y_clls - 1].isEnd(p);
 	 p = c[x_clls - 1][y_clls - 1].next(p)) {
       prtl = c[x_clls - 1][y_clls - 1].retrieve(p);
-      prtl->StatesCopier(prtl->rl_prtl, 1);
+      C(1);
       Boundary_NE(prtl);
     }
   }
@@ -611,7 +612,7 @@ void Boundary::BoundaryCondition(ParticleManager &q)
 	 !c[x_clls - 1][0].isEnd(p);
 	 p = c[x_clls - 1][0].next(p)) {
       prtl = c[x_clls - 1][0].retrieve(p);
-      prtl->StatesCopier(prtl->rl_prtl, 0);
+      C(0);
       Boundary_SE(prtl);
     }
   }
@@ -620,7 +621,7 @@ void Boundary::BoundaryCondition(ParticleManager &q)
 	 !c[x_clls - 1][0].isEnd(p);
 	 p = c[x_clls - 1][0].next(p)) {
       prtl = c[x_clls - 1][0].retrieve(p);
-      prtl->StatesCopier(prtl->rl_prtl, 1);
+      C(1);
       Boundary_SE(prtl);
     }
   }
