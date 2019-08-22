@@ -28,13 +28,10 @@ struct Hydrodynamics
 	void UpdateChangeRate(ParticleManager *particles, QuinticSpline *weight_function);
 	void UpdateChangeRate();
 	void Zero_density();
-	void Zero_ShearRate();
-	void UpdateDensity(ParticleManager *particles, QuinticSpline *weight_function);
 	void UpdateDensity();
 	void UpdatePhaseGradient(Boundary *boundary);
 	void Zero_PhaseGradient(Boundary *boundary);
 	void UpdateSurfaceStress(Boundary *boundary);
-	double SurfaceTensionCoefficient();
 	void UpdatePahseMatrix(Boundary *boundary);
 	void UpdateState();
 	void UpdateVolume(ParticleManager *particles, QuinticSpline *weight_function);

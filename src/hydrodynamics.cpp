@@ -108,20 +108,6 @@ void Hydrodynamics::UpdatePhaseGradient(Boundary *boundary)
 	pair->SummationPhaseGradient();
     }
 }
-void Hydrodynamics::UpdateDensity(ParticleManager *particles, QuinticSpline *weight_function)
-{
-    LlistNode<Interaction> *p;
-    Interaction *pair;
-    particles->BuildInteraction(interaction_list, particle_list, forces, *weight_function);
-    Zero_density();
-    for (p = interaction_list.first();
-	 !interaction_list.isEnd(p);
-	 p = interaction_list.next(p)) {
-	pair = interaction_list.retrieve(p);
-	pair->SummationDensity();
-    }
-    UpdateState();
-}
 void Hydrodynamics::UpdateDensity()
 {
     Zero_density();
@@ -188,18 +174,6 @@ void Hydrodynamics::Zero_density()
 	 p = particle_list.next(p)) {
 	prtl = particle_list.retrieve(p);
 	prtl->rho = 0.0;
-    }
-}
-void Hydrodynamics::Zero_ShearRate()
-{
-    LIST *p;
-    Particle *prtl;
-    for (p = particle_list.first();
-	 !particle_list.isEnd(p);
-	 p = particle_list.next(p)) {
-	prtl = particle_list.retrieve(p);
-	prtl->ShearRate_x[X] = prtl->ShearRate_x[Y] = 0.0;
-	prtl->ShearRate_y[X] = prtl->ShearRate_y[Y] = 0.0;
     }
 }
 void Hydrodynamics::Zero_PhaseGradient(Boundary *boundary)
@@ -302,23 +276,6 @@ void Hydrodynamics::UpdateSurfaceStress(Boundary *boundary)
 	prtl->del_phi[0] = interm1/interm0;
 	prtl->del_phi[1] = interm2/interm0;
     }
-}
-double Hydrodynamics::SurfaceTensionCoefficient()
-{
-    double coefficient = 0.0;
-    double totalvolume = 0.0;
-    Particle *prtl;
-    double interm1;
-    LIST *p;
-    for (p = particle_list.first();
-	 !particle_list.isEnd(p);
-	 p = particle_list.next(p)) {
-	prtl = particle_list.retrieve(p);
-	interm1 = prtl->m/prtl->rho;
-	totalvolume += interm1;
-	coefficient += vv_sq(prtl->del_phi)*interm1;
-    }
-    return coefficient/sqrt(totalvolume);
 }
 void Hydrodynamics::UpdateVolume(ParticleManager *particles, QuinticSpline *weight_function)
 {
