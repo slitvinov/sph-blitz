@@ -104,13 +104,13 @@ void Hydrodynamics::UpdatePair(QuinticSpline &weight_function)
 
 void Hydrodynamics::UpdatePhaseGradient(Boundary &boundary)
 {
-    LlistNode<Interaction> *p2;
+    LlistNode<Interaction> *p;
     Interaction *pair;
     Zero_PhaseGradient(boundary);
     for (p = interaction_list.first();
 	 !interaction_list.isEnd(p);
 	 p = interaction_list.next(p)) {
-	pair = interaction_list.retrieve(p2);
+	pair = interaction_list.retrieve(p);
 	pair->SummationPhaseGradient();
     }
 }
@@ -341,81 +341,49 @@ void Hydrodynamics::UpdateSurfaceStress(Boundary &boundary)
 	prtl->del_phi[1] = interm2/interm0;
     }
 }
-//----------------------------------------------------------------------------------------
-//							Calculate Surface Tension Coefficient
-//----------------------------------------------------------------------------------------
 
 double Hydrodynamics::SurfaceTensionCoefficient()
 {
-    double coefficient = 0.0; double totalvolume = 0.0;
-
-    ///- iterate particles on the real particle list
+    double coefficient = 0.0;
+    double totalvolume = 0.0;
     for (LlistNode<Particle> *p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-
-	//a particle
 	Particle *prtl = particle_list.retrieve(p);
-
-	///- calculate  phase surface stress for all particles
 	double interm1 = prtl->m/prtl->rho;
 	totalvolume += interm1;
 	coefficient += vv_sq(prtl->del_phi)*interm1;
     }
     return coefficient/sqrt(totalvolume);
 }
-//----------------------------------------------------------------------------------------
-//								calculate partilce volume
-//----------------------------------------------------------------------------------------
+
 void Hydrodynamics::UpdateVolume(ParticleManager &particles, QuinticSpline &weight_function)
 {
-    double reciprocV; //the inverse of volume or volume
-
-    ///<ul><li> iterate particles on the particle list
+    double reciprocV;
     for (LlistNode<Particle> *p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-
-	///<ul><li>take origin particle
 	Particle *prtl_org = particle_list.retrieve(p);
-	//<li>build the nearest particle list
 	particles.BuildNNP(prtl_org->R);
-
 	reciprocV = 0.0;
-	//<li>iterate this Nearest Neighbor Particle list
 	for (LlistNode<Particle> *p1 = particles.NNP_list.first();
 	     !particles.NNP_list.isEnd(p1);
 	     p1 = particles.NNP_list.next(p1)) {
-
-	    //get a particle
 	    Particle *prtl_dest = particles.NNP_list.retrieve(p1);
-
-	    ///<ul><li>sum the weights for all of these particles (because they are the inverse of a volume!?!)</ul>
 	    reciprocV += w(&weight_function, vv_distance(prtl_org->R, prtl_dest->R));
 	}
-	///<li>calculate volume
 	prtl_org->V = 1.0/reciprocV;
-
-	///<li>clear the NNP_list</ul></ul>
 	particles.NNP_list.clear();
     }
-
 }
-//----------------------------------------------------------------------------------------
-//							get the time step
-//----------------------------------------------------------------------------------------
+
 double Hydrodynamics::GetTimestep()
 {
-    //maximum sound speed, particle velocity and density
     double Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = 1.0;
     double dt;
-
-    //predict the time step
-    //iterate the partilce list
     for (LlistNode<Particle> *p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-
 	Particle *prtl = particle_list.retrieve(p);
 	Cs_max = AMAX1(Cs_max, prtl->Cs);
 	V_max = AMAX1(V_max, vv_abs(prtl->U));
@@ -426,19 +394,13 @@ double Hydrodynamics::GetTimestep()
     dt = AMIN1(sqrt(0.5*(rho_min + rho_max))*dt_surf, dt_g_vis);
     return  0.25*AMIN1(dt, delta/(Cs_max + V_max));
 }
-//----------------------------------------------------------------------------------------
-//						the redictor and corrector method: predictor
-//----------------------------------------------------------------------------------------
+
 void Hydrodynamics::Predictor(double dt)
 {
-    ///<ul><li> iterate the real partilce list
     for (LlistNode<Particle> *p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-
 	Particle *prtl = particle_list.retrieve(p);
-
-	///<ul><li>save values at step n
 	prtl->R_I[X] = prtl->R[X];
 	prtl->R_I[Y] = prtl->R[Y];
 
@@ -446,7 +408,6 @@ void Hydrodynamics::Predictor(double dt)
 	prtl->U_I[X] = prtl->U[X];
 	prtl->U_I[Y] = prtl->U[Y];
 
-	///<li>predict values at step n+1
 	prtl->R[X] = prtl->R[X] + prtl->U[X]*dt;
 	prtl->R[Y] = prtl->R[Y] + prtl->U[Y]*dt;
 
@@ -454,7 +415,6 @@ void Hydrodynamics::Predictor(double dt)
 	prtl->U[X] = prtl->U[X] + prtl->dUdt[X]*dt;
 	prtl->U[Y] = prtl->U[Y] + prtl->dUdt[Y]*dt;
 
-	///<li>calculate the middle values at step n+1/2</ul></ul>
 	prtl->R[X] = (prtl->R[X] + prtl->R_I[X])*0.5;
 	prtl->R[Y] = (prtl->R[Y] + prtl->R_I[Y])*0.5;
 
@@ -464,19 +424,13 @@ void Hydrodynamics::Predictor(double dt)
 	prtl->U[Y] = (prtl->U[Y] + prtl->U_I[Y])*0.5;
     }
 }
-//----------------------------------------------------------------------------------------
-//							the redictor and corrector method: predictor
-//----------------------------------------------------------------------------------------
+
 void Hydrodynamics::Corrector(double dt)
 {
-    ///- iterate the real partilce list
     for (LlistNode<Particle> *p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-
 	Particle *prtl = particle_list.retrieve(p);
-
-	///- for each particle: correction based on values on n step and change rate at n+1/2
 	prtl->R[X] = prtl->R_I[X] + prtl->U[X]*dt;
 	prtl->R[Y] = prtl->R_I[Y] + prtl->U[Y]*dt;
 
@@ -486,19 +440,13 @@ void Hydrodynamics::Corrector(double dt)
 	prtl->U[Y] = prtl->U_I[Y] + prtl->dUdt[Y]*dt;
     }
 }
-//----------------------------------------------------------------------------------------
-//					the predictor and corrector method: predictor, no density updating
-//----------------------------------------------------------------------------------------
+
 void Hydrodynamics::Predictor_summation(double dt)
 {
-    ///<ul><li>iterate the real partilce list
     for (LlistNode<Particle> *p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-
 	Particle *prtl = particle_list.retrieve(p);
-
-	///<ul><li>save values (R,U)  at step n in intermediate variables ._I
 	prtl->R_I[X] = prtl->R[X];
 	prtl->R_I[Y] = prtl->R[Y];
 
@@ -508,14 +456,12 @@ void Hydrodynamics::Predictor_summation(double dt)
 	prtl->U_I[X] = prtl->U[X];
 	prtl->U_I[Y] = prtl->U[Y];
 
-	///<li>predict values at step n+1
 	prtl->R[X] = prtl->R[X] + prtl->U[X]*dt;
 	prtl->R[Y] = prtl->R[Y] + prtl->U[Y]*dt;
 
 	prtl->U[X] = prtl->U[X] + prtl->dUdt[X]*dt;
 	prtl->U[Y] = prtl->U[Y] + prtl->dUdt[Y]*dt;
 
-	///<li>calculate the middle values at step n+1/2 and save them in Particle objects prtl</ul></ul>
 	prtl->R[X] = (prtl->R[X] + prtl->R_I[X])*0.5;
 	prtl->R[Y] = (prtl->R[Y] + prtl->R_I[Y])*0.5;
 
@@ -523,19 +469,13 @@ void Hydrodynamics::Predictor_summation(double dt)
 	prtl->U[Y] = (prtl->U[Y] + prtl->U_I[Y])*0.5;
     }
 }
-//----------------------------------------------------------------------------------------
-//			the predictor and corrector method: predictor, no density updating
-//----------------------------------------------------------------------------------------
+
 void Hydrodynamics::Corrector_summation(double dt)
 {
-    ///- iterate the real partilce list
     for (LlistNode<Particle> *p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-
 	Particle *prtl = particle_list.retrieve(p);
-
-	///- for each particle: correction (advances R,U) based on values on n step and change rate at n+1/2
 	prtl->U[X] += prtl->_dU[X];
 	prtl->U[Y] += prtl->_dU[Y];
     
@@ -546,19 +486,13 @@ void Hydrodynamics::Corrector_summation(double dt)
 	prtl->U[Y] = prtl->U_I[Y] + prtl->dUdt[Y]*dt;
     }
 }
-//----------------------------------------------------------------------------------------
-//							including random effects
-//----------------------------------------------------------------------------------------
+
 void Hydrodynamics::RandomEffects()
 {
-    ///- iterate the real partilce list
     for (LlistNode<Particle> *p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-
 	Particle *prtl = particle_list.retrieve(p);
-
-	///- for each particle: add random velocity _dU
 	prtl->U[X] = prtl->U[X] + prtl->_dU[X];
 	prtl->U[Y] = prtl->U[Y] + prtl->_dU[Y];    
     }
