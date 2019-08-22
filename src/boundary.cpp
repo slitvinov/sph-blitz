@@ -14,7 +14,7 @@ struct QuinticSpline;
 enum {X, Y};
 using namespace std;
 
-#define A prtl = new Particle(*prtl_old, &hydro.materials[0])
+#define A prtl = new Particle(prtl_old, &hydro.materials[0])
 #define B prtl = new Particle(*prtl_old)
 
 Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &q)

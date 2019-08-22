@@ -125,45 +125,45 @@ Particle::Particle(Particle &RealParticle)
     phi_ini(&phi);
 }
 
-Particle::Particle(Particle &RealParticle, Material *material)
+Particle::Particle(Particle *RealParticle, Material *material)
 {
     int i, j;
     bd = 1;
     bd_type = 0;
     ID = 0;
-    rl_prtl = &RealParticle;
+    rl_prtl = RealParticle;
     mtl = material;
-    eta = RealParticle.eta;
-    zeta = RealParticle.zeta;
-    R[X] = RealParticle.R[X];
-    R[Y] = RealParticle.R[Y];
-    rho = RealParticle.rho;
-    p = RealParticle.p;
-    T = RealParticle.T;
-    Cs = RealParticle.Cs;
-    U[X] = RealParticle.U[X];
-    U[Y] = RealParticle.U[Y];
-    U_I[X] = RealParticle.U_I[X];
-    U_I[Y] = RealParticle.U_I[Y];
-    ShearRate_x[X] = RealParticle.ShearRate_x[X];
-    ShearRate_x[Y] = RealParticle.ShearRate_x[Y];
-    ShearRate_y[X] = RealParticle.ShearRate_y[X];
-    ShearRate_y[Y] = RealParticle.ShearRate_y[Y];
-    m = RealParticle.m;
-    V = RealParticle.V;
-    e = RealParticle.e;
-    R_I[X] = RealParticle.R_I[X];
-    R_I[Y] = RealParticle.R_I[Y];
-    P[X] = RealParticle.P[X];
-    P[Y] = RealParticle.P[Y];
-    P_I[X] = RealParticle.P_I[X];
-    P_I[Y] = RealParticle.P_I[Y];
+    eta = RealParticle->eta;
+    zeta = RealParticle->zeta;
+    R[X] = RealParticle->R[X];
+    R[Y] = RealParticle->R[Y];
+    rho = RealParticle->rho;
+    p = RealParticle->p;
+    T = RealParticle->T;
+    Cs = RealParticle->Cs;
+    U[X] = RealParticle->U[X];
+    U[Y] = RealParticle->U[Y];
+    U_I[X] = RealParticle->U_I[X];
+    U_I[Y] = RealParticle->U_I[Y];
+    ShearRate_x[X] = RealParticle->ShearRate_x[X];
+    ShearRate_x[Y] = RealParticle->ShearRate_x[Y];
+    ShearRate_y[X] = RealParticle->ShearRate_y[X];
+    ShearRate_y[Y] = RealParticle->ShearRate_y[Y];
+    m = RealParticle->m;
+    V = RealParticle->V;
+    e = RealParticle->e;
+    R_I[X] = RealParticle->R_I[X];
+    R_I[Y] = RealParticle->R_I[Y];
+    P[X] = RealParticle->P[X];
+    P[Y] = RealParticle->P[Y];
+    P_I[X] = RealParticle->P_I[X];
+    P_I[Y] = RealParticle->P_I[Y];
     rho_I = rho;
-    P_n[X] = RealParticle.P_n[X];
-    P_n[Y] = RealParticle.P_n[Y];
-    U_n[X] = RealParticle.U_n[X];
-    U_n[Y] = RealParticle.U_n[Y];
-    rho_n = RealParticle.rho_n;
+    P_n[X] = RealParticle->P_n[X];
+    P_n[Y] = RealParticle->P_n[Y];
+    U_n[X] = RealParticle->U_n[X];
+    U_n[Y] = RealParticle->U_n[Y];
+    rho_n = RealParticle->rho_n;
     phi_ini(&phi);
 }
 
