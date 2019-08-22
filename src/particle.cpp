@@ -10,6 +10,8 @@ enum {X, Y};
 long particle_ID_max;
 int particle_number_of_materials;
 
+#define A(v) v = q.v
+
 static int
 phi_ini(double ***pq)
 {
@@ -91,37 +93,37 @@ Particle::Particle(Particle &q)
     bd_type = 1;
     ID = 0;
     rl_prtl = &q;
-    mtl = q.mtl;
+    A(mtl);
     eta = mtl->eta; zeta = mtl->zeta;
-    R[X] = q.R[X];
-    R[Y] = q.R[Y];
-    rho = q.rho;
-    p = q.p;
-    T = q.T;
-    Cs =q.Cs;
-    U[X] = q.U[X];
-    U[Y] = q.U[Y];
-    U_I[X] = q.U_I[X];
-    U_I[Y] = q.U_I[Y];
-    ShearRate_x[X] = q.ShearRate_x[X];
-    ShearRate_x[Y] = q.ShearRate_x[Y];
-    ShearRate_y[X] = q.ShearRate_y[X];
-    ShearRate_y[Y] = q.ShearRate_y[Y];
-    m = q.m;
-    V = q.V;
-    e = q.e;
-    R_I[X] = q.R_I[X];
-    R_I[Y] = q.R_I[Y];
-    P[X] = q.P[X];
-    P[Y] = q.P[Y];
-    P_I[X] = q.P_I[X];
-    P_I[Y] = q.P_I[Y];
+    A(R[X]);
+    A(R[Y]);
+    A(rho);
+    A(p);
+    A(T);
+    A(Cs);
+    A(U[X]);
+    A(U[Y]);
+    A(U_I[X]);
+    A(U_I[Y]);
+    A(ShearRate_x[X]);
+    A(ShearRate_x[Y]);
+    A(ShearRate_y[X]);
+    A(ShearRate_y[Y]);
+    A(m);
+    A(V);
+    A(e);
+    A(R_I[X]);
+    A(R_I[Y]);
+    A(P[X]);
+    A(P[Y]);
+    A(P_I[X]);
+    A(P_I[Y]);
     rho_I = rho;
-    P_n[X] = q.P_n[X];
-    P_n[Y] = q.P_n[Y];
-    U_n[X] = q.U_n[X];
-    U_n[Y] = q.U_n[Y];
-    rho_n = q.rho_n;
+    A(P_n[X]);
+    A(P_n[Y]);
+    A(U_n[X]);
+    A(U_n[Y]);
+    A(rho_n);
     phi_ini(&phi);
 }
 
