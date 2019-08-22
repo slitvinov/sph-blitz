@@ -134,7 +134,9 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
   LlistNode<Particle> *p;
   Particle *prtl, *prtl_old;
   int kb, ku, mb, mu;
+  Llist<Particle> **c;
 
+  c = q.cell_lists;
   boundary_particle_list.clear();
   kb = 0; mb = x_clls;
   ku = 0; mu = x_clls;
@@ -143,313 +145,313 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
   if(xBl == yBu) ku = 1;
   if(xBr == yBu) mu = x_clls - 1;
   for(j = 1; j < y_clls - 1; j++) {
-    q.cell_lists[X][j].clear_data();
+    c[X][j].clear_data();
     if(xBl == 0 || xBl == 2) {
-      for (p = q.cell_lists[Y][j].first();
-	   !q.cell_lists[Y][j].isEnd(p);
-	   p = q.cell_lists[Y][j].next(p)) {
-	prtl_old = q.cell_lists[Y][j].retrieve(p);
+      for (p = c[Y][j].first();
+	   !c[Y][j].isEnd(p);
+	   p = c[Y][j].next(p)) {
+	prtl_old = c[Y][j].retrieve(p);
 	prtl = new Particle(*prtl_old, &hydro.materials[0]);
 	Boundary_W(prtl);
 	prtl->cell_i = 0; prtl->cell_j = j;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-	q.cell_lists[X][j].insert(q.cell_lists[X][j].first(), prtl);
+	c[X][j].insert(c[X][j].first(), prtl);
       }
     }
     if(xBl == 3) {
-      for (p = q.cell_lists[Y][j].first();
-	   !q.cell_lists[Y][j].isEnd(p);
-	   p = q.cell_lists[Y][j].next(p)) {
-	prtl_old = q.cell_lists[Y][j].retrieve(p);
+      for (p = c[Y][j].first();
+	   !c[Y][j].isEnd(p);
+	   p = c[Y][j].next(p)) {
+	prtl_old = c[Y][j].retrieve(p);
 	prtl = new Particle(*prtl_old);
 	Boundary_W(prtl);
 	prtl->cell_i = 0; prtl->cell_j = j;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-	q.cell_lists[X][j].insert(q.cell_lists[X][j].first(), prtl);
+	c[X][j].insert(c[X][j].first(), prtl);
       }
     }
     if(xBl == 1) {
-      for (p = q.cell_lists[x_clls - 2][j].first();
-	   !q.cell_lists[x_clls - 2][j].isEnd(p);
-	   p = q.cell_lists[x_clls - 2][j].next(p)) {
-	prtl_old = q.cell_lists[x_clls - 2][j].retrieve(p);
+      for (p = c[x_clls - 2][j].first();
+	   !c[x_clls - 2][j].isEnd(p);
+	   p = c[x_clls - 2][j].next(p)) {
+	prtl_old = c[x_clls - 2][j].retrieve(p);
 	prtl = new Particle(*prtl_old);
 	Boundary_W(prtl);
 	prtl->cell_i = 0; prtl->cell_j = j;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-	q.cell_lists[X][j].insert(q.cell_lists[X][j].first(), prtl);
+	c[X][j].insert(c[X][j].first(), prtl);
       }
     }
-    q.cell_lists[x_clls - 1][j].clear_data();
+    c[x_clls - 1][j].clear_data();
     if(xBr == 0 || xBr == 2) {
-      for (p = q.cell_lists[x_clls - 2][j].first();
-	   !q.cell_lists[x_clls - 2][j].isEnd(p);
-	   p = q.cell_lists[x_clls - 2][j].next(p)) {
-	prtl_old = q.cell_lists[x_clls - 2][j].retrieve(p);
+      for (p = c[x_clls - 2][j].first();
+	   !c[x_clls - 2][j].isEnd(p);
+	   p = c[x_clls - 2][j].next(p)) {
+	prtl_old = c[x_clls - 2][j].retrieve(p);
 	prtl = new Particle(*prtl_old, &hydro.materials[0]);
 	Boundary_E(prtl);
 	prtl->cell_i = x_clls - 1; prtl->cell_j = j;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-	q.cell_lists[x_clls- 1][j].insert(q.cell_lists[x_clls - 1][j].first(), prtl);
+	c[x_clls- 1][j].insert(c[x_clls - 1][j].first(), prtl);
       }
     }
     if(xBr == 3) {
-      for (p = q.cell_lists[x_clls - 2][j].first();
-	   !q.cell_lists[x_clls - 2][j].isEnd(p);
-	   p = q.cell_lists[x_clls - 2][j].next(p)) {
-	prtl_old = q.cell_lists[x_clls - 2][j].retrieve(p);
+      for (p = c[x_clls - 2][j].first();
+	   !c[x_clls - 2][j].isEnd(p);
+	   p = c[x_clls - 2][j].next(p)) {
+	prtl_old = c[x_clls - 2][j].retrieve(p);
 	prtl = new Particle(*prtl_old);
 	Boundary_E(prtl);
 	prtl->cell_i = x_clls - 1; prtl->cell_j = j;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-	q.cell_lists[x_clls- 1][j].insert(q.cell_lists[x_clls - 1][j].first(), prtl);
+	c[x_clls- 1][j].insert(c[x_clls - 1][j].first(), prtl);
       }
     }
     if(xBr == 1) {
-      for (p = q.cell_lists[Y][j].first();
-	   !q.cell_lists[Y][j].isEnd(p);
-	   p = q.cell_lists[Y][j].next(p)) {
-	prtl_old = q.cell_lists[Y][j].retrieve(p);
+      for (p = c[Y][j].first();
+	   !c[Y][j].isEnd(p);
+	   p = c[Y][j].next(p)) {
+	prtl_old = c[Y][j].retrieve(p);
 	prtl = new Particle(*prtl_old);
 	Boundary_E(prtl);
 	prtl->cell_i = x_clls - 1; prtl->cell_j = j;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-	q.cell_lists[x_clls- 1][j].insert(q.cell_lists[x_clls - 1][j].first(), prtl);
+	c[x_clls- 1][j].insert(c[x_clls - 1][j].first(), prtl);
       }
     }
   }
   for(i = kb; i < mb; i++) {
-    q.cell_lists[i][0].clear_data();
+    c[i][0].clear_data();
     if(yBd == 0 || yBd == 2) {
-      for (p = q.cell_lists[i][1].first();
-	   !q.cell_lists[i][1].isEnd(p);
-	   p = q.cell_lists[i][1].next(p)) {
-	prtl_old = q.cell_lists[i][1].retrieve(p);
+      for (p = c[i][1].first();
+	   !c[i][1].isEnd(p);
+	   p = c[i][1].next(p)) {
+	prtl_old = c[i][1].retrieve(p);
 	prtl = new Particle(*prtl_old, &hydro.materials[0]);
 	Boundary_S(prtl);
 	prtl->cell_i = i; prtl->cell_j = 0;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-	q.cell_lists[i][0].insert(q.cell_lists[i][0].first(), prtl);
+	c[i][0].insert(c[i][0].first(), prtl);
       }
     }
     if(yBd == 3) {
-      for (p = q.cell_lists[i][1].first();
-	   !q.cell_lists[i][1].isEnd(p);
-	   p = q.cell_lists[i][1].next(p)) {
-	prtl_old = q.cell_lists[i][1].retrieve(p);
+      for (p = c[i][1].first();
+	   !c[i][1].isEnd(p);
+	   p = c[i][1].next(p)) {
+	prtl_old = c[i][1].retrieve(p);
 	prtl = new Particle(*prtl_old);
 	Boundary_S(prtl);
 	prtl->cell_i = i; prtl->cell_j = 0;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-	q.cell_lists[i][0].insert(q.cell_lists[i][0].first(), prtl);
+	c[i][0].insert(c[i][0].first(), prtl);
       }
     }
     if(yBd == 1) {
-      for (p = q.cell_lists[i][y_clls - 2].first();
-	   !q.cell_lists[i][y_clls - 2].isEnd(p);
-	   p = q.cell_lists[i][y_clls - 2].next(p)) {
-	prtl_old = q.cell_lists[i][y_clls - 2].retrieve(p);
+      for (p = c[i][y_clls - 2].first();
+	   !c[i][y_clls - 2].isEnd(p);
+	   p = c[i][y_clls - 2].next(p)) {
+	prtl_old = c[i][y_clls - 2].retrieve(p);
 	prtl = new Particle(*prtl_old);
 	Boundary_S(prtl);
 	prtl->cell_i = i; prtl->cell_j = 0;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-	q.cell_lists[i][0].insert(q.cell_lists[i][0].first(), prtl);
+	c[i][0].insert(c[i][0].first(), prtl);
       }
     }
   }
   for(i = ku; i < mu; i++) {
-    q.cell_lists[i][y_clls - 1].clear_data();
+    c[i][y_clls - 1].clear_data();
     if(yBu == 0 || yBu == 2) {
-      for (p = q.cell_lists[i][y_clls - 2].first();
-	   !q.cell_lists[i][y_clls - 2].isEnd(p);
-	   p = q.cell_lists[i][y_clls - 2].next(p)) {
-	prtl_old = q.cell_lists[i][y_clls - 2].retrieve(p);
+      for (p = c[i][y_clls - 2].first();
+	   !c[i][y_clls - 2].isEnd(p);
+	   p = c[i][y_clls - 2].next(p)) {
+	prtl_old = c[i][y_clls - 2].retrieve(p);
 	prtl = new Particle(*prtl_old, &hydro.materials[0]);
 	Boundary_N(prtl);
 	prtl->cell_i = i; prtl->cell_j = y_clls - 1;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-	q.cell_lists[i][y_clls- 1].insert(q.cell_lists[i][y_clls - 1].first(), prtl);
+	c[i][y_clls- 1].insert(c[i][y_clls - 1].first(), prtl);
       }
     }
     if(yBu == 3) {
-      for (p = q.cell_lists[i][y_clls - 2].first();
-	   !q.cell_lists[i][y_clls - 2].isEnd(p);
-	   p = q.cell_lists[i][y_clls - 2].next(p)) {
-	prtl_old = q.cell_lists[i][y_clls - 2].retrieve(p);
+      for (p = c[i][y_clls - 2].first();
+	   !c[i][y_clls - 2].isEnd(p);
+	   p = c[i][y_clls - 2].next(p)) {
+	prtl_old = c[i][y_clls - 2].retrieve(p);
 	prtl = new Particle(*prtl_old);
 	Boundary_N(prtl);
 	prtl->cell_i = i; prtl->cell_j = y_clls - 1;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-	q.cell_lists[i][y_clls- 1].insert(q.cell_lists[i][y_clls - 1].first(), prtl);
+	c[i][y_clls- 1].insert(c[i][y_clls - 1].first(), prtl);
       }
     }
     if(yBu == 1) {
-      for (p = q.cell_lists[i][1].first();
-	   !q.cell_lists[i][1].isEnd(p);
-	   p = q.cell_lists[i][1].next(p)) {
-	prtl_old = q.cell_lists[i][1].retrieve(p);
+      for (p = c[i][1].first();
+	   !c[i][1].isEnd(p);
+	   p = c[i][1].next(p)) {
+	prtl_old = c[i][1].retrieve(p);
 	prtl = new Particle(*prtl_old);
 	Boundary_N(prtl);
 	prtl->cell_i = i; prtl->cell_j = y_clls - 1;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-	q.cell_lists[i][y_clls- 1].insert(q.cell_lists[i][y_clls - 1].first(), prtl);
+	c[i][y_clls- 1].insert(c[i][y_clls - 1].first(), prtl);
       }
     }
   }
   if((xBl == 0 && yBd == 0) || (xBl == 2 && yBd == 2)) {
-    q.cell_lists[X][0].clear_data();
-    for (p = q.cell_lists[Y][1].first();
-	 !q.cell_lists[Y][1].isEnd(p);
-	 p = q.cell_lists[Y][1].next(p)) {
-      prtl_old = q.cell_lists[Y][1].retrieve(p);
+    c[X][0].clear_data();
+    for (p = c[Y][1].first();
+	 !c[Y][1].isEnd(p);
+	 p = c[Y][1].next(p)) {
+      prtl_old = c[Y][1].retrieve(p);
       prtl = new Particle(*prtl_old, &hydro.materials[0]);
       Boundary_SW(prtl);
       prtl->cell_i = 0; prtl->cell_j = 0;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-      q.cell_lists[X][0].insert(q.cell_lists[X][0].first(), prtl);
+      c[X][0].insert(c[X][0].first(), prtl);
     }
   }
   if(xBl == 3 && yBd == 3) {
-    q.cell_lists[X][0].clear_data();
-    for (p = q.cell_lists[Y][1].first();
-	 !q.cell_lists[Y][1].isEnd(p);
-	 p = q.cell_lists[Y][1].next(p)) {
-      prtl_old = q.cell_lists[Y][1].retrieve(p);
+    c[X][0].clear_data();
+    for (p = c[Y][1].first();
+	 !c[Y][1].isEnd(p);
+	 p = c[Y][1].next(p)) {
+      prtl_old = c[Y][1].retrieve(p);
       prtl = new Particle(*prtl_old);
       Boundary_SW(prtl);
       prtl->cell_i = 0; prtl->cell_j = 0;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-      q.cell_lists[X][0].insert(q.cell_lists[X][0].first(), prtl);
+      c[X][0].insert(c[X][0].first(), prtl);
     }
   }
   if(xBl == 1 && yBd == 1) {
-    q.cell_lists[X][0].clear_data();
-    for (p = q.cell_lists[x_clls - 2][y_clls - 2].first();
-	 !q.cell_lists[x_clls - 2][y_clls - 2].isEnd(p);
-	 p = q.cell_lists[x_clls - 2][y_clls - 2].next(p)) {
-      prtl_old = q.cell_lists[x_clls - 2][y_clls - 2].retrieve(p);
+    c[X][0].clear_data();
+    for (p = c[x_clls - 2][y_clls - 2].first();
+	 !c[x_clls - 2][y_clls - 2].isEnd(p);
+	 p = c[x_clls - 2][y_clls - 2].next(p)) {
+      prtl_old = c[x_clls - 2][y_clls - 2].retrieve(p);
       prtl = new Particle(*prtl_old);
       Boundary_SW(prtl);
       prtl->cell_i = 0; prtl->cell_j = 0;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-      q.cell_lists[X][0].insert(q.cell_lists[X][0].first(), prtl);
+      c[X][0].insert(c[X][0].first(), prtl);
     }
   }
   if((xBl == 0 && yBu == 0) || (xBl == 2 && yBu == 2)) {
-    q.cell_lists[X][y_clls - 1].clear_data();
-    for (p = q.cell_lists[Y][y_clls - 2].first();
-	 !q.cell_lists[Y][y_clls - 2].isEnd(p);
-	 p = q.cell_lists[Y][y_clls - 2].next(p)) {
-      prtl_old = q.cell_lists[Y][y_clls - 2].retrieve(p);
+    c[X][y_clls - 1].clear_data();
+    for (p = c[Y][y_clls - 2].first();
+	 !c[Y][y_clls - 2].isEnd(p);
+	 p = c[Y][y_clls - 2].next(p)) {
+      prtl_old = c[Y][y_clls - 2].retrieve(p);
       prtl = new Particle(*prtl_old, &hydro.materials[0]);
       Boundary_NW(prtl);
       prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-      q.cell_lists[X][y_clls- 1].insert(q.cell_lists[X][y_clls - 1].first(), prtl);
+      c[X][y_clls- 1].insert(c[X][y_clls - 1].first(), prtl);
     }
   }
   if(xBl == 3 && yBu == 3) {
-    q.cell_lists[X][y_clls - 1].clear_data();
-    for (p = q.cell_lists[Y][y_clls - 2].first();
-	 !q.cell_lists[Y][y_clls - 2].isEnd(p);
-	 p = q.cell_lists[Y][y_clls - 2].next(p)) {
-      prtl_old = q.cell_lists[Y][y_clls - 2].retrieve(p);
+    c[X][y_clls - 1].clear_data();
+    for (p = c[Y][y_clls - 2].first();
+	 !c[Y][y_clls - 2].isEnd(p);
+	 p = c[Y][y_clls - 2].next(p)) {
+      prtl_old = c[Y][y_clls - 2].retrieve(p);
       prtl = new Particle(*prtl_old);
       Boundary_NW(prtl);
       prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-      q.cell_lists[X][y_clls- 1].insert(q.cell_lists[X][y_clls - 1].first(), prtl);
+      c[X][y_clls- 1].insert(c[X][y_clls - 1].first(), prtl);
     }
   }
   if(xBl == 1 && yBu == 1) {
-    q.cell_lists[X][y_clls - 1].clear_data();
-    for (p = q.cell_lists[x_clls - 2][1].first();
-	 !q.cell_lists[x_clls - 2][1].isEnd(p);
-	 p = q.cell_lists[x_clls - 2][1].next(p)) {
-      prtl_old = q.cell_lists[x_clls - 2][1].retrieve(p);
+    c[X][y_clls - 1].clear_data();
+    for (p = c[x_clls - 2][1].first();
+	 !c[x_clls - 2][1].isEnd(p);
+	 p = c[x_clls - 2][1].next(p)) {
+      prtl_old = c[x_clls - 2][1].retrieve(p);
       prtl = new Particle(*prtl_old);
       Boundary_NW(prtl);
       prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-      q.cell_lists[X][y_clls- 1].insert(q.cell_lists[X][y_clls - 1].first(), prtl);
+      c[X][y_clls- 1].insert(c[X][y_clls - 1].first(), prtl);
     }
   }
   if((xBr == 0 && yBu == 0) || (xBr == 2 && yBu == 2)) {
-    q.cell_lists[x_clls - 1][y_clls - 1].clear_data();
-    for (p = q.cell_lists[x_clls - 2][y_clls - 2].first();
-	 !q.cell_lists[x_clls - 2][y_clls - 2].isEnd(p);
-	 p = q.cell_lists[x_clls - 2][y_clls - 2].next(p)) {
-      prtl_old = q.cell_lists[x_clls - 2][y_clls - 2].retrieve(p);
+    c[x_clls - 1][y_clls - 1].clear_data();
+    for (p = c[x_clls - 2][y_clls - 2].first();
+	 !c[x_clls - 2][y_clls - 2].isEnd(p);
+	 p = c[x_clls - 2][y_clls - 2].next(p)) {
+      prtl_old = c[x_clls - 2][y_clls - 2].retrieve(p);
       prtl = new Particle(*prtl_old, &hydro.materials[0]);
       Boundary_NE(prtl);
       prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-      q.cell_lists[x_clls- 1][y_clls - 1].insert(q.cell_lists[x_clls - 1][y_clls - 1].first(), prtl);
+      c[x_clls- 1][y_clls - 1].insert(c[x_clls - 1][y_clls - 1].first(), prtl);
     }
   }
   if(xBr == 3 && yBu == 3) {
-    q.cell_lists[x_clls - 1][y_clls - 1].clear_data();
-    for (p = q.cell_lists[x_clls - 2][y_clls - 2].first();
-	 !q.cell_lists[x_clls - 2][y_clls - 2].isEnd(p);
-	 p = q.cell_lists[x_clls - 2][y_clls - 2].next(p)) {
-      prtl_old = q.cell_lists[x_clls - 2][y_clls - 2].retrieve(p);
+    c[x_clls - 1][y_clls - 1].clear_data();
+    for (p = c[x_clls - 2][y_clls - 2].first();
+	 !c[x_clls - 2][y_clls - 2].isEnd(p);
+	 p = c[x_clls - 2][y_clls - 2].next(p)) {
+      prtl_old = c[x_clls - 2][y_clls - 2].retrieve(p);
       prtl = new Particle(*prtl_old);
       Boundary_NE(prtl);
       prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-      q.cell_lists[x_clls- 1][y_clls - 1].insert(q.cell_lists[x_clls - 1][y_clls - 1].first(), prtl);
+      c[x_clls- 1][y_clls - 1].insert(c[x_clls - 1][y_clls - 1].first(), prtl);
     }
   }
   if(xBr == 1 && yBu == 1) {
-    q.cell_lists[x_clls - 1][y_clls - 1].clear_data();
-    for (p = q.cell_lists[Y][1].first();
-	 !q.cell_lists[Y][1].isEnd(p);
-	 p = q.cell_lists[Y][1].next(p)) {
-      prtl_old = q.cell_lists[Y][1].retrieve(p);
+    c[x_clls - 1][y_clls - 1].clear_data();
+    for (p = c[Y][1].first();
+	 !c[Y][1].isEnd(p);
+	 p = c[Y][1].next(p)) {
+      prtl_old = c[Y][1].retrieve(p);
       prtl = new Particle(*prtl_old);
       Boundary_NE(prtl);
       prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-      q.cell_lists[x_clls- 1][y_clls - 1].insert(q.cell_lists[x_clls - 1][y_clls - 1].first(), prtl);
+      c[x_clls- 1][y_clls - 1].insert(c[x_clls - 1][y_clls - 1].first(), prtl);
     }
   }
   if((xBr == 0 && yBd == 0) || (xBr == 2 && yBd == 2)) {
-    q.cell_lists[x_clls - 1][0].clear_data();
-    for (p = q.cell_lists[x_clls - 2][1].first();
-	 !q.cell_lists[x_clls - 2][1].isEnd(p);
-	 p = q.cell_lists[x_clls - 2][1].next(p)) {
-      prtl_old = q.cell_lists[x_clls - 2][1].retrieve(p);
+    c[x_clls - 1][0].clear_data();
+    for (p = c[x_clls - 2][1].first();
+	 !c[x_clls - 2][1].isEnd(p);
+	 p = c[x_clls - 2][1].next(p)) {
+      prtl_old = c[x_clls - 2][1].retrieve(p);
       prtl = new Particle(*prtl_old, &hydro.materials[0]);
       Boundary_SE(prtl);
       prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-      q.cell_lists[x_clls - 1][0].insert(q.cell_lists[x_clls - 1][0].first(), prtl);
+      c[x_clls - 1][0].insert(c[x_clls - 1][0].first(), prtl);
     }
   }
   if(xBr == 3 && yBd == 3) {
-    q.cell_lists[x_clls - 1][0].clear_data();
-    for (p = q.cell_lists[x_clls - 2][1].first();
-	 !q.cell_lists[x_clls - 2][1].isEnd(p);
-	 p = q.cell_lists[x_clls - 2][1].next(p)) {
-      prtl_old = q.cell_lists[x_clls - 2][1].retrieve(p);
+    c[x_clls - 1][0].clear_data();
+    for (p = c[x_clls - 2][1].first();
+	 !c[x_clls - 2][1].isEnd(p);
+	 p = c[x_clls - 2][1].next(p)) {
+      prtl_old = c[x_clls - 2][1].retrieve(p);
       prtl = new Particle(*prtl_old);
       Boundary_SE(prtl);
       prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-      q.cell_lists[x_clls - 1][0].insert(q.cell_lists[x_clls - 1][0].first(), prtl);
+      c[x_clls - 1][0].insert(c[x_clls - 1][0].first(), prtl);
     }
   }
   if(xBr == 1 && yBd == 1) {
-    q.cell_lists[x_clls - 1][0].clear_data();
-    for (p = q.cell_lists[Y][y_clls - 2].first();
-	 !q.cell_lists[Y][y_clls - 2].isEnd(p);
-	 p = q.cell_lists[Y][y_clls - 2].next(p)) {
-      prtl_old = q.cell_lists[Y][y_clls - 2].retrieve(p);
+    c[x_clls - 1][0].clear_data();
+    for (p = c[Y][y_clls - 2].first();
+	 !c[Y][y_clls - 2].isEnd(p);
+	 p = c[Y][y_clls - 2].next(p)) {
+      prtl_old = c[Y][y_clls - 2].retrieve(p);
       prtl = new Particle(*prtl_old);
       Boundary_SE(prtl);
       prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
-      q.cell_lists[x_clls - 1][0].insert(q.cell_lists[x_clls - 1][0].first(), prtl);
+      c[x_clls - 1][0].insert(c[x_clls - 1][0].first(), prtl);
     }
   }
 }
@@ -459,7 +461,9 @@ void Boundary::BoundaryCondition(ParticleManager &q)
   int kb, ku, mb, mu;
   Particle *prtl;
   LlistNode<Particle> *p;
+  Llist<Particle> **c;
 
+  c = q.cell_lists;
   kb = 0; mb = x_clls;
   ku = 0; mu = x_clls;
   if(xBl == yBd) kb = 1;
@@ -468,37 +472,37 @@ void Boundary::BoundaryCondition(ParticleManager &q)
   if(xBr == yBu) mu = x_clls - 1;
   for(j = 1; j < y_clls - 1; j++) {
     if(xBl == 0 || xBl == 2) {
-      for (p = q.cell_lists[X][j].first();
-	   !q.cell_lists[X][j].isEnd(p);
-	   p = q.cell_lists[X][j].next(p)) {
-	prtl = q.cell_lists[X][j].retrieve(p);
+      for (p = c[X][j].first();
+	   !c[X][j].isEnd(p);
+	   p = c[X][j].next(p)) {
+	prtl = c[X][j].retrieve(p);
 	prtl->StatesCopier(prtl->rl_prtl, 0);
 	Boundary_W(prtl);
       }
     }
     if(xBl == 1 || xBl == 3) {
-      for (p = q.cell_lists[X][j].first();
-	   !q.cell_lists[X][j].isEnd(p);
-	   p = q.cell_lists[X][j].next(p)) {
-	prtl = q.cell_lists[X][j].retrieve(p);
+      for (p = c[X][j].first();
+	   !c[X][j].isEnd(p);
+	   p = c[X][j].next(p)) {
+	prtl = c[X][j].retrieve(p);
 	prtl->StatesCopier(prtl->rl_prtl, 1);
 	Boundary_W(prtl);
       }
     }
     if(xBr == 0 || xBr == 2) {
-      for (p = q.cell_lists[x_clls - 1][j].first();
-	   !q.cell_lists[x_clls - 1][j].isEnd(p);
-	   p = q.cell_lists[x_clls - 1][j].next(p)) {
-	prtl = q.cell_lists[x_clls - 1][j].retrieve(p);
+      for (p = c[x_clls - 1][j].first();
+	   !c[x_clls - 1][j].isEnd(p);
+	   p = c[x_clls - 1][j].next(p)) {
+	prtl = c[x_clls - 1][j].retrieve(p);
 	prtl->StatesCopier(prtl->rl_prtl, 0);
 	Boundary_E(prtl);
       }
     }
     if(xBr == 1 || xBr == 3) {
-      for (p = q.cell_lists[x_clls - 1][j].first();
-	   !q.cell_lists[x_clls - 1][j].isEnd(p);
-	   p = q.cell_lists[x_clls - 1][j].next(p)) {
-	prtl = q.cell_lists[x_clls - 1][j].retrieve(p);
+      for (p = c[x_clls - 1][j].first();
+	   !c[x_clls - 1][j].isEnd(p);
+	   p = c[x_clls - 1][j].next(p)) {
+	prtl = c[x_clls - 1][j].retrieve(p);
 	prtl->StatesCopier(prtl->rl_prtl, 1);
 	Boundary_E(prtl);
       }
@@ -506,19 +510,19 @@ void Boundary::BoundaryCondition(ParticleManager &q)
   }
   for(i = kb; i < mb; i++) {
     if(yBd == 0 || yBd == 2) {
-      for (p = q.cell_lists[i][0].first();
-	   !q.cell_lists[i][0].isEnd(p);
-	   p = q.cell_lists[i][0].next(p)) {
-	prtl = q.cell_lists[i][0].retrieve(p);
+      for (p = c[i][0].first();
+	   !c[i][0].isEnd(p);
+	   p = c[i][0].next(p)) {
+	prtl = c[i][0].retrieve(p);
 	prtl->StatesCopier(prtl->rl_prtl, 0);
 	Boundary_S(prtl);
       }
     }
     if(yBd == 1 || yBd == 3) {
-      for (p = q.cell_lists[i][0].first();
-	   !q.cell_lists[i][0].isEnd(p);
-	   p = q.cell_lists[i][0].next(p)) {
-	prtl = q.cell_lists[i][0].retrieve(p);
+      for (p = c[i][0].first();
+	   !c[i][0].isEnd(p);
+	   p = c[i][0].next(p)) {
+	prtl = c[i][0].retrieve(p);
 	prtl->StatesCopier(prtl->rl_prtl, 1);
 	Boundary_S(prtl);
       }
@@ -526,92 +530,92 @@ void Boundary::BoundaryCondition(ParticleManager &q)
   }
   for(i = ku; i < mu; i++) {
     if(yBu == 0 || yBu == 2) {
-      for (p = q.cell_lists[i][y_clls - 1].first();
-	   !q.cell_lists[i][y_clls - 1].isEnd(p);
-	   p = q.cell_lists[i][y_clls - 1].next(p)) {
-	prtl = q.cell_lists[i][y_clls - 1].retrieve(p);
+      for (p = c[i][y_clls - 1].first();
+	   !c[i][y_clls - 1].isEnd(p);
+	   p = c[i][y_clls - 1].next(p)) {
+	prtl = c[i][y_clls - 1].retrieve(p);
 	prtl->StatesCopier(prtl->rl_prtl, 0);
 	Boundary_N(prtl);
       }
     }
     if(yBu == 1 || yBu == 3) {
-      for (p = q.cell_lists[i][y_clls - 1].first();
-	   !q.cell_lists[i][y_clls - 1].isEnd(p);
-	   p = q.cell_lists[i][y_clls - 1].next(p)) {
-	prtl = q.cell_lists[i][y_clls - 1].retrieve(p);
+      for (p = c[i][y_clls - 1].first();
+	   !c[i][y_clls - 1].isEnd(p);
+	   p = c[i][y_clls - 1].next(p)) {
+	prtl = c[i][y_clls - 1].retrieve(p);
 	prtl->StatesCopier(prtl->rl_prtl, 1);
 	Boundary_N(prtl);
       }
     }
   }
   if((xBl == 0 && yBd == 0) || (xBl == 2 && yBd == 2)) {
-    for (p = q.cell_lists[X][0].first();
-	 !q.cell_lists[X][0].isEnd(p);
-	 p = q.cell_lists[X][0].next(p)) {
-      prtl = q.cell_lists[X][0].retrieve(p);
+    for (p = c[X][0].first();
+	 !c[X][0].isEnd(p);
+	 p = c[X][0].next(p)) {
+      prtl = c[X][0].retrieve(p);
       prtl->StatesCopier(prtl->rl_prtl, 0);
       Boundary_SW(prtl);
     }
   }
   if((xBl == 1 && yBd == 1) || (xBl == 3 && yBd == 3)) {
-    for (p = q.cell_lists[X][0].first();
-	 !q.cell_lists[X][0].isEnd(p);
-	 p = q.cell_lists[X][0].next(p)) {
-      prtl = q.cell_lists[X][0].retrieve(p);
+    for (p = c[X][0].first();
+	 !c[X][0].isEnd(p);
+	 p = c[X][0].next(p)) {
+      prtl = c[X][0].retrieve(p);
       prtl->StatesCopier(prtl->rl_prtl, 1);
       Boundary_SW(prtl);
     }
   }
   if((xBl == 0 && yBu == 0) || (xBl == 2 && yBu == 2)) {
-    for (p = q.cell_lists[X][y_clls - 1].first();
-	 !q.cell_lists[X][y_clls - 1].isEnd(p);
-	 p = q.cell_lists[X][y_clls - 1].next(p)) {
-      prtl = q.cell_lists[X][y_clls - 1].retrieve(p);
+    for (p = c[X][y_clls - 1].first();
+	 !c[X][y_clls - 1].isEnd(p);
+	 p = c[X][y_clls - 1].next(p)) {
+      prtl = c[X][y_clls - 1].retrieve(p);
       prtl->StatesCopier(prtl->rl_prtl, 0);
       Boundary_NW(prtl);
     }
   }
   if((xBl == 1 && yBu == 1) || (xBl == 3 && yBu == 3)) {
-    for (p = q.cell_lists[X][y_clls - 1].first();
-	 !q.cell_lists[X][y_clls - 1].isEnd(p);
-	 p = q.cell_lists[X][y_clls - 1].next(p)) {
-      prtl = q.cell_lists[X][y_clls - 1].retrieve(p);
+    for (p = c[X][y_clls - 1].first();
+	 !c[X][y_clls - 1].isEnd(p);
+	 p = c[X][y_clls - 1].next(p)) {
+      prtl = c[X][y_clls - 1].retrieve(p);
       prtl->StatesCopier(prtl->rl_prtl, 1);
       Boundary_NW(prtl);
     }
   }
   if((xBr == 0 && yBu == 0) || (xBr == 2 && yBu == 2)) {
-    for (p = q.cell_lists[x_clls - 1][y_clls - 1].first();
-	 !q.cell_lists[x_clls - 1][y_clls - 1].isEnd(p);
-	 p = q.cell_lists[x_clls - 1][y_clls - 1].next(p)) {
-      prtl = q.cell_lists[x_clls - 1][y_clls - 1].retrieve(p);
+    for (p = c[x_clls - 1][y_clls - 1].first();
+	 !c[x_clls - 1][y_clls - 1].isEnd(p);
+	 p = c[x_clls - 1][y_clls - 1].next(p)) {
+      prtl = c[x_clls - 1][y_clls - 1].retrieve(p);
       prtl->StatesCopier(prtl->rl_prtl, 0);
       Boundary_NE(prtl);
     }
   }
   if((xBr == 1 && yBu == 1) || (xBr == 3 && yBu == 3)) {
-    for (p = q.cell_lists[x_clls - 1][y_clls - 1].first();
-	 !q.cell_lists[x_clls - 1][y_clls - 1].isEnd(p);
-	 p = q.cell_lists[x_clls - 1][y_clls - 1].next(p)) {
-      prtl = q.cell_lists[x_clls - 1][y_clls - 1].retrieve(p);
+    for (p = c[x_clls - 1][y_clls - 1].first();
+	 !c[x_clls - 1][y_clls - 1].isEnd(p);
+	 p = c[x_clls - 1][y_clls - 1].next(p)) {
+      prtl = c[x_clls - 1][y_clls - 1].retrieve(p);
       prtl->StatesCopier(prtl->rl_prtl, 1);
       Boundary_NE(prtl);
     }
   }
   if((xBr == 0 && yBd == 0) || (xBr == 2 && yBd == 2)) {
-    for (p = q.cell_lists[x_clls - 1][0].first();
-	 !q.cell_lists[x_clls - 1][0].isEnd(p);
-	 p = q.cell_lists[x_clls - 1][0].next(p)) {
-      prtl = q.cell_lists[x_clls - 1][0].retrieve(p);
+    for (p = c[x_clls - 1][0].first();
+	 !c[x_clls - 1][0].isEnd(p);
+	 p = c[x_clls - 1][0].next(p)) {
+      prtl = c[x_clls - 1][0].retrieve(p);
       prtl->StatesCopier(prtl->rl_prtl, 0);
       Boundary_SE(prtl);
     }
   }
   if((xBr == 1 && yBd == 1) || (xBr == 3 && yBd == 3)) {
-    for (p = q.cell_lists[x_clls - 1][0].first();
-	 !q.cell_lists[x_clls - 1][0].isEnd(p);
-	 p = q.cell_lists[x_clls - 1][0].next(p)) {
-      prtl = q.cell_lists[x_clls - 1][0].retrieve(p);
+    for (p = c[x_clls - 1][0].first();
+	 !c[x_clls - 1][0].isEnd(p);
+	 p = c[x_clls - 1][0].next(p)) {
+      prtl = c[x_clls - 1][0].retrieve(p);
       prtl->StatesCopier(prtl->rl_prtl, 1);
       Boundary_SE(prtl);
     }
