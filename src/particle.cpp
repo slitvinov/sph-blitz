@@ -10,7 +10,7 @@ enum {X, Y};
 long particle_ID_max;
 int particle_number_of_materials;
 
-#define A(v) v = q.v
+#define A(v) v = q->v
 
 static int
 phi_ini(double ***pq)
@@ -87,13 +87,13 @@ Particle::Particle(double x, double y, Material *material)
     T = 0.0;
 }
 
-Particle::Particle(Particle &q)
+Particle::Particle(Particle *q)
 {
     int i, j;
     bd = 1;
     bd_type = 1;
     ID = 0;
-    rl_prtl = &q;
+    rl_prtl = q;
     A(mtl);
     eta = mtl->eta; zeta = mtl->zeta;
     A(R[X]);

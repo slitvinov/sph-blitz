@@ -15,7 +15,7 @@ enum {X, Y};
 using namespace std;
 
 #define A prtl = new Particle(prtl_old, &hydro->materials[0])
-#define B prtl = new Particle(*prtl_old)
+#define B prtl = new Particle(prtl_old)
 #define C(t) do {                               \
     if (prtl->rl_prtl == NULL)                  \
       abort();                                  \
