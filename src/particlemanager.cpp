@@ -223,7 +223,7 @@ void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation &ini)
       fin>>material_name>>position[0]>>position[1]>>velocity[0]>>velocity[1]
 	 >>density>>pressure>>Temperature;
       material_no = -1;
-      for(k = 0;  k <= number_of_materials; k++)
+      for(k = 0;  k < number_of_materials; k++)
 	if(strcmp(material_name, hydro.materials[k].material_name) == 0) material_no = k;
       if(material_no != -1) {
 	pressure = get_p(&hydro.materials[material_no], density);
