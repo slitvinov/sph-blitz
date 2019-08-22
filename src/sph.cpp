@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
     quinticspline_ini(ini.smoothinglength, &weight_function);
     MLS mls(ini.MLS_MAX); 
     ParticleManager particles(ini);
-    Hydrodynamics hydro(particles, ini); 
+    Hydrodynamics hydro(&particles, &ini); 
     particles.BuildRealParticles(hydro, ini);
     Boundary boundary(&ini, &hydro, &particles);
     TimeSolver timesolver(ini);
