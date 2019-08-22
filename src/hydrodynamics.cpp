@@ -277,27 +277,6 @@ void Hydrodynamics::UpdateSurfaceStress(Boundary *boundary)
 	prtl->del_phi[1] = interm2/interm0;
     }
 }
-void Hydrodynamics::UpdateVolume(ParticleManager *particles, QuinticSpline *weight_function)
-{
-    double reciprocV;
-    LIST *p, *p1;
-    Particle *prtl_org, *prtl_dest;
-    for (p = particle_list.first();
-	 !particle_list.isEnd(p);
-	 p = particle_list.next(p)) {
-	prtl_org = particle_list.retrieve(p);
-	particles->BuildNNP(prtl_org->R);
-	reciprocV = 0.0;
-	for (p1 = particles->NNP_list.first();
-	     !particles->NNP_list.isEnd(p1);
-	     p1 = particles->NNP_list.next(p1)) {
-	    prtl_dest = particles->NNP_list.retrieve(p1);
-	    reciprocV += w(weight_function, vv_distance(prtl_org->R, prtl_dest->R));
-	}
-	prtl_org->V = 1.0/reciprocV;
-	particles->NNP_list.clear();
-    }
-}
 double Hydrodynamics::GetTimestep()
 {
     Particle *prtl;
