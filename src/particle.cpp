@@ -1,5 +1,5 @@
-#include <cmath>
-#include <cstdio>
+#include <stdlib.h>
+#include <stdio.h>
 #include "vv.h"
 #include "glbfunc.h"
 #include "material.h"
@@ -18,9 +18,9 @@ phi_ini(double ***pq)
     int n, i, j;
     double **q;
     n = particle_number_of_materials;
-    q = new double*[n];
+    q = (double**)malloc(n*sizeof(*q));
     for(i = 0; i < n; i++)
-	q[i] = new double[n];
+	q[i] = (double*)malloc(n*sizeof(*q));
     for(i = 0; i < n; i++)
 	for(j = 0; j < n; j++)
 	    q[i][j] = 0.0;
@@ -32,9 +32,9 @@ Particle::~Particle()
 {
     int i;
     for(i = 0; i < particle_number_of_materials; i++) {
-	delete[] phi[i];
+	free(phi[i]);
     }
-    delete[] phi;
+    free(phi);
 }
 
 Particle::Particle(double position[2], double velocity[2], double density, double pressure, double temperature, Material *material)
@@ -89,7 +89,6 @@ Particle::Particle(double x, double y, Material *material)
 
 Particle::Particle(Particle *q)
 {
-    int i, j;
     bd = 1;
     bd_type = 1;
     ID = 0;
@@ -130,7 +129,6 @@ Particle::Particle(Particle *q)
 
 Particle::Particle(Particle *q, Material *material)
 {
-    int i, j;
     bd = 1;
     bd_type = 0;
     ID = 0;
@@ -173,7 +171,6 @@ Particle::Particle(Particle *q, Material *material)
 void Particle::StatesCopier(Particle *q, int type)
 {
     int i, j;
-
     R[X] = q->R[X];
     R[Y] = q->R[Y];
     m = q->m;
