@@ -148,7 +148,7 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, Llist<P
 	      if(dstc <= smoothinglengthsquare && prtl_org->ID >= prtl_dest->ID) {
 		if(current_used == old_length) {
 		    Interaction *pair = new Interaction(prtl_org, prtl_dest, forces, weight_function, sqrt(dstc));
-		    {interactions.insert(current, pair);}
+		    {interactions.insert(interactions.first(), pair);}
 		}
 		else {
 		    interactions.retrieve(current)->NewInteraction(prtl_org, prtl_dest, forces, weight_function, sqrt(dstc));
