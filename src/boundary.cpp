@@ -59,10 +59,12 @@ void Boundary::show_information(void)
 }
 void Boundary::RunAwayCheck(Hydrodynamics *hydro)
 {
-  for (LlistNode<Particle> *p = hydro->particle_list.first();
+    LlistNode<Particle> *p;
+    Particle *prtl;
+  for (p = hydro->particle_list.first();
        !hydro->particle_list.isEnd(p);
        p = hydro->particle_list.next(p)) {
-    Particle *prtl = hydro->particle_list.retrieve(p);
+    prtl = hydro->particle_list.retrieve(p);
     if(fabs(prtl->R[X]) >= 2.0*box_size[X] || fabs(prtl->R[Y]) >= 2.0*box_size[Y]) {
       cout<<"Boundary: the q run out too far away from the domain! \n";
       std::cout << __FILE__ << ':' << __LINE__ << std::endl;
@@ -139,13 +141,13 @@ void Boundary::RunAwayCheck(Hydrodynamics *hydro)
 void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 {
   int i, j;
-  LlistNode<Particle> *p;
   Particle *prtl, *prtl_old;
   int kb, ku, mb, mu;
   Llist<Particle> **c;
+  LlistNode<Particle> *p;
 
   c = q->cell_lists;
-  b.clear();
+  b.clear_data();
   kb = 0; mb = x_clls;
   ku = 0; mu = x_clls;
   if(xBl == yBd) kb = 1;
@@ -153,7 +155,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
   if(xBl == yBu) ku = 1;
   if(xBr == yBu) mu = x_clls - 1;
   for(j = 1; j < y_clls - 1; j++) {
-    c[X][j].clear_data();
+    c[X][j].clear();
     if(xBl == 0 || xBl == 2) {
       for (p = c[Y][j].first();
 	   !c[Y][j].isEnd(p);
@@ -190,7 +192,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	c[X][j].insert(c[X][j].first(), prtl);
       }
     }
-    c[x_clls - 1][j].clear_data();
+    c[x_clls - 1][j].clear();
     if(xBr == 0 || xBr == 2) {
       for (p = c[x_clls - 2][j].first();
 	   !c[x_clls - 2][j].isEnd(p);
@@ -229,7 +231,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
   }
   for(i = kb; i < mb; i++) {
-    c[i][0].clear_data();
+    c[i][0].clear();
     if(yBd == 0 || yBd == 2) {
       for (p = c[i][1].first();
 	   !c[i][1].isEnd(p);
@@ -268,7 +270,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
   }
   for(i = ku; i < mu; i++) {
-    c[i][y_clls - 1].clear_data();
+    c[i][y_clls - 1].clear();
     if(yBu == 0 || yBu == 2) {
       for (p = c[i][y_clls - 2].first();
 	   !c[i][y_clls - 2].isEnd(p);
@@ -307,7 +309,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
   }
   if((xBl == 0 && yBd == 0) || (xBl == 2 && yBd == 2)) {
-    c[X][0].clear_data();
+    c[X][0].clear();
     for (p = c[Y][1].first();
 	 !c[Y][1].isEnd(p);
 	 p = c[Y][1].next(p)) {
@@ -320,7 +322,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
   }
   if(xBl == 3 && yBd == 3) {
-    c[X][0].clear_data();
+    c[X][0].clear();
     for (p = c[Y][1].first();
 	 !c[Y][1].isEnd(p);
 	 p = c[Y][1].next(p)) {
@@ -333,7 +335,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
   }
   if(xBl == 1 && yBd == 1) {
-    c[X][0].clear_data();
+    c[X][0].clear();
     for (p = c[x_clls - 2][y_clls - 2].first();
 	 !c[x_clls - 2][y_clls - 2].isEnd(p);
 	 p = c[x_clls - 2][y_clls - 2].next(p)) {
@@ -346,7 +348,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
   }
   if((xBl == 0 && yBu == 0) || (xBl == 2 && yBu == 2)) {
-    c[X][y_clls - 1].clear_data();
+    c[X][y_clls - 1].clear();
     for (p = c[Y][y_clls - 2].first();
 	 !c[Y][y_clls - 2].isEnd(p);
 	 p = c[Y][y_clls - 2].next(p)) {
@@ -359,7 +361,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
   }
   if(xBl == 3 && yBu == 3) {
-    c[X][y_clls - 1].clear_data();
+    c[X][y_clls - 1].clear();
     for (p = c[Y][y_clls - 2].first();
 	 !c[Y][y_clls - 2].isEnd(p);
 	 p = c[Y][y_clls - 2].next(p)) {
@@ -372,7 +374,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
   }
   if(xBl == 1 && yBu == 1) {
-    c[X][y_clls - 1].clear_data();
+    c[X][y_clls - 1].clear();
     for (p = c[x_clls - 2][1].first();
 	 !c[x_clls - 2][1].isEnd(p);
 	 p = c[x_clls - 2][1].next(p)) {
@@ -385,7 +387,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
   }
   if((xBr == 0 && yBu == 0) || (xBr == 2 && yBu == 2)) {
-    c[x_clls - 1][y_clls - 1].clear_data();
+    c[x_clls - 1][y_clls - 1].clear();
     for (p = c[x_clls - 2][y_clls - 2].first();
 	 !c[x_clls - 2][y_clls - 2].isEnd(p);
 	 p = c[x_clls - 2][y_clls - 2].next(p)) {
@@ -398,7 +400,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
   }
   if(xBr == 3 && yBu == 3) {
-    c[x_clls - 1][y_clls - 1].clear_data();
+    c[x_clls - 1][y_clls - 1].clear();
     for (p = c[x_clls - 2][y_clls - 2].first();
 	 !c[x_clls - 2][y_clls - 2].isEnd(p);
 	 p = c[x_clls - 2][y_clls - 2].next(p)) {
@@ -411,7 +413,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
   }
   if(xBr == 1 && yBu == 1) {
-    c[x_clls - 1][y_clls - 1].clear_data();
+    c[x_clls - 1][y_clls - 1].clear();
     for (p = c[Y][1].first();
 	 !c[Y][1].isEnd(p);
 	 p = c[Y][1].next(p)) {
@@ -424,7 +426,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
   }
   if((xBr == 0 && yBd == 0) || (xBr == 2 && yBd == 2)) {
-    c[x_clls - 1][0].clear_data();
+    c[x_clls - 1][0].clear();
     for (p = c[x_clls - 2][1].first();
 	 !c[x_clls - 2][1].isEnd(p);
 	 p = c[x_clls - 2][1].next(p)) {
@@ -437,7 +439,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
   }
   if(xBr == 3 && yBd == 3) {
-    c[x_clls - 1][0].clear_data();
+    c[x_clls - 1][0].clear();
     for (p = c[x_clls - 2][1].first();
 	 !c[x_clls - 2][1].isEnd(p);
 	 p = c[x_clls - 2][1].next(p)) {
@@ -450,7 +452,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
   }
   if(xBr == 1 && yBd == 1) {
-    c[x_clls - 1][0].clear_data();
+    c[x_clls - 1][0].clear();
     for (p = c[Y][y_clls - 2].first();
 	 !c[Y][y_clls - 2].isEnd(p);
 	 p = c[Y][y_clls - 2].next(p)) {
