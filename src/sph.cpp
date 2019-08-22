@@ -1,7 +1,4 @@
-#include <cmath>
 #include <iostream>
-#include <stdlib.h>
-#include <stdio.h>
 #include "timesolver.h"
 #include "dllist.h"
 #include "mls.h"
@@ -20,7 +17,6 @@ extern double interaction_art_vis;
 extern double interaction_delta;
 extern long particle_ID_max;
 extern int particle_number_of_materials;
-using namespace std;
 int main(int argc, char *argv[]) {
     double Time;
     Initiation ini;
