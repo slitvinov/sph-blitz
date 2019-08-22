@@ -51,12 +51,11 @@ Boundary::Boundary(Initiation *ini, Hydrodynamics *hydro, ParticleManager *q)
 }
 void Boundary::show_information(void)
 {
-  cout<<"The left, right, lower and upper boundary conditions are "
-      <<xBl<<", "<<xBr<<", "<<yBd<<", "<<yBu<<" \n";
-  cout<<"0: wall boundary condition\n";
-  cout<<"1: perodic boundary condition\n";
-  cout<<"2: free slip wall boundary condition\n";
-  cout<<"3: symmetry boundary condition\n";
+    printf("The left, right, lower and upper boundary %d %d %d %d", xBl, xBr, yBd, yBu);
+    puts("0: wall boundary condition");
+    puts("1: perodic boundary condition\n");
+    puts("2: free slip wall boundary condition\n");
+    puts("3: symmetry boundary condition\n");
 }
 void Boundary::RunAwayCheck(Hydrodynamics *hydro)
 {
