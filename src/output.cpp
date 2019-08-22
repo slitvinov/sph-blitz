@@ -66,8 +66,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,  double T
 	if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) { 
 	    j++;
 	    if(j == 1) 	out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
-	    out<<prtl->R[0]<<"  "<<prtl->R[1]
-	       <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
+	    out<<prtl->R[0]<<"  "<<prtl->R[1] <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
 	}
     }
   }
