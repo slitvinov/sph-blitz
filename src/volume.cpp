@@ -8,23 +8,24 @@
 #include "hydrodynamics.h"
 #include "particle.h"
 #include "volume.h"
-void VolumeMass(Hydrodynamics &hydro, ParticleManager &particles, QuinticSpline &weight_function)
+void VolumeMass(Hydrodynamics *hydro, ParticleManager *particles, QuinticSpline *weight_function)
 {
     enum {X, Y};
     double reciprocV; 
     double dstc;
     double eij[2], sumdw[2];
     LlistNode<Particle> *p, *p1;
+    Particle *prtl_org, *prtl_dest;
     for (p = hydro.particle_list.first(); 
 	 !hydro.particle_list.isEnd(p); 
 	 p = hydro.particle_list.next(p)) {
-	Particle *prtl_org = hydro.particle_list.retrieve(p);
+	prtl_org= hydro.particle_list.retrieve(p);
 	particles.BuildNNP(prtl_org->R);
 	reciprocV = 0.0; sumdw[X] = sumdw[Y] = 0.0;
 	for (p1 = particles.NNP_list.first(); 
 	     !particles.NNP_list.isEnd(p1); 
 	     p1 = particles.NNP_list.next(p1)) {
-	    Particle *prtl_dest = particles.NNP_list.retrieve(p1);
+	    prtl_dest = particles.NNP_list.retrieve(p1);
 	    dstc = vv_distance(prtl_org->R, prtl_dest->R);
 	    eij[X] = (prtl_org->R[X] - prtl_dest->R[X])/(dstc + 1.e-30);
 	    eij[Y] = (prtl_org->R[Y] - prtl_dest->R[Y])/(dstc + 1.e-30);

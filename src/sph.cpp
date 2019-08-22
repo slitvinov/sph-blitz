@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     Boundary boundary(&ini, &hydro, &particles);
     TimeSolver timesolver(&ini);
     Output output(ini);
-    VolumeMass(hydro, particles, weight_function); 
+    VolumeMass(&hydro, &particles, &weight_function); 
     boundary.BoundaryCondition(&particles); 
     Diagnose diagnose(ini, hydro);
     Time = ini.Start_time;
