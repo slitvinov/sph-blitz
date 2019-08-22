@@ -49,11 +49,11 @@ int main(int argc, char *argv[]) {
     ParticleManager particles(ini);
     Hydrodynamics hydro(particles, ini); ///- create materials, forces and real particles
     particles.BuildRealParticles(hydro, ini);
-    Boundary boundary(ini, hydro, particles);
+    Boundary boundary(&ini, &hydro, &particles);
     TimeSolver timesolver(ini);
     Output output(ini);
     VolumeMass(hydro, particles, weight_function); //predict particle volume and mass
-    boundary.BoundaryCondition(particles); //repose the boundary condition
+    boundary.BoundaryCondition(&particles); //repose the boundary condition
     Diagnose diagnose(ini, hydro);
 
     Time = ini.Start_time;

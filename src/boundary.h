@@ -2,7 +2,6 @@ class Boundary
 {
     double box_size[2];
     int x_clls, y_clls;
-    int number_of_materials;
     void show_information();
     void Boundary_W(Particle *prtl);
     void Boundary_E(Particle *prtl);
@@ -22,8 +21,8 @@ public:
     double UyBd[2];
     double UyBu[2];
     Llist<Particle> boundary_particle_list; 
-    Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &particles);
-    void BuildBoundaryParticles(ParticleManager &particles, Hydrodynamics &hydro);
-    void BoundaryCondition(ParticleManager &particles);
-    void RunAwayCheck(Hydrodynamics &hydro);
+    Boundary(Initiation *ini, Hydrodynamics *hydro, ParticleManager *particles);
+    void BuildBoundaryParticles(ParticleManager *particles, Hydrodynamics *hydro);
+    void BoundaryCondition(ParticleManager *particles);
+    void RunAwayCheck(Hydrodynamics *hydro);
 };

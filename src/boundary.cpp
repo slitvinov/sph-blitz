@@ -14,7 +14,7 @@ struct QuinticSpline;
 enum {X, Y};
 using namespace std;
 
-#define A prtl = new Particle(prtl_old, &hydro.materials[0])
+#define A prtl = new Particle(prtl_old, &hydro->materials[0])
 #define B prtl = new Particle(*prtl_old)
 #define C(t) do {                               \
     if (prtl->rl_prtl == NULL)                  \
@@ -22,15 +22,15 @@ using namespace std;
     prtl->StatesCopier(prtl->rl_prtl, t);       \
   } while (0)
 
-Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &q)
+Boundary::Boundary(Initiation *ini, Hydrodynamics *hydro, ParticleManager *q)
 {
   char Key_word[FILENAME_MAX];
   char inputfile[FILENAME_MAX];
-  box_size[X] = ini.box_size[X];
-  box_size[Y] = ini.box_size[Y];
-  x_clls = q.x_clls; y_clls = q.y_clls;
-  number_of_materials = ini.number_of_materials;
-  strcpy(inputfile, ini.inputfile);
+  box_size[X] = ini->box_size[X];
+  box_size[Y] = ini->box_size[Y];
+  x_clls = q->x_clls;
+  y_clls = q->y_clls;
+  strcpy(inputfile, ini->inputfile);
   ifstream fin(inputfile, ios::in);
   if (!fin) {
     cout<<"Boundary: Cannot open "<< inputfile <<" \n";
@@ -58,12 +58,12 @@ void Boundary::show_information(void)
   cout<<"2: free slip wall boundary condition\n";
   cout<<"3: symmetry boundary condition\n";
 }
-void Boundary::RunAwayCheck(Hydrodynamics &hydro)
+void Boundary::RunAwayCheck(Hydrodynamics *hydro)
 {
-  for (LlistNode<Particle> *p = hydro.particle_list.first();
-       !hydro.particle_list.isEnd(p);
-       p = hydro.particle_list.next(p)) {
-    Particle *prtl = hydro.particle_list.retrieve(p);
+  for (LlistNode<Particle> *p = hydro->particle_list.first();
+       !hydro->particle_list.isEnd(p);
+       p = hydro->particle_list.next(p)) {
+    Particle *prtl = hydro->particle_list.retrieve(p);
     if(fabs(prtl->R[X]) >= 2.0*box_size[X] || fabs(prtl->R[Y]) >= 2.0*box_size[Y]) {
       cout<<"Boundary: the q run out too far away from the domain! \n";
       std::cout << __FILE__ << ':' << __LINE__ << std::endl;
@@ -137,7 +137,7 @@ void Boundary::RunAwayCheck(Hydrodynamics &hydro)
     }
   }
 }
-void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
+void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 {
   int i, j;
   LlistNode<Particle> *p;
@@ -145,7 +145,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
   int kb, ku, mb, mu;
   Llist<Particle> **c;
 
-  c = q.cell_lists;
+  c = q->cell_lists;
   boundary_particle_list.clear();
   kb = 0; mb = x_clls;
   ku = 0; mu = x_clls;
@@ -464,7 +464,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
     }
   }
 }
-void Boundary::BoundaryCondition(ParticleManager &q)
+void Boundary::BoundaryCondition(ParticleManager *q)
 {
   int i, j;
   int kb, ku, mb, mu;
@@ -472,7 +472,7 @@ void Boundary::BoundaryCondition(ParticleManager &q)
   LlistNode<Particle> *p;
   Llist<Particle> **c;
 
-  c = q.cell_lists;
+  c = q->cell_lists;
   kb = 0; mb = x_clls;
   ku = 0; mu = x_clls;
   if(xBl == yBd) kb = 1;

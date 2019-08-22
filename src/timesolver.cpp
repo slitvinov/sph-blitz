@@ -56,20 +56,20 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
 	///<li>the prediction step
 	hydro.BuildPair(particles, weight_function);///<ol><li>hydro.buildPair
 	hydro.UpdateDensity();///<li> hydro.UpdateDensity
-	boundary.BoundaryCondition(particles);///<li> boundary.BoundaryCondition
+	boundary.BoundaryCondition(&particles);///<li> boundary.BoundaryCondition
 	hydro.UpdatePhaseGradient(boundary);///<li>hydro.UpdatePhaseGradient
-	boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
+	boundary.BoundaryCondition(&particles);///<li>boundary.BoundaryCondition
 	hydro.UpdateSurfaceStress(boundary);///<li>hydro.UpdateSurfaceStress
 	hydro.UpdateChangeRate();///<li> hydro.UpdateChangeRate
 	hydro.Predictor_summation(dt);///<li>hydro.Predictor_summation</ol>
 
 	///<li> the correction step without update the interaction list
-	boundary.BoundaryCondition(particles);///<ol><li>boundary.BoundaryCondition
+	boundary.BoundaryCondition(&particles);///<ol><li>boundary.BoundaryCondition
 	hydro.UpdatePair(weight_function);///<li>hydro.UpdatePair
 	hydro.UpdateDensity();///<li>hydro.UpdateDensity
-	boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
+	boundary.BoundaryCondition(&particles);///<li>boundary.BoundaryCondition
 	hydro.UpdatePhaseGradient(boundary);///<li>hydro.UpdatePhaseGradient
-	boundary.BoundaryCondition(particles);///<li>boundary.BoundaryCondition
+	boundary.BoundaryCondition(&particles);///<li>boundary.BoundaryCondition
 	hydro.UpdateSurfaceStress(boundary);///<li>hydro.UpdateSurfaceStress
 	hydro.UpdateChangeRate(); ///<li>hydro.UpdateChangeRate
 	hydro.UpdateRandom(sqrt(dt));///
@@ -77,8 +77,8 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
 	hydro.RandomEffects();
 
 	///<li> renew boundary particles
-	boundary.RunAwayCheck(hydro);///<ol><li>boundary.RunAwayCheck
+	boundary.RunAwayCheck(&hydro);///<ol><li>boundary.RunAwayCheck
 	particles.UpdateCellLinkedLists();///<li>particles.UpdateCellLinkedLists
-	boundary.BuildBoundaryParticles(particles, hydro);///<li>boundary.BuildBoundaryParticles</ol></ul>
+	boundary.BuildBoundaryParticles(&particles, &hydro);///<li>boundary.BuildBoundaryParticles</ol></ul>
     }
 }
