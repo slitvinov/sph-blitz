@@ -211,24 +211,27 @@ void Hydrodynamics::Zero_PhaseGradient(Boundary *boundary)
     for (p = boundary->b.first();
 	 !boundary->b.isEnd(p);
 	 p = boundary->b.next(p)) {
-	Particle *prtl = boundary->b.retrieve(p);
+	prtl = boundary->b.retrieve(p);
 	prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
     }
 }
 void Hydrodynamics::Zero_Random()
 {
     enum {X, Y};
-    for (LlistNode<Particle> *p = particle_list.first();
+    LlistNode<Particle> *p;
+    Particle *prtl;
+    for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-	Particle *prtl = particle_list.retrieve(p);
+	prtl = particle_list.retrieve(p);
 	prtl->_dU[X] = prtl->_dU[Y] = 0.0;
     }
 }
 void Hydrodynamics::AddGravity()
 {
+    LlistNode<Particle> *p;
     Particle *prtl;
-    for (LlistNode<Particle> *p = particle_list.first();
+    for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
 	prtl = particle_list.retrieve(p);
@@ -249,21 +252,23 @@ void Hydrodynamics::UpdateState()
 void Hydrodynamics::UpdatePahseMatrix(Boundary *boundary)
 {
     LlistNode<Particle> *p;
+    Particle *prtl;
+    int i, j;
     for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-	Particle *prtl = particle_list.retrieve(p);
-	for(int i = 0; i < number_of_materials; i++)
-	    for(int j = 0; j < number_of_materials; j++) {
+	prtl = particle_list.retrieve(p);
+	for(i = 0; i < number_of_materials; i++)
+	    for(j = 0; j < number_of_materials; j++) {
 		if( i != j) prtl->phi[i][j] = prtl->phi[i][j];
 	    }
     }
     for (p = boundary->b.first();
 	 !boundary->b.isEnd(p);
 	 p = boundary->b.next(p)) {
-	Particle *prtl = boundary->b.retrieve(p);
-	for(int i = 0; i < number_of_materials; i++)
-	    for(int j = 0; j < number_of_materials; j++) {
+	prtl = boundary->b.retrieve(p);
+	for(i = 0; i < number_of_materials; i++)
+	    for(j = 0; j < number_of_materials; j++) {
 		if( i != j) prtl->phi[i][j] = prtl->phi[i][j];
 	    }
     }
@@ -301,7 +306,8 @@ double Hydrodynamics::SurfaceTensionCoefficient()
     double totalvolume = 0.0;
     Particle *prtl;
     double interm1;
-    for (LlistNode<Particle> *p = particle_list.first();
+    LlistNode<Particle> *p;
+    for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
 	prtl = particle_list.retrieve(p);
