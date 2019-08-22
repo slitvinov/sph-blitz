@@ -164,7 +164,6 @@ void Hydrodynamics::UpdateRandom(double sqrtdt)
 }
 void Hydrodynamics::ZeroChangeRate()
 {
-    enum {X, Y};
     for (LlistNode<Particle> *p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
@@ -186,7 +185,6 @@ void Hydrodynamics::Zero_density()
 }
 void Hydrodynamics::Zero_ShearRate()
 {
-    enum {X, Y};
     LlistNode<Particle> *p;
     Particle *prtl;
     for (p = particle_list.first();
@@ -199,7 +197,6 @@ void Hydrodynamics::Zero_ShearRate()
 }
 void Hydrodynamics::Zero_PhaseGradient(Boundary *boundary)
 {
-    enum {X, Y};
     LlistNode<Particle> *p;
     Particle *prtl;
     for (p = particle_list.first();
@@ -217,7 +214,6 @@ void Hydrodynamics::Zero_PhaseGradient(Boundary *boundary)
 }
 void Hydrodynamics::Zero_Random()
 {
-    enum {X, Y};
     LlistNode<Particle> *p;
     Particle *prtl;
     for (p = particle_list.first();
