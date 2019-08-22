@@ -1,12 +1,3 @@
-///\file hydrodynamics.cpp
-/// \author Xiangyu Hu <Xiangyu.Hu@aer.mw.tum.de>
-///\author changes by: Martin Bernreuther <Martin.Bernreuther@ipvs.uni-stuttgart.de>,
-
-//----------------------------------------------------------------------------------------
-//      Define materials and their hydrodynamical interactions
-//		hydrodynamics.cpp
-//----------------------------------------------------------------------------------------
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -364,12 +355,12 @@ void Hydrodynamics::Zero_PhaseGradient(Boundary &boundary)
   }
 
   ///- iterate particles on the boundary particle list
-  for (LlistNode<Particle> *p1 = boundary.boundary_particle_list.first();
-       !boundary.boundary_particle_list.isEnd(p1);
-       p1 = boundary.boundary_particle_list.next(p1)) {
+  for (LlistNode<Particle> *p1 = boundary.b.first();
+       !boundary.b.isEnd(p1);
+       p1 = boundary.b.next(p1)) {
 
     //particle
-    Particle *prtl = boundary.boundary_particle_list.retrieve(p1);
+    Particle *prtl = boundary.b.retrieve(p1);
 
      ///- set phase gradient to zeo for each of these particle
     prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
@@ -450,12 +441,12 @@ void Hydrodynamics::UpdatePahseMatrix(Boundary &boundary)
   }
 
   ///- iterate particles on the boundary particle list
-  for (LlistNode<Particle> *p1 = boundary.boundary_particle_list.first();
-       !boundary.boundary_particle_list.isEnd(p1);
-       p1 = boundary.boundary_particle_list.next(p1)) {
+  for (LlistNode<Particle> *p1 = boundary.b.first();
+       !boundary.b.isEnd(p1);
+       p1 = boundary.b.next(p1)) {
 
     //particle
-    Particle *prtl = boundary.boundary_particle_list.retrieve(p1);
+    Particle *prtl = boundary.b.retrieve(p1);
 
     ///- all phase surface stress (currently no action is perforemd)
     for(int i = 0; i < number_of_materials; i++)
@@ -490,12 +481,12 @@ void Hydrodynamics::UpdateSurfaceStress(Boundary &boundary)
   }
 
   ///- iterate particles on the boundary particle list
-  for (LlistNode<Particle> *p1 = boundary.boundary_particle_list.first();
-       !boundary.boundary_particle_list.isEnd(p1);
-       p1 = boundary.boundary_particle_list.next(p1)) {
+  for (LlistNode<Particle> *p1 = boundary.b.first();
+       !boundary.b.isEnd(p1);
+       p1 = boundary.b.next(p1)) {
 
     //particle
-    Particle *prtl = boundary.boundary_particle_list.retrieve(p1);
+    Particle *prtl = boundary.b.retrieve(p1);
 
     ///- update phase surface stress for all particles on this list
     interm0 = vv_abs(prtl->del_phi) + epsilon;

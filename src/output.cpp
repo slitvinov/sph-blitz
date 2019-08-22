@@ -22,128 +22,132 @@ using namespace std;
 
 Output::Output(Initiation &ini)
 {
-  strcpy(Project_name, ini.Project_name);
-  number_of_materials = ini.number_of_materials;
-  x_cells = ini.x_cells; y_cells = ini.y_cells;
-  hdelta = ini.hdelta; 
-  delta = ini.delta;
+    strcpy(Project_name, ini.Project_name);
+    number_of_materials = ini.number_of_materials;
+    x_cells = ini.x_cells; y_cells = ini.y_cells;
+    hdelta = ini.hdelta; 
+    delta = ini.delta;
 }
 
 void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,  double Time)
 {
-  int i, j;
-  double Itime;
-  char file_name[FILENAME_MAX], file_list[FILENAME_MAX];
+    int i, j;
+    double Itime;
+    char file_name[FILENAME_MAX], file_list[FILENAME_MAX];
+    Particle *prtl;
 
-  Itime = Time*1.0e6;
-  strcpy(file_name,"./outdata/p.");
-  sprintf(file_list, "%.10lld", (long long)Itime);
-  strcat(file_name, file_list);
-  strcat(file_name, ".dat");
+    Itime = Time*1.0e6;
+    strcpy(file_name,"./outdata/p.");
+    sprintf(file_list, "%.10lld", (long long)Itime);
+    strcat(file_name, file_list);
+    strcat(file_name, ".dat");
 
-  ofstream out(file_name);
-  out<<"title='particle position' \n";
-  out<<"variables=x, y, Ux, Uy \n";
+    ofstream out(file_name);
+    out<<"title='particle position' \n";
+    out<<"variables=x, y, Ux, Uy \n";
 	
-  for(i = 0; i < number_of_materials; i++) {
-    j = 0;
-    for (LlistNode<Particle> *p = hydro.particle_list.first(); 
-	 !hydro.particle_list.isEnd(p); 
-	 p = hydro.particle_list.next(p)) {
+    for(i = 0; i < number_of_materials; i++) {
+	j = 0;
+	for (LlistNode<Particle> *p = hydro.particle_list.first(); 
+	     !hydro.particle_list.isEnd(p); 
+	     p = hydro.particle_list.next(p)) {
 				
-      Particle *prtl = hydro.particle_list.retrieve(p);
-      if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) {
-	j++;
-	if(j == 1) out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
-	out<<prtl->R[0]<<"  "<<prtl->R[1] <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
-      }
-    }
+	    prtl = hydro.particle_list.retrieve(p);
+	    if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) {
+		j++;
+		if(j == 1) out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
+		out<<prtl->R[0]<<"  "<<prtl->R[1] <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
+	    }
+	}
 
-    for (LlistNode<Particle> *p1 = boundary.boundary_particle_list.first(); 
-	 !boundary.boundary_particle_list.isEnd(p1); 
-	 p1 = boundary.boundary_particle_list.next(p1)) {
-	Particle *prtl = boundary.boundary_particle_list.retrieve(p1);
-	if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) { 
-	    j++;
-	    if(j == 1) 	out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
-	    out<<prtl->R[0]<<"  "<<prtl->R[1] <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
+	for (LlistNode<Particle> *p1 = boundary.b.first(); 
+	     !boundary.b.isEnd(p1); 
+	     p1 = boundary.b.next(p1)) {
+	    prtl = boundary.b.retrieve(p1);
+	    if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) { 
+		j++;
+		if(j == 1) 	out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
+		out<<prtl->R[0]<<"  "<<prtl->R[1] <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
+	    }
 	}
     }
-  }
 }
 
 void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, double Time)
 {
-  int i, j, n;
-  int gridx, gridy;
-  double pstn[2];
-  double rho, phi, pressure, Temperature, x_velocity, y_velocity;
-  double Itime;
-  char file_name[FILENAME_MAX], file_list[10];
+    int i, j, n;
+    int gridx, gridy;
+    double pstn[2];
+    double rho, phi, pressure, Temperature, x_velocity, y_velocity;
+    double Itime;
+    char file_name[FILENAME_MAX], file_list[10];
+    Particle *prtl;
 
-  gridx = x_cells*hdelta; gridy = y_cells*hdelta;
+    gridx = x_cells*hdelta; gridy = y_cells*hdelta;
 	
-  Itime = Time*1.0e6;
-  strcpy(file_name,"./outdata/states");
-  sprintf(file_list, "%d", (int)Itime);
-  strcat(file_name, file_list);
-  strcat(file_name, ".dat");
+    Itime = Time*1.0e6;
+    strcpy(file_name,"./outdata/states");
+    sprintf(file_list, "%d", (int)Itime);
+    strcat(file_name, file_list);
+    strcat(file_name, ".dat");
 
-  ofstream out(file_name);
-  out<<"title='mapped states' \n";
-  out<<"variables=x, y, p, rho, phi, Ux, Uy, T \n";
-  out<<"zone t='filed', i="<<gridx + 1<<", j="<<gridy + 1<<"\n";
+    ofstream out(file_name);
+    out<<"title='mapped states' \n";
+    out<<"variables=x, y, p, rho, phi, Ux, Uy, T \n";
+    out<<"zone t='filed', i="<<gridx + 1<<", j="<<gridy + 1<<"\n";
 	
-  for(j = 0; j <= gridy; j++) { 
-    for(i = 0; i <= gridx; i++) {
-      pstn[0] = i*delta; pstn[1] = j*delta;
-      particles.BuildNNP(pstn);
-      if(!particles.NNP_list.empty()) 
-	mls.MLSMapping(pstn, particles.NNP_list, weight_function, 1);
-      n = 0;
-      rho = 0.0; phi = 0.0; pressure = 0.0; Temperature = 0.0;
-      x_velocity = 0.0; y_velocity = 0.0;
-      for (LlistNode<Particle> *p = particles.NNP_list.first(); 
-	   !particles.NNP_list.isEnd(p); 
-	   p = particles.NNP_list.next(p)) {
-	Particle *prtl = particles.NNP_list.retrieve(p);
-	rho += prtl->rho*mls.phi[n];
-	phi += prtl->phi[2][2]*mls.phi[n];
-	pressure += prtl->p*mls.phi[n];
-	Temperature += prtl->T*mls.phi[n];
-	x_velocity += prtl->U[0]*mls.phi[n];
-	y_velocity += prtl->U[1]*mls.phi[n];
-	n ++;
-      }
-      particles.NNP_list.clear();
-      out<<pstn[0]<<"  "<<pstn[1] <<"  "<<pressure<<"  "<<rho <<"  "<<phi <<"  "<<x_velocity<<"  "<<y_velocity <<"  "<<Temperature<<"\n";
+    for(j = 0; j <= gridy; j++) { 
+	for(i = 0; i <= gridx; i++) {
+	    pstn[0] = i*delta; pstn[1] = j*delta;
+	    particles.BuildNNP(pstn);
+	    if(!particles.NNP_list.empty()) 
+		mls.MLSMapping(pstn, particles.NNP_list, weight_function, 1);
+	    n = 0;
+	    rho = 0.0; phi = 0.0; pressure = 0.0; Temperature = 0.0;
+	    x_velocity = 0.0; y_velocity = 0.0;
+	    for (LlistNode<Particle> *p = particles.NNP_list.first(); 
+		 !particles.NNP_list.isEnd(p); 
+		 p = particles.NNP_list.next(p)) {
+		prtl = particles.NNP_list.retrieve(p);
+		rho += prtl->rho*mls.phi[n];
+		phi += prtl->phi[2][2]*mls.phi[n];
+		pressure += prtl->p*mls.phi[n];
+		Temperature += prtl->T*mls.phi[n];
+		x_velocity += prtl->U[0]*mls.phi[n];
+		y_velocity += prtl->U[1]*mls.phi[n];
+		n ++;
+	    }
+	    particles.NNP_list.clear();
+	    out<<pstn[0]<<"  "<<pstn[1] <<"  "<<pressure<<"  "<<rho <<"  "<<phi <<"  "<<x_velocity<<"  "<<y_velocity <<"  "<<Temperature<<"\n";
+	}
     }
-  }
-  out.close();
+    out.close();
 }
 
 void Output::OutRestart(Hydrodynamics &hydro, double Time)
 {
-  int n;
-  char outputfile[FILENAME_MAX];
-  strcpy(outputfile, Project_name);
-  strcat(outputfile,".rst");
-  ofstream out(outputfile);
-  n = 0;
-  for (LlistNode<Particle> *pp = hydro.particle_list.first(); 
-       !hydro.particle_list.isEnd(pp); 
-       pp = hydro.particle_list.next(pp)) {
-    Particle *prtl = hydro.particle_list.retrieve(pp);
-    if(prtl->bd == 0) n++;
-  }
-  out<<Time<<"\n";
-  out<<n<<"\n";
-  for (LlistNode<Particle> *p = hydro.particle_list.first(); 
-       !hydro.particle_list.isEnd(p); 
-       p = hydro.particle_list.next(p)) {
-    Particle *prtl = hydro.particle_list.retrieve(p);
-    if(prtl->bd == 0) 
-      out<<prtl->mtl->material_name<<"  "<<prtl->R[0]<<"  "<<prtl->R[1]<<"  "<<prtl->U[0]<<"  "<<prtl->U[1] <<"  "<<prtl->rho<<"  "<<prtl->p<<"  "<<prtl->T<< '\n';
-  }
-  out.close();
+    int n;
+    char outputfile[FILENAME_MAX];
+    Particle *prtl;
+  
+    strcpy(outputfile, Project_name);
+    strcat(outputfile,".rst");
+    ofstream out(outputfile);
+    n = 0;
+    for (LlistNode<Particle> *pp = hydro.particle_list.first(); 
+	 !hydro.particle_list.isEnd(pp); 
+	 pp = hydro.particle_list.next(pp)) {
+	Particle *prtl = hydro.particle_list.retrieve(pp);
+	if(prtl->bd == 0) n++;
+    }
+    out<<Time<<"\n";
+    out<<n<<"\n";
+    for (LlistNode<Particle> *p = hydro.particle_list.first(); 
+	 !hydro.particle_list.isEnd(p); 
+	 p = hydro.particle_list.next(p)) {
+	prtl = hydro.particle_list.retrieve(p);
+	if(prtl->bd == 0) 
+	    out<<prtl->mtl->material_name<<"  "<<prtl->R[0]<<"  "<<prtl->R[1]<<"  "<<prtl->U[0]<<"  "<<prtl->U[1] <<"  "<<prtl->rho<<"  "<<prtl->p<<"  "<<prtl->T<< '\n';
+    }
+    out.close();
 }

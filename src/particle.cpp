@@ -11,8 +11,8 @@ int particle_number_of_materials;
 
 #define A(v) v = q->v
 
-static int
-phi_ini(double ***pq)
+static double**
+phi_ini(void)
 {
     int n, i, j;
     double **q;
@@ -23,8 +23,7 @@ phi_ini(double ***pq)
     for(i = 0; i < n; i++)
 	for(j = 0; j < n; j++)
 	    q[i][j] = 0.0;
-    *pq = q;
-    return 0;
+    return q;
 }
 
 Particle::~Particle()
@@ -69,7 +68,7 @@ Particle::Particle(double position[2], double velocity[2], double density, doubl
     U_n[X] = U[X];
     U_n[Y] = U[Y];
     rho_n = rho;
-    phi_ini(&phi);
+    phi = phi_ini();
 }
 
 Particle::Particle(double x, double y, Material *material)
@@ -125,7 +124,7 @@ Particle::Particle(Particle *q)
     A(U_n[X]);
     A(U_n[Y]);
     A(rho_n);
-    phi_ini(&phi);
+    phi = phi_ini();
 }
 
 Particle::Particle(Particle *q, Material *material)
@@ -166,7 +165,7 @@ Particle::Particle(Particle *q, Material *material)
     A(U_n[X]);
     A(U_n[Y]);
     A(rho_n);
-    phi_ini(&phi);
+    phi = phi_ini();
 }
 
 void Particle::StatesCopier(Particle *q, int type)

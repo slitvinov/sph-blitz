@@ -20,7 +20,7 @@ public:
     double UxBr[2];
     double UyBd[2];
     double UyBu[2];
-    Llist<Particle> boundary_particle_list; 
+    Llist<Particle> b; 
     Boundary(Initiation *ini, Hydrodynamics *hydro, ParticleManager *particles);
     void BuildBoundaryParticles(ParticleManager *particles, Hydrodynamics *hydro);
     void BoundaryCondition(ParticleManager *particles);
