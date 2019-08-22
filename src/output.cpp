@@ -4,22 +4,17 @@
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
-
 #include "glbfunc.h"
 #include "dllist.h"
 #include "mls.h"
 #include "initiation.h"
-
 #include "hydrodynamics.h"
 #include "material.h"
 #include "particle.h"
 #include "boundary.h"
 #include "particlemanager.h"
-
 #include "output.h"
-
 using namespace std;
-
 Output::Output(Initiation &ini)
 {
     strcpy(Project_name, ini.Project_name);
@@ -28,30 +23,25 @@ Output::Output(Initiation &ini)
     hdelta = ini.hdelta; 
     delta = ini.delta;
 }
-
 void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,  double Time)
 {
     int i, j;
     double Itime;
     char file_name[FILENAME_MAX], file_list[FILENAME_MAX];
     Particle *prtl;
-
     Itime = Time*1.0e6;
     strcpy(file_name,"./outdata/p.");
     sprintf(file_list, "%.10lld", (long long)Itime);
     strcat(file_name, file_list);
     strcat(file_name, ".dat");
-
     ofstream out(file_name);
     out<<"title='particle position' \n";
     out<<"variables=x, y, Ux, Uy \n";
-	
     for(i = 0; i < number_of_materials; i++) {
 	j = 0;
 	for (LlistNode<Particle> *p = hydro.particle_list.first(); 
 	     !hydro.particle_list.isEnd(p); 
 	     p = hydro.particle_list.next(p)) {
-				
 	    prtl = hydro.particle_list.retrieve(p);
 	    if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) {
 		j++;
@@ -59,7 +49,6 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,  double T
 		out<<prtl->R[0]<<"  "<<prtl->R[1] <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
 	    }
 	}
-
 	for (LlistNode<Particle> *p1 = boundary.b.first(); 
 	     !boundary.b.isEnd(p1); 
 	     p1 = boundary.b.next(p1)) {
@@ -72,7 +61,6 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,  double T
 	}
     }
 }
-
 void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, double Time)
 {
     int i, j, n;
@@ -82,20 +70,16 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
     double Itime;
     char file_name[FILENAME_MAX], file_list[10];
     Particle *prtl;
-
     gridx = x_cells*hdelta; gridy = y_cells*hdelta;
-	
     Itime = Time*1.0e6;
     strcpy(file_name,"./outdata/states");
     sprintf(file_list, "%d", (int)Itime);
     strcat(file_name, file_list);
     strcat(file_name, ".dat");
-
     ofstream out(file_name);
     out<<"title='mapped states' \n";
     out<<"variables=x, y, p, rho, phi, Ux, Uy, T \n";
     out<<"zone t='filed', i="<<gridx + 1<<", j="<<gridy + 1<<"\n";
-	
     for(j = 0; j <= gridy; j++) { 
 	for(i = 0; i <= gridx; i++) {
 	    pstn[0] = i*delta; pstn[1] = j*delta;
@@ -123,13 +107,11 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
     }
     out.close();
 }
-
 void Output::OutRestart(Hydrodynamics &hydro, double Time)
 {
     int n;
     char outputfile[FILENAME_MAX];
     Particle *prtl;
-  
     strcpy(outputfile, Project_name);
     strcat(outputfile,".rst");
     ofstream out(outputfile);
