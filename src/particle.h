@@ -1,12 +1,12 @@
 class Material;
 class Particle {
 public:
-    Particle(double position[2], double velocity[2], double density, double pressure, double temperature, Material *material);
-    Particle(double x, double y, Material *material);
-    Particle(Particle *RealParticle);
-    Particle(Particle *RealParticle, Material *material);
+    Particle(double position[2], double velocity[2], double density, double pressure, double temperature, Material*);
+    Particle(double x, double y, Material*);
+    Particle(Particle*);
+    Particle(Particle*, Material*);
     ~Particle();
-    void StatesCopier(Particle *RealParticle, int type);
+    void StatesCopier(Particle*, int type);
     int cell_i;
     int cell_j;
     Material *mtl;

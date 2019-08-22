@@ -35,7 +35,10 @@ BEGIN {
       }
 
       A = var (idx == "NONE" ? "" : "[" idx "]")
-      print tab "B(" A ");"
+      B = var1 (idx == "NONE" ? "" : "[" idx1 "]")
+      if (A != B)
+      	 err($0)
+      print tab "A(" A ");"
       next
 }
 {
