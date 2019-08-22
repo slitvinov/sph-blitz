@@ -69,7 +69,7 @@ Particle::Particle(double position[2], double velocity[2], double density, doubl
     phi_ini(&phi);
 }
 
-Particle::Particle(double x, double y, double u, double v, Material *material)
+Particle::Particle(double x, double y, Material *material)
 {
     bd = 1;
     bd_type = 0;
@@ -77,8 +77,8 @@ Particle::Particle(double x, double y, double u, double v, Material *material)
     mtl = material;
     R[0] = x;
     R[1] = y;
-    U[0] = u;
-    U[1] = v;
+    U[0] = 0;
+    U[1] = 0;
     rho = 0.0;
     p = 0.0;
     T = 0.0;
