@@ -26,7 +26,8 @@ class ParticleManager;
 using namespace std;
 enum {X, Y};
 
-Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini) {
+Hydrodynamics::Hydrodynamics(ParticleManager &particles, Initiation &ini)
+{
     int k, m;
     int l, n;
     char Key_word[FILENAME_MAX];
