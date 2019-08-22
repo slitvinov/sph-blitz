@@ -14,8 +14,8 @@ struct QuinticSpline;
 enum {X, Y};
 using namespace std;
 
-#define A prtl =  new Particle(*prtl_old, &hydro.materials[0])
-#define B prtl =  new Particle(*prtl_old)
+#define A prtl = new Particle(*prtl_old, &hydro.materials[0])
+#define B prtl = new Particle(*prtl_old)
 
 Boundary::Boundary(Initiation &ini, Hydrodynamics &hydro, ParticleManager &q)
 {
@@ -155,7 +155,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	   !c[Y][j].isEnd(p);
 	   p = c[Y][j].next(p)) {
 	prtl_old = c[Y][j].retrieve(p);
-	prtl = new Particle(*prtl_old, &hydro.materials[0]);
+	A;
 	Boundary_W(prtl);
 	prtl->cell_i = 0; prtl->cell_j = j;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -167,7 +167,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	   !c[Y][j].isEnd(p);
 	   p = c[Y][j].next(p)) {
 	prtl_old = c[Y][j].retrieve(p);
-	prtl = new Particle(*prtl_old);
+	B;
 	Boundary_W(prtl);
 	prtl->cell_i = 0; prtl->cell_j = j;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -179,7 +179,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	   !c[x_clls - 2][j].isEnd(p);
 	   p = c[x_clls - 2][j].next(p)) {
 	prtl_old = c[x_clls - 2][j].retrieve(p);
-	prtl = new Particle(*prtl_old);
+	B;
 	Boundary_W(prtl);
 	prtl->cell_i = 0; prtl->cell_j = j;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -192,7 +192,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	   !c[x_clls - 2][j].isEnd(p);
 	   p = c[x_clls - 2][j].next(p)) {
 	prtl_old = c[x_clls - 2][j].retrieve(p);
-	prtl = new Particle(*prtl_old, &hydro.materials[0]);
+	A;
 	Boundary_E(prtl);
 	prtl->cell_i = x_clls - 1; prtl->cell_j = j;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -204,7 +204,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	   !c[x_clls - 2][j].isEnd(p);
 	   p = c[x_clls - 2][j].next(p)) {
 	prtl_old = c[x_clls - 2][j].retrieve(p);
-	prtl = new Particle(*prtl_old);
+	B;
 	Boundary_E(prtl);
 	prtl->cell_i = x_clls - 1; prtl->cell_j = j;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -216,7 +216,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	   !c[Y][j].isEnd(p);
 	   p = c[Y][j].next(p)) {
 	prtl_old = c[Y][j].retrieve(p);
-	prtl = new Particle(*prtl_old);
+	B;
 	Boundary_E(prtl);
 	prtl->cell_i = x_clls - 1; prtl->cell_j = j;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -231,7 +231,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	   !c[i][1].isEnd(p);
 	   p = c[i][1].next(p)) {
 	prtl_old = c[i][1].retrieve(p);
-	prtl = new Particle(*prtl_old, &hydro.materials[0]);
+	A;
 	Boundary_S(prtl);
 	prtl->cell_i = i; prtl->cell_j = 0;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -243,7 +243,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	   !c[i][1].isEnd(p);
 	   p = c[i][1].next(p)) {
 	prtl_old = c[i][1].retrieve(p);
-	prtl = new Particle(*prtl_old);
+	B;
 	Boundary_S(prtl);
 	prtl->cell_i = i; prtl->cell_j = 0;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -255,7 +255,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	   !c[i][y_clls - 2].isEnd(p);
 	   p = c[i][y_clls - 2].next(p)) {
 	prtl_old = c[i][y_clls - 2].retrieve(p);
-	prtl = new Particle(*prtl_old);
+	B;
 	Boundary_S(prtl);
 	prtl->cell_i = i; prtl->cell_j = 0;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -270,7 +270,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	   !c[i][y_clls - 2].isEnd(p);
 	   p = c[i][y_clls - 2].next(p)) {
 	prtl_old = c[i][y_clls - 2].retrieve(p);
-	prtl = new Particle(*prtl_old, &hydro.materials[0]);
+	A;
 	Boundary_N(prtl);
 	prtl->cell_i = i; prtl->cell_j = y_clls - 1;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -282,7 +282,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	   !c[i][y_clls - 2].isEnd(p);
 	   p = c[i][y_clls - 2].next(p)) {
 	prtl_old = c[i][y_clls - 2].retrieve(p);
-	prtl = new Particle(*prtl_old);
+	B;
 	Boundary_N(prtl);
 	prtl->cell_i = i; prtl->cell_j = y_clls - 1;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -294,7 +294,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	   !c[i][1].isEnd(p);
 	   p = c[i][1].next(p)) {
 	prtl_old = c[i][1].retrieve(p);
-	prtl = new Particle(*prtl_old);
+	B;
 	Boundary_N(prtl);
 	prtl->cell_i = i; prtl->cell_j = y_clls - 1;
 	boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -308,7 +308,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	 !c[Y][1].isEnd(p);
 	 p = c[Y][1].next(p)) {
       prtl_old = c[Y][1].retrieve(p);
-      prtl = new Particle(*prtl_old, &hydro.materials[0]);
+      A;
       Boundary_SW(prtl);
       prtl->cell_i = 0; prtl->cell_j = 0;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -321,7 +321,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	 !c[Y][1].isEnd(p);
 	 p = c[Y][1].next(p)) {
       prtl_old = c[Y][1].retrieve(p);
-      prtl = new Particle(*prtl_old);
+      B;
       Boundary_SW(prtl);
       prtl->cell_i = 0; prtl->cell_j = 0;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -334,7 +334,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	 !c[x_clls - 2][y_clls - 2].isEnd(p);
 	 p = c[x_clls - 2][y_clls - 2].next(p)) {
       prtl_old = c[x_clls - 2][y_clls - 2].retrieve(p);
-      prtl = new Particle(*prtl_old);
+      B;
       Boundary_SW(prtl);
       prtl->cell_i = 0; prtl->cell_j = 0;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -347,7 +347,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	 !c[Y][y_clls - 2].isEnd(p);
 	 p = c[Y][y_clls - 2].next(p)) {
       prtl_old = c[Y][y_clls - 2].retrieve(p);
-      prtl = new Particle(*prtl_old, &hydro.materials[0]);
+      A;
       Boundary_NW(prtl);
       prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -360,7 +360,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	 !c[Y][y_clls - 2].isEnd(p);
 	 p = c[Y][y_clls - 2].next(p)) {
       prtl_old = c[Y][y_clls - 2].retrieve(p);
-      prtl = new Particle(*prtl_old);
+      B;
       Boundary_NW(prtl);
       prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -373,7 +373,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	 !c[x_clls - 2][1].isEnd(p);
 	 p = c[x_clls - 2][1].next(p)) {
       prtl_old = c[x_clls - 2][1].retrieve(p);
-      prtl = new Particle(*prtl_old);
+      B;
       Boundary_NW(prtl);
       prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -386,7 +386,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	 !c[x_clls - 2][y_clls - 2].isEnd(p);
 	 p = c[x_clls - 2][y_clls - 2].next(p)) {
       prtl_old = c[x_clls - 2][y_clls - 2].retrieve(p);
-      prtl = new Particle(*prtl_old, &hydro.materials[0]);
+      A;
       Boundary_NE(prtl);
       prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -399,7 +399,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	 !c[x_clls - 2][y_clls - 2].isEnd(p);
 	 p = c[x_clls - 2][y_clls - 2].next(p)) {
       prtl_old = c[x_clls - 2][y_clls - 2].retrieve(p);
-      prtl = new Particle(*prtl_old);
+      B;
       Boundary_NE(prtl);
       prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -412,7 +412,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	 !c[Y][1].isEnd(p);
 	 p = c[Y][1].next(p)) {
       prtl_old = c[Y][1].retrieve(p);
-      prtl = new Particle(*prtl_old);
+      B;
       Boundary_NE(prtl);
       prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -425,7 +425,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	 !c[x_clls - 2][1].isEnd(p);
 	 p = c[x_clls - 2][1].next(p)) {
       prtl_old = c[x_clls - 2][1].retrieve(p);
-      prtl = new Particle(*prtl_old, &hydro.materials[0]);
+      A;
       Boundary_SE(prtl);
       prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -438,7 +438,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	 !c[x_clls - 2][1].isEnd(p);
 	 p = c[x_clls - 2][1].next(p)) {
       prtl_old = c[x_clls - 2][1].retrieve(p);
-      prtl = new Particle(*prtl_old);
+      B;
       Boundary_SE(prtl);
       prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
@@ -451,7 +451,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager &q, Hydrodynamics &hydro)
 	 !c[Y][y_clls - 2].isEnd(p);
 	 p = c[Y][y_clls - 2].next(p)) {
       prtl_old = c[Y][y_clls - 2].retrieve(p);
-      prtl = new Particle(*prtl_old);
+      B;
       Boundary_SE(prtl);
       prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
       boundary_particle_list.insert(boundary_particle_list.first(), prtl);
