@@ -12,7 +12,7 @@ FNR == 1 {
 sub(/^[\t ]*#[\t ]*include[\t ]*/, "") &&
 sub(/^\"/, "") &&
 sub(/".*/, "") {
-    print f ": " $0
+    print f ": " $0 | "sort"
 }
 ' *.c *.cpp  > dep.make
 echo >&2 update dep.make

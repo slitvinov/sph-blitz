@@ -90,7 +90,7 @@ void Hydrodynamics::UpdatePair(QuinticSpline &weight_function)
 	 !interaction_list.isEnd(p);
 	 p = interaction_list.next(p)) {
 	pair = interaction_list.retrieve(p);
-	pair->RenewInteraction(weight_function);
+	pair->RenewInteraction(&weight_function);
     }
 }
 void Hydrodynamics::UpdatePhaseGradient(Boundary &boundary)
