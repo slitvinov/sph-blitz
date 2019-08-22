@@ -307,13 +307,14 @@ double Hydrodynamics::SurfaceTensionCoefficient()
 void Hydrodynamics::UpdateVolume(ParticleManager *particles, QuinticSpline *weight_function)
 {
     double reciprocV;
-    for (LlistNode<Particle> *p = particle_list.first();
+    LlistNode<Particle> *p, *p1;
+    for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
 	Particle *prtl_org = particle_list.retrieve(p);
 	particles->BuildNNP(prtl_org->R);
 	reciprocV = 0.0;
-	for (LlistNode<Particle> *p1 = particles->NNP_list.first();
+	for (p1 = particles->NNP_list.first();
 	     !particles->NNP_list.isEnd(p1);
 	     p1 = particles->NNP_list.next(p1)) {
 	    Particle *prtl_dest = particles->NNP_list.retrieve(p1);
@@ -325,12 +326,14 @@ void Hydrodynamics::UpdateVolume(ParticleManager *particles, QuinticSpline *weig
 }
 double Hydrodynamics::GetTimestep()
 {
+    Particle *prtl;
+    LlistNode<Particle> *p;
     double Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = 1.0;
     double dt;
-    for (LlistNode<Particle> *p = particle_list.first();
+    for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-	Particle *prtl = particle_list.retrieve(p);
+	prtl = particle_list.retrieve(p);
 	Cs_max = AMAX1(Cs_max, prtl->Cs);
 	V_max = AMAX1(V_max, vv_abs(prtl->U));
 	rho_min = AMIN1(rho_min, prtl->rho);
