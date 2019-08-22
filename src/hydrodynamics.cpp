@@ -265,59 +265,41 @@ void Hydrodynamics::UpdateState()
 	prtl->p = get_p(prtl->mtl, prtl->rho);
     }
 }
-//----------------------------------------------------------------------------------------
-//							calculate phase field matrix
-//----------------------------------------------------------------------------------------
+
 void Hydrodynamics::UpdatePahseMatrix(Boundary &boundary)
 {
-    ///- iterate particles on the real particle list
     for (LlistNode<Particle> *p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-
-	//a particle
 	Particle *prtl = particle_list.retrieve(p);
-
-	///- all phase surface stress (currently no action is performed)
 	for(int i = 0; i < number_of_materials; i++)
 	    for(int j = 0; j < number_of_materials; j++) {
-		if( i != j) prtl->phi[i][j] = prtl->phi[i][j]; //prtl->phi[i][i]/(prtl->phi[i][i] + prtl->phi[j][j] + 1.0e-30);
+		if( i != j) prtl->phi[i][j] = prtl->phi[i][j];
 	    }
     }
-
-    ///- iterate particles on the boundary particle list
     for (LlistNode<Particle> *p1 = boundary.b.first();
 	 !boundary.b.isEnd(p1);
 	 p1 = boundary.b.next(p1)) {
-
-	//particle
 	Particle *prtl = boundary.b.retrieve(p1);
-
-	///- all phase surface stress (currently no action is perforemd)
 	for(int i = 0; i < number_of_materials; i++)
 	    for(int j = 0; j < number_of_materials; j++) {
-		if( i != j) prtl->phi[i][j] = prtl->phi[i][j]; //prtl->phi[i][i]/(prtl->phi[i][i] + prtl->phi[j][j] + 1.0e-30);
+		if( i != j) prtl->phi[i][j] = prtl->phi[i][j];
 	    }
     }
 }
-//----------------------------------------------------------------------------------------
-//							calculate Surface  Stress
-//----------------------------------------------------------------------------------------
+
 void Hydrodynamics::UpdateSurfaceStress(Boundary &boundary)
 {
 
     double epsilon =1.0e-30;
     double interm0, interm1, interm2;
+    Particle *prtl;
+    LlistNode<Particle> *p;
 
-    ///- iterate particles on the real particle list
-    for (LlistNode<Particle> *p = particle_list.first();
+    for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-
-	//a particle
-	Particle *prtl = particle_list.retrieve(p);
-
-	///- update phase surface stress for all particles on this list
+	prtl = particle_list.retrieve(p);
 	interm0 = 1.0/(vv_abs(prtl->del_phi) + epsilon);
 	interm1 = 0.5*vv_sqdiff(prtl->del_phi);
 	interm2 = prtl->del_phi[X] * prtl->del_phi[Y];
@@ -325,15 +307,10 @@ void Hydrodynamics::UpdateSurfaceStress(Boundary &boundary)
 	prtl->del_phi[1] = interm2*interm0;
     }
 
-    ///- iterate particles on the boundary particle list
-    for (LlistNode<Particle> *p1 = boundary.b.first();
-	 !boundary.b.isEnd(p1);
-	 p1 = boundary.b.next(p1)) {
-
-	//particle
-	Particle *prtl = boundary.b.retrieve(p1);
-
-	///- update phase surface stress for all particles on this list
+    for (p = boundary.b.first();
+	 !boundary.b.isEnd(p);
+	 p = boundary.b.next(p)) {
+	prtl = boundary.b.retrieve(p);
 	interm0 = vv_abs(prtl->del_phi) + epsilon;
 	interm1 = 0.5*vv_sqdiff(prtl->del_phi);
 	interm2 = prtl->del_phi[X] * prtl->del_phi[Y];
@@ -397,10 +374,12 @@ double Hydrodynamics::GetTimestep()
 
 void Hydrodynamics::Predictor(double dt)
 {
-    for (LlistNode<Particle> *p = particle_list.first();
+    LlistNode<Particle> *p;
+    Particle *prtl;
+    for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-	Particle *prtl = particle_list.retrieve(p);
+	prtl = particle_list.retrieve(p);
 	prtl->R_I[X] = prtl->R[X];
 	prtl->R_I[Y] = prtl->R[Y];
 
@@ -427,15 +406,15 @@ void Hydrodynamics::Predictor(double dt)
 
 void Hydrodynamics::Corrector(double dt)
 {
-    for (LlistNode<Particle> *p = particle_list.first();
+    LlistNode<Particle> *p;
+    Particle *prtl;    
+    for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-	Particle *prtl = particle_list.retrieve(p);
+	prtl = particle_list.retrieve(p);
 	prtl->R[X] = prtl->R_I[X] + prtl->U[X]*dt;
 	prtl->R[Y] = prtl->R_I[Y] + prtl->U[Y]*dt;
-
 	prtl->rho = prtl->rho + prtl->drhodt*dt;
-
 	prtl->U[X] = prtl->U_I[X] + prtl->dUdt[X]*dt;
 	prtl->U[Y] = prtl->U_I[Y] + prtl->dUdt[Y]*dt;
     }
@@ -443,10 +422,12 @@ void Hydrodynamics::Corrector(double dt)
 
 void Hydrodynamics::Predictor_summation(double dt)
 {
-    for (LlistNode<Particle> *p = particle_list.first();
+    LlistNode<Particle> *p;
+    Particle *prtl;
+    for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-	Particle *prtl = particle_list.retrieve(p);
+	prtl = particle_list.retrieve(p);
 	prtl->R_I[X] = prtl->R[X];
 	prtl->R_I[Y] = prtl->R[Y];
 
@@ -472,10 +453,12 @@ void Hydrodynamics::Predictor_summation(double dt)
 
 void Hydrodynamics::Corrector_summation(double dt)
 {
-    for (LlistNode<Particle> *p = particle_list.first();
+    LlistNode<Particle> *p;
+    Particle *prtl;    
+    for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-	Particle *prtl = particle_list.retrieve(p);
+	prtl = particle_list.retrieve(p);
 	prtl->U[X] += prtl->_dU[X];
 	prtl->U[Y] += prtl->_dU[Y];
     
@@ -489,10 +472,12 @@ void Hydrodynamics::Corrector_summation(double dt)
 
 void Hydrodynamics::RandomEffects()
 {
-    for (LlistNode<Particle> *p = particle_list.first();
+    LlistNode<Particle> *p;
+    Particle *prtl;
+    for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-	Particle *prtl = particle_list.retrieve(p);
+	prtl = particle_list.retrieve(p);
 	prtl->U[X] = prtl->U[X] + prtl->_dU[X];
 	prtl->U[Y] = prtl->U[Y] + prtl->_dU[Y];    
     }
