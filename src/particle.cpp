@@ -14,7 +14,12 @@ int particle_number_of_materials;
 #define B(a, b) a = b
 #define C(a, b) a = b
 
-#define XX
+#define XX do {					\
+    Particle *q;				\
+    q = (Particle*)malloc(sizeof(*q));		\
+    if (q == NULL)				\
+	abort();				\
+    } while (0)
 #define YY
 
 static double**
