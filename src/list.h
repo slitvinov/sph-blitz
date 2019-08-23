@@ -2,7 +2,7 @@ class List;
 class ListNode {
     friend class List;
 private:
-    Particle *data;
+    struct Particle *data;
     ListNode *next;
     ListNode();
     ListNode(Particle *d, ListNode *n);
