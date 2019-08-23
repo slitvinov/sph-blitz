@@ -20,7 +20,7 @@ using namespace std;
 #define C(t) do {                               \
 	if (prtl->rl_prtl == NULL)		\
 	    abort();				\
-	prtl->StatesCopier(prtl->rl_prtl, t);	\
+	StatesCopier(prtl, prtl->rl_prtl, t);	\
     } while (0)
 #define LIST ListNode
 

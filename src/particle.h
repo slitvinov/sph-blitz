@@ -6,7 +6,6 @@ public:
     Particle(Particle*);
     Particle(Particle*, Material*);
     ~Particle();
-    void StatesCopier(Particle*, int type);
     int cell_i;
     int cell_j;
     Material *mtl;
@@ -58,3 +57,6 @@ public:
     ///has a negtive ID of its corresponding real particle
     long ID;
 };
+
+void StatesCopier(Particle*, Particle*, int type);
+

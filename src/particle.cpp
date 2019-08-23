@@ -9,6 +9,7 @@ enum {X, Y};
 long particle_ID_max;
 int particle_number_of_materials;
 
+#define AA(v) q->v = p->v
 #define A(v) v = q->v
 #define B(a, b) a = b;
 
@@ -168,38 +169,38 @@ Particle::Particle(Particle *q, Material *material)
     B(phi, phi_ini());
 }
 
-void Particle::StatesCopier(Particle *q, int type)
+void StatesCopier(Particle *q, Particle *p, int type)
 {
     int i, j;
-    A(R[X]);
-    A(R[Y]);
-    A(m);
-    A(rho);
-    A(V);
-    A(p);
-    A(T);
-    A(rho_I);
-    A(Cs);
-    A(U[X]);
-    A(U[Y]);
-    A(U_I[X]);
-    A(U_I[Y]);
-    A(ShearRate_x[X]);
-    A(ShearRate_x[Y]);
-    A(ShearRate_y[X]);
-    A(ShearRate_y[Y]);
+    AA(R[X]);
+    AA(R[Y]);
+    AA(m);
+    AA(rho);
+    AA(V);
+    AA(p);
+    AA(T);
+    AA(rho_I);
+    AA(Cs);
+    AA(U[X]);
+    AA(U[Y]);
+    AA(U_I[X]);
+    AA(U_I[Y]);
+    AA(ShearRate_x[X]);
+    AA(ShearRate_x[Y]);
+    AA(ShearRate_y[X]);
+    AA(ShearRate_y[Y]);
     if (type == 1 ) {
-	A(del_phi[X]);
-	A(del_phi[Y]);
+	AA(del_phi[X]);
+	AA(del_phi[Y]);
 	for(i = 0; i < particle_number_of_materials; i++) {
 	    for(j = 0; j < particle_number_of_materials; j++) {
-		A(phi[i][j]);
+		AA(phi[i][j]);
 	    }
 	}
     }
     if (type == 0) {
-	phi[0][0] = 0;
+	q->phi[0][0] = 0;
 	for(i = 1; i < particle_number_of_materials; i++)
-	    phi[0][0] += q->phi[i][i];
+	    q->phi[0][0] += p->phi[i][i];
     }
 }
