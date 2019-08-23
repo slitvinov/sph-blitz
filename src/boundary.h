@@ -1,4 +1,4 @@
-class Boundary
+struct Boundary
 {
     double box_size[2];
     int x_clls, y_clls;
@@ -11,7 +11,6 @@ class Boundary
     void Boundary_SE(Particle *prtl);
     void Boundary_NW(Particle *prtl);
     void Boundary_NE(Particle *prtl);
-public:
     int xBl;
     int xBr;
     int yBd;

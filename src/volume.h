@@ -1,4 +1,4 @@
 class Hydrodynamics;
 class ParticleManager;
-class QuinticSpline;
+struct QuinticSpline;
 void VolumeMass(Hydrodynamics*, ParticleManager*, QuinticSpline*);
