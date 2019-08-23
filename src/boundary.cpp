@@ -35,11 +35,10 @@ Boundary::Boundary(Initiation *ini, Hydrodynamics *hydro, ParticleManager *q)
     strcpy(inputfile, ini->inputfile);
     ifstream fin(inputfile, ios::in);
     if (!fin) {
-	cout<<"Boundary: Cannot open "<< inputfile <<" \n";
-	std::cout << __FILE__ << ':' << __LINE__ << std::endl;
+	fprintf(stderr, "%s:%d: can't open '%s'\n", __FILE__, __LINE__, inputfile);
 	exit(1);
     }
-    else cout<<"\nBoundary: read left, right, upper and lower boundary conditions from "<< inputfile <<" \n";
+    printf("Boundary: read left, right, upper and lower boundary conditions from %s\n", inputfile);
     while(!fin.eof()) {
 	fin>>Key_word;
 	if(!strcmp(Key_word, "BOUNDARY")) fin>>xBl>>UxBl[X]>>UxBl[Y]
@@ -68,8 +67,7 @@ void Boundary::RunAwayCheck(Hydrodynamics *hydro)
 	 p = hydro->particle_list.next(p)) {
 	prtl = hydro->particle_list.retrieve(p);
 	if(fabs(prtl->R[X]) >= 2.0*box_size[X] || fabs(prtl->R[Y]) >= 2.0*box_size[Y]) {
-	    cout<<"Boundary: the q run out too far away from the domain! \n";
-	    std::cout << __FILE__ << ':' << __LINE__ << std::endl;
+	    fprintf(stderr, "%s:%d: Boundary: the q run out too far away from the domain! \n", __FILE__, __LINE__);
 	    exit(1);
 	}
 	if(prtl->bd == 0) {
