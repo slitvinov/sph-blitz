@@ -31,10 +31,11 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
 	if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
 			      <<Time<<"	dt: "<<dt<<"\n";
 	if(ini.diagnose == 1) {
-	    diagnose.SaveStates(hydro);
-	    diagnose.Average(particles, mls, weight_function);
+	    diagnose.SaveStates(&hydro);
+	    diagnose.Average(&particles, &mls, &weight_function);
 	}
-	if(ini.diagnose == 2 && ite % 10 == 0) diagnose.KineticInformation(Time, hydro);
+	if(ini.diagnose == 2 && ite % 10 == 0)
+	    diagnose.KineticInformation(Time, &hydro);
 	hydro.BuildPair(&particles, &weight_function);
 	hydro.UpdateDensity();
 	boundary.BoundaryCondition(&particles);

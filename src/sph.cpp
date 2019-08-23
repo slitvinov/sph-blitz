@@ -43,12 +43,12 @@ int main(int argc, char *argv[]) {
     Output output(ini);
     VolumeMass(&hydro, &particles, &weight_function); 
     boundary.BoundaryCondition(&particles); 
-    Diagnose diagnose(ini, hydro);
+    Diagnose diagnose(&ini, &hydro);
     Time = ini.Start_time;
     output.OutputParticles(hydro, boundary, Time);
     output.OutputStates(particles, mls, weight_function, Time);
     if(ini.diagnose == 2)
-      diagnose.KineticInformation(Time, hydro);
+      diagnose.KineticInformation(Time, &hydro);
     while(Time < ini.End_time) {
 	if(Time + ini.D_time >=  ini.End_time) ini.D_time = ini.End_time - Time;
 	timesolver.TimeIntegral_summation(hydro, particles, boundary, Time, ini.D_time, diagnose, ini, weight_function, mls);

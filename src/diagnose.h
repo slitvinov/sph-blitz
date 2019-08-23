@@ -20,17 +20,17 @@ class Diagnose {
         int gridy;
 	double ***U;
 	int n_average; 
-	void BuildDistribution(Llist<double> &list, double dstrb[2][101]);
+	void BuildDistribution(Llist<double> *list, double dstrb[2][101]);
         double ttl_m;
         double *mtl_m;
         double glb_ave_Ek;
         double *wght_cntr ;
         double *wght_v; 
 public:
-	Diagnose(Initiation &ini, Hydrodynamics &hydro);
-	void SaveStates(Hydrodynamics &hydro);
+	Diagnose(Initiation *ini, Hydrodynamics *hydro);
+	void SaveStates(Hydrodynamics *hydro);
 	void OutputProfile(double Time);
-	void Average(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function);
+	void Average(ParticleManager *particles, MLS *mls, QuinticSpline *weight_function);
 	void OutputAverage(double Time);
-	void KineticInformation(double Time, Hydrodynamics &hydro);
+	void KineticInformation(double Time, Hydrodynamics *hydro);
 };
