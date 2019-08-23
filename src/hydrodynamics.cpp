@@ -44,11 +44,11 @@ Hydrodynamics::Hydrodynamics(ParticleManager *particles, Initiation *ini)
     strcpy(inputfile, ini->inputfile);
     ifstream fin(inputfile, ios::in);
     if (!fin) {
-	fprintf(stderr, "%s:%d: Initialtion: Cannot open %s \n", __FILE__, __LINE__, inputfile);
+	fprintf(stderr, "%s:%d: Initialtion: Cannot open %s\n", __FILE__, __LINE__, inputfile);
 	exit(1);
     }
     else
-	printf("Material: read the propeties of materials and interaction forces \n");
+	printf("Material: read the propeties of materials and interaction forces\n");
     while(!fin.eof()) {
 	fin>>Key_word;
 	if(!strcmp(Key_word, "MATERIALS"))
