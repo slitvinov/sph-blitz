@@ -15,8 +15,8 @@ int particle_number_of_materials;
 #define C(a, b) q->a = q->b
 
 #define XX					\
-    Particle *q;				\
-    q = (Particle*)malloc(sizeof(*q));		\
+    struct Particle *q;				\
+    q = (struct Particle*)malloc(sizeof(*q));	\
     if (q == NULL)				\
 	abort();
 
@@ -37,7 +37,7 @@ phi_ini(void)
     return q;
 }
 
-int particle_fin(Particle *q)
+int particle_fin(struct Particle *q)
 {
     int i;
     for(i = 0; i < particle_number_of_materials; i++) {
@@ -48,7 +48,7 @@ int particle_fin(Particle *q)
     return 0;
 }
 
-Particle* particle_real(double position[2], double velocity[2], double density, double pressure, double temperature, Material *material)
+struct Particle* particle_real(double position[2], double velocity[2], double density, double pressure, double temperature, struct Material *material)
 {
     XX;
 
@@ -87,7 +87,7 @@ Particle* particle_real(double position[2], double velocity[2], double density, 
     YY;
 }
 
-Particle* particle_wall(double x, double y, Material *material)
+struct Particle* particle_wall(double x, double y, struct Material *material)
 {
     XX;
 
@@ -106,7 +106,7 @@ Particle* particle_wall(double x, double y, Material *material)
     YY;
 }
 
-Particle* particle_image(Particle *s)
+struct Particle* particle_image(struct Particle *s)
 {
     XX;
 
@@ -151,7 +151,7 @@ Particle* particle_image(Particle *s)
     YY;
 }
 
-Particle* particle_mirror(Particle *s, Material *material)
+struct Particle* particle_mirror(struct Particle *s, struct Material *material)
 {
     XX;
 
@@ -196,7 +196,7 @@ Particle* particle_mirror(Particle *s, Material *material)
     YY;
 }
 
-int particle_copy(Particle *q, Particle *s, int type)
+int particle_copy(struct Particle *q, struct Particle *s, int type)
 {
     int i, j;
     AA(R[X]);

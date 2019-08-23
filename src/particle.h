@@ -1,15 +1,12 @@
-class Material;
-class Particle {
-public:
-    Particle(double position[2], double velocity[2], double density, double pressure, double temperature, Material*);
-    Particle(double x, double y, Material*);
-    Particle(Particle*);
-    Particle(Particle*, Material*);
-    ~Particle();
+#ifdef __cplusplus
+extern "C" {
+#endif
+struct Material;
+struct Particle {
     int cell_i;
     int cell_j;
-    Material *mtl;
-    Particle *rl_prtl;
+    struct Material *mtl;
+    struct Particle *rl_prtl;
     double R[2];
     double P[2];
     double U[2];
@@ -58,9 +55,12 @@ public:
     long ID;
 };
 
-Particle* particle_real(double[2], double[2], double, double, double, Material*);
-Particle* particle_image(Particle*);
-Particle* particle_wall(double, double, Material*);
-Particle* particle_mirror(Particle*, Material*);
-int particle_fin(Particle*);
-int particle_copy(Particle*, Particle*, int type);
+struct Particle* particle_real(double[2], double[2], double, double, double, struct Material*);
+struct Particle* particle_image(struct Particle*);
+struct Particle* particle_wall(double, double, struct Material*);
+struct Particle* particle_mirror(struct Particle*, struct Material*);
+int particle_fin(struct Particle*);
+int particle_copy(struct Particle*, struct Particle*, int type);
+#ifdef __cplusplus
+}
+#endif
