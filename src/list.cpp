@@ -16,7 +16,9 @@ void List::remove(ListNode *p)	{ ListNode *t = p->next; p->next = t->next;
     delete t; len--; }
 void List::clear() {while (!empty()) remove(first());
     len = 0; }
-void List::clear_data()  {while (!empty()) { delete retrieve(first()); remove(first()); }
+void List::clear_data()  {while (!empty()) {
+	particle_fin(retrieve(first()));
+	remove(first()); }
     len = 0; }
 List::~List() { while (!empty()) remove(first());
     delete node; }

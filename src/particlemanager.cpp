@@ -20,8 +20,8 @@
 using namespace std;
 enum {X, Y};
 
-#define NEW_BND(x, y, mtl) new Particle(x, y, mtl)
-#define NEW(pos, vel, den, pre, tem, mtl) new Particle(pos, vel, den, pre, tem, mtl)
+#define NEW_BND(x, y, mtl) particle_wall(x, y, mtl)
+#define NEW(pos, vel, den, pre, tem, mtl) particle_real(pos, vel, den, pre, tem, mtl)
 #define LIST ListNode
 
 ParticleManager::ParticleManager(Initiation &ini)

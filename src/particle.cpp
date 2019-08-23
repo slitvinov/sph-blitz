@@ -10,17 +10,17 @@ long particle_ID_max;
 int particle_number_of_materials;
 
 #define AA(v) q->v = s->v
-#define A(v) v = s->v
-#define B(a, b) a = b
-#define C(a, b) a = b
+#define A(v) q->v = s->v
+#define B(a, b) q->a = b
+#define C(a, b) q->a = q->b
 
-#define XX do {					\
+#define XX					\
     Particle *q;				\
     q = (Particle*)malloc(sizeof(*q));		\
     if (q == NULL)				\
-	abort();				\
-    } while (0)
-#define YY
+	abort();
+
+#define YY return q;
 
 static double**
 phi_ini(void)
@@ -37,16 +37,18 @@ phi_ini(void)
     return q;
 }
 
-Particle::~Particle()
+int particle_fin(Particle *q)
 {
     int i;
     for(i = 0; i < particle_number_of_materials; i++) {
-	free(phi[i]);
+	free(q->phi[i]);
     }
-    free(phi);
+    free(q->phi);
+    free(q);
+    return 0;
 }
 
-Particle::Particle(double position[2], double velocity[2], double density, double pressure, double temperature, Material *material)
+Particle* particle_real(double position[2], double velocity[2], double density, double pressure, double temperature, Material *material)
 {
     XX;
 
@@ -63,7 +65,7 @@ Particle::Particle(double position[2], double velocity[2], double density, doubl
     B(rho, density);
     B(p, pressure);
     B(T, temperature);
-    B(Cs, get_Cs(mtl, p, rho));
+    B(Cs, get_Cs(q->mtl, q->p, q->rho));
     B(U[X], velocity[X]);
     B(U[Y], velocity[Y]);
     C(U_I[X], U[X]);
@@ -85,7 +87,7 @@ Particle::Particle(double position[2], double velocity[2], double density, doubl
     YY;
 }
 
-Particle::Particle(double x, double y, Material *material)
+Particle* particle_wall(double x, double y, Material *material)
 {
     XX;
 
@@ -104,7 +106,7 @@ Particle::Particle(double x, double y, Material *material)
     YY;
 }
 
-Particle::Particle(Particle *s)
+Particle* particle_image(Particle *s)
 {
     XX;
 
@@ -149,7 +151,7 @@ Particle::Particle(Particle *s)
     YY;
 }
 
-Particle::Particle(Particle *s, Material *material)
+Particle* particle_mirror(Particle *s, Material *material)
 {
     XX;
 
