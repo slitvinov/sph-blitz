@@ -27,10 +27,10 @@ class Diagnose {
         double *wght_cntr ;
         double *wght_v; 
 public:
-	Diagnose(Initiation *ini, Hydrodynamics *hydro);
-	void SaveStates(Hydrodynamics *hydro);
+	Diagnose(Initiation*, Hydrodynamics*);
+	void SaveStates(Hydrodynamics*);
 	void OutputProfile(double Time);
-	void Average(ParticleManager *particles, MLS *mls, QuinticSpline *weight_function);
+	void Average(ParticleManager*, MLS*, QuinticSpline*);
 	void OutputAverage(double Time);
-	void KineticInformation(double Time, Hydrodynamics *hydro);
+	void KineticInformation(double Time, Hydrodynamics*);
 };
