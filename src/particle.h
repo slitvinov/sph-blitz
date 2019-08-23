@@ -63,4 +63,4 @@ Particle* particle_image(Particle*);
 Particle* particle_wall(double, double, Material*);
 Particle* particle_mirror(Particle*, Material*);
 int particle_fin(Particle*);
-void particle_copy(Particle*, Particle*, int type);
+int particle_copy(Particle*, Particle*, int type);
