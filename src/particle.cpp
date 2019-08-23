@@ -169,7 +169,7 @@ Particle::Particle(Particle *q, Material *material)
     B(phi, phi_ini());
 }
 
-void StatesCopier(Particle *q, Particle *p, int type)
+void particle_copy(Particle *q, Particle *p, int type)
 {
     int i, j;
     AA(R[X]);
