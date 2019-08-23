@@ -59,4 +59,10 @@ public:
 };
 
 void StatesCopier(Particle*, Particle*, int type);
+int particle_fin(Particle*);
+
+Particle* particle_real(double[2], double[2], double, double, double, Material*);
+Particle* particle_image(Particle*);
+Particle* particle_wall(double, double, Material*);
+
 
