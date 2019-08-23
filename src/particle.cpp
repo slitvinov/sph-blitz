@@ -11,7 +11,8 @@ int particle_number_of_materials;
 
 #define AA(v) q->v = p->v
 #define A(v) v = q->v
-#define B(a, b) a = b;
+#define B(a, b) a = b
+#define C(a, b) a = b
 
 static double**
 phi_ini(void)
@@ -45,8 +46,8 @@ Particle::Particle(double position[2], double velocity[2], double density, doubl
     B(bd_type, 0);
     B(ID, particle_ID_max);
     B(mtl, material);
-    B(eta, mtl->eta);
-    B(zeta, mtl->zeta);
+    C(eta, mtl->eta);
+    C(zeta, mtl->zeta);
     B(R[X], position[X]);
     B(R[Y], position[Y]);
     B(rho, density);
@@ -55,20 +56,20 @@ Particle::Particle(double position[2], double velocity[2], double density, doubl
     B(Cs, get_Cs(mtl, p, rho));
     B(U[X], velocity[X]);
     B(U[Y], velocity[Y]);
-    B(U_I[X], U[X]);
-    B(U_I[Y], U[Y]);
+    C(U_I[X], U[X]);
+    C(U_I[Y], U[Y]);
     B(m, 0.0);
     B(V, 0.0);
-    B(R_I[X], R[X]);
-    B(R_I[Y], R[Y]);
-    B(P_I[X], P[X]);
-    B(P_I[Y], P[Y]);
-    B(rho_I, rho);
-    B(P_n[X], P[X]);
-    B(P_n[Y], P[Y]);
-    B(U_n[X], U[X]);
-    B(U_n[Y], U[Y]);
-    B(rho_n, rho);
+    C(R_I[X], R[X]);
+    C(R_I[Y], R[Y]);
+    C(P_I[X], P[X]);
+    C(P_I[Y], P[Y]);
+    C(rho_I, rho);
+    C(P_n[X], P[X]);
+    C(P_n[Y], P[Y]);
+    C(U_n[X], U[X]);
+    C(U_n[Y], U[Y]);
+    C(rho_n, rho);
     B(phi, phi_ini());
 }
 
