@@ -1,0 +1,30 @@
+#!/bin/sh
+
+
+awk '
+
+/=/ {
+    t = l = r = $0
+    sub(/[^\t ].*/, "", t)
+    sub(/=.*/, "", l)
+    sub(/.*=/, "", r)
+    l = trim(l)
+    r = trim(r)
+    sub(/;$/, "", r)
+    printf "%sB(%s, %s);\n", t, l, r
+    next
+    
+}
+
+{
+    print
+}
+
+function trim(s)
+{
+    sub(/^[\t ]*/, "", s)
+    sub(/[\t ]*$/, "", s)
+    return s
+}
+
+' "$@"

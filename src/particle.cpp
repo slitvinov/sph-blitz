@@ -10,6 +10,7 @@ long particle_ID_max;
 int particle_number_of_materials;
 
 #define A(v) v = q->v
+#define B(a, b) a = b;
 
 static double**
 phi_ini(void)
@@ -37,64 +38,63 @@ Particle::~Particle()
 
 Particle::Particle(double position[2], double velocity[2], double density, double pressure, double temperature, Material *material)
 {
-    int i, j;
     particle_ID_max++;
 
-    bd = 0;
-    bd_type = 0;
-    ID = particle_ID_max;
-    mtl = material;
-    eta = mtl->eta;
-    zeta = mtl->zeta;
-    R[X] = position[X];
-    R[Y] = position[Y];
-    rho = density;
-    p = pressure;
-    T = temperature;
-    Cs = get_Cs(mtl, p, rho);
-    U[X] = velocity[X];
-    U[Y] = velocity[Y];
-    U_I[X] = U[X];
-    U_I[Y] = U[Y];
-    m = 0.0;
-    V = 0.0;
-    R_I[X] = R[X];
-    R_I[Y] = R[Y];
-    P_I[X] = P[X];
-    P_I[Y] = P[Y];
-    rho_I = rho;
-    P_n[X] = P[X];
-    P_n[Y] = P[Y];
-    U_n[X] = U[X];
-    U_n[Y] = U[Y];
-    rho_n = rho;
-    phi = phi_ini();
+    B(bd, 0);
+    B(bd_type, 0);
+    B(ID, particle_ID_max);
+    B(mtl, material);
+    B(eta, mtl->eta);
+    B(zeta, mtl->zeta);
+    B(R[X], position[X]);
+    B(R[Y], position[Y]);
+    B(rho, density);
+    B(p, pressure);
+    B(T, temperature);
+    B(Cs, get_Cs(mtl, p, rho));
+    B(U[X], velocity[X]);
+    B(U[Y], velocity[Y]);
+    B(U_I[X], U[X]);
+    B(U_I[Y], U[Y]);
+    B(m, 0.0);
+    B(V, 0.0);
+    B(R_I[X], R[X]);
+    B(R_I[Y], R[Y]);
+    B(P_I[X], P[X]);
+    B(P_I[Y], P[Y]);
+    B(rho_I, rho);
+    B(P_n[X], P[X]);
+    B(P_n[Y], P[Y]);
+    B(U_n[X], U[X]);
+    B(U_n[Y], U[Y]);
+    B(rho_n, rho);
+    B(phi, phi_ini());
 }
 
 Particle::Particle(double x, double y, Material *material)
 {
-    bd = 1;
-    bd_type = 0;
-    ID = 0;
-    mtl = material;
-    R[0] = x;
-    R[1] = y;
-    U[0] = 0;
-    U[1] = 0;
-    rho = 0.0;
-    p = 0.0;
-    T = 0.0;
+    B(bd, 1);
+    B(bd_type, 0);
+    B(ID, 0);
+    B(mtl, material);
+    B(R[0], x);
+    B(R[1], y);
+    B(U[0], 0);
+    B(U[1], 0);
+    B(rho, 0.0);
+    B(p, 0.0);
+    B(T, 0.0);
 }
 
 Particle::Particle(Particle *q)
 {
-    bd = 1;
-    bd_type = 1;
-    ID = 0;
-    rl_prtl = q;
+    B(bd, 1);
+    B(bd_type, 1);
+    B(ID, 0);
+    B(rl_prtl, q);
     A(mtl);
-    eta = mtl->eta;
-    zeta = mtl->zeta;
+    B(eta, mtl->eta);
+    B(zeta, mtl->zeta);
     A(R[X]);
     A(R[Y]);
     A(rho);
@@ -124,16 +124,16 @@ Particle::Particle(Particle *q)
     A(U_n[X]);
     A(U_n[Y]);
     A(rho_n);
-    phi = phi_ini();
+    B(phi, phi_ini());
 }
 
 Particle::Particle(Particle *q, Material *material)
 {
-    bd = 1;
-    bd_type = 0;
-    ID = 0;
-    rl_prtl = q;
-    mtl = material;
+    B(bd, 1);
+    B(bd_type, 0);
+    B(ID, 0);
+    B(rl_prtl, q);
+    B(mtl, material);
     A(eta);
     A(zeta);
     A(R[X]);
@@ -159,13 +159,13 @@ Particle::Particle(Particle *q, Material *material)
     A(P[Y]);
     A(P_I[X]);
     A(P_I[Y]);
-    rho_I = rho;
+    B(rho_I, rho);
     A(P_n[X]);
     A(P_n[Y]);
     A(U_n[X]);
     A(U_n[Y]);
     A(rho_n);
-    phi = phi_ini();
+    B(phi, phi_ini());
 }
 
 void Particle::StatesCopier(Particle *q, int type)
