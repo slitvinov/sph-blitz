@@ -14,6 +14,9 @@ int particle_number_of_materials;
 #define B(a, b) a = b
 #define C(a, b) a = b
 
+#define XX
+#define YY
+
 static double**
 phi_ini(void)
 {
@@ -40,6 +43,8 @@ Particle::~Particle()
 
 Particle::Particle(double position[2], double velocity[2], double density, double pressure, double temperature, Material *material)
 {
+    XX;
+
     particle_ID_max++;
 
     B(bd, 0);
@@ -71,10 +76,14 @@ Particle::Particle(double position[2], double velocity[2], double density, doubl
     C(U_n[Y], U[Y]);
     C(rho_n, rho);
     B(phi, phi_ini());
+
+    YY;
 }
 
 Particle::Particle(double x, double y, Material *material)
 {
+    XX;
+
     B(bd, 1);
     B(bd_type, 0);
     B(ID, 0);
@@ -86,10 +95,14 @@ Particle::Particle(double x, double y, Material *material)
     B(rho, 0.0);
     B(p, 0.0);
     B(T, 0.0);
+
+    YY;
 }
 
 Particle::Particle(Particle *s)
 {
+    XX;
+
     B(bd, 1);
     B(bd_type, 1);
     B(ID, 0);
@@ -127,10 +140,14 @@ Particle::Particle(Particle *s)
     A(U_n[Y]);
     A(rho_n);
     B(phi, phi_ini());
+
+    YY;
 }
 
 Particle::Particle(Particle *s, Material *material)
 {
+    XX;
+
     B(bd, 1);
     B(bd_type, 0);
     B(ID, 0);
@@ -168,9 +185,11 @@ Particle::Particle(Particle *s, Material *material)
     A(U_n[Y]);
     A(rho_n);
     B(phi, phi_ini());
+
+    YY;
 }
 
-void particle_copy(Particle *q, Particle *s, int type)
+int particle_copy(Particle *q, Particle *s, int type)
 {
     int i, j;
     AA(R[X]);
@@ -204,4 +223,5 @@ void particle_copy(Particle *q, Particle *s, int type)
 	for(i = 1; i < particle_number_of_materials; i++)
 	    q->phi[0][0] += s->phi[i][i];
     }
+    return 0;
 }
