@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
     MLS mls(ini.MLS_MAX);
     ParticleManager particles(&ini);
     Hydrodynamics hydro(&ini);
-    particles.BuildRealParticles(hydro, &ini);
+    particles.BuildRealParticles(&hydro, &ini);
     Boundary boundary(&ini, &hydro, &particles);
     Output output(&ini);
     VolumeMass(&hydro, &particles, &weight_function);
