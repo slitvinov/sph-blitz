@@ -15,7 +15,10 @@
 #include "material.h"
 #include "diagnose.h"
 using namespace std;
+
 #define LIST ListNode
+#define INSERT(q, l) l.insert(l.first(), q)
+
 Diagnose::Diagnose(Initiation *ini, Hydrodynamics *hydro)
 {
     int k, l, m;
@@ -74,9 +77,9 @@ void Diagnose::SaveStates(Hydrodynamics *hydro)
     *p2 = prtl->U[1];
     double *p3 = new double;
     *p3 = prtl->rho;
-    vx_list.insert(vx_list.first(), p1);
-    vy_list.insert(vy_list.first(), p2);
-    rho_list.insert(rho_list.first(), p3);
+    INSERT(p1, vx_list);
+    INSERT(p2, vy_list);
+    INSERT(p3, rho_list);
 }
 void Diagnose::OutputProfile(double Time)
 {
