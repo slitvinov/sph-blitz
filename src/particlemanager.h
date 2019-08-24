@@ -28,7 +28,7 @@ public:
   List *NNP_list;
   explicit ParticleManager(Initiation*);
   ~ParticleManager();
-  void BuildRealParticles(Hydrodynamics*, Initiation*);
+  void BuildRealParticles(Material*, List*, Initiation*);
   void UpdateCellLinkedLists();
   void BuildNNP(double[2]);
   void BuildNNP_MLSMapping(double[2]);

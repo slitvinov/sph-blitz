@@ -158,7 +158,7 @@ void ParticleManager::BuildInteraction(IList *interactions, List *particle_list,
     }
 }
 
-void ParticleManager::BuildRealParticles(Hydrodynamics *hydro, Initiation *ini)
+void ParticleManager::BuildRealParticles(Material *materials, List *particle_list, Initiation *ini)
 {
 
     int i, j, k, m;
@@ -172,6 +172,12 @@ void ParticleManager::BuildRealParticles(Hydrodynamics *hydro, Initiation *ini)
     char material_name[MAX_SIZE];
     FILE *f;
 
+    /*Material *materials;
+    List *particle_list;
+    materials = hydro->materials;
+    particle_list = hydro->particle_list; */
+    
+
     if(initial_condition==0) {
 	for(i = 1; i < x_clls - 1; i++) {
 	    for(j = 1; j < y_clls - 1; j++) {
@@ -183,11 +189,11 @@ void ParticleManager::BuildRealParticles(Hydrodynamics *hydro, Initiation *ini)
 			velocity[X] = U0[X];
 			velocity[Y] = U0[Y];
 			Temperature = T0;
-			density = hydro->materials[material_no].rho0;
-			pressure = get_p(&hydro->materials[material_no], density);
-			prtl = NEW(position, velocity, density, pressure, Temperature, &hydro->materials[material_no]);
+			density = materials[material_no].rho0;
+			pressure = get_p(&materials[material_no], density);
+			prtl = NEW(position, velocity, density, pressure, Temperature, &materials[material_no]);
 			prtl->cell_i = i; prtl->cell_j = j;
-			INSERT(prtl, *hydro->particle_list);
+			INSERT(prtl, *particle_list);
 			INSERT(prtl, *cell_lists[i][j]);
 
 		    }
@@ -227,11 +233,11 @@ void ParticleManager::BuildRealParticles(Hydrodynamics *hydro, Initiation *ini)
 	    }
 	    material_no = -1;
 	    for(k = 0;  k < number_of_materials; k++)
-		if(strcmp(material_name, hydro->materials[k].material_name) == 0) material_no = k;
+		if(strcmp(material_name, materials[k].material_name) == 0) material_no = k;
 	    if(material_no != -1) {
-		pressure = get_p(&hydro->materials[material_no], density);
-		prtl = NEW(position, velocity, density, pressure, Temperature, &hydro->materials[material_no]);
-		INSERT(prtl, *hydro->particle_list);
+		pressure = get_p(&materials[material_no], density);
+		prtl = NEW(position, velocity, density, pressure, Temperature, &materials[material_no]);
+		INSERT(prtl, *particle_list);
 		i = int (prtl->R[0] / cll_sz) + 1;
 		j = int (prtl->R[1] / cll_sz) + 1;
 		prtl->cell_i = i; prtl->cell_j = j;
