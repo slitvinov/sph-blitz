@@ -1,0 +1,11 @@
+#!/usr/bin/awk -f
+
+{
+    gsub(/ \*[a-zA-Z_0-9]*/, "*")
+    print
+    next
+}
+
+{
+    print
+}
