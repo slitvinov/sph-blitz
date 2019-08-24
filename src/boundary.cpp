@@ -59,7 +59,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     int i, j;
     Particle *prtl, *prtl_old;
     int kb, ku, mb, mu;
-    List **c;
+    List ***c;
     LIST *p;
 
     c = q->cell_lists;
@@ -71,241 +71,241 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     if(xBl == yBu) ku = 1;
     if(xBr == yBu) mu = x_clls - 1;
     for(j = 1; j < y_clls - 1; j++) {
-	CLEAR(c[X][j]);
+	CLEAR(*c[X][j]);
 	if(xBl == 0 || xBl == 2) {
-	    LOOP(prtl_old, c[Y][j]) {
+	    LOOP(prtl_old, *c[Y][j]) {
 		A;
 		Boundary_W(prtl);
 		prtl->cell_i = 0; prtl->cell_j = j;
 		INSERT(prtl, *b);
-		INSERT(prtl, c[X][j]);
+		INSERT(prtl, *c[X][j]);
 	    }
 	}
 	if(xBl == 3) {
-	    LOOP(prtl_old, c[Y][j]) {
+	    LOOP(prtl_old, *c[Y][j]) {
 		B;
 		Boundary_W(prtl);
 		prtl->cell_i = 0; prtl->cell_j = j;
 		INSERT(prtl, *b);
-		INSERT(prtl, c[X][j]);
+		INSERT(prtl, *c[X][j]);
 	    }
 	}
 	if(xBl == 1) {
-	    LOOP(prtl_old, c[x_clls - 2][j]) {
+	    LOOP(prtl_old, *c[x_clls - 2][j]) {
 		B;
 		Boundary_W(prtl);
 		prtl->cell_i = 0; prtl->cell_j = j;
 		INSERT(prtl, *b);
-		INSERT(prtl, c[X][j]);
+		INSERT(prtl, *c[X][j]);
 	    }
 	}
-	CLEAR(c[x_clls - 1][j]);
+	CLEAR(*c[x_clls - 1][j]);
 	if(xBr == 0 || xBr == 2) {
-	    LOOP(prtl_old, c[x_clls - 2][j]) {
+	    LOOP(prtl_old, *c[x_clls - 2][j]) {
 		A;
 		Boundary_E(prtl);
 		prtl->cell_i = x_clls - 1; prtl->cell_j = j;
 		INSERT(prtl, *b);
-		INSERT(prtl, c[x_clls - 1][j]);
+		INSERT(prtl, *c[x_clls - 1][j]);
 	    }
 	}
 	if(xBr == 3) {
-	    LOOP(prtl_old, c[x_clls - 2][j]) {
+	    LOOP(prtl_old, *c[x_clls - 2][j]) {
 		B;
 		Boundary_E(prtl);
 		prtl->cell_i = x_clls - 1; prtl->cell_j = j;
 		INSERT(prtl, *b);
-		INSERT(prtl, c[x_clls - 1][j]);
+		INSERT(prtl, *c[x_clls - 1][j]);
 	    }
 	}
 	if(xBr == 1) {
-	    LOOP(prtl_old, c[Y][j]) {
+	    LOOP(prtl_old, *c[Y][j]) {
 		B;
 		Boundary_E(prtl);
 		prtl->cell_i = x_clls - 1; prtl->cell_j = j;
 		INSERT(prtl, *b);
-		INSERT(prtl, c[x_clls - 1][j]);
+		INSERT(prtl, *c[x_clls - 1][j]);
 	    }
 	}
     }
     for(i = kb; i < mb; i++) {
-	CLEAR(c[i][0]);
+	CLEAR(*c[i][0]);
 	if(yBd == 0 || yBd == 2) {
-	    LOOP(prtl_old, c[i][1]) {
+	    LOOP(prtl_old, *c[i][1]) {
 		A;
 		Boundary_S(prtl);
 		prtl->cell_i = i; prtl->cell_j = 0;
 		INSERT(prtl, *b);
-		INSERT(prtl, c[i][0]);
+		INSERT(prtl, *c[i][0]);
 	    }
 	}
 	if(yBd == 3) {
-	    LOOP(prtl_old, c[i][1]) {
+	    LOOP(prtl_old, *c[i][1]) {
 		B;
 		Boundary_S(prtl);
 		prtl->cell_i = i; prtl->cell_j = 0;
 		INSERT(prtl, *b);
-		INSERT(prtl, c[i][0]);
+		INSERT(prtl, *c[i][0]);
 	    }
 	}
 	if(yBd == 1) {
-	    LOOP(prtl_old, c[i][y_clls - 2]) {
+	    LOOP(prtl_old, *c[i][y_clls - 2]) {
 		B;
 		Boundary_S(prtl);
 		prtl->cell_i = i; prtl->cell_j = 0;
 		INSERT(prtl, *b);
-		INSERT(prtl, c[i][0]);
+		INSERT(prtl, *c[i][0]);
 	    }
 	}
     }
     for(i = ku; i < mu; i++) {
-	CLEAR(c[i][y_clls - 1]);
+	CLEAR(*c[i][y_clls - 1]);
 	if(yBu == 0 || yBu == 2) {
-	    LOOP(prtl_old, c[i][y_clls - 2]) {
+	    LOOP(prtl_old, *c[i][y_clls - 2]) {
 		A;
 		Boundary_N(prtl);
 		prtl->cell_i = i; prtl->cell_j = y_clls - 1;
 		INSERT(prtl, *b);
-		INSERT(prtl, c[i][y_clls - 1]);
+		INSERT(prtl, *c[i][y_clls - 1]);
 	    }
 	}
 	if(yBu == 3) {
-	    LOOP(prtl_old, c[i][y_clls - 2]) {
+	    LOOP(prtl_old, *c[i][y_clls - 2]) {
 		B;
 		Boundary_N(prtl);
 		prtl->cell_i = i; prtl->cell_j = y_clls - 1;
 		INSERT(prtl, *b);
-		INSERT(prtl, c[i][y_clls - 1]);
+		INSERT(prtl, *c[i][y_clls - 1]);
 	    }
 	}
 	if(yBu == 1) {
-	    LOOP(prtl_old, c[i][1]) {
+	    LOOP(prtl_old, *c[i][1]) {
 		B;
 		Boundary_N(prtl);
 		prtl->cell_i = i; prtl->cell_j = y_clls - 1;
 		INSERT(prtl, *b);
-		INSERT(prtl, c[i][y_clls - 1]);
+		INSERT(prtl, *c[i][y_clls - 1]);
 	    }
 	}
     }
     if((xBl == 0 && yBd == 0) || (xBl == 2 && yBd == 2)) {
-	CLEAR(c[X][0]);
-	LOOP(prtl_old, c[Y][1]) {
+	CLEAR(*c[X][0]);
+	LOOP(prtl_old, *c[Y][1]) {
 	    A;
 	    Boundary_SW(prtl);
 	    prtl->cell_i = 0; prtl->cell_j = 0;
 	    INSERT(prtl, *b);
-	    INSERT(prtl, c[X][0]);
+	    INSERT(prtl, *c[X][0]);
 	}
     }
     if(xBl == 3 && yBd == 3) {
-	CLEAR(c[X][0]);
-	LOOP(prtl_old, c[Y][1]) {
+	CLEAR(*c[X][0]);
+	LOOP(prtl_old, *c[Y][1]) {
 	    B;
 	    Boundary_SW(prtl);
 	    prtl->cell_i = 0; prtl->cell_j = 0;
 	    INSERT(prtl, *b);
-	    INSERT(prtl, c[X][0]);
+	    INSERT(prtl, *c[X][0]);
 	}
     }
     if(xBl == 1 && yBd == 1) {
-	CLEAR(c[X][0]);
-	LOOP(prtl_old, c[x_clls - 2][y_clls - 2]) {
+	CLEAR(*c[X][0]);
+	LOOP(prtl_old, *c[x_clls - 2][y_clls - 2]) {
 	    B;
 	    Boundary_SW(prtl);
 	    prtl->cell_i = 0; prtl->cell_j = 0;
 	    INSERT(prtl, *b);
-	    INSERT(prtl, c[X][0]);
+	    INSERT(prtl, *c[X][0]);
 	}
     }
     if((xBl == 0 && yBu == 0) || (xBl == 2 && yBu == 2)) {
-	CLEAR(c[X][y_clls - 1]);
-	LOOP(prtl_old, c[Y][y_clls - 2]) {
+	CLEAR(*c[X][y_clls - 1]);
+	LOOP(prtl_old, *c[Y][y_clls - 2]) {
 	    A;
 	    Boundary_NW(prtl);
 	    prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
 	    INSERT(prtl, *b);
-	    INSERT(prtl, c[X][y_clls - 1]);
+	    INSERT(prtl, *c[X][y_clls - 1]);
 	}
     }
     if(xBl == 3 && yBu == 3) {
-	CLEAR(c[X][y_clls - 1]);
-	LOOP(prtl_old, c[Y][y_clls - 2]) {
+	CLEAR(*c[X][y_clls - 1]);
+	LOOP(prtl_old, *c[Y][y_clls - 2]) {
 	    B;
 	    Boundary_NW(prtl);
 	    prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
 	    INSERT(prtl, *b);
-	    INSERT(prtl, c[X][y_clls - 1]);
+	    INSERT(prtl, *c[X][y_clls - 1]);
 	}
     }
     if(xBl == 1 && yBu == 1) {
-	CLEAR(c[X][y_clls - 1]);
-	LOOP(prtl_old, c[x_clls - 2][1]) {
+	CLEAR(*c[X][y_clls - 1]);
+	LOOP(prtl_old, *c[x_clls - 2][1]) {
 	    B;
 	    Boundary_NW(prtl);
 	    prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
 	    INSERT(prtl, *b);
-	    INSERT(prtl, c[X][y_clls - 1]);
+	    INSERT(prtl, *c[X][y_clls - 1]);
 	}
     }
     if((xBr == 0 && yBu == 0) || (xBr == 2 && yBu == 2)) {
-	CLEAR(c[x_clls - 1][y_clls - 1]);
-	LOOP(prtl_old, c[x_clls - 2][y_clls - 2]) {
+	CLEAR(*c[x_clls - 1][y_clls - 1]);
+	LOOP(prtl_old, *c[x_clls - 2][y_clls - 2]) {
 	    A;
 	    Boundary_NE(prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
 	    INSERT(prtl, *b);
-	    INSERT(prtl, c[x_clls - 1][y_clls - 1]);
+	    INSERT(prtl, *c[x_clls - 1][y_clls - 1]);
 	}
     }
     if(xBr == 3 && yBu == 3) {
-	CLEAR(c[x_clls - 1][y_clls - 1]);
-	LOOP(prtl_old, c[x_clls - 2][y_clls - 2]) {
+	CLEAR(*c[x_clls - 1][y_clls - 1]);
+	LOOP(prtl_old, *c[x_clls - 2][y_clls - 2]) {
 	    B;
 	    Boundary_NE(prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
 	    INSERT(prtl, *b);
-	    INSERT(prtl, c[x_clls - 1][y_clls - 1]);
+	    INSERT(prtl, *c[x_clls - 1][y_clls - 1]);
 	}
     }
     if(xBr == 1 && yBu == 1) {
-	CLEAR(c[x_clls - 1][y_clls - 1]);
-	LOOP(prtl_old, c[Y][1]) {
+	CLEAR(*c[x_clls - 1][y_clls - 1]);
+	LOOP(prtl_old, *c[Y][1]) {
 	    B;
 	    Boundary_NE(prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
 	    INSERT(prtl, *b);
-	    INSERT(prtl, c[x_clls - 1][y_clls - 1]);
+	    INSERT(prtl, *c[x_clls - 1][y_clls - 1]);
 	}
     }
     if((xBr == 0 && yBd == 0) || (xBr == 2 && yBd == 2)) {
-	CLEAR(c[x_clls - 1][0]);
-	LOOP(prtl_old, c[x_clls - 2][1]) {
+	CLEAR(*c[x_clls - 1][0]);
+	LOOP(prtl_old, *c[x_clls - 2][1]) {
 	    A;
 	    Boundary_SE(prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
 	    INSERT(prtl, *b);
-	    INSERT(prtl, c[x_clls - 1][0]);
+	    INSERT(prtl, *c[x_clls - 1][0]);
 	}
     }
     if(xBr == 3 && yBd == 3) {
-	CLEAR(c[x_clls - 1][0]);
-	LOOP(prtl_old, c[x_clls - 2][1]) {
+	CLEAR(*c[x_clls - 1][0]);
+	LOOP(prtl_old, *c[x_clls - 2][1]) {
 	    B;
 	    Boundary_SE(prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
 	    INSERT(prtl, *b);
-	    INSERT(prtl, c[x_clls - 1][0]);
+	    INSERT(prtl, *c[x_clls - 1][0]);
 	}
     }
     if(xBr == 1 && yBd == 1) {
-	CLEAR(c[x_clls - 1][0]);
-	LOOP(prtl_old, c[Y][y_clls - 2]) {
+	CLEAR(*c[x_clls - 1][0]);
+	LOOP(prtl_old, *c[Y][y_clls - 2]) {
 	    B;
 	    Boundary_SE(prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
 	    INSERT(prtl, *b);
-	    INSERT(prtl, c[x_clls - 1][0]);
+	    INSERT(prtl, *c[x_clls - 1][0]);
 	}
     }
 }
@@ -315,7 +315,7 @@ void Boundary::BoundaryCondition(ParticleManager *q)
     int kb, ku, mb, mu;
     Particle *prtl;
     LIST *p;
-    List **c;
+    List ***c;
 
     c = q->cell_lists;
     kb = 0; mb = x_clls;
@@ -326,25 +326,25 @@ void Boundary::BoundaryCondition(ParticleManager *q)
     if(xBr == yBu) mu = x_clls - 1;
     for(j = 1; j < y_clls - 1; j++) {
 	if(xBl == 0 || xBl == 2) {
-	    LOOP(prtl, c[X][j]) {
+	    LOOP(prtl, *c[X][j]) {
 		C(0);
 		Boundary_W(prtl);
 	    }
 	}
 	if(xBl == 1 || xBl == 3) {
-	    LOOP(prtl, c[X][j]) {
+	    LOOP(prtl, *c[X][j]) {
 		C(1);
 		Boundary_W(prtl);
 	    }
 	}
 	if(xBr == 0 || xBr == 2) {
-	    LOOP(prtl, c[x_clls - 1][j]) {
+	    LOOP(prtl, *c[x_clls - 1][j]) {
 		C(0);
 		Boundary_E(prtl);
 	    }
 	}
 	if(xBr == 1 || xBr == 3) {
-	    LOOP(prtl, c[x_clls - 1][j]) {
+	    LOOP(prtl, *c[x_clls - 1][j]) {
 		C(1);
 		Boundary_E(prtl);
 	    }
@@ -352,13 +352,13 @@ void Boundary::BoundaryCondition(ParticleManager *q)
     }
     for(i = kb; i < mb; i++) {
 	if(yBd == 0 || yBd == 2) {
-	    LOOP(prtl, c[i][0]) {
+	    LOOP(prtl, *c[i][0]) {
 		C(0);
 		Boundary_S(prtl);
 	    }
 	}
 	if(yBd == 1 || yBd == 3) {
-	    LOOP(prtl, c[i][0]) {
+	    LOOP(prtl, *c[i][0]) {
 		C(1);
 		Boundary_S(prtl);
 	    }
@@ -366,62 +366,62 @@ void Boundary::BoundaryCondition(ParticleManager *q)
     }
     for(i = ku; i < mu; i++) {
 	if(yBu == 0 || yBu == 2) {
-	    LOOP(prtl, c[i][y_clls - 1]) {
+	    LOOP(prtl, *c[i][y_clls - 1]) {
 		C(0);
 		Boundary_N(prtl);
 	    }
 	}
 	if(yBu == 1 || yBu == 3) {
-	    LOOP(prtl, c[i][y_clls - 1]) {
+	    LOOP(prtl, *c[i][y_clls - 1]) {
 		C(1);
 		Boundary_N(prtl);
 	    }
 	}
     }
     if((xBl == 0 && yBd == 0) || (xBl == 2 && yBd == 2)) {
-	LOOP(prtl, c[X][0]) {
+	LOOP(prtl, *c[X][0]) {
 	    C(0);
 	    Boundary_SW(prtl);
 	}
     }
     if((xBl == 1 && yBd == 1) || (xBl == 3 && yBd == 3)) {
-	LOOP(prtl, c[X][0]) {
+	LOOP(prtl, *c[X][0]) {
 	    C(1);
 	    Boundary_SW(prtl);
 	}
     }
     if((xBl == 0 && yBu == 0) || (xBl == 2 && yBu == 2)) {
-	LOOP(prtl, c[X][y_clls - 1]) {
+	LOOP(prtl, *c[X][y_clls - 1]) {
 	    C(0);
 	    Boundary_NW(prtl);
 	}
     }
     if((xBl == 1 && yBu == 1) || (xBl == 3 && yBu == 3)) {
-	LOOP(prtl, c[X][y_clls - 1]) {
+	LOOP(prtl, *c[X][y_clls - 1]) {
 	    C(1);
 	    Boundary_NW(prtl);
 	}
     }
     if((xBr == 0 && yBu == 0) || (xBr == 2 && yBu == 2)) {
-	LOOP(prtl, c[x_clls - 1][y_clls - 1]) {
+	LOOP(prtl, *c[x_clls - 1][y_clls - 1]) {
 	    C(0);
 	    Boundary_NE(prtl);
 	}
     }
     if((xBr == 1 && yBu == 1) || (xBr == 3 && yBu == 3)) {
-	LOOP(prtl, c[x_clls - 1][y_clls - 1]) {
+	LOOP(prtl, *c[x_clls - 1][y_clls - 1]) {
 	    C(1);
 	    Boundary_NE(prtl);
 	}
     }
     if((xBr == 0 && yBd == 0) || (xBr == 2 && yBd == 2)) {
-	LOOP(prtl, c[x_clls - 1][0]) {
+	LOOP(prtl, *c[x_clls - 1][0]) {
 	    C(0);
 	    Boundary_SE(prtl);
 	}
     }
     if((xBr == 1 && yBd == 1) || (xBr == 3 && yBd == 3)) {
-	LOOP(prtl, c[x_clls - 1][0]) {
+	LOOP(prtl, *c[x_clls - 1][0]) {
 	    C(1);
 	    Boundary_SE(prtl);
 	}

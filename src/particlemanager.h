@@ -24,7 +24,7 @@ class ParticleManager
 public:
   int x_clls;
   int y_clls;
-  List **cell_lists;
+  List ***cell_lists;
   List *NNP_list;
   explicit ParticleManager(Initiation*);
   ~ParticleManager();

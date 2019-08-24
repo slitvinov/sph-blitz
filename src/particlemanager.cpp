@@ -29,7 +29,7 @@ enum {X, Y};
 ParticleManager::ParticleManager(Initiation *ini)
 {
 
-  int i;
+    int i, j;
   strcpy(Project_name, ini->Project_name);
   number_of_materials = ini->number_of_materials;
   smoothinglength = ini->smoothinglength;
@@ -48,10 +48,12 @@ ParticleManager::ParticleManager(Initiation *ini)
     p0 = ini->p0;
     T0 = ini->T0;
   }
-  cell_lists = new List*[x_clls];
-  for(i = 0; i < x_clls; i++)
-      cell_lists[i] = new List[y_clls];
-
+  cell_lists = (List***)malloc(x_clls*sizeof(List**));
+  for(i = 0; i < x_clls; i++) {
+      cell_lists[i] = (List**)malloc(y_clls*sizeof(List*));
+      for (j = 0; j < y_clls; j++)
+	  cell_lists[i][j] = list_ini();
+  }
   NNP_list = list_ini();
 }
 void ParticleManager::UpdateCellLinkedLists()
@@ -63,17 +65,17 @@ void ParticleManager::UpdateCellLinkedLists()
   Particle *prtl;
   for(i = 0; i < x_clls; i++) {
     for(j = 0; j < y_clls; j++) {
-	p = list_first(&cell_lists[i][j]);
-      while(!list_isEnd(&cell_lists[i][j], p)) {
-	  prtl = list_retrieve(&cell_lists[i][j], p);
+	p = list_first(cell_lists[i][j]);
+      while(!list_isEnd(cell_lists[i][j], p)) {
+	  prtl = list_retrieve(cell_lists[i][j], p);
 	if(prtl->bd == 0) {
 	  k = int ((prtl->R[0] + cll_sz)/ cll_sz);
 	  m = int ((prtl->R[1] + cll_sz)/ cll_sz);
 	  if(k != i || m !=j) {
-	      list_remove(&cell_lists[i][j], p);
-	      INSERT(prtl, cell_lists[k][m]);
-	  } else p = list_next(&cell_lists[i][j], p);
-	} else p = list_next(&cell_lists[i][j], p);
+	      list_remove(cell_lists[i][j], p);
+	      INSERT(prtl, *cell_lists[k][m]);
+	  } else p = list_next(cell_lists[i][j], p);
+	} else p = list_next(cell_lists[i][j], p);
       }
 
     }
@@ -94,7 +96,7 @@ void ParticleManager::BuildNNP(double point[2])
   for(i = k - 1; i <= k + 1; i++) {
     for(j = m - 1; j <= m + 1; j++) {
       if(i < x_clls && j < y_clls && i >= 0 && j >= 0) {
-	LOOP(prtl, cell_lists[i][j]) {
+	LOOP(prtl, *cell_lists[i][j]) {
 	  dstc = vv_distance(point, prtl->R);
 	  if(dstc < smoothinglength) {
 	    INSERT(prtl, *NNP_list);
@@ -118,7 +120,7 @@ void ParticleManager::BuildNNP_MLSMapping(double point[2])
   for(i = k - 1; i <= k + 1; i++) {
     for(j = m - 1; j <= m + 1; j++) {
       if(i < x_clls && j < y_clls && i >= 0 && j >= 0) {
-	LOOP(prtl, cell_lists[i][j]) {
+	LOOP(prtl, *cell_lists[i][j]) {
 	  dstc = vv_distance(point, prtl->R);
 	  if(dstc < smoothinglength && prtl->bd == 0) {
 	    INSERT(prtl, *NNP_list);
@@ -152,7 +154,7 @@ void ParticleManager::BuildInteraction(IList *interactions, List *particle_list,
 	    j = int ((prtl_org->R[1] + cll_sz)/ cll_sz);
 	    for(k = i - 1; k <= i + 1; k++)
 		for(m = j - 1; m <= j + 1; m++) {
-		    LOOP1(prtl_dest, cell_lists[k][m]) {
+		    LOOP1(prtl_dest, *cell_lists[k][m]) {
 			dstc = vv_sq_distance(prtl_org->R, prtl_dest->R);
 			if(dstc <= smoothinglengthsquare && prtl_org->ID >= prtl_dest->ID) {
 			    if(current_used == old_length) {
@@ -207,7 +209,7 @@ void ParticleManager::BuildRealParticles(Hydrodynamics *hydro, Initiation *ini)
 	    prtl = NEW(position, velocity, density, pressure, Temperature, &hydro->materials[material_no]);
 	    prtl->cell_i = i; prtl->cell_j = j;
 	    INSERT(prtl, *hydro->particle_list);
-	    INSERT(prtl, cell_lists[i][j]);
+	    INSERT(prtl, *cell_lists[i][j]);
 
 	  }
 	}
@@ -241,7 +243,7 @@ void ParticleManager::BuildRealParticles(Hydrodynamics *hydro, Initiation *ini)
 	i = int (prtl->R[0] / cll_sz) + 1;
 	j = int (prtl->R[1] / cll_sz) + 1;
 	prtl->cell_i = i; prtl->cell_j = j;
-	INSERT(prtl, cell_lists[i][j]);
+	INSERT(prtl, *cell_lists[i][j]);
       } else {
 	cout<<"The material in the restart file is not used by the program! \n";
 	std::cout << __FILE__ << ':' << __LINE__ << std::endl;
@@ -263,7 +265,7 @@ void ParticleManager::BuildWallParticles(Hydrodynamics *hydro, Boundary *boundar
 	  prtl = NEW_BND(-1*cll_sz + (k + 0.5)*delta, (j - 1)*cll_sz + (m + 0.5)*delta, &hydro->materials[0]);
 	  prtl->cell_i = 0; prtl->cell_j = j;
 	  INSERT(prtl, *hydro->particle_list);
-	  INSERT(prtl, cell_lists[0][j]);
+	  INSERT(prtl, *cell_lists[0][j]);
 	}
     }
   }
@@ -274,7 +276,7 @@ void ParticleManager::BuildWallParticles(Hydrodynamics *hydro, Boundary *boundar
 	  prtl = NEW_BND((x_clls - 2)*cll_sz + (k + 0.5)*delta, (j - 1)*cll_sz + (m + 0.5)*delta, &hydro->materials[0]);
 	  prtl->cell_i = x_clls - 1; prtl->cell_j = j;
 	  INSERT(prtl, *hydro->particle_list);
-	  INSERT(prtl, cell_lists[x_clls - 1][j]);
+	  INSERT(prtl, *cell_lists[x_clls - 1][j]);
 	}
     }
   }
@@ -286,7 +288,7 @@ void ParticleManager::BuildWallParticles(Hydrodynamics *hydro, Boundary *boundar
 	  prtl = NEW_BND((i - 1)*cll_sz + (k + 0.5)*delta, -1*cll_sz + (m + 0.5)*delta, &hydro->materials[0]);
 	  prtl->cell_i = i; prtl->cell_j = 0;
 	  INSERT(prtl, *hydro->particle_list);
-	  INSERT(prtl, cell_lists[i][0]);
+	  INSERT(prtl, *cell_lists[i][0]);
 
 	}
     }
@@ -299,7 +301,7 @@ void ParticleManager::BuildWallParticles(Hydrodynamics *hydro, Boundary *boundar
 	  prtl = NEW_BND((i - 1)*cll_sz + (k + 0.5)*delta, (y_clls - 2)*cll_sz + (m + 0.5)*delta, &hydro->materials[0]);
 	  prtl->cell_i = i; prtl->cell_j = y_clls - 1;
 	  INSERT(prtl, *hydro->particle_list);
-	  INSERT(prtl, cell_lists[i][y_clls - 1]);
+	  INSERT(prtl, *cell_lists[i][y_clls - 1]);
 	}
     }
   }
