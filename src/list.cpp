@@ -35,7 +35,7 @@ ListNode *List::next0(ListNode *p)
 Particle *List::retrieve0(ListNode *p) {
     return p->next->data;
 }
-void List::insert(ListNode *p, Particle *d)
+void List::insert0(ListNode *p, Particle *d)
 {
     len++;
     p->next = new ListNode(d, p->next);
@@ -86,4 +86,8 @@ ListNode* list_next(List *q, ListNode *n) {
 
 Particle* list_retrieve(List *q, ListNode *n) {
     return q->retrieve0(n);
+}
+
+void list_insert(List *q, ListNode *n, Particle *p) {
+    q->insert0(n, p);
 }

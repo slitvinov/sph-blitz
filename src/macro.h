@@ -4,7 +4,7 @@
 #define LOOP1(q, l) for (p1 = list_first(&l);					\
     			!list_isEnd(&l, p1) && (q = list_retrieve(&l, p1), 1); \
 			p1 = list_next(&l, p1))
-#define INSERT(q, l) l.insert(list_first(&l), q)
+#define INSERT(q, l) list_insert(&l, list_first(&l), q)
 #define CLEAR(l) l.clear()
 #define CLEAR_DATA(l) l.clear_data()
 
