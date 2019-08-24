@@ -32,20 +32,21 @@ Hydrodynamics::Hydrodynamics(Initiation *ini)
     int k, m;
     int l, n;
     char Key_word[FILENAME_MAX];
-    char inputfile[FILENAME_MAX];
     double sound;
     number_of_materials = ini->number_of_materials;
     gravity[X] = ini->g_force[X];
     gravity[Y] = ini->g_force[Y];
     smoothinglength = ini->smoothinglength;
-    delta = ini->delta; delta2 = delta*delta; delta3 = delta2*delta;
+    delta = ini->delta;
+    delta2 = ini->delta*ini->delta;
+    delta3 = ini->delta*ini->delta*ini->delta;
     materials = new Material[number_of_materials];
     forces = new Force*[number_of_materials];
-    for(k = 0; k < number_of_materials; k++) forces[k] = new Force[number_of_materials];
-    strcpy(inputfile, ini->inputfile);
-    ifstream fin(inputfile, ios::in);
+    for(k = 0; k < number_of_materials; k++)
+	forces[k] = new Force[number_of_materials];
+    ifstream fin(ini->inputfile, ios::in);
     if (!fin)
-	ABORT(("can't open '%s'", inputfile));
+	ABORT(("can't open '%s'", ini->inputfile));
     else
 	printf("Material: read the propeties of materials and interaction forces\n");
     while(!fin.eof()) {
