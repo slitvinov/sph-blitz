@@ -38,7 +38,7 @@ BEGIN {
     if (d != a)
 	err(d "!=" a)
 
-    printf "%sILOOP(%s, %s) {\n", t, v, a
+    printf "%sLOOP(%s, %s) {\n", t, v, a
     next
 }
 

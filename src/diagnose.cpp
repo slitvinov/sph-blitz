@@ -19,6 +19,9 @@ using namespace std;
 
 #define LIST ListNode
 #define INSERT(q, l) l.insert(l.first(), q)
+#define LOOP(q, l) for (p = l.first();			       \
+			!l.isEnd(p) && (q = l.retrieve(p), 1); \
+			p = l.next(p))
 
 Diagnose::Diagnose(Initiation *ini, Hydrodynamics *hydro)
 {
@@ -47,10 +50,7 @@ Diagnose::Diagnose(Initiation *ini, Hydrodynamics *hydro)
 	wght_v = new double [2*number_of_materials];
 	ttl_m = 1.0e-40;
 	for(k = 0; k < number_of_materials; k++) mtl_m[k] = 1.0e-40;
-	for (p = hydro->particle_list.first();
-	     !hydro->particle_list.isEnd(p);
-	     p = hydro->particle_list.next(p)) {
-	    prtl = hydro->particle_list.retrieve(p);
+	LOOP(prtl, hydro->particle_list) {
 	    for(k = 0;  k < number_of_materials; k++)
 		if(strcmp(prtl->mtl->material_name, hydro->materials[k].material_name) == 0)
 		    mtl_m[k] += prtl->m;
@@ -159,10 +159,7 @@ void Diagnose::Average(ParticleManager *particles, MLS *mls, QuinticSpline *weig
 	    n = 0;
 	    rho = 0.0; pressure = 0.0; Temperature = 0.0;
 	    x_velocity = 0.0; y_velocity = 0.0;
-	    for (p = particles->NNP_list.first();
-		 !particles->NNP_list.isEnd(p);
-		 p = particles->NNP_list.next(p)) {
-		prtl = particles->NNP_list.retrieve(p);
+	    LOOP(prtl, particles->NNP_list) {
 		rho += prtl->rho*mls->phi[n];
 		pressure += prtl->p*mls->phi[n];
 		Temperature += prtl->T*mls->phi[n];
@@ -222,10 +219,7 @@ void Diagnose::KineticInformation(double Time, Hydrodynamics *hydro)
 	wght_v[2*k + X] = wght_v[2*k + Y] = 0.0;
     }
     glb_ave_Ek = 0.0;
-    for (p = hydro->particle_list.first();
-	 !hydro->particle_list.isEnd(p);
-	 p = hydro->particle_list.next(p)) {
-	prtl = hydro->particle_list.retrieve(p);
+    LOOP(prtl, hydro->particle_list) {
 	for(k = 0;  k < number_of_materials; k++)
 	    if(strcmp(prtl->mtl->material_name, hydro->materials[k].material_name) == 0) {
 		wght_cntr[2*k + X] += prtl->R[X]*prtl->m;
