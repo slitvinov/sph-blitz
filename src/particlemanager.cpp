@@ -18,6 +18,7 @@
 #include "boundary.h"
 #include "particlemanager.h"
 #include "macro.h"
+#include "err.h"
 
 using namespace std;
 enum {X, Y};
@@ -244,9 +245,7 @@ void ParticleManager::BuildRealParticles(Hydrodynamics *hydro, Initiation *ini)
 		prtl->cell_i = i; prtl->cell_j = j;
 		INSERT(prtl, *cell_lists[i][j]);
 	    } else {
-		cout<<"The material in the restart file is not used by the program! \n";
-		std::cout << __FILE__ << ':' << __LINE__ << std::endl;
-		exit(1);
+		ABORT(("The material in the restart file is not used by the program!"));
 	    }
 	}
 	fin.close();
