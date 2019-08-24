@@ -753,7 +753,7 @@ int boundary_check(Boundary *q, Hydrodynamics *hydro)
     LIST *p;
     Particle *prtl;
     double *box_size;
-    
+
     box_size = q->box_size;
     for (p = hydro->particle_list.first();
 	 !hydro->particle_list.isEnd(p);
