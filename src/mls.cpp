@@ -53,15 +53,15 @@ void MLS::MLS_Solver(int order)
     }
   }
 }
-void MLS::MLSMapping(double point[2], List &NNP_list, QuinticSpline &weight_function, int order)
+void MLS::MLSMapping(double point[2], List *NNP_list, QuinticSpline *weight_function, int order)
 {
     Particle *prtl;
     ListNode *p1;
     
   N = 0; 
   p[0] = 1.0; p[1] = point[0]; p[2] = point[1];
-  LOOP1(prtl, NNP_list) {
-    Wi[N] = w(&weight_function, vv_distance(point, prtl->R));
+  LOOP1(prtl, *NNP_list) {
+    Wi[N] = w(weight_function, vv_distance(point, prtl->R));
     pi[0][N] = 1.0;
     pi[1][N] = prtl->R[0];
     pi[2][N] = prtl->R[1];

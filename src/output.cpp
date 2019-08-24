@@ -86,7 +86,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
 	    pstn[0] = i*delta; pstn[1] = j*delta;
 	    particles.BuildNNP(pstn);
 	    if(!list_empty(&particles.NNP_list))
-		mls.MLSMapping(pstn, particles.NNP_list, weight_function, 1);
+		mls.MLSMapping(pstn, &particles.NNP_list, &weight_function, 1);
 	    n = 0;
 	    rho = 0.0; phi = 0.0; pressure = 0.0; Temperature = 0.0;
 	    x_velocity = 0.0; y_velocity = 0.0;

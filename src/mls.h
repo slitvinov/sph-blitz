@@ -11,5 +11,5 @@ class MLS {
 public:
 	double *phi; 
 	explicit MLS(int MLS_MAX);
-	void MLSMapping(double point[2], List &NNP_list, QuinticSpline &weight_function, int order);
+	void MLSMapping(double point[2], List *NNP_list, QuinticSpline *weight_function, int order);
 };
