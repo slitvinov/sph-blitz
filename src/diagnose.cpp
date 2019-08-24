@@ -21,7 +21,10 @@ using namespace std;
 
 Diagnose::Diagnose(Initiation *ini, Hydrodynamics *hydro)
 {
+    char file_name[FILENAME_MAX];
     int k, l, m;
+    LIST *p;
+    Particle *prtl;
     x_cells = ini->x_cells; y_cells = ini->y_cells;
     hdelta = ini->hdelta;
     delta = ini->delta;
@@ -43,16 +46,15 @@ Diagnose::Diagnose(Initiation *ini, Hydrodynamics *hydro)
 	wght_v = new double [2*number_of_materials];
 	ttl_m = 1.0e-40;
 	for(k = 0; k < number_of_materials; k++) mtl_m[k] = 1.0e-40;
-	for (LIST *p = hydro->particle_list.first();
+	for (p = hydro->particle_list.first();
 	     !hydro->particle_list.isEnd(p);
 	     p = hydro->particle_list.next(p)) {
-	    Particle *prtl = hydro->particle_list.retrieve(p);
+	    prtl = hydro->particle_list.retrieve(p);
 	    for(k = 0;  k < number_of_materials; k++)
 		if(strcmp(prtl->mtl->material_name, hydro->materials[k].material_name) == 0)
 		    mtl_m[k] += prtl->m;
 	    ttl_m += prtl->m;
 	}
-	char file_name[FILENAME_MAX];
 	strcpy(file_name,"./outdata/kinetic_info.dat");
 	ofstream out(file_name);
 	out<<"title='kinetic_infomation' \n";
@@ -144,6 +146,8 @@ void Diagnose::Average(ParticleManager *particles, MLS *mls, QuinticSpline *weig
     double pstn[2];
     double rho, pressure, Temperature, x_velocity, y_velocity;
     double m_n_average, r_n_average;
+    LIST *p;
+    Particle *prtl;
     n_average ++;
     for(j = 0; j < gridy; j++) {
 	for(i = 0; i < gridx; i++) {
@@ -154,10 +158,10 @@ void Diagnose::Average(ParticleManager *particles, MLS *mls, QuinticSpline *weig
 	    n = 0;
 	    rho = 0.0; pressure = 0.0; Temperature = 0.0;
 	    x_velocity = 0.0; y_velocity = 0.0;
-	    for (LIST *p = particles->NNP_list.first();
+	    for (p = particles->NNP_list.first();
 		 !particles->NNP_list.isEnd(p);
 		 p = particles->NNP_list.next(p)) {
-		Particle *prtl = particles->NNP_list.retrieve(p);
+		prtl = particles->NNP_list.retrieve(p);
 		rho += prtl->rho*mls->phi[n];
 		pressure += prtl->p*mls->phi[n];
 		Temperature += prtl->T*mls->phi[n];

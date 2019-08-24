@@ -54,12 +54,13 @@ void MLS::MLS_Solver(int order)
 }
 void MLS::MLSMapping(double point[2], List &NNP_list, QuinticSpline &weight_function, int order)
 {
+    Particle *prtl;
   N = 0; 
   p[0] = 1.0; p[1] = point[0]; p[2] = point[1];
   for (ListNode *pstn = NNP_list.first(); 
        !NNP_list.isEnd(pstn); 
        pstn = NNP_list.next(pstn)) {
-    Particle *prtl = NNP_list.retrieve(pstn);
+    prtl = NNP_list.retrieve(pstn);
     Wi[N] = w(&weight_function, vv_distance(point, prtl->R));
     pi[0][N] = 1.0;
     pi[1][N] = prtl->R[0];

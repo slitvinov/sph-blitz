@@ -114,19 +114,20 @@ void Output::OutRestart(Hydrodynamics &hydro, double Time)
     int n;
     char outputfile[FILENAME_MAX];
     Particle *prtl;
+    LIST *p;
     strcpy(outputfile, Project_name);
     strcat(outputfile,".rst");
     ofstream out(outputfile);
     n = 0;
-    for (LIST *pp = hydro.particle_list.first(); 
-	 !hydro.particle_list.isEnd(pp); 
-	 pp = hydro.particle_list.next(pp)) {
-	Particle *prtl = hydro.particle_list.retrieve(pp);
+    for (p = hydro.particle_list.first(); 
+	 !hydro.particle_list.isEnd(p); 
+	 p = hydro.particle_list.next(p)) {
+	prtl = hydro.particle_list.retrieve(p);
 	if(prtl->bd == 0) n++;
     }
     out<<Time<<"\n";
     out<<n<<"\n";
-    for (LIST *p = hydro.particle_list.first(); 
+    for (p = hydro.particle_list.first(); 
 	 !hydro.particle_list.isEnd(p); 
 	 p = hydro.particle_list.next(p)) {
 	prtl = hydro.particle_list.retrieve(p);

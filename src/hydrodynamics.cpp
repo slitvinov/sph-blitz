@@ -219,10 +219,11 @@ void Hydrodynamics::AddGravity()
 void Hydrodynamics::UpdateState()
 {
     LIST *p;
+    Particle *prtl;
     for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-	Particle *prtl = particle_list.retrieve(p);
+	prtl = particle_list.retrieve(p);
 	prtl->p = get_p(prtl->mtl, prtl->rho);
     }
 }

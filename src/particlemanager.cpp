@@ -56,11 +56,13 @@ void ParticleManager::UpdateCellLinkedLists()
 
   int i, j;
   int k, m;
+  LIST *p;
+  Particle *prtl;
   for(i = 0; i < x_clls; i++) {
     for(j = 0; j < y_clls; j++) {
-      LIST *p = cell_lists[i][j].first();
+      p = cell_lists[i][j].first();
       while(!cell_lists[i][j].isEnd(p)) {
-	Particle *prtl = cell_lists[i][j].retrieve(p);
+	prtl = cell_lists[i][j].retrieve(p);
 	if(prtl->bd == 0) {
 	  k = int ((prtl->R[0] + cll_sz)/ cll_sz);
 	  m = int ((prtl->R[1] + cll_sz)/ cll_sz);
@@ -80,6 +82,8 @@ void ParticleManager::BuildNNP(double point[2])
   int i, j;
   int k, m;
   double dstc;
+  LIST *p;
+  Particle *prtl;
 
   NNP_list.clear_data();
   k = int ((point[0] + cll_sz)/ cll_sz);
@@ -87,10 +91,10 @@ void ParticleManager::BuildNNP(double point[2])
   for(i = k - 1; i <= k + 1; i++) {
     for(j = m - 1; j <= m + 1; j++) {
       if(i < x_clls && j < y_clls && i >= 0 && j >= 0) {
-	for (LIST *p = cell_lists[i][j].first();
+	for (p = cell_lists[i][j].first();
 	     !cell_lists[i][j].isEnd(p);
 	     p = cell_lists[i][j].next(p)) {
-	  Particle *prtl = cell_lists[i][j].retrieve(p);
+	  prtl = cell_lists[i][j].retrieve(p);
 	  dstc = vv_distance(point, prtl->R);
 	  if(dstc < smoothinglength) {
 	    INSERT(prtl, NNP_list);
@@ -106,16 +110,18 @@ void ParticleManager::BuildNNP_MLSMapping(double point[2])
   int i, j;
   int k, m;
   double dstc;
+  LIST *p;
+  Particle *prtl;
 
   k = int ((point[0] + cll_sz)/ cll_sz);
   m = int ((point[1] + cll_sz)/ cll_sz);
   for(i = k - 1; i <= k + 1; i++) {
     for(j = m - 1; j <= m + 1; j++) {
       if(i < x_clls && j < y_clls && i >= 0 && j >= 0) {
-	for (LIST *p = cell_lists[i][j].first();
+	for (p = cell_lists[i][j].first();
 	     !cell_lists[i][j].isEnd(p);
 	     p = cell_lists[i][j].next(p)) {
-	  Particle *prtl = cell_lists[i][j].retrieve(p);
+	  prtl = cell_lists[i][j].retrieve(p);
 	  dstc = vv_distance(point, prtl->R);
 	  if(dstc < smoothinglength && prtl->bd == 0) {
 	    INSERT(prtl, NNP_list);
@@ -133,23 +139,26 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, List &p
   bool used_up_old = interactions.isEnd(current);
   LlistNode<Interaction> *first_unused;
   int old_length = interactions.length();
+  LIST *p, *p1;
   {
     int i, j, k, m;
     double dstc;
     int current_used = 0;
-    for (LIST *p = particle_list.first();
+    Particle *prtl_org, *prtl_dest;
+    
+    for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-      Particle *prtl_org = particle_list.retrieve(p);
+      prtl_org = particle_list.retrieve(p);
       if(prtl_org->bd == 0) {
 	i = int ((prtl_org->R[0] + cll_sz)/ cll_sz);
 	j = int ((prtl_org->R[1] + cll_sz)/ cll_sz);
 	for(k = i - 1; k <= i + 1; k++)
 	  for(m = j - 1; m <= j + 1; m++) {
-	    for (LIST *p1 = cell_lists[k][m].first();
+	    for (p1 = cell_lists[k][m].first();
 		 !cell_lists[k][m].isEnd(p1);
 		 p1 = cell_lists[k][m].next(p1)) {
-	      Particle *prtl_dest = cell_lists[k][m].retrieve(p1);
+	      prtl_dest = cell_lists[k][m].retrieve(p1);
 	      dstc = vv_sq_distance(prtl_org->R, prtl_dest->R);
 	      if(dstc <= smoothinglengthsquare && prtl_org->ID >= prtl_dest->ID) {
 		if(current_used == old_length) {
