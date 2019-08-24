@@ -87,7 +87,7 @@ Hydrodynamics::Hydrodynamics(Initiation *ini)
 }
 void Hydrodynamics::BuildPair(ParticleManager *particles, QuinticSpline *weight_function)
 {
-    particles->BuildInteraction(interaction_list, particle_list, forces, *weight_function);
+    particles->BuildInteraction(interaction_list, &particle_list, forces, weight_function);
 }
 void Hydrodynamics::UpdatePair(QuinticSpline *weight_function)
 {
@@ -124,7 +124,7 @@ void Hydrodynamics::UpdateChangeRate(ParticleManager *particles, QuinticSpline *
     ILIST *p;
     Interaction *pair;
     ZeroChangeRate();
-    particles->BuildInteraction(interaction_list, particle_list, forces, *weight_function);
+    particles->BuildInteraction(interaction_list, &particle_list, forces, weight_function);
     ILOOP(pair, interaction_list) {
 	pair->UpdateForces();
     }
