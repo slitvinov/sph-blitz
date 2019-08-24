@@ -4,17 +4,17 @@ extern "C" {
 struct List;
 struct ListNode;
 struct Particle;
-int list_empty(List*);
-int list_isEnd(List*, ListNode*);
-ListNode *list_first(List*);
-ListNode *list_next(List*, ListNode*);
-Particle *list_retrieve(List*, ListNode*);
-void list_insert(List*, ListNode*, Particle*);
-void list_remove(List*, ListNode*);
-void list_clear(List*);
-void list_clear_data(List*);
-List *list_ini(void);
-void list_fin(List*);
+int list_empty(struct List*);
+int list_isEnd(struct List*, struct ListNode*);
+struct ListNode *list_first(struct List*);
+struct ListNode *list_next(struct List*, struct ListNode*);
+struct Particle *list_retrieve(struct List*, struct ListNode*);
+void list_insert(struct List*, struct ListNode*, struct Particle*);
+void list_remove(struct List*, struct ListNode*);
+void list_clear(struct List*);
+void list_clear_data(struct List*);
+struct List *list_ini(void);
+void list_fin(struct List*);
 #ifdef __cplusplus
 }
 #endif

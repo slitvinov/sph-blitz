@@ -15,3 +15,9 @@
 #define DINSERT(q, l) l.insert(l.first(), q)
 
 #define IINSERT(q, l) (l).insert((l).first(), q);
+
+#define LOOP_P(q, l) for (p = list_first((l));				\
+			  !list_isEnd((l), p) && (q = list_retrieve((l), p), 1); \
+			  p = list_next((l), p))
+
+#define INSERT_P(q, l) list_insert(l, list_first(l), q)
