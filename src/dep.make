@@ -23,6 +23,7 @@ err.o: err.h
 glbfunc.o: glbfunc.h
 hydrodynamics.o: boundary.h
 hydrodynamics.o: dllist.h
+hydrodynamics.o: err.h
 hydrodynamics.o: force.h
 hydrodynamics.o: glbfunc.h
 hydrodynamics.o: hydrodynamics.h
