@@ -28,7 +28,7 @@ Boundary::Boundary(Initiation *ini, Hydrodynamics *hydro, ParticleManager *q)
     int n;
     char Key_word[FILENAME_MAX];
     FILE *f;
-    b = new List;
+    b = list_ini();
     box_size[X] = ini->box_size[X];
     box_size[Y] = ini->box_size[Y];
     x_clls = q->x_clls;
@@ -713,5 +713,5 @@ int boundary_check(Boundary *q, Hydrodynamics *hydro)
 
 Boundary::~Boundary()
 {
-    delete b;
+    list_fin(b);
 }

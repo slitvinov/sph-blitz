@@ -84,7 +84,7 @@ Hydrodynamics::Hydrodynamics(Initiation *ini)
     sound = AMAX1(surface_max, sound);
     for(k = 0; k < number_of_materials; k++)
 	Set_b0(&materials[k], sound);
-    particle_list = new List;
+    particle_list = list_ini();
 }
 void Hydrodynamics::BuildPair(ParticleManager *particles, QuinticSpline *weight_function)
 {

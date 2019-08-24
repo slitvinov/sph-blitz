@@ -49,9 +49,10 @@ ParticleManager::ParticleManager(Initiation *ini)
     T0 = ini->T0;
   }
   cell_lists = new List*[x_clls];
-  for(i = 0; i < x_clls; i++) cell_lists[i] =
-				  new List[y_clls];
-  NNP_list = new List;
+  for(i = 0; i < x_clls; i++)
+      cell_lists[i] = new List[y_clls];
+
+  NNP_list = list_ini();
 }
 void ParticleManager::UpdateCellLinkedLists()
 {
@@ -305,5 +306,5 @@ void ParticleManager::BuildWallParticles(Hydrodynamics *hydro, Boundary *boundar
 }
 
 ParticleManager::~ParticleManager() {
-    delete NNP_list;
+    list_fin(NNP_list);
 }

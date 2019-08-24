@@ -38,6 +38,6 @@ void list_remove(List*, ListNode*);
 void list_clear(List*);
 void list_clear_data(List*);
 
-List *list_new(void);
+List *list_ini(void);
 void list_fin(List*);
 

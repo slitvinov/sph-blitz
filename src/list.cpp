@@ -108,7 +108,7 @@ void list_clear_data(List *q)
     q->clear_data0();
 }
 
-List *list_new(void)
+List *list_ini(void)
 {
     List *q;
     q = new List;
