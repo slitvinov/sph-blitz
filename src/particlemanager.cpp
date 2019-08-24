@@ -133,26 +133,13 @@ void ParticleManager::BuildNNP_MLSMapping(double point[2])
 void ParticleManager::BuildInteraction(IList *interactions, List *particle_list,
 				       Force **forces, QuinticSpline *weight_function)
 {
-    ILIST *first_unused, *current;
-    bool used_up_old;
-    int old_length;
     LIST *p, *p1;
     int i, j, k, m;
     double dstc;
-    int current_used = 0;
     Particle *prtl_org, *prtl_dest;
     Interaction *pair;
 
-
     interactions->clear_data();
-
-    current = interactions->first();
-    used_up_old = interactions->isEnd(current);
-    current_used = 0;
-    old_length = interactions->length();
-
-
-    
     LOOP(prtl_org, *particle_list) {
 	if(prtl_org->bd == 0) {
 	    i = int ((prtl_org->R[0] + cll_sz)/ cll_sz);
@@ -162,26 +149,12 @@ void ParticleManager::BuildInteraction(IList *interactions, List *particle_list,
 		    LOOP1(prtl_dest, *cell_lists[k][m]) {
 			dstc = vv_sq_distance(prtl_org->R, prtl_dest->R);
 			if(dstc <= smoothinglengthsquare && prtl_org->ID >= prtl_dest->ID) {
-			    if(current_used == old_length) {
-				pair = new Interaction(prtl_org, prtl_dest, forces, weight_function, sqrt(dstc));
-				IINSERT(pair, *interactions);
-			    }
-			    else {
-				interactions->retrieve(current)->NewInteraction(prtl_org, prtl_dest, forces, weight_function, sqrt(dstc));
-				current = interactions->next(current);
-				current_used++;
-			    }
+			    pair = new Interaction(prtl_org, prtl_dest, forces, weight_function, sqrt(dstc));
+			    IINSERT(pair, *interactions);
 			}
 		    }
 		}
 	}
-    }
-    if (current_used == old_length)
-	used_up_old = true;
-    else
-	first_unused = current;
-    if (!used_up_old) {
-	while (!interactions->isEnd(first_unused)) { delete interactions->retrieve(first_unused); interactions->remove(first_unused); }
     }
 }
 
