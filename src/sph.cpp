@@ -1,4 +1,5 @@
 #include <iostream>
+#include "err.h"
 #include "particle.h"
 #include "list.h"
 #include "dllist.h"
@@ -22,11 +23,8 @@ int main(int argc, char *argv[]) {
     double Time;
     Initiation ini;
     QuinticSpline weight_function;
-    if (argc<2)  {
-	std::cout<<"No Project Name Specified!!\n";
-	std::cout << __FILE__ << ':' << __LINE__ << std::endl;
-	exit(1);
-    }
+    if (argc<2)
+	ERR(2, ("no project name specified"));
     wiener_seed(12345);
     initiation_ini(argv[1], &ini);
     interaction_art_vis = ini.art_vis;

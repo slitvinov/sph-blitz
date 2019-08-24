@@ -18,6 +18,7 @@ diagnose.o: mls.h
 diagnose.o: particle.h
 diagnose.o: particlemanager.h
 diagnose.o: vv.h
+err.o: err.h
 glbfunc.o: glbfunc.h
 hydrodynamics.o: boundary.h
 hydrodynamics.o: dllist.h
@@ -84,6 +85,7 @@ quinticspline.o: quinticspline.h
 sph.o: boundary.h
 sph.o: diagnose.h
 sph.o: dllist.h
+sph.o: err.h
 sph.o: hydrodynamics.h
 sph.o: initiation.h
 sph.o: interaction.h
