@@ -7,6 +7,7 @@
 #include <cstdlib>
 class Hydrodynamics;
 class ParticleManager;
+#include "err.h"
 #include "vv.h"
 #include "glbfunc.h"
 #include "quinticspline.h"
@@ -43,10 +44,8 @@ Hydrodynamics::Hydrodynamics(ParticleManager *particles, Initiation *ini)
     for(k = 0; k < number_of_materials; k++) forces[k] = new Force[number_of_materials];
     strcpy(inputfile, ini->inputfile);
     ifstream fin(inputfile, ios::in);
-    if (!fin) {
-	fprintf(stderr, "%s:%d: Initialtion: Cannot open %s\n", __FILE__, __LINE__, inputfile);
-	exit(1);
-    }
+    if (!fin)
+	ABORT(("can't open '%s'", inputfile));
     else
 	printf("Material: read the propeties of materials and interaction forces\n");
     while(!fin.eof()) {

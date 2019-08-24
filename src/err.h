@@ -10,12 +10,12 @@ extern "C" {
 #define ERR(code, x) do {			\
 	WARN(x);				\
 	return(code);				\
-    } while (0);
+    } while (0)
 
 #define ABORT(x) do {				\
 	WARN(x);				\
 	exit(2);				\
-    } while (0);
+    } while (0)
 
 int wprint(const char *fmt, ...);
 #ifdef __cplusplus
