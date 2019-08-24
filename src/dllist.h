@@ -12,14 +12,14 @@ class Llist {
 private:
     int len;
     LlistNode *node;
-    bool empty() const { return (node == node->next); }
+    bool empty() { return (node == node->next); }
 public:
     Llist() { node = new LlistNode; len = 0; }
-    bool isEnd(LlistNode *p) const { return (p->next == node); }
-    LlistNode *first() const { return node; }
-    LlistNode *next(LlistNode *p) const     { return p->next; }
-    double *retrieve(LlistNode *p) const    { return p->next->data; }
-    int length() const                  { return len; }
+    bool isEnd(LlistNode *p) { return (p->next == node); }
+    LlistNode *first() { return node; }
+    LlistNode *next(LlistNode *p)     { return p->next; }
+    double *retrieve(LlistNode *p)    { return p->next->data; }
+    int length()                  { return len; }
     inline void insert(LlistNode *p, double *d) {
 	len++;
 	p->next = new LlistNode(d, p->next);
