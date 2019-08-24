@@ -26,6 +26,8 @@ public:
     ~List();
 };
 
+class List;
+class ListNode;
 int list_empty(List*);
 int list_isEnd(List*, ListNode*);
 ListNode *list_first(List*);
