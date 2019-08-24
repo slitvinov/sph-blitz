@@ -748,10 +748,13 @@ void Boundary::Boundary_SE(Particle *prtl)
 	break;
     }
 }
-void Boundary::RunAwayCheck(Hydrodynamics *hydro)
+int boundary_check(Boundary *q, Hydrodynamics *hydro)
 {
     LIST *p;
     Particle *prtl;
+    double *box_size;
+    
+    box_size = q->box_size;
     for (p = hydro->particle_list.first();
 	 !hydro->particle_list.isEnd(p);
 	 p = hydro->particle_list.next(p)) {
@@ -760,7 +763,7 @@ void Boundary::RunAwayCheck(Hydrodynamics *hydro)
 	    ABORT(("run away particle"));
 	if(prtl->bd == 0) {
 	    if(prtl->R[X] < 0.0) {
-		switch(xBl) {
+		switch(q->xBl) {
 		case 0:
 		    prtl->R[X] = - prtl->R[X];
 		    break;
@@ -776,7 +779,7 @@ void Boundary::RunAwayCheck(Hydrodynamics *hydro)
 		}
 	    }
 	    if(prtl->R[X] > box_size[X]) {
-		switch(xBr) {
+		switch(q->xBr) {
 		case 0:
 		    prtl->R[X] = 2.0*box_size[X] - prtl->R[X];
 		    break;
@@ -792,7 +795,7 @@ void Boundary::RunAwayCheck(Hydrodynamics *hydro)
 		}
 	    }
 	    if(prtl->R[Y] < 0.0) {
-		switch(yBd) {
+		switch(q->yBd) {
 		case 0:
 		    prtl->R[Y] = - prtl->R[Y];
 		    break;
@@ -808,7 +811,7 @@ void Boundary::RunAwayCheck(Hydrodynamics *hydro)
 		}
 	    }
 	    if(prtl->R[Y] > box_size[Y]) {
-		switch(yBu) {
+		switch(q->yBu) {
 		case 0:
 		    prtl->R[Y] = 2.0*box_size[Y] - prtl->R[Y];
 		    break;
@@ -825,4 +828,5 @@ void Boundary::RunAwayCheck(Hydrodynamics *hydro)
 	    }
 	}
     }
+    return 0;
 }

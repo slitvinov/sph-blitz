@@ -26,5 +26,6 @@ struct Boundary
     Boundary(Initiation*, Hydrodynamics*, ParticleManager*);
     void BuildBoundaryParticles(ParticleManager*, Hydrodynamics*);
     void BoundaryCondition(ParticleManager*);
-    void RunAwayCheck(Hydrodynamics*);
 };
+
+int boundary_check(Boundary*, Hydrodynamics*);

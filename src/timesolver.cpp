@@ -55,7 +55,7 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics &hydro, ParticleManager &p
 	hydro.UpdateRandom(sqrt(dt));
 	hydro.Corrector_summation(dt);
 	hydro.RandomEffects();
-	boundary.RunAwayCheck(&hydro);
+	boundary_check(&boundary, &hydro);
 	particles.UpdateCellLinkedLists();
 	boundary.BuildBoundaryParticles(&particles, &hydro);
     }
