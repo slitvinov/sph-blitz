@@ -3,7 +3,7 @@
 BEGIN {
 }
 
-/\.insert\(/ {
+!/^#/ && /\.insert\(/ {
     t = tab($0)
     b = a = c = trim($0)
 
