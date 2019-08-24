@@ -24,8 +24,12 @@ enum {X, Y};
 #define NEW_BND(x, y, mtl) particle_wall(x, y, mtl)
 #define NEW(pos, vel, den, pre, tem, mtl) particle_real(pos, vel, den, pre, tem, mtl)
 #define LIST ListNode
-#define INSERT(q, l) l.insert(l.first(), q)
 #define ILIST IListNode
+
+#define INSERT(q, l) l.insert(l.first(), q)
+#define LOOP(q, l) for (p = l.first();			       \
+			!l.isEnd(p) && (q = l.retrieve(p), 1); \
+			p = l.next(p))
 
 ParticleManager::ParticleManager(Initiation *ini)
 {
@@ -93,10 +97,7 @@ void ParticleManager::BuildNNP(double point[2])
   for(i = k - 1; i <= k + 1; i++) {
     for(j = m - 1; j <= m + 1; j++) {
       if(i < x_clls && j < y_clls && i >= 0 && j >= 0) {
-	for (p = cell_lists[i][j].first();
-	     !cell_lists[i][j].isEnd(p);
-	     p = cell_lists[i][j].next(p)) {
-	  prtl = cell_lists[i][j].retrieve(p);
+	LOOP(prtl, cell_lists[i][j]) {
 	  dstc = vv_distance(point, prtl->R);
 	  if(dstc < smoothinglength) {
 	    INSERT(prtl, NNP_list);
@@ -120,10 +121,7 @@ void ParticleManager::BuildNNP_MLSMapping(double point[2])
   for(i = k - 1; i <= k + 1; i++) {
     for(j = m - 1; j <= m + 1; j++) {
       if(i < x_clls && j < y_clls && i >= 0 && j >= 0) {
-	for (p = cell_lists[i][j].first();
-	     !cell_lists[i][j].isEnd(p);
-	     p = cell_lists[i][j].next(p)) {
-	  prtl = cell_lists[i][j].retrieve(p);
+	LOOP(prtl, cell_lists[i][j]) {
 	  dstc = vv_distance(point, prtl->R);
 	  if(dstc < smoothinglength && prtl->bd == 0) {
 	    INSERT(prtl, NNP_list);
@@ -151,10 +149,7 @@ void ParticleManager::BuildInteraction(IList &interactions, List &particle_list,
     used_up_old = interactions.isEnd(current);
     current_used = 0;
     old_length = interactions.length();
-    for (p = particle_list.first();
-	 !particle_list.isEnd(p);
-	 p = particle_list.next(p)) {
-	prtl_org = particle_list.retrieve(p);
+    LOOP(prtl_org, particle_list) {
 	if(prtl_org->bd == 0) {
 	    i = int ((prtl_org->R[0] + cll_sz)/ cll_sz);
 	    j = int ((prtl_org->R[1] + cll_sz)/ cll_sz);

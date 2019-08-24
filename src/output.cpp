@@ -32,6 +32,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,  double T
     double Itime;
     char file_name[FILENAME_MAX], file_list[FILENAME_MAX];
     Particle *prtl;
+    LIST *p;
     Itime = Time*1.0e6;
     strcpy(file_name,"./outdata/p.");
     sprintf(file_list, "%.10lld", (long long)Itime);
@@ -42,7 +43,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,  double T
     out<<"variables=x, y, Ux, Uy \n";
     for(i = 0; i < number_of_materials; i++) {
 	j = 0;
-	for (LIST *p = hydro.particle_list.first(); 
+	for (p = hydro.particle_list.first(); 
 	     !hydro.particle_list.isEnd(p); 
 	     p = hydro.particle_list.next(p)) {
 	    prtl = hydro.particle_list.retrieve(p);
@@ -52,10 +53,10 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,  double T
 		out<<prtl->R[0]<<"  "<<prtl->R[1] <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
 	    }
 	}
-	for (LIST *p1 = boundary.b.first(); 
-	     !boundary.b.isEnd(p1); 
-	     p1 = boundary.b.next(p1)) {
-	    prtl = boundary.b.retrieve(p1);
+	for (p = boundary.b.first(); 
+	     !boundary.b.isEnd(p); 
+	     p = boundary.b.next(p)) {
+	    prtl = boundary.b.retrieve(p);
 	    if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) { 
 		j++;
 		if(j == 1) 	out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
@@ -73,6 +74,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
     double Itime;
     char file_name[FILENAME_MAX], file_list[10];
     Particle *prtl;
+    LIST *p;
     gridx = x_cells*hdelta; gridy = y_cells*hdelta;
     Itime = Time*1.0e6;
     strcpy(file_name,"./outdata/states");
@@ -92,7 +94,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
 	    n = 0;
 	    rho = 0.0; phi = 0.0; pressure = 0.0; Temperature = 0.0;
 	    x_velocity = 0.0; y_velocity = 0.0;
-	    for (LIST *p = particles.NNP_list.first(); 
+	    for (p = particles.NNP_list.first(); 
 		 !particles.NNP_list.isEnd(p); 
 		 p = particles.NNP_list.next(p)) {
 		prtl = particles.NNP_list.retrieve(p);
