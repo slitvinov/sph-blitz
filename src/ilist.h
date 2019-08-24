@@ -18,6 +18,7 @@ struct IList {
     int length(void);
     void insert(IListNode*, Interaction*);
     void remove(IListNode*);
+    void clear_data();
     ~IList();
 };
 

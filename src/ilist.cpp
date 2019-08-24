@@ -50,6 +50,14 @@ void IList::remove(IListNode *p)
     delete t;
     len--;
 }
+void IList::clear_data()
+{
+    while (!empty()) {
+	delete retrieve(first());
+	remove(first());
+    }
+    len = 0;
+}
 IList::~IList()
 {
     while (!empty())

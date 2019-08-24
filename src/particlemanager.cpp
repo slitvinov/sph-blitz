@@ -147,6 +147,9 @@ void ParticleManager::BuildInteraction(IList *interactions, List *particle_list,
     used_up_old = interactions->isEnd(current);
     current_used = 0;
     old_length = interactions->length();
+
+    
+    
     LOOP(prtl_org, *particle_list) {
 	if(prtl_org->bd == 0) {
 	    i = int ((prtl_org->R[0] + cll_sz)/ cll_sz);
