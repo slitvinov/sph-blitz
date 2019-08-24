@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
       diagnose.KineticInformation(Time, &hydro);
     while(Time < ini.End_time) {
 	if(Time + ini.D_time >=  ini.End_time) ini.D_time = ini.End_time - Time;
-	timesolver.TimeIntegral_summation(hydro, particles, boundary, Time, ini.D_time, diagnose, ini, weight_function, mls);
+	timesolver.TimeIntegral_summation(&hydro, &particles, &boundary, &Time, ini.D_time, &diagnose, &ini, &weight_function, &mls);
 	output.OutputParticles(hydro, boundary, Time);
 	output.OutRestart(hydro, Time);
 	if(ini.diagnose == 1) {
