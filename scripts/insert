@@ -1,0 +1,38 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+}
+
+/\.insert\(/ {
+    t = tab($0)
+    b = a = trim($0)
+
+    sub(/\.insert\(.*/, "", a)
+    sub(/^.*\.insert\(/, "", b)
+    sub(/\.first\(\).*/, "", b)
+    if (a != b)
+       err(a "!=" b)
+    next
+}
+
+{
+    # print
+}
+
+function err(s) {
+	 print s | "cat >&2"
+	 exit(2)
+}
+
+function trim(s)
+{
+    sub(/^[\t ]*/, "", s)
+    sub(/[\t ]*$/, "", s)
+    return s
+}
+
+function tab(s)
+{
+    sub(/[^\t ].*/, "", s)
+    return s
+}
