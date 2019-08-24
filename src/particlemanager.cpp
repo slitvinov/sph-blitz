@@ -61,17 +61,17 @@ void ParticleManager::UpdateCellLinkedLists()
   Particle *prtl;
   for(i = 0; i < x_clls; i++) {
     for(j = 0; j < y_clls; j++) {
-      p = cell_lists[i][j].first();
+	p = list_first(&cell_lists[i][j]);
       while(!list_isEnd(&cell_lists[i][j], p)) {
-	prtl = cell_lists[i][j].retrieve(p);
+	  prtl = list_retrieve(&cell_lists[i][j], p);
 	if(prtl->bd == 0) {
 	  k = int ((prtl->R[0] + cll_sz)/ cll_sz);
 	  m = int ((prtl->R[1] + cll_sz)/ cll_sz);
 	  if(k != i || m !=j) {
 	    cell_lists[i][j].remove(p);
 	    INSERT(prtl, cell_lists[k][m]);
-	  } else p = cell_lists[i][j].next(p);
-	} else p = cell_lists[i][j].next(p);
+	  } else p = list_next(&cell_lists[i][j], p);
+	} else p = list_next(&cell_lists[i][j], p);
       }
 
     }
@@ -155,7 +155,7 @@ void ParticleManager::BuildInteraction(IList &interactions, List &particle_list,
 			if(dstc <= smoothinglengthsquare && prtl_org->ID >= prtl_dest->ID) {
 			    if(current_used == old_length) {
 				pair = new Interaction(prtl_org, prtl_dest, forces, &weight_function, sqrt(dstc));
-				INSERT(pair, interactions);
+				IINSERT(pair, interactions);
 			    }
 			    else {
 				interactions.retrieve(current)->NewInteraction(prtl_org, prtl_dest, forces, &weight_function, sqrt(dstc));

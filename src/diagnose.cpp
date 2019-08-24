@@ -75,17 +75,17 @@ void Diagnose::SaveStates(Hydrodynamics *hydro)
     p2 = new double;
     p3 = new double;
 
-    p = hydro->particle_list.first();
+    p = list_first(&hydro->particle_list);
     for(k = 0; k < 1; k++)
-	p = hydro->particle_list.next(p);
-    prtl = hydro->particle_list.retrieve(p);
+	p = list_next(&hydro->particle_list, p);
+    prtl = list_retrieve(&hydro->particle_list, p);
     *p1 = prtl->U[0];
 
     *p2 = prtl->U[1];
     *p3 = prtl->rho;
-    INSERT(p1, vx_list);
-    INSERT(p2, vy_list);
-    INSERT(p3, rho_list);
+    DINSERT(p1, vx_list);
+    DINSERT(p2, vy_list);
+    DINSERT(p3, rho_list);
 }
 void Diagnose::OutputProfile(double Time)
 {

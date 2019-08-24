@@ -24,15 +24,15 @@ bool List::isEnd0(ListNode *p)
 {
     return (p->next == node);
 }
-ListNode *List::first()
+ListNode *List::first0()
 {
     return node;
 }
-ListNode *List::next(ListNode *p)
+ListNode *List::next0(ListNode *p)
 {
     return p->next;
 }
-Particle *List::retrieve(ListNode *p) {
+Particle *List::retrieve0(ListNode *p) {
     return p->next->data;
 }
 void List::insert(ListNode *p, Particle *d)
@@ -50,21 +50,21 @@ void List::remove(ListNode *p)
 void List::clear()
 {
     while (!empty0())
-	remove(first());
+	remove(first0());
     len = 0;
 }
 void List::clear_data()
 {
     while (!empty0()) {
-	particle_fin(retrieve(first()));
-	remove(first());
+	particle_fin(retrieve0(first0()));
+	remove(first0());
     }
     len = 0;
 }
 List::~List()
 {
     while (!empty0())
-	remove(first());
+	remove(first0());
     delete node;
 }
 
@@ -74,4 +74,16 @@ int list_empty(List *q) {
 
 int list_isEnd(List *q, ListNode *n) {
     return q->isEnd0(n);
+}
+
+ListNode* list_first(List *q) {
+    return q->first0();
+}
+
+ListNode* list_next(List *q, ListNode *n) {
+    return q->next0(n);
+}
+
+Particle* list_retrieve(List *q, ListNode *n) {
+    return q->retrieve0(n);
 }

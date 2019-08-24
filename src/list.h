@@ -16,9 +16,9 @@ public:
     List();
     bool empty0();
     bool isEnd0(ListNode*);
-    ListNode *first();
-    ListNode *next(ListNode*);
-    Particle *retrieve(ListNode*);
+    ListNode *first0();
+    ListNode *next0(ListNode*);
+    Particle *retrieve0(ListNode*);
     void insert(ListNode*, Particle*);
     void remove(ListNode*);
     void clear();
@@ -28,3 +28,6 @@ public:
 
 int list_empty(List*);
 int list_isEnd(List*, ListNode*);
+ListNode *list_first(List*);
+ListNode *list_next(List*, ListNode*);
+Particle* list_retrieve(List*, ListNode*);
