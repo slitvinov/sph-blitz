@@ -35,6 +35,9 @@ IListNode *IList::next(IListNode *p)
 Interaction *IList::retrieve(IListNode *p) {
     return p->next->data;
 }
+int IList::length() {
+    return len;
+}
 void IList::insert(IListNode *p, Interaction *d)
 {
     len++;

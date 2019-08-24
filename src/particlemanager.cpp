@@ -11,6 +11,7 @@
 #include "particle.h"
 #include "dllist.h"
 #include "list.h"
+#include "ilist.h"
 #include "interaction.h"
 #include "hydrodynamics.h"
 #include "material.h"
@@ -24,7 +25,7 @@ enum {X, Y};
 #define NEW(pos, vel, den, pre, tem, mtl) particle_real(pos, vel, den, pre, tem, mtl)
 #define LIST ListNode
 #define INSERT(q, l) l.insert(l.first(), q)
-#define ILIST LlistNode<Interaction>
+#define ILIST IListNode
 
 ParticleManager::ParticleManager(Initiation *ini)
 {
@@ -133,7 +134,7 @@ void ParticleManager::BuildNNP_MLSMapping(double point[2])
   }
 }
 
-void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, List &particle_list,
+void ParticleManager::BuildInteraction(IList &interactions, List &particle_list,
 				       Force **forces, QuinticSpline &weight_function)
 {
     ILIST *first_unused, *current;

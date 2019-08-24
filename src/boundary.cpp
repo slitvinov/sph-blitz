@@ -6,6 +6,7 @@
 #include "particle.h"
 #include "dllist.h"
 #include "list.h"
+#include "ilist.h"
 #include "hydrodynamics.h"
 #include "initiation.h"
 #include "particlemanager.h"

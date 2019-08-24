@@ -31,5 +31,5 @@ public:
   void UpdateCellLinkedLists();
   void BuildNNP(double[2]);
   void BuildNNP_MLSMapping(double[2]);
-  void BuildInteraction(Llist<Interaction>&, List&, Force**, QuinticSpline&);
+  void BuildInteraction(IList&, List&, Force**, QuinticSpline&);
 };

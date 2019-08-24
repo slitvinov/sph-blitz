@@ -4,6 +4,7 @@
 #include "particle.h"
 #include "vv.h"
 #include "dllist.h"
+#include "ilist.h"
 #include "list.h"
 #include "quinticspline.h"
 #include "particlemanager.h"

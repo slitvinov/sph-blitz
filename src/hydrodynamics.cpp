@@ -14,6 +14,7 @@ class ParticleManager;
 #include "particle.h"
 #include "dllist.h"
 #include "list.h"
+#include "ilist.h"
 #include "wiener.h"
 #include "initiation.h"
 #include "material.h"
@@ -24,7 +25,7 @@ class ParticleManager;
 #include "hydrodynamics.h"
 
 #define LIST ListNode
-#define ILIST LlistNode<Interaction>
+#define ILIST IListNode
 
 using namespace std;
 enum {X, Y};

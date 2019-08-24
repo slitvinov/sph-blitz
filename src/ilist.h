@@ -19,6 +19,7 @@ public:
     IListNode *first();
     IListNode *next(IListNode*);
     Interaction *retrieve(IListNode*);
+    int length(void);
     void insert(IListNode*, Interaction*);
     void remove(IListNode*);
     void clear();
