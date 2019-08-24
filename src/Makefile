@@ -43,5 +43,8 @@ include dep.make
 dep:
 	../scripts/dep
 
-.PHONY: clean
+test: sph
+	cd ..; atest test/*
+
+.PHONY: clean dep test
 clean:; rm -f $M $O

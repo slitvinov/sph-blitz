@@ -4,9 +4,7 @@
 #include <math.h>
 #include "err.h"
 #include "particle.h"
-#include "dllist.h"
 #include "list.h"
-#include "ilist.h"
 #include "initiation.h"
 #include "material.h"
 #include "boundary.h"
