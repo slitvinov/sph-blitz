@@ -24,6 +24,7 @@ class ParticleManager;
 #include "hydrodynamics.h"
 
 #define LIST ListNode
+#define ILIST LlistNode<Interaction>
 
 using namespace std;
 enum {X, Y};
@@ -88,7 +89,7 @@ void Hydrodynamics::BuildPair(ParticleManager *particles, QuinticSpline *weight_
 }
 void Hydrodynamics::UpdatePair(QuinticSpline *weight_function)
 {
-    LlistNode<Interaction> *p;
+    ILIST *p;
     Interaction *pair;
     for (p = interaction_list.first();
 	 !interaction_list.isEnd(p);
@@ -99,7 +100,7 @@ void Hydrodynamics::UpdatePair(QuinticSpline *weight_function)
 }
 void Hydrodynamics::UpdatePhaseGradient(Boundary *boundary)
 {
-    LlistNode<Interaction> *p;
+    ILIST *p;
     Interaction *pair;
     Zero_PhaseGradient(boundary);
     for (p = interaction_list.first();
@@ -111,7 +112,7 @@ void Hydrodynamics::UpdatePhaseGradient(Boundary *boundary)
 }
 void Hydrodynamics::UpdateDensity()
 {
-    LlistNode<Interaction> *p1;
+    ILIST *p1;
     Interaction *pair;
     Zero_density();
     for (p1 = interaction_list.first();
@@ -124,7 +125,7 @@ void Hydrodynamics::UpdateDensity()
 }
 void Hydrodynamics::UpdateChangeRate(ParticleManager *particles, QuinticSpline *weight_function)
 {
-    LlistNode<Interaction> *p;
+    ILIST *p;
     Interaction *pair;
     ZeroChangeRate();
     particles->BuildInteraction(interaction_list, particle_list, forces, *weight_function);
@@ -138,7 +139,7 @@ void Hydrodynamics::UpdateChangeRate(ParticleManager *particles, QuinticSpline *
 }
 void Hydrodynamics::UpdateChangeRate()
 {
-    LlistNode<Interaction> *p;
+    ILIST *p;
     ZeroChangeRate();
     for (p = interaction_list.first();
 	 !interaction_list.isEnd(p);
@@ -149,7 +150,7 @@ void Hydrodynamics::UpdateChangeRate()
 }
 void Hydrodynamics::UpdateRandom(double sqrtdt)
 {
-    LlistNode<Interaction> *p;
+    ILIST *p;
     Interaction *pair;
     Zero_Random();
     for (p = interaction_list.first();

@@ -24,6 +24,7 @@ enum {X, Y};
 #define NEW(pos, vel, den, pre, tem, mtl) particle_real(pos, vel, den, pre, tem, mtl)
 #define LIST ListNode
 #define INSERT(q, l) l.insert(l.first(), q)
+#define ILIST LlistNode<Interaction>
 
 ParticleManager::ParticleManager(Initiation *ini)
 {
@@ -135,7 +136,7 @@ void ParticleManager::BuildNNP_MLSMapping(double point[2])
 void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, List &particle_list,
 				       Force **forces, QuinticSpline &weight_function)
 {
-    LlistNode<Interaction> *first_unused, *current;
+    ILIST *first_unused, *current;
     bool used_up_old;
     int old_length;
     LIST *p, *p1;
