@@ -6,6 +6,7 @@ class ParticleManager;
 class Initiation;
 class Boundary;
 class Material;
+struct QuinticSpline;
 struct Hydrodynamics
 {
 	int number_of_materials;
@@ -19,7 +20,7 @@ struct Hydrodynamics
 	Material *materials;
 	Force **forces;
 	List particle_list; 
-	Hydrodynamics(ParticleManager *particles, Initiation *ini);
+	Hydrodynamics(Initiation *ini);
 	double GetTimestep();
 	void BuildPair(ParticleManager *particles, QuinticSpline *weight_function);
 	void UpdatePair(QuinticSpline *weight_function);

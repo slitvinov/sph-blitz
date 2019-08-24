@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-struct QuinticSpline;
 #include "err.h"
 #include "particle.h"
 #include "dllist.h"
@@ -13,8 +12,6 @@ struct QuinticSpline;
 #include "material.h"
 #include "boundary.h"
 enum {X, Y};
-using namespace std;
-
 #define A prtl = particle_mirror(prtl_old, &hydro->materials[0])
 #define B prtl = particle_image(prtl_old)
 #define C(t) do {                               \

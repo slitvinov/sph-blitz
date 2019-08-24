@@ -24,27 +24,27 @@ enum {X, Y};
 #define NEW(pos, vel, den, pre, tem, mtl) particle_real(pos, vel, den, pre, tem, mtl)
 #define LIST ListNode
 
-ParticleManager::ParticleManager(Initiation &ini)
+ParticleManager::ParticleManager(Initiation *ini)
 {
 
   int i;
-  strcpy(Project_name, ini.Project_name);
-  number_of_materials = ini.number_of_materials;
-  smoothinglength = ini.smoothinglength;
+  strcpy(Project_name, ini->Project_name);
+  number_of_materials = ini->number_of_materials;
+  smoothinglength = ini->smoothinglength;
   smoothinglengthsquare = smoothinglength*smoothinglength;
-  box_size[X] = ini.box_size[X];
-  box_size[Y] = ini.box_size[Y];
-  cll_sz = ini.cell_size;
-  x_clls = ini.x_cells + 2; y_clls = ini.y_cells + 2;
-  initial_condition = ini.initial_condition;
-  hdelta = ini.hdelta; delta = ini.delta;
+  box_size[X] = ini->box_size[X];
+  box_size[Y] = ini->box_size[Y];
+  cll_sz = ini->cell_size;
+  x_clls = ini->x_cells + 2; y_clls = ini->y_cells + 2;
+  initial_condition = ini->initial_condition;
+  hdelta = ini->hdelta; delta = ini->delta;
 
   if(initial_condition == 0) {
-    U0[X] = ini.U0[X];
-    U0[Y] = ini.U0[Y];
-    rho0 = ini.rho0;
-    p0 = ini.p0;
-    T0 = ini.T0;
+    U0[X] = ini->U0[X];
+    U0[Y] = ini->U0[Y];
+    rho0 = ini->rho0;
+    p0 = ini->p0;
+    T0 = ini->T0;
   }
   cell_lists = new List*[x_clls];
   for(i = 0; i < x_clls; i++) cell_lists[i] = new List[y_clls];
@@ -175,7 +175,7 @@ void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, List &p
   }
 }
 
-void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation &ini)
+void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation *ini)
 {
 
   int i, j, k, m;
@@ -222,8 +222,8 @@ void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation &ini)
       exit(1);
     }
     else cout<<"Initialtion: Read real particle data from "<< inputfile <<" \n";
-    fin>>ini.Start_time;
-    ini.End_time += ini.Start_time;
+    fin>>ini->Start_time;
+    ini->End_time += ini->Start_time;
     fin>>N;
     for(n = 0; n < N; n++) {
       fin>>material_name>>position[0]>>position[1]>>velocity[0]>>velocity[1]
