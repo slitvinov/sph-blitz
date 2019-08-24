@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 struct IList;
 struct IListNode;
 struct Interaction;
@@ -12,3 +15,6 @@ void ilist_clear(struct IList*);
 void ilist_clear_data(struct IList*);
 struct IList *ilist_ini(void);
 void ilist_fin(struct IList*);
+#ifdef __cplusplus
+}
+#endif
