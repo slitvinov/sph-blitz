@@ -14,7 +14,7 @@ struct Hydrodynamics
     double smoothinglength;
     double delta, delta2, delta3;
     double dt_g_vis, dt_surf;
-    IList interaction_list;
+    IList *interaction_list;
     double viscosity_max;
     double  surface_max;
     Material *materials;

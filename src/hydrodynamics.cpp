@@ -36,6 +36,8 @@ Hydrodynamics::Hydrodynamics(Initiation *ini)
     int l, n;
     char Key_word[FILENAME_MAX];
     double sound;
+
+    interaction_list = new IList;
     number_of_materials = ini->number_of_materials;
     gravity[X] = ini->gravity[X];
     gravity[Y] = ini->gravity[Y];
@@ -88,13 +90,13 @@ Hydrodynamics::Hydrodynamics(Initiation *ini)
 }
 void Hydrodynamics::BuildPair(ParticleManager *particles, QuinticSpline *weight_function)
 {
-    particles->BuildInteraction(&interaction_list, particle_list, forces, weight_function);
+    particles->BuildInteraction(interaction_list, particle_list, forces, weight_function);
 }
 void Hydrodynamics::UpdatePair(QuinticSpline *weight_function)
 {
     ILIST *p;
     Interaction *pair;
-    ILOOP(pair, interaction_list) {
+    ILOOP_P(pair, interaction_list) {
 	pair->RenewInteraction(weight_function);
     }
 }
@@ -103,7 +105,7 @@ void Hydrodynamics::UpdatePhaseGradient(Boundary *boundary)
     ILIST *p;
     Interaction *pair;
     Zero_PhaseGradient(boundary);
-    ILOOP(pair, interaction_list) {
+    ILOOP_P(pair, interaction_list) {
 	pair->SummationPhaseGradient();
     }
 }
@@ -112,10 +114,7 @@ void Hydrodynamics::UpdateDensity()
     ILIST *p;
     Interaction *pair;
     Zero_density();
-    for (p = interaction_list.first();
-	 !interaction_list.isEnd(p);
-	 p = interaction_list.next(p)) {
-	pair = interaction_list.retrieve(p);
+    ILOOP_P(pair, interaction_list) {
 	pair->SummationDensity();
     }
     UpdateState();
@@ -125,8 +124,8 @@ void Hydrodynamics::UpdateChangeRate(ParticleManager *particles, QuinticSpline *
     ILIST *p;
     Interaction *pair;
     ZeroChangeRate();
-    particles->BuildInteraction(&interaction_list, particle_list, forces, weight_function);
-    ILOOP(pair, interaction_list) {
+    particles->BuildInteraction(interaction_list, particle_list, forces, weight_function);
+    ILOOP_P(pair, interaction_list) {
 	pair->UpdateForces();
     }
     AddGravity();
@@ -136,7 +135,7 @@ void Hydrodynamics::UpdateChangeRate()
     ILIST *p;
     Interaction *pair;
     ZeroChangeRate();
-    ILOOP(pair, interaction_list) {
+    ILOOP_P(pair, interaction_list) {
 	pair->UpdateForces();
     }
     AddGravity();
@@ -146,7 +145,7 @@ void Hydrodynamics::UpdateRandom(double sqrtdt)
     ILIST *p;
     Interaction *pair;
     Zero_Random();
-    ILOOP(pair, interaction_list) {
+    ILOOP_P(pair, interaction_list) {
 	pair->RandomForces(sqrtdt);
     }
 }
@@ -305,5 +304,6 @@ void Hydrodynamics::RandomEffects()
 
 Hydrodynamics::~Hydrodynamics()
 {
+    delete interaction_list;
     list_fin(particle_list);
 }

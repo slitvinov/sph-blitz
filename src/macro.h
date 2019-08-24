@@ -12,6 +12,10 @@
 			!l.isEnd(p) && (q = l.retrieve(p), 1); \
 			p = l.next(p))
 
+#define ILOOP_P(q, l) for (p = l->first();				\
+			   !l->isEnd(p) && (q = l->retrieve(p), 1);	\
+			   p = l->next(p))
+
 #define DINSERT(q, l) l.insert(l.first(), q)
 
 #define IINSERT(q, l) (l).insert((l).first(), q);
