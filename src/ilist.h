@@ -12,9 +12,9 @@ class IList {
 private:
     int len;
     IListNode *node;
+    bool empty();
 public:
     IList();
-    bool empty();
     bool isEnd(IListNode*);
     IListNode *first();
     IListNode *next(IListNode*);
@@ -22,7 +22,5 @@ public:
     int length(void);
     void insert(IListNode*, Interaction*);
     void remove(IListNode*);
-    void clear();
-    void clear_data();
     ~IList();
 };

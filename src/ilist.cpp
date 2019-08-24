@@ -50,20 +50,6 @@ void IList::remove(IListNode *p)
     delete t;
     len--;
 }
-void IList::clear()
-{
-    while (!empty())
-	remove(first());
-    len = 0;
-}
-void IList::clear_data()
-{
-    while (!empty()) {
-	//particle_fin(retrieve(first()));
-	remove(first());
-    }
-    len = 0;
-}
 IList::~IList()
 {
     while (!empty())
