@@ -37,7 +37,7 @@ Hydrodynamics::Hydrodynamics(Initiation *ini)
     char Key_word[FILENAME_MAX];
     double sound;
 
-    interaction_list = new IList;
+    interaction_list = ilist_ini();
     number_of_materials = ini->number_of_materials;
     gravity[X] = ini->gravity[X];
     gravity[Y] = ini->gravity[Y];
@@ -304,6 +304,6 @@ void Hydrodynamics::RandomEffects()
 
 Hydrodynamics::~Hydrodynamics()
 {
-    delete interaction_list;
+    ilist_fin(interaction_list);
     list_fin(particle_list);
 }

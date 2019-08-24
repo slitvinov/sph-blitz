@@ -139,7 +139,7 @@ void ParticleManager::BuildInteraction(IList *interactions, List *particle_list,
     Particle *prtl_org, *prtl_dest;
     Interaction *pair;
 
-    interactions->clear_data();
+    ilist_clear_data(interactions);
     LOOP(prtl_org, *particle_list) {
 	if(prtl_org->bd == 0) {
 	    i = int ((prtl_org->R[0] + cll_sz)/ cll_sz);
@@ -150,7 +150,7 @@ void ParticleManager::BuildInteraction(IList *interactions, List *particle_list,
 			dstc = vv_sq_distance(prtl_org->R, prtl_dest->R);
 			if(dstc <= smoothinglengthsquare && prtl_org->ID >= prtl_dest->ID) {
 			    pair = new Interaction(prtl_org, prtl_dest, forces, weight_function, sqrt(dstc));
-			    IINSERT(pair, *interactions);
+			    IINSERT_P(pair, interactions);
 			}
 		    }
 		}

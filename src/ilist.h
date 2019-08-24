@@ -1,28 +1,4 @@
 struct IList;
-struct IListNode {
-    struct Interaction *data;
-    IListNode *next;
-    IListNode();
-    IListNode(Interaction*, IListNode*);
-};
-
-struct IList {
-    int len;
-    IListNode *node;
-    bool empty();
-    IList();
-    bool isEnd(IListNode*);
-    IListNode *first();
-    IListNode *next(IListNode*);
-    Interaction *retrieve(IListNode*);
-    int length(void);
-    void insert(IListNode*, Interaction*);
-    void remove(IListNode*);
-    void clear_data();
-    ~IList();
-};
-
-struct IList;
 struct IListNode;
 struct Interaction;
 int ilist_empty(struct IList*);

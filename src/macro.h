@@ -12,13 +12,14 @@
 			!l.isEnd(p) && (q = l.retrieve(p), 1); \
 			p = l.next(p))
 
-#define ILOOP_P(q, l) for (p = l->first();				\
-			   !l->isEnd(p) && (q = l->retrieve(p), 1);	\
-			   p = l->next(p))
+#define ILOOP_P(q, l) for (p = ilist_first((l));				\
+			!ilist_isEnd((l), p) && (q = ilist_retrieve((l), p), 1); \
+			p = ilist_next((l), p))
+
 
 #define DINSERT(q, l) l.insert(l.first(), q)
 
-#define IINSERT(q, l) (l).insert((l).first(), q);
+#define IINSERT_P(q, l) ilist_insert(l, ilist_first(l), q)
 
 #define LOOP_P(q, l) for (p = list_first((l));				\
 			  !list_isEnd((l), p) && (q = list_retrieve((l), p), 1); \
