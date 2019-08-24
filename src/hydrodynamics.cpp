@@ -30,6 +30,10 @@ class ParticleManager;
 			!l.isEnd(p) && (q = l.retrieve(p), 1); \
 			p = l.next(p))
 
+#define ILOOP(q, l) for (p = l.first();			       \
+			!l.isEnd(p) && (q = l.retrieve(p), 1); \
+			p = l.next(p))
+
 using namespace std;
 enum {X, Y};
 Hydrodynamics::Hydrodynamics(Initiation *ini)
@@ -95,10 +99,7 @@ void Hydrodynamics::UpdatePair(QuinticSpline *weight_function)
 {
     ILIST *p;
     Interaction *pair;
-    for (p = interaction_list.first();
-	 !interaction_list.isEnd(p);
-	 p = interaction_list.next(p)) {
-	pair = interaction_list.retrieve(p);
+    ILOOP(pair, interaction_list) {
 	pair->RenewInteraction(weight_function);
     }
 }
@@ -107,10 +108,7 @@ void Hydrodynamics::UpdatePhaseGradient(Boundary *boundary)
     ILIST *p;
     Interaction *pair;
     Zero_PhaseGradient(boundary);
-    for (p = interaction_list.first();
-	 !interaction_list.isEnd(p);
-	 p = interaction_list.next(p)) {
-	pair = interaction_list.retrieve(p);
+    ILOOP(pair, interaction_list) {
 	pair->SummationPhaseGradient();
     }
 }
@@ -133,10 +131,7 @@ void Hydrodynamics::UpdateChangeRate(ParticleManager *particles, QuinticSpline *
     Interaction *pair;
     ZeroChangeRate();
     particles->BuildInteraction(interaction_list, particle_list, forces, *weight_function);
-    for (p = interaction_list.first();
-	 !interaction_list.isEnd(p);
-	 p = interaction_list.next(p)) {
-	pair = interaction_list.retrieve(p);
+    ILOOP(pair, interaction_list) {
 	pair->UpdateForces();
     }
     AddGravity();
@@ -146,10 +141,7 @@ void Hydrodynamics::UpdateChangeRate()
     ILIST *p;
     Interaction *pair;
     ZeroChangeRate();
-    for (p = interaction_list.first();
-	 !interaction_list.isEnd(p);
-	 p = interaction_list.next(p)) {
-	pair = interaction_list.retrieve(p);
+    ILOOP(pair, interaction_list) {
 	pair->UpdateForces();
     }
     AddGravity();
@@ -159,10 +151,7 @@ void Hydrodynamics::UpdateRandom(double sqrtdt)
     ILIST *p;
     Interaction *pair;
     Zero_Random();
-    for (p = interaction_list.first();
-	 !interaction_list.isEnd(p);
-	 p = interaction_list.next(p)) {
-	pair = interaction_list.retrieve(p);
+    ILOOP(pair, interaction_list) {
 	pair->RandomForces(sqrtdt);
     }
 }
@@ -170,10 +159,7 @@ void Hydrodynamics::ZeroChangeRate()
 {
     LIST *p;
     Particle *prtl;
-    for (p = particle_list.first();
-	 !particle_list.isEnd(p);
-	 p = particle_list.next(p)) {
-	prtl = particle_list.retrieve(p);
+    LOOP(prtl, particle_list) {
 	prtl->dedt = 0.0;
 	prtl->drhodt = 0.0;
 	prtl->dUdt[X] = prtl->dUdt[Y] = 0.0;
@@ -184,10 +170,7 @@ void Hydrodynamics::Zero_density()
 {
     LIST *p;
     Particle *prtl;
-    for (p = particle_list.first();
-	 !particle_list.isEnd(p);
-	 p = particle_list.next(p)) {
-	prtl = particle_list.retrieve(p);
+    LOOP(prtl, particle_list) {
 	prtl->rho = 0.0;
     }
 }
@@ -195,10 +178,7 @@ void Hydrodynamics::Zero_PhaseGradient(Boundary *boundary)
 {
     LIST *p;
     Particle *prtl;
-    for (p = particle_list.first();
-	 !particle_list.isEnd(p);
-	 p = particle_list.next(p)) {
-	prtl = particle_list.retrieve(p);
+    LOOP(prtl, particle_list) {
 	prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
     }
     LOOP(prtl, boundary->b) {
@@ -209,10 +189,7 @@ void Hydrodynamics::Zero_Random()
 {
     LIST *p;
     Particle *prtl;
-    for (p = particle_list.first();
-	 !particle_list.isEnd(p);
-	 p = particle_list.next(p)) {
-	prtl = particle_list.retrieve(p);
+    LOOP(prtl, particle_list) {
 	prtl->_dU[X] = prtl->_dU[Y] = 0.0;
     }
 }
@@ -220,10 +197,7 @@ void Hydrodynamics::AddGravity()
 {
     LIST *p;
     Particle *prtl;
-    for (p = particle_list.first();
-	 !particle_list.isEnd(p);
-	 p = particle_list.next(p)) {
-	prtl = particle_list.retrieve(p);
+    LOOP(prtl, particle_list) {
 	prtl->dUdt[X] += gravity[X];
 	prtl->dUdt[Y] += gravity[Y];
     }
@@ -232,10 +206,7 @@ void Hydrodynamics::UpdateState()
 {
     LIST *p;
     Particle *prtl;
-    for (p = particle_list.first();
-	 !particle_list.isEnd(p);
-	 p = particle_list.next(p)) {
-	prtl = particle_list.retrieve(p);
+    LOOP(prtl, particle_list) {
 	prtl->p = get_p(prtl->mtl, prtl->rho);
     }
 }
@@ -244,10 +215,7 @@ void Hydrodynamics::UpdatePahseMatrix(Boundary *boundary)
     LIST *p;
     Particle *prtl;
     int i, j;
-    for (p = particle_list.first();
-	 !particle_list.isEnd(p);
-	 p = particle_list.next(p)) {
-	prtl = particle_list.retrieve(p);
+    LOOP(prtl, particle_list) {
 	for(i = 0; i < number_of_materials; i++)
 	    for(j = 0; j < number_of_materials; j++) {
 		if( i != j) prtl->phi[i][j] = prtl->phi[i][j];
@@ -266,10 +234,7 @@ void Hydrodynamics::UpdateSurfaceStress(Boundary *boundary)
     double interm0, interm1, interm2;
     Particle *prtl;
     LIST *p;
-    for (p = particle_list.first();
-	 !particle_list.isEnd(p);
-	 p = particle_list.next(p)) {
-	prtl = particle_list.retrieve(p);
+    LOOP(prtl, particle_list) {
 	interm0 = 1.0/(vv_abs(prtl->del_phi) + epsilon);
 	interm1 = 0.5*vv_sqdiff(prtl->del_phi);
 	interm2 = prtl->del_phi[X] * prtl->del_phi[Y];
@@ -290,10 +255,7 @@ double Hydrodynamics::GetTimestep()
     LIST *p;
     double Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = 1.0;
     double dt;
-    for (p = particle_list.first();
-	 !particle_list.isEnd(p);
-	 p = particle_list.next(p)) {
-	prtl = particle_list.retrieve(p);
+    LOOP(prtl, particle_list) {
 	Cs_max = AMAX1(Cs_max, prtl->Cs);
 	V_max = AMAX1(V_max, vv_abs(prtl->U));
 	rho_min = AMIN1(rho_min, prtl->rho);
@@ -306,10 +268,7 @@ void Hydrodynamics::Predictor_summation(double dt)
 {
     LIST *p;
     Particle *prtl;
-    for (p = particle_list.first();
-	 !particle_list.isEnd(p);
-	 p = particle_list.next(p)) {
-	prtl = particle_list.retrieve(p);
+    LOOP(prtl, particle_list) {
 	prtl->R_I[X] = prtl->R[X];
 	prtl->R_I[Y] = prtl->R[Y];
 	prtl->U[X] += prtl->_dU[X];
@@ -330,10 +289,7 @@ void Hydrodynamics::Corrector_summation(double dt)
 {
     LIST *p;
     Particle *prtl;    
-    for (p = particle_list.first();
-	 !particle_list.isEnd(p);
-	 p = particle_list.next(p)) {
-	prtl = particle_list.retrieve(p);
+    LOOP(prtl, particle_list) {
 	prtl->U[X] += prtl->_dU[X];
 	prtl->U[Y] += prtl->_dU[Y];
 	prtl->R[X] = prtl->R_I[X] + prtl->U[X]*dt;
@@ -346,10 +302,7 @@ void Hydrodynamics::RandomEffects()
 {
     LIST *p;
     Particle *prtl;
-    for (p = particle_list.first();
-	 !particle_list.isEnd(p);
-	 p = particle_list.next(p)) {
-	prtl = particle_list.retrieve(p);
+    LOOP(prtl, particle_list) {
 	prtl->U[X] = prtl->U[X] + prtl->_dU[X];
 	prtl->U[Y] = prtl->U[Y] + prtl->_dU[Y];    
     }

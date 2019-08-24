@@ -3,7 +3,7 @@
 BEGIN {
 }
 
-!/^#/ && /for \(p = .*\.first\(\);/ && /boundary/ {
+!/^#/ && /for \(p = .*\.first\(\);/ {
     a = t = $0
     getline; b = $0
     getline; c = $0
@@ -38,7 +38,7 @@ BEGIN {
     if (d != a)
 	err(d "!=" a)
 
-    printf "%sLOOP(%s, %s) {\n", t, v, a
+    printf "%sILOOP(%s, %s) {\n", t, v, a
     next
 }
 
