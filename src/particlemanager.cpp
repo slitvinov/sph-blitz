@@ -135,16 +135,20 @@ void ParticleManager::BuildNNP_MLSMapping(double point[2])
 void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, List &particle_list,
 				       Force **forces, QuinticSpline &weight_function)
 {
-    LlistNode<Interaction> *current = interactions.first();
-    bool used_up_old = interactions.isEnd(current);
-    LlistNode<Interaction> *first_unused;
-    int old_length = interactions.length();
+    LlistNode<Interaction> *first_unused, *current;
+    bool used_up_old;
+    int old_length;
     LIST *p, *p1;
     int i, j, k, m;
     double dstc;
     int current_used = 0;
     Particle *prtl_org, *prtl_dest;
     Interaction *pair;
+
+    current = interactions.first();
+    used_up_old = interactions.isEnd(current);
+    current_used = 0;
+    old_length = interactions.length();
     for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
@@ -192,6 +196,9 @@ void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation *ini)
   double density, pressure, Temperature;
   int material_no;
   Particle *prtl;
+  int n, N;
+  char inputfile[FILENAME_MAX];
+  char material_name[25];
 
   if(initial_condition==0) {
     for(i = 1; i < x_clls - 1; i++) {
@@ -218,9 +225,6 @@ void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation *ini)
   }
 
   if(initial_condition==1) {
-    int n, N;
-    char inputfile[FILENAME_MAX];
-    char material_name[25];
     strcpy(inputfile, Project_name);
     strcat(inputfile, ".rst");
     ifstream fin(inputfile, ios::in);

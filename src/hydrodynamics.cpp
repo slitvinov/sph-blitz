@@ -110,31 +110,36 @@ void Hydrodynamics::UpdatePhaseGradient(Boundary *boundary)
 }
 void Hydrodynamics::UpdateDensity()
 {
+    LlistNode<Interaction> *p1;
+    Interaction *pair;
     Zero_density();
-    for (LlistNode<Interaction> *p1 = interaction_list.first();
+    for (p1 = interaction_list.first();
 	 !interaction_list.isEnd(p1);
 	 p1 = interaction_list.next(p1)) {
-	Interaction *pair = interaction_list.retrieve(p1);
+	pair = interaction_list.retrieve(p1);
 	pair->SummationDensity();
     }
     UpdateState();
 }
 void Hydrodynamics::UpdateChangeRate(ParticleManager *particles, QuinticSpline *weight_function)
 {
+    LlistNode<Interaction> *p;
+    Interaction *pair;
     ZeroChangeRate();
     particles->BuildInteraction(interaction_list, particle_list, forces, *weight_function);
-    for (LlistNode<Interaction> *p = interaction_list.first();
+    for (p = interaction_list.first();
 	 !interaction_list.isEnd(p);
 	 p = interaction_list.next(p)) {
-	Interaction *pair = interaction_list.retrieve(p);
+	pair = interaction_list.retrieve(p);
 	pair->UpdateForces();
     }
     AddGravity();
 }
 void Hydrodynamics::UpdateChangeRate()
 {
+    LlistNode<Interaction> *p;
     ZeroChangeRate();
-    for (LlistNode<Interaction> *p = interaction_list.first();
+    for (p = interaction_list.first();
 	 !interaction_list.isEnd(p);
 	 p = interaction_list.next(p)) {
 	interaction_list.retrieve(p)->UpdateForces();
@@ -143,11 +148,13 @@ void Hydrodynamics::UpdateChangeRate()
 }
 void Hydrodynamics::UpdateRandom(double sqrtdt)
 {
+    LlistNode<Interaction> *p;
+    Interaction *pair;
     Zero_Random();
-    for (LlistNode<Interaction> *p = interaction_list.first();
+    for (p = interaction_list.first();
 	 !interaction_list.isEnd(p);
 	 p = interaction_list.next(p)) {
-	Interaction *pair = interaction_list.retrieve(p);
+	pair = interaction_list.retrieve(p);
 	pair->RandomForces(sqrtdt);
     }
 }
