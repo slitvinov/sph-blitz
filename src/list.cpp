@@ -5,7 +5,6 @@ ListNode::ListNode()
     data = 0;
     next = this;
 }
-
 ListNode::ListNode(Particle *d, ListNode *n)
 {
     data = d;
@@ -40,31 +39,31 @@ void List::insert0(ListNode *p, Particle *d)
     len++;
     p->next = new ListNode(d, p->next);
 }
-void List::remove(ListNode *p)
+void List::remove0(ListNode *p)
 {
     ListNode *t = p->next;
     p->next = t->next;
     delete t;
     len--;
 }
-void List::clear()
+void List::clear0()
 {
     while (!empty0())
-	remove(first0());
+	remove0(first0());
     len = 0;
 }
-void List::clear_data()
+void List::clear_data0()
 {
     while (!empty0()) {
 	particle_fin(retrieve0(first0()));
-	remove(first0());
+	remove0(first0());
     }
     len = 0;
 }
 List::~List()
 {
     while (!empty0())
-	remove(first0());
+	remove0(first0());
     delete node;
 }
 
@@ -90,4 +89,13 @@ Particle* list_retrieve(List *q, ListNode *n) {
 
 void list_insert(List *q, ListNode *n, Particle *p) {
     q->insert0(n, p);
+}
+void list_remove(List *q, ListNode *n) {
+    q->remove0(n);
+}
+void list_clear(List *q) {
+    q->clear0();
+}
+void list_clear_data(List *q) {
+    q->clear_data0();
 }

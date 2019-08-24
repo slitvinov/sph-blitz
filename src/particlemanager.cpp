@@ -68,8 +68,8 @@ void ParticleManager::UpdateCellLinkedLists()
 	  k = int ((prtl->R[0] + cll_sz)/ cll_sz);
 	  m = int ((prtl->R[1] + cll_sz)/ cll_sz);
 	  if(k != i || m !=j) {
-	    cell_lists[i][j].remove(p);
-	    INSERT(prtl, cell_lists[k][m]);
+	      list_remove(&cell_lists[i][j], p);
+	      INSERT(prtl, cell_lists[k][m]);
 	  } else p = list_next(&cell_lists[i][j], p);
 	} else p = list_next(&cell_lists[i][j], p);
       }
@@ -86,7 +86,7 @@ void ParticleManager::BuildNNP(double point[2])
   LIST *p;
   Particle *prtl;
 
-  NNP_list.clear_data();
+  list_clear(&NNP_list);
   k = int ((point[0] + cll_sz)/ cll_sz);
   m = int ((point[1] + cll_sz)/ cll_sz);
   for(i = k - 1; i <= k + 1; i++) {

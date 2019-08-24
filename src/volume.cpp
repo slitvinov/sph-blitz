@@ -35,6 +35,6 @@ void VolumeMass(Hydrodynamics *hydro, ParticleManager *particles, QuinticSpline 
 	reciprocV = 1.0/reciprocV;
 	prtl_org->V = reciprocV;
 	prtl_org->m = prtl_org->rho*reciprocV;
-	particles->NNP_list.clear();
+	list_clear(&particles->NNP_list);
     }
 }

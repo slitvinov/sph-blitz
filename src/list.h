@@ -20,9 +20,9 @@ public:
     ListNode *next0(ListNode*);
     Particle *retrieve0(ListNode*);
     void insert0(ListNode*, Particle*);
-    void remove(ListNode*);
-    void clear();
-    void clear_data();
+    void remove0(ListNode*);
+    void clear0();
+    void clear_data0();
     ~List();
 };
 
@@ -32,3 +32,6 @@ ListNode *list_first(List*);
 ListNode *list_next(List*, ListNode*);
 Particle* list_retrieve(List*, ListNode*);
 void list_insert(List*, ListNode*, Particle*);
+void list_remove(List*, ListNode*);
+void list_clear(List*);
+void list_clear_data(List*);

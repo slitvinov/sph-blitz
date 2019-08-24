@@ -99,7 +99,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
 		y_velocity += prtl->U[1]*mls.phi[n];
 		n ++;
 	    }
-	    particles.NNP_list.clear();
+	    list_clear(&particles.NNP_list);
 	    out<<pstn[0]<<"  "<<pstn[1] <<"  "<<pressure<<"  "<<rho <<"  "<<phi <<"  "<<x_velocity<<"  "<<y_velocity <<"  "<<Temperature<<"\n";
 	}
     }

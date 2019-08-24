@@ -164,7 +164,7 @@ void Diagnose::Average(ParticleManager *particles, MLS *mls, QuinticSpline *weig
 		y_velocity += prtl->U[1]*mls->phi[n];
 		n ++;
 	    }
-	    particles->NNP_list.clear();
+	    list_clear(&particles->NNP_list);
 	    m_n_average = double(n_average) - 1.0;
 	    r_n_average = 1.0/double(n_average);
 	    U[0][i][j] = (U[0][i][j]*m_n_average + rho)*r_n_average;
