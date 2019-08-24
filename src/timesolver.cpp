@@ -1,6 +1,5 @@
-#include <iostream>
-#include <cmath>
 #include <stdio.h>
+#include <tgmath.h>
 #include "particle.h"
 #include "list.h"
 #include "dllist.h"
@@ -29,8 +28,8 @@ void TimeSolver::TimeIntegral_summation(Hydrodynamics *hydro, ParticleManager *p
 	ite ++;
 	integeral_time += dt;
 	*Time += dt;
-	if(ite % 10 == 0) cout<<"N="<<ite<<" Time: "
-			      <<Time<<"	dt: "<<dt<<"\n";
+	if(ite % 10 == 0)
+	    printf("N=%d Time: %g	dt: %g\n", ite, *Time, dt);
 	if(ini->diagnose == 1) {
 	    diagnose->SaveStates(hydro);
 	    diagnose->Average(particles, mls, weight_function);
