@@ -21,7 +21,7 @@ bool List::empty0()
 }
 bool List::isEnd0(ListNode *p)
 {
-    return (p->next == node);
+    return p->next == node;
 }
 ListNode *List::first0()
 {
