@@ -51,86 +51,6 @@ Boundary::Boundary(Initiation *ini, Hydrodynamics *hydro, ParticleManager *q)
     puts("3: symmetry boundary condition");
     BuildBoundaryParticles(q, hydro);
 }
-void Boundary::RunAwayCheck(Hydrodynamics *hydro)
-{
-    LIST *p;
-    Particle *prtl;
-    for (p = hydro->particle_list.first();
-	 !hydro->particle_list.isEnd(p);
-	 p = hydro->particle_list.next(p)) {
-	prtl = hydro->particle_list.retrieve(p);
-	if(fabs(prtl->R[X]) >= 2.0*box_size[X] || fabs(prtl->R[Y]) >= 2.0*box_size[Y]) {
-	    fprintf(stderr, "%s:%d: Boundary: the q run out too far away from the domain! \n", __FILE__, __LINE__);
-	    exit(1);
-	}
-	if(prtl->bd == 0) {
-	    if(prtl->R[X] < 0.0) {
-		switch(xBl) {
-		case 0:
-		    prtl->R[X] = - prtl->R[X];
-		    break;
-		case 1:
-		    prtl->R[X] = box_size[X] + prtl->R[X];
-		    break;
-		case 2:
-		    prtl->R[X] = - prtl->R[X];
-		    break;
-		case 3:
-		    prtl->R[X] = - prtl->R[X];
-		    break;
-		}
-	    }
-	    if(prtl->R[X] > box_size[X]) {
-		switch(xBr) {
-		case 0:
-		    prtl->R[X] = 2.0*box_size[X] - prtl->R[X];
-		    break;
-		case 1:
-		    prtl->R[X] = prtl->R[X] - box_size[X];
-		    break;
-		case 2:
-		    prtl->R[X] = 2.0*box_size[X] - prtl->R[X];
-		    break;
-		case 3:
-		    prtl->R[X] = 2.0*box_size[X] - prtl->R[X];
-		    break;
-		}
-	    }
-	    if(prtl->R[Y] < 0.0) {
-		switch(yBd) {
-		case 0:
-		    prtl->R[Y] = - prtl->R[Y];
-		    break;
-		case 1:
-		    prtl->R[Y] = box_size[Y] + prtl->R[Y];
-		    break;
-		case 2:
-		    prtl->R[Y] = - prtl->R[Y];
-		    break;
-		case 3:
-		    prtl->R[Y] = - prtl->R[Y];
-		    break;
-		}
-	    }
-	    if(prtl->R[Y] > box_size[Y]) {
-		switch(yBu) {
-		case 0:
-		    prtl->R[Y] = 2.0*box_size[Y] - prtl->R[Y];
-		    break;
-		case 1:
-		    prtl->R[Y] = prtl->R[Y] - box_size[Y];
-		    break;
-		case 2:
-		    prtl->R[Y] = 2.0*box_size[Y] - prtl->R[Y];
-		    break;
-		case 3:
-		    prtl->R[Y] = 2.0*box_size[Y] - prtl->R[Y];
-		    break;
-		}
-	    }
-	}
-    }
-}
 void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 {
     int i, j;
@@ -826,5 +746,83 @@ void Boundary::Boundary_SE(Particle *prtl)
 	prtl->del_phi[X] = - prtl->del_phi[X];
 	prtl->del_phi[Y] = - prtl->del_phi[Y];
 	break;
+    }
+}
+void Boundary::RunAwayCheck(Hydrodynamics *hydro)
+{
+    LIST *p;
+    Particle *prtl;
+    for (p = hydro->particle_list.first();
+	 !hydro->particle_list.isEnd(p);
+	 p = hydro->particle_list.next(p)) {
+	prtl = hydro->particle_list.retrieve(p);
+	if(fabs(prtl->R[X]) >= 2.0*box_size[X] || fabs(prtl->R[Y]) >= 2.0*box_size[Y])
+	    ABORT(("run away particle"));
+	if(prtl->bd == 0) {
+	    if(prtl->R[X] < 0.0) {
+		switch(xBl) {
+		case 0:
+		    prtl->R[X] = - prtl->R[X];
+		    break;
+		case 1:
+		    prtl->R[X] = box_size[X] + prtl->R[X];
+		    break;
+		case 2:
+		    prtl->R[X] = - prtl->R[X];
+		    break;
+		case 3:
+		    prtl->R[X] = - prtl->R[X];
+		    break;
+		}
+	    }
+	    if(prtl->R[X] > box_size[X]) {
+		switch(xBr) {
+		case 0:
+		    prtl->R[X] = 2.0*box_size[X] - prtl->R[X];
+		    break;
+		case 1:
+		    prtl->R[X] = prtl->R[X] - box_size[X];
+		    break;
+		case 2:
+		    prtl->R[X] = 2.0*box_size[X] - prtl->R[X];
+		    break;
+		case 3:
+		    prtl->R[X] = 2.0*box_size[X] - prtl->R[X];
+		    break;
+		}
+	    }
+	    if(prtl->R[Y] < 0.0) {
+		switch(yBd) {
+		case 0:
+		    prtl->R[Y] = - prtl->R[Y];
+		    break;
+		case 1:
+		    prtl->R[Y] = box_size[Y] + prtl->R[Y];
+		    break;
+		case 2:
+		    prtl->R[Y] = - prtl->R[Y];
+		    break;
+		case 3:
+		    prtl->R[Y] = - prtl->R[Y];
+		    break;
+		}
+	    }
+	    if(prtl->R[Y] > box_size[Y]) {
+		switch(yBu) {
+		case 0:
+		    prtl->R[Y] = 2.0*box_size[Y] - prtl->R[Y];
+		    break;
+		case 1:
+		    prtl->R[Y] = prtl->R[Y] - box_size[Y];
+		    break;
+		case 2:
+		    prtl->R[Y] = 2.0*box_size[Y] - prtl->R[Y];
+		    break;
+		case 3:
+		    prtl->R[Y] = 2.0*box_size[Y] - prtl->R[Y];
+		    break;
+		}
+	    }
+	}
     }
 }
