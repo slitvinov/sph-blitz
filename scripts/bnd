@@ -1,16 +1,11 @@
 #!/usr/bin/awk -f
 
-/Boundary_[A-Z]*\(/ {
+/;/ {
     t = tab($0)
-    a = trim($0)
-    sub(/\(.*/, "", a)
-    a = tolower(a)
-    printf "%s%s(this, prtl);\n", t, a
-    next
-}
-
-{
-    print
+    v = $2
+    sub(/;/, "", v)
+    sub(/\*/, "", v)
+    printf "%s%s = q->%s;\n", t, v, v
 }
 
 function tab(s)

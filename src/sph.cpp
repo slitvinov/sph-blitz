@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     Hydrodynamics hydro(&ini);
     particles.BuildRealParticles(&hydro, &ini);
     Boundary boundary(&ini, &hydro.materials[0], particles.cell_lists);
-    boundary.BuildBoundaryParticles(particles.cell_lists, hydro.materials);
+    boundary_build(&boundary, particles.cell_lists, hydro.materials);
     Output output(&ini);
     VolumeMass(&hydro, &particles, &weight_function);
     boundary.BoundaryCondition(particles.cell_lists);

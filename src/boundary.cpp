@@ -49,12 +49,27 @@ Boundary::Boundary(Initiation *ini, Material *mtl, List ***c)
     puts("2: free slip wall boundary condition");
     puts("3: symmetry boundary condition");
  }
-void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
+int boundary_build(Boundary *q, List ***c, Material *mtl)
 {
     int i, j;
     Particle *prtl, *prtl_old;
     int kb, ku, mb, mu;
     LIST *p;
+    int x_clls;
+    int y_clls;
+    int xBl;
+    int xBr;
+    int yBd;
+    int yBu;
+    List *b;
+
+    x_clls = q->x_clls;
+    y_clls = q->y_clls;
+    xBl = q->xBl;
+    xBr = q->xBr;
+    yBd = q->yBd;
+    yBu = q->yBu;
+    b = q->b;
 
     CLEAR_DATA(*b);
     kb = 0; mb = x_clls;
@@ -68,7 +83,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	if(xBl == 0 || xBl == 2) {
 	    LOOP(prtl_old, *c[Y][j]) {
 		A;
-		boundary_w(this, prtl);
+		boundary_w(q, prtl);
 		prtl->cell_i = 0; prtl->cell_j = j;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[X][j]);
@@ -77,7 +92,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	if(xBl == 3) {
 	    LOOP(prtl_old, *c[Y][j]) {
 		B;
-		boundary_w(this, prtl);
+		boundary_w(q, prtl);
 		prtl->cell_i = 0; prtl->cell_j = j;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[X][j]);
@@ -86,7 +101,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	if(xBl == 1) {
 	    LOOP(prtl_old, *c[x_clls - 2][j]) {
 		B;
-		boundary_w(this, prtl);
+		boundary_w(q, prtl);
 		prtl->cell_i = 0; prtl->cell_j = j;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[X][j]);
@@ -96,7 +111,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	if(xBr == 0 || xBr == 2) {
 	    LOOP(prtl_old, *c[x_clls - 2][j]) {
 		A;
-		boundary_e(this, prtl);
+		boundary_e(q, prtl);
 		prtl->cell_i = x_clls - 1; prtl->cell_j = j;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[x_clls - 1][j]);
@@ -105,7 +120,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	if(xBr == 3) {
 	    LOOP(prtl_old, *c[x_clls - 2][j]) {
 		B;
-		boundary_e(this, prtl);
+		boundary_e(q, prtl);
 		prtl->cell_i = x_clls - 1; prtl->cell_j = j;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[x_clls - 1][j]);
@@ -114,7 +129,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	if(xBr == 1) {
 	    LOOP(prtl_old, *c[Y][j]) {
 		B;
-		boundary_e(this, prtl);
+		boundary_e(q, prtl);
 		prtl->cell_i = x_clls - 1; prtl->cell_j = j;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[x_clls - 1][j]);
@@ -126,7 +141,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	if(yBd == 0 || yBd == 2) {
 	    LOOP(prtl_old, *c[i][1]) {
 		A;
-		boundary_s(this, prtl);
+		boundary_s(q, prtl);
 		prtl->cell_i = i; prtl->cell_j = 0;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[i][0]);
@@ -135,7 +150,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	if(yBd == 3) {
 	    LOOP(prtl_old, *c[i][1]) {
 		B;
-		boundary_s(this, prtl);
+		boundary_s(q, prtl);
 		prtl->cell_i = i; prtl->cell_j = 0;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[i][0]);
@@ -144,7 +159,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	if(yBd == 1) {
 	    LOOP(prtl_old, *c[i][y_clls - 2]) {
 		B;
-		boundary_s(this, prtl);
+		boundary_s(q, prtl);
 		prtl->cell_i = i; prtl->cell_j = 0;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[i][0]);
@@ -156,7 +171,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	if(yBu == 0 || yBu == 2) {
 	    LOOP(prtl_old, *c[i][y_clls - 2]) {
 		A;
-		boundary_n(this, prtl);
+		boundary_n(q, prtl);
 		prtl->cell_i = i; prtl->cell_j = y_clls - 1;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[i][y_clls - 1]);
@@ -165,7 +180,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	if(yBu == 3) {
 	    LOOP(prtl_old, *c[i][y_clls - 2]) {
 		B;
-		boundary_n(this, prtl);
+		boundary_n(q, prtl);
 		prtl->cell_i = i; prtl->cell_j = y_clls - 1;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[i][y_clls - 1]);
@@ -174,7 +189,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	if(yBu == 1) {
 	    LOOP(prtl_old, *c[i][1]) {
 		B;
-		boundary_n(this, prtl);
+		boundary_n(q, prtl);
 		prtl->cell_i = i; prtl->cell_j = y_clls - 1;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[i][y_clls - 1]);
@@ -185,7 +200,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	CLEAR(*c[X][0]);
 	LOOP(prtl_old, *c[Y][1]) {
 	    A;
-	    boundary_sw(this, prtl);
+	    boundary_sw(q, prtl);
 	    prtl->cell_i = 0; prtl->cell_j = 0;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[X][0]);
@@ -195,7 +210,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	CLEAR(*c[X][0]);
 	LOOP(prtl_old, *c[Y][1]) {
 	    B;
-	    boundary_sw(this, prtl);
+	    boundary_sw(q, prtl);
 	    prtl->cell_i = 0; prtl->cell_j = 0;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[X][0]);
@@ -205,7 +220,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	CLEAR(*c[X][0]);
 	LOOP(prtl_old, *c[x_clls - 2][y_clls - 2]) {
 	    B;
-	    boundary_sw(this, prtl);
+	    boundary_sw(q, prtl);
 	    prtl->cell_i = 0; prtl->cell_j = 0;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[X][0]);
@@ -215,7 +230,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	CLEAR(*c[X][y_clls - 1]);
 	LOOP(prtl_old, *c[Y][y_clls - 2]) {
 	    A;
-	    boundary_nw(this, prtl);
+	    boundary_nw(q, prtl);
 	    prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[X][y_clls - 1]);
@@ -225,7 +240,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	CLEAR(*c[X][y_clls - 1]);
 	LOOP(prtl_old, *c[Y][y_clls - 2]) {
 	    B;
-	    boundary_nw(this, prtl);
+	    boundary_nw(q, prtl);
 	    prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[X][y_clls - 1]);
@@ -235,7 +250,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	CLEAR(*c[X][y_clls - 1]);
 	LOOP(prtl_old, *c[x_clls - 2][1]) {
 	    B;
-	    boundary_nw(this, prtl);
+	    boundary_nw(q, prtl);
 	    prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[X][y_clls - 1]);
@@ -245,7 +260,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	CLEAR(*c[x_clls - 1][y_clls - 1]);
 	LOOP(prtl_old, *c[x_clls - 2][y_clls - 2]) {
 	    A;
-	    boundary_ne(this, prtl);
+	    boundary_ne(q, prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[x_clls - 1][y_clls - 1]);
@@ -255,7 +270,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	CLEAR(*c[x_clls - 1][y_clls - 1]);
 	LOOP(prtl_old, *c[x_clls - 2][y_clls - 2]) {
 	    B;
-	    boundary_ne(this, prtl);
+	    boundary_ne(q, prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[x_clls - 1][y_clls - 1]);
@@ -265,7 +280,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	CLEAR(*c[x_clls - 1][y_clls - 1]);
 	LOOP(prtl_old, *c[Y][1]) {
 	    B;
-	    boundary_ne(this, prtl);
+	    boundary_ne(q, prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[x_clls - 1][y_clls - 1]);
@@ -275,7 +290,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	CLEAR(*c[x_clls - 1][0]);
 	LOOP(prtl_old, *c[x_clls - 2][1]) {
 	    A;
-	    boundary_se(this, prtl);
+	    boundary_se(q, prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[x_clls - 1][0]);
@@ -285,7 +300,7 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	CLEAR(*c[x_clls - 1][0]);
 	LOOP(prtl_old, *c[x_clls - 2][1]) {
 	    B;
-	    boundary_se(this, prtl);
+	    boundary_se(q, prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[x_clls - 1][0]);
@@ -295,12 +310,13 @@ void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 	CLEAR(*c[x_clls - 1][0]);
 	LOOP(prtl_old, *c[Y][y_clls - 2]) {
 	    B;
-	    boundary_se(this, prtl);
+	    boundary_se(q, prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[x_clls - 1][0]);
 	}
     }
+    return 0;
 }
 void Boundary::BoundaryCondition(List ***c)
 {
