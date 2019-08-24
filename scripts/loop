@@ -1,0 +1,62 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+}
+
+/for \(p = .*\.first\(\);/ {
+    a = t = $0
+    getline; b = $0
+    getline; c = $0
+    getline; v = d = $0
+#    print "b:" b
+#    print "c:" c
+
+    sub(/[^\t ].*/, "", t)
+
+    sub(/^.* =[\t ]*/, "", a)
+    sub(/\.first\(\);$/, "", a)
+
+    sub(/[ \t]*!/, "", b)
+    sub(/\.isEnd\(p\);/, "", b)
+
+    sub(/^[ \t]*!/, "", b)
+    sub(/\.isEnd\(p\);/, "", b)
+
+    if (a != b)
+	err(a "!=" b)
+
+    sub(/^[\t ]*p = /, "", c)
+    sub(/\.next\(p\)\) {$/, "", c)
+
+    if (c != a)
+	err(c "!=" a)
+
+    sub(/ = .*$/, "", v)
+    v = trim(v)
+
+    sub(/^.*= /, "", d)
+    sub(/\.retrieve\(p\);$/, "", d)
+
+    if (d != a)
+	err(d "!=" a)
+
+    printf "%sLOOP(%s, %s) {\n", t, v, a
+    next
+}
+
+{
+    print
+}
+
+function err(s) {
+	 print s | "cat >&2"
+	 exit(2)
+}
+
+function trim(s)
+{
+    sub(/^[\t ]*/, "", s)
+    sub(/[\t ]*$/, "", s)
+    return s
+}
+

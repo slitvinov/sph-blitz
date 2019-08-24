@@ -21,6 +21,11 @@ enum {X, Y};
     } while (0)
 #define LIST ListNode
 
+#define LOOP(q, l) for (p = l.first(); \
+			!l.isEnd(p) && (q = l.retrieve(p), 1); \
+			p = l.next(p))
+
+
 Boundary::Boundary(Initiation *ini, Hydrodynamics *hydro, ParticleManager *q)
 {
     int n;
@@ -70,10 +75,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     for(j = 1; j < y_clls - 1; j++) {
 	c[X][j].clear();
 	if(xBl == 0 || xBl == 2) {
-	    for (p = c[Y][j].first();
-		 !c[Y][j].isEnd(p);
-		 p = c[Y][j].next(p)) {
-		prtl_old = c[Y][j].retrieve(p);
+	    LOOP(prtl_old, c[Y][j]) {
 		A;
 		Boundary_W(prtl);
 		prtl->cell_i = 0; prtl->cell_j = j;
@@ -82,10 +84,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	    }
 	}
 	if(xBl == 3) {
-	    for (p = c[Y][j].first();
-		 !c[Y][j].isEnd(p);
-		 p = c[Y][j].next(p)) {
-		prtl_old = c[Y][j].retrieve(p);
+	    LOOP(prtl_old, c[Y][j]) {
 		B;
 		Boundary_W(prtl);
 		prtl->cell_i = 0; prtl->cell_j = j;
@@ -94,10 +93,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	    }
 	}
 	if(xBl == 1) {
-	    for (p = c[x_clls - 2][j].first();
-		 !c[x_clls - 2][j].isEnd(p);
-		 p = c[x_clls - 2][j].next(p)) {
-		prtl_old = c[x_clls - 2][j].retrieve(p);
+	    LOOP(prtl_old, c[x_clls - 2][j]) {
 		B;
 		Boundary_W(prtl);
 		prtl->cell_i = 0; prtl->cell_j = j;
@@ -107,10 +103,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	}
 	c[x_clls - 1][j].clear();
 	if(xBr == 0 || xBr == 2) {
-	    for (p = c[x_clls - 2][j].first();
-		 !c[x_clls - 2][j].isEnd(p);
-		 p = c[x_clls - 2][j].next(p)) {
-		prtl_old = c[x_clls - 2][j].retrieve(p);
+	    LOOP(prtl_old, c[x_clls - 2][j]) {
 		A;
 		Boundary_E(prtl);
 		prtl->cell_i = x_clls - 1; prtl->cell_j = j;
@@ -119,10 +112,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	    }
 	}
 	if(xBr == 3) {
-	    for (p = c[x_clls - 2][j].first();
-		 !c[x_clls - 2][j].isEnd(p);
-		 p = c[x_clls - 2][j].next(p)) {
-		prtl_old = c[x_clls - 2][j].retrieve(p);
+	    LOOP(prtl_old, c[x_clls - 2][j]) {
 		B;
 		Boundary_E(prtl);
 		prtl->cell_i = x_clls - 1; prtl->cell_j = j;
@@ -131,10 +121,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	    }
 	}
 	if(xBr == 1) {
-	    for (p = c[Y][j].first();
-		 !c[Y][j].isEnd(p);
-		 p = c[Y][j].next(p)) {
-		prtl_old = c[Y][j].retrieve(p);
+	    LOOP(prtl_old, c[Y][j]) {
 		B;
 		Boundary_E(prtl);
 		prtl->cell_i = x_clls - 1; prtl->cell_j = j;
@@ -146,10 +133,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     for(i = kb; i < mb; i++) {
 	c[i][0].clear();
 	if(yBd == 0 || yBd == 2) {
-	    for (p = c[i][1].first();
-		 !c[i][1].isEnd(p);
-		 p = c[i][1].next(p)) {
-		prtl_old = c[i][1].retrieve(p);
+	    LOOP(prtl_old, c[i][1]) {
 		A;
 		Boundary_S(prtl);
 		prtl->cell_i = i; prtl->cell_j = 0;
@@ -158,10 +142,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	    }
 	}
 	if(yBd == 3) {
-	    for (p = c[i][1].first();
-		 !c[i][1].isEnd(p);
-		 p = c[i][1].next(p)) {
-		prtl_old = c[i][1].retrieve(p);
+	    LOOP(prtl_old, c[i][1]) {
 		B;
 		Boundary_S(prtl);
 		prtl->cell_i = i; prtl->cell_j = 0;
@@ -170,10 +151,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	    }
 	}
 	if(yBd == 1) {
-	    for (p = c[i][y_clls - 2].first();
-		 !c[i][y_clls - 2].isEnd(p);
-		 p = c[i][y_clls - 2].next(p)) {
-		prtl_old = c[i][y_clls - 2].retrieve(p);
+	    LOOP(prtl_old, c[i][y_clls - 2]) {
 		B;
 		Boundary_S(prtl);
 		prtl->cell_i = i; prtl->cell_j = 0;
@@ -185,10 +163,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     for(i = ku; i < mu; i++) {
 	c[i][y_clls - 1].clear();
 	if(yBu == 0 || yBu == 2) {
-	    for (p = c[i][y_clls - 2].first();
-		 !c[i][y_clls - 2].isEnd(p);
-		 p = c[i][y_clls - 2].next(p)) {
-		prtl_old = c[i][y_clls - 2].retrieve(p);
+	    LOOP(prtl_old, c[i][y_clls - 2]) {
 		A;
 		Boundary_N(prtl);
 		prtl->cell_i = i; prtl->cell_j = y_clls - 1;
@@ -197,10 +172,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	    }
 	}
 	if(yBu == 3) {
-	    for (p = c[i][y_clls - 2].first();
-		 !c[i][y_clls - 2].isEnd(p);
-		 p = c[i][y_clls - 2].next(p)) {
-		prtl_old = c[i][y_clls - 2].retrieve(p);
+	    LOOP(prtl_old, c[i][y_clls - 2]) {
 		B;
 		Boundary_N(prtl);
 		prtl->cell_i = i; prtl->cell_j = y_clls - 1;
@@ -209,10 +181,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	    }
 	}
 	if(yBu == 1) {
-	    for (p = c[i][1].first();
-		 !c[i][1].isEnd(p);
-		 p = c[i][1].next(p)) {
-		prtl_old = c[i][1].retrieve(p);
+	    LOOP(prtl_old, c[i][1]) {
 		B;
 		Boundary_N(prtl);
 		prtl->cell_i = i; prtl->cell_j = y_clls - 1;
@@ -223,10 +192,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
     if((xBl == 0 && yBd == 0) || (xBl == 2 && yBd == 2)) {
 	c[X][0].clear();
-	for (p = c[Y][1].first();
-	     !c[Y][1].isEnd(p);
-	     p = c[Y][1].next(p)) {
-	    prtl_old = c[Y][1].retrieve(p);
+	LOOP(prtl_old, c[Y][1]) {
 	    A;
 	    Boundary_SW(prtl);
 	    prtl->cell_i = 0; prtl->cell_j = 0;
@@ -236,10 +202,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
     if(xBl == 3 && yBd == 3) {
 	c[X][0].clear();
-	for (p = c[Y][1].first();
-	     !c[Y][1].isEnd(p);
-	     p = c[Y][1].next(p)) {
-	    prtl_old = c[Y][1].retrieve(p);
+	LOOP(prtl_old, c[Y][1]) {
 	    B;
 	    Boundary_SW(prtl);
 	    prtl->cell_i = 0; prtl->cell_j = 0;
@@ -249,10 +212,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
     if(xBl == 1 && yBd == 1) {
 	c[X][0].clear();
-	for (p = c[x_clls - 2][y_clls - 2].first();
-	     !c[x_clls - 2][y_clls - 2].isEnd(p);
-	     p = c[x_clls - 2][y_clls - 2].next(p)) {
-	    prtl_old = c[x_clls - 2][y_clls - 2].retrieve(p);
+	LOOP(prtl_old, c[x_clls - 2][y_clls - 2]) {
 	    B;
 	    Boundary_SW(prtl);
 	    prtl->cell_i = 0; prtl->cell_j = 0;
@@ -262,10 +222,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
     if((xBl == 0 && yBu == 0) || (xBl == 2 && yBu == 2)) {
 	c[X][y_clls - 1].clear();
-	for (p = c[Y][y_clls - 2].first();
-	     !c[Y][y_clls - 2].isEnd(p);
-	     p = c[Y][y_clls - 2].next(p)) {
-	    prtl_old = c[Y][y_clls - 2].retrieve(p);
+	LOOP(prtl_old, c[Y][y_clls - 2]) {
 	    A;
 	    Boundary_NW(prtl);
 	    prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
@@ -275,10 +232,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
     if(xBl == 3 && yBu == 3) {
 	c[X][y_clls - 1].clear();
-	for (p = c[Y][y_clls - 2].first();
-	     !c[Y][y_clls - 2].isEnd(p);
-	     p = c[Y][y_clls - 2].next(p)) {
-	    prtl_old = c[Y][y_clls - 2].retrieve(p);
+	LOOP(prtl_old, c[Y][y_clls - 2]) {
 	    B;
 	    Boundary_NW(prtl);
 	    prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
@@ -288,10 +242,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
     if(xBl == 1 && yBu == 1) {
 	c[X][y_clls - 1].clear();
-	for (p = c[x_clls - 2][1].first();
-	     !c[x_clls - 2][1].isEnd(p);
-	     p = c[x_clls - 2][1].next(p)) {
-	    prtl_old = c[x_clls - 2][1].retrieve(p);
+	LOOP(prtl_old, c[x_clls - 2][1]) {
 	    B;
 	    Boundary_NW(prtl);
 	    prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
@@ -301,10 +252,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
     if((xBr == 0 && yBu == 0) || (xBr == 2 && yBu == 2)) {
 	c[x_clls - 1][y_clls - 1].clear();
-	for (p = c[x_clls - 2][y_clls - 2].first();
-	     !c[x_clls - 2][y_clls - 2].isEnd(p);
-	     p = c[x_clls - 2][y_clls - 2].next(p)) {
-	    prtl_old = c[x_clls - 2][y_clls - 2].retrieve(p);
+	LOOP(prtl_old, c[x_clls - 2][y_clls - 2]) {
 	    A;
 	    Boundary_NE(prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
@@ -314,10 +262,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
     if(xBr == 3 && yBu == 3) {
 	c[x_clls - 1][y_clls - 1].clear();
-	for (p = c[x_clls - 2][y_clls - 2].first();
-	     !c[x_clls - 2][y_clls - 2].isEnd(p);
-	     p = c[x_clls - 2][y_clls - 2].next(p)) {
-	    prtl_old = c[x_clls - 2][y_clls - 2].retrieve(p);
+	LOOP(prtl_old, c[x_clls - 2][y_clls - 2]) {
 	    B;
 	    Boundary_NE(prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
@@ -327,10 +272,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
     if(xBr == 1 && yBu == 1) {
 	c[x_clls - 1][y_clls - 1].clear();
-	for (p = c[Y][1].first();
-	     !c[Y][1].isEnd(p);
-	     p = c[Y][1].next(p)) {
-	    prtl_old = c[Y][1].retrieve(p);
+	LOOP(prtl_old, c[Y][1]) {
 	    B;
 	    Boundary_NE(prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
@@ -340,10 +282,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
     if((xBr == 0 && yBd == 0) || (xBr == 2 && yBd == 2)) {
 	c[x_clls - 1][0].clear();
-	for (p = c[x_clls - 2][1].first();
-	     !c[x_clls - 2][1].isEnd(p);
-	     p = c[x_clls - 2][1].next(p)) {
-	    prtl_old = c[x_clls - 2][1].retrieve(p);
+	LOOP(prtl_old, c[x_clls - 2][1]) {
 	    A;
 	    Boundary_SE(prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
@@ -353,10 +292,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
     if(xBr == 3 && yBd == 3) {
 	c[x_clls - 1][0].clear();
-	for (p = c[x_clls - 2][1].first();
-	     !c[x_clls - 2][1].isEnd(p);
-	     p = c[x_clls - 2][1].next(p)) {
-	    prtl_old = c[x_clls - 2][1].retrieve(p);
+	LOOP(prtl_old, c[x_clls - 2][1]) {
 	    B;
 	    Boundary_SE(prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
@@ -366,10 +302,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     }
     if(xBr == 1 && yBd == 1) {
 	c[x_clls - 1][0].clear();
-	for (p = c[Y][y_clls - 2].first();
-	     !c[Y][y_clls - 2].isEnd(p);
-	     p = c[Y][y_clls - 2].next(p)) {
-	    prtl_old = c[Y][y_clls - 2].retrieve(p);
+	LOOP(prtl_old, c[Y][y_clls - 2]) {
 	    B;
 	    Boundary_SE(prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
@@ -395,37 +328,25 @@ void Boundary::BoundaryCondition(ParticleManager *q)
     if(xBr == yBu) mu = x_clls - 1;
     for(j = 1; j < y_clls - 1; j++) {
 	if(xBl == 0 || xBl == 2) {
-	    for (p = c[X][j].first();
-		 !c[X][j].isEnd(p);
-		 p = c[X][j].next(p)) {
-		prtl = c[X][j].retrieve(p);
+	    LOOP(prtl, c[X][j]) {
 		C(0);
 		Boundary_W(prtl);
 	    }
 	}
 	if(xBl == 1 || xBl == 3) {
-	    for (p = c[X][j].first();
-		 !c[X][j].isEnd(p);
-		 p = c[X][j].next(p)) {
-		prtl = c[X][j].retrieve(p);
+	    LOOP(prtl, c[X][j]) {
 		C(1);
 		Boundary_W(prtl);
 	    }
 	}
 	if(xBr == 0 || xBr == 2) {
-	    for (p = c[x_clls - 1][j].first();
-		 !c[x_clls - 1][j].isEnd(p);
-		 p = c[x_clls - 1][j].next(p)) {
-		prtl = c[x_clls - 1][j].retrieve(p);
+	    LOOP(prtl, c[x_clls - 1][j]) {
 		C(0);
 		Boundary_E(prtl);
 	    }
 	}
 	if(xBr == 1 || xBr == 3) {
-	    for (p = c[x_clls - 1][j].first();
-		 !c[x_clls - 1][j].isEnd(p);
-		 p = c[x_clls - 1][j].next(p)) {
-		prtl = c[x_clls - 1][j].retrieve(p);
+	    LOOP(prtl, c[x_clls - 1][j]) {
 		C(1);
 		Boundary_E(prtl);
 	    }
@@ -433,19 +354,13 @@ void Boundary::BoundaryCondition(ParticleManager *q)
     }
     for(i = kb; i < mb; i++) {
 	if(yBd == 0 || yBd == 2) {
-	    for (p = c[i][0].first();
-		 !c[i][0].isEnd(p);
-		 p = c[i][0].next(p)) {
-		prtl = c[i][0].retrieve(p);
+	    LOOP(prtl, c[i][0]) {
 		C(0);
 		Boundary_S(prtl);
 	    }
 	}
 	if(yBd == 1 || yBd == 3) {
-	    for (p = c[i][0].first();
-		 !c[i][0].isEnd(p);
-		 p = c[i][0].next(p)) {
-		prtl = c[i][0].retrieve(p);
+	    LOOP(prtl, c[i][0]) {
 		C(1);
 		Boundary_S(prtl);
 	    }
@@ -453,92 +368,62 @@ void Boundary::BoundaryCondition(ParticleManager *q)
     }
     for(i = ku; i < mu; i++) {
 	if(yBu == 0 || yBu == 2) {
-	    for (p = c[i][y_clls - 1].first();
-		 !c[i][y_clls - 1].isEnd(p);
-		 p = c[i][y_clls - 1].next(p)) {
-		prtl = c[i][y_clls - 1].retrieve(p);
+	    LOOP(prtl, c[i][y_clls - 1]) {
 		C(0);
 		Boundary_N(prtl);
 	    }
 	}
 	if(yBu == 1 || yBu == 3) {
-	    for (p = c[i][y_clls - 1].first();
-		 !c[i][y_clls - 1].isEnd(p);
-		 p = c[i][y_clls - 1].next(p)) {
-		prtl = c[i][y_clls - 1].retrieve(p);
+	    LOOP(prtl, c[i][y_clls - 1]) {
 		C(1);
 		Boundary_N(prtl);
 	    }
 	}
     }
     if((xBl == 0 && yBd == 0) || (xBl == 2 && yBd == 2)) {
-	for (p = c[X][0].first();
-	     !c[X][0].isEnd(p);
-	     p = c[X][0].next(p)) {
-	    prtl = c[X][0].retrieve(p);
+	LOOP(prtl, c[X][0]) {
 	    C(0);
 	    Boundary_SW(prtl);
 	}
     }
     if((xBl == 1 && yBd == 1) || (xBl == 3 && yBd == 3)) {
-	for (p = c[X][0].first();
-	     !c[X][0].isEnd(p);
-	     p = c[X][0].next(p)) {
-	    prtl = c[X][0].retrieve(p);
+	LOOP(prtl, c[X][0]) {
 	    C(1);
 	    Boundary_SW(prtl);
 	}
     }
     if((xBl == 0 && yBu == 0) || (xBl == 2 && yBu == 2)) {
-	for (p = c[X][y_clls - 1].first();
-	     !c[X][y_clls - 1].isEnd(p);
-	     p = c[X][y_clls - 1].next(p)) {
-	    prtl = c[X][y_clls - 1].retrieve(p);
+	LOOP(prtl, c[X][y_clls - 1]) {
 	    C(0);
 	    Boundary_NW(prtl);
 	}
     }
     if((xBl == 1 && yBu == 1) || (xBl == 3 && yBu == 3)) {
-	for (p = c[X][y_clls - 1].first();
-	     !c[X][y_clls - 1].isEnd(p);
-	     p = c[X][y_clls - 1].next(p)) {
-	    prtl = c[X][y_clls - 1].retrieve(p);
+	LOOP(prtl, c[X][y_clls - 1]) {
 	    C(1);
 	    Boundary_NW(prtl);
 	}
     }
     if((xBr == 0 && yBu == 0) || (xBr == 2 && yBu == 2)) {
-	for (p = c[x_clls - 1][y_clls - 1].first();
-	     !c[x_clls - 1][y_clls - 1].isEnd(p);
-	     p = c[x_clls - 1][y_clls - 1].next(p)) {
-	    prtl = c[x_clls - 1][y_clls - 1].retrieve(p);
+	LOOP(prtl, c[x_clls - 1][y_clls - 1]) {
 	    C(0);
 	    Boundary_NE(prtl);
 	}
     }
     if((xBr == 1 && yBu == 1) || (xBr == 3 && yBu == 3)) {
-	for (p = c[x_clls - 1][y_clls - 1].first();
-	     !c[x_clls - 1][y_clls - 1].isEnd(p);
-	     p = c[x_clls - 1][y_clls - 1].next(p)) {
-	    prtl = c[x_clls - 1][y_clls - 1].retrieve(p);
+	LOOP(prtl, c[x_clls - 1][y_clls - 1]) {
 	    C(1);
 	    Boundary_NE(prtl);
 	}
     }
     if((xBr == 0 && yBd == 0) || (xBr == 2 && yBd == 2)) {
-	for (p = c[x_clls - 1][0].first();
-	     !c[x_clls - 1][0].isEnd(p);
-	     p = c[x_clls - 1][0].next(p)) {
-	    prtl = c[x_clls - 1][0].retrieve(p);
+	LOOP(prtl, c[x_clls - 1][0]) {
 	    C(0);
 	    Boundary_SE(prtl);
 	}
     }
     if((xBr == 1 && yBd == 1) || (xBr == 3 && yBd == 3)) {
-	for (p = c[x_clls - 1][0].first();
-	     !c[x_clls - 1][0].isEnd(p);
-	     p = c[x_clls - 1][0].next(p)) {
-	    prtl = c[x_clls - 1][0].retrieve(p);
+	LOOP(prtl, c[x_clls - 1][0]) {
 	    C(1);
 	    Boundary_SE(prtl);
 	}
@@ -755,10 +640,7 @@ int boundary_check(Boundary *q, Hydrodynamics *hydro)
     double *box_size;
 
     box_size = q->box_size;
-    for (p = hydro->particle_list.first();
-	 !hydro->particle_list.isEnd(p);
-	 p = hydro->particle_list.next(p)) {
-	prtl = hydro->particle_list.retrieve(p);
+    LOOP(prtl, hydro->particle_list) {
 	if(fabs(prtl->R[X]) >= 2.0*box_size[X] || fabs(prtl->R[Y]) >= 2.0*box_size[Y])
 	    ABORT(("run away particle"));
 	if(prtl->bd == 0) {
