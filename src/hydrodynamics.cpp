@@ -176,7 +176,7 @@ void Hydrodynamics::Zero_PhaseGradient(Boundary *boundary)
     LOOP(prtl, *particle_list) {
 	prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
     }
-    LOOP(prtl, boundary->b) {
+    LOOP(prtl, *boundary->b) {
 	prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
     }
 }
@@ -216,7 +216,7 @@ void Hydrodynamics::UpdatePahseMatrix(Boundary *boundary)
 		if( i != j) prtl->phi[i][j] = prtl->phi[i][j];
 	    }
     }
-    LOOP(prtl, boundary->b) {
+    LOOP(prtl, *boundary->b) {
 	for(i = 0; i < number_of_materials; i++)
 	    for(j = 0; j < number_of_materials; j++) {
 		if( i != j) prtl->phi[i][j] = prtl->phi[i][j];
@@ -236,7 +236,7 @@ void Hydrodynamics::UpdateSurfaceStress(Boundary *boundary)
 	prtl->del_phi[0] = interm1*interm0;
 	prtl->del_phi[1] = interm2*interm0;
     }
-    LOOP(prtl, boundary->b) {
+    LOOP(prtl, *boundary->b) {
 	interm0 = vv_abs(prtl->del_phi) + epsilon;
 	interm1 = 0.5*vv_sqdiff(prtl->del_phi);
 	interm2 = prtl->del_phi[X] * prtl->del_phi[Y];

@@ -22,10 +22,11 @@ struct Boundary
     double UxBr[2];
     double UyBd[2];
     double UyBu[2];
-    List b; 
+    List *b;
     Boundary(Initiation*, Hydrodynamics*, ParticleManager*);
     void BuildBoundaryParticles(ParticleManager*, Hydrodynamics*);
     void BoundaryCondition(ParticleManager*);
+    ~Boundary();
 };
 
 int boundary_check(Boundary*, Hydrodynamics*);

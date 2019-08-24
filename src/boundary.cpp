@@ -28,6 +28,7 @@ Boundary::Boundary(Initiation *ini, Hydrodynamics *hydro, ParticleManager *q)
     int n;
     char Key_word[FILENAME_MAX];
     FILE *f;
+    b = new List;
     box_size[X] = ini->box_size[X];
     box_size[Y] = ini->box_size[Y];
     x_clls = q->x_clls;
@@ -62,7 +63,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     LIST *p;
 
     c = q->cell_lists;
-    CLEAR_DATA(b);
+    CLEAR_DATA(*b);
     kb = 0; mb = x_clls;
     ku = 0; mu = x_clls;
     if(xBl == yBd) kb = 1;
@@ -76,7 +77,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 		A;
 		Boundary_W(prtl);
 		prtl->cell_i = 0; prtl->cell_j = j;
-		INSERT(prtl, b);
+		INSERT(prtl, *b);
 		INSERT(prtl, c[X][j]);
 	    }
 	}
@@ -85,7 +86,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 		B;
 		Boundary_W(prtl);
 		prtl->cell_i = 0; prtl->cell_j = j;
-		INSERT(prtl, b);
+		INSERT(prtl, *b);
 		INSERT(prtl, c[X][j]);
 	    }
 	}
@@ -94,7 +95,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 		B;
 		Boundary_W(prtl);
 		prtl->cell_i = 0; prtl->cell_j = j;
-		INSERT(prtl, b);
+		INSERT(prtl, *b);
 		INSERT(prtl, c[X][j]);
 	    }
 	}
@@ -104,7 +105,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 		A;
 		Boundary_E(prtl);
 		prtl->cell_i = x_clls - 1; prtl->cell_j = j;
-		INSERT(prtl, b);
+		INSERT(prtl, *b);
 		INSERT(prtl, c[x_clls - 1][j]);
 	    }
 	}
@@ -113,7 +114,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 		B;
 		Boundary_E(prtl);
 		prtl->cell_i = x_clls - 1; prtl->cell_j = j;
-		INSERT(prtl, b);
+		INSERT(prtl, *b);
 		INSERT(prtl, c[x_clls - 1][j]);
 	    }
 	}
@@ -122,7 +123,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 		B;
 		Boundary_E(prtl);
 		prtl->cell_i = x_clls - 1; prtl->cell_j = j;
-		INSERT(prtl, b);
+		INSERT(prtl, *b);
 		INSERT(prtl, c[x_clls - 1][j]);
 	    }
 	}
@@ -134,7 +135,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 		A;
 		Boundary_S(prtl);
 		prtl->cell_i = i; prtl->cell_j = 0;
-		INSERT(prtl, b);
+		INSERT(prtl, *b);
 		INSERT(prtl, c[i][0]);
 	    }
 	}
@@ -143,7 +144,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 		B;
 		Boundary_S(prtl);
 		prtl->cell_i = i; prtl->cell_j = 0;
-		INSERT(prtl, b);
+		INSERT(prtl, *b);
 		INSERT(prtl, c[i][0]);
 	    }
 	}
@@ -152,7 +153,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 		B;
 		Boundary_S(prtl);
 		prtl->cell_i = i; prtl->cell_j = 0;
-		INSERT(prtl, b);
+		INSERT(prtl, *b);
 		INSERT(prtl, c[i][0]);
 	    }
 	}
@@ -164,7 +165,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 		A;
 		Boundary_N(prtl);
 		prtl->cell_i = i; prtl->cell_j = y_clls - 1;
-		INSERT(prtl, b);
+		INSERT(prtl, *b);
 		INSERT(prtl, c[i][y_clls - 1]);
 	    }
 	}
@@ -173,7 +174,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 		B;
 		Boundary_N(prtl);
 		prtl->cell_i = i; prtl->cell_j = y_clls - 1;
-		INSERT(prtl, b);
+		INSERT(prtl, *b);
 		INSERT(prtl, c[i][y_clls - 1]);
 	    }
 	}
@@ -182,7 +183,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 		B;
 		Boundary_N(prtl);
 		prtl->cell_i = i; prtl->cell_j = y_clls - 1;
-		INSERT(prtl, b);
+		INSERT(prtl, *b);
 		INSERT(prtl, c[i][y_clls - 1]);
 	    }
 	}
@@ -193,7 +194,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	    A;
 	    Boundary_SW(prtl);
 	    prtl->cell_i = 0; prtl->cell_j = 0;
-	    INSERT(prtl, b);
+	    INSERT(prtl, *b);
 	    INSERT(prtl, c[X][0]);
 	}
     }
@@ -203,7 +204,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	    B;
 	    Boundary_SW(prtl);
 	    prtl->cell_i = 0; prtl->cell_j = 0;
-	    INSERT(prtl, b);
+	    INSERT(prtl, *b);
 	    INSERT(prtl, c[X][0]);
 	}
     }
@@ -213,7 +214,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	    B;
 	    Boundary_SW(prtl);
 	    prtl->cell_i = 0; prtl->cell_j = 0;
-	    INSERT(prtl, b);
+	    INSERT(prtl, *b);
 	    INSERT(prtl, c[X][0]);
 	}
     }
@@ -223,7 +224,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	    A;
 	    Boundary_NW(prtl);
 	    prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
-	    INSERT(prtl, b);
+	    INSERT(prtl, *b);
 	    INSERT(prtl, c[X][y_clls - 1]);
 	}
     }
@@ -233,7 +234,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	    B;
 	    Boundary_NW(prtl);
 	    prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
-	    INSERT(prtl, b);
+	    INSERT(prtl, *b);
 	    INSERT(prtl, c[X][y_clls - 1]);
 	}
     }
@@ -243,7 +244,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	    B;
 	    Boundary_NW(prtl);
 	    prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
-	    INSERT(prtl, b);
+	    INSERT(prtl, *b);
 	    INSERT(prtl, c[X][y_clls - 1]);
 	}
     }
@@ -253,7 +254,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	    A;
 	    Boundary_NE(prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
-	    INSERT(prtl, b);
+	    INSERT(prtl, *b);
 	    INSERT(prtl, c[x_clls - 1][y_clls - 1]);
 	}
     }
@@ -263,7 +264,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	    B;
 	    Boundary_NE(prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
-	    INSERT(prtl, b);
+	    INSERT(prtl, *b);
 	    INSERT(prtl, c[x_clls - 1][y_clls - 1]);
 	}
     }
@@ -273,7 +274,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	    B;
 	    Boundary_NE(prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
-	    INSERT(prtl, b);
+	    INSERT(prtl, *b);
 	    INSERT(prtl, c[x_clls - 1][y_clls - 1]);
 	}
     }
@@ -283,7 +284,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	    A;
 	    Boundary_SE(prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
-	    INSERT(prtl, b);
+	    INSERT(prtl, *b);
 	    INSERT(prtl, c[x_clls - 1][0]);
 	}
     }
@@ -293,7 +294,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	    B;
 	    Boundary_SE(prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
-	    INSERT(prtl, b);
+	    INSERT(prtl, *b);
 	    INSERT(prtl, c[x_clls - 1][0]);
 	}
     }
@@ -303,7 +304,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
 	    B;
 	    Boundary_SE(prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
-	    INSERT(prtl, b);
+	    INSERT(prtl, *b);
 	    INSERT(prtl, c[x_clls - 1][0]);
 	}
     }
@@ -708,4 +709,9 @@ int boundary_check(Boundary *q, Hydrodynamics *hydro)
 	}
     }
     return 0;
+}
+
+Boundary::~Boundary()
+{
+    delete b;
 }
