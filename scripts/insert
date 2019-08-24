@@ -5,18 +5,24 @@ BEGIN {
 
 /\.insert\(/ {
     t = tab($0)
-    b = a = trim($0)
+    b = a = c = trim($0)
 
     sub(/\.insert\(.*/, "", a)
     sub(/^.*\.insert\(/, "", b)
     sub(/\.first\(\).*/, "", b)
     if (a != b)
        err(a "!=" b)
+
+    sub(/.*\.first\(\), /, "", c)
+    sub(/\);/, "", c)
+
+    printf "%sINSERT(%s, %s);\n", t, c, a
+
     next
 }
 
 {
-    # print
+    print
 }
 
 function err(s) {
