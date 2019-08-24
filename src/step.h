@@ -5,4 +5,4 @@ class Boundary;
 class QuinticSpline;
 class Diagnose;
 class MLS;
-void step(int ite, Hydrodynamics *hydro, ParticleManager *particles, Boundary *boundary, double *Time, double D_time, Diagnose *diagnose, Initiation *ini, QuinticSpline *weight_function, MLS *mls);
+void step(int ite, Hydrodynamics*, ParticleManager*, Boundary*, double*, double D_time, Diagnose*, Initiation*, QuinticSpline*, MLS*);
