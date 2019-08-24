@@ -51,17 +51,15 @@ Boundary::Boundary(Initiation *ini, Material *mtl, ParticleManager *q)
     puts("1: perodic boundary condition");
     puts("2: free slip wall boundary condition");
     puts("3: symmetry boundary condition");
-    BuildBoundaryParticles(q, mtl);
+    BuildBoundaryParticles(q->cell_lists, mtl);
 }
-void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
+void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 {
     int i, j;
     Particle *prtl, *prtl_old;
     int kb, ku, mb, mu;
-    List ***c;
     LIST *p;
 
-    c = q->cell_lists;
     CLEAR_DATA(*b);
     kb = 0; mb = x_clls;
     ku = 0; mu = x_clls;
