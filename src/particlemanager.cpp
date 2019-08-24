@@ -143,12 +143,15 @@ void ParticleManager::BuildInteraction(IList *interactions, List *particle_list,
     Particle *prtl_org, *prtl_dest;
     Interaction *pair;
 
+
+    interactions->clear_data();
+
     current = interactions->first();
     used_up_old = interactions->isEnd(current);
     current_used = 0;
     old_length = interactions->length();
 
-    
+
     
     LOOP(prtl_org, *particle_list) {
 	if(prtl_org->bd == 0) {
