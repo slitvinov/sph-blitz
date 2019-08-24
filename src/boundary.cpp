@@ -19,7 +19,7 @@ enum {X, Y};
     } while (0)
 #define LIST ListNode
 
-Boundary::Boundary(Initiation *ini, Material *mtl, List ***c)
+Boundary::Boundary(Initiation *ini, List ***c)
 {
     int n;
     char Key_word[FILENAME_MAX];
@@ -49,6 +49,7 @@ Boundary::Boundary(Initiation *ini, Material *mtl, List ***c)
     puts("2: free slip wall boundary condition");
     puts("3: symmetry boundary condition");
  }
+
 int boundary_build(Boundary *q, List ***c, Material *mtl)
 {
     int i, j;
@@ -318,12 +319,25 @@ int boundary_build(Boundary *q, List ***c, Material *mtl)
     }
     return 0;
 }
-void Boundary::BoundaryCondition(List ***c)
+int boundary_condition(Boundary *q, List ***c)
 {
     int i, j;
     int kb, ku, mb, mu;
     Particle *prtl;
     LIST *p;
+    int x_clls;
+    int y_clls;
+    int xBl;
+    int xBr;
+    int yBd;
+    int yBu;
+
+    x_clls = q->x_clls;
+    y_clls = q->y_clls;
+    xBl = q->xBl;
+    xBr = q->xBr;
+    yBd = q->yBd;
+    yBu = q->yBu;
 
     kb = 0; mb = x_clls;
     ku = 0; mu = x_clls;
@@ -335,25 +349,25 @@ void Boundary::BoundaryCondition(List ***c)
 	if(xBl == 0 || xBl == 2) {
 	    LOOP(prtl, *c[X][j]) {
 		C(0);
-		boundary_w(this, prtl);
+		boundary_w(q, prtl);
 	    }
 	}
 	if(xBl == 1 || xBl == 3) {
 	    LOOP(prtl, *c[X][j]) {
 		C(1);
-		boundary_w(this, prtl);
+		boundary_w(q, prtl);
 	    }
 	}
 	if(xBr == 0 || xBr == 2) {
 	    LOOP(prtl, *c[x_clls - 1][j]) {
 		C(0);
-		boundary_e(this, prtl);
+		boundary_e(q, prtl);
 	    }
 	}
 	if(xBr == 1 || xBr == 3) {
 	    LOOP(prtl, *c[x_clls - 1][j]) {
 		C(1);
-		boundary_e(this, prtl);
+		boundary_e(q, prtl);
 	    }
 	}
     }
@@ -361,13 +375,13 @@ void Boundary::BoundaryCondition(List ***c)
 	if(yBd == 0 || yBd == 2) {
 	    LOOP(prtl, *c[i][0]) {
 		C(0);
-		boundary_s(this, prtl);
+		boundary_s(q, prtl);
 	    }
 	}
 	if(yBd == 1 || yBd == 3) {
 	    LOOP(prtl, *c[i][0]) {
 		C(1);
-		boundary_s(this, prtl);
+		boundary_s(q, prtl);
 	    }
 	}
     }
@@ -375,64 +389,65 @@ void Boundary::BoundaryCondition(List ***c)
 	if(yBu == 0 || yBu == 2) {
 	    LOOP(prtl, *c[i][y_clls - 1]) {
 		C(0);
-		boundary_n(this, prtl);
+		boundary_n(q, prtl);
 	    }
 	}
 	if(yBu == 1 || yBu == 3) {
 	    LOOP(prtl, *c[i][y_clls - 1]) {
 		C(1);
-		boundary_n(this, prtl);
+		boundary_n(q, prtl);
 	    }
 	}
     }
     if((xBl == 0 && yBd == 0) || (xBl == 2 && yBd == 2)) {
 	LOOP(prtl, *c[X][0]) {
 	    C(0);
-	    boundary_sw(this, prtl);
+	    boundary_sw(q, prtl);
 	}
     }
     if((xBl == 1 && yBd == 1) || (xBl == 3 && yBd == 3)) {
 	LOOP(prtl, *c[X][0]) {
 	    C(1);
-	    boundary_sw(this, prtl);
+	    boundary_sw(q, prtl);
 	}
     }
     if((xBl == 0 && yBu == 0) || (xBl == 2 && yBu == 2)) {
 	LOOP(prtl, *c[X][y_clls - 1]) {
 	    C(0);
-	    boundary_nw(this, prtl);
+	    boundary_nw(q, prtl);
 	}
     }
     if((xBl == 1 && yBu == 1) || (xBl == 3 && yBu == 3)) {
 	LOOP(prtl, *c[X][y_clls - 1]) {
 	    C(1);
-	    boundary_nw(this, prtl);
+	    boundary_nw(q, prtl);
 	}
     }
     if((xBr == 0 && yBu == 0) || (xBr == 2 && yBu == 2)) {
 	LOOP(prtl, *c[x_clls - 1][y_clls - 1]) {
 	    C(0);
-	    boundary_ne(this, prtl);
+	    boundary_ne(q, prtl);
 	}
     }
     if((xBr == 1 && yBu == 1) || (xBr == 3 && yBu == 3)) {
 	LOOP(prtl, *c[x_clls - 1][y_clls - 1]) {
 	    C(1);
-	    boundary_ne(this, prtl);
+	    boundary_ne(q, prtl);
 	}
     }
     if((xBr == 0 && yBd == 0) || (xBr == 2 && yBd == 2)) {
 	LOOP(prtl, *c[x_clls - 1][0]) {
 	    C(0);
-	    boundary_se(this, prtl);
+	    boundary_se(q, prtl);
 	}
     }
     if((xBr == 1 && yBd == 1) || (xBr == 3 && yBd == 3)) {
 	LOOP(prtl, *c[x_clls - 1][0]) {
 	    C(1);
-	    boundary_se(this, prtl);
+	    boundary_se(q, prtl);
 	}
     }
+    return 0;
 }
 int boundary_w(Boundary *q, Particle *prtl)
 {

@@ -13,8 +13,7 @@ struct Boundary
     double UyBd[2];
     double UyBu[2];
     List *b;
-    Boundary(Initiation*, Material*, List***);
-    void BoundaryCondition(List***);
+    Boundary(Initiation*, List***);
     ~Boundary();
 };
 
