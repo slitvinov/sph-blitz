@@ -3,7 +3,8 @@ struct ParticleManager;
 struct Boundary
 {
     double box_size[2];
-    int x_clls, y_clls;
+    int x_clls;
+    int y_clls;
     int xBl;
     int xBr;
     int yBd;
@@ -13,10 +14,11 @@ struct Boundary
     double UyBd[2];
     double UyBu[2];
     List *b;
-    Boundary(Initiation*, List***);
     ~Boundary();
 };
 
+Boundary *boundary_ini(Initiation*);
+int boundary_fin(Boundary*);
 int boundary_condition(Boundary*, List***);
 int boundary_build(Boundary*, List***, Material*);
 int boundary_check(Boundary*, List*);

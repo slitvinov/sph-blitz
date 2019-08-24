@@ -19,35 +19,42 @@ enum {X, Y};
     } while (0)
 #define LIST ListNode
 
-Boundary::Boundary(Initiation *ini, List ***c)
+Boundary *boundary_ini(Initiation *ini)
 {
     int n;
     char Key_word[FILENAME_MAX];
     FILE *f;
-    b = list_ini();
-    box_size[X] = ini->box_size[X];
-    box_size[Y] = ini->box_size[Y];
-    x_clls = ini->x_cells + 2;
-    y_clls = ini->y_cells + 2;
+    Boundary *q;
+
+    q = (Boundary*)malloc(sizeof(*q));
+    if (q == NULL)
+	return q;
+    
+    q->b = list_ini();
+    q->box_size[X] = ini->box_size[X];
+    q->box_size[Y] = ini->box_size[Y];
+    q->x_clls = ini->x_cells + 2;
+    q->y_clls = ini->y_cells + 2;
     f = fopen(ini->inputfile, "r");
     if (!f)
 	ABORT(("can't open '%s'\n", ini->inputfile));
     while (fscanf(f, "%s", Key_word) == 1)
 	if(!strcmp(Key_word, "BOUNDARY")) {
 	    n = fscanf(f, "%d %lf %lf %d %lf %lf %d %lf %lf %d %lf %lf",
-		   &xBl, &UxBl[X], &UxBl[Y],
-		   &xBr, &UxBr[X], &UxBr[Y],
-		   &yBd, &UyBd[X], &UyBd[Y],
-		   &yBu, &UyBu[X], &UyBu[Y]);
+		   &q->xBl, &q->UxBl[X], &q->UxBl[Y],
+		   &q->xBr, &q->UxBr[X], &q->UxBr[Y],
+		   &q->yBd, &q->UyBd[X], &q->UyBd[Y],
+		   &q->yBu, &q->UyBu[X], &q->UyBu[Y]);
 	    if (n != 3*4)
 		ABORT(("can't read BOUNDARY keyword (n = %d)", n));
 	}
     fclose(f);
-    printf("The left, right, lower and upper boundary %d %d %d %d\n", xBl, xBr, yBd, yBu);
+    printf("The left, right, lower and upper boundary %d %d %d %d\n", q->xBl, q->xBr, q->yBd, q->yBu);
     puts("0: wall boundary condition");
     puts("1: perodic boundary condition");
     puts("2: free slip wall boundary condition");
     puts("3: symmetry boundary condition");
+    return q;
  }
 
 int boundary_build(Boundary *q, List ***c, Material *mtl)
@@ -741,7 +748,8 @@ int boundary_check(Boundary *q, List *list)
     return 0;
 }
 
-Boundary::~Boundary()
+int boundary_fin(Boundary *q)
 {
-    list_fin(b);
+    list_fin(q->b);
+    return 0;
 }
