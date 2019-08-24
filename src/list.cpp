@@ -71,31 +71,51 @@ int list_empty(List *q) {
     return q->empty0();
 }
 
-int list_isEnd(List *q, ListNode *n) {
+int list_isEnd(List *q, ListNode *n)
+{
     return q->isEnd0(n);
 }
 
-ListNode* list_first(List *q) {
+ListNode* list_first(List *q)
+{
     return q->first0();
 }
 
-ListNode* list_next(List *q, ListNode *n) {
+ListNode* list_next(List *q, ListNode *n)
+{
     return q->next0(n);
 }
 
-Particle* list_retrieve(List *q, ListNode *n) {
+Particle* list_retrieve(List *q, ListNode *n)
+{
     return q->retrieve0(n);
 }
 
-void list_insert(List *q, ListNode *n, Particle *p) {
+void list_insert(List *q, ListNode *n, Particle *p)
+{
     q->insert0(n, p);
 }
-void list_remove(List *q, ListNode *n) {
+void list_remove(List *q, ListNode *n)
+{
     q->remove0(n);
 }
-void list_clear(List *q) {
+void list_clear(List *q)
+{
     q->clear0();
 }
-void list_clear_data(List *q) {
+void list_clear_data(List *q)
+{
     q->clear_data0();
+}
+
+List *list_new(void)
+{
+    List *q;
+    q = new List;
+    return q;
+}
+
+void list_fin(List *q)
+{
+    delete q;
 }
