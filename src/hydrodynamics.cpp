@@ -114,13 +114,13 @@ void Hydrodynamics::UpdatePhaseGradient(Boundary *boundary)
 }
 void Hydrodynamics::UpdateDensity()
 {
-    ILIST *p1;
+    ILIST *p;
     Interaction *pair;
     Zero_density();
-    for (p1 = interaction_list.first();
-	 !interaction_list.isEnd(p1);
-	 p1 = interaction_list.next(p1)) {
-	pair = interaction_list.retrieve(p1);
+    for (p = interaction_list.first();
+	 !interaction_list.isEnd(p);
+	 p = interaction_list.next(p)) {
+	pair = interaction_list.retrieve(p);
 	pair->SummationDensity();
     }
     UpdateState();

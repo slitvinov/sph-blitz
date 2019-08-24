@@ -26,9 +26,13 @@ enum {X, Y};
 #define LIST ListNode
 #define ILIST IListNode
 #define INSERT(q, l) l.insert(l.first(), q)
-#define LOOP(q, l) for (p = l.first();			       \
+#define LOOP(q, l) for (p = l.first();					\
     			!list_isEnd(&l, p) && (q = l.retrieve(p), 1);	\
 			p = l.next(p))
+#define LOOP1(q, l) for (p = l.first();					\
+    			!list_isEnd(&l, p) && (q = l.retrieve(p), 1);	\
+			p = l.next(p))
+
 
 ParticleManager::ParticleManager(Initiation *ini)
 {
@@ -154,10 +158,7 @@ void ParticleManager::BuildInteraction(IList &interactions, List &particle_list,
 	    j = int ((prtl_org->R[1] + cll_sz)/ cll_sz);
 	    for(k = i - 1; k <= i + 1; k++)
 		for(m = j - 1; m <= j + 1; m++) {
-		    for (p1 = cell_lists[k][m].first();
-			 !list_isEnd(&cell_lists[k][m], p1);
-			 p1 = cell_lists[k][m].next(p1)) {
-			prtl_dest = cell_lists[k][m].retrieve(p1);
+		    LOOP1(prtl_dest, cell_lists[k][m]) {
 			dstc = vv_sq_distance(prtl_org->R, prtl_dest->R);
 			if(dstc <= smoothinglengthsquare && prtl_org->ID >= prtl_dest->ID) {
 			    if(current_used == old_length) {
