@@ -21,7 +21,7 @@ particle.o\
 particlemanager.o\
 quinticspline.o\
 sph.o\
-timesolver.o\
+step.o\
 volume.o\
 vv.o\
 wiener.o\

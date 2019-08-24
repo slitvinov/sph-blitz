@@ -4,7 +4,7 @@
 #include "ilist.h"
 #include "list.h"
 #include "dllist.h"
-#include "timesolver.h"
+#include "step.h"
 #include "mls.h"
 #include "diagnose.h"
 #include "output.h"
@@ -24,6 +24,8 @@ int main(int argc, char *argv[]) {
     double Time;
     Initiation ini;
     QuinticSpline weight_function;
+    int ite;
+
     if (argc<2)
 	ERR(2, ("no project name specified"));
     wiener_seed(12345);
@@ -33,24 +35,25 @@ int main(int argc, char *argv[]) {
     particle_number_of_materials = ini.number_of_materials;
     particle_ID_max = 0;
     quinticspline_ini(ini.smoothinglength, &weight_function);
-    MLS mls(ini.MLS_MAX); 
+    MLS mls(ini.MLS_MAX);
     ParticleManager particles(&ini);
-    Hydrodynamics hydro(&ini); 
+    Hydrodynamics hydro(&ini);
     particles.BuildRealParticles(hydro, &ini);
     Boundary boundary(&ini, &hydro, &particles);
-    TimeSolver timesolver(&ini);
     Output output(&ini);
-    VolumeMass(&hydro, &particles, &weight_function); 
-    boundary.BoundaryCondition(&particles); 
+    VolumeMass(&hydro, &particles, &weight_function);
+    boundary.BoundaryCondition(&particles);
     Diagnose diagnose(&ini, &hydro);
     Time = ini.Start_time;
     output.OutputParticles(hydro, boundary, Time);
     output.OutputStates(particles, mls, weight_function, Time);
     if(ini.diagnose == 2)
       diagnose.KineticInformation(Time, &hydro);
+
+    ite = 0;
     while(Time < ini.End_time) {
 	if(Time + ini.D_time >=  ini.End_time) ini.D_time = ini.End_time - Time;
-	timesolver.TimeIntegral_summation(&hydro, &particles, &boundary, &Time, ini.D_time, &diagnose, &ini, &weight_function, &mls);
+	step(ite, &hydro, &particles, &boundary, &Time, ini.D_time, &diagnose, &ini, &weight_function, &mls);
 	output.OutputParticles(hydro, boundary, Time);
 	output.OutRestart(hydro, Time);
 	if(ini.diagnose == 1) {

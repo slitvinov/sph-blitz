@@ -9,21 +9,14 @@
 #include "hydrodynamics.h"
 #include "boundary.h"
 #include "particlemanager.h"
-#include "timesolver.h"
-using namespace std;
-enum {X, Y};
-TimeSolver::TimeSolver(Initiation *ini)
-{
-    cell_size = ini->cell_size;
-    box_size[X] = ini->box_size[X];
-    box_size[Y] = ini->box_size[Y];
-    smoothinglength = ini->smoothinglength;
-    ite = 0;
-}
+#include "step.h"
 
-void TimeSolver::TimeIntegral_summation(Hydrodynamics *hydro, ParticleManager *particles, Boundary *boundary, double *Time, double D_time, Diagnose *diagnose, Initiation *ini, QuinticSpline *weight_function, MLS *mls)
+void step(int ite, Hydrodynamics *hydro, ParticleManager *particles, Boundary *boundary, double *Time, double D_time, Diagnose *diagnose, Initiation *ini, QuinticSpline *weight_function, MLS *mls)
 {
-    double integeral_time = 0;
+    double integeral_time;
+    double dt;
+
+    integeral_time = 0;
     while(integeral_time < D_time) {
 	dt = hydro->GetTimestep();
 	ite ++;
