@@ -15,13 +15,10 @@
 #include "particlemanager.h"
 #include "material.h"
 #include "diagnose.h"
+#include "macro.h"
 using namespace std;
 
 #define LIST ListNode
-#define INSERT(q, l) l.insert(l.first(), q)
-#define LOOP(q, l) for (p = l.first();					\
-    			!list_isEnd(&l, p) && (q = l.retrieve(p), 1);	\
-			p = l.next(p))
 
 Diagnose::Diagnose(Initiation *ini, Hydrodynamics *hydro)
 {

@@ -6,6 +6,7 @@ boundary.o: hydrodynamics.h
 boundary.o: ilist.h
 boundary.o: initiation.h
 boundary.o: list.h
+boundary.o: macro.h
 boundary.o: material.h
 boundary.o: particle.h
 boundary.o: particlemanager.h
@@ -16,6 +17,7 @@ diagnose.o: hydrodynamics.h
 diagnose.o: ilist.h
 diagnose.o: initiation.h
 diagnose.o: list.h
+diagnose.o: macro.h
 diagnose.o: material.h
 diagnose.o: mls.h
 diagnose.o: particle.h
@@ -33,6 +35,7 @@ hydrodynamics.o: ilist.h
 hydrodynamics.o: initiation.h
 hydrodynamics.o: interaction.h
 hydrodynamics.o: list.h
+hydrodynamics.o: macro.h
 hydrodynamics.o: material.h
 hydrodynamics.o: particle.h
 hydrodynamics.o: particlemanager.h
@@ -71,6 +74,7 @@ output.o: hydrodynamics.h
 output.o: ilist.h
 output.o: initiation.h
 output.o: list.h
+output.o: macro.h
 output.o: material.h
 output.o: mls.h
 output.o: output.h
@@ -84,6 +88,7 @@ particlemanager.o: ilist.h
 particlemanager.o: initiation.h
 particlemanager.o: interaction.h
 particlemanager.o: list.h
+particlemanager.o: macro.h
 particlemanager.o: material.h
 particlemanager.o: particle.h
 particlemanager.o: particlemanager.h
@@ -123,6 +128,7 @@ volume.o: dllist.h
 volume.o: hydrodynamics.h
 volume.o: ilist.h
 volume.o: list.h
+volume.o: macro.h
 volume.o: particle.h
 volume.o: particlemanager.h
 volume.o: quinticspline.h

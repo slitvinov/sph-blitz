@@ -10,13 +10,8 @@
 #include "particlemanager.h"
 #include "hydrodynamics.h"
 #include "volume.h"
+#include "macro.h"
 
-#define LOOP(q, l) for (p = l.first();					\
-    			!list_isEnd(&l, p) && (q = l.retrieve(p), 1);	\
-			p = l.next(p))
-#define LOOP1(q, l) for (p1 = l.first();				\
-			 !list_isEnd(&l, p1) && (q = l.retrieve(p1), 1); \
-			 p1 = l.next(p))
 
 void VolumeMass(Hydrodynamics *hydro, ParticleManager *particles, QuinticSpline *weight_function)
 {

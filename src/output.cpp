@@ -16,11 +16,9 @@
 #include "boundary.h"
 #include "particlemanager.h"
 #include "output.h"
+#include "macro.h"
 using namespace std;
 #define LIST ListNode
-#define LOOP(q, l) for (p = l.first();					\
-			!list_isEnd(&l, p) && (q = l.retrieve(p), 1);	\
-			p = l.next(p))
 
 Output::Output(Initiation *ini)
 {

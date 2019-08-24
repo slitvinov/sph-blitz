@@ -12,6 +12,7 @@
 #include "particlemanager.h"
 #include "material.h"
 #include "boundary.h"
+#include "macro.h"
 enum {X, Y};
 #define A prtl = particle_mirror(prtl_old, &hydro->materials[0])
 #define B prtl = particle_image(prtl_old)
@@ -21,13 +22,6 @@ enum {X, Y};
 	particle_copy(prtl, prtl->rl_prtl, t);	\
     } while (0)
 #define LIST ListNode
-
-#define LOOP(q, l) for (p = l.first();					\
-    			!list_isEnd(&l, p) && (q = l.retrieve(p), 1);	\
-			p = l.next(p))
-#define INSERT(q, l) l.insert(l.first(), q)
-#define CLEAR(l) l.clear()
-#define CLEAR_DATA(l) l.clear_data()
 
 Boundary::Boundary(Initiation *ini, Hydrodynamics *hydro, ParticleManager *q)
 {

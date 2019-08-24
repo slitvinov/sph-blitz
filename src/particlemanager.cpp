@@ -17,6 +17,7 @@
 #include "material.h"
 #include "boundary.h"
 #include "particlemanager.h"
+#include "macro.h"
 
 using namespace std;
 enum {X, Y};
@@ -25,15 +26,6 @@ enum {X, Y};
 #define NEW(pos, vel, den, pre, tem, mtl) particle_real(pos, vel, den, pre, tem, mtl)
 #define LIST ListNode
 #define ILIST IListNode
-#define INSERT(q, l) l.insert(l.first(), q)
-#define LOOP(q, l) for (p = l.first();					\
-    			!list_isEnd(&l, p) && (q = l.retrieve(p), 1);	\
-			p = l.next(p))
-#define LOOP1(q, l) for (p = l.first();					\
-    			!list_isEnd(&l, p) && (q = l.retrieve(p), 1);	\
-			p = l.next(p))
-
-
 ParticleManager::ParticleManager(Initiation *ini)
 {
 
