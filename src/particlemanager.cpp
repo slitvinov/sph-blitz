@@ -127,7 +127,7 @@ void ParticleManager::BuildNNP_MLSMapping(double point[2])
   }
 }
 
-void ParticleManager::BuildInteraction(IList &interactions, List *particle_list,
+void ParticleManager::BuildInteraction(IList *interactions, List *particle_list,
 				       Force **forces, QuinticSpline *weight_function)
 {
     ILIST *first_unused, *current;
@@ -140,10 +140,10 @@ void ParticleManager::BuildInteraction(IList &interactions, List *particle_list,
     Particle *prtl_org, *prtl_dest;
     Interaction *pair;
 
-    current = interactions.first();
-    used_up_old = interactions.isEnd(current);
+    current = interactions->first();
+    used_up_old = interactions->isEnd(current);
     current_used = 0;
-    old_length = interactions.length();
+    old_length = interactions->length();
     LOOP(prtl_org, *particle_list) {
 	if(prtl_org->bd == 0) {
 	    i = int ((prtl_org->R[0] + cll_sz)/ cll_sz);
@@ -155,11 +155,11 @@ void ParticleManager::BuildInteraction(IList &interactions, List *particle_list,
 			if(dstc <= smoothinglengthsquare && prtl_org->ID >= prtl_dest->ID) {
 			    if(current_used == old_length) {
 				pair = new Interaction(prtl_org, prtl_dest, forces, weight_function, sqrt(dstc));
-				IINSERT(pair, interactions);
+				IINSERT(pair, *interactions);
 			    }
 			    else {
-				interactions.retrieve(current)->NewInteraction(prtl_org, prtl_dest, forces, weight_function, sqrt(dstc));
-				current = interactions.next(current);
+				interactions->retrieve(current)->NewInteraction(prtl_org, prtl_dest, forces, weight_function, sqrt(dstc));
+				current = interactions->next(current);
 				current_used++;
 			    }
 			}
@@ -172,7 +172,7 @@ void ParticleManager::BuildInteraction(IList &interactions, List *particle_list,
     else
 	first_unused = current;
     if (!used_up_old) {
-	while (!interactions.isEnd(first_unused)) { delete interactions.retrieve(first_unused); interactions.remove(first_unused); }
+	while (!interactions->isEnd(first_unused)) { delete interactions->retrieve(first_unused); interactions->remove(first_unused); }
     }
 }
 

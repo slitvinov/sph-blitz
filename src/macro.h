@@ -14,4 +14,4 @@
 
 #define DINSERT(q, l) l.insert(l.first(), q)
 
-#define IINSERT(q, l) l.insert(l.first(), q);
+#define IINSERT(q, l) (l).insert((l).first(), q);
