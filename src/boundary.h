@@ -1,6 +1,4 @@
-struct QuinticSpline;
 struct Initiation;
-struct Hydrodynamics;
 struct ParticleManager;
 struct Boundary
 {
@@ -23,10 +21,10 @@ struct Boundary
     double UyBd[2];
     double UyBu[2];
     List *b;
-    Boundary(Initiation*, Hydrodynamics*, ParticleManager*);
-    void BuildBoundaryParticles(ParticleManager*, Hydrodynamics*);
+    Boundary(Initiation*, Material*, ParticleManager*);
+    void BuildBoundaryParticles(ParticleManager*, Material*);
     void BoundaryCondition(ParticleManager*);
     ~Boundary();
 };
 
-int boundary_check(Boundary*, Hydrodynamics*);
+int boundary_check(Boundary*, List*);

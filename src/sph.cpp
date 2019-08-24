@@ -16,6 +16,7 @@
 #include "boundary.h"
 #include "volume.h"
 #include "wiener.h"
+#include "material.h"
 extern double interaction_art_vis;
 extern double interaction_delta;
 extern long particle_ID_max;
@@ -39,7 +40,7 @@ int main(int argc, char *argv[]) {
     ParticleManager particles(&ini);
     Hydrodynamics hydro(&ini);
     particles.BuildRealParticles(&hydro, &ini);
-    Boundary boundary(&ini, &hydro, &particles);
+    Boundary boundary(&ini, &hydro.materials[0], &particles);
     Output output(&ini);
     VolumeMass(&hydro, &particles, &weight_function);
     boundary.BoundaryCondition(&particles);

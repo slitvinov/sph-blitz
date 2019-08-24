@@ -4,6 +4,7 @@ class Hydrodynamics;
 class Initiation;
 class Interaction;
 class Force;
+class QuinticSpline;
 
 class ParticleManager
 {

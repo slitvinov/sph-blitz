@@ -7,14 +7,13 @@
 #include "dllist.h"
 #include "list.h"
 #include "ilist.h"
-#include "hydrodynamics.h"
 #include "initiation.h"
 #include "particlemanager.h"
 #include "material.h"
 #include "boundary.h"
 #include "macro.h"
 enum {X, Y};
-#define A prtl = particle_mirror(prtl_old, &hydro->materials[0])
+#define A prtl = particle_mirror(prtl_old, mtl)
 #define B prtl = particle_image(prtl_old)
 #define C(t) do {                               \
 	if (prtl->rl_prtl == NULL)		\
@@ -23,7 +22,7 @@ enum {X, Y};
     } while (0)
 #define LIST ListNode
 
-Boundary::Boundary(Initiation *ini, Hydrodynamics *hydro, ParticleManager *q)
+Boundary::Boundary(Initiation *ini, Material *mtl, ParticleManager *q)
 {
     int n;
     char Key_word[FILENAME_MAX];
@@ -52,9 +51,9 @@ Boundary::Boundary(Initiation *ini, Hydrodynamics *hydro, ParticleManager *q)
     puts("1: perodic boundary condition");
     puts("2: free slip wall boundary condition");
     puts("3: symmetry boundary condition");
-    BuildBoundaryParticles(q, hydro);
+    BuildBoundaryParticles(q, mtl);
 }
-void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
+void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 {
     int i, j;
     Particle *prtl, *prtl_old;
@@ -631,14 +630,14 @@ void Boundary::Boundary_SE(Particle *prtl)
 	break;
     }
 }
-int boundary_check(Boundary *q, Hydrodynamics *hydro)
+int boundary_check(Boundary *q, List *list)
 {
     LIST *p;
     Particle *prtl;
     double *box_size;
 
     box_size = q->box_size;
-    LOOP(prtl, *hydro->particle_list) {
+    LOOP(prtl, *list) {
 	if(fabs(prtl->R[X]) >= 2.0*box_size[X] || fabs(prtl->R[Y]) >= 2.0*box_size[Y])
 	    ABORT(("run away particle"));
 	if(prtl->bd == 0) {

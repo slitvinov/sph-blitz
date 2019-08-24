@@ -49,8 +49,8 @@ void step(int ite, Hydrodynamics *hydro, ParticleManager *particles, Boundary *b
 	hydro->UpdateRandom(sqrt(dt));
 	hydro->Corrector_summation(dt);
 	hydro->RandomEffects();
-	boundary_check(boundary, hydro);
+	boundary_check(boundary, hydro->particle_list);
 	particles->UpdateCellLinkedLists();
-	boundary->BuildBoundaryParticles(particles, hydro);
+	boundary->BuildBoundaryParticles(particles, hydro->materials);
     }
 }
