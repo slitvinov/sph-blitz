@@ -1,10 +1,7 @@
-#include <iostream>
-#include <fstream>
-#include <cstring>
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
-
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <tgmath.h>
 #include "glbfunc.h"
 #include "vv.h"
 #include "initiation.h"
@@ -19,6 +16,8 @@
 #include "particlemanager.h"
 #include "macro.h"
 #include "err.h"
+
+#define MAX_SIZE 4096
 
 using namespace std;
 enum {X, Y};
@@ -189,9 +188,10 @@ void ParticleManager::BuildRealParticles(Hydrodynamics *hydro, Initiation *ini)
     double density, pressure, Temperature;
     int material_no;
     Particle *prtl;
-    int n, N;
-    char inputfile[FILENAME_MAX];
-    char material_name[25];
+    int n, N, cnt;
+    char inputfile[FILENAME_MAX], line[MAX_SIZE];
+    char material_name[MAX_SIZE];
+    FILE *f;
 
     if(initial_condition==0) {
 	for(i = 1; i < x_clls - 1; i++) {
@@ -220,19 +220,32 @@ void ParticleManager::BuildRealParticles(Hydrodynamics *hydro, Initiation *ini)
     if(initial_condition==1) {
 	strcpy(inputfile, Project_name);
 	strcat(inputfile, ".rst");
-	ifstream fin(inputfile, ios::in);
-	if (!fin) {
-	    cout<<"Initialtion: Cannot open "<< inputfile <<" \n";
-	    std::cout << __FILE__ << ':' << __LINE__ << std::endl;
-	    exit(1);
-	}
-	else cout<<"Initialtion: Read real particle data from "<< inputfile <<" \n";
-	fin>>ini->Start_time;
+	f = fopen(inputfile, "r");
+	if (!f)
+	    ABORT(("can't open file '%s'", inputfile));
+	else WARN(("Read real particles from '%s'", inputfile));
+	if (fgets(line, MAX_SIZE, f) == NULL)
+		ABORT(("can't read a line from '%s'", inputfile));
+	sscanf(line, "%lf", &ini->Start_time);
 	ini->End_time += ini->Start_time;
-	fin>>N;
+	if (fgets(line, MAX_SIZE, f) == NULL)
+		ABORT(("can't read a line from '%s'", inputfile));
+	cnt = sscanf(line, "%d", &N);
+	if (cnt != 1)
+	    ABORT(("can't read number of particles from '%s'", N));
+	else
+	    WARN(("N = %d", N));
 	for(n = 0; n < N; n++) {
-	    fin>>material_name>>position[0]>>position[1]>>velocity[0]>>velocity[1]
-	       >>density>>pressure>>Temperature;
+	    if (fgets(line, MAX_SIZE, f) == NULL)
+		ABORT(("can't read a line from '%s'", inputfile));
+	    cnt = sscanf(line, "%s %lf %lf %lf %lf %lf, %lf %lf", 
+			 material_name, &position[0], &position[1], &velocity[0], &velocity[1], &density, &pressure, &Temperature);
+	    if (cnt != 8) {
+		/* todo
+		WARN(("line: '%s'", line));
+		WARN(("material_name: %s", material_name));
+		WARN(("can't read a particle from '%s' (cnt = %d, n = %d)", inputfile, cnt, n)); */
+	    }
 	    material_no = -1;
 	    for(k = 0;  k < number_of_materials; k++)
 		if(strcmp(material_name, hydro->materials[k].material_name) == 0) material_no = k;
@@ -248,7 +261,7 @@ void ParticleManager::BuildRealParticles(Hydrodynamics *hydro, Initiation *ini)
 		ABORT(("The material in the restart file is not used by the program!"));
 	    }
 	}
-	fin.close();
+	fclose(f);
     }
 }
 
