@@ -2,7 +2,6 @@
 boundary.o: boundary.h
 boundary.o: dllist.h
 boundary.o: err.h
-boundary.o: hydrodynamics.h
 boundary.o: ilist.h
 boundary.o: initiation.h
 boundary.o: list.h
@@ -107,6 +106,7 @@ sph.o: ilist.h
 sph.o: initiation.h
 sph.o: interaction.h
 sph.o: list.h
+sph.o: material.h
 sph.o: mls.h
 sph.o: output.h
 sph.o: particle.h

@@ -86,25 +86,6 @@ struct Particle* particle_real(double position[2], double velocity[2], double de
     YY;
 }
 
-struct Particle* particle_wall(double x, double y, struct Material *material)
-{
-    XX;
-
-    B(bd, 1);
-    B(bd_type, 0);
-    B(ID, 0);
-    B(mtl, material);
-    B(R[0], x);
-    B(R[1], y);
-    B(U[0], 0);
-    B(U[1], 0);
-    B(rho, 0.0);
-    B(p, 0.0);
-    B(T, 0.0);
-
-    YY;
-}
-
 struct Particle* particle_image(struct Particle *s)
 {
     XX;

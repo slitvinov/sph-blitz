@@ -22,7 +22,6 @@
 using namespace std;
 enum {X, Y};
 
-#define NEW_BND(x, y, mtl) particle_wall(x, y, mtl)
 #define NEW(pos, vel, den, pre, tem, mtl) particle_real(pos, vel, den, pre, tem, mtl)
 #define LIST ListNode
 #define ILIST IListNode
@@ -251,59 +250,6 @@ void ParticleManager::BuildRealParticles(Hydrodynamics *hydro, Initiation *ini)
       }
     }
     fin.close();
-  }
-}
-
-void ParticleManager::BuildWallParticles(Hydrodynamics *hydro, Boundary *boundary)
-{
-  int i, j, k, m;
-  Particle *prtl;
-  if(boundary->xBl == 0) {
-    for(j = 1; j < y_clls - 1; j++) {
-      for(k = 0; k < hdelta; k++)
-	for(m = 0; m < hdelta; m++) {
-	  prtl = NEW_BND(-1*cll_sz + (k + 0.5)*delta, (j - 1)*cll_sz + (m + 0.5)*delta, &hydro->materials[0]);
-	  prtl->cell_i = 0; prtl->cell_j = j;
-	  INSERT(prtl, *hydro->particle_list);
-	  INSERT(prtl, *cell_lists[0][j]);
-	}
-    }
-  }
-  if(boundary->xBr == 0) {
-    for(j = 1; j < y_clls - 1; j++) {
-      for(k = 0; k < hdelta; k++)
-	for(m = 0; m < hdelta; m++) {
-	  prtl = NEW_BND((x_clls - 2)*cll_sz + (k + 0.5)*delta, (j - 1)*cll_sz + (m + 0.5)*delta, &hydro->materials[0]);
-	  prtl->cell_i = x_clls - 1; prtl->cell_j = j;
-	  INSERT(prtl, *hydro->particle_list);
-	  INSERT(prtl, *cell_lists[x_clls - 1][j]);
-	}
-    }
-  }
-
-  if(boundary->yBd == 0) {
-    for(i = 1; i < x_clls - 1; i++) {
-      for(k = 0; k < hdelta; k++)
-	for(m = 0; m < hdelta; m++) {
-	  prtl = NEW_BND((i - 1)*cll_sz + (k + 0.5)*delta, -1*cll_sz + (m + 0.5)*delta, &hydro->materials[0]);
-	  prtl->cell_i = i; prtl->cell_j = 0;
-	  INSERT(prtl, *hydro->particle_list);
-	  INSERT(prtl, *cell_lists[i][0]);
-
-	}
-    }
-  }
-
-  if(boundary->yBu == 0) {
-    for(i = 1; i < x_clls - 1; i++) {
-      for(k = 0; k < hdelta; k++)
-	for(m = 0; m < hdelta; m++) {
-	  prtl = NEW_BND((i - 1)*cll_sz + (k + 0.5)*delta, (y_clls - 2)*cll_sz + (m + 0.5)*delta, &hydro->materials[0]);
-	  prtl->cell_i = i; prtl->cell_j = y_clls - 1;
-	  INSERT(prtl, *hydro->particle_list);
-	  INSERT(prtl, *cell_lists[i][y_clls - 1]);
-	}
-    }
   }
 }
 

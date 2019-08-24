@@ -21,7 +21,6 @@ class ParticleManager
   double rho0;
   double p0;
   double T0;
-  void BuildWallParticles(Hydrodynamics*, Boundary*);
 public:
   int x_clls;
   int y_clls;
