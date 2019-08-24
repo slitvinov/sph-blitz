@@ -1,5 +1,23 @@
 #include "list.h"
 #include "particle.h"
+class List {
+private:
+    int len;
+    ListNode *node;
+public:
+    List();
+    bool empty0();
+    bool isEnd0(ListNode*);
+    ListNode *first0();
+    ListNode *next0(ListNode*);
+    Particle *retrieve0(ListNode*);
+    void insert0(ListNode*, Particle*);
+    void remove0(ListNode*);
+    void clear0();
+    void clear_data0();
+    ~List();
+};
+
 ListNode::ListNode()
 {
     data = 0;

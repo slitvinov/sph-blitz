@@ -305,5 +305,5 @@ void Hydrodynamics::RandomEffects()
 
 Hydrodynamics::~Hydrodynamics()
 {
-    delete particle_list;
+    list_fin(particle_list);
 }
