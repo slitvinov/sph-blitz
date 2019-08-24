@@ -48,8 +48,7 @@ Boundary::Boundary(Initiation *ini, Material *mtl, List ***c)
     puts("1: perodic boundary condition");
     puts("2: free slip wall boundary condition");
     puts("3: symmetry boundary condition");
-    BuildBoundaryParticles(c, mtl);
-}
+ }
 void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 {
     int i, j;
