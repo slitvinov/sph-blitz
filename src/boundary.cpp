@@ -74,7 +74,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	if(xBl == 0 || xBl == 2) {
 	    LOOP(prtl_old, *c[Y][j]) {
 		A;
-		Boundary_W(prtl);
+		boundary_w(this, prtl);
 		prtl->cell_i = 0; prtl->cell_j = j;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[X][j]);
@@ -83,7 +83,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	if(xBl == 3) {
 	    LOOP(prtl_old, *c[Y][j]) {
 		B;
-		Boundary_W(prtl);
+		boundary_w(this, prtl);
 		prtl->cell_i = 0; prtl->cell_j = j;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[X][j]);
@@ -92,7 +92,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	if(xBl == 1) {
 	    LOOP(prtl_old, *c[x_clls - 2][j]) {
 		B;
-		Boundary_W(prtl);
+		boundary_w(this, prtl);
 		prtl->cell_i = 0; prtl->cell_j = j;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[X][j]);
@@ -102,7 +102,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	if(xBr == 0 || xBr == 2) {
 	    LOOP(prtl_old, *c[x_clls - 2][j]) {
 		A;
-		Boundary_E(prtl);
+		boundary_e(this, prtl);
 		prtl->cell_i = x_clls - 1; prtl->cell_j = j;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[x_clls - 1][j]);
@@ -111,7 +111,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	if(xBr == 3) {
 	    LOOP(prtl_old, *c[x_clls - 2][j]) {
 		B;
-		Boundary_E(prtl);
+		boundary_e(this, prtl);
 		prtl->cell_i = x_clls - 1; prtl->cell_j = j;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[x_clls - 1][j]);
@@ -120,7 +120,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	if(xBr == 1) {
 	    LOOP(prtl_old, *c[Y][j]) {
 		B;
-		Boundary_E(prtl);
+		boundary_e(this, prtl);
 		prtl->cell_i = x_clls - 1; prtl->cell_j = j;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[x_clls - 1][j]);
@@ -132,7 +132,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	if(yBd == 0 || yBd == 2) {
 	    LOOP(prtl_old, *c[i][1]) {
 		A;
-		Boundary_S(prtl);
+		boundary_s(this, prtl);
 		prtl->cell_i = i; prtl->cell_j = 0;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[i][0]);
@@ -141,7 +141,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	if(yBd == 3) {
 	    LOOP(prtl_old, *c[i][1]) {
 		B;
-		Boundary_S(prtl);
+		boundary_s(this, prtl);
 		prtl->cell_i = i; prtl->cell_j = 0;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[i][0]);
@@ -150,7 +150,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	if(yBd == 1) {
 	    LOOP(prtl_old, *c[i][y_clls - 2]) {
 		B;
-		Boundary_S(prtl);
+		boundary_s(this, prtl);
 		prtl->cell_i = i; prtl->cell_j = 0;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[i][0]);
@@ -162,7 +162,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	if(yBu == 0 || yBu == 2) {
 	    LOOP(prtl_old, *c[i][y_clls - 2]) {
 		A;
-		Boundary_N(prtl);
+		boundary_n(this, prtl);
 		prtl->cell_i = i; prtl->cell_j = y_clls - 1;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[i][y_clls - 1]);
@@ -171,7 +171,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	if(yBu == 3) {
 	    LOOP(prtl_old, *c[i][y_clls - 2]) {
 		B;
-		Boundary_N(prtl);
+		boundary_n(this, prtl);
 		prtl->cell_i = i; prtl->cell_j = y_clls - 1;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[i][y_clls - 1]);
@@ -180,7 +180,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	if(yBu == 1) {
 	    LOOP(prtl_old, *c[i][1]) {
 		B;
-		Boundary_N(prtl);
+		boundary_n(this, prtl);
 		prtl->cell_i = i; prtl->cell_j = y_clls - 1;
 		INSERT(prtl, *b);
 		INSERT(prtl, *c[i][y_clls - 1]);
@@ -191,7 +191,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	CLEAR(*c[X][0]);
 	LOOP(prtl_old, *c[Y][1]) {
 	    A;
-	    Boundary_SW(prtl);
+	    boundary_sw(this, prtl);
 	    prtl->cell_i = 0; prtl->cell_j = 0;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[X][0]);
@@ -201,7 +201,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	CLEAR(*c[X][0]);
 	LOOP(prtl_old, *c[Y][1]) {
 	    B;
-	    Boundary_SW(prtl);
+	    boundary_sw(this, prtl);
 	    prtl->cell_i = 0; prtl->cell_j = 0;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[X][0]);
@@ -211,7 +211,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	CLEAR(*c[X][0]);
 	LOOP(prtl_old, *c[x_clls - 2][y_clls - 2]) {
 	    B;
-	    Boundary_SW(prtl);
+	    boundary_sw(this, prtl);
 	    prtl->cell_i = 0; prtl->cell_j = 0;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[X][0]);
@@ -221,7 +221,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	CLEAR(*c[X][y_clls - 1]);
 	LOOP(prtl_old, *c[Y][y_clls - 2]) {
 	    A;
-	    Boundary_NW(prtl);
+	    boundary_nw(this, prtl);
 	    prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[X][y_clls - 1]);
@@ -231,7 +231,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	CLEAR(*c[X][y_clls - 1]);
 	LOOP(prtl_old, *c[Y][y_clls - 2]) {
 	    B;
-	    Boundary_NW(prtl);
+	    boundary_nw(this, prtl);
 	    prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[X][y_clls - 1]);
@@ -241,7 +241,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	CLEAR(*c[X][y_clls - 1]);
 	LOOP(prtl_old, *c[x_clls - 2][1]) {
 	    B;
-	    Boundary_NW(prtl);
+	    boundary_nw(this, prtl);
 	    prtl->cell_i = 0; prtl->cell_j = y_clls - 1;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[X][y_clls - 1]);
@@ -251,7 +251,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	CLEAR(*c[x_clls - 1][y_clls - 1]);
 	LOOP(prtl_old, *c[x_clls - 2][y_clls - 2]) {
 	    A;
-	    Boundary_NE(prtl);
+	    boundary_ne(this, prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[x_clls - 1][y_clls - 1]);
@@ -261,7 +261,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	CLEAR(*c[x_clls - 1][y_clls - 1]);
 	LOOP(prtl_old, *c[x_clls - 2][y_clls - 2]) {
 	    B;
-	    Boundary_NE(prtl);
+	    boundary_ne(this, prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[x_clls - 1][y_clls - 1]);
@@ -271,7 +271,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	CLEAR(*c[x_clls - 1][y_clls - 1]);
 	LOOP(prtl_old, *c[Y][1]) {
 	    B;
-	    Boundary_NE(prtl);
+	    boundary_ne(this, prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = y_clls - 1;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[x_clls - 1][y_clls - 1]);
@@ -281,7 +281,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	CLEAR(*c[x_clls - 1][0]);
 	LOOP(prtl_old, *c[x_clls - 2][1]) {
 	    A;
-	    Boundary_SE(prtl);
+	    boundary_se(this, prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[x_clls - 1][0]);
@@ -291,7 +291,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	CLEAR(*c[x_clls - 1][0]);
 	LOOP(prtl_old, *c[x_clls - 2][1]) {
 	    B;
-	    Boundary_SE(prtl);
+	    boundary_se(this, prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[x_clls - 1][0]);
@@ -301,22 +301,20 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Material *mtl)
 	CLEAR(*c[x_clls - 1][0]);
 	LOOP(prtl_old, *c[Y][y_clls - 2]) {
 	    B;
-	    Boundary_SE(prtl);
+	    boundary_se(this, prtl);
 	    prtl->cell_i = x_clls - 1; prtl->cell_j = 0;
 	    INSERT(prtl, *b);
 	    INSERT(prtl, *c[x_clls - 1][0]);
 	}
     }
 }
-void Boundary::BoundaryCondition(ParticleManager *q)
+void Boundary::BoundaryCondition(List ***c)
 {
     int i, j;
     int kb, ku, mb, mu;
     Particle *prtl;
     LIST *p;
-    List ***c;
 
-    c = q->cell_lists;
     kb = 0; mb = x_clls;
     ku = 0; mu = x_clls;
     if(xBl == yBd) kb = 1;
@@ -327,25 +325,25 @@ void Boundary::BoundaryCondition(ParticleManager *q)
 	if(xBl == 0 || xBl == 2) {
 	    LOOP(prtl, *c[X][j]) {
 		C(0);
-		Boundary_W(prtl);
+		boundary_w(this, prtl);
 	    }
 	}
 	if(xBl == 1 || xBl == 3) {
 	    LOOP(prtl, *c[X][j]) {
 		C(1);
-		Boundary_W(prtl);
+		boundary_w(this, prtl);
 	    }
 	}
 	if(xBr == 0 || xBr == 2) {
 	    LOOP(prtl, *c[x_clls - 1][j]) {
 		C(0);
-		Boundary_E(prtl);
+		boundary_e(this, prtl);
 	    }
 	}
 	if(xBr == 1 || xBr == 3) {
 	    LOOP(prtl, *c[x_clls - 1][j]) {
 		C(1);
-		Boundary_E(prtl);
+		boundary_e(this, prtl);
 	    }
 	}
     }
@@ -353,13 +351,13 @@ void Boundary::BoundaryCondition(ParticleManager *q)
 	if(yBd == 0 || yBd == 2) {
 	    LOOP(prtl, *c[i][0]) {
 		C(0);
-		Boundary_S(prtl);
+		boundary_s(this, prtl);
 	    }
 	}
 	if(yBd == 1 || yBd == 3) {
 	    LOOP(prtl, *c[i][0]) {
 		C(1);
-		Boundary_S(prtl);
+		boundary_s(this, prtl);
 	    }
 	}
     }
@@ -367,268 +365,276 @@ void Boundary::BoundaryCondition(ParticleManager *q)
 	if(yBu == 0 || yBu == 2) {
 	    LOOP(prtl, *c[i][y_clls - 1]) {
 		C(0);
-		Boundary_N(prtl);
+		boundary_n(this, prtl);
 	    }
 	}
 	if(yBu == 1 || yBu == 3) {
 	    LOOP(prtl, *c[i][y_clls - 1]) {
 		C(1);
-		Boundary_N(prtl);
+		boundary_n(this, prtl);
 	    }
 	}
     }
     if((xBl == 0 && yBd == 0) || (xBl == 2 && yBd == 2)) {
 	LOOP(prtl, *c[X][0]) {
 	    C(0);
-	    Boundary_SW(prtl);
+	    boundary_sw(this, prtl);
 	}
     }
     if((xBl == 1 && yBd == 1) || (xBl == 3 && yBd == 3)) {
 	LOOP(prtl, *c[X][0]) {
 	    C(1);
-	    Boundary_SW(prtl);
+	    boundary_sw(this, prtl);
 	}
     }
     if((xBl == 0 && yBu == 0) || (xBl == 2 && yBu == 2)) {
 	LOOP(prtl, *c[X][y_clls - 1]) {
 	    C(0);
-	    Boundary_NW(prtl);
+	    boundary_nw(this, prtl);
 	}
     }
     if((xBl == 1 && yBu == 1) || (xBl == 3 && yBu == 3)) {
 	LOOP(prtl, *c[X][y_clls - 1]) {
 	    C(1);
-	    Boundary_NW(prtl);
+	    boundary_nw(this, prtl);
 	}
     }
     if((xBr == 0 && yBu == 0) || (xBr == 2 && yBu == 2)) {
 	LOOP(prtl, *c[x_clls - 1][y_clls - 1]) {
 	    C(0);
-	    Boundary_NE(prtl);
+	    boundary_ne(this, prtl);
 	}
     }
     if((xBr == 1 && yBu == 1) || (xBr == 3 && yBu == 3)) {
 	LOOP(prtl, *c[x_clls - 1][y_clls - 1]) {
 	    C(1);
-	    Boundary_NE(prtl);
+	    boundary_ne(this, prtl);
 	}
     }
     if((xBr == 0 && yBd == 0) || (xBr == 2 && yBd == 2)) {
 	LOOP(prtl, *c[x_clls - 1][0]) {
 	    C(0);
-	    Boundary_SE(prtl);
+	    boundary_se(this, prtl);
 	}
     }
     if((xBr == 1 && yBd == 1) || (xBr == 3 && yBd == 3)) {
 	LOOP(prtl, *c[x_clls - 1][0]) {
 	    C(1);
-	    Boundary_SE(prtl);
+	    boundary_se(this, prtl);
 	}
     }
 }
-void Boundary::Boundary_W(Particle *prtl)
+int boundary_w(Boundary *q, Particle *prtl)
 {
-    switch(xBl) {
+    switch(q->xBl) {
     case 0:
 	prtl->R[X] = - prtl->R[X];
-	prtl->U[X] = UxBl[X]*2.0 - prtl->U[X];
-	prtl->U[Y] = UxBl[Y]*2.0 - prtl->U[Y];
+	prtl->U[X] = q->UxBl[X]*2.0 - prtl->U[X];
+	prtl->U[Y] = q->UxBl[Y]*2.0 - prtl->U[Y];
 	break;
     case 1:
-	prtl->R[X] = prtl->R[X] - box_size[X];
+	prtl->R[X] = prtl->R[X] - q->box_size[X];
 	break;
     case 2:
 	prtl->R[X] = - prtl->R[X];
-	prtl->U[X] = UxBl[X]*2.0 - prtl->U[X];
+	prtl->U[X] = q->UxBl[X]*2.0 - prtl->U[X];
 	break;
     case 3:
 	prtl->R[X] = - prtl->R[X];
-	prtl->U[X] = UxBl[X]*2.0 - prtl->U[X];
+	prtl->U[X] = q->UxBl[X]*2.0 - prtl->U[X];
 	prtl->del_phi[X] = - prtl->del_phi[X];
 	break;
     }
+    return 0;
 }
-void Boundary::Boundary_E(Particle *prtl)
+int boundary_e(Boundary *q, Particle *prtl)
 {
-    switch(xBr) {
+    switch(q->xBr) {
     case 0:
-	prtl->R[X] = box_size[X]*2.0 - prtl->R[X];
-	prtl->U[X] = UxBr[X]*2.0 - prtl->U[X];
-	prtl->U[Y] = UxBr[Y]*2.0 - prtl->U[Y];
+	prtl->R[X] = q->box_size[X]*2.0 - prtl->R[X];
+	prtl->U[X] = q->UxBr[X]*2.0 - prtl->U[X];
+	prtl->U[Y] = q->UxBr[Y]*2.0 - prtl->U[Y];
 	break;
     case 1:
-	prtl->R[X] = prtl->R[X] + box_size[X];
+	prtl->R[X] = prtl->R[X] + q->box_size[X];
 	break;
     case 2:
-	prtl->R[X] = box_size[X]*2.0 - prtl->R[X];
-	prtl->U[X] = UxBr[X]*2.0 - prtl->U[X];
+	prtl->R[X] = q->box_size[X]*2.0 - prtl->R[X];
+	prtl->U[X] = q->UxBr[X]*2.0 - prtl->U[X];
 	break;
     case 3:
-	prtl->R[X] = box_size[X]*2.0 - prtl->R[X];
-	prtl->U[X] = UxBr[X]*2.0 - prtl->U[X];
+	prtl->R[X] = q->box_size[X]*2.0 - prtl->R[X];
+	prtl->U[X] = q->UxBr[X]*2.0 - prtl->U[X];
 	prtl->del_phi[X] = - prtl->del_phi[X];
 	break;
     }
+    return 0;
 }
-void Boundary::Boundary_S(Particle *prtl)
+int boundary_s(Boundary *q, Particle *prtl)
 {
-    switch(yBd) {
+    switch(q->yBd) {
     case 0:
 	prtl->R[Y] = - prtl->R[Y];
-	prtl->U[X] = UyBd[X]*2.0 - prtl->U[X];
-	prtl->U[Y] = UyBd[Y]*2.0 - prtl->U[Y];
+	prtl->U[X] = q->UyBd[X]*2.0 - prtl->U[X];
+	prtl->U[Y] = q->UyBd[Y]*2.0 - prtl->U[Y];
 	break;
     case 1:
-	prtl->R[Y] = prtl->R[Y] - box_size[Y];
+	prtl->R[Y] = prtl->R[Y] - q->box_size[Y];
 	break;
     case 2:
 	prtl->R[Y] = - prtl->R[Y];
-	prtl->U[Y] = UyBd[Y]*2.0 - prtl->U[Y];
+	prtl->U[Y] = q->UyBd[Y]*2.0 - prtl->U[Y];
 	break;
     case 3:
 	prtl->R[Y] = - prtl->R[Y];
-	prtl->U[Y] = UyBd[Y]*2.0 - prtl->U[Y];
+	prtl->U[Y] = q->UyBd[Y]*2.0 - prtl->U[Y];
 	prtl->del_phi[Y] = - prtl->del_phi[Y];
 	break;
     }
+    return 0;
 }
-void Boundary::Boundary_N(Particle *prtl)
+int boundary_n(Boundary *q, Particle *prtl)
 {
-    switch(yBu) {
+    switch(q->yBu) {
     case 0:
-	prtl->R[Y] = box_size[Y]*2.0 - prtl->R[Y];
-	prtl->U[X] = UyBu[X]*2.0 - prtl->U[X];
-	prtl->U[Y] = UyBu[Y]*2.0 - prtl->U[Y];
+	prtl->R[Y] = q->box_size[Y]*2.0 - prtl->R[Y];
+	prtl->U[X] = q->UyBu[X]*2.0 - prtl->U[X];
+	prtl->U[Y] = q->UyBu[Y]*2.0 - prtl->U[Y];
 	break;
     case 1:
-	prtl->R[Y] = prtl->R[Y] + box_size[Y];
+	prtl->R[Y] = prtl->R[Y] + q->box_size[Y];
 	break;
     case 2:
-	prtl->R[Y] = box_size[Y]*2.0 - prtl->R[Y];
-	prtl->U[Y] = UyBu[Y]*2.0 - prtl->U[Y];
+	prtl->R[Y] = q->box_size[Y]*2.0 - prtl->R[Y];
+	prtl->U[Y] = q->UyBu[Y]*2.0 - prtl->U[Y];
 	break;
     case 3:
-	prtl->R[Y] = box_size[Y]*2.0 - prtl->R[Y];
-	prtl->U[Y] = UyBu[Y]*2.0 - prtl->U[Y];
+	prtl->R[Y] = q->box_size[Y]*2.0 - prtl->R[Y];
+	prtl->U[Y] = q->UyBu[Y]*2.0 - prtl->U[Y];
 	prtl->del_phi[Y] = - prtl->del_phi[Y];
 	break;
     }
+    return 0;
 }
-void Boundary::Boundary_SW(Particle *prtl)
+int boundary_sw(Boundary *q, Particle *prtl)
 {
-    switch(xBl) {
+    switch(q->xBl) {
     case 0:
 	prtl->R[X] = - prtl->R[X];
 	prtl->R[Y] = - prtl->R[Y];
-	prtl->U[X] = UyBd[X]*2.0 - prtl->U[X];
-	prtl->U[Y] = UxBl[Y]*2.0 - prtl->U[Y];
+	prtl->U[X] = q->UyBd[X]*2.0 - prtl->U[X];
+	prtl->U[Y] = q->UxBl[Y]*2.0 - prtl->U[Y];
 	break;
     case 1:
-	prtl->R[X] = prtl->R[X] - box_size[X];
-	prtl->R[Y] = prtl->R[Y] - box_size[Y];
+	prtl->R[X] = prtl->R[X] - q->box_size[X];
+	prtl->R[Y] = prtl->R[Y] - q->box_size[Y];
 	break;
     case 2:
 	prtl->R[X] = - prtl->R[X];
 	prtl->R[Y] = - prtl->R[Y];
-	prtl->U[X] = UyBd[X]*2.0 - prtl->U[X];
-	prtl->U[Y] = UxBl[Y]*2.0 - prtl->U[Y];
+	prtl->U[X] = q->UyBd[X]*2.0 - prtl->U[X];
+	prtl->U[Y] = q->UxBl[Y]*2.0 - prtl->U[Y];
 	break;
     case 3:
 	prtl->R[X] = - prtl->R[X];
 	prtl->R[Y] = - prtl->R[Y];
-	prtl->U[X] = UyBd[X]*2.0 - prtl->U[X];
-	prtl->U[Y] = UxBl[Y]*2.0 - prtl->U[Y];
-	prtl->del_phi[X] = - prtl->del_phi[X];
-	prtl->del_phi[Y] = - prtl->del_phi[Y];
-	break;
-    }
-}
-void Boundary::Boundary_NW(Particle *prtl)
-{
-    switch(xBl) {
-    case 0:
-	prtl->R[X] = - prtl->R[X];
-	prtl->R[Y] = box_size[Y]*2.0 - prtl->R[Y];
-	prtl->U[X] = UyBu[X]*2.0 - prtl->U[X];
-	prtl->U[Y] = UxBl[Y]*2.0 - prtl->U[Y];
-	break;
-    case 1:
-	prtl->R[X] = prtl->R[X] - box_size[X];
-	prtl->R[Y] = prtl->R[Y] + box_size[Y];
-	break;
-    case 2:
-	prtl->R[X] = - prtl->R[X];
-	prtl->R[Y] = box_size[Y]*2.0 - prtl->R[Y];
-	prtl->U[X] = UyBu[X]*2.0 - prtl->U[X];
-	prtl->U[Y] = UxBl[Y]*2.0 - prtl->U[Y];
-	break;
-    case 3:
-	prtl->R[X] = - prtl->R[X];
-	prtl->R[Y] = box_size[Y]*2.0 - prtl->R[Y];
-	prtl->U[X] = UyBu[X]*2.0 - prtl->U[X];
-	prtl->U[Y] = UxBl[Y]*2.0 - prtl->U[Y];
+	prtl->U[X] = q->UyBd[X]*2.0 - prtl->U[X];
+	prtl->U[Y] = q->UxBl[Y]*2.0 - prtl->U[Y];
 	prtl->del_phi[X] = - prtl->del_phi[X];
 	prtl->del_phi[Y] = - prtl->del_phi[Y];
 	break;
     }
+    return 0;
 }
-void Boundary::Boundary_NE(Particle *prtl)
+int boundary_nw(Boundary *q, Particle *prtl)
 {
-    switch(xBr) {
+    switch(q->xBl) {
     case 0:
-	prtl->R[X] = box_size[X]*2.0 - prtl->R[X];
-	prtl->R[Y] = box_size[Y]*2.0 - prtl->R[Y];
-	prtl->U[X] = UyBu[X]*2.0 - prtl->U[X];
-	prtl->U[Y] = UxBr[Y]*2.0 - prtl->U[Y];
+	prtl->R[X] = - prtl->R[X];
+	prtl->R[Y] = q->box_size[Y]*2.0 - prtl->R[Y];
+	prtl->U[X] = q->UyBu[X]*2.0 - prtl->U[X];
+	prtl->U[Y] = q->UxBl[Y]*2.0 - prtl->U[Y];
 	break;
     case 1:
-	prtl->R[X] = prtl->R[X] + box_size[X];
-	prtl->R[Y] = prtl->R[Y] + box_size[Y];
+	prtl->R[X] = prtl->R[X] - q->box_size[X];
+	prtl->R[Y] = prtl->R[Y] + q->box_size[Y];
 	break;
     case 2:
-	prtl->R[X] = box_size[X]*2.0 - prtl->R[X];
-	prtl->R[Y] = box_size[Y]*2.0 - prtl->R[Y];
-	prtl->U[X] = UyBu[X]*2.0 - prtl->U[X];
-	prtl->U[Y] = UxBr[Y]*2.0 - prtl->U[Y];
+	prtl->R[X] = - prtl->R[X];
+	prtl->R[Y] = q->box_size[Y]*2.0 - prtl->R[Y];
+	prtl->U[X] = q->UyBu[X]*2.0 - prtl->U[X];
+	prtl->U[Y] = q->UxBl[Y]*2.0 - prtl->U[Y];
 	break;
     case 3:
-	prtl->R[X] = box_size[X]*2.0 - prtl->R[X];
-	prtl->R[Y] = box_size[Y]*2.0 - prtl->R[Y];
-	prtl->U[X] = UyBu[X]*2.0 - prtl->U[X];
-	prtl->U[Y] = UxBr[Y]*2.0 - prtl->U[Y];
+	prtl->R[X] = - prtl->R[X];
+	prtl->R[Y] = q->box_size[Y]*2.0 - prtl->R[Y];
+	prtl->U[X] = q->UyBu[X]*2.0 - prtl->U[X];
+	prtl->U[Y] = q->UxBl[Y]*2.0 - prtl->U[Y];
 	prtl->del_phi[X] = - prtl->del_phi[X];
 	prtl->del_phi[Y] = - prtl->del_phi[Y];
 	break;
     }
+    return 0;
 }
-void Boundary::Boundary_SE(Particle *prtl)
+int boundary_ne(Boundary *q, Particle *prtl)
 {
-    switch(xBr) {
+    switch(q->xBr) {
     case 0:
-	prtl->R[X] = box_size[X]*2.0 - prtl->R[X];
-	prtl->R[Y] = - prtl->R[Y];
-	prtl->U[X] = UyBd[X]*2.0 - prtl->U[X];
-	prtl->U[Y] = UxBr[Y]*2.0 - prtl->U[Y];
+	prtl->R[X] = q->box_size[X]*2.0 - prtl->R[X];
+	prtl->R[Y] = q->box_size[Y]*2.0 - prtl->R[Y];
+	prtl->U[X] = q->UyBu[X]*2.0 - prtl->U[X];
+	prtl->U[Y] = q->UxBr[Y]*2.0 - prtl->U[Y];
 	break;
     case 1:
-	prtl->R[X] = prtl->R[X] + box_size[X];
-	prtl->R[Y] = prtl->R[Y] - box_size[Y];
+	prtl->R[X] = prtl->R[X] + q->box_size[X];
+	prtl->R[Y] = prtl->R[Y] + q->box_size[Y];
 	break;
     case 2:
-	prtl->R[X] = box_size[X]*2.0 - prtl->R[X];
-	prtl->R[Y] = - prtl->R[Y];
-	prtl->U[X] = UyBd[X]*2.0 - prtl->U[X];
-	prtl->U[Y] = UxBr[Y]*2.0 - prtl->U[Y];
+	prtl->R[X] = q->box_size[X]*2.0 - prtl->R[X];
+	prtl->R[Y] = q->box_size[Y]*2.0 - prtl->R[Y];
+	prtl->U[X] = q->UyBu[X]*2.0 - prtl->U[X];
+	prtl->U[Y] = q->UxBr[Y]*2.0 - prtl->U[Y];
 	break;
     case 3:
-	prtl->R[X] = box_size[X]*2.0 - prtl->R[X];
-	prtl->R[Y] = - prtl->R[Y];
-	prtl->U[X] = UyBd[X]*2.0 - prtl->U[X];
-	prtl->U[Y] = UxBr[Y]*2.0 - prtl->U[Y];
+	prtl->R[X] = q->box_size[X]*2.0 - prtl->R[X];
+	prtl->R[Y] = q->box_size[Y]*2.0 - prtl->R[Y];
+	prtl->U[X] = q->UyBu[X]*2.0 - prtl->U[X];
+	prtl->U[Y] = q->UxBr[Y]*2.0 - prtl->U[Y];
 	prtl->del_phi[X] = - prtl->del_phi[X];
 	prtl->del_phi[Y] = - prtl->del_phi[Y];
 	break;
     }
+    return 0;
+}
+int boundary_se(Boundary *q, Particle *prtl)
+{
+    switch(q->xBr) {
+    case 0:
+	prtl->R[X] = q->box_size[X]*2.0 - prtl->R[X];
+	prtl->R[Y] = - prtl->R[Y];
+	prtl->U[X] = q->UyBd[X]*2.0 - prtl->U[X];
+	prtl->U[Y] = q->UxBr[Y]*2.0 - prtl->U[Y];
+	break;
+    case 1:
+	prtl->R[X] = prtl->R[X] + q->box_size[X];
+	prtl->R[Y] = prtl->R[Y] - q->box_size[Y];
+	break;
+    case 2:
+	prtl->R[X] = q->box_size[X]*2.0 - prtl->R[X];
+	prtl->R[Y] = - prtl->R[Y];
+	prtl->U[X] = q->UyBd[X]*2.0 - prtl->U[X];
+	prtl->U[Y] = q->UxBr[Y]*2.0 - prtl->U[Y];
+	break;
+    case 3:
+	prtl->R[X] = q->box_size[X]*2.0 - prtl->R[X];
+	prtl->R[Y] = - prtl->R[Y];
+	prtl->U[X] = q->UyBd[X]*2.0 - prtl->U[X];
+	prtl->U[Y] = q->UxBr[Y]*2.0 - prtl->U[Y];
+	prtl->del_phi[X] = - prtl->del_phi[X];
+	prtl->del_phi[Y] = - prtl->del_phi[Y];
+	break;
+    }
+    return 0;
 }
 int boundary_check(Boundary *q, List *list)
 {

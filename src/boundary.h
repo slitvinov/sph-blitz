@@ -4,14 +4,6 @@ struct Boundary
 {
     double box_size[2];
     int x_clls, y_clls;
-    void Boundary_W(Particle*);
-    void Boundary_E(Particle*);
-    void Boundary_S(Particle*);
-    void Boundary_N(Particle*);
-    void Boundary_SW(Particle*);
-    void Boundary_SE(Particle*);
-    void Boundary_NW(Particle*);
-    void Boundary_NE(Particle*);
     int xBl;
     int xBr;
     int yBd;
@@ -23,8 +15,16 @@ struct Boundary
     List *b;
     Boundary(Initiation*, Material*, ParticleManager*);
     void BuildBoundaryParticles(ParticleManager*, Material*);
-    void BoundaryCondition(ParticleManager*);
+    void BoundaryCondition(List***);
     ~Boundary();
 };
 
 int boundary_check(Boundary*, List*);
+int boundary_w(Boundary*, Particle*);
+int boundary_e(Boundary*, Particle*);
+int boundary_s(Boundary*, Particle*);
+int boundary_n(Boundary*, Particle*);
+int boundary_sw(Boundary*, Particle*);
+int boundary_se(Boundary*, Particle*);
+int boundary_nw(Boundary*, Particle*);
+int boundary_ne(Boundary*, Particle*);

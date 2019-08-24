@@ -1,0 +1,27 @@
+#!/usr/bin/awk -f
+
+/Boundary_[A-Z]*\(/ {
+    t = tab($0)
+    a = trim($0)
+    sub(/\(.*/, "", a)
+    a = tolower(a)
+    printf "%s%s(this, prtl);\n", t, a
+    next
+}
+
+{
+    print
+}
+
+function tab(s)
+{
+    sub(/[^\t ].*/, "", s)
+    return s
+}
+
+function trim(s)
+{
+    sub(/^[\t ]*/, "", s)
+    sub(/[\t ]*$/, "", s)
+    return s
+}

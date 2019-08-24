@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
     Boundary boundary(&ini, &hydro.materials[0], &particles);
     Output output(&ini);
     VolumeMass(&hydro, &particles, &weight_function);
-    boundary.BoundaryCondition(&particles);
+    boundary.BoundaryCondition(particles.cell_lists);
     Diagnose diagnose(&ini, &hydro);
     Time = ini.Start_time;
     output.OutputParticles(hydro, boundary, Time);
