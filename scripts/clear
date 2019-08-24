@@ -1,0 +1,36 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+}
+
+/\.clear\(\)/ {
+    t = tab($0)
+    a = trim($0)
+    sub(/\.clear\(\);$/, "", a)
+
+    printf "%sCLEAR(%s);\n", t, a
+    
+    next
+}
+
+{
+    print
+}
+
+function err(s) {
+	 print s | "cat >&2"
+	 exit(2)
+}
+
+function trim(s)
+{
+    sub(/^[\t ]*/, "", s)
+    sub(/[\t ]*$/, "", s)
+    return s
+}
+
+function tab(s)
+{
+    sub(/[^\t ].*/, "", s)
+    return s
+}
