@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     particles.BuildRealParticles(hydro, ini);
     Boundary boundary(&ini, &hydro, &particles);
     TimeSolver timesolver(&ini);
-    Output output(ini);
+    Output output(&ini);
     VolumeMass(&hydro, &particles, &weight_function); 
     boundary.BoundaryCondition(&particles); 
     Diagnose diagnose(&ini, &hydro);

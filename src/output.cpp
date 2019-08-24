@@ -17,13 +17,13 @@
 #include "output.h"
 using namespace std;
 #define LIST ListNode
-Output::Output(Initiation &ini)
+Output::Output(Initiation *ini)
 {
-    strcpy(Project_name, ini.Project_name);
-    number_of_materials = ini.number_of_materials;
-    x_cells = ini.x_cells; y_cells = ini.y_cells;
-    hdelta = ini.hdelta; 
-    delta = ini.delta;
+    strcpy(Project_name, ini->Project_name);
+    number_of_materials = ini->number_of_materials;
+    x_cells = ini->x_cells; y_cells = ini->y_cells;
+    hdelta = ini->hdelta; 
+    delta = ini->delta;
 }
 void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,  double Time)
 {
