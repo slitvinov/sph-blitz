@@ -17,7 +17,7 @@ extern "C" {
 	exit(2);				\
     } while (0)
 
-int wprint(const char *fmt, ...);
+int wprint(const char*, ...);
 #ifdef __cplusplus
 }
 #endif

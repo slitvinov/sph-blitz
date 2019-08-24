@@ -6,14 +6,14 @@ struct Boundary
 {
     double box_size[2];
     int x_clls, y_clls;
-    void Boundary_W(Particle *prtl);
-    void Boundary_E(Particle *prtl);
-    void Boundary_S(Particle *prtl);
-    void Boundary_N(Particle *prtl);
-    void Boundary_SW(Particle *prtl);
-    void Boundary_SE(Particle *prtl);
-    void Boundary_NW(Particle *prtl);
-    void Boundary_NE(Particle *prtl);
+    void Boundary_W(Particle*);
+    void Boundary_E(Particle*);
+    void Boundary_S(Particle*);
+    void Boundary_N(Particle*);
+    void Boundary_SW(Particle*);
+    void Boundary_SE(Particle*);
+    void Boundary_NW(Particle*);
+    void Boundary_NE(Particle*);
     int xBl;
     int xBr;
     int yBd;
@@ -23,8 +23,8 @@ struct Boundary
     double UyBd[2];
     double UyBu[2];
     List b; 
-    Boundary(Initiation *ini, Hydrodynamics *hydro, ParticleManager *particles);
-    void BuildBoundaryParticles(ParticleManager *particles, Hydrodynamics *hydro);
-    void BoundaryCondition(ParticleManager *particles);
-    void RunAwayCheck(Hydrodynamics *hydro);
+    Boundary(Initiation*, Hydrodynamics*, ParticleManager*);
+    void BuildBoundaryParticles(ParticleManager*, Hydrodynamics*);
+    void BoundaryCondition(ParticleManager*);
+    void RunAwayCheck(Hydrodynamics*);
 };

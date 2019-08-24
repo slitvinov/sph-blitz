@@ -5,7 +5,7 @@ private:
     struct Particle *data;
     ListNode *next;
     ListNode();
-    ListNode(Particle *d, ListNode *n);
+    ListNode(Particle*, ListNode*);
 };
 
 class List {
@@ -15,12 +15,12 @@ private:
 public:
     List();
     bool empty();
-    bool isEnd(ListNode *p);
+    bool isEnd(ListNode*);
     ListNode *first();
-    ListNode *next(ListNode *p);
-    Particle *retrieve(ListNode *p);
-    void insert(ListNode *p, Particle *d);
-    void remove(ListNode *p);
+    ListNode *next(ListNode*);
+    Particle *retrieve(ListNode*);
+    void insert(ListNode*, Particle*);
+    void remove(ListNode*);
     void clear();
     void clear_data();
     ~List();

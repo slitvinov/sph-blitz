@@ -20,7 +20,7 @@ class Diagnose {
         int gridy;
 	double ***U;
 	int n_average; 
-	void BuildDistribution(Llist<double> *list, double dstrb[2][101]);
+	void BuildDistribution(Llist<double>*, double dstrb[2][101]);
         double ttl_m;
         double *mtl_m;
         double glb_ave_Ek;
