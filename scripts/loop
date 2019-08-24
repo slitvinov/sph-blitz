@@ -3,13 +3,11 @@
 BEGIN {
 }
 
-/for \(p = .*\.first\(\);/ {
+!/^#/ && /for \(p = .*\.first\(\);/ && /boundary/ {
     a = t = $0
     getline; b = $0
     getline; c = $0
     getline; v = d = $0
-#    print "b:" b
-#    print "c:" c
 
     sub(/[^\t ].*/, "", t)
 

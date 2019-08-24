@@ -26,6 +26,9 @@ class ParticleManager;
 
 #define LIST ListNode
 #define ILIST IListNode
+#define LOOP(q, l) for (p = l.first();			       \
+			!l.isEnd(p) && (q = l.retrieve(p), 1); \
+			p = l.next(p))
 
 using namespace std;
 enum {X, Y};
@@ -141,11 +144,13 @@ void Hydrodynamics::UpdateChangeRate(ParticleManager *particles, QuinticSpline *
 void Hydrodynamics::UpdateChangeRate()
 {
     ILIST *p;
+    Interaction *pair;
     ZeroChangeRate();
     for (p = interaction_list.first();
 	 !interaction_list.isEnd(p);
 	 p = interaction_list.next(p)) {
-	interaction_list.retrieve(p)->UpdateForces();
+	pair = interaction_list.retrieve(p);
+	pair->UpdateForces();
     }
     AddGravity();
 }
@@ -196,10 +201,7 @@ void Hydrodynamics::Zero_PhaseGradient(Boundary *boundary)
 	prtl = particle_list.retrieve(p);
 	prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
     }
-    for (p = boundary->b.first();
-	 !boundary->b.isEnd(p);
-	 p = boundary->b.next(p)) {
-	prtl = boundary->b.retrieve(p);
+    LOOP(prtl, boundary->b) {
 	prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
     }
 }
@@ -251,10 +253,7 @@ void Hydrodynamics::UpdatePahseMatrix(Boundary *boundary)
 		if( i != j) prtl->phi[i][j] = prtl->phi[i][j];
 	    }
     }
-    for (p = boundary->b.first();
-	 !boundary->b.isEnd(p);
-	 p = boundary->b.next(p)) {
-	prtl = boundary->b.retrieve(p);
+    LOOP(prtl, boundary->b) {
 	for(i = 0; i < number_of_materials; i++)
 	    for(j = 0; j < number_of_materials; j++) {
 		if( i != j) prtl->phi[i][j] = prtl->phi[i][j];
@@ -277,10 +276,7 @@ void Hydrodynamics::UpdateSurfaceStress(Boundary *boundary)
 	prtl->del_phi[0] = interm1*interm0;
 	prtl->del_phi[1] = interm2*interm0;
     }
-    for (p = boundary->b.first();
-	 !boundary->b.isEnd(p);
-	 p = boundary->b.next(p)) {
-	prtl = boundary->b.retrieve(p);
+    LOOP(prtl, boundary->b) {
 	interm0 = vv_abs(prtl->del_phi) + epsilon;
 	interm1 = 0.5*vv_sqdiff(prtl->del_phi);
 	interm2 = prtl->del_phi[X] * prtl->del_phi[Y];
