@@ -119,10 +119,10 @@ void Diagnose::OutputProfile(double Time)
 	   <<rho_dstrb[0][m]<<"  "<<rho_dstrb[1][m]/double(k)<<"  \n";
     }
 }
-void Diagnose::BuildDistribution(Llist<double> *list, double dstrb[2][101])
+void Diagnose::BuildDistribution(Llist *list, double dstrb[2][101])
 {
     int m;
-    LlistNode<double> *p;
+    LlistNode *p;
     double delta;
 
     for (p = list->first();
