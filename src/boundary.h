@@ -6,7 +6,6 @@ struct Boundary
 {
     double box_size[2];
     int x_clls, y_clls;
-    void show_information();
     void Boundary_W(Particle *prtl);
     void Boundary_E(Particle *prtl);
     void Boundary_S(Particle *prtl);

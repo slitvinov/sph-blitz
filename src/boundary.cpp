@@ -1,6 +1,5 @@
 #include <stdlib.h>
-#include <iostream>
-#include <fstream>
+#include <stdio.h>
 #include <string.h>
 #include <math.h>
 struct QuinticSpline;
@@ -27,35 +26,33 @@ using namespace std;
 
 Boundary::Boundary(Initiation *ini, Hydrodynamics *hydro, ParticleManager *q)
 {
+    int n;
     char Key_word[FILENAME_MAX];
-    char inputfile[FILENAME_MAX];
+    FILE *f;
     box_size[X] = ini->box_size[X];
     box_size[Y] = ini->box_size[Y];
     x_clls = q->x_clls;
     y_clls = q->y_clls;
-    strcpy(inputfile, ini->inputfile);
-    ifstream fin(inputfile, ios::in);
-    if (!fin)
-	ABORT(("can't open '%s'\n", inputfile));
-    printf("Boundary: read left, right, upper and lower boundary conditions from %s\n", inputfile);
-    while(!fin.eof()) {
-	fin>>Key_word;
-	if(!strcmp(Key_word, "BOUNDARY")) fin>>xBl>>UxBl[X]>>UxBl[Y]
-					     >>xBr>>UxBr[X]>>UxBr[Y]
-					     >>yBd>>UyBd[X]>>UyBd[Y]
-					     >>yBu>>UyBu[X]>>UyBu[Y];
-    }
-    fin.close();
-    show_information();
-    BuildBoundaryParticles(q, hydro);
-}
-void Boundary::show_information(void)
-{
+    f = fopen(ini->inputfile, "r");
+    if (!f)
+	ABORT(("can't open '%s'\n", ini->inputfile));
+    while (fscanf(f, "%s", Key_word) == 1)
+	if(!strcmp(Key_word, "BOUNDARY")) {
+	    n = fscanf(f, "%d %lf %lf %d %lf %lf %d %lf %lf %d %lf %lf",
+		   &xBl, &UxBl[X], &UxBl[Y],
+		   &xBr, &UxBr[X], &UxBr[Y],
+		   &yBd, &UyBd[X], &UyBd[Y],
+		   &yBu, &UyBu[X], &UyBu[Y]);
+	    if (n != 3*4)
+		ABORT(("can't read BOUNDARY keyword (n = %d)", n));
+	}
+    fclose(f);
     printf("The left, right, lower and upper boundary %d %d %d %d\n", xBl, xBr, yBd, yBu);
     puts("0: wall boundary condition");
     puts("1: perodic boundary condition");
     puts("2: free slip wall boundary condition");
     puts("3: symmetry boundary condition");
+    BuildBoundaryParticles(q, hydro);
 }
 void Boundary::RunAwayCheck(Hydrodynamics *hydro)
 {
