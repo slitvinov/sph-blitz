@@ -26,6 +26,7 @@ enum {X, Y};
 			p = l.next(p))
 #define INSERT(q, l) l.insert(l.first(), q)
 #define CLEAR(l) l.clear()
+#define CLEAR_DATA(l) l.clear_data()
 
 Boundary::Boundary(Initiation *ini, Hydrodynamics *hydro, ParticleManager *q)
 {
@@ -66,7 +67,7 @@ void Boundary::BuildBoundaryParticles(ParticleManager *q, Hydrodynamics *hydro)
     LIST *p;
 
     c = q->cell_lists;
-    b.clear_data();
+    CLEAR_DATA(b);
     kb = 0; mb = x_clls;
     ku = 0; mu = x_clls;
     if(xBl == yBd) kb = 1;
