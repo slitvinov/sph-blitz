@@ -135,54 +135,52 @@ void ParticleManager::BuildNNP_MLSMapping(double point[2])
 void ParticleManager::BuildInteraction(Llist<Interaction> &interactions, List &particle_list,
 				       Force **forces, QuinticSpline &weight_function)
 {
-  LlistNode<Interaction> *current = interactions.first();
-  bool used_up_old = interactions.isEnd(current);
-  LlistNode<Interaction> *first_unused;
-  int old_length = interactions.length();
-  LIST *p, *p1;
-  {
+    LlistNode<Interaction> *current = interactions.first();
+    bool used_up_old = interactions.isEnd(current);
+    LlistNode<Interaction> *first_unused;
+    int old_length = interactions.length();
+    LIST *p, *p1;
     int i, j, k, m;
     double dstc;
     int current_used = 0;
     Particle *prtl_org, *prtl_dest;
-    
+    Interaction *pair;
     for (p = particle_list.first();
 	 !particle_list.isEnd(p);
 	 p = particle_list.next(p)) {
-      prtl_org = particle_list.retrieve(p);
-      if(prtl_org->bd == 0) {
-	i = int ((prtl_org->R[0] + cll_sz)/ cll_sz);
-	j = int ((prtl_org->R[1] + cll_sz)/ cll_sz);
-	for(k = i - 1; k <= i + 1; k++)
-	  for(m = j - 1; m <= j + 1; m++) {
-	    for (p1 = cell_lists[k][m].first();
-		 !cell_lists[k][m].isEnd(p1);
-		 p1 = cell_lists[k][m].next(p1)) {
-	      prtl_dest = cell_lists[k][m].retrieve(p1);
-	      dstc = vv_sq_distance(prtl_org->R, prtl_dest->R);
-	      if(dstc <= smoothinglengthsquare && prtl_org->ID >= prtl_dest->ID) {
-		if(current_used == old_length) {
-		    Interaction *pair = new Interaction(prtl_org, prtl_dest, forces, &weight_function, sqrt(dstc));
-		    INSERT(pair, interactions);
+	prtl_org = particle_list.retrieve(p);
+	if(prtl_org->bd == 0) {
+	    i = int ((prtl_org->R[0] + cll_sz)/ cll_sz);
+	    j = int ((prtl_org->R[1] + cll_sz)/ cll_sz);
+	    for(k = i - 1; k <= i + 1; k++)
+		for(m = j - 1; m <= j + 1; m++) {
+		    for (p1 = cell_lists[k][m].first();
+			 !cell_lists[k][m].isEnd(p1);
+			 p1 = cell_lists[k][m].next(p1)) {
+			prtl_dest = cell_lists[k][m].retrieve(p1);
+			dstc = vv_sq_distance(prtl_org->R, prtl_dest->R);
+			if(dstc <= smoothinglengthsquare && prtl_org->ID >= prtl_dest->ID) {
+			    if(current_used == old_length) {
+				pair = new Interaction(prtl_org, prtl_dest, forces, &weight_function, sqrt(dstc));
+				INSERT(pair, interactions);
+			    }
+			    else {
+				interactions.retrieve(current)->NewInteraction(prtl_org, prtl_dest, forces, &weight_function, sqrt(dstc));
+				current = interactions.next(current);
+				current_used++;
+			    }
+			}
+		    }
 		}
-		else {
-		    interactions.retrieve(current)->NewInteraction(prtl_org, prtl_dest, forces, &weight_function, sqrt(dstc));
-		  current = interactions.next(current);
-		  current_used++;
-		}
-	      }
-	    }
-	  }
-      }
+	}
     }
     if (current_used == old_length)
-      used_up_old = true;
+	used_up_old = true;
     else
-      first_unused = current;
-  }
-  if (!used_up_old) {
-    while (!interactions.isEnd(first_unused)) { delete interactions.retrieve(first_unused); interactions.remove(first_unused); }
-  }
+	first_unused = current;
+    if (!used_up_old) {
+	while (!interactions.isEnd(first_unused)) { delete interactions.retrieve(first_unused); interactions.remove(first_unused); }
+    }
 }
 
 void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation *ini)
