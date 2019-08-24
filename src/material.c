@@ -10,7 +10,6 @@ void Set_nu(struct Material *q)
 
 void Set_b0(struct Material *q, double sound)
 {
-  //compressiblity
   q->b0 = q->a0*sound/q->gamma;
 }
 

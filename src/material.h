@@ -2,25 +2,16 @@
 extern "C" {
 #endif
     struct Material {
-	///material name string
 	char material_name[FILENAME_MAX];
-	int number; ///<the material NO.
-
-	///\brief material type
-	///
-	///- 0: solid;
-	///-  1: liquid;
-	///-  2: gas
+	int number;
 	int material_type;
-
-	double eta;///<viscosity
-	double zeta;///<heat conduction rate
-	double gamma; ///<???
-
-	double nu; ///<kinetice viscosity
-	double b0;///<reference pressure
-	double rho0;///<reference density
-	double a0; ///<reference <b>sound speed??? was not commented</b>
+	double eta;
+	double zeta;
+	double gamma;
+	double nu;
+	double b0;
+	double rho0;
+	double a0;
     };
 
     void Set_nu(struct Material*);
@@ -31,4 +22,3 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-
