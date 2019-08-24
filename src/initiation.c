@@ -26,9 +26,9 @@ int initiation_ini(const char *project_name, struct Initiation *q) {
 	    fscanf(f, "%lf", &q->smoothinglength);
 	if(!strcmp(Key_word, "CELL_RATIO"))
 	    fscanf(f, "%d", &q->hdelta);
-	if(!strcmp(Key_word, "G_FORCE"))
+	if(!strcmp(Key_word, "GRAVITY"))
 	    fscanf(f, "%lf %lf",
-		   &q->g_force[0], &q->g_force[1]);
+		   &q->gravity[0], &q->gravity[1]);
 	if(!strcmp(Key_word, "ARTIFICIAL_VISCOSITY"))
 	    fscanf(f, "%lf", &q->art_vis);
 	if(!strcmp(Key_word, "NUMBER_OF_MATERIALS"))

@@ -15,7 +15,7 @@ struct Initiation {
     int hdelta;
     int x_cells;
     int y_cells;
-    double g_force[2];
+    double gravity[2];
     double Start_time;
     double End_time;
     double D_time;

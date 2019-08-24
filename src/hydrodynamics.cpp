@@ -34,8 +34,8 @@ Hydrodynamics::Hydrodynamics(Initiation *ini)
     char Key_word[FILENAME_MAX];
     double sound;
     number_of_materials = ini->number_of_materials;
-    gravity[X] = ini->g_force[X];
-    gravity[Y] = ini->g_force[Y];
+    gravity[X] = ini->gravity[X];
+    gravity[Y] = ini->gravity[Y];
     smoothinglength = ini->smoothinglength;
     delta = ini->delta;
     delta2 = ini->delta*ini->delta;
@@ -77,7 +77,7 @@ Hydrodynamics::Hydrodynamics(Initiation *ini)
     }
     dt_g_vis = AMIN1(sqrt(delta/vv_abs(gravity)), 0.5*delta2/viscosity_max);
     dt_surf = 0.4*sqrt(delta3/surface_max);
-    sound = AMAX1(vv_abs(ini->g_force), viscosity_max);
+    sound = AMAX1(vv_abs(ini->gravity), viscosity_max);
     sound = AMAX1(surface_max, sound);
     for(k = 0; k < number_of_materials; k++)
 	Set_b0(&materials[k], sound);

@@ -49,7 +49,7 @@ simulation time
 
 gravity force vector
 
-	 G_FORCE <gx> <gy>
+	 GRAVITY <gx> <gy>
 
 Boundary conditions (order is as follow X0, X1, Y0, Y1)
 type code
