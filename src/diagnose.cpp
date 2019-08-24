@@ -47,7 +47,7 @@ Diagnose::Diagnose(Initiation *ini, Hydrodynamics *hydro)
 	wght_v = new double [2*number_of_materials];
 	ttl_m = 1.0e-40;
 	for(k = 0; k < number_of_materials; k++) mtl_m[k] = 1.0e-40;
-	LOOP(prtl, hydro->particle_list) {
+	LOOP(prtl, *hydro->particle_list) {
 	    for(k = 0;  k < number_of_materials; k++)
 		if(strcmp(prtl->mtl->material_name, hydro->materials[k].material_name) == 0)
 		    mtl_m[k] += prtl->m;
@@ -75,10 +75,10 @@ void Diagnose::SaveStates(Hydrodynamics *hydro)
     p2 = new double;
     p3 = new double;
 
-    p = list_first(&hydro->particle_list);
+    p = list_first(hydro->particle_list);
     for(k = 0; k < 1; k++)
-	p = list_next(&hydro->particle_list, p);
-    prtl = list_retrieve(&hydro->particle_list, p);
+	p = list_next(hydro->particle_list, p);
+    prtl = list_retrieve(hydro->particle_list, p);
     *p1 = prtl->U[0];
 
     *p2 = prtl->U[1];
@@ -216,7 +216,7 @@ void Diagnose::KineticInformation(double Time, Hydrodynamics *hydro)
 	wght_v[2*k + X] = wght_v[2*k + Y] = 0.0;
     }
     glb_ave_Ek = 0.0;
-    LOOP(prtl, hydro->particle_list) {
+    LOOP(prtl, *hydro->particle_list) {
 	for(k = 0;  k < number_of_materials; k++)
 	    if(strcmp(prtl->mtl->material_name, hydro->materials[k].material_name) == 0) {
 		wght_cntr[2*k + X] += prtl->R[X]*prtl->m;

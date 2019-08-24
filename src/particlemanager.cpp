@@ -205,7 +205,7 @@ void ParticleManager::BuildRealParticles(Hydrodynamics *hydro, Initiation *ini)
 	    pressure = get_p(&hydro->materials[material_no], density);
 	    prtl = NEW(position, velocity, density, pressure, Temperature, &hydro->materials[material_no]);
 	    prtl->cell_i = i; prtl->cell_j = j;
-	    INSERT(prtl, hydro->particle_list);
+	    INSERT(prtl, *hydro->particle_list);
 	    INSERT(prtl, cell_lists[i][j]);
 
 	  }
@@ -236,7 +236,7 @@ void ParticleManager::BuildRealParticles(Hydrodynamics *hydro, Initiation *ini)
       if(material_no != -1) {
 	pressure = get_p(&hydro->materials[material_no], density);
 	prtl = NEW(position, velocity, density, pressure, Temperature, &hydro->materials[material_no]);
-	INSERT(prtl, hydro->particle_list);
+	INSERT(prtl, *hydro->particle_list);
 	i = int (prtl->R[0] / cll_sz) + 1;
 	j = int (prtl->R[1] / cll_sz) + 1;
 	prtl->cell_i = i; prtl->cell_j = j;
@@ -261,7 +261,7 @@ void ParticleManager::BuildWallParticles(Hydrodynamics *hydro, Boundary *boundar
 	for(m = 0; m < hdelta; m++) {
 	  prtl = NEW_BND(-1*cll_sz + (k + 0.5)*delta, (j - 1)*cll_sz + (m + 0.5)*delta, &hydro->materials[0]);
 	  prtl->cell_i = 0; prtl->cell_j = j;
-	  INSERT(prtl, hydro->particle_list);
+	  INSERT(prtl, *hydro->particle_list);
 	  INSERT(prtl, cell_lists[0][j]);
 	}
     }
@@ -272,7 +272,7 @@ void ParticleManager::BuildWallParticles(Hydrodynamics *hydro, Boundary *boundar
 	for(m = 0; m < hdelta; m++) {
 	  prtl = NEW_BND((x_clls - 2)*cll_sz + (k + 0.5)*delta, (j - 1)*cll_sz + (m + 0.5)*delta, &hydro->materials[0]);
 	  prtl->cell_i = x_clls - 1; prtl->cell_j = j;
-	  INSERT(prtl, hydro->particle_list);
+	  INSERT(prtl, *hydro->particle_list);
 	  INSERT(prtl, cell_lists[x_clls - 1][j]);
 	}
     }
@@ -284,7 +284,7 @@ void ParticleManager::BuildWallParticles(Hydrodynamics *hydro, Boundary *boundar
 	for(m = 0; m < hdelta; m++) {
 	  prtl = NEW_BND((i - 1)*cll_sz + (k + 0.5)*delta, -1*cll_sz + (m + 0.5)*delta, &hydro->materials[0]);
 	  prtl->cell_i = i; prtl->cell_j = 0;
-	  INSERT(prtl, hydro->particle_list);
+	  INSERT(prtl, *hydro->particle_list);
 	  INSERT(prtl, cell_lists[i][0]);
 
 	}
@@ -297,7 +297,7 @@ void ParticleManager::BuildWallParticles(Hydrodynamics *hydro, Boundary *boundar
 	for(m = 0; m < hdelta; m++) {
 	  prtl = NEW_BND((i - 1)*cll_sz + (k + 0.5)*delta, (y_clls - 2)*cll_sz + (m + 0.5)*delta, &hydro->materials[0]);
 	  prtl->cell_i = i; prtl->cell_j = y_clls - 1;
-	  INSERT(prtl, hydro->particle_list);
+	  INSERT(prtl, *hydro->particle_list);
 	  INSERT(prtl, cell_lists[i][y_clls - 1]);
 	}
     }

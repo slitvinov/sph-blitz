@@ -637,7 +637,7 @@ int boundary_check(Boundary *q, Hydrodynamics *hydro)
     double *box_size;
 
     box_size = q->box_size;
-    LOOP(prtl, hydro->particle_list) {
+    LOOP(prtl, *hydro->particle_list) {
 	if(fabs(prtl->R[X]) >= 2.0*box_size[X] || fabs(prtl->R[Y]) >= 2.0*box_size[Y])
 	    ABORT(("run away particle"));
 	if(prtl->bd == 0) {

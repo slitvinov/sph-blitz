@@ -21,7 +21,7 @@ void VolumeMass(Hydrodynamics *hydro, ParticleManager *particles, QuinticSpline 
     double eij[2], sumdw[2];
     ListNode *p, *p1;
     Particle *prtl_org, *prtl_dest;
-    LOOP(prtl_org, hydro->particle_list) {
+    LOOP(prtl_org, *hydro->particle_list) {
 	particles->BuildNNP(prtl_org->R);
 	reciprocV = 0.0; sumdw[X] = sumdw[Y] = 0.0;
 	LOOP1(prtl_dest, *particles->NNP_list) {

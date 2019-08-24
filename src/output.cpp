@@ -45,7 +45,7 @@ void Output::OutputParticles(Hydrodynamics &hydro, Boundary &boundary,  double T
     out<<"variables=x, y, Ux, Uy \n";
     for(i = 0; i < number_of_materials; i++) {
 	j = 0;
-	LOOP(prtl, hydro.particle_list) {
+	LOOP(prtl, *hydro.particle_list) {
 	    if(strcmp(hydro.materials[i].material_name, prtl->mtl->material_name) == 0) {
 		j++;
 		if(j == 1) out<<"zone t='"<<hydro.materials[i].material_name<<"' \n";
@@ -115,12 +115,12 @@ void Output::OutRestart(Hydrodynamics &hydro, double Time)
     strcat(outputfile,".rst");
     ofstream out(outputfile);
     n = 0;
-    LOOP(prtl, hydro.particle_list) {
+    LOOP(prtl, *hydro.particle_list) {
 	if(prtl->bd == 0) n++;
     }
     out<<Time<<"\n";
     out<<n<<"\n";
-    LOOP(prtl, hydro.particle_list) {
+    LOOP(prtl, *hydro.particle_list) {
 	if(prtl->bd == 0)
 	    out<<prtl->mtl->material_name<<"  "<<prtl->R[0]<<"  "<<prtl->R[1]<<"  "<<prtl->U[0]<<"  "<<prtl->U[1] <<"  "<<prtl->rho<<"  "<<prtl->p<<"  "<<prtl->T<< '\n';
     }
