@@ -250,11 +250,11 @@ void ParticleManager::BuildRealParticles(Hydrodynamics &hydro, Initiation *ini)
   }
 }
 
-void ParticleManager::BuildWallParticles(Hydrodynamics *hydro, Boundary &boundary)
+void ParticleManager::BuildWallParticles(Hydrodynamics *hydro, Boundary *boundary)
 {
   int i, j, k, m;
   Particle *prtl;
-  if(boundary.xBl == 0) {
+  if(boundary->xBl == 0) {
     for(j = 1; j < y_clls - 1; j++) {
       for(k = 0; k < hdelta; k++)
 	for(m = 0; m < hdelta; m++) {
@@ -265,7 +265,7 @@ void ParticleManager::BuildWallParticles(Hydrodynamics *hydro, Boundary &boundar
 	}
     }
   }
-  if(boundary.xBr == 0) {
+  if(boundary->xBr == 0) {
     for(j = 1; j < y_clls - 1; j++) {
       for(k = 0; k < hdelta; k++)
 	for(m = 0; m < hdelta; m++) {
@@ -277,7 +277,7 @@ void ParticleManager::BuildWallParticles(Hydrodynamics *hydro, Boundary &boundar
     }
   }
 
-  if(boundary.yBd == 0) {
+  if(boundary->yBd == 0) {
     for(i = 1; i < x_clls - 1; i++) {
       for(k = 0; k < hdelta; k++)
 	for(m = 0; m < hdelta; m++) {
@@ -290,7 +290,7 @@ void ParticleManager::BuildWallParticles(Hydrodynamics *hydro, Boundary &boundar
     }
   }
 
-  if(boundary.yBu == 0) {
+  if(boundary->yBu == 0) {
     for(i = 1; i < x_clls - 1; i++) {
       for(k = 0; k < hdelta; k++)
 	for(m = 0; m < hdelta; m++) {
