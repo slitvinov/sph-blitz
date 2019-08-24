@@ -9,7 +9,6 @@ enum {X, Y};
 long particle_ID_max;
 int particle_number_of_materials;
 
-#define AA(v) q->v = s->v
 #define A(v) q->v = s->v
 #define B(a, b) q->a = b
 #define C(a, b) q->a = q->b
@@ -199,29 +198,29 @@ struct Particle* particle_mirror(struct Particle *s, struct Material *material)
 int particle_copy(struct Particle *q, struct Particle *s, int type)
 {
     int i, j;
-    AA(R[X]);
-    AA(R[Y]);
-    AA(m);
-    AA(rho);
-    AA(V);
-    AA(p);
-    AA(T);
-    AA(rho_I);
-    AA(Cs);
-    AA(U[X]);
-    AA(U[Y]);
-    AA(U_I[X]);
-    AA(U_I[Y]);
-    AA(ShearRate_x[X]);
-    AA(ShearRate_x[Y]);
-    AA(ShearRate_y[X]);
-    AA(ShearRate_y[Y]);
+    A(R[X]);
+    A(R[Y]);
+    A(m);
+    A(rho);
+    A(V);
+    A(p);
+    A(T);
+    A(rho_I);
+    A(Cs);
+    A(U[X]);
+    A(U[Y]);
+    A(U_I[X]);
+    A(U_I[Y]);
+    A(ShearRate_x[X]);
+    A(ShearRate_x[Y]);
+    A(ShearRate_y[X]);
+    A(ShearRate_y[Y]);
     if (type == 1 ) {
-	AA(del_phi[X]);
-	AA(del_phi[Y]);
+	A(del_phi[X]);
+	A(del_phi[Y]);
 	for(i = 0; i < particle_number_of_materials; i++) {
 	    for(j = 0; j < particle_number_of_materials; j++) {
-		AA(phi[i][j]);
+		A(phi[i][j]);
 	    }
 	}
     }
