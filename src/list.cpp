@@ -1,5 +1,16 @@
 #include "list.h"
 #include "particle.h"
+
+class List;
+class ListNode {
+    friend class List;
+private:
+    struct Particle *data;
+    ListNode *next;
+    ListNode();
+    ListNode(Particle*, ListNode*);
+};
+
 class List {
 private:
     int len;

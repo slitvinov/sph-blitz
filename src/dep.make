@@ -63,6 +63,7 @@ mls.o: dllist.h
 mls.o: glbfunc.h
 mls.o: initiation.h
 mls.o: list.h
+mls.o: macro.h
 mls.o: mls.h
 mls.o: particle.h
 mls.o: quinticspline.h
