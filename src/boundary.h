@@ -1,3 +1,7 @@
+struct QuinticSpline;
+struct Initiation;
+struct Hydrodynamics;
+struct ParticleManager;
 struct Boundary
 {
     double box_size[2];

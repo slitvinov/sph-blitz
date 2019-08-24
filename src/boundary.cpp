@@ -4,6 +4,7 @@
 #include <string.h>
 #include <math.h>
 struct QuinticSpline;
+#include "err.h"
 #include "particle.h"
 #include "dllist.h"
 #include "list.h"
@@ -34,10 +35,8 @@ Boundary::Boundary(Initiation *ini, Hydrodynamics *hydro, ParticleManager *q)
     y_clls = q->y_clls;
     strcpy(inputfile, ini->inputfile);
     ifstream fin(inputfile, ios::in);
-    if (!fin) {
-	fprintf(stderr, "%s:%d: can't open '%s'\n", __FILE__, __LINE__, inputfile);
-	exit(1);
-    }
+    if (!fin)
+	ABORT(("can't open '%s'\n", inputfile));
     printf("Boundary: read left, right, upper and lower boundary conditions from %s\n", inputfile);
     while(!fin.eof()) {
 	fin>>Key_word;
