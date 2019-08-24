@@ -18,8 +18,8 @@
 #include "output.h"
 using namespace std;
 #define LIST ListNode
-#define LOOP(q, l) for (p = l.first();			       \
-			!l.isEnd(p) && (q = l.retrieve(p), 1); \
+#define LOOP(q, l) for (p = l.first();					\
+			!list_isEnd(&l, p) && (q = l.retrieve(p), 1);	\
 			p = l.next(p))
 
 Output::Output(Initiation *ini)
@@ -87,7 +87,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
 	for(i = 0; i <= gridx; i++) {
 	    pstn[0] = i*delta; pstn[1] = j*delta;
 	    particles.BuildNNP(pstn);
-	    if(!particles.NNP_list.empty())
+	    if(!list_empty(&particles.NNP_list))
 		mls.MLSMapping(pstn, particles.NNP_list, weight_function, 1);
 	    n = 0;
 	    rho = 0.0; phi = 0.0; pressure = 0.0; Temperature = 0.0;

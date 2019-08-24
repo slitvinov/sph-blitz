@@ -26,8 +26,8 @@ class ParticleManager;
 
 #define LIST ListNode
 #define ILIST IListNode
-#define LOOP(q, l) for (p = l.first();			       \
-			!l.isEnd(p) && (q = l.retrieve(p), 1); \
+#define LOOP(q, l) for (p = l.first();					\
+			!list_isEnd(&l, p) && (q = l.retrieve(p), 1);	\
 			p = l.next(p))
 
 #define ILOOP(q, l) for (p = l.first();			       \

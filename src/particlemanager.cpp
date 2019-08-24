@@ -25,10 +25,9 @@ enum {X, Y};
 #define NEW(pos, vel, den, pre, tem, mtl) particle_real(pos, vel, den, pre, tem, mtl)
 #define LIST ListNode
 #define ILIST IListNode
-
 #define INSERT(q, l) l.insert(l.first(), q)
 #define LOOP(q, l) for (p = l.first();			       \
-			!l.isEnd(p) && (q = l.retrieve(p), 1); \
+    			!list_isEnd(&l, p) && (q = l.retrieve(p), 1);	\
 			p = l.next(p))
 
 ParticleManager::ParticleManager(Initiation *ini)
@@ -67,7 +66,7 @@ void ParticleManager::UpdateCellLinkedLists()
   for(i = 0; i < x_clls; i++) {
     for(j = 0; j < y_clls; j++) {
       p = cell_lists[i][j].first();
-      while(!cell_lists[i][j].isEnd(p)) {
+      while(!list_isEnd(&cell_lists[i][j], p)) {
 	prtl = cell_lists[i][j].retrieve(p);
 	if(prtl->bd == 0) {
 	  k = int ((prtl->R[0] + cll_sz)/ cll_sz);
@@ -156,7 +155,7 @@ void ParticleManager::BuildInteraction(IList &interactions, List &particle_list,
 	    for(k = i - 1; k <= i + 1; k++)
 		for(m = j - 1; m <= j + 1; m++) {
 		    for (p1 = cell_lists[k][m].first();
-			 !cell_lists[k][m].isEnd(p1);
+			 !list_isEnd(&cell_lists[k][m], p1);
 			 p1 = cell_lists[k][m].next(p1)) {
 			prtl_dest = cell_lists[k][m].retrieve(p1);
 			dstc = vv_sq_distance(prtl_org->R, prtl_dest->R);

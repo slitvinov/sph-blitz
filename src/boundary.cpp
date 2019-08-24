@@ -23,7 +23,7 @@ enum {X, Y};
 #define LIST ListNode
 
 #define LOOP(q, l) for (p = l.first();			       \
-			!l.isEnd(p) && (q = l.retrieve(p), 1); \
+    			!list_isEnd(&l, p) && (q = l.retrieve(p), 1);	\
 			p = l.next(p))
 #define INSERT(q, l) l.insert(l.first(), q)
 #define CLEAR(l) l.clear()

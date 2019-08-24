@@ -14,8 +14,8 @@ private:
     ListNode *node;
 public:
     List();
-    bool empty();
-    bool isEnd(ListNode*);
+    bool empty0();
+    bool isEnd0(ListNode*);
     ListNode *first();
     ListNode *next(ListNode*);
     Particle *retrieve(ListNode*);
@@ -25,3 +25,6 @@ public:
     void clear_data();
     ~List();
 };
+
+int list_empty(List*);
+int list_isEnd(List*, ListNode*);

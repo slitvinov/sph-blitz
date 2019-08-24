@@ -16,11 +16,11 @@ List::List()
     node = new ListNode;
     len = 0;
 }
-bool List::empty()
+bool List::empty0()
 {
     return (node == node->next);
 }
-bool List::isEnd(ListNode *p)
+bool List::isEnd0(ListNode *p)
 {
     return (p->next == node);
 }
@@ -49,13 +49,13 @@ void List::remove(ListNode *p)
 }
 void List::clear()
 {
-    while (!empty())
+    while (!empty0())
 	remove(first());
     len = 0;
 }
 void List::clear_data()
 {
-    while (!empty()) {
+    while (!empty0()) {
 	particle_fin(retrieve(first()));
 	remove(first());
     }
@@ -63,7 +63,15 @@ void List::clear_data()
 }
 List::~List()
 {
-    while (!empty())
+    while (!empty0())
 	remove(first());
     delete node;
+}
+
+int list_empty(List *q) {
+    return q->empty0();
+}
+
+int list_isEnd(List *q, ListNode *n) {
+    return q->isEnd0(n);
 }

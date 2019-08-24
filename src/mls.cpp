@@ -58,7 +58,7 @@ void MLS::MLSMapping(double point[2], List &NNP_list, QuinticSpline &weight_func
   N = 0; 
   p[0] = 1.0; p[1] = point[0]; p[2] = point[1];
   for (ListNode *pstn = NNP_list.first(); 
-       !NNP_list.isEnd(pstn); 
+       !list_isEnd(&NNP_list, pstn); 
        pstn = NNP_list.next(pstn)) {
     prtl = NNP_list.retrieve(pstn);
     Wi[N] = w(&weight_function, vv_distance(point, prtl->R));

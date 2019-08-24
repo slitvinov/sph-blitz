@@ -20,7 +20,7 @@ using namespace std;
 #define LIST ListNode
 #define INSERT(q, l) l.insert(l.first(), q)
 #define LOOP(q, l) for (p = l.first();			       \
-			!l.isEnd(p) && (q = l.retrieve(p), 1); \
+    			!list_isEnd(&l, p) && (q = l.retrieve(p), 1);	\
 			p = l.next(p))
 
 Diagnose::Diagnose(Initiation *ini, Hydrodynamics *hydro)
@@ -154,7 +154,7 @@ void Diagnose::Average(ParticleManager *particles, MLS *mls, QuinticSpline *weig
 	for(i = 0; i < gridx; i++) {
 	    pstn[0] = i*delta; pstn[1] = j*delta;
 	    particles->BuildNNP(pstn);
-	    if(!particles->NNP_list.empty())
+	    if(list_empty(&particles->NNP_list))
 		mls->MLSMapping(pstn, particles->NNP_list, *weight_function, 1);
 	    n = 0;
 	    rho = 0.0; pressure = 0.0; Temperature = 0.0;
