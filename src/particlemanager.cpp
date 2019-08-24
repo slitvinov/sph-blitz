@@ -49,8 +49,9 @@ ParticleManager::ParticleManager(Initiation *ini)
     T0 = ini->T0;
   }
   cell_lists = new List*[x_clls];
-  for(i = 0; i < x_clls; i++) cell_lists[i] = new List[y_clls];
-
+  for(i = 0; i < x_clls; i++) cell_lists[i] =
+				  new List[y_clls];
+  NNP_list = new List;
 }
 void ParticleManager::UpdateCellLinkedLists()
 {
@@ -86,7 +87,7 @@ void ParticleManager::BuildNNP(double point[2])
   LIST *p;
   Particle *prtl;
 
-  list_clear(&NNP_list);
+  list_clear(NNP_list);
   k = int ((point[0] + cll_sz)/ cll_sz);
   m = int ((point[1] + cll_sz)/ cll_sz);
   for(i = k - 1; i <= k + 1; i++) {
@@ -95,7 +96,7 @@ void ParticleManager::BuildNNP(double point[2])
 	LOOP(prtl, cell_lists[i][j]) {
 	  dstc = vv_distance(point, prtl->R);
 	  if(dstc < smoothinglength) {
-	    INSERT(prtl, NNP_list);
+	    INSERT(prtl, *NNP_list);
 	  }
 	}
       }
@@ -119,7 +120,7 @@ void ParticleManager::BuildNNP_MLSMapping(double point[2])
 	LOOP(prtl, cell_lists[i][j]) {
 	  dstc = vv_distance(point, prtl->R);
 	  if(dstc < smoothinglength && prtl->bd == 0) {
-	    INSERT(prtl, NNP_list);
+	    INSERT(prtl, *NNP_list);
 	  }
 	}
       }
@@ -301,4 +302,8 @@ void ParticleManager::BuildWallParticles(Hydrodynamics *hydro, Boundary *boundar
 	}
     }
   }
+}
+
+ParticleManager::~ParticleManager() {
+    delete NNP_list;
 }

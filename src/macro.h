@@ -1,9 +1,9 @@
-#define LOOP(q, l) for (p = list_first(&l);					\
-    			!list_isEnd(&l, p) && (q = list_retrieve(&l, p), 1); \
-			p = list_next(&l, p))
-#define LOOP1(q, l) for (p1 = list_first(&l);					\
-    			!list_isEnd(&l, p1) && (q = list_retrieve(&l, p1), 1); \
-			p1 = list_next(&l, p1))
+#define LOOP(q, l) for (p = list_first(&(l));				\
+			!list_isEnd(&(l), p) && (q = list_retrieve(&(l), p), 1); \
+			p = list_next(&(l), p))
+#define LOOP1(q, l) for (p1 = list_first(&(l));				\
+			 !list_isEnd(&l, p1) && (q = list_retrieve(&(l), p1), 1); \
+			 p1 = list_next(&(l), p1))
 #define INSERT(q, l) list_insert(&l, list_first(&l), q)
 #define CLEAR(l) list_clear(&l)
 #define CLEAR_DATA(l) list_clear_data(&l)

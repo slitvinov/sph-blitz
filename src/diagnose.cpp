@@ -151,12 +151,12 @@ void Diagnose::Average(ParticleManager *particles, MLS *mls, QuinticSpline *weig
 	for(i = 0; i < gridx; i++) {
 	    pstn[0] = i*delta; pstn[1] = j*delta;
 	    particles->BuildNNP(pstn);
-	    if(list_empty(&particles->NNP_list))
-		mls->MLSMapping(pstn, &particles->NNP_list, weight_function, 1);
+	    if(list_empty(particles->NNP_list))
+		mls->MLSMapping(pstn, particles->NNP_list, weight_function, 1);
 	    n = 0;
 	    rho = 0.0; pressure = 0.0; Temperature = 0.0;
 	    x_velocity = 0.0; y_velocity = 0.0;
-	    LOOP(prtl, particles->NNP_list) {
+	    LOOP(prtl, *particles->NNP_list) {
 		rho += prtl->rho*mls->phi[n];
 		pressure += prtl->p*mls->phi[n];
 		Temperature += prtl->T*mls->phi[n];
@@ -164,7 +164,7 @@ void Diagnose::Average(ParticleManager *particles, MLS *mls, QuinticSpline *weig
 		y_velocity += prtl->U[1]*mls->phi[n];
 		n ++;
 	    }
-	    list_clear(&particles->NNP_list);
+	    list_clear(particles->NNP_list);
 	    m_n_average = double(n_average) - 1.0;
 	    r_n_average = 1.0/double(n_average);
 	    U[0][i][j] = (U[0][i][j]*m_n_average + rho)*r_n_average;

@@ -85,12 +85,12 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
 	for(i = 0; i <= gridx; i++) {
 	    pstn[0] = i*delta; pstn[1] = j*delta;
 	    particles.BuildNNP(pstn);
-	    if(!list_empty(&particles.NNP_list))
-		mls.MLSMapping(pstn, &particles.NNP_list, &weight_function, 1);
+	    if(!list_empty(particles.NNP_list))
+		mls.MLSMapping(pstn, particles.NNP_list, &weight_function, 1);
 	    n = 0;
 	    rho = 0.0; phi = 0.0; pressure = 0.0; Temperature = 0.0;
 	    x_velocity = 0.0; y_velocity = 0.0;
-	    LOOP(prtl, particles.NNP_list) {
+	    LOOP(prtl, *particles.NNP_list) {
 		rho += prtl->rho*mls.phi[n];
 		phi += prtl->phi[2][2]*mls.phi[n];
 		pressure += prtl->p*mls.phi[n];
@@ -99,7 +99,7 @@ void Output::OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &w
 		y_velocity += prtl->U[1]*mls.phi[n];
 		n ++;
 	    }
-	    list_clear(&particles.NNP_list);
+	    list_clear(particles.NNP_list);
 	    out<<pstn[0]<<"  "<<pstn[1] <<"  "<<pressure<<"  "<<rho <<"  "<<phi <<"  "<<x_velocity<<"  "<<y_velocity <<"  "<<Temperature<<"\n";
 	}
     }

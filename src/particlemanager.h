@@ -25,8 +25,9 @@ public:
   int x_clls;
   int y_clls;
   List **cell_lists;
-  List NNP_list;
+  List *NNP_list;
   explicit ParticleManager(Initiation*);
+  ~ParticleManager();
   void BuildRealParticles(Hydrodynamics*, Initiation*);
   void UpdateCellLinkedLists();
   void BuildNNP(double[2]);
