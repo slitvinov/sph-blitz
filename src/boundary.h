@@ -13,7 +13,7 @@ struct Boundary
     double UyBd[2];
     double UyBu[2];
     List *b;
-    Boundary(Initiation*, Material*, ParticleManager*);
+    Boundary(Initiation*, Material*, List***);
     void BuildBoundaryParticles(List***, Material*);
     void BoundaryCondition(List***);
     ~Boundary();

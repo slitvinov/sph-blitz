@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     ParticleManager particles(&ini);
     Hydrodynamics hydro(&ini);
     particles.BuildRealParticles(&hydro, &ini);
-    Boundary boundary(&ini, &hydro.materials[0], &particles);
+    Boundary boundary(&ini, &hydro.materials[0], particles.cell_lists);
     Output output(&ini);
     VolumeMass(&hydro, &particles, &weight_function);
     boundary.BoundaryCondition(particles.cell_lists);

@@ -8,7 +8,6 @@
 #include "list.h"
 #include "ilist.h"
 #include "initiation.h"
-#include "particlemanager.h"
 #include "material.h"
 #include "boundary.h"
 #include "macro.h"
@@ -22,7 +21,7 @@ enum {X, Y};
     } while (0)
 #define LIST ListNode
 
-Boundary::Boundary(Initiation *ini, Material *mtl, ParticleManager *q)
+Boundary::Boundary(Initiation *ini, Material *mtl, List ***c)
 {
     int n;
     char Key_word[FILENAME_MAX];
@@ -30,8 +29,8 @@ Boundary::Boundary(Initiation *ini, Material *mtl, ParticleManager *q)
     b = list_ini();
     box_size[X] = ini->box_size[X];
     box_size[Y] = ini->box_size[Y];
-    x_clls = q->x_clls;
-    y_clls = q->y_clls;
+    x_clls = ini->x_cells + 2;
+    y_clls = ini->y_cells + 2;
     f = fopen(ini->inputfile, "r");
     if (!f)
 	ABORT(("can't open '%s'\n", ini->inputfile));
@@ -51,7 +50,7 @@ Boundary::Boundary(Initiation *ini, Material *mtl, ParticleManager *q)
     puts("1: perodic boundary condition");
     puts("2: free slip wall boundary condition");
     puts("3: symmetry boundary condition");
-    BuildBoundaryParticles(q->cell_lists, mtl);
+    BuildBoundaryParticles(c, mtl);
 }
 void Boundary::BuildBoundaryParticles(List ***c, Material *mtl)
 {
