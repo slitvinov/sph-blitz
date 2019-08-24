@@ -3,7 +3,6 @@
 #include <fstream>
 #include <cstring>
 #include <string.h>
-#include <stdlib.h>
 #include "glbfunc.h"
 #include "particle.h"
 #include "dllist.h"
