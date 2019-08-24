@@ -13,7 +13,7 @@ struct Initiation {
     double cell_size;
     double delta;
     int hdelta;
-    int x_cells
+    int x_cells;
     int y_cells;
     double g_force[2];
     double Start_time;

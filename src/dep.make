@@ -1,6 +1,7 @@
 # generate by ../scripts/dep
 boundary.o: boundary.h
 boundary.o: dllist.h
+boundary.o: err.h
 boundary.o: hydrodynamics.h
 boundary.o: initiation.h
 boundary.o: list.h
@@ -34,6 +35,7 @@ hydrodynamics.o: particlemanager.h
 hydrodynamics.o: quinticspline.h
 hydrodynamics.o: vv.h
 hydrodynamics.o: wiener.h
+initiation.o: err.h
 initiation.o: initiation.h
 interaction.o: force.h
 interaction.o: glbfunc.h

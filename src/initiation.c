@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <tgmath.h>
+#include "err.h"
 #include "initiation.h"
 int initiation_ini(const char *project_name, struct Initiation *q) {
     char Key_word[FILENAME_MAX];
@@ -10,10 +11,8 @@ int initiation_ini(const char *project_name, struct Initiation *q) {
     strcpy(q->inputfile, q->Project_name);
     strcat(q->inputfile, ".cfg");
     f = fopen(q->inputfile, "r");
-    if (!f) {
-	fprintf(stderr, "%s:%d: %s : fail to open\n", __FILE__, __LINE__, q->inputfile);
-	exit(1);
-    }
+    if (!f)
+	ABORT(("can't open '%s'", q->inputfile));
     while (fscanf(f, "%s", Key_word) == 1) {
 	if(!strcmp(Key_word, "INITIAL_CONDITION"))
 	    fscanf(f, "%d", &q->initial_condition);

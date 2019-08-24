@@ -14,7 +14,7 @@ extern "C" {
 
 #define ABORT(x) do {				\
 	WARN(x);				\
-	abort();				\
+	exit(2);				\
     } while (0);
 
 int wprint(const char *fmt, ...);
