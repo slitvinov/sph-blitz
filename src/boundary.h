@@ -19,6 +19,7 @@ struct Boundary
     ~Boundary();
 };
 
+int boundary_build(Boundary *q, List***, Material*);
 int boundary_check(Boundary*, List*);
 int boundary_w(Boundary*, Particle*);
 int boundary_e(Boundary*, Particle*);
