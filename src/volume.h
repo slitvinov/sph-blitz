@@ -1,4 +1,10 @@
-class Hydrodynamics;
-class Manager;
+#ifdef __cplusplus
+extern "C" {
+#endif
+struct Manager;
+struct List;
 struct QuinticSpline;
-void VolumeMass(List*, Manager*, QuinticSpline*);
+void VolumeMass(struct List*, struct Manager*, struct QuinticSpline*);
+#ifdef __cplusplus
+}
+#endif

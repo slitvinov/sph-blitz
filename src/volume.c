@@ -10,13 +10,13 @@
 #include "macro.h"
 
 
-void VolumeMass(List *particle_list, Manager *particles, QuinticSpline *weight_function)
+void VolumeMass(struct List *particle_list, struct Manager *particles, struct QuinticSpline *weight_function)
 {
     enum {X, Y};
     double reciprocV;
     double dstc;
-    ListNode *p, *p1;
-    Particle *prtl_org, *prtl_dest;
+    struct ListNode *p, *p1;
+    struct Particle *prtl_org, *prtl_dest;
     LOOP_P(prtl_org, particle_list) {
 	manager_build_nnp(particles, prtl_org->R);
 	reciprocV = 0.0;
