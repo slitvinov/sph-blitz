@@ -751,5 +751,6 @@ int boundary_check(struct Boundary *q, struct List *list)
 int boundary_fin(struct Boundary *q)
 {
     list_fin(q->b);
+    free(q);
     return 0;
 }

@@ -22,11 +22,12 @@ extern double interaction_delta;
 extern long particle_ID_max;
 extern int particle_number_of_materials;
 int main(int argc, char *argv[]) {
+    Boundary *boundary;
     double Time;
     Initiation ini;
-    QuinticSpline weight_function;
-    Boundary *boundary;
     int ite;
+    MLS *mls;
+    QuinticSpline weight_function;
 
     if (argc<2)
 	ERR(2, ("no project name specified"));
@@ -37,7 +38,7 @@ int main(int argc, char *argv[]) {
     particle_number_of_materials = ini.number_of_materials;
     particle_ID_max = 0;
     quinticspline_ini(ini.smoothinglength, &weight_function);
-    MLS mls(ini.MLS_MAX);
+    mls = mls_ini(ini.MLS_MAX);
     ParticleManager particles(&ini);
     Hydrodynamics hydro(&ini);
     particles.BuildRealParticles(hydro.materials, hydro.particle_list, &ini);
@@ -49,14 +50,14 @@ int main(int argc, char *argv[]) {
     Diagnose diagnose(&ini, &hydro);
     Time = ini.Start_time;
     output.OutputParticles(&hydro, boundary, Time);
-    output.OutputStates(&particles, &mls, &weight_function, Time);
+    output.OutputStates(&particles, mls, &weight_function, Time);
     if(ini.diagnose == 2)
       diagnose.KineticInformation(Time, &hydro);
 
     ite = 0;
     while(Time < ini.End_time) {
 	if(Time + ini.D_time >=  ini.End_time) ini.D_time = ini.End_time - Time;
-	step(ite, &hydro, &particles, boundary, &Time, ini.D_time, &diagnose, &ini, &weight_function, &mls);
+	step(ite, &hydro, &particles, boundary, &Time, ini.D_time, &diagnose, &ini, &weight_function, mls);
 	output.OutputParticles(&hydro, boundary, Time);
 	output.OutRestart(&hydro, Time);
 	if(ini.diagnose == 1) {
@@ -64,6 +65,8 @@ int main(int argc, char *argv[]) {
 	    diagnose.OutputAverage(Time);
 	}
     }
+    
     boundary_fin(boundary);
+    mls_fin(mls);
     return 0;
 }
