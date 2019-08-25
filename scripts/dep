@@ -11,7 +11,7 @@ FNR == 1 {
 }
 
 {
-  sub(/\/\/.*/, "") # c++ comments
+    sub(/\/\/.*/, "") # comment
 }
 
 sub(/^[\t ]*#[\t ]*include[\t ]*/, "") &&
