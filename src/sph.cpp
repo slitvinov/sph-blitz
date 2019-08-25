@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
     boundary = boundary_ini(&ini);
     boundary_build(boundary, particles.cell_lists, hydro.materials);
     Output output(&ini);
-    VolumeMass(&hydro, &particles, &weight_function);
+    VolumeMass(hydro.particle_list, &particles, &weight_function);
     boundary_condition(boundary, particles.cell_lists);
     Diagnose diagnose(&ini, &hydro);
     Time = ini.Start_time;

@@ -13,7 +13,7 @@
 #include "macro.h"
 
 
-void VolumeMass(Hydrodynamics *hydro, ParticleManager *particles, QuinticSpline *weight_function)
+void VolumeMass(List *particle_list, ParticleManager *particles, QuinticSpline *weight_function)
 {
     enum {X, Y};
     double reciprocV;
@@ -21,7 +21,7 @@ void VolumeMass(Hydrodynamics *hydro, ParticleManager *particles, QuinticSpline 
     double eij[2], sumdw[2];
     ListNode *p, *p1;
     Particle *prtl_org, *prtl_dest;
-    LOOP_P(prtl_org, hydro->particle_list) {
+    LOOP_P(prtl_org, particle_list) {
 	particles->BuildNNP(prtl_org->R);
 	reciprocV = 0.0; sumdw[X] = sumdw[Y] = 0.0;
 	LOOP1(prtl_dest, *particles->NNP_list) {
