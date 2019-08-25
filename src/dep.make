@@ -42,6 +42,7 @@ initiation.o: initiation.h
 interaction.o: force.h
 interaction.o: glbfunc.h
 interaction.o: initiation.h
+interaction.o: interaction_c.h
 interaction.o: interaction.h
 interaction.o: material.h
 interaction.o: particle.h
@@ -74,12 +75,11 @@ output.o: output.h
 output.o: particle.h
 output.o: particlemanager.h
 particlemanager.o: boundary.h
-particlemanager.o: dllist.h
 particlemanager.o: err.h
 particlemanager.o: glbfunc.h
 particlemanager.o: ilist.h
 particlemanager.o: initiation.h
-particlemanager.o: interaction.h
+particlemanager.o: interaction_c.h
 particlemanager.o: list.h
 particlemanager.o: macro.h
 particlemanager.o: material.h

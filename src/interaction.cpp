@@ -1,9 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
+#include <tgmath.h>
 #include "vv.h"
 #include "glbfunc.h"
 #include "quinticspline.h"
@@ -15,7 +10,6 @@
 #include "interaction.h"
 #include "interaction_c.h"
 enum {X, Y};
-using namespace std;
 static double k_bltz  = 1.380662e-023/0.02/0.02/0.02;
 double interaction_art_vis;
 double interaction_delta;
