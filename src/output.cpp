@@ -53,7 +53,7 @@ void Output::OutputParticles(Hydrodynamics *hydro, Boundary *boundary,  double T
 		j++;
 		if(j == 1)
 		    fprintf(f, "zone t='%s' \n", hydro->materials[i].material_name);
-		fprintf(f, "%.6g  %.6g  %.6g  %.6g\n", prtl->R[0], prtl->R[1], prtl->U[0], prtl->U[1]);
+		fprintf(f, "%.6g %.6g %.6g %.6g\n", prtl->R[0], prtl->R[1], prtl->U[0], prtl->U[1]);
 	    }
 	}
 	LOOP_P(prtl, boundary->b) {
@@ -61,7 +61,7 @@ void Output::OutputParticles(Hydrodynamics *hydro, Boundary *boundary,  double T
 		j++;
 		if(j == 1)
 		    fprintf(f, "zone t='%s' \n", hydro->materials[i].material_name);
-		fprintf(f, "%.6g  %.6g  %.6g  %.6g\n", prtl->R[0], prtl->R[1], prtl->U[0], prtl->U[1]);
+		fprintf(f, "%.6g %.6g %.6g %.6g\n", prtl->R[0], prtl->R[1], prtl->U[0], prtl->U[1]);
 	    }
 	}
     }
