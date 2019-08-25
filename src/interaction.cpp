@@ -13,8 +13,7 @@ enum {X, Y};
 static double k_bltz  = 1.380662e-023/0.02/0.02/0.02;
 double interaction_art_vis;
 double interaction_delta;
-Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces,
-			 QuinticSpline *weight_function, double dstc)
+Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces, QuinticSpline *weight_function, double dstc)
 {
     Org = prtl_org;
     Dest = prtl_dest;
@@ -31,28 +30,6 @@ Interaction::Interaction(Particle *prtl_org, Particle *prtl_dest, Force **forces
     eij[Y] = (Org->R[Y] - Dest->R[Y])*rrij;
     Wij = w(weight_function, rij);
     Fij = F(weight_function, rij)*rrij;
-    shear_rij = 2.0*etai*etaj*rij/(etai*(rij + 2.0*frc_ij[noj][noi].shear_slip)
-				   + etaj*(rij + 2.0*frc_ij[noi][noj].shear_slip) + 1.0e-30);
-    bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij + 2.0*frc_ij[noj][noi].bulk_slip)
-				     + zetaj*(rij + 2.0*frc_ij[noi][noj].bulk_slip) + 1.0e-30);
-}
-void Interaction::NewInteraction(Particle *prtl_org, Particle *prtl_dest, Force **forces, QuinticSpline *weight_function, double dstc)
-{
-    Org = prtl_org;
-    Dest = prtl_dest;
-    noi = Org->mtl->number;
-    noj = Dest->mtl->number;
-    frc_ij = forces;
-    mi = Org->m; mj = Dest->m;
-    rmi = 1.0/mi; rmj =1.0/mj;
-    etai = Org->eta; etaj = Dest->eta;
-    zetai = Org->zeta; zetaj = Dest->zeta;
-    rij = dstc;
-    rrij = 1.0/(rij + 1.0e-30);
-    eij[X] = (Org->R[X] - Dest->R[X])*rrij;
-    eij[Y] = (Org->R[Y] - Dest->R[Y])*rrij;
-    Wij = w(weight_function, rij);
-    Fij = F(weight_function, rij)*rrij; 
     shear_rij = 2.0*etai*etaj*rij/(etai*(rij + 2.0*frc_ij[noj][noi].shear_slip)
 				   + etaj*(rij + 2.0*frc_ij[noi][noj].shear_slip) + 1.0e-30);
     bulk_rij =  2.0*zetai*zetaj*rij/(zetai*(rij + 2.0*frc_ij[noj][noi].bulk_slip)

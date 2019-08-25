@@ -26,7 +26,6 @@ class Interaction {
 	double bulk_rij; 
 public:
 	Interaction(Particle*, Particle*, Force**, QuinticSpline*, double dstc);
-	void NewInteraction(Particle*, Particle*, Force**, QuinticSpline*, double dstc);
 	void RenewInteraction(QuinticSpline*);
 	void SummationDensity();
 	void SummationPhaseGradient();
