@@ -13,10 +13,9 @@
 #include "macro.h"
 #include "err.h"
 #include "output.h"
-using namespace std;
 #define LIST ListNode
 
-Output::Output(Initiation *ini)
+Output::Output(struct Initiation *ini)
 {
     strcpy(Project_name, ini->Project_name);
     number_of_materials = ini->number_of_materials;
@@ -26,7 +25,7 @@ Output::Output(Initiation *ini)
 }
 
 void
-Output::OutputParticles(Hydrodynamics *hydro, Boundary *boundary,  double Time)
+Output::OutputParticles(struct Hydrodynamics *hydro, struct Boundary *boundary,  double Time)
 {
     FILE *f;
     int i, j;
@@ -68,7 +67,7 @@ Output::OutputParticles(Hydrodynamics *hydro, Boundary *boundary,  double Time)
 }
 
 void
-Output::OutputStates(Manager *particles, MLS *mls, QuinticSpline *weight_function, double Time)
+Output::OutputStates(struct Manager *particles, struct MLS *mls, struct QuinticSpline *weight_function, double Time)
 {
     FILE *f;
     int i, j, n;
@@ -122,7 +121,7 @@ Output::OutputStates(Manager *particles, MLS *mls, QuinticSpline *weight_functio
 }
 
 void
-Output::OutRestart(Hydrodynamics *hydro, double Time)
+Output::OutRestart(struct Hydrodynamics *hydro, double Time)
 {
     int n;
     char file_name[FILENAME_MAX];

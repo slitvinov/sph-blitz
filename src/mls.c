@@ -91,19 +91,15 @@ int mls_map(struct MLS *q, double point[2], struct List *NNP_list, struct Quinti
 {
     struct Particle *prtl;
     struct ListNode *p1;
-    double *A;
     double **B;
     double *p;
-    double *phi;
     double **pi;
     double *Wi;
     int N;
     int MLS_MAX;
 
-    A = q->A;
     B = q->B;
     p = q->p;
-    phi = q->phi;
     pi = q->pi;
     Wi = q->Wi;
     MLS_MAX = q->MLS_MAX;

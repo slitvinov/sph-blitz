@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include "macro.h"
 #include "list.h"
 
 struct List;
@@ -28,11 +29,13 @@ struct ListNode* list_first(struct List *q)
 
 struct ListNode* list_next(struct List *q, struct ListNode *n)
 {
+    USED(q);
     return n->next;
 }
 
 void* list_retrieve(struct List *q, struct ListNode *n)
 {
+    USED(q);
     return n->next->data;
 }
 

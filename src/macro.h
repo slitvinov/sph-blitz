@@ -27,3 +27,5 @@
 #define DLOOP_P(q, l) for (p = list_first((l));				\
 			  !list_endp((l), p) && (q = (double*)list_retrieve((l), p), 1); \
 			  p = list_next((l), p))
+
+#define	USED(x)		if(x);else{}
