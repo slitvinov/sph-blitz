@@ -18,19 +18,17 @@ void VolumeMass(List *particle_list, ParticleManager *particles, QuinticSpline *
     enum {X, Y};
     double reciprocV;
     double dstc;
-    double eij[2], sumdw[2];
+    double eij[2];
     ListNode *p, *p1;
     Particle *prtl_org, *prtl_dest;
     LOOP_P(prtl_org, particle_list) {
 	particles->BuildNNP(prtl_org->R);
-	reciprocV = 0.0; sumdw[X] = sumdw[Y] = 0.0;
+	reciprocV = 0.0;
 	LOOP1(prtl_dest, *particles->NNP_list) {
 	    dstc = vv_distance(prtl_org->R, prtl_dest->R);
 	    eij[X] = (prtl_org->R[X] - prtl_dest->R[X])/(dstc + 1.e-30);
 	    eij[Y] = (prtl_org->R[Y] - prtl_dest->R[Y])/(dstc + 1.e-30);
 	    reciprocV += w(weight_function, dstc);
-	    sumdw[X] += eij[X]*F(weight_function, dstc);
-	    sumdw[Y] += eij[Y]*F(weight_function, dstc);
 	}
 	reciprocV = 1.0/reciprocV;
 	prtl_org->V = reciprocV;
