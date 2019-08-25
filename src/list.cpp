@@ -1,24 +1,19 @@
 #include "list.h"
 #include "particle.h"
 
-class List;
-class ListNode {
-    friend class List;
-private:
+struct List;
+struct ListNode {
     void *data;
     ListNode *next;
     ListNode();
     ListNode(void*, ListNode*);
 };
 
-class List {
-private:
+struct List {
     int len;
     ListNode *node;
-public:
     List();
-    bool empty();
-    bool isEnd(ListNode*);
+    bool is_end(ListNode*);
     ListNode *first();
     ListNode *next(ListNode*);
     void *retrieve(ListNode*);
@@ -44,11 +39,7 @@ List::List()
     node = new ListNode;
     len = 0;
 }
-bool List::empty()
-{
-    return (node == node->next);
-}
-bool List::isEnd(ListNode *p)
+bool List::is_end(ListNode *p)
 {
     return p->next == node;
 }
@@ -77,13 +68,13 @@ void List::remove(ListNode *p)
 }
 void List::clear()
 {
-    while (!empty())
+    while (!list_empty(this))
 	remove(first());
     len = 0;
 }
 void List::clear_data()
 {
-    while (!empty()) {
+    while (!list_empty(this)) {
 	particle_fin((Particle*)retrieve(first()));
 	remove(first());
     }
@@ -91,18 +82,18 @@ void List::clear_data()
 }
 List::~List()
 {
-    while (!empty())
+    while (!list_empty(this))
 	remove(first());
     delete node;
 }
 
 int list_empty(List *q) {
-    return q->empty();
+    return (q->node == q->node->next);
 }
 
 int list_endp(List *q, ListNode *n)
 {
-    return q->isEnd(n);
+    return q->is_end(n);
 }
 
 ListNode* list_first(List *q)

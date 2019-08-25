@@ -15,7 +15,7 @@ private:
     bool empty() { return (node == node->next); }
 public:
     Llist() { node = new LlistNode; len = 0; }
-    bool isEnd(LlistNode *p) { return (p->next == node); }
+    bool is_end(LlistNode *p) { return (p->next == node); }
     LlistNode *first() { return node; }
     LlistNode *next(LlistNode *p)     { return p->next; }
     double *retrieve(LlistNode *p)    { return p->next->data; }
