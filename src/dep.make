@@ -45,6 +45,7 @@ interaction.o: quinticspline.h
 interaction.o: vv.h
 interaction.o: wiener.h
 list.o: list.h
+list.o: macro.h
 manager.o: boundary.h
 manager.o: err.h
 manager.o: glbfunc.h
@@ -69,7 +70,6 @@ mls.o: vv.h
 output.o: boundary.h
 output.o: err.h
 output.o: glbfunc.h
-output.o: hydrodynamics.h
 output.o: initiation.h
 output.o: list.h
 output.o: macro.h
