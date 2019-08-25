@@ -13,8 +13,9 @@
 #include "material.h"
 #include "boundary.h"
 #include "manager.h"
-#include "output.h"
 #include "macro.h"
+#include "err.h"
+#include "output.h"
 using namespace std;
 #define LIST ListNode
 
@@ -39,26 +40,32 @@ void Output::OutputParticles(Hydrodynamics *hydro, Boundary *boundary,  double T
     sprintf(file_list, "%.10lld", (long long)Itime);
     strcat(file_name, file_list);
     strcat(file_name, ".dat");
-    ofstream out(file_name);
-    out<<"title='particle position' \n";
-    out<<"variables=x, y, Ux, Uy \n";
+
+    f = fopen(file_name, "w");
+    if (!f)
+	ABORT(("can't write '%s'", file_name));
+    fprintf(f, "%s", "title='particle position' \n");
+    fprintf(f, "%s", "variables=x, y, Ux, Uy \n");
     for(i = 0; i < number_of_materials; i++) {
 	j = 0;
 	LOOP_P(prtl, hydro->particle_list) {
 	    if(strcmp(hydro->materials[i].material_name, prtl->mtl->material_name) == 0) {
 		j++;
-		if(j == 1) out<<"zone t='"<<hydro->materials[i].material_name<<"' \n";
-		out<<prtl->R[0]<<"  "<<prtl->R[1] <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
+		if(j == 1)
+		    fprintf(f, "zone t='%s' \n", hydro->materials[i].material_name);
+		fprintf(f, "%.6g  %.6g  %.6g  %.6g\n", prtl->R[0], prtl->R[1], prtl->U[0], prtl->U[1]);
 	    }
 	}
 	LOOP_P(prtl, boundary->b) {
 	    if(strcmp(hydro->materials[i].material_name, prtl->mtl->material_name) == 0) {
 		j++;
-		if(j == 1)	out<<"zone t='"<<hydro->materials[i].material_name<<"' \n";
-		out<<prtl->R[0]<<"  "<<prtl->R[1] <<"  "<<prtl->U[0]<<"  "<<prtl->U[1]<<"\n";
+		if(j == 1)
+		    fprintf(f, "zone t='%s' \n", hydro->materials[i].material_name);
+		fprintf(f, "%.6g  %.6g  %.6g  %.6g\n", prtl->R[0], prtl->R[1], prtl->U[0], prtl->U[1]);
 	    }
 	}
     }
+    fclose(f);
 }
 void Output::OutputStates(Manager *particles, MLS *mls, QuinticSpline *weight_function, double Time)
 {
