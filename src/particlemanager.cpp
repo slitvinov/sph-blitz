@@ -17,29 +17,36 @@
 #include "err.h"
 
 #define MAX_SIZE 4096
-
-using namespace std;
 enum {X, Y};
 
 #define NEW(pos, vel, den, pre, tem, mtl) particle_real(pos, vel, den, pre, tem, mtl)
 #define LIST ListNode
 #define ILIST IListNode
-ParticleManager::ParticleManager(Initiation *ini)
+
+struct ParticleManager*
+manager_ini(struct Initiation *ini)
 {
-
+    struct ParticleManager *q;
     int i, j;
-    smoothinglength = ini->smoothinglength;
-    cell_size = ini->cell_size;
-    x_clls = ini->x_cells + 2; y_clls = ini->y_cells + 2;
-    cell_ratio = ini->cell_ratio;
 
-    cell_lists = (List***)malloc(x_clls*sizeof(List**));
-    for(i = 0; i < x_clls; i++) {
-	cell_lists[i] = (List**)malloc(y_clls*sizeof(List*));
-	for (j = 0; j < y_clls; j++)
-	    cell_lists[i][j] = list_ini();
+    q = (struct ParticleManager*)malloc(sizeof(ParticleManager));
+    if (q == NULL)
+	return NULL;
+    
+    q->smoothinglength = ini->smoothinglength;
+    q->cell_size = ini->cell_size;
+    q->x_clls = ini->x_cells + 2;
+    q->y_clls = ini->y_cells + 2;
+    q->cell_ratio = ini->cell_ratio;
+
+    q->cell_lists = (List***)malloc(q->x_clls*sizeof(List**));
+    for(i = 0; i < q->x_clls; i++) {
+	q->cell_lists[i] = (List**)malloc(q->y_clls*sizeof(List*));
+	for (j = 0; j < q->y_clls; j++)
+	    q->cell_lists[i][j] = list_ini();
     }
-    NNP_list = list_ini();
+    q->NNP_list = list_ini();
+    return q;
 }
 
 int manager_update_list(struct ParticleManager *q)
@@ -114,7 +121,7 @@ int manager_build_nnp(ParticleManager *q, double point[2])
     return 0;
 }
 
-void ParticleManager::BuildInteraction(IList *interactions, List *particle_list,
+int manager_build_interaction(struct ParticleManager *q, struct IList *interactions, List *particle_list,
 				       Force **forces, QuinticSpline *weight_function)
 {
     LIST *p, *p1;
@@ -123,6 +130,13 @@ void ParticleManager::BuildInteraction(IList *interactions, List *particle_list,
     double sm2;
     Particle *prtl_org, *prtl_dest;
     Interaction *pair;
+
+    double smoothinglength;
+    double cell_size;
+    List ***cell_lists;
+    cell_size = q->cell_size;
+    cell_lists = q->cell_lists;
+    smoothinglength = q->smoothinglength;
     
     sm2 = smoothinglength * smoothinglength;
     ilist_clear_data(interactions);
@@ -142,6 +156,7 @@ void ParticleManager::BuildInteraction(IList *interactions, List *particle_list,
 		}
 	}
     }
+    return 0;
 }
 
 void manager_build_particles(struct ParticleManager *q, Material *materials, List *particle_list, Initiation *ini)
@@ -243,6 +258,9 @@ void manager_build_particles(struct ParticleManager *q, Material *materials, Lis
     }
 }
 
-ParticleManager::~ParticleManager() {
-    list_fin(NNP_list);
+int manager_fin(struct ParticleManager *q)
+{
+    list_fin(q->NNP_list);
+    free(q);
+    return 0;
 }
