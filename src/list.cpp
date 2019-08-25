@@ -5,10 +5,10 @@ class List;
 class ListNode {
     friend class List;
 private:
-    struct Particle *data;
+    void *data;
     ListNode *next;
     ListNode();
-    ListNode(Particle*, ListNode*);
+    ListNode(void*, ListNode*);
 };
 
 class List {
@@ -17,15 +17,15 @@ private:
     ListNode *node;
 public:
     List();
-    bool empty0();
-    bool isEnd0(ListNode*);
-    ListNode *first0();
-    ListNode *next0(ListNode*);
-    Particle *retrieve0(ListNode*);
-    void insert0(ListNode*, Particle*);
-    void remove0(ListNode*);
-    void clear0();
-    void clear_data0();
+    bool empty();
+    bool isEnd(ListNode*);
+    ListNode *first();
+    ListNode *next(ListNode*);
+    void *retrieve(ListNode*);
+    void insert(ListNode*, void*);
+    void remove(ListNode*);
+    void clear();
+    void clear_data();
     ~List();
 };
 
@@ -34,7 +34,7 @@ ListNode::ListNode()
     data = 0;
     next = this;
 }
-ListNode::ListNode(Particle *d, ListNode *n)
+ListNode::ListNode(void *d, ListNode *n)
 {
     data = d;
     next = n;
@@ -44,97 +44,97 @@ List::List()
     node = new ListNode;
     len = 0;
 }
-bool List::empty0()
+bool List::empty()
 {
     return (node == node->next);
 }
-bool List::isEnd0(ListNode *p)
+bool List::isEnd(ListNode *p)
 {
     return p->next == node;
 }
-ListNode *List::first0()
+ListNode *List::first()
 {
     return node;
 }
-ListNode *List::next0(ListNode *p)
+ListNode *List::next(ListNode *p)
 {
     return p->next;
 }
-Particle *List::retrieve0(ListNode *p) {
+void* List::retrieve(ListNode *p) {
     return p->next->data;
 }
-void List::insert0(ListNode *p, Particle *d)
+void List::insert(ListNode *p, void *d)
 {
     len++;
     p->next = new ListNode(d, p->next);
 }
-void List::remove0(ListNode *p)
+void List::remove(ListNode *p)
 {
     ListNode *t = p->next;
     p->next = t->next;
     delete t;
     len--;
 }
-void List::clear0()
+void List::clear()
 {
-    while (!empty0())
-	remove0(first0());
+    while (!empty())
+	remove(first());
     len = 0;
 }
-void List::clear_data0()
+void List::clear_data()
 {
-    while (!empty0()) {
-	particle_fin(retrieve0(first0()));
-	remove0(first0());
+    while (!empty()) {
+	particle_fin((Particle*)retrieve(first()));
+	remove(first());
     }
     len = 0;
 }
 List::~List()
 {
-    while (!empty0())
-	remove0(first0());
+    while (!empty())
+	remove(first());
     delete node;
 }
 
 int list_empty(List *q) {
-    return q->empty0();
+    return q->empty();
 }
 
 int list_endp(List *q, ListNode *n)
 {
-    return q->isEnd0(n);
+    return q->isEnd(n);
 }
 
 ListNode* list_first(List *q)
 {
-    return q->first0();
+    return q->first();
 }
 
 ListNode* list_next(List *q, ListNode *n)
 {
-    return q->next0(n);
+    return q->next(n);
 }
 
-Particle* list_retrieve(List *q, ListNode *n)
+void* list_retrieve(List *q, ListNode *n)
 {
-    return q->retrieve0(n);
+    return q->retrieve(n);
 }
 
-void list_insert(List *q, ListNode *n, Particle *p)
+void list_insert(List *q, ListNode *n, void *p)
 {
-    q->insert0(n, p);
+    q->insert(n, p);
 }
 void list_remove(List *q, ListNode *n)
 {
-    q->remove0(n);
+    q->remove(n);
 }
 void list_clear(List *q)
 {
-    q->clear0();
+    q->clear();
 }
 void list_clear_data(List *q)
 {
-    q->clear_data0();
+    q->clear_data();
 }
 
 List *list_ini(void)

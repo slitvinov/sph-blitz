@@ -77,7 +77,7 @@ void Diagnose::SaveStates(Hydrodynamics *hydro)
     p = list_first(hydro->particle_list);
     for(k = 0; k < 1; k++)
 	p = list_next(hydro->particle_list, p);
-    prtl = list_retrieve(hydro->particle_list, p);
+    prtl = (struct Particle*)list_retrieve(hydro->particle_list, p);
     *p1 = prtl->U[0];
 
     *p2 = prtl->U[1];
