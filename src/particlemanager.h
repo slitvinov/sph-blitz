@@ -9,9 +9,7 @@ class QuinticSpline;
 class ParticleManager
 {
   double smoothinglength;
-  double smoothinglengthsquare;
-  double cll_sz;
-  double delta;
+  double cell_size;
   int hdelta;
 public:
   int x_clls;

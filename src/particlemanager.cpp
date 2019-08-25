@@ -29,10 +29,9 @@ ParticleManager::ParticleManager(Initiation *ini)
 
     int i, j;
     smoothinglength = ini->smoothinglength;
-    smoothinglengthsquare = smoothinglength*smoothinglength;
-    cll_sz = ini->cell_size;
+    cell_size = ini->cell_size;
     x_clls = ini->x_cells + 2; y_clls = ini->y_cells + 2;
-    hdelta = ini->hdelta; delta = ini->delta;
+    hdelta = ini->hdelta;
 
     cell_lists = (List***)malloc(x_clls*sizeof(List**));
     for(i = 0; i < x_clls; i++) {
@@ -55,8 +54,8 @@ void ParticleManager::UpdateCellLinkedLists()
 	    while(!list_endp(cell_lists[i][j], p)) {
 		prtl = list_retrieve(cell_lists[i][j], p);
 		if(prtl->bd == 0) {
-		    k = int ((prtl->R[0] + cll_sz)/ cll_sz);
-		    m = int ((prtl->R[1] + cll_sz)/ cll_sz);
+		    k = int ((prtl->R[0] + cell_size)/ cell_size);
+		    m = int ((prtl->R[1] + cell_size)/ cell_size);
 		    if(k != i || m !=j) {
 			list_remove(cell_lists[i][j], p);
 			INSERT(prtl, *cell_lists[k][m]);
@@ -77,8 +76,8 @@ void ParticleManager::BuildNNP(double point[2])
     Particle *prtl;
 
     list_clear(NNP_list);
-    k = int ((point[0] + cll_sz)/ cll_sz);
-    m = int ((point[1] + cll_sz)/ cll_sz);
+    k = int ((point[0] + cell_size)/ cell_size);
+    m = int ((point[1] + cell_size)/ cell_size);
     for(i = k - 1; i <= k + 1; i++)
 	for(j = m - 1; j <= m + 1; j++)
 	    if(i < x_clls && j < y_clls && i >= 0 && j >= 0)
@@ -97,8 +96,8 @@ void ParticleManager::BuildNNP_MLSMapping(double point[2])
     LIST *p;
     Particle *prtl;
 
-    k = int ((point[0] + cll_sz)/ cll_sz);
-    m = int ((point[1] + cll_sz)/ cll_sz);
+    k = int ((point[0] + cell_size)/ cell_size);
+    m = int ((point[1] + cell_size)/ cell_size);
     for(i = k - 1; i <= k + 1; i++) {
 	for(j = m - 1; j <= m + 1; j++) {
 	    if(i < x_clls && j < y_clls && i >= 0 && j >= 0) {
@@ -119,19 +118,21 @@ void ParticleManager::BuildInteraction(IList *interactions, List *particle_list,
     LIST *p, *p1;
     int i, j, k, m;
     double dstc;
+    double sm2;
     Particle *prtl_org, *prtl_dest;
     Interaction *pair;
-
+    
+    sm2 = smoothinglength * smoothinglength;
     ilist_clear_data(interactions);
     LOOP_P(prtl_org, particle_list) {
 	if(prtl_org->bd == 0) {
-	    i = int ((prtl_org->R[0] + cll_sz)/ cll_sz);
-	    j = int ((prtl_org->R[1] + cll_sz)/ cll_sz);
+	    i = int ((prtl_org->R[0] + cell_size)/ cell_size);
+	    j = int ((prtl_org->R[1] + cell_size)/ cell_size);
 	    for(k = i - 1; k <= i + 1; k++)
 		for(m = j - 1; m <= j + 1; m++) {
 		    LOOP1(prtl_dest, *cell_lists[k][m]) {
 			dstc = vv_sq_distance(prtl_org->R, prtl_dest->R);
-			if(dstc <= smoothinglengthsquare && prtl_org->ID >= prtl_dest->ID) {
+			if(dstc <= sm2 && prtl_org->ID >= prtl_dest->ID) {
 			    pair = new Interaction(prtl_org, prtl_dest, forces, weight_function, sqrt(dstc));
 			    IINSERT_P(pair, interactions);
 			}
@@ -147,6 +148,7 @@ void ParticleManager::BuildRealParticles(Material *materials, List *particle_lis
     int i, j, k, m;
     double position[2];
     double velocity[2];
+    double delta;
     double density, pressure, Temperature;
     int material_no;
     Particle *prtl;
@@ -154,14 +156,15 @@ void ParticleManager::BuildRealParticles(Material *materials, List *particle_lis
     char inputfile[FILENAME_MAX], line[MAX_SIZE];
     char material_name[MAX_SIZE];
     FILE *f;
-
+    
+    delta = cell_size/hdelta;
     if(ini->initial_condition==0) {
 	for(i = 1; i < x_clls - 1; i++) {
 	    for(j = 1; j < y_clls - 1; j++) {
 		for(k = 0; k < hdelta; k++) {
 		    for(m = 0; m < hdelta; m++) {
-			position[0] = (i - 1)*cll_sz + (k + 0.5)*delta;
-			position[1] = (j - 1)*cll_sz + (m + 0.5)*delta;
+			position[0] = (i - 1)*cell_size + (k + 0.5)*delta;
+			position[1] = (j - 1)*cell_size + (m + 0.5)*delta;
 			material_no = 1;
 			velocity[X] = ini->U0[X];
 			velocity[Y] = ini->U0[Y];
@@ -215,8 +218,8 @@ void ParticleManager::BuildRealParticles(Material *materials, List *particle_lis
 		pressure = get_p(&materials[material_no], density);
 		prtl = NEW(position, velocity, density, pressure, Temperature, &materials[material_no]);
 		INSERT(prtl, *particle_list);
-		i = int (prtl->R[0] / cll_sz) + 1;
-		j = int (prtl->R[1] / cll_sz) + 1;
+		i = int (prtl->R[0] / cell_size) + 1;
+		j = int (prtl->R[1] / cell_size) + 1;
 		prtl->cell_i = i; prtl->cell_j = j;
 		INSERT(prtl, *cell_lists[i][j]);
 	    } else {
