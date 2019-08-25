@@ -13,8 +13,6 @@ struct List {
     int len;
     ListNode *node;
     List();
-    void clear();
-    void clear_data();
     ~List();
 };
 
@@ -34,14 +32,6 @@ List::List()
     len = 0;
 }
 
-void List::clear_data()
-{
-    while (!list_empty(this)) {
-	particle_fin((Particle*)list_retrieve(this, list_first(this)));
-	list_remove(this, list_first(this));
-    }
-    len = 0;
-}
 List::~List()
 {
     while (!list_empty(this))
@@ -96,7 +86,11 @@ void list_clear(List *q)
 
 void list_clear_data(List *q)
 {
-    q->clear_data();
+    while (!list_empty(q)) {
+	particle_fin((Particle*)list_retrieve(q, list_first(q)));
+	list_remove(q, list_first(q));
+    }
+    q->len = 0;
 }
 
 List *list_ini(void)
