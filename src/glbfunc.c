@@ -8,15 +8,19 @@ double AMIN1(double a, double b){
     if(a < b) return a;
     return b;
 }
-int SymmetricInverse3x3(double M[3][3]) {
+int SymmetricInverse3x3(double *M) {
+    enum {XX, XY, XZ,  YX, YY, YZ,  ZX, ZY, ZZ};
     double z1, z2, z3, z4, z5, z6, z7, z8, z9, z10, z11, z12;
     double z13, z14, z15, z16;
-    double m00 = M[0][0];
-    double m11 = M[1][1];
-    double m22 = M[2][2];
-    double m12 = M[1][2];
-    double m02 = M[0][2];
-    double m01 = M[0][1];
+    double m00, m01, m02, m11, m12, m22;
+
+    m00 = M[XX];
+    m01 = M[XY];
+    m02 = M[XZ];
+    m11 = M[YY];
+    m12 = M[YZ];
+    m22 = M[ZZ];
+
     z1 = m01*m01;
     z2 = m01*m02;
     z3 = m02*m02;
@@ -52,12 +56,13 @@ int SymmetricInverse3x3(double M[3][3]) {
     z3 = z3*z4;
     z7 = z4*z7;
     z1 = z1*z4;
-    M[0][0] = z7;
-    M[1][1] = z3;
-    M[2][2] = z1;
-    M[1][2] = M[2][1] = z2;
-    M[0][2] = M[2][0] = z5;
-    M[0][1] = M[1][0] = z6;
+
+    M[XX] = z7;
+    M[YY] = z3;
+    M[ZZ] = z1;
+    M[YZ] = M[ZY] = z2;
+    M[XZ] = M[ZX] = z5;
+    M[XY] = M[YX] = z6;
     return 1;
 }
 double sq(double a)

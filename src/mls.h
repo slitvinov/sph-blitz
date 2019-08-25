@@ -4,7 +4,7 @@ class QuinticSpline;
 class MLS {
     int N;
     int MLS_MAX;
-    double A[3][3], **B;
+    double A[3*3], **B;
     double p[3], **pi;
     double *Wi;
     void MLS_Solver(int order);

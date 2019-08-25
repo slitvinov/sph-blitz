@@ -30,8 +30,8 @@ void MLS::MLS_Solver(int order)
   int ord; 
   for(k = 0; k < 3; k++) 
     for(m = 0; m < 3; m++) {
-      A[k][m] = 0.0;
-      for(i = 0; i < N; i++) A[k][m] += pi[k][i]*pi[m][i]*Wi[i];
+      A[3*k+m] = 0.0;
+      for(i = 0; i < N; i++) A[3*k+m] += pi[k][i]*pi[m][i]*Wi[i];
     }
   for(k = 0; k < 3; k++) 
     for(i = 0; i < N; i++) B[k][i] = pi[k][i]*Wi[i];
@@ -45,7 +45,7 @@ void MLS::MLS_Solver(int order)
   else {
     for(k = 0; k < 3; k++) {
       inter[k] = 0.0;
-      for(m = 0; m < 3; m++) inter[k] += p[m]*A[m][k];
+      for(m = 0; m < 3; m++) inter[k] += p[m]*A[3*m+k];
     }
     for(i = 0; i < N; i++) {
       phi[i] = 0.0;
