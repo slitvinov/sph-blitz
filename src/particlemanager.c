@@ -6,22 +6,20 @@
 #include "vv.h"
 #include "initiation.h"
 #include "particle.h"
-#include "dllist.h"
 #include "list.h"
 #include "ilist.h"
-#include "interaction.h"
 #include "material.h"
 #include "boundary.h"
-#include "particlemanager.h"
 #include "macro.h"
 #include "err.h"
+#include "particlemanager.h"
 
 #define MAX_SIZE 4096
 enum {X, Y};
 
 #define NEW(pos, vel, den, pre, tem, mtl) particle_real(pos, vel, den, pre, tem, mtl)
-#define LIST ListNode
-#define ILIST IListNode
+#define LIST struct ListNode
+#define ILIST struct IListNode
 
 struct ParticleManager*
 manager_ini(struct Initiation *ini)
@@ -29,7 +27,7 @@ manager_ini(struct Initiation *ini)
     struct ParticleManager *q;
     int i, j;
 
-    q = (struct ParticleManager*)malloc(sizeof(ParticleManager));
+    q = (struct ParticleManager*)malloc(sizeof(struct ParticleManager));
     if (q == NULL)
 	return NULL;
     
@@ -39,9 +37,9 @@ manager_ini(struct Initiation *ini)
     q->y_clls = ini->y_cells + 2;
     q->cell_ratio = ini->cell_ratio;
 
-    q->cell_lists = (List***)malloc(q->x_clls*sizeof(List**));
+    q->cell_lists = (struct List***)malloc(q->x_clls*sizeof(struct List**));
     for(i = 0; i < q->x_clls; i++) {
-	q->cell_lists[i] = (List**)malloc(q->y_clls*sizeof(List*));
+	q->cell_lists[i] = (struct List**)malloc(q->y_clls*sizeof(struct List*));
 	for (j = 0; j < q->y_clls; j++)
 	    q->cell_lists[i][j] = list_ini();
     }
@@ -55,12 +53,12 @@ int manager_update_list(struct ParticleManager *q)
     int i, j;
     int k, m;
     LIST *p;
-    Particle *prtl;
+    struct Particle *prtl;
     
     int x_clls;
     int y_clls;
     double cell_size;
-    List ***cell_lists;
+    struct List ***cell_lists;
     x_clls = q->x_clls;
     y_clls = q->y_clls;
     cell_size = q->cell_size;
@@ -72,11 +70,11 @@ int manager_update_list(struct ParticleManager *q)
 	    while(!list_endp(cell_lists[i][j], p)) {
 		prtl = list_retrieve(cell_lists[i][j], p);
 		if(prtl->bd == 0) {
-		    k = int ((prtl->R[0] + cell_size)/ cell_size);
-		    m = int ((prtl->R[1] + cell_size)/ cell_size);
+		    k = (int) ((prtl->R[0] + cell_size)/ cell_size);
+		    m = (int) ((prtl->R[1] + cell_size)/ cell_size);
 		    if(k != i || m !=j) {
 			list_remove(cell_lists[i][j], p);
-			INSERT(prtl, *cell_lists[k][m]);
+			INSERT_P(prtl, cell_lists[k][m]);
 		    } else p = list_next(cell_lists[i][j], p);
 		} else p = list_next(cell_lists[i][j], p);
 	    }
@@ -86,20 +84,20 @@ int manager_update_list(struct ParticleManager *q)
     return 0;
 }
 
-int manager_build_nnp(ParticleManager *q, double point[2])
+int manager_build_nnp(struct ParticleManager *q, double point[2])
 {
     int i, j;
     int k, m;
     double dstc;
     LIST *p;
-    Particle *prtl;
+    struct Particle *prtl;
 
-    List *NNP_list;
+    struct List *NNP_list;
     int x_clls;
     int y_clls;
     double cell_size;
     double smoothinglength;
-    List ***cell_lists;
+    struct List ***cell_lists;
     x_clls = q->x_clls;
     y_clls = q->y_clls;
     cell_size = q->cell_size;
@@ -108,32 +106,33 @@ int manager_build_nnp(ParticleManager *q, double point[2])
     NNP_list = q->NNP_list;
 
     list_clear(NNP_list);
-    k = int ((point[0] + cell_size)/ cell_size);
-    m = int ((point[1] + cell_size)/ cell_size);
+    k = (int) ((point[0] + cell_size)/ cell_size);
+    m = (int) ((point[1] + cell_size)/ cell_size);
     for(i = k - 1; i <= k + 1; i++)
 	for(j = m - 1; j <= m + 1; j++)
 	    if(i < x_clls && j < y_clls && i >= 0 && j >= 0)
 		LOOP_P(prtl, cell_lists[i][j]) {
 		    dstc = vv_distance(point, prtl->R);
 		    if(dstc < smoothinglength)
-			INSERT(prtl, *NNP_list);
+			INSERT_P(prtl, NNP_list);
 		}
     return 0;
 }
 
-int manager_build_interaction(struct ParticleManager *q, struct IList *interactions, List *particle_list,
-				       Force **forces, QuinticSpline *weight_function)
+int manager_build_interaction(struct ParticleManager *q,
+			      struct IList *interactions, struct List *particle_list,
+			      struct Force **forces, struct QuinticSpline *weight_function)
 {
     LIST *p, *p1;
     int i, j, k, m;
     double dstc;
     double sm2;
-    Particle *prtl_org, *prtl_dest;
-    Interaction *pair;
+    struct Particle *prtl_org, *prtl_dest;
+    struct Interaction *pair;
 
     double smoothinglength;
     double cell_size;
-    List ***cell_lists;
+    struct List ***cell_lists;
     cell_size = q->cell_size;
     cell_lists = q->cell_lists;
     smoothinglength = q->smoothinglength;
@@ -142,14 +141,14 @@ int manager_build_interaction(struct ParticleManager *q, struct IList *interacti
     ilist_clear_data(interactions);
     LOOP_P(prtl_org, particle_list) {
 	if(prtl_org->bd == 0) {
-	    i = int ((prtl_org->R[0] + cell_size)/ cell_size);
-	    j = int ((prtl_org->R[1] + cell_size)/ cell_size);
+	    i = (int) ((prtl_org->R[0] + cell_size)/ cell_size);
+	    j = (int) ((prtl_org->R[1] + cell_size)/ cell_size);
 	    for(k = i - 1; k <= i + 1; k++)
 		for(m = j - 1; m <= j + 1; m++) {
-		    LOOP1(prtl_dest, *cell_lists[k][m]) {
+		    LOOP1_P(prtl_dest, cell_lists[k][m]) {
 			dstc = vv_sq_distance(prtl_org->R, prtl_dest->R);
 			if(dstc <= sm2 && prtl_org->ID >= prtl_dest->ID) {
-			    pair = new Interaction(prtl_org, prtl_dest, forces, weight_function, sqrt(dstc));
+			    // pair = new Interaction(prtl_org, prtl_dest, forces, weight_function, sqrt(dstc));
 			    IINSERT_P(pair, interactions);
 			}
 		    }
@@ -159,7 +158,7 @@ int manager_build_interaction(struct ParticleManager *q, struct IList *interacti
     return 0;
 }
 
-void manager_build_particles(struct ParticleManager *q, Material *materials, List *particle_list, Initiation *ini)
+void manager_build_particles(struct ParticleManager *q, struct Material *materials, struct List *particle_list, struct Initiation *ini)
 {
 
     int i, j, k, m;
@@ -168,7 +167,7 @@ void manager_build_particles(struct ParticleManager *q, Material *materials, Lis
     double delta;
     double density, pressure, Temperature;
     int material_no;
-    Particle *prtl;
+    struct Particle *prtl;
     int n, N, cnt;
     char inputfile[FILENAME_MAX], line[MAX_SIZE];
     char material_name[MAX_SIZE];
@@ -178,7 +177,7 @@ void manager_build_particles(struct ParticleManager *q, Material *materials, Lis
     int y_clls;
     int cell_ratio;
     double cell_size;
-    List ***cell_lists;
+    struct List ***cell_lists;
     x_clls = q->x_clls;
     y_clls = q->y_clls;
     cell_size = q->cell_size;
@@ -201,8 +200,8 @@ void manager_build_particles(struct ParticleManager *q, Material *materials, Lis
 			pressure = get_p(&materials[material_no], density);
 			prtl = NEW(position, velocity, density, pressure, Temperature, &materials[material_no]);
 			prtl->cell_i = i; prtl->cell_j = j;
-			INSERT(prtl, *particle_list);
-			INSERT(prtl, *cell_lists[i][j]);
+			INSERT_P(prtl, particle_list);
+			INSERT_P(prtl, cell_lists[i][j]);
 
 		    }
 		}
@@ -245,11 +244,11 @@ void manager_build_particles(struct ParticleManager *q, Material *materials, Lis
 	    if(material_no != -1) {
 		pressure = get_p(&materials[material_no], density);
 		prtl = NEW(position, velocity, density, pressure, Temperature, &materials[material_no]);
-		INSERT(prtl, *particle_list);
-		i = int (prtl->R[0] / cell_size) + 1;
-		j = int (prtl->R[1] / cell_size) + 1;
+		INSERT_P(prtl, particle_list);
+		i = (int) (prtl->R[0] / cell_size) + 1;
+		j = (int) (prtl->R[1] / cell_size) + 1;
 		prtl->cell_i = i; prtl->cell_j = j;
-		INSERT(prtl, *cell_lists[i][j]);
+		INSERT_P(prtl, cell_lists[i][j]);
 	    } else {
 		ABORT(("The material in the restart file is not used by the program!"));
 	    }
