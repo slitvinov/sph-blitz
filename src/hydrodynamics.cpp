@@ -153,7 +153,7 @@ void Hydrodynamics::ZeroChangeRate()
 {
     LIST *p;
     Particle *prtl;
-    LOOP(prtl, *particle_list) {
+    LOOP(prtl, particle_list) {
 	prtl->dedt = 0.0;
 	prtl->drhodt = 0.0;
 	prtl->dUdt[X] = prtl->dUdt[Y] = 0.0;
@@ -164,7 +164,7 @@ void Hydrodynamics::Zero_density()
 {
     LIST *p;
     Particle *prtl;
-    LOOP(prtl, *particle_list) {
+    LOOP(prtl, particle_list) {
 	prtl->rho = 0.0;
     }
 }
@@ -172,10 +172,10 @@ void Hydrodynamics::Zero_PhaseGradient(Boundary *boundary)
 {
     LIST *p;
     Particle *prtl;
-    LOOP(prtl, *particle_list) {
+    LOOP(prtl, particle_list) {
 	prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
     }
-    LOOP(prtl, *boundary->b) {
+    LOOP(prtl, boundary->b) {
 	prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
     }
 }
@@ -183,7 +183,7 @@ void Hydrodynamics::Zero_Random()
 {
     LIST *p;
     Particle *prtl;
-    LOOP(prtl, *particle_list) {
+    LOOP(prtl, particle_list) {
 	prtl->_dU[X] = prtl->_dU[Y] = 0.0;
     }
 }
@@ -191,7 +191,7 @@ void Hydrodynamics::AddGravity()
 {
     LIST *p;
     Particle *prtl;
-    LOOP(prtl, *particle_list) {
+    LOOP(prtl, particle_list) {
 	prtl->dUdt[X] += gravity[X];
 	prtl->dUdt[Y] += gravity[Y];
     }
@@ -200,7 +200,7 @@ void Hydrodynamics::UpdateState()
 {
     LIST *p;
     Particle *prtl;
-    LOOP(prtl, *particle_list) {
+    LOOP(prtl, particle_list) {
 	prtl->p = get_p(prtl->mtl, prtl->rho);
     }
 }
@@ -209,13 +209,13 @@ void Hydrodynamics::UpdatePahseMatrix(Boundary *boundary)
     LIST *p;
     Particle *prtl;
     int i, j;
-    LOOP(prtl, *particle_list) {
+    LOOP(prtl, particle_list) {
 	for(i = 0; i < number_of_materials; i++)
 	    for(j = 0; j < number_of_materials; j++) {
 		if( i != j) prtl->phi[i][j] = prtl->phi[i][j];
 	    }
     }
-    LOOP(prtl, *boundary->b) {
+    LOOP(prtl, boundary->b) {
 	for(i = 0; i < number_of_materials; i++)
 	    for(j = 0; j < number_of_materials; j++) {
 		if( i != j) prtl->phi[i][j] = prtl->phi[i][j];
@@ -228,14 +228,14 @@ void Hydrodynamics::UpdateSurfaceStress(Boundary *boundary)
     double interm0, interm1, interm2;
     Particle *prtl;
     LIST *p;
-    LOOP(prtl, *particle_list) {
+    LOOP(prtl, particle_list) {
 	interm0 = 1.0/(vv_abs(prtl->del_phi) + epsilon);
 	interm1 = 0.5*vv_sqdiff(prtl->del_phi);
 	interm2 = prtl->del_phi[X] * prtl->del_phi[Y];
 	prtl->del_phi[0] = interm1*interm0;
 	prtl->del_phi[1] = interm2*interm0;
     }
-    LOOP(prtl, *boundary->b) {
+    LOOP(prtl, boundary->b) {
 	interm0 = vv_abs(prtl->del_phi) + epsilon;
 	interm1 = 0.5*vv_sqdiff(prtl->del_phi);
 	interm2 = prtl->del_phi[X] * prtl->del_phi[Y];
@@ -249,7 +249,7 @@ double Hydrodynamics::GetTimestep()
     LIST *p;
     double Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = 1.0;
     double dt;
-    LOOP(prtl, *particle_list) {
+    LOOP(prtl, particle_list) {
 	Cs_max = AMAX1(Cs_max, prtl->Cs);
 	V_max = AMAX1(V_max, vv_abs(prtl->U));
 	rho_min = AMIN1(rho_min, prtl->rho);
@@ -262,7 +262,7 @@ void Hydrodynamics::Predictor_summation(double dt)
 {
     LIST *p;
     Particle *prtl;
-    LOOP(prtl, *particle_list) {
+    LOOP(prtl, particle_list) {
 	prtl->R_I[X] = prtl->R[X];
 	prtl->R_I[Y] = prtl->R[Y];
 	prtl->U[X] += prtl->_dU[X];
@@ -283,7 +283,7 @@ void Hydrodynamics::Corrector_summation(double dt)
 {
     LIST *p;
     Particle *prtl;    
-    LOOP(prtl, *particle_list) {
+    LOOP(prtl, particle_list) {
 	prtl->U[X] += prtl->_dU[X];
 	prtl->U[Y] += prtl->_dU[Y];
 	prtl->R[X] = prtl->R_I[X] + prtl->U[X]*dt;
@@ -296,7 +296,7 @@ void Hydrodynamics::RandomEffects()
 {
     LIST *p;
     Particle *prtl;
-    LOOP(prtl, *particle_list) {
+    LOOP(prtl, particle_list) {
 	prtl->U[X] = prtl->U[X] + prtl->_dU[X];
 	prtl->U[Y] = prtl->U[Y] + prtl->_dU[Y];    
     }

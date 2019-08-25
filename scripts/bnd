@@ -1,12 +1,14 @@
 #!/usr/bin/awk -f
 
-/;/ {
-    t = tab($0)
-    v = $2
-    sub(/;/, "", v)
-    sub(/\*/, "", v)
-    sub(/\[.*\]/, "", v)
-    printf "%s%s = q->%s;\n", t, v, v
+/LOOP\(/ {
+    sub(/*/, "")
+    sub(/LOOP/, "LOOP_P", "")
+    print
+    next
+}
+
+{
+    print
 }
 
 function tab(s)
