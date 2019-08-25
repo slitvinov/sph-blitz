@@ -3,9 +3,7 @@ extern "C" {
 #endif
 struct Particle;
 struct Boundary;
-struct Hydrodynamics;
 struct Initiation;
-struct Interaction;
 struct Force;
 struct QuinticSpline;
 

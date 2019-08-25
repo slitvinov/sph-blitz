@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
     boundary_condition(boundary, particles->cell_lists);
     Diagnose diagnose(&ini, &hydro);
     Time = ini.Start_time;
-    output_particles(&hydro, boundary, Time);
+    output_particles(output, hydro.particle_list, hydro.materials, boundary, Time);
     output_states(output, particles, mls, &weight_function, Time);
     if(ini.diagnose == 2)
       diagnose.KineticInformation(Time, &hydro);
@@ -56,9 +56,11 @@ int main(int argc, char *argv[]) {
     ite = 0;
     while(Time < ini.End_time) {
 	if(Time + ini.D_time >=  ini.End_time) ini.D_time = ini.End_time - Time;
-	step(&ite, &hydro, particles, boundary, &Time, ini.D_time, &diagnose, &ini, &weight_function, mls);
-	output_particles(&hydro, boundary, Time);
-	output_restart(output, &hydro, Time);
+	step(&ite, &hydro, particles, boundary, &Time, ini.D_time,
+	     &diagnose, &ini, &weight_function, mls);
+	output_particles(output, hydro.particle_list, hydro.materials,
+			 boundary, Time);
+	output_restart(output, hydro.particle_list, Time);
 	if(ini.diagnose == 1) {
 	    diagnose.OutputProfile(Time);
 	    diagnose.OutputAverage(Time);

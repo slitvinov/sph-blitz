@@ -27,11 +27,12 @@ output_ini(struct Initiation *ini)
     q->y_cells = ini->y_cells;
     q->cell_ratio = ini->cell_ratio;
     q->delta = ini->delta;
+    q->number_of_materials = ini->number_of_materials;
     return q;
 }
 
 int
-output_particles(struct Hydrodynamics *hydro, struct Boundary *boundary,  double Time)
+output_particles(struct Output *q, struct List *particle_list, struct Material *materials, struct Boundary *boundary,  double Time)
 {
     FILE *f;
     int i, j;
@@ -39,13 +40,9 @@ output_particles(struct Hydrodynamics *hydro, struct Boundary *boundary,  double
     char file_name[FILENAME_MAX], file_list[FILENAME_MAX];
     Particle *prtl;
     LIST *p;
-    List *particle_list;
-    Material *materials;
     int number_of_materials;
 
-    number_of_materials = hydro->number_of_materials;
-    particle_list = hydro->particle_list;
-    materials = hydro->materials;
+    number_of_materials = q->number_of_materials;
 
     Itime = Time*1.0e6;
     strcpy(file_name,"./outdata/p.");
@@ -148,7 +145,7 @@ output_states(struct Output *q, struct Manager *particles, struct MLS *mls, stru
 }
 
 int
-output_restart(struct Output *q, struct Hydrodynamics *hydro, double Time)
+output_restart(struct Output *q, struct List *particle_list, double Time)
 {
     int n;
     char file_name[FILENAME_MAX];
@@ -162,12 +159,12 @@ output_restart(struct Output *q, struct Hydrodynamics *hydro, double Time)
     if (!f)
 	ABORT(("can't write '%s'", file_name));
     n = 0;
-    LOOP_P(prtl, hydro->particle_list) {
+    LOOP_P(prtl, particle_list) {
 	if(prtl->bd == 0) n++;
     }
     fprintf(f, "%.6g\n", Time);
     fprintf(f, "%d\n", n);
-    LOOP_P(prtl, hydro->particle_list) {
+    LOOP_P(prtl, particle_list) {
 	if(prtl->bd == 0)
 	    fprintf(f, "%s %.6g %.6g %.6g %.6g %.6g %.6g %.6g\n",
 		    prtl->mtl->material_name, prtl->R[0], prtl->R[1], prtl->U[0], prtl->U[1] , prtl->rho, prtl->p, prtl->T);
