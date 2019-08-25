@@ -28,7 +28,7 @@ void VolumeMass(List *particle_list, ParticleManager *particles, QuinticSpline *
 	    eij[X] = (prtl_org->R[X] - prtl_dest->R[X])/(dstc + 1.e-30);
 	    eij[Y] = (prtl_org->R[Y] - prtl_dest->R[Y])/(dstc + 1.e-30);
 	    reciprocV += w(weight_function, dstc);
-	}
+ 	}
 	reciprocV = 1.0/reciprocV;
 	prtl_org->V = reciprocV;
 	prtl_org->m = prtl_org->rho*reciprocV;
