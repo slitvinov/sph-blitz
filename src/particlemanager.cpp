@@ -40,13 +40,6 @@ ParticleManager::ParticleManager(Initiation *ini)
     initial_condition = ini->initial_condition;
     hdelta = ini->hdelta; delta = ini->delta;
 
-    if(initial_condition == 0) {
-	U0[X] = ini->U0[X];
-	U0[Y] = ini->U0[Y];
-	rho0 = ini->rho0;
-	p0 = ini->p0;
-	T0 = ini->T0;
-    }
     cell_lists = (List***)malloc(x_clls*sizeof(List**));
     for(i = 0; i < x_clls; i++) {
 	cell_lists[i] = (List**)malloc(y_clls*sizeof(List*));
@@ -92,18 +85,14 @@ void ParticleManager::BuildNNP(double point[2])
     list_clear(NNP_list);
     k = int ((point[0] + cll_sz)/ cll_sz);
     m = int ((point[1] + cll_sz)/ cll_sz);
-    for(i = k - 1; i <= k + 1; i++) {
-	for(j = m - 1; j <= m + 1; j++) {
-	    if(i < x_clls && j < y_clls && i >= 0 && j >= 0) {
+    for(i = k - 1; i <= k + 1; i++)
+	for(j = m - 1; j <= m + 1; j++)
+	    if(i < x_clls && j < y_clls && i >= 0 && j >= 0)
 		LOOP_P(prtl, cell_lists[i][j]) {
 		    dstc = vv_distance(point, prtl->R);
-		    if(dstc < smoothinglength) {
+		    if(dstc < smoothinglength)
 			INSERT(prtl, *NNP_list);
-		    }
 		}
-	    }
-	}
-    }
 }
 
 void ParticleManager::BuildNNP_MLSMapping(double point[2])
@@ -186,9 +175,9 @@ void ParticleManager::BuildRealParticles(Material *materials, List *particle_lis
 			position[0] = (i - 1)*cll_sz + (k + 0.5)*delta;
 			position[1] = (j - 1)*cll_sz + (m + 0.5)*delta;
 			material_no = 1;
-			velocity[X] = U0[X];
-			velocity[Y] = U0[Y];
-			Temperature = T0;
+			velocity[X] = ini->U0[X];
+			velocity[Y] = ini->U0[Y];
+			Temperature = ini->T0;
 			density = materials[material_no].rho0;
 			pressure = get_p(&materials[material_no], density);
 			prtl = NEW(position, velocity, density, pressure, Temperature, &materials[material_no]);

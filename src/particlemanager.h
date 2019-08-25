@@ -17,10 +17,6 @@ class ParticleManager
   int initial_condition;
   double delta;
   int hdelta;
-  double U0[2];
-  double rho0;
-  double p0;
-  double T0;
 public:
   int x_clls;
   int y_clls;
