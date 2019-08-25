@@ -46,7 +46,6 @@ interaction.o: quinticspline.h
 interaction.o: vv.h
 interaction.o: wiener.h
 list.o: list.h
-list.o: particle.h
 material.o: glbfunc.h
 material.o: material.h
 mls.o: err.h
