@@ -6,8 +6,8 @@ BEGIN {
 }
 FNR == 1 {
     f = FILENAME
-    sub(/.c$/, ".o", f)
-    sub(/.cpp$/, ".o", f)
+    sub(/\.c$/, ".o", f)
+    sub(/\.cpp$/, ".o", f)
 }
 sub(/^[\t ]*#[\t ]*include[\t ]*/, "") &&
 sub(/^\"/, "") &&
