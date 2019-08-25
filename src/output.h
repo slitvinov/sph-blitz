@@ -1,6 +1,8 @@
-class Hydrodynamics;
-class Boundary;
-class Manager;
+struct Initiation;
+struct Hydrodynamics;
+struct Boundary;
+struct Manager;
+struct MLS;
 class Output {
     char Project_name[25];
     int number_of_materials;
@@ -9,8 +11,8 @@ class Output {
     int y_cells;
     int cell_ratio; 
 public:
-    explicit Output(Initiation *ini);
-    void OutputParticles(Hydrodynamics *hydro, Boundary *boundary, double Time);
-    void OutputStates(Manager *particles, MLS *mls, QuinticSpline *weight_function, double Time);
-    void OutRestart(Hydrodynamics *hydro, double Time);
+    explicit Output(Initiation*);
+    void OutputParticles(Hydrodynamics*, Boundary*, double Time);
+    void OutputStates(Manager*, MLS*, QuinticSpline*, double Time);
+    void OutRestart(Hydrodynamics*, double Time);
 };
