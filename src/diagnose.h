@@ -11,14 +11,14 @@ class Diagnose {
 	double vx_dstrb[2][101];
 	double vy_dstrb[2][101];
 	double rho_dstrb[2][101];
-	Llist vx_list;
-	Llist vy_list;
-	Llist rho_list;
+	List *vx_list;
+	List *vy_list;
+	List *rho_list;
 	int gridx;
 	int gridy;
 	double ***U;
 	int n_average;
-	void BuildDistribution(Llist*, double dstrb[2][101]);
+	void BuildDistribution(List*, double dstrb[2][101]);
 	double ttl_m;
 	double *mtl_m;
 	double glb_ave_Ek;

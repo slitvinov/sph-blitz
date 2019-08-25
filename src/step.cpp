@@ -2,7 +2,6 @@
 #include <tgmath.h>
 #include "particle.h"
 #include "list.h"
-#include "dllist.h"
 #include "diagnose.h"
 #include "initiation.h"
 #include "hydrodynamics.h"

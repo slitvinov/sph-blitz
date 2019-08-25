@@ -14,7 +14,7 @@
 			  p = list_next((l), p))
 
 
-#define DINSERT(q, l) l.insert(l.first(), q)
+#define DINSERT(q, l) l->insert(l->first(), q)
 
 #define IINSERT_P(q, l) list_insert(l, list_first(l), q)
 
@@ -23,3 +23,7 @@
 			  p = list_next((l), p))
 
 #define INSERT_P(q, l) list_insert(l, list_first(l), q)
+
+#define DLOOP_P(q, l) for (p = list_first((l));				\
+			  !list_endp((l), p) && (q = (double*)list_retrieve((l), p), 1); \
+			  p = list_next((l), p))

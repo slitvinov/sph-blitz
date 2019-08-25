@@ -7,7 +7,6 @@ boundary.o: macro.h
 boundary.o: material.h
 boundary.o: particle.h
 diagnose.o: diagnose.h
-diagnose.o: dllist.h
 diagnose.o: glbfunc.h
 diagnose.o: hydrodynamics.h
 diagnose.o: initiation.h
@@ -57,7 +56,6 @@ mls.o: particle.h
 mls.o: quinticspline.h
 mls.o: vv.h
 output.o: boundary.h
-output.o: dllist.h
 output.o: glbfunc.h
 output.o: hydrodynamics.h
 output.o: initiation.h
@@ -85,7 +83,6 @@ particle.o: particle.h
 quinticspline.o: quinticspline.h
 sph.o: boundary.h
 sph.o: diagnose.h
-sph.o: dllist.h
 sph.o: err.h
 sph.o: hydrodynamics.h
 sph.o: initiation.h
@@ -102,14 +99,12 @@ sph.o: volume.h
 sph.o: wiener.h
 step.o: boundary.h
 step.o: diagnose.h
-step.o: dllist.h
 step.o: hydrodynamics.h
 step.o: initiation.h
 step.o: list.h
 step.o: particle.h
 step.o: particlemanager.h
 step.o: step.h
-volume.o: dllist.h
 volume.o: list.h
 volume.o: macro.h
 volume.o: particle.h

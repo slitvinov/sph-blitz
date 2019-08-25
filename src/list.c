@@ -61,6 +61,11 @@ void list_clear(struct List *q)
     q->len = 0;
 }
 
+int list_length(struct List *q)
+{
+    return q->len;
+}
+
 struct List *list_ini(void)
 {
     struct List *q;

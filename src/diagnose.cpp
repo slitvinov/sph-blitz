@@ -5,7 +5,6 @@
 #include <string.h>
 #include "glbfunc.h"
 #include "particle.h"
-#include "dllist.h"
 #include "list.h"
 #include "vv.h"
 #include "initiation.h"
@@ -25,6 +24,10 @@ Diagnose::Diagnose(Initiation *ini, Hydrodynamics *hydro)
     int k, l, m;
     LIST *p;
     Particle *prtl;
+    vx_list = list_ini();
+    vy_list = list_ini();
+    rho_list = list_ini();
+    
     x_cells = ini->x_cells; y_cells = ini->y_cells;
     delta = ini->delta;
     number_of_materials = ini->number_of_materials;
@@ -81,9 +84,9 @@ void Diagnose::SaveStates(Hydrodynamics *hydro)
 
     *p2 = prtl->U[1];
     *p3 = prtl->rho;
-    DINSERT(p1, vx_list);
-    DINSERT(p2, vy_list);
-    DINSERT(p3, rho_list);
+    INSERT_P(p1, vx_list);
+    INSERT_P(p2, vy_list);
+    INSERT_P(p3, rho_list);
 }
 void Diagnose::OutputProfile(double Time)
 {
@@ -100,39 +103,37 @@ void Diagnose::OutputProfile(double Time)
     out<<"variables=aUx, Ux, aUy, Uy, arho, rho \n";
     for(k = 0; k < 2; k++)
 	for(m = 0; m < 101; m++) vx_dstrb[k][m] = 0.0;
-    BuildDistribution(&vx_list, vx_dstrb);
+    BuildDistribution(vx_list, vx_dstrb);
     for(k = 0; k < 2; k++)
 	for(m = 0; m < 101; m++) vy_dstrb[k][m] = 0.0;
-    BuildDistribution(&vy_list, vy_dstrb);
+    BuildDistribution(vy_list, vy_dstrb);
     for(m = 0; m < 101; m++) rho_dstrb[0][m] = 1.0;
     for(m = 0; m < 101; m++) rho_dstrb[1][m] = 0.0;
-    BuildDistribution(&rho_list, rho_dstrb);
-    k =  vx_list.length();
+    BuildDistribution(rho_list, rho_dstrb);
+    k =  list_length(vx_list);
     for(m = 0; m < 101; m++) {
 	out<<vx_dstrb[0][m]<<"  "<<vx_dstrb[1][m]/double(k)<<"  "
 	   <<vy_dstrb[0][m]<<"  "<<vy_dstrb[1][m]/double(k)<<"  "
 	   <<rho_dstrb[0][m]<<"  "<<rho_dstrb[1][m]/double(k)<<"  \n";
     }
 }
-void Diagnose::BuildDistribution(Llist *list, double dstrb[2][101])
+void Diagnose::BuildDistribution(List *list, double dstrb[2][101])
 {
     int m;
-    LlistNode *p;
+    ListNode *p;
     double delta;
+    double *x;
 
-    for (p = list->first();
-	 !list->endp(p);
-	 p = list->next(p)) {
-	dstrb[0][0] = AMIN1(dstrb[0][0], *list->retrieve(p));
-	dstrb[0][100] = AMAX1(dstrb[0][100], *list->retrieve(p));
+    DLOOP_P(x, list) {
+	dstrb[0][0] = AMIN1(dstrb[0][0], *x);
+	dstrb[0][100] = AMAX1(dstrb[0][100], *x);
     }
     delta = (dstrb[0][100] - dstrb[0][0])*0.01;
     for(m = 0; m < 101; m++)
 	dstrb[0][m] = dstrb[0][0] + delta*(double)m;
-    for (p = list->first();
-	 !list->endp(p);
-	 p = list->next(p)) {
-	m = int ((*list->retrieve(p) - dstrb[0][0]) / delta);
+
+    DLOOP_P(x, list) {
+	m = int ((*x - dstrb[0][0]) / delta);
 	dstrb[1][m] += 1.0;
     }
 }

@@ -3,7 +3,6 @@
 #include <math.h>
 #include "particle.h"
 #include "vv.h"
-#include "dllist.h"
 #include "list.h"
 #include "quinticspline.h"
 #include "particlemanager.h"
