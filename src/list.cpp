@@ -13,12 +13,6 @@ struct List {
     int len;
     ListNode *node;
     List();
-    int endp(ListNode*);
-    ListNode *first();
-    ListNode *next(ListNode*);
-    void *retrieve(ListNode*);
-    void insert(ListNode*, void*);
-    void remove(ListNode*);
     void clear();
     void clear_data();
     ~List();
@@ -39,51 +33,25 @@ List::List()
     node = new ListNode;
     len = 0;
 }
-int List::endp(ListNode *p)
-{
-    return p->next == node;
-}
-ListNode *List::first()
-{
-    return node;
-}
-ListNode *List::next(ListNode *p)
-{
-    return p->next;
-}
-void* List::retrieve(ListNode *p) {
-    return p->next->data;
-}
-void List::insert(ListNode *p, void *d)
-{
-    len++;
-    p->next = new ListNode(d, p->next);
-}
-void List::remove(ListNode *p)
-{
-    ListNode *t = p->next;
-    p->next = t->next;
-    delete t;
-    len--;
-}
+
 void List::clear()
 {
     while (!list_empty(this))
-	remove(first());
+	list_remove(this, list_first(this));
     len = 0;
 }
 void List::clear_data()
 {
     while (!list_empty(this)) {
-	particle_fin((Particle*)retrieve(first()));
-	remove(first());
+	particle_fin((Particle*)list_retrieve(this, list_first(this)));
+	list_remove(this, list_first(this));
     }
     len = 0;
 }
 List::~List()
 {
     while (!list_empty(this))
-	remove(first());
+	list_remove(this, list_first(this));
     delete node;
 }
 
@@ -93,32 +61,38 @@ int list_empty(List *q) {
 
 int list_endp(List *q, ListNode *n)
 {
-    return q->endp(n);
+    return n->next == q->node;
 }
 
 ListNode* list_first(List *q)
 {
-    return q->first();
+    return q->node;
 }
 
 ListNode* list_next(List *q, ListNode *n)
 {
-    return q->next(n);
+    return n->next;
 }
 
 void* list_retrieve(List *q, ListNode *n)
 {
-    return q->retrieve(n);
+    return n->next->data;
 }
 
 void list_insert(List *q, ListNode *n, void *p)
 {
-    q->insert(n, p);
+    q->len++;
+    n->next = new ListNode(p, n->next);
 }
-void list_remove(List *q, ListNode *n)
+
+void list_remove(List *q, ListNode *p)
 {
-    q->remove(n);
+    ListNode *t = p->next;
+    p->next = t->next;
+    delete t;
+    q->len--;
 }
+
 void list_clear(List *q)
 {
     q->clear();
