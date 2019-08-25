@@ -36,8 +36,6 @@ sph: $O
 
 include dep.make
 
-.cpp:
-%: %.cpp
 
 dep:
 	../scripts/dep
