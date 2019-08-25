@@ -28,6 +28,7 @@ Output::Output(Initiation *ini)
 }
 void Output::OutputParticles(Hydrodynamics *hydro, Boundary *boundary,  double Time)
 {
+    FILE *f;
     int i, j;
     double Itime;
     char file_name[FILENAME_MAX], file_list[FILENAME_MAX];
