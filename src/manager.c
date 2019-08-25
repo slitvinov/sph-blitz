@@ -12,7 +12,7 @@
 #include "macro.h"
 #include "err.h"
 #include "interaction_c.h"
-#include "particlemanager.h"
+#include "manager.h"
 
 
 #define MAX_SIZE 4096
@@ -22,13 +22,13 @@ enum {X, Y};
 #define LIST struct ListNode
 #define ILIST struct ListNode
 
-struct ParticleManager*
+struct Manager*
 manager_ini(struct Initiation *ini)
 {
-    struct ParticleManager *q;
+    struct Manager *q;
     int i, j;
 
-    q = (struct ParticleManager*)malloc(sizeof(struct ParticleManager));
+    q = (struct Manager*)malloc(sizeof(struct Manager));
     if (q == NULL)
 	return NULL;
 
@@ -48,7 +48,7 @@ manager_ini(struct Initiation *ini)
     return q;
 }
 
-int manager_update_list(struct ParticleManager *q)
+int manager_update_list(struct Manager *q)
 {
 
     int i, j;
@@ -85,7 +85,7 @@ int manager_update_list(struct ParticleManager *q)
     return 0;
 }
 
-int manager_build_nnp(struct ParticleManager *q, double point[2])
+int manager_build_nnp(struct Manager *q, double point[2])
 {
     int i, j;
     int k, m;
@@ -120,7 +120,7 @@ int manager_build_nnp(struct ParticleManager *q, double point[2])
     return 0;
 }
 
-int manager_build_interaction(struct ParticleManager *q,
+int manager_build_interaction(struct Manager *q,
 			      struct List *interactions, struct List *particle_list,
 			      struct Force **forces, struct QuinticSpline *weight_function)
 {
@@ -163,7 +163,7 @@ int manager_build_interaction(struct ParticleManager *q,
     return 0;
 }
 
-void manager_build_particles(struct ParticleManager *q, struct Material *materials, struct List *particle_list, struct Initiation *ini)
+void manager_build_particles(struct Manager *q, struct Material *materials, struct List *particle_list, struct Initiation *ini)
 {
 
     int i, j, k, m;
@@ -262,7 +262,7 @@ void manager_build_particles(struct ParticleManager *q, struct Material *materia
     }
 }
 
-int manager_fin(struct ParticleManager *q)
+int manager_fin(struct Manager *q)
 {
     list_fin(q->NNP_list);
     free(q);

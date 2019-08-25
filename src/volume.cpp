@@ -5,12 +5,12 @@
 #include "vv.h"
 #include "list.h"
 #include "quinticspline.h"
-#include "particlemanager.h"
+#include "manager.h"
 #include "volume.h"
 #include "macro.h"
 
 
-void VolumeMass(List *particle_list, ParticleManager *particles, QuinticSpline *weight_function)
+void VolumeMass(List *particle_list, Manager *particles, QuinticSpline *weight_function)
 {
     enum {X, Y};
     double reciprocV;

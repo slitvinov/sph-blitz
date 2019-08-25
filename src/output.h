@@ -1,6 +1,6 @@
 class Hydrodynamics;
 class Boundary;
-class ParticleManager;
+class Manager;
 class Output {
     char Project_name[25];
     int number_of_materials;
@@ -11,6 +11,6 @@ class Output {
 public:
     explicit Output(Initiation *ini);
     void OutputParticles(Hydrodynamics *hydro, Boundary *boundary, double Time);
-    void OutputStates(ParticleManager *particles, MLS *mls, QuinticSpline *weight_function, double Time);
+    void OutputStates(Manager *particles, MLS *mls, QuinticSpline *weight_function, double Time);
     void OutRestart(Hydrodynamics *hydro, double Time);
 };

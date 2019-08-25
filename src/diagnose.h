@@ -1,6 +1,6 @@
 struct Initiation;
 struct Hydrodynamics;
-struct ParticleManager;
+struct Manager;
 struct MLS;
 struct QuinticSpline;
 struct Boundary;
@@ -29,7 +29,7 @@ public:
 	Diagnose(Initiation*, Hydrodynamics*);
 	void SaveStates(Hydrodynamics*);
 	void OutputProfile(double Time);
-	void Average(ParticleManager*, MLS*, QuinticSpline*);
+	void Average(Manager*, MLS*, QuinticSpline*);
 	void OutputAverage(double Time);
 	void KineticInformation(double Time, Hydrodynamics*);
 };

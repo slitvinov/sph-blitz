@@ -8,7 +8,7 @@
 #include "quinticspline.h"
 #include "initiation.h"
 #include "interaction.h"
-#include "particlemanager.h"
+#include "manager.h"
 #include "hydrodynamics.h"
 #include "boundary.h"
 #include "volume.h"
@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
     struct Initiation ini;
     int ite;
     struct MLS *mls;
-    struct ParticleManager* particles;
+    struct Manager* particles;
     QuinticSpline weight_function;
 
     if (argc<2)

@@ -17,7 +17,7 @@ material.o\
 mls.o\
 output.o\
 particle.o\
-particlemanager.o\
+manager.o\
 quinticspline.o\
 sph.o\
 step.o\

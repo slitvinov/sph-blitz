@@ -2,7 +2,7 @@
 extern "C" {
 #endif
 struct Initiation;
-struct ParticleManager;
+struct Manager;
 struct Boundary
 {
     double box_size[2];

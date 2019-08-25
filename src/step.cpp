@@ -5,10 +5,10 @@
 #include "initiation.h"
 #include "hydrodynamics.h"
 #include "boundary.h"
-#include "particlemanager.h"
+#include "manager.h"
 #include "step.h"
 
-void step(int ite, Hydrodynamics *hydro, ParticleManager *particles, Boundary *boundary, double *Time, double D_time, Diagnose *diagnose, Initiation *ini, QuinticSpline *weight_function, MLS *mls)
+void step(int ite, Hydrodynamics *hydro, Manager *particles, Boundary *boundary, double *Time, double D_time, Diagnose *diagnose, Initiation *ini, QuinticSpline *weight_function, MLS *mls)
 {
     double integeral_time;
     double dt;

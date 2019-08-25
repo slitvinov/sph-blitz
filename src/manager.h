@@ -9,7 +9,7 @@ struct Interaction;
 struct Force;
 struct QuinticSpline;
 
-struct ParticleManager
+struct Manager
 {
   double smoothinglength;
   double cell_size;
@@ -20,13 +20,13 @@ struct ParticleManager
   struct List *NNP_list;
 };
 
-int manager_update_list(struct ParticleManager*);
-void manager_build_particles(struct ParticleManager*, struct Material*, struct List*, struct Initiation*);
-int manager_build_nnp(struct ParticleManager*, double[2]);
-int manager_build_interaction(struct ParticleManager*,
+int manager_update_list(struct Manager*);
+void manager_build_particles(struct Manager*, struct Material*, struct List*, struct Initiation*);
+int manager_build_nnp(struct Manager*, double[2]);
+int manager_build_interaction(struct Manager*,
 			      struct List*, struct List*, struct Force**, struct QuinticSpline*);
-struct ParticleManager* manager_ini(struct Initiation*);
-int manager_fin(struct ParticleManager*);
+struct Manager* manager_ini(struct Initiation*);
+int manager_fin(struct Manager*);
 
 #ifdef __cplusplus
 }

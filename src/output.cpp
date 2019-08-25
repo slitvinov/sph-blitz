@@ -12,7 +12,7 @@
 #include "hydrodynamics.h"
 #include "material.h"
 #include "boundary.h"
-#include "particlemanager.h"
+#include "manager.h"
 #include "output.h"
 #include "macro.h"
 using namespace std;
@@ -59,7 +59,7 @@ void Output::OutputParticles(Hydrodynamics *hydro, Boundary *boundary,  double T
 	}
     }
 }
-void Output::OutputStates(ParticleManager *particles, MLS *mls, QuinticSpline *weight_function, double Time)
+void Output::OutputStates(Manager *particles, MLS *mls, QuinticSpline *weight_function, double Time)
 {
     int i, j, n;
     int gridx, gridy;

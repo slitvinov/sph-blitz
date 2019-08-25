@@ -10,7 +10,7 @@
 #include "initiation.h"
 #include "hydrodynamics.h"
 #include "mls.h"
-#include "particlemanager.h"
+#include "manager.h"
 #include "material.h"
 #include "diagnose.h"
 #include "macro.h"
@@ -137,7 +137,7 @@ void Diagnose::BuildDistribution(List *list, double dstrb[2][101])
 	dstrb[1][m] += 1.0;
     }
 }
-void Diagnose::Average(ParticleManager *particles, MLS *mls, QuinticSpline *weight_function)
+void Diagnose::Average(Manager *particles, MLS *mls, QuinticSpline *weight_function)
 {
     int i, j, n;
     double pstn[2];
