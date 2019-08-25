@@ -17,7 +17,7 @@ struct List {
 
 ListNode::ListNode()
 {
-    data = 0;
+    data = NULL;
     next = this;
 }
 ListNode::ListNode(void *d, ListNode *n)
@@ -27,7 +27,7 @@ ListNode::ListNode(void *d, ListNode *n)
 }
 
 int list_empty(List *q) {
-    return (q->node == q->node->next);
+    return q->node == q->node->next;
 }
 
 int list_endp(List *q, ListNode *n)
