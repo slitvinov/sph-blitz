@@ -8,15 +8,18 @@
 #include "manager.h"
 #include "step.h"
 
-void step(int ite, Hydrodynamics *hydro, Manager *particles, Boundary *boundary, double *Time, double D_time, Diagnose *diagnose, Initiation *ini, QuinticSpline *weight_function, MLS *mls)
+void step(int *pite, Hydrodynamics *hydro, Manager *particles, Boundary *boundary, double *Time, double D_time, Diagnose *diagnose, Initiation *ini, QuinticSpline *weight_function, MLS *mls)
 {
     double integeral_time;
     double dt;
+    int ite;
+
+    ite = *pite;
 
     integeral_time = 0;
     while(integeral_time < D_time) {
 	dt = hydro->GetTimestep();
-	ite ++;
+	ite++;
 	integeral_time += dt;
 	*Time += dt;
 	if(ite % 10 == 0)
@@ -50,4 +53,5 @@ void step(int ite, Hydrodynamics *hydro, Manager *particles, Boundary *boundary,
 	manager_update_list(particles);
 	boundary_build(boundary, particles->cell_lists, hydro->materials);
     }
+    *pite = ite;
 }

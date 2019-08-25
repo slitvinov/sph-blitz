@@ -128,21 +128,25 @@ void
 Output::OutRestart(Hydrodynamics *hydro, double Time)
 {
     int n;
-    char outputfile[FILENAME_MAX];
+    char file_name[FILENAME_MAX];
     Particle *prtl;
     LIST *p;
-    strcpy(outputfile, Project_name);
-    strcat(outputfile,".rst");
-    ofstream out(outputfile);
+    FILE *f;
+    strcpy(file_name, Project_name);
+    strcat(file_name,".rst");
+    f = fopen(file_name, "w");
+    if (!f)
+	ABORT(("can't write '%s'", file_name));
     n = 0;
     LOOP_P(prtl, hydro->particle_list) {
 	if(prtl->bd == 0) n++;
     }
-    out<<Time<<"\n";
-    out<<n<<"\n";
+    fprintf(f, "%.6g\n", Time);
+    fprintf(f, "%d\n", n);
     LOOP_P(prtl, hydro->particle_list) {
 	if(prtl->bd == 0)
-	    out<<prtl->mtl->material_name<<"  "<<prtl->R[0]<<"  "<<prtl->R[1]<<"  "<<prtl->U[0]<<"  "<<prtl->U[1] <<"  "<<prtl->rho<<"  "<<prtl->p<<"  "<<prtl->T<< '\n';
+	    fprintf(f, "%s %.6g %.6g %.6g %.6g %.6g %.6g %.6g\n", 
+		    prtl->mtl->material_name, prtl->R[0], prtl->R[1], prtl->U[0], prtl->U[1] , prtl->rho, prtl->p, prtl->T);
     }
-    out.close();
+    fclose(f);
 }
