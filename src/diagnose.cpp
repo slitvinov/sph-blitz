@@ -29,7 +29,6 @@ Diagnose::Diagnose(Initiation *ini, Hydrodynamics *hydro)
     x_cells = ini->x_cells; y_cells = ini->y_cells;
     hdelta = ini->hdelta;
     delta = ini->delta;
-    strcpy(Project_name, ini->Project_name);
     number_of_materials = ini->number_of_materials;
     gridx = x_cells*hdelta + 1; gridy = y_cells*hdelta + 1;
     U = new double **[5];
