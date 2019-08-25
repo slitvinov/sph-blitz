@@ -79,7 +79,11 @@ int boundary_build(struct Boundary *q, struct List ***c, struct Material *mtl)
     yBu = q->yBu;
     b = q->b;
 
-    list_clear_particle(b);
+    LOOP_P(prtl, b) {
+	particle_fin(prtl);
+    }
+    list_clear(b);
+    
     kb = 0; mb = x_clls;
     ku = 0; mu = x_clls;
     if(xBl == yBd) kb = 1;

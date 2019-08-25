@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include "list.h"
-#include "particle.h"
 
 struct List;
 struct ListNode {
@@ -59,15 +58,6 @@ void list_clear(struct List *q)
 {
     while (!list_empty(q))
 	list_remove(q, list_first(q));
-    q->len = 0;
-}
-
-void list_clear_particle(struct List *q) /* TODO */
-{
-    while (!list_empty(q)) {
-	particle_fin((struct Particle*)list_retrieve(q, list_first(q)));
-	list_remove(q, list_first(q));
-    }
     q->len = 0;
 }
 

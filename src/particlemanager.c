@@ -144,8 +144,6 @@ int manager_build_interaction(struct ParticleManager *q,
 	interaction_fin(pair);
     }
     list_clear(interactions);
-
-    
     LOOP_P(prtl_org, particle_list) {
 	if(prtl_org->bd == 0) {
 	    i = (int) ((prtl_org->R[0] + cell_size)/ cell_size);
