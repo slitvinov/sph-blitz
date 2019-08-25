@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdio.h>
 #include <tgmath.h>
 #include <stdlib.h>
 #include "particle.h"
@@ -6,14 +7,12 @@
 #include "list.h"
 #include "mls.h"
 #include "initiation.h"
-#include "hydrodynamics.h"
 #include "material.h"
 #include "boundary.h"
 #include "manager.h"
 #include "macro.h"
 #include "err.h"
 #include "output.h"
-#define LIST ListNode
 
 struct Output*
 output_ini(struct Initiation *ini)
@@ -38,8 +37,8 @@ output_particles(struct Output *q, struct List *particle_list, struct Material *
     int i, j;
     double Itime;
     char file_name[FILENAME_MAX], file_list[FILENAME_MAX];
-    Particle *prtl;
-    LIST *p;
+    struct Particle *prtl;
+    struct ListNode *p;
     int number_of_materials;
 
     number_of_materials = q->number_of_materials;
@@ -88,8 +87,8 @@ output_states(struct Output *q, struct Manager *particles, struct MLS *mls, stru
     double rho, phi, pressure, Temperature, x_velocity, y_velocity;
     double Itime;
     char file_name[FILENAME_MAX], file_list[10];
-    Particle *prtl;
-    LIST *p;
+    struct Particle *prtl;
+    struct ListNode *p;
 
     double delta;
     int x_cells;
@@ -149,8 +148,8 @@ output_restart(struct Output *q, struct List *particle_list, double Time)
 {
     int n;
     char file_name[FILENAME_MAX];
-    Particle *prtl;
-    LIST *p;
+    struct Particle *prtl;
+    struct ListNode *p;
     FILE *f;
 
     strcpy(file_name, q->Project_name);

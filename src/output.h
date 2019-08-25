@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 struct Initiation;
 struct Hydrodynamics;
 struct Boundary;
@@ -17,3 +20,6 @@ int output_states(struct Output*, struct Manager*, struct MLS*, struct QuinticSp
 int output_restart(struct Output*, struct List*, double Time);
 struct Output* output_ini(struct Initiation*);
 int output_fin(struct Output*);
+#ifdef __cplusplus
+}
+#endif
