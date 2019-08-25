@@ -26,6 +26,8 @@ int manager_build_nnp(struct ParticleManager*, double[2]);
 int manager_build_interaction(struct ParticleManager*,
 			      struct IList*, struct List*, struct Force**, struct QuinticSpline*);
 struct ParticleManager* manager_ini(struct Initiation*);
+int manager_fin(struct ParticleManager*);
+
 #ifdef __cplusplus
 }
 #endif
