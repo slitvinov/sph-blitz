@@ -62,7 +62,7 @@ void list_clear(struct List *q)
     q->len = 0;
 }
 
-void list_clear_data(struct List *q)
+void list_clear_particle(struct List *q) /* TODO */
 {
     while (!list_empty(q)) {
 	particle_fin((struct Particle*)list_retrieve(q, list_first(q)));
