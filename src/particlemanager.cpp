@@ -10,7 +10,6 @@
 #include "list.h"
 #include "ilist.h"
 #include "interaction.h"
-#include "hydrodynamics.h"
 #include "material.h"
 #include "boundary.h"
 #include "particlemanager.h"

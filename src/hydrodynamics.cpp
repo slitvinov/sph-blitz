@@ -5,8 +5,6 @@
 #include <cstring>
 #include <cstdio>
 #include <cstdlib>
-class Hydrodynamics;
-class ParticleManager;
 #include "err.h"
 #include "vv.h"
 #include "glbfunc.h"
@@ -14,15 +12,14 @@ class ParticleManager;
 #include "particle.h"
 #include "list.h"
 #include "ilist.h"
-#include "wiener.h"
 #include "initiation.h"
 #include "material.h"
 #include "force.h"
 #include "interaction.h"
 #include "particlemanager.h"
 #include "boundary.h"
-#include "hydrodynamics.h"
 #include "macro.h"
+#include "hydrodynamics.h"
 
 #define LIST ListNode
 #define ILIST IListNode

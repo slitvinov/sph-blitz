@@ -36,7 +36,6 @@ hydrodynamics.o: particle.h
 hydrodynamics.o: particlemanager.h
 hydrodynamics.o: quinticspline.h
 hydrodynamics.o: vv.h
-hydrodynamics.o: wiener.h
 ilist.o: ilist.h
 ilist.o: interaction.h
 initiation.o: err.h
@@ -79,7 +78,6 @@ particlemanager.o: boundary.h
 particlemanager.o: dllist.h
 particlemanager.o: err.h
 particlemanager.o: glbfunc.h
-particlemanager.o: hydrodynamics.h
 particlemanager.o: ilist.h
 particlemanager.o: initiation.h
 particlemanager.o: interaction.h
