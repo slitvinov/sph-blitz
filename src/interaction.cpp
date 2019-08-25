@@ -161,6 +161,13 @@ void Interaction::RandomForces(double sqrtdt)
     }
 }
 
-struct Interaction *interaction_ini(struct Particle *a, struct Particle *b, struct Force **f, struct QuinticSpline *w, double dstc) {
+struct Interaction *interaction_ini(struct Particle *a, struct Particle *b, struct Force **f, struct QuinticSpline *w, double dstc)
+{
     return new Interaction(a, b, f, w, dstc);
+}
+
+int interaction_fin(struct Interaction *q)
+{
+    delete q;
+    return 0;
 }

@@ -10,7 +10,6 @@ diagnose.o\
 err.o\
 glbfunc.o\
 hydrodynamics.o\
-ilist.o\
 initiation.o\
 interaction.o\
 list.o\

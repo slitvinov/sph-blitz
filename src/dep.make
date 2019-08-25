@@ -10,7 +10,6 @@ diagnose.o: diagnose.h
 diagnose.o: dllist.h
 diagnose.o: glbfunc.h
 diagnose.o: hydrodynamics.h
-diagnose.o: ilist.h
 diagnose.o: initiation.h
 diagnose.o: list.h
 diagnose.o: macro.h
@@ -26,7 +25,6 @@ hydrodynamics.o: err.h
 hydrodynamics.o: force.h
 hydrodynamics.o: glbfunc.h
 hydrodynamics.o: hydrodynamics.h
-hydrodynamics.o: ilist.h
 hydrodynamics.o: initiation.h
 hydrodynamics.o: interaction.h
 hydrodynamics.o: list.h
@@ -35,8 +33,6 @@ hydrodynamics.o: material.h
 hydrodynamics.o: particle.h
 hydrodynamics.o: quinticspline.h
 hydrodynamics.o: vv.h
-ilist.o: ilist.h
-ilist.o: interaction.h
 initiation.o: err.h
 initiation.o: initiation.h
 interaction.o: force.h
@@ -65,7 +61,6 @@ output.o: boundary.h
 output.o: dllist.h
 output.o: glbfunc.h
 output.o: hydrodynamics.h
-output.o: ilist.h
 output.o: initiation.h
 output.o: list.h
 output.o: macro.h
@@ -77,7 +72,6 @@ output.o: particlemanager.h
 particlemanager.o: boundary.h
 particlemanager.o: err.h
 particlemanager.o: glbfunc.h
-particlemanager.o: ilist.h
 particlemanager.o: initiation.h
 particlemanager.o: interaction_c.h
 particlemanager.o: list.h
@@ -95,7 +89,6 @@ sph.o: diagnose.h
 sph.o: dllist.h
 sph.o: err.h
 sph.o: hydrodynamics.h
-sph.o: ilist.h
 sph.o: initiation.h
 sph.o: interaction.h
 sph.o: list.h
@@ -112,14 +105,12 @@ step.o: boundary.h
 step.o: diagnose.h
 step.o: dllist.h
 step.o: hydrodynamics.h
-step.o: ilist.h
 step.o: initiation.h
 step.o: list.h
 step.o: particle.h
 step.o: particlemanager.h
 step.o: step.h
 volume.o: dllist.h
-volume.o: ilist.h
 volume.o: list.h
 volume.o: macro.h
 volume.o: particle.h

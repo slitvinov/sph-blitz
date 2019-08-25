@@ -8,14 +8,15 @@
 
 #define INSERT(q, l) list_insert(&l, list_first(&l), q)
 #define CLEAR(l) list_clear(&(l))
-#define ILOOP_P(q, l) for (p = ilist_first((l));				\
-			!ilist_endp((l), p) && (q = ilist_retrieve((l), p), 1); \
-			p = ilist_next((l), p))
+
+#define ILOOP_P(q, l) for (p = list_first((l));				\
+			  !list_endp((l), p) && (q = (struct Interaction*)list_retrieve((l), p), 1); \
+			  p = list_next((l), p))
 
 
 #define DINSERT(q, l) l.insert(l.first(), q)
 
-#define IINSERT_P(q, l) ilist_insert(l, ilist_first(l), q)
+#define IINSERT_P(q, l) list_insert(l, list_first(l), q)
 
 #define LOOP_P(q, l) for (p = list_first((l));				\
 			  !list_endp((l), p) && (q = (struct Particle*)list_retrieve((l), p), 1); \

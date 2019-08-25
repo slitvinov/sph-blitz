@@ -11,7 +11,6 @@
 #include "quinticspline.h"
 #include "particle.h"
 #include "list.h"
-#include "ilist.h"
 #include "initiation.h"
 #include "material.h"
 #include "force.h"
@@ -21,7 +20,7 @@
 #include "hydrodynamics.h"
 
 #define LIST ListNode
-#define ILIST IListNode
+#define ILIST ListNode
 
 using namespace std;
 enum {X, Y};
@@ -32,7 +31,7 @@ Hydrodynamics::Hydrodynamics(Initiation *ini)
     char Key_word[FILENAME_MAX];
     double sound;
 
-    interaction_list = ilist_ini();
+    interaction_list = list_ini();
     number_of_materials = ini->number_of_materials;
     gravity[X] = ini->gravity[X];
     gravity[Y] = ini->gravity[Y];
@@ -284,6 +283,6 @@ void Hydrodynamics::RandomEffects()
 
 Hydrodynamics::~Hydrodynamics()
 {
-    ilist_fin(interaction_list);
+    list_fin(interaction_list);
     list_fin(particle_list);
 }

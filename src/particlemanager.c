@@ -7,7 +7,6 @@
 #include "initiation.h"
 #include "particle.h"
 #include "list.h"
-#include "ilist.h"
 #include "material.h"
 #include "boundary.h"
 #include "macro.h"
@@ -21,7 +20,7 @@ enum {X, Y};
 
 #define NEW(pos, vel, den, pre, tem, mtl) particle_real(pos, vel, den, pre, tem, mtl)
 #define LIST struct ListNode
-#define ILIST struct IListNode
+#define ILIST struct ListNode
 
 struct ParticleManager*
 manager_ini(struct Initiation *ini)
@@ -122,7 +121,7 @@ int manager_build_nnp(struct ParticleManager *q, double point[2])
 }
 
 int manager_build_interaction(struct ParticleManager *q,
-			      struct IList *interactions, struct List *particle_list,
+			      struct List *interactions, struct List *particle_list,
 			      struct Force **forces, struct QuinticSpline *weight_function)
 {
     LIST *p, *p1;
@@ -140,7 +139,13 @@ int manager_build_interaction(struct ParticleManager *q,
     smoothinglength = q->smoothinglength;
     
     sm2 = smoothinglength * smoothinglength;
-    ilist_clear_data(interactions);
+
+    ILOOP_P(pair, interactions) {
+	interaction_fin(pair);
+    }
+    list_clear(interactions);
+
+    
     LOOP_P(prtl_org, particle_list) {
 	if(prtl_org->bd == 0) {
 	    i = (int) ((prtl_org->R[0] + cell_size)/ cell_size);
