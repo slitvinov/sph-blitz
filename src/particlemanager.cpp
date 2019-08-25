@@ -156,12 +156,6 @@ void ParticleManager::BuildRealParticles(Material *materials, List *particle_lis
     char material_name[MAX_SIZE];
     FILE *f;
 
-    /*Material *materials;
-    List *particle_list;
-    materials = hydro->materials;
-    particle_list = hydro->particle_list; */
-    
-
     if(ini->initial_condition==0) {
 	for(i = 1; i < x_clls - 1; i++) {
 	    for(j = 1; j < y_clls - 1; j++) {
