@@ -1,6 +1,5 @@
 #include <string.h>
 #include <stdio.h>
-#include <tgmath.h>
 #include <stdlib.h>
 #include "particle.h"
 #include "glbfunc.h"
