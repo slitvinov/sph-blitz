@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "list.h"
 #include "particle.h"
 
@@ -12,8 +13,6 @@ struct ListNode {
 struct List {
     int len;
     ListNode *node;
-    List();
-    ~List();
 };
 
 ListNode::ListNode()
@@ -25,18 +24,6 @@ ListNode::ListNode(void *d, ListNode *n)
 {
     data = d;
     next = n;
-}
-List::List()
-{
-    node = new ListNode;
-    len = 0;
-}
-
-List::~List()
-{
-    while (!list_empty(this))
-	list_remove(this, list_first(this));
-    delete node;
 }
 
 int list_empty(List *q) {
@@ -96,11 +83,16 @@ void list_clear_data(List *q)
 List *list_ini(void)
 {
     List *q;
-    q = new List;
+    q = (List*)malloc(sizeof(List));
+    q->node = new ListNode;
+    q->len = 0;
     return q;
 }
 
 void list_fin(List *q)
 {
-    delete q;
+    while (!list_empty(q))
+	list_remove(q, list_first(q));
+    delete q->node;
+    free(q);
 }
