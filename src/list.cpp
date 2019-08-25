@@ -6,19 +6,12 @@ struct List;
 struct ListNode {
     void *data;
     ListNode *next;
-    ListNode();
 };
 
 struct List {
     int len;
     ListNode *node;
 };
-
-ListNode::ListNode()
-{
-    data = NULL;
-    next = this;
-}
 
 int list_empty(List *q) {
     return q->node == q->node->next;
@@ -81,8 +74,12 @@ void list_clear_data(List *q)
 List *list_ini(void)
 {
     List *q;
+    ListNode *node;
     q = (List*)malloc(sizeof(List));
-    q->node = new ListNode;
+    node = (ListNode*)malloc(sizeof(ListNode));
+    node->data = NULL;
+    node->next = node;
+    q->node = node;
     q->len = 0;
     return q;
 }
