@@ -11,8 +11,10 @@ struct Output {
     int y_cells;
     int cell_ratio; 
     Output(struct Initiation*);
-    void OutputParticles(struct Hydrodynamics*, struct Boundary*, double Time);
-    void OutputStates(struct Manager*, struct MLS*, struct QuinticSpline*, double Time);
-    void OutRestart(struct Hydrodynamics*, double Time);
+    //    void OutputStates(struct Manager*, struct MLS*, struct QuinticSpline*, double Time);
+    //    void OutRestart(struct Hydrodynamics*, double Time);
 };
 
+int output_particles(struct Hydrodynamics*, struct Boundary*, double Time);
+int output_states(struct Output*, struct Manager*, struct MLS*, struct QuinticSpline*, double Time);
+int output_restart(struct Output*, struct Hydrodynamics*, double Time);

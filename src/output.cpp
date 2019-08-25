@@ -24,8 +24,8 @@ Output::Output(struct Initiation *ini)
     delta = ini->delta;
 }
 
-void
-Output::OutputParticles(struct Hydrodynamics *hydro, struct Boundary *boundary,  double Time)
+int
+output_particles(struct Hydrodynamics *hydro, struct Boundary *boundary,  double Time)
 {
     FILE *f;
     int i, j;
@@ -33,6 +33,10 @@ Output::OutputParticles(struct Hydrodynamics *hydro, struct Boundary *boundary, 
     char file_name[FILENAME_MAX], file_list[FILENAME_MAX];
     Particle *prtl;
     LIST *p;
+
+    int number_of_materials;
+    number_of_materials = hydro->number_of_materials;
+
     Itime = Time*1.0e6;
     strcpy(file_name,"./outdata/p.");
     sprintf(file_list, "%.10lld", (long long)Itime);
@@ -64,10 +68,11 @@ Output::OutputParticles(struct Hydrodynamics *hydro, struct Boundary *boundary, 
 	}
     }
     fclose(f);
+    return 0;
 }
 
-void
-Output::OutputStates(struct Manager *particles, struct MLS *mls, struct QuinticSpline *weight_function, double Time)
+int
+output_states(struct Output *q, struct Manager *particles, struct MLS *mls, struct QuinticSpline *weight_function, double Time)
 {
     FILE *f;
     int i, j, n;
@@ -78,6 +83,17 @@ Output::OutputStates(struct Manager *particles, struct MLS *mls, struct QuinticS
     char file_name[FILENAME_MAX], file_list[10];
     Particle *prtl;
     LIST *p;
+
+    double delta;
+    int x_cells;
+    int y_cells;
+    int cell_ratio;
+
+    delta = q->delta;
+    x_cells = q->x_cells;
+    y_cells = q->y_cells;
+    cell_ratio = q->cell_ratio;
+    
     gridx = x_cells*cell_ratio; gridy = y_cells*cell_ratio;
     Itime = Time*1.0e6;
     strcpy(file_name,"./outdata/states");
@@ -118,17 +134,19 @@ Output::OutputStates(struct Manager *particles, struct MLS *mls, struct QuinticS
 	}
     }
     fclose(f);
+    return 0;
 }
 
-void
-Output::OutRestart(struct Hydrodynamics *hydro, double Time)
+int
+output_restart(struct Output *q, struct Hydrodynamics *hydro, double Time)
 {
     int n;
     char file_name[FILENAME_MAX];
     Particle *prtl;
     LIST *p;
     FILE *f;
-    strcpy(file_name, Project_name);
+    
+    strcpy(file_name, q->Project_name);
     strcat(file_name,".rst");
     f = fopen(file_name, "w");
     if (!f)
@@ -145,4 +163,5 @@ Output::OutRestart(struct Hydrodynamics *hydro, double Time)
 		    prtl->mtl->material_name, prtl->R[0], prtl->R[1], prtl->U[0], prtl->U[1] , prtl->rho, prtl->p, prtl->T);
     }
     fclose(f);
+    return 0;
 }
