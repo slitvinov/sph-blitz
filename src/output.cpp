@@ -25,7 +25,7 @@ Output::Output(Initiation *ini)
     strcpy(Project_name, ini->Project_name);
     number_of_materials = ini->number_of_materials;
     x_cells = ini->x_cells; y_cells = ini->y_cells;
-    hdelta = ini->hdelta;
+    cell_ratio = ini->cell_ratio;
     delta = ini->delta;
 }
 void Output::OutputParticles(Hydrodynamics *hydro, Boundary *boundary,  double Time)
@@ -71,7 +71,7 @@ void Output::OutputStates(ParticleManager *particles, MLS *mls, QuinticSpline *w
     char file_name[FILENAME_MAX], file_list[10];
     Particle *prtl;
     LIST *p;
-    gridx = x_cells*hdelta; gridy = y_cells*hdelta;
+    gridx = x_cells*cell_ratio; gridy = y_cells*cell_ratio;
     Itime = Time*1.0e6;
     strcpy(file_name,"./outdata/states");
     sprintf(file_list, "%d", (int)Itime);

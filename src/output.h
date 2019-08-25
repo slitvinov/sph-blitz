@@ -7,7 +7,7 @@ class Output {
     double delta;
     int x_cells;
     int y_cells;
-    int hdelta; 
+    int cell_ratio; 
 public:
     explicit Output(Initiation *ini);
     void OutputParticles(Hydrodynamics *hydro, Boundary *boundary, double Time);

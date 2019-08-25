@@ -31,7 +31,7 @@ ParticleManager::ParticleManager(Initiation *ini)
     smoothinglength = ini->smoothinglength;
     cell_size = ini->cell_size;
     x_clls = ini->x_cells + 2; y_clls = ini->y_cells + 2;
-    hdelta = ini->hdelta;
+    cell_ratio = ini->cell_ratio;
 
     cell_lists = (List***)malloc(x_clls*sizeof(List**));
     for(i = 0; i < x_clls; i++) {
@@ -157,12 +157,12 @@ void ParticleManager::BuildRealParticles(Material *materials, List *particle_lis
     char material_name[MAX_SIZE];
     FILE *f;
     
-    delta = cell_size/hdelta;
+    delta = cell_size/cell_ratio;
     if(ini->initial_condition==0) {
 	for(i = 1; i < x_clls - 1; i++) {
 	    for(j = 1; j < y_clls - 1; j++) {
-		for(k = 0; k < hdelta; k++) {
-		    for(m = 0; m < hdelta; m++) {
+		for(k = 0; k < cell_ratio; k++) {
+		    for(m = 0; m < cell_ratio; m++) {
 			position[0] = (i - 1)*cell_size + (k + 0.5)*delta;
 			position[1] = (j - 1)*cell_size + (m + 0.5)*delta;
 			material_no = 1;

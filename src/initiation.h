@@ -12,7 +12,7 @@ struct Initiation {
     double box_size[2];
     double cell_size;
     double delta;
-    int hdelta;
+    int cell_ratio;
     int x_cells;
     int y_cells;
     double gravity[2];

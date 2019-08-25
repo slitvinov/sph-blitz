@@ -10,7 +10,7 @@ class ParticleManager
 {
   double smoothinglength;
   double cell_size;
-  int hdelta;
+  int cell_ratio;
 public:
   int x_clls;
   int y_clls;

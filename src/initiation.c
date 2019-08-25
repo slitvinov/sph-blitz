@@ -25,7 +25,7 @@ int initiation_ini(const char *project_name, struct Initiation *q) {
 	if(!strcmp(Key_word, "SMOOTHING_LENGTH"))
 	    fscanf(f, "%lf", &q->smoothinglength);
 	if(!strcmp(Key_word, "CELL_RATIO"))
-	    fscanf(f, "%d", &q->hdelta);
+	    fscanf(f, "%d", &q->cell_ratio);
 	if(!strcmp(Key_word, "GRAVITY"))
 	    fscanf(f, "%lf %lf",
 		   &q->gravity[0], &q->gravity[1]);
@@ -46,6 +46,6 @@ int initiation_ini(const char *project_name, struct Initiation *q) {
     system("mkdir -p outdata");
     q->box_size[0] = q->x_cells*q->cell_size;
     q->box_size[1] = q->y_cells*q->cell_size;
-    q->delta = q->cell_size/q->hdelta;
+    q->delta = q->cell_size/q->cell_ratio;
     return 0;
 }
