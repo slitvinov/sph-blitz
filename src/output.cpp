@@ -27,7 +27,9 @@ Output::Output(Initiation *ini)
     cell_ratio = ini->cell_ratio;
     delta = ini->delta;
 }
-void Output::OutputParticles(Hydrodynamics *hydro, Boundary *boundary,  double Time)
+
+void
+Output::OutputParticles(Hydrodynamics *hydro, Boundary *boundary,  double Time)
 {
     FILE *f;
     int i, j;
@@ -67,8 +69,11 @@ void Output::OutputParticles(Hydrodynamics *hydro, Boundary *boundary,  double T
     }
     fclose(f);
 }
-void Output::OutputStates(Manager *particles, MLS *mls, QuinticSpline *weight_function, double Time)
+
+void
+Output::OutputStates(Manager *particles, MLS *mls, QuinticSpline *weight_function, double Time)
 {
+    FILE *f;
     int i, j, n;
     int gridx, gridy;
     double pstn[2];
@@ -83,10 +88,12 @@ void Output::OutputStates(Manager *particles, MLS *mls, QuinticSpline *weight_fu
     sprintf(file_list, "%d", (int)Itime);
     strcat(file_name, file_list);
     strcat(file_name, ".dat");
-    ofstream out(file_name);
-    out<<"title='mapped states' \n";
-    out<<"variables=x, y, p, rho, phi, Ux, Uy, T \n";
-    out<<"zone t='filed', i="<<gridx + 1<<", j="<<gridy + 1<<"\n";
+    f = fopen(file_name, "w");
+    if (!f)
+	ABORT(("can't write '%s'", file_name));
+    fprintf(f, "%s", "title='mapped states' \n");
+    fprintf(f, "%s", "variables=x, y, p, rho, phi, Ux, Uy, T \n");
+    fprintf(f, "zone t='filed', i=%d, j=%d\n", gridx + 1, gridy + 1);
     for(j = 0; j <= gridy; j++) {
 	for(i = 0; i <= gridx; i++) {
 	    pstn[0] = i*delta; pstn[1] = j*delta;
@@ -94,8 +101,12 @@ void Output::OutputStates(Manager *particles, MLS *mls, QuinticSpline *weight_fu
 	    if(!list_empty(particles->NNP_list))
 		mls_map(mls, pstn, particles->NNP_list, weight_function, 1);
 	    n = 0;
-	    rho = 0.0; phi = 0.0; pressure = 0.0; Temperature = 0.0;
-	    x_velocity = 0.0; y_velocity = 0.0;
+	    rho = 0.0;
+	    phi = 0.0;
+	    pressure = 0.0;
+	    Temperature = 0.0;
+	    x_velocity = 0.0;
+	    y_velocity = 0.0;
 	    LOOP_P(prtl, particles->NNP_list) {
 		rho += prtl->rho*mls->phi[n];
 		phi += prtl->phi[2][2]*mls->phi[n];
@@ -106,12 +117,15 @@ void Output::OutputStates(Manager *particles, MLS *mls, QuinticSpline *weight_fu
 		n ++;
 	    }
 	    list_clear(particles->NNP_list);
-	    out<<pstn[0]<<"  "<<pstn[1] <<"  "<<pressure<<"  "<<rho <<"  "<<phi <<"  "<<x_velocity<<"  "<<y_velocity <<"  "<<Temperature<<"\n";
+	    fprintf(f, "%.6g %.6g, %.6g %.6g, %.6g %.6g, %.6g %.6g\n", 
+		    pstn[0], pstn[1], pressure, rho, phi, x_velocity, y_velocity, Temperature);
 	}
     }
-    out.close();
+    fclose(f);
 }
-void Output::OutRestart(Hydrodynamics *hydro, double Time)
+
+void
+Output::OutRestart(Hydrodynamics *hydro, double Time)
 {
     int n;
     char outputfile[FILENAME_MAX];
