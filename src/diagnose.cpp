@@ -122,7 +122,7 @@ void Diagnose::BuildDistribution(Llist *list, double dstrb[2][101])
     double delta;
 
     for (p = list->first();
-	 !list->is_end(p);
+	 !list->endp(p);
 	 p = list->next(p)) {
 	dstrb[0][0] = AMIN1(dstrb[0][0], *list->retrieve(p));
 	dstrb[0][100] = AMAX1(dstrb[0][100], *list->retrieve(p));
@@ -131,7 +131,7 @@ void Diagnose::BuildDistribution(Llist *list, double dstrb[2][101])
     for(m = 0; m < 101; m++)
 	dstrb[0][m] = dstrb[0][0] + delta*(double)m;
     for (p = list->first();
-	 !list->is_end(p);
+	 !list->endp(p);
 	 p = list->next(p)) {
 	m = int ((*list->retrieve(p) - dstrb[0][0]) / delta);
 	dstrb[1][m] += 1.0;

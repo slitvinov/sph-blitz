@@ -13,7 +13,7 @@ struct List {
     int len;
     ListNode *node;
     List();
-    bool is_end(ListNode*);
+    bool endp(ListNode*);
     ListNode *first();
     ListNode *next(ListNode*);
     void *retrieve(ListNode*);
@@ -39,7 +39,7 @@ List::List()
     node = new ListNode;
     len = 0;
 }
-bool List::is_end(ListNode *p)
+bool List::endp(ListNode *p)
 {
     return p->next == node;
 }
@@ -93,7 +93,7 @@ int list_empty(List *q) {
 
 int list_endp(List *q, ListNode *n)
 {
-    return q->is_end(n);
+    return q->endp(n);
 }
 
 ListNode* list_first(List *q)

@@ -14,7 +14,7 @@ struct IList {
     IListNode *node;
     bool empty();
     IList();
-    bool is_end(IListNode*);
+    bool endp(IListNode*);
     IListNode *first();
     IListNode *next(IListNode*);
     Interaction *retrieve(IListNode*);
@@ -45,7 +45,7 @@ bool IList::empty()
 {
     return (node == node->next);
 }
-bool IList::is_end(IListNode *p)
+bool IList::endp(IListNode *p)
 {
     return (p->next == node);
 }
@@ -92,7 +92,7 @@ IList::~IList()
 
 int ilist_endp(IList *q, IListNode *n)
 {
-    return q->is_end(n);
+    return q->endp(n);
 }
 
 IListNode* ilist_first(IList *q)
