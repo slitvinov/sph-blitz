@@ -27,10 +27,10 @@ Diagnose::Diagnose(Initiation *ini, Hydrodynamics *hydro)
     LIST *p;
     Particle *prtl;
     x_cells = ini->x_cells; y_cells = ini->y_cells;
-    hdelta = ini->hdelta;
     delta = ini->delta;
     number_of_materials = ini->number_of_materials;
-    gridx = x_cells*hdelta + 1; gridy = y_cells*hdelta + 1;
+    gridx = x_cells*ini->hdelta + 1;
+    gridy = y_cells*ini->hdelta + 1;
     U = new double **[5];
     for(k = 0; k < 5; k++) {
 	U[k] = new double *[gridx];
