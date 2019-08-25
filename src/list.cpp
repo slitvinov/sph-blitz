@@ -13,7 +13,7 @@ struct List {
     int len;
     ListNode *node;
     List();
-    bool endp(ListNode*);
+    int endp(ListNode*);
     ListNode *first();
     ListNode *next(ListNode*);
     void *retrieve(ListNode*);
@@ -39,7 +39,7 @@ List::List()
     node = new ListNode;
     len = 0;
 }
-bool List::endp(ListNode *p)
+int List::endp(ListNode *p)
 {
     return p->next == node;
 }
