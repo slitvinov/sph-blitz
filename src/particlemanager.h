@@ -8,13 +8,9 @@ class QuinticSpline;
 
 class ParticleManager
 {
-  char Project_name[FILENAME_MAX];
-  int number_of_materials;
   double smoothinglength;
   double smoothinglengthsquare;
   double cll_sz;
-  double box_size[2];
-  int initial_condition;
   double delta;
   int hdelta;
 public:

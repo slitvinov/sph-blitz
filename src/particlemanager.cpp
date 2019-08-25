@@ -29,15 +29,10 @@ ParticleManager::ParticleManager(Initiation *ini)
 {
 
     int i, j;
-    strcpy(Project_name, ini->Project_name);
-    number_of_materials = ini->number_of_materials;
     smoothinglength = ini->smoothinglength;
     smoothinglengthsquare = smoothinglength*smoothinglength;
-    box_size[X] = ini->box_size[X];
-    box_size[Y] = ini->box_size[Y];
     cll_sz = ini->cell_size;
     x_clls = ini->x_cells + 2; y_clls = ini->y_cells + 2;
-    initial_condition = ini->initial_condition;
     hdelta = ini->hdelta; delta = ini->delta;
 
     cell_lists = (List***)malloc(x_clls*sizeof(List**));
@@ -167,7 +162,7 @@ void ParticleManager::BuildRealParticles(Material *materials, List *particle_lis
     particle_list = hydro->particle_list; */
     
 
-    if(initial_condition==0) {
+    if(ini->initial_condition==0) {
 	for(i = 1; i < x_clls - 1; i++) {
 	    for(j = 1; j < y_clls - 1; j++) {
 		for(k = 0; k < hdelta; k++) {
@@ -191,8 +186,8 @@ void ParticleManager::BuildRealParticles(Material *materials, List *particle_lis
 	}
     }
 
-    if(initial_condition==1) {
-	strcpy(inputfile, Project_name);
+    if(ini->initial_condition==1) {
+	strcpy(inputfile, ini->Project_name);
 	strcat(inputfile, ".rst");
 	f = fopen(inputfile, "r");
 	if (!f)
@@ -221,7 +216,7 @@ void ParticleManager::BuildRealParticles(Material *materials, List *particle_lis
 		WARN(("can't read a particle from '%s' (cnt = %d, n = %d)", inputfile, cnt, n)); */
 	    }
 	    material_no = -1;
-	    for(k = 0;  k < number_of_materials; k++)
+	    for(k = 0;  k < ini->number_of_materials; k++)
 		if(strcmp(material_name, materials[k].material_name) == 0) material_no = k;
 	    if(material_no != -1) {
 		pressure = get_p(&materials[material_no], density);
