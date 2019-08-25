@@ -13,11 +13,11 @@ hydrodynamics.o\
 initiation.o\
 interaction.o\
 list.o\
+manager.o\
 material.o\
 mls.o\
 output.o\
 particle.o\
-manager.o\
 quinticspline.o\
 sph.o\
 step.o\
@@ -25,23 +25,12 @@ volume.o\
 vv.o\
 wiener.o\
 
-sph: $O
-	$(LINK) $O $(LDFLAGS) -o $@
-
-.cpp.o:
-	$(CXX) $(CXXFLAGS) $< -c -o $@
-
-.c.o:
-	$(CC) $(CFLAGS) $< -c -o $@
-
-include dep.make
-
-
-dep:
-	../scripts/dep
-
-test: sph
-	cd ..; atest test/*
+sph: $O; $(LINK) $O $(LDFLAGS) -o $@
+.cpp.o:; $(CXX) $(CXXFLAGS) $< -c -o $@
+.c.o:; $(CC) $(CFLAGS) $< -c -o $@
+dep:; ../scripts/dep
+test: sph; cd ..; atest test/*
 
 .PHONY: clean dep test
-clean:; rm -f $M $O
+clean:; rm -f -- $M $O
+include dep.make
