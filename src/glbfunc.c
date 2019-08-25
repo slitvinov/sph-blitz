@@ -1,36 +1,22 @@
 #include <tgmath.h>
 #include "glbfunc.h"
-
-//----------------------------------------------------------------------------------------
-//	a. Get the maximum
-//----------------------------------------------------------------------------------------
 double AMAX1(double a, double b){
 	if(a > b) return a;
 	return b;
 }
-//----------------------------------------------------------------------------------------
-//	b. Get the minimum
-//----------------------------------------------------------------------------------------
 double AMIN1(double a, double b){
 	if(a < b) return a;
 	return b;
 }
-
-//----------------------------------------------------------------------------------------
-//	f. Get the inverse of symmetric 3x3 array
-//----------------------------------------------------------------------------------------
 int SymmetricInverse3x3(double M[3][3]) {
-
 	double z1, z2, z3, z4, z5, z6, z7, z8, z9, z10, z11, z12;
 	double z13, z14, z15, z16;
-	    
 	double m00 = M[0][0];
 	double m11 = M[1][1];
 	double m22 = M[2][2];
 	double m12 = M[1][2];
 	double m02 = M[0][2];
 	double m01 = M[0][1];
-	     
 	z1 = m01*m01;
 	z2 = m01*m02;
 	z3 = m02*m02;
@@ -57,10 +43,7 @@ int SymmetricInverse3x3(double M[3][3]) {
 	z3 = z10 + z3;
 	z7 = z12 + z7;
 	z8 = z13 + z14 + z15 + z16 + z8;
-	
-	// check the determinant
 	 if (fabs(z8) < 1.0e-2)	return 0;
-	    
 	z1 = z1 + z4;
 	z4 = 1./z8;
 	z2 = z2*z4;
@@ -69,17 +52,14 @@ int SymmetricInverse3x3(double M[3][3]) {
 	z3 = z3*z4;
 	z7 = z4*z7;
 	z1 = z1*z4;
-	   
 	M[0][0] = z7;
 	M[1][1] = z3;
 	M[2][2] = z1;
 	M[1][2] = M[2][1] = z2;
 	M[0][2] = M[2][0] = z5;
 	M[0][1] = M[1][0] = z6;
-     
 	return 1;
 }
-//  i. square
 double sq(double a)
 {
 	return a*a;
