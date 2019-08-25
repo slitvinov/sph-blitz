@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     mls = mls_ini(ini.MLS_MAX);
     ParticleManager particles(&ini);
     Hydrodynamics hydro(&ini);
-    particles.BuildRealParticles(hydro.materials, hydro.particle_list, &ini);
+    manager_build_particles(&particles, hydro.materials, hydro.particle_list, &ini);
     boundary = boundary_ini(&ini);
     boundary_build(boundary, particles.cell_lists, hydro.materials);
     Output output(&ini);

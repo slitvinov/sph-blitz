@@ -41,13 +41,24 @@ ParticleManager::ParticleManager(Initiation *ini)
     }
     NNP_list = list_ini();
 }
-void ParticleManager::UpdateCellLinkedLists()
+
+int manager_update_list(struct ParticleManager *q)
 {
 
     int i, j;
     int k, m;
     LIST *p;
     Particle *prtl;
+    
+    int x_clls;
+    int y_clls;
+    double cell_size;
+    List ***cell_lists;
+    x_clls = q->x_clls;
+    y_clls = q->y_clls;
+    cell_size = q->cell_size;
+    cell_lists = q->cell_lists;
+    
     for(i = 0; i < x_clls; i++) {
 	for(j = 0; j < y_clls; j++) {
 	    p = list_first(cell_lists[i][j]);
@@ -65,15 +76,29 @@ void ParticleManager::UpdateCellLinkedLists()
 
 	}
     }
+    return 0;
 }
 
-void ParticleManager::BuildNNP(double point[2])
+int manager_build_nnp(ParticleManager *q, double point[2])
 {
     int i, j;
     int k, m;
     double dstc;
     LIST *p;
     Particle *prtl;
+
+    List *NNP_list;
+    int x_clls;
+    int y_clls;
+    double cell_size;
+    double smoothinglength;
+    List ***cell_lists;
+    x_clls = q->x_clls;
+    y_clls = q->y_clls;
+    cell_size = q->cell_size;
+    cell_lists = q->cell_lists;
+    smoothinglength = q->smoothinglength;
+    NNP_list = q->NNP_list;
 
     list_clear(NNP_list);
     k = int ((point[0] + cell_size)/ cell_size);
@@ -86,30 +111,7 @@ void ParticleManager::BuildNNP(double point[2])
 		    if(dstc < smoothinglength)
 			INSERT(prtl, *NNP_list);
 		}
-}
-
-void ParticleManager::BuildNNP_MLSMapping(double point[2])
-{
-    int i, j;
-    int k, m;
-    double dstc;
-    LIST *p;
-    Particle *prtl;
-
-    k = int ((point[0] + cell_size)/ cell_size);
-    m = int ((point[1] + cell_size)/ cell_size);
-    for(i = k - 1; i <= k + 1; i++) {
-	for(j = m - 1; j <= m + 1; j++) {
-	    if(i < x_clls && j < y_clls && i >= 0 && j >= 0) {
-		LOOP_P(prtl, cell_lists[i][j]) {
-		    dstc = vv_distance(point, prtl->R);
-		    if(dstc < smoothinglength && prtl->bd == 0) {
-			INSERT(prtl, *NNP_list);
-		    }
-		}
-	    }
-	}
-    }
+    return 0;
 }
 
 void ParticleManager::BuildInteraction(IList *interactions, List *particle_list,
@@ -142,7 +144,7 @@ void ParticleManager::BuildInteraction(IList *interactions, List *particle_list,
     }
 }
 
-void ParticleManager::BuildRealParticles(Material *materials, List *particle_list, Initiation *ini)
+void manager_build_particles(struct ParticleManager *q, Material *materials, List *particle_list, Initiation *ini)
 {
 
     int i, j, k, m;
@@ -156,6 +158,17 @@ void ParticleManager::BuildRealParticles(Material *materials, List *particle_lis
     char inputfile[FILENAME_MAX], line[MAX_SIZE];
     char material_name[MAX_SIZE];
     FILE *f;
+
+    int x_clls;
+    int y_clls;
+    int cell_ratio;
+    double cell_size;
+    List ***cell_lists;
+    x_clls = q->x_clls;
+    y_clls = q->y_clls;
+    cell_size = q->cell_size;
+    cell_lists = q->cell_lists;
+    cell_ratio = q->cell_ratio;
     
     delta = cell_size/cell_ratio;
     if(ini->initial_condition==0) {

@@ -84,7 +84,7 @@ void Output::OutputStates(ParticleManager *particles, MLS *mls, QuinticSpline *w
     for(j = 0; j <= gridy; j++) {
 	for(i = 0; i <= gridx; i++) {
 	    pstn[0] = i*delta; pstn[1] = j*delta;
-	    particles->BuildNNP(pstn);
+	    manager_build_nnp(particles, pstn);
 	    if(!list_empty(particles->NNP_list))
 		mls_map(mls, pstn, particles->NNP_list, weight_function, 1);
 	    n = 0;
