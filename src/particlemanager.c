@@ -31,7 +31,7 @@ manager_ini(struct Initiation *ini)
     q = (struct ParticleManager*)malloc(sizeof(struct ParticleManager));
     if (q == NULL)
 	return NULL;
-    
+
     q->smoothinglength = ini->smoothinglength;
     q->cell_size = ini->cell_size;
     q->x_clls = ini->x_cells + 2;
@@ -55,7 +55,7 @@ int manager_update_list(struct ParticleManager *q)
     int k, m;
     LIST *p;
     struct Particle *prtl;
-    
+
     int x_clls;
     int y_clls;
     double cell_size;
@@ -64,7 +64,7 @@ int manager_update_list(struct ParticleManager *q)
     y_clls = q->y_clls;
     cell_size = q->cell_size;
     cell_lists = q->cell_lists;
-    
+
     for(i = 0; i < x_clls; i++) {
 	for(j = 0; j < y_clls; j++) {
 	    p = list_first(cell_lists[i][j]);
@@ -137,7 +137,7 @@ int manager_build_interaction(struct ParticleManager *q,
     cell_size = q->cell_size;
     cell_lists = q->cell_lists;
     smoothinglength = q->smoothinglength;
-    
+
     sm2 = smoothinglength * smoothinglength;
 
     ILOOP_P(pair, interactions) {
@@ -188,7 +188,7 @@ void manager_build_particles(struct ParticleManager *q, struct Material *materia
     cell_size = q->cell_size;
     cell_lists = q->cell_lists;
     cell_ratio = q->cell_ratio;
-    
+
     delta = cell_size/cell_ratio;
     if(ini->initial_condition==0) {
 	for(i = 1; i < x_clls - 1; i++) {
@@ -235,7 +235,7 @@ void manager_build_particles(struct ParticleManager *q, struct Material *materia
 	for(n = 0; n < N; n++) {
 	    if (fgets(line, MAX_SIZE, f) == NULL)
 		ABORT(("can't read a line from '%s'", inputfile));
-	    cnt = sscanf(line, "%s %lf %lf %lf %lf %lf, %lf %lf", 
+	    cnt = sscanf(line, "%s %lf %lf %lf %lf %lf, %lf %lf",
 			 material_name, &position[0], &position[1], &velocity[0], &velocity[1], &density, &pressure, &Temperature);
 	    if (cnt != 8) {
 		/* todo
