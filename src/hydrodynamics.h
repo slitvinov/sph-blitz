@@ -23,7 +23,6 @@ struct Hydrodynamics
     Hydrodynamics(Initiation*);
     ~Hydrodynamics();
     double GetTimestep();
-    void BuildPair(ParticleManager*, QuinticSpline*);
     void UpdatePair(QuinticSpline*);
     void ZeroChangeRate();
     void AddGravity();

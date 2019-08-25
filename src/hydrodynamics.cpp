@@ -84,10 +84,6 @@ Hydrodynamics::Hydrodynamics(Initiation *ini)
 	Set_b0(&materials[k], sound);
     particle_list = list_ini();
 }
-void Hydrodynamics::BuildPair(ParticleManager *particles, QuinticSpline *weight_function)
-{
-    particles->BuildInteraction(interaction_list, particle_list, forces, weight_function);
-}
 void Hydrodynamics::UpdatePair(QuinticSpline *weight_function)
 {
     ILIST *p;

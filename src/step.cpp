@@ -30,7 +30,7 @@ void step(int ite, Hydrodynamics *hydro, ParticleManager *particles, Boundary *b
 	}
 	if(ini->diagnose == 2  && ite % 10 == 0)
 	    diagnose->KineticInformation(*Time, hydro);
-	hydro->BuildPair(particles, weight_function);
+	particles->BuildInteraction(hydro->interaction_list, hydro->particle_list, hydro->forces, weight_function);
 	hydro->UpdateDensity();
 	boundary_condition(boundary, particles->cell_lists);
 	hydro->UpdatePhaseGradient(boundary);
