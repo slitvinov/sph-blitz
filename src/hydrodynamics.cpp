@@ -16,7 +16,6 @@
 #include "material.h"
 #include "force.h"
 #include "interaction.h"
-#include "particlemanager.h"
 #include "boundary.h"
 #include "macro.h"
 #include "hydrodynamics.h"
@@ -110,17 +109,6 @@ void Hydrodynamics::UpdateDensity()
 	pair->SummationDensity();
     }
     UpdateState();
-}
-void Hydrodynamics::UpdateChangeRate(ParticleManager *particles, QuinticSpline *weight_function)
-{
-    ILIST *p;
-    Interaction *pair;
-    ZeroChangeRate();
-    particles->BuildInteraction(interaction_list, particle_list, forces, weight_function);
-    ILOOP_P(pair, interaction_list) {
-	pair->UpdateForces();
-    }
-    AddGravity();
 }
 void Hydrodynamics::UpdateChangeRate()
 {

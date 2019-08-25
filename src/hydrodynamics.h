@@ -2,7 +2,6 @@ class Material;
 class Interaction;
 class Force;
 class Particle;
-class ParticleManager;
 class Initiation;
 class Boundary;
 class Material;
@@ -26,7 +25,6 @@ struct Hydrodynamics
     void UpdatePair(QuinticSpline*);
     void ZeroChangeRate();
     void AddGravity();
-    void UpdateChangeRate(ParticleManager*, QuinticSpline*);
     void UpdateChangeRate();
     void Zero_density();
     void UpdateDensity();
