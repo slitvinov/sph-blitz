@@ -12,7 +12,6 @@ class ParticleManager;
 #include "glbfunc.h"
 #include "quinticspline.h"
 #include "particle.h"
-#include "dllist.h"
 #include "list.h"
 #include "ilist.h"
 #include "wiener.h"
