@@ -25,7 +25,8 @@ int main(int argc, char *argv[]) {
     int ite;
     struct MLS *mls;
     struct Manager* particles;
-    QuinticSpline weight_function;
+    struct Output *output;
+    struct QuinticSpline weight_function;
 
     if (argc<2)
 	ERR(2, ("no project name specified"));
@@ -42,13 +43,13 @@ int main(int argc, char *argv[]) {
     manager_build_particles(particles, hydro.materials, hydro.particle_list, &ini);
     boundary = boundary_ini(&ini);
     boundary_build(boundary, particles->cell_lists, hydro.materials);
-    Output output(&ini);
+    output = output_ini(&ini);
     VolumeMass(hydro.particle_list, particles, &weight_function);
     boundary_condition(boundary, particles->cell_lists);
     Diagnose diagnose(&ini, &hydro);
     Time = ini.Start_time;
     output_particles(&hydro, boundary, Time);
-    output_states(&output, particles, mls, &weight_function, Time);
+    output_states(output, particles, mls, &weight_function, Time);
     if(ini.diagnose == 2)
       diagnose.KineticInformation(Time, &hydro);
 
@@ -57,15 +58,16 @@ int main(int argc, char *argv[]) {
 	if(Time + ini.D_time >=  ini.End_time) ini.D_time = ini.End_time - Time;
 	step(&ite, &hydro, particles, boundary, &Time, ini.D_time, &diagnose, &ini, &weight_function, mls);
 	output_particles(&hydro, boundary, Time);
-	output_restart(&output, &hydro, Time);
+	output_restart(output, &hydro, Time);
 	if(ini.diagnose == 1) {
 	    diagnose.OutputProfile(Time);
 	    diagnose.OutputAverage(Time);
 	}
     }
 
-    manager_fin(particles);
     boundary_fin(boundary);
+    manager_fin(particles);
     mls_fin(mls);
+    output_fin(output);
     return 0;
 }

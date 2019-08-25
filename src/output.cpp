@@ -15,13 +15,19 @@
 #include "output.h"
 #define LIST ListNode
 
-Output::Output(struct Initiation *ini)
+struct Output*
+output_ini(struct Initiation *ini)
 {
-    strcpy(Project_name, ini->Project_name);
-    number_of_materials = ini->number_of_materials;
-    x_cells = ini->x_cells; y_cells = ini->y_cells;
-    cell_ratio = ini->cell_ratio;
-    delta = ini->delta;
+    struct Output *q;
+    q = (struct Output*)malloc(sizeof(struct Output));
+    if (q == NULL)
+	return NULL;
+    strcpy(q->Project_name, ini->Project_name);
+    q->x_cells = ini->x_cells;
+    q->y_cells = ini->y_cells;
+    q->cell_ratio = ini->cell_ratio;
+    q->delta = ini->delta;
+    return q;
 }
 
 int
@@ -163,5 +169,12 @@ output_restart(struct Output *q, struct Hydrodynamics *hydro, double Time)
 		    prtl->mtl->material_name, prtl->R[0], prtl->R[1], prtl->U[0], prtl->U[1] , prtl->rho, prtl->p, prtl->T);
     }
     fclose(f);
+    return 0;
+}
+
+int
+output_fin(struct Output *q)
+{
+    free(q);
     return 0;
 }

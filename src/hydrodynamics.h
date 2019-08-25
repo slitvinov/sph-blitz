@@ -1,10 +1,10 @@
-class Material;
-class Interaction;
-class Force;
-class Particle;
-class Initiation;
-class Boundary;
-class Material;
+struct Material;
+struct Interaction;
+struct Force;
+struct Particle;
+struct Initiation;
+struct Boundary;
+struct Material;
 struct QuinticSpline;
 struct Hydrodynamics
 {
