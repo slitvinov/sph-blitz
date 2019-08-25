@@ -1,9 +1,6 @@
-#include <iostream>
-#include <fstream>
-#include <cstring>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
+#include <string.h>
+#include <tgmath.h>
+#include <stdlib.h>
 #include "particle.h"
 #include "glbfunc.h"
 #include "list.h"
