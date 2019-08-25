@@ -65,7 +65,7 @@ void ParticleManager::UpdateCellLinkedLists()
     for(i = 0; i < x_clls; i++) {
 	for(j = 0; j < y_clls; j++) {
 	    p = list_first(cell_lists[i][j]);
-	    while(!list_isEnd(cell_lists[i][j], p)) {
+	    while(!list_endp(cell_lists[i][j], p)) {
 		prtl = list_retrieve(cell_lists[i][j], p);
 		if(prtl->bd == 0) {
 		    k = int ((prtl->R[0] + cll_sz)/ cll_sz);
@@ -95,7 +95,7 @@ void ParticleManager::BuildNNP(double point[2])
     for(i = k - 1; i <= k + 1; i++) {
 	for(j = m - 1; j <= m + 1; j++) {
 	    if(i < x_clls && j < y_clls && i >= 0 && j >= 0) {
-		LOOP(prtl, *cell_lists[i][j]) {
+		LOOP_P(prtl, cell_lists[i][j]) {
 		    dstc = vv_distance(point, prtl->R);
 		    if(dstc < smoothinglength) {
 			INSERT(prtl, *NNP_list);
@@ -119,7 +119,7 @@ void ParticleManager::BuildNNP_MLSMapping(double point[2])
     for(i = k - 1; i <= k + 1; i++) {
 	for(j = m - 1; j <= m + 1; j++) {
 	    if(i < x_clls && j < y_clls && i >= 0 && j >= 0) {
-		LOOP(prtl, *cell_lists[i][j]) {
+		LOOP_P(prtl, cell_lists[i][j]) {
 		    dstc = vv_distance(point, prtl->R);
 		    if(dstc < smoothinglength && prtl->bd == 0) {
 			INSERT(prtl, *NNP_list);
@@ -140,7 +140,7 @@ void ParticleManager::BuildInteraction(IList *interactions, List *particle_list,
     Interaction *pair;
 
     ilist_clear_data(interactions);
-    LOOP(prtl_org, *particle_list) {
+    LOOP_P(prtl_org, particle_list) {
 	if(prtl_org->bd == 0) {
 	    i = int ((prtl_org->R[0] + cll_sz)/ cll_sz);
 	    j = int ((prtl_org->R[1] + cll_sz)/ cll_sz);

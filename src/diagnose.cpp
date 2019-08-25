@@ -47,7 +47,7 @@ Diagnose::Diagnose(Initiation *ini, Hydrodynamics *hydro)
 	wght_v = new double [2*number_of_materials];
 	ttl_m = 1.0e-40;
 	for(k = 0; k < number_of_materials; k++) mtl_m[k] = 1.0e-40;
-	LOOP(prtl, *hydro->particle_list) {
+	LOOP_P(prtl, hydro->particle_list) {
 	    for(k = 0;  k < number_of_materials; k++)
 		if(strcmp(prtl->mtl->material_name, hydro->materials[k].material_name) == 0)
 		    mtl_m[k] += prtl->m;
@@ -156,7 +156,7 @@ void Diagnose::Average(ParticleManager *particles, MLS *mls, QuinticSpline *weig
 	    n = 0;
 	    rho = 0.0; pressure = 0.0; Temperature = 0.0;
 	    x_velocity = 0.0; y_velocity = 0.0;
-	    LOOP(prtl, *particles->NNP_list) {
+	    LOOP_P(prtl, particles->NNP_list) {
 		rho += prtl->rho*mls->phi[n];
 		pressure += prtl->p*mls->phi[n];
 		Temperature += prtl->T*mls->phi[n];
@@ -216,7 +216,7 @@ void Diagnose::KineticInformation(double Time, Hydrodynamics *hydro)
 	wght_v[2*k + X] = wght_v[2*k + Y] = 0.0;
     }
     glb_ave_Ek = 0.0;
-    LOOP(prtl, *hydro->particle_list) {
+    LOOP_P(prtl, hydro->particle_list) {
 	for(k = 0;  k < number_of_materials; k++)
 	    if(strcmp(prtl->mtl->material_name, hydro->materials[k].material_name) == 0) {
 		wght_cntr[2*k + X] += prtl->R[X]*prtl->m;

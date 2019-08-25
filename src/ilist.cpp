@@ -90,7 +90,7 @@ IList::~IList()
     delete node;
 }
 
-int ilist_isEnd(IList *q, IListNode *n)
+int ilist_endp(IList *q, IListNode *n)
 {
     return q->isEnd(n);
 }

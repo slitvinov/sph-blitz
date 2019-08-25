@@ -5,7 +5,7 @@ struct IList;
 struct IListNode;
 struct Interaction;
 int ilist_empty(struct IList*);
-int ilist_isEnd(struct IList*, struct IListNode*);
+int ilist_endp(struct IList*, struct IListNode*);
 struct IListNode *ilist_first(struct IList*);
 struct IListNode *ilist_next(struct IList*, struct IListNode*);
 struct Interaction *ilist_retrieve(struct IList*, struct IListNode*);

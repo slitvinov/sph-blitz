@@ -100,7 +100,7 @@ int list_empty(List *q) {
     return q->empty0();
 }
 
-int list_isEnd(List *q, ListNode *n)
+int list_endp(List *q, ListNode *n)
 {
     return q->isEnd0(n);
 }
