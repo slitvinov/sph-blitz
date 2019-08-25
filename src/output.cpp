@@ -39,9 +39,13 @@ output_particles(struct Hydrodynamics *hydro, struct Boundary *boundary,  double
     char file_name[FILENAME_MAX], file_list[FILENAME_MAX];
     Particle *prtl;
     LIST *p;
-
+    List *particle_list;
+    Material *materials;
     int number_of_materials;
+
     number_of_materials = hydro->number_of_materials;
+    particle_list = hydro->particle_list;
+    materials = hydro->materials;
 
     Itime = Time*1.0e6;
     strcpy(file_name,"./outdata/p.");
@@ -56,19 +60,19 @@ output_particles(struct Hydrodynamics *hydro, struct Boundary *boundary,  double
     fprintf(f, "%s", "variables=x, y, Ux, Uy \n");
     for(i = 0; i < number_of_materials; i++) {
 	j = 0;
-	LOOP_P(prtl, hydro->particle_list) {
-	    if(strcmp(hydro->materials[i].material_name, prtl->mtl->material_name) == 0) {
+	LOOP_P(prtl, particle_list) {
+	    if(strcmp(materials[i].material_name, prtl->mtl->material_name) == 0) {
 		j++;
 		if(j == 1)
-		    fprintf(f, "zone t='%s' \n", hydro->materials[i].material_name);
+		    fprintf(f, "zone t='%s' \n", materials[i].material_name);
 		fprintf(f, "%.6g %.6g %.6g %.6g\n", prtl->R[0], prtl->R[1], prtl->U[0], prtl->U[1]);
 	    }
 	}
 	LOOP_P(prtl, boundary->b) {
-	    if(strcmp(hydro->materials[i].material_name, prtl->mtl->material_name) == 0) {
+	    if(strcmp(materials[i].material_name, prtl->mtl->material_name) == 0) {
 		j++;
 		if(j == 1)
-		    fprintf(f, "zone t='%s' \n", hydro->materials[i].material_name);
+		    fprintf(f, "zone t='%s' \n", materials[i].material_name);
 		fprintf(f, "%.6g %.6g %.6g %.6g\n", prtl->R[0], prtl->R[1], prtl->U[0], prtl->U[1]);
 	    }
 	}
@@ -99,7 +103,7 @@ output_states(struct Output *q, struct Manager *particles, struct MLS *mls, stru
     x_cells = q->x_cells;
     y_cells = q->y_cells;
     cell_ratio = q->cell_ratio;
-    
+
     gridx = x_cells*cell_ratio; gridy = y_cells*cell_ratio;
     Itime = Time*1.0e6;
     strcpy(file_name,"./outdata/states");
@@ -135,7 +139,7 @@ output_states(struct Output *q, struct Manager *particles, struct MLS *mls, stru
 		n ++;
 	    }
 	    list_clear(particles->NNP_list);
-	    fprintf(f, "%.6g %.6g, %.6g %.6g, %.6g %.6g, %.6g %.6g\n", 
+	    fprintf(f, "%.6g %.6g, %.6g %.6g, %.6g %.6g, %.6g %.6g\n",
 		    pstn[0], pstn[1], pressure, rho, phi, x_velocity, y_velocity, Temperature);
 	}
     }
@@ -151,7 +155,7 @@ output_restart(struct Output *q, struct Hydrodynamics *hydro, double Time)
     Particle *prtl;
     LIST *p;
     FILE *f;
-    
+
     strcpy(file_name, q->Project_name);
     strcat(file_name,".rst");
     f = fopen(file_name, "w");
@@ -165,7 +169,7 @@ output_restart(struct Output *q, struct Hydrodynamics *hydro, double Time)
     fprintf(f, "%d\n", n);
     LOOP_P(prtl, hydro->particle_list) {
 	if(prtl->bd == 0)
-	    fprintf(f, "%s %.6g %.6g %.6g %.6g %.6g %.6g %.6g\n", 
+	    fprintf(f, "%s %.6g %.6g %.6g %.6g %.6g %.6g %.6g\n",
 		    prtl->mtl->material_name, prtl->R[0], prtl->R[1], prtl->U[0], prtl->U[1] , prtl->rho, prtl->p, prtl->T);
     }
     fclose(f);
