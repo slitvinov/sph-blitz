@@ -7,7 +7,6 @@ struct ListNode {
     void *data;
     ListNode *next;
     ListNode();
-    ListNode(void*, ListNode*);
 };
 
 struct List {
@@ -19,11 +18,6 @@ ListNode::ListNode()
 {
     data = NULL;
     next = this;
-}
-ListNode::ListNode(void *d, ListNode *n)
-{
-    data = d;
-    next = n;
 }
 
 int list_empty(List *q) {
@@ -52,8 +46,12 @@ void* list_retrieve(List *q, ListNode *n)
 
 void list_insert(List *q, ListNode *n, void *p)
 {
+    ListNode *node;
     q->len++;
-    n->next = new ListNode(p, n->next);
+    node = (ListNode*)malloc(sizeof(ListNode));
+    node->data = p;
+    node->next = n->next;
+    n->next = node;
 }
 
 void list_remove(List *q, ListNode *p)
@@ -93,6 +91,6 @@ void list_fin(List *q)
 {
     while (!list_empty(q))
 	list_remove(q, list_first(q));
-    delete q->node;
+    free(q->node);
     free(q);
 }
