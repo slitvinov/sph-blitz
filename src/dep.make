@@ -33,7 +33,6 @@ hydrodynamics.o: list.h
 hydrodynamics.o: macro.h
 hydrodynamics.o: material.h
 hydrodynamics.o: particle.h
-hydrodynamics.o: particlemanager.h
 hydrodynamics.o: quinticspline.h
 hydrodynamics.o: vv.h
 ilist.o: ilist.h
