@@ -34,12 +34,6 @@ List::List()
     len = 0;
 }
 
-void List::clear()
-{
-    while (!list_empty(this))
-	list_remove(this, list_first(this));
-    len = 0;
-}
 void List::clear_data()
 {
     while (!list_empty(this)) {
@@ -95,8 +89,11 @@ void list_remove(List *q, ListNode *p)
 
 void list_clear(List *q)
 {
-    q->clear();
+    while (!list_empty(q))
+	list_remove(q, list_first(q));
+    q->len = 0;
 }
+
 void list_clear_data(List *q)
 {
     q->clear_data();
