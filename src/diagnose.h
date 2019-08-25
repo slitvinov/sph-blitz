@@ -1,9 +1,10 @@
-class Initiation;
-class Hydrodynamics;
-class ParticleManager;
-class MLS;
-class QuinticSpline;
-class Boundary;
+struct Initiation;
+struct Hydrodynamics;
+struct ParticleManager;
+struct MLS;
+struct QuinticSpline;
+struct Boundary;
+struct List;
 class Diagnose {
 	double delta;
 	int x_cells, y_cells;

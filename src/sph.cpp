@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "err.h"
 #include "particle.h"
-#include "list.h"
 #include "step.h"
 #include "mls.h"
 #include "diagnose.h"

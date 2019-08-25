@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <tgmath.h>
 #include "particle.h"
-#include "list.h"
 #include "diagnose.h"
 #include "initiation.h"
 #include "hydrodynamics.h"
