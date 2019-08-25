@@ -1,14 +1,11 @@
 # generate by ../scripts/dep
 boundary.o: boundary.h
-boundary.o: dllist.h
 boundary.o: err.h
-boundary.o: ilist.h
 boundary.o: initiation.h
 boundary.o: list.h
 boundary.o: macro.h
 boundary.o: material.h
 boundary.o: particle.h
-boundary.o: particlemanager.h
 diagnose.o: diagnose.h
 diagnose.o: dllist.h
 diagnose.o: glbfunc.h
@@ -42,7 +39,7 @@ hydrodynamics.o: quinticspline.h
 hydrodynamics.o: vv.h
 hydrodynamics.o: wiener.h
 ilist.o: ilist.h
-ilist.o: particle.h
+ilist.o: interaction.h
 initiation.o: err.h
 initiation.o: initiation.h
 interaction.o: force.h
@@ -82,6 +79,7 @@ output.o: particle.h
 output.o: particlemanager.h
 particlemanager.o: boundary.h
 particlemanager.o: dllist.h
+particlemanager.o: err.h
 particlemanager.o: glbfunc.h
 particlemanager.o: hydrodynamics.h
 particlemanager.o: ilist.h

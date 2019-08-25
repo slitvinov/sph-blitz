@@ -10,7 +10,7 @@ class Output {
     int hdelta; 
 public:
     explicit Output(Initiation *ini);
-    void OutputParticles(Hydrodynamics &hydro, Boundary &boundary, double Time);
-    void OutputStates(ParticleManager &particles, MLS &mls, QuinticSpline &weight_function, double Time);
-    void OutRestart(Hydrodynamics &hydro, double Time);
+    void OutputParticles(Hydrodynamics *hydro, Boundary *boundary, double Time);
+    void OutputStates(ParticleManager *particles, MLS *mls, QuinticSpline *weight_function, double Time);
+    void OutRestart(Hydrodynamics *hydro, double Time);
 };
