@@ -20,7 +20,6 @@ class Interaction {
 	double rrij;
 	double Wij;
 	double Fij;
-	double Wij2;
 	double eij[2]; 
 	double shear_rij;
 	double bulk_rij; 
