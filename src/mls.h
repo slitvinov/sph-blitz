@@ -11,6 +11,12 @@ struct MLS {
 };
 
 int mls_solve(struct MLS*, int order);
-int mls_map(struct MLS*, double point[2], List*, QuinticSpline*, int order);
+#ifdef __cplusplus
+extern "C" {
+#endif
+int mls_map(struct MLS*, double point[2], struct List*, struct QuinticSpline*, int order);
 int mls_fin(struct MLS*);
 struct MLS* mls_ini(int MLS_MAX);
+#ifdef __cplusplus
+}
+#endif

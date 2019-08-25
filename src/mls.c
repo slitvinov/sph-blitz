@@ -11,9 +11,9 @@
 
 struct MLS *mls_ini(int MLS_MAX)
 {
-    MLS *q;
+    struct MLS *q;
     int k;
-    q = (MLS*)malloc(sizeof(*q));
+    q = (struct MLS*)malloc(sizeof(*q));
     if (q == NULL)
 	return NULL;
     
@@ -40,7 +40,7 @@ int mls_fin(struct MLS *q)
     return 0;
 }
 
-int mls_solve(MLS *q, int order)
+int mls_solve(struct MLS *q, int order)
 {
     int i, k, m;
     double inter1, inter[3]; 
@@ -87,10 +87,10 @@ int mls_solve(MLS *q, int order)
     }
     return 0;
 }
-int mls_map(struct MLS *q, double point[2], List *NNP_list, QuinticSpline *weight_function, int order)
+int mls_map(struct MLS *q, double point[2], struct List *NNP_list, struct QuinticSpline *weight_function, int order)
 {
-    Particle *prtl;
-    ListNode *p1;
+    struct Particle *prtl;
+    struct ListNode *p1;
     double *A;
     double **B;
     double *p;
@@ -110,7 +110,7 @@ int mls_map(struct MLS *q, double point[2], List *NNP_list, QuinticSpline *weigh
     
     N = 0; 
     p[0] = 1.0; p[1] = point[0]; p[2] = point[1];
-    LOOP1(prtl, *NNP_list) {
+    LOOP1_P(prtl, NNP_list) {
 	Wi[N] = w(weight_function, vv_distance(point, prtl->R));
 	pi[0][N] = 1.0;
 	pi[1][N] = prtl->R[0];

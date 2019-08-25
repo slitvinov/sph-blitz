@@ -22,7 +22,6 @@ diagnose.o: vv.h
 err.o: err.h
 glbfunc.o: glbfunc.h
 hydrodynamics.o: boundary.h
-hydrodynamics.o: dllist.h
 hydrodynamics.o: err.h
 hydrodynamics.o: force.h
 hydrodynamics.o: glbfunc.h
@@ -55,9 +54,8 @@ list.o: list.h
 list.o: particle.h
 material.o: glbfunc.h
 material.o: material.h
-mls.o: dllist.h
+mls.o: err.h
 mls.o: glbfunc.h
-mls.o: initiation.h
 mls.o: list.h
 mls.o: macro.h
 mls.o: mls.h
@@ -124,7 +122,6 @@ step.o: particle.h
 step.o: particlemanager.h
 step.o: step.h
 volume.o: dllist.h
-volume.o: hydrodynamics.h
 volume.o: ilist.h
 volume.o: list.h
 volume.o: macro.h
