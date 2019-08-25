@@ -1,8 +1,8 @@
-class Particle;
-class Force;
-class Initiation;
+struct Particle;
+struct Force;
+struct Initiation;
 struct QuinticSpline;
-class Interaction {
+struct Interaction {
 	Particle *Org;	
 	Particle *Dest;	
 	Force **frc_ij;	
@@ -23,11 +23,17 @@ class Interaction {
 	double eij[2]; 
 	double shear_rij;
 	double bulk_rij; 
-public:
-	Interaction(Particle*, Particle*, Force**, QuinticSpline*, double dstc);
-	void RenewInteraction(QuinticSpline*);
-	void SummationDensity();
-	void SummationPhaseGradient();
-	void UpdateForces();
-	void RandomForces(double sqrtdt);
+    	Interaction(Particle*, Particle*, Force**, QuinticSpline*, double dstc);
+    	void RenewInteraction(QuinticSpline*);
+    	void SummationDensity();
+    	void SummationPhaseGradient();
+    	void UpdateForces();
+    	void RandomForces(double sqrtdt);
 };
+
+struct Interaction interaction_ini(struct Interaction*, Particle*, Particle*, Force**, QuinticSpline*, double dstc);
+int interaction_renew(struct Interaction*, QuinticSpline*);
+int interaction_density(struct Interaction*);
+int interaction_phase_gradient(struct Interaction*);
+int interaction_force(struct Interaction*);
+int interaction_random_forces(struct Interaction*, double sqrtdt);

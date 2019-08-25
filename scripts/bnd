@@ -1,9 +1,10 @@
 #!/usr/bin/awk -f
 
-/LOOP\(/ {
-    sub(/*/, "")
-    sub(/LOOP/, "LOOP_P", "")
-    print
+NF {
+    t = tab($0)
+    match($0, /[a-zA-Z_][a-zA-Z0-9_]*;/)
+    v = substr($0, RSTART, RLENGTH - 1)
+    printf "%s%s = q->%s;\n", t, v, v
     next
 }
 
