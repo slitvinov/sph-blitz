@@ -66,7 +66,8 @@ int main(int argc, char *argv[]) {
 	    diagnose.OutputAverage(Time);
 	}
     }
-    
+
+    manager_fin(particles);
     boundary_fin(boundary);
     mls_fin(mls);
     return 0;

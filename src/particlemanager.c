@@ -12,7 +12,9 @@
 #include "boundary.h"
 #include "macro.h"
 #include "err.h"
+#include "interaction_c.h"
 #include "particlemanager.h"
+
 
 #define MAX_SIZE 4096
 enum {X, Y};
@@ -148,7 +150,7 @@ int manager_build_interaction(struct ParticleManager *q,
 		    LOOP1_P(prtl_dest, cell_lists[k][m]) {
 			dstc = vv_sq_distance(prtl_org->R, prtl_dest->R);
 			if(dstc <= sm2 && prtl_org->ID >= prtl_dest->ID) {
-			    // pair = new Interaction(prtl_org, prtl_dest, forces, weight_function, sqrt(dstc));
+			    pair = interaction_ini(prtl_org, prtl_dest, forces, weight_function, sqrt(dstc));
 			    IINSERT_P(pair, interactions);
 			}
 		    }

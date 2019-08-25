@@ -13,6 +13,7 @@
 #include "material.h"
 #include "force.h"
 #include "interaction.h"
+#include "interaction_c.h"
 enum {X, Y};
 using namespace std;
 static double k_bltz  = 1.380662e-023/0.02/0.02/0.02;
@@ -187,4 +188,8 @@ void Interaction::RandomForces(double sqrtdt)
 	Dest->_dU[X] = Dest->_dU[X] - _dUi[X]*rmj;
 	Dest->_dU[Y] = Dest->_dU[Y] - _dUi[Y]*rmj;	
     }
+}
+
+struct Interaction *interaction_ini(struct Particle *a, struct Particle *b, struct Force **f, struct QuinticSpline *w, double dstc) {
+    return new Interaction(a, b, f, w, dstc);
 }
