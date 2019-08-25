@@ -8,7 +8,6 @@
 #include "list.h"
 #include "quinticspline.h"
 #include "particlemanager.h"
-#include "hydrodynamics.h"
 #include "volume.h"
 #include "macro.h"
 
@@ -24,7 +23,7 @@ void VolumeMass(List *particle_list, ParticleManager *particles, QuinticSpline *
     LOOP_P(prtl_org, particle_list) {
 	particles->BuildNNP(prtl_org->R);
 	reciprocV = 0.0;
-	LOOP1(prtl_dest, *particles->NNP_list) {
+	LOOP1_P(prtl_dest, particles->NNP_list) {
 	    dstc = vv_distance(prtl_org->R, prtl_dest->R);
 	    eij[X] = (prtl_org->R[X] - prtl_dest->R[X])/(dstc + 1.e-30);
 	    eij[Y] = (prtl_org->R[Y] - prtl_dest->R[Y])/(dstc + 1.e-30);
