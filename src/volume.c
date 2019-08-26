@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include <math.h>
+#include <tgmath.h>
 #include "particle.h"
 #include "vv.h"
 #include "list.h"
