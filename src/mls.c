@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include "particle.h"
 #include "list.h"
