@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     output = output_ini(&ini);
     VolumeMass(hydro.particle_list, particles, &weight_function);
     boundary_condition(boundary, particles->cell_lists);
-    Diagnose diagnose(&ini, &hydro);
+    Diagnose diagnose(&ini, hydro.particle_list, hydro.materials);
     Time = ini.Start_time;
     output_particles(output, hydro.particle_list, hydro.materials, boundary, Time);
     output_states(output, particles, mls, &weight_function, Time);

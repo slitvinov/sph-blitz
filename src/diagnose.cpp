@@ -15,14 +15,12 @@
 #include "macro.h"
 #include "err.h"
 
-#define LIST struct ListNode
-
-Diagnose::Diagnose(Initiation *ini, Hydrodynamics *hydro)
+Diagnose::Diagnose(struct Initiation *ini, struct List *particle_list, struct Material *materials)
 {
     char file_name[FILENAME_MAX], *name;
     int k, l, m;
-    LIST *p;
-    Particle *prtl;
+    struct ListNode *p;
+    struct Particle *prtl;
     FILE *f;
 
     vx_list = list_ini();
@@ -48,9 +46,9 @@ Diagnose::Diagnose(Initiation *ini, Hydrodynamics *hydro)
 	wght_v = new double [2*number_of_materials];
 	ttl_m = 1.0e-40;
 	for(k = 0; k < number_of_materials; k++) mtl_m[k] = 1.0e-40;
-	LOOP_P(prtl, hydro->particle_list) {
+	LOOP_P(prtl, particle_list) {
 	    for(k = 0;  k < number_of_materials; k++)
-		if(strcmp(prtl->mtl->material_name, hydro->materials[k].material_name) == 0)
+		if(strcmp(prtl->mtl->material_name, materials[k].material_name) == 0)
 		    mtl_m[k] += prtl->m;
 	    ttl_m += prtl->m;
 	}
@@ -61,7 +59,7 @@ Diagnose::Diagnose(Initiation *ini, Hydrodynamics *hydro)
 	fprintf(f, "%s", "title='kinetic_infomation' \n");
 	fprintf(f, "%s", "variables=time, ttl_m, glb_Ek,");
 	for(k = 0; k < number_of_materials; k++) {
-	    name = hydro->materials[k].material_name;
+	    name = materials[k].material_name;
 	    fprintf(f, "%s-R[0],  %s-R[1],  ", name, name);
 	    fprintf(f, "%s-v[0],  %s-v[1],  ", name, name);
 	}
@@ -72,7 +70,7 @@ Diagnose::Diagnose(Initiation *ini, Hydrodynamics *hydro)
 void Diagnose::SaveStates(Hydrodynamics *hydro)
 {
     int k;
-    LIST *p;
+    struct ListNode *p;
     double *p1, *p2, *p3;
     Particle *prtl;
     p1 = new double;
@@ -150,7 +148,7 @@ void Diagnose::Average(Manager *particles, MLS *mls, QuinticSpline *weight_funct
     double pstn[2];
     double rho, pressure, Temperature, x_velocity, y_velocity;
     double m_n_average, r_n_average;
-    LIST *p;
+    struct ListNode *p;
     Particle *prtl;
     n_average ++;
     for(j = 0; j < gridy; j++) {
@@ -215,8 +213,8 @@ void Diagnose::KineticInformation(double Time, Hydrodynamics *hydro)
     enum {X, Y};
     int k;
     char file_name[FILENAME_MAX];
-    LIST *p;
-    Particle *prtl;
+    struct ListNode *p;
+    struct Particle *prtl;
     FILE *f;
 
     strcpy(file_name,"./outdata/kinetic_info.dat");

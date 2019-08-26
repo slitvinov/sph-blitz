@@ -26,7 +26,7 @@ class Diagnose {
 	double *wght_cntr ;
 	double *wght_v;
 public:
-	Diagnose(Initiation*, Hydrodynamics*);
+	Diagnose(struct Initiation*, struct List*, struct Material*);
 	void SaveStates(Hydrodynamics*);
 	void OutputProfile(double Time);
 	void Average(Manager*, MLS*, QuinticSpline*);
