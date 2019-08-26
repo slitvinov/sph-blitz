@@ -1,4 +1,4 @@
-#include <tgmath.h>
+#include <math.h>
 #include <iostream>
 #include <fstream>
 #include <cstring>

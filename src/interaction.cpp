@@ -1,4 +1,5 @@
-#include <tgmath.h>
+#include <math.h>
+#include <stdio.h>
 #include "vv.h"
 #include "glbfunc.h"
 #include "quinticspline.h"
