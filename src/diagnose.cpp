@@ -67,7 +67,7 @@ Diagnose::Diagnose(struct Initiation *ini, struct List *particle_list, struct Ma
 	fclose(f);
     }
 }
-void Diagnose::SaveStates(Hydrodynamics *hydro)
+void Diagnose::SaveStates(struct List *particle_list)
 {
     int k;
     struct ListNode *p;
@@ -77,10 +77,10 @@ void Diagnose::SaveStates(Hydrodynamics *hydro)
     p2 = new double;
     p3 = new double;
 
-    p = list_first(hydro->particle_list);
+    p = list_first(particle_list);
     for(k = 0; k < 1; k++)
-	p = list_next(hydro->particle_list, p);
-    prtl = (struct Particle*)list_retrieve(hydro->particle_list, p);
+	p = list_next(particle_list, p);
+    prtl = (struct Particle*)list_retrieve(particle_list, p);
     *p1 = prtl->U[0];
 
     *p2 = prtl->U[1];

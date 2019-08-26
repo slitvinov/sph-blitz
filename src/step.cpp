@@ -25,7 +25,7 @@ void step(int *pite, Hydrodynamics *hydro, Manager *particles, Boundary *boundar
 	if(ite % 10 == 0)
 	    printf("N=%d Time: %g	dt: %g\n", ite, *Time, dt);
 	if(ini->diagnose == 1) {
-	    diagnose->SaveStates(hydro);
+	    diagnose->SaveStates(hydro->particle_list);
 	    diagnose->Average(particles, mls, weight_function);
 	}
 	if(ini->diagnose == 2  && ite % 10 == 0)
