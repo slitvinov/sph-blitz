@@ -1,5 +1,4 @@
 struct Initiation;
-struct Hydrodynamics;
 struct Manager;
 struct MLS;
 struct QuinticSpline;

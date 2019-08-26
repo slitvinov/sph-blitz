@@ -2,7 +2,6 @@
 extern "C" {
 #endif
 struct Initiation;
-struct Hydrodynamics;
 struct Boundary;
 struct Manager;
 struct MLS;
