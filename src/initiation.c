@@ -5,7 +5,9 @@
 #include "err.h"
 #include "initiation.h"
 int initiation_ini(const char *project_name, struct Initiation *q) {
+    int status;
     char Key_word[FILENAME_MAX];
+    char *mkdir = "mkdir -p outdata";
     FILE *f;
     strcpy(q->Project_name, project_name);
     strcpy(q->inputfile, q->Project_name);
@@ -43,7 +45,8 @@ int initiation_ini(const char *project_name, struct Initiation *q) {
 	}
     }
     fclose(f);
-    system("mkdir -p outdata");
+    if (system(mkdir) != 0)
+	ABORT(("command '%s' faild", mkdir));
     q->box_size[0] = q->x_cells*q->cell_size;
     q->box_size[1] = q->y_cells*q->cell_size;
     q->delta = q->cell_size/q->cell_ratio;

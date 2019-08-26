@@ -1,7 +1,6 @@
 #include <math.h>
-#include <iostream>
-#include <fstream>
-#include <cstring>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "glbfunc.h"
 #include "particle.h"
@@ -14,20 +13,21 @@
 #include "material.h"
 #include "diagnose.h"
 #include "macro.h"
-using namespace std;
+#include "err.h"
 
-#define LIST ListNode
+#define LIST struct ListNode
 
 Diagnose::Diagnose(Initiation *ini, Hydrodynamics *hydro)
 {
-    char file_name[FILENAME_MAX];
+    char file_name[FILENAME_MAX], *name;
     int k, l, m;
     LIST *p;
     Particle *prtl;
+    FILE *f;
+
     vx_list = list_ini();
     vy_list = list_ini();
     rho_list = list_ini();
-    
     x_cells = ini->x_cells; y_cells = ini->y_cells;
     delta = ini->delta;
     number_of_materials = ini->number_of_materials;
@@ -55,15 +55,18 @@ Diagnose::Diagnose(Initiation *ini, Hydrodynamics *hydro)
 	    ttl_m += prtl->m;
 	}
 	strcpy(file_name,"./outdata/kinetic_info.dat");
-	ofstream out(file_name);
-	out<<"title='kinetic_infomation' \n";
-	out<<"variables=time, ttl_m, glb_Ek,";
+	f = fopen(file_name, "w");
+	if (!f)
+	    ABORT(("can't open '%s'", file_name));
+	fprintf(f, "%s", "title='kinetic_infomation' \n");
+	fprintf(f, "%s", "variables=time, ttl_m, glb_Ek,");
 	for(k = 0; k < number_of_materials; k++) {
-	    out<<hydro->materials[k].material_name<<"-R[0],  "<<hydro->materials[k].material_name<<"-R[1],  ";
-	    out<<hydro->materials[k].material_name<<"-v[0],  "<<hydro->materials[k].material_name<<"-v[1],  ";
+	    name = hydro->materials[k].material_name;
+	    fprintf(f, "%s-R[0],  %s-R[1],  ", name, name);
+	    fprintf(f, "%s-v[0],  %s-v[1],  ", name, name);
 	}
-	out<<"\n";
-	out.close();
+	fprintf(f, "\n");
+	fclose(f);
     }
 }
 void Diagnose::SaveStates(Hydrodynamics *hydro)
@@ -93,14 +96,17 @@ void Diagnose::OutputProfile(double Time)
     int k, m;
     double Itime;
     char file_name[FILENAME_MAX], file_list[110];
+    FILE *f;
     Itime = Time*1.0e8;
     strcpy(file_name,"./outdata/dstr");
     sprintf(file_list, "%d", (int)Itime);
     strcat(file_name, file_list);
     strcat(file_name, ".dat");
-    ofstream out(file_name);
-    out<<"title='distributions' \n";
-    out<<"variables=aUx, Ux, aUy, Uy, arho, rho \n";
+    f = fopen(file_name, "a");
+    if (!f)
+	ABORT(("can't open '%s'", file_name));
+    fprintf(f, "%s", "title='distributions' \n");
+    fprintf(f, "variables=aUx, Ux, aUy, Uy, arho, rho \n");
     for(k = 0; k < 2; k++)
 	for(m = 0; m < 101; m++) vx_dstrb[k][m] = 0.0;
     BuildDistribution(vx_list, vx_dstrb);
@@ -112,9 +118,10 @@ void Diagnose::OutputProfile(double Time)
     BuildDistribution(rho_list, rho_dstrb);
     k =  list_length(vx_list);
     for(m = 0; m < 101; m++) {
-	out<<vx_dstrb[0][m]<<"  "<<vx_dstrb[1][m]/double(k)<<"  "
-	   <<vy_dstrb[0][m]<<"  "<<vy_dstrb[1][m]/double(k)<<"  "
-	   <<rho_dstrb[0][m]<<"  "<<rho_dstrb[1][m]/double(k)<<"  \n";
+	fprintf(f, "%.6g %.6g %.6g %.6g %.6g %.6g\n",
+		vx_dstrb[0][m], vx_dstrb[1][m]/double(k),
+		vy_dstrb[0][m], vy_dstrb[1][m]/double(k),
+		rho_dstrb[0][m], rho_dstrb[1][m]/double(k));
     }
 }
 void Diagnose::BuildDistribution(List *list, double dstrb[2][101])
@@ -180,25 +187,28 @@ void Diagnose::OutputAverage(double Time)
     double pstn[2];
     double Itime;
     char file_name[FILENAME_MAX], file_list[110];
+    FILE *f;
+
     Itime = Time*1.0e8;
     strcpy(file_name,"./outdata/statistics");
     sprintf(file_list, "%d", (int)Itime);
     strcat(file_name, file_list);
     strcat(file_name, ".dat");
-    ofstream out(file_name);
-    out<<"title=averaged states with '"<<n_average<<"' samples' \n";
-    out<<"variables=x, y, p, rho, Ux, Uy, T \n";
-    out<<"zone t='filed', i="<<gridx<<", j="<<gridy<<"\n";
+    f = fopen(file_name, "a");
+    if (!f)
+	ABORT(("can't open '%s'", file_name));
+    fprintf(f, "title=averaged states with '%d' samples' \n", n_average);
+    fprintf(f, "variables=x, y, p, rho, Ux, Uy, T \n");
+    fprintf(f, "zone t='filed', i=%d, j=%d\n", gridx, gridy);
     for(j = 0; j < gridy; j++) {
 	for(i = 0; i < gridx; i++) {
 	    pstn[0] = i*delta; pstn[1] = j*delta;
-	    out<<pstn[0]<<"  "<<pstn[1]
-	       <<"  "<<U[1][i][j]<<"  "<<U[0][i][j]
-	       <<"  "<<U[3][i][j]<<"  "<<U[4][i][j]
-	       <<"  "<<U[2][i][j]<<"\n";
+	    fprintf(f, "%.6g %.6g %.6g %.6g %.6g %.6g %.6g\n",
+		    pstn[0], pstn[1],
+		    U[1][i][j], U[0][i][j], U[3][i][j], U[4][i][j], U[2][i][j]);
 	}
     }
-    out.close();
+    fclose(f);
 }
 void Diagnose::KineticInformation(double Time, Hydrodynamics *hydro)
 {
@@ -207,9 +217,12 @@ void Diagnose::KineticInformation(double Time, Hydrodynamics *hydro)
     char file_name[FILENAME_MAX];
     LIST *p;
     Particle *prtl;
+    FILE *f;
 
     strcpy(file_name,"./outdata/kinetic_info.dat");
-    ofstream out(file_name, ios::out | ios::ate);
+    f = fopen(file_name, "a");
+    if (!f)
+	ABORT(("can't open '%s'", file_name));
     for(k = 0; k < number_of_materials; k++) {
 	wght_cntr[2*k + X] = wght_cntr[2*k + Y] = 0.0;
 	wght_v[2*k + X] = wght_v[2*k + Y] = 0.0;
@@ -225,11 +238,11 @@ void Diagnose::KineticInformation(double Time, Hydrodynamics *hydro)
 	    }
 	glb_ave_Ek += 0.5*sqrt(vv_abs(prtl->U))*prtl->m;
     }
-    out<<Time<<"  "<<ttl_m<<"  "<<glb_ave_Ek<<"  ";
+    fprintf(f, "%.6g %.6g %.6g", Time, ttl_m, glb_ave_Ek);
     for(k = 0; k < number_of_materials; k++) {
-	out<<wght_cntr[2*k + X]/mtl_m[k]<<"  "<<wght_cntr[2*k + Y]/mtl_m[k]<<"  ";
-	out<<wght_v[2*k + X]/mtl_m[k]<<"  "<<wght_v[2*k + Y]/mtl_m[k]<<"  ";
+	fprintf(f, "%.6g %.6g %.6g %.6g ",
+		wght_cntr[2*k+X]/mtl_m[k], wght_cntr[2*k+Y]/mtl_m[k], wght_v[2*k+X]/mtl_m[k], wght_v[2*k+Y]/mtl_m[k]);
     }
-    out<<"\n";
-    out.close();
+    fprintf(f, "\n");
+    fclose(f);
 }
