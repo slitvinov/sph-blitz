@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
     output_particles(output, hydro.particle_list, hydro.materials, boundary, Time);
     output_states(output, particles, mls, &weight_function, Time);
     if(ini.diagnose == 2)
-      diagnose.KineticInformation(Time, &hydro);
+      diagnose.KineticInformation(Time, hydro.particle_list, hydro.materials);
 
     ite = 0;
     while(Time < ini.End_time) {

@@ -7,8 +7,8 @@ boundary.o: macro.h
 boundary.o: material.h
 boundary.o: particle.h
 diagnose.o: diagnose.h
+diagnose.o: err.h
 diagnose.o: glbfunc.h
-diagnose.o: hydrodynamics.h
 diagnose.o: initiation.h
 diagnose.o: list.h
 diagnose.o: macro.h

@@ -31,5 +31,5 @@ public:
 	void OutputProfile(double Time);
 	void Average(Manager*, MLS*, QuinticSpline*);
 	void OutputAverage(double Time);
-	void KineticInformation(double Time, Hydrodynamics*);
+	void KineticInformation(double Time, struct List*, struct Material*);
 };

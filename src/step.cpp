@@ -29,7 +29,7 @@ void step(int *pite, Hydrodynamics *hydro, Manager *particles, Boundary *boundar
 	    diagnose->Average(particles, mls, weight_function);
 	}
 	if(ini->diagnose == 2  && ite % 10 == 0)
-	    diagnose->KineticInformation(*Time, hydro);
+	    diagnose->KineticInformation(*Time, hydro->particle_list, hydro->materials);
 	manager_build_interaction(particles, hydro->interaction_list, hydro->particle_list, hydro->forces, weight_function);
 	hydro->UpdateDensity();
 	boundary_condition(boundary, particles->cell_lists);

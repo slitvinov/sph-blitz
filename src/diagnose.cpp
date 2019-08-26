@@ -7,7 +7,6 @@
 #include "list.h"
 #include "vv.h"
 #include "initiation.h"
-#include "hydrodynamics.h"
 #include "mls.h"
 #include "manager.h"
 #include "material.h"
@@ -208,7 +207,7 @@ void Diagnose::OutputAverage(double Time)
     }
     fclose(f);
 }
-void Diagnose::KineticInformation(double Time, Hydrodynamics *hydro)
+void Diagnose::KineticInformation(double Time, struct List *particle_list, struct Material *materials)
 {
     enum {X, Y};
     int k;
@@ -226,9 +225,9 @@ void Diagnose::KineticInformation(double Time, Hydrodynamics *hydro)
 	wght_v[2*k + X] = wght_v[2*k + Y] = 0.0;
     }
     glb_ave_Ek = 0.0;
-    LOOP_P(prtl, hydro->particle_list) {
+    LOOP_P(prtl, particle_list) {
 	for(k = 0;  k < number_of_materials; k++)
-	    if(strcmp(prtl->mtl->material_name, hydro->materials[k].material_name) == 0) {
+	    if(strcmp(prtl->mtl->material_name, materials[k].material_name) == 0) {
 		wght_cntr[2*k + X] += prtl->R[X]*prtl->m;
 		wght_cntr[2*k + Y] += prtl->R[Y]*prtl->m;
 		wght_v[2*k + X] += prtl->U[X]*prtl->m;
