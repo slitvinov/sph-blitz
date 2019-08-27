@@ -57,8 +57,7 @@ main(int argc, char *argv[])
 		     boundary, Time);
     output_states(output, particles, mls, &weight_function, Time);
     if (ini.diagnose == 2)
-	diagnose.KineticInformation(Time, hydro.particle_list,
-				    hydro.materials);
+      KineticInformation(&diagnose, Time, hydro.particle_list, hydro.materials);
 
     ite = 0;
     while (Time < ini.End_time) {
@@ -70,8 +69,8 @@ main(int argc, char *argv[])
 			 boundary, Time);
 	output_restart(output, hydro.particle_list, Time);
 	if (ini.diagnose == 1) {
-	    diagnose.OutputProfile(Time);
-	    diagnose.OutputAverage(Time);
+          OutputProfile(&diagnose, Time);
+	  OutputAverage(&diagnose, Time);
 	}
     }
 

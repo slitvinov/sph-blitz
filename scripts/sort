@@ -1,0 +1,5 @@
+#!/u/9/plan9port/bin/ssam -f
+, x/void.*\n/ x/\(/ <echo -n '(struct *Diagnose, '
+,p
+,d
+

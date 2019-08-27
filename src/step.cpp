@@ -28,12 +28,12 @@ step(int *pite, Hydrodynamics * hydro, Manager * particles,
 	if (ite % 10 == 0)
 	    printf("N=%d Time: %g	dt: %g\n", ite, *Time, dt);
 	if (ini->diagnose == 1) {
-	    diagnose->SaveStates(hydro->particle_list);
-	    diagnose->Average(particles, mls, weight_function);
+          SaveStates(diagnose, hydro->particle_list);
+          Average(diagnose, particles, mls, weight_function);
 	}
 	if (ini->diagnose == 2 && ite % 10 == 0)
-	    diagnose->KineticInformation(*Time, hydro->particle_list,
-					 hydro->materials);
+          KineticInformation(diagnose, *Time, hydro->particle_list,
+                             hydro->materials);
 	manager_build_interaction(particles, hydro->interaction_list,
 				  hydro->particle_list, hydro->forces,
 				  weight_function);

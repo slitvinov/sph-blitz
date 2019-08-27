@@ -79,8 +79,8 @@ Diagnose::Diagnose(struct Initiation *ini, struct List *particle_list,
     }
 }
 
-void
-Diagnose::SaveStates(struct List *particle_list)
+int
+SaveStates(struct Diagnose *q, struct List *particle_list)
 {
     int k;
     struct ListNode *p;
@@ -98,13 +98,14 @@ Diagnose::SaveStates(struct List *particle_list)
 
     *p2 = prtl->U[1];
     *p3 = prtl->rho;
-    INSERT_P(p1, vx_list);
-    INSERT_P(p2, vy_list);
-    INSERT_P(p3, rho_list);
+    INSERT_P(p1, q->vx_list);
+    INSERT_P(p2, q->vy_list);
+    INSERT_P(p3, q->rho_list);
+    return 0;
 }
 
-void
-Diagnose::OutputProfile(double Time)
+int
+OutputProfile(Diagnose *q, double Time)
 {
     int k, m;
     double Itime;
@@ -123,28 +124,29 @@ Diagnose::OutputProfile(double Time)
     fprintf(f, "variables=aUx, Ux, aUy, Uy, arho, rho \n");
     for (k = 0; k < 2; k++)
 	for (m = 0; m < 101; m++)
-	    vx_dstrb[k][m] = 0.0;
-    BuildDistribution(vx_list, vx_dstrb);
+	    q->vx_dstrb[k][m] = 0.0;
+    BuildDistribution(q->vx_list, q->vx_dstrb);
     for (k = 0; k < 2; k++)
 	for (m = 0; m < 101; m++)
-	    vy_dstrb[k][m] = 0.0;
-    BuildDistribution(vy_list, vy_dstrb);
+	    q->vy_dstrb[k][m] = 0.0;
+    BuildDistribution(q->vy_list, q->vy_dstrb);
     for (m = 0; m < 101; m++)
-	rho_dstrb[0][m] = 1.0;
+	q->rho_dstrb[0][m] = 1.0;
     for (m = 0; m < 101; m++)
-	rho_dstrb[1][m] = 0.0;
-    BuildDistribution(rho_list, rho_dstrb);
-    k = list_length(vx_list);
+	q->rho_dstrb[1][m] = 0.0;
+    BuildDistribution(q->rho_list, q->rho_dstrb);
+    k = list_length(q->vx_list);
     for (m = 0; m < 101; m++) {
 	fprintf(f, "%.6g %.6g %.6g %.6g %.6g %.6g\n",
-		vx_dstrb[0][m], vx_dstrb[1][m] / double (k),
-		vy_dstrb[0][m], vy_dstrb[1][m] / double (k),
-		rho_dstrb[0][m], rho_dstrb[1][m] / double (k));
+		q->vx_dstrb[0][m], q->vx_dstrb[1][m] / double (k),
+		q->vy_dstrb[0][m], q->vy_dstrb[1][m] / double (k),
+		q->rho_dstrb[0][m], q->rho_dstrb[1][m] / double (k));
     }
+    return 0;
 }
 
-void
-Diagnose::BuildDistribution(struct List *list, double dstrb[2][101])
+int
+BuildDistribution(struct List *list, double dstrb[2][101])
 {
     int m;
     struct ListNode *p;
@@ -164,24 +166,26 @@ Diagnose::BuildDistribution(struct List *list, double dstrb[2][101])
 
 	dstrb[1][m] += 1.0;
     }
+    return 0;
 }
 
-void
-Diagnose::Average(Manager * particles, MLS * mls,
-		  QuinticSpline * weight_function)
+int
+Average(Diagnose *q, Manager * particles, MLS * mls, QuinticSpline * weight_function)
 {
     int i, j, n;
     double pstn[2];
     double rho, pressure, Temperature, x_velocity, y_velocity;
     double m_n_average, r_n_average;
+    double ***U;
     struct ListNode *p;
     struct Particle *prtl;
 
-    n_average++;
-    for (j = 0; j < gridy; j++) {
-	for (i = 0; i < gridx; i++) {
-	    pstn[0] = i * delta;
-	    pstn[1] = j * delta;
+    U = q->U;
+    q->n_average++;
+    for (j = 0; j < q->gridy; j++) {
+	for (i = 0; i < q->gridx; i++) {
+	    pstn[0] = i * q->delta;
+	    pstn[1] = j * q->delta;
 	    manager_build_nnp(particles, pstn);
 	    if (list_empty(particles->NNP_list))
 		mls_map(mls, pstn, particles->NNP_list, weight_function,
@@ -201,8 +205,8 @@ Diagnose::Average(Manager * particles, MLS * mls,
 		n++;
 	    }
 	    list_clear(particles->NNP_list);
-	    m_n_average = double (n_average) - 1.0;
-	    r_n_average = 1.0 / double (n_average);
+	    m_n_average = double (q->n_average) - 1.0;
+	    r_n_average = 1.0 / double (q->n_average);
 
 	    U[0][i][j] = (U[0][i][j] * m_n_average + rho) * r_n_average;
 	    U[1][i][j] =
@@ -215,17 +219,20 @@ Diagnose::Average(Manager * particles, MLS * mls,
 		(U[4][i][j] * m_n_average + y_velocity) * r_n_average;
 	}
     }
+    return 0;
 }
 
-void
-Diagnose::OutputAverage(double Time)
+int
+OutputAverage(Diagnose *q, double Time)
 {
     int i, j;
     double pstn[2];
     double Itime;
     char file_name[FILENAME_MAX], file_list[110];
     FILE *f;
-
+    double ***U;
+    
+    U = q->U;
     Itime = Time * 1.0e8;
     strcpy(file_name, "./outdata/statistics");
     sprintf(file_list, "%d", (int) Itime);
@@ -234,13 +241,13 @@ Diagnose::OutputAverage(double Time)
     f = fopen(file_name, "a");
     if (!f)
 	ABORT(("can't open '%s'", file_name));
-    fprintf(f, "title=averaged states with '%d' samples' \n", n_average);
+    fprintf(f, "title=averaged states with '%d' samples' \n", q->n_average);
     fprintf(f, "variables=x, y, p, rho, Ux, Uy, T \n");
-    fprintf(f, "zone t='filed', i=%d, j=%d\n", gridx, gridy);
-    for (j = 0; j < gridy; j++) {
-	for (i = 0; i < gridx; i++) {
-	    pstn[0] = i * delta;
-	    pstn[1] = j * delta;
+    fprintf(f, "zone t='filed', i=%d, j=%d\n", q->gridx, q->gridy);
+    for (j = 0; j < q->gridy; j++) {
+	for (i = 0; i < q->gridx; i++) {
+	    pstn[0] = i * q->delta;
+	    pstn[1] = j * q->delta;
 	    fprintf(f, "%.6g %.6g %.6g %.6g %.6g %.6g %.6g\n",
 		    pstn[0], pstn[1],
 		    U[1][i][j], U[0][i][j], U[3][i][j], U[4][i][j],
@@ -248,10 +255,11 @@ Diagnose::OutputAverage(double Time)
 	}
     }
     fclose(f);
+    return 0;
 }
 
-void
-Diagnose::KineticInformation(double Time, struct List *particle_list,
+int
+KineticInformation(Diagnose *q, double Time, struct List *particle_list,
 			     struct Material *materials)
 {
     enum { X, Y };
@@ -259,39 +267,42 @@ Diagnose::KineticInformation(double Time, struct List *particle_list,
     char file_name[FILENAME_MAX];
     struct ListNode *p;
     struct Particle *prtl;
+    int number_of_materials;
     FILE *f;
 
+    number_of_materials = q->number_of_materials;
     strcpy(file_name, "./outdata/kinetic_info.dat");
     f = fopen(file_name, "a");
     if (!f)
 	ABORT(("can't open '%s'", file_name));
     for (k = 0; k < number_of_materials; k++) {
-	wght_cntr[2 * k + X] = wght_cntr[2 * k + Y] = 0.0;
-	wght_v[2 * k + X] = wght_v[2 * k + Y] = 0.0;
+	q->wght_cntr[2 * k + X] = q->wght_cntr[2 * k + Y] = 0.0;
+	q->wght_v[2 * k + X] = q->wght_v[2 * k + Y] = 0.0;
     }
-    glb_ave_Ek = 0.0;
+    q->glb_ave_Ek = 0.0;
     LOOP_P(prtl, particle_list) {
 	for (k = 0; k < number_of_materials; k++)
 	    if (strcmp
 		(prtl->mtl->material_name,
 		 materials[k].material_name) == 0) {
-		wght_cntr[2 * k + X] += prtl->R[X] * prtl->m;
-		wght_cntr[2 * k + Y] += prtl->R[Y] * prtl->m;
-		wght_v[2 * k + X] += prtl->U[X] * prtl->m;
-		wght_v[2 * k + Y] += prtl->U[Y] * prtl->m;
+		q->wght_cntr[2 * k + X] += prtl->R[X] * prtl->m;
+		q->wght_cntr[2 * k + Y] += prtl->R[Y] * prtl->m;
+		q->wght_v[2 * k + X] += prtl->U[X] * prtl->m;
+		q->wght_v[2 * k + Y] += prtl->U[Y] * prtl->m;
 	    }
-	glb_ave_Ek += 0.5 * sqrt(vv_abs(prtl->U)) * prtl->m;
+	q->glb_ave_Ek += 0.5 * sqrt(vv_abs(prtl->U)) * prtl->m;
     }
-    fprintf(f, "%.6g %.6g %.6g", Time, ttl_m, glb_ave_Ek);
+    fprintf(f, "%.6g %.6g %.6g", Time, q->ttl_m, q->glb_ave_Ek);
     for (k = 0; k < number_of_materials; k++) {
 	fprintf(f, "%.6g %.6g %.6g %.6g ",
-		wght_cntr[2 * k + X] / mtl_m[k],
-		wght_cntr[2 * k + Y] / mtl_m[k],
-		wght_v[2 * k + X] / mtl_m[k],
-		wght_v[2 * k + Y] / mtl_m[k]);
+		q->wght_cntr[2 * k + X] / q->mtl_m[k],
+		q->wght_cntr[2 * k + Y] / q->mtl_m[k],
+		q->wght_v[2 * k + X] / q->mtl_m[k],
+		q->wght_v[2 * k + Y] / q->mtl_m[k]);
     }
     fprintf(f, "\n");
     fclose(f);
+    return 0;
 }
 
 int
