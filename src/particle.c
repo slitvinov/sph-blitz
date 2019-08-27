@@ -4,7 +4,7 @@
 #include "material.h"
 #include "particle.h"
 
-enum {X, Y};
+enum { X, Y };
 
 long particle_ID_max;
 int particle_number_of_materials;
@@ -21,25 +21,28 @@ int particle_number_of_materials;
 
 #define YY return q;
 
-static double**
+static double **
 phi_ini(void)
 {
     int n, i, j;
     double **q;
+
     n = particle_number_of_materials;
-    q = (double**)malloc(n*sizeof(*q));
-    for(i = 0; i < n; i++)
-	q[i] = (double*)malloc(n*sizeof(*q));
-    for(i = 0; i < n; i++)
-	for(j = 0; j < n; j++)
+    q = (double **) malloc(n * sizeof(*q));
+    for (i = 0; i < n; i++)
+	q[i] = (double *) malloc(n * sizeof(*q));
+    for (i = 0; i < n; i++)
+	for (j = 0; j < n; j++)
 	    q[i][j] = 0.0;
     return q;
 }
 
-int particle_fin(struct Particle *q)
+int
+particle_fin(struct Particle *q)
 {
     int i;
-    for(i = 0; i < particle_number_of_materials; i++) {
+
+    for (i = 0; i < particle_number_of_materials; i++) {
 	free(q->phi[i]);
     }
     free(q->phi);
@@ -47,7 +50,10 @@ int particle_fin(struct Particle *q)
     return 0;
 }
 
-struct Particle* particle_real(double position[2], double velocity[2], double density, double pressure, double temperature, struct Material *material)
+struct Particle *
+particle_real(double position[2], double velocity[2], double density,
+	      double pressure, double temperature,
+	      struct Material *material)
 {
     XX;
 
@@ -86,7 +92,8 @@ struct Particle* particle_real(double position[2], double velocity[2], double de
     YY;
 }
 
-struct Particle* particle_image(struct Particle *s)
+struct Particle *
+particle_image(struct Particle *s)
 {
     XX;
 
@@ -131,7 +138,8 @@ struct Particle* particle_image(struct Particle *s)
     YY;
 }
 
-struct Particle* particle_mirror(struct Particle *s, struct Material *material)
+struct Particle *
+particle_mirror(struct Particle *s, struct Material *material)
 {
     XX;
 
@@ -176,9 +184,11 @@ struct Particle* particle_mirror(struct Particle *s, struct Material *material)
     YY;
 }
 
-int particle_copy(struct Particle *q, struct Particle *s, int type)
+int
+particle_copy(struct Particle *q, struct Particle *s, int type)
 {
     int i, j;
+
     A(R[X]);
     A(R[Y]);
     A(m);
@@ -196,18 +206,18 @@ int particle_copy(struct Particle *q, struct Particle *s, int type)
     A(ShearRate_x[Y]);
     A(ShearRate_y[X]);
     A(ShearRate_y[Y]);
-    if (type == 1 ) {
+    if (type == 1) {
 	A(del_phi[X]);
 	A(del_phi[Y]);
-	for(i = 0; i < particle_number_of_materials; i++) {
-	    for(j = 0; j < particle_number_of_materials; j++) {
+	for (i = 0; i < particle_number_of_materials; i++) {
+	    for (j = 0; j < particle_number_of_materials; j++) {
 		A(phi[i][j]);
 	    }
 	}
     }
     if (type == 0) {
 	q->phi[0][0] = 0;
-	for(i = 1; i < particle_number_of_materials; i++)
+	for (i = 1; i < particle_number_of_materials; i++)
 	    q->phi[0][0] += s->phi[i][i];
     }
     return 0;
