@@ -36,10 +36,15 @@ Hydrodynamics::Hydrodynamics(struct Initiation *ini)
     delta = ini->delta;
     delta2 = ini->delta * ini->delta;
     delta3 = ini->delta * ini->delta * ini->delta;
-    materials = new Material[number_of_materials];
-    forces = new Force *[number_of_materials];
+    materials =
+	(struct Material *) malloc(number_of_materials *
+				   sizeof(*materials));
+    forces =
+	(struct Force **) malloc(number_of_materials * sizeof(*force));
     for (k = 0; k < number_of_materials; k++)
-	forces[k] = new Force[number_of_materials];
+	forces[k] =
+	    (struct Force *) malloc(number_of_materials *
+				    sizeof(*forces[k]));
 
     f = fopen(ini->inputfile, "r");
     if (!f)
@@ -260,7 +265,7 @@ void
     struct Particle *
 	prtl;
     int
-	i,
+     i,
 	j;
 
     LOOP_P(prtl, particle_list) {
@@ -283,9 +288,9 @@ void
  Hydrodynamics::UpdateSurfaceStress(Boundary * boundary)
 {
     double
-	epsilon = 1.0e-30;
+     epsilon = 1.0e-30;
     double
-	interm0,
+     interm0,
 	interm1,
 	interm2;
     struct Particle *
@@ -317,9 +322,9 @@ double
     struct ListNode *
 	p;
     double
-	Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = 1.0;
+     Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = 1.0;
     double
-	dt;
+     dt;
 
     LOOP_P(prtl, particle_list) {
 	Cs_max = AMAX1(Cs_max, prtl->Cs);
@@ -391,6 +396,12 @@ void
 
 Hydrodynamics::~Hydrodynamics()
 {
+    int i;
+
+    for (i = 0; i < number_of_materials; i++)
+	free(forces[i]);
+    free(forces);
+    free(materials);
     list_fin(interaction_list);
     list_fin(particle_list);
 }
