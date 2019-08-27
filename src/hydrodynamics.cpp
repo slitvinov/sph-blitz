@@ -1,4 +1,4 @@
-#include <fstream>
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
@@ -16,7 +16,6 @@
 #include "vv.h"
 #include "hydrodynamics.h"
 
-using namespace std;
 enum
 { X, Y };
 
