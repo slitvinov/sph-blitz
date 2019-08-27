@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include "vv.h"
 #include "glbfunc.h"
@@ -9,35 +10,46 @@
 #include "material.h"
 #include "force.h"
 #include "interaction.h"
+#include "err.h"
 #include "interaction_c.h"
 enum { X, Y };
 static double k_bltz = 1.380662e-023 / 0.02 / 0.02 / 0.02;
 double interaction_art_vis;
 double interaction_delta;
-Interaction::Interaction(Particle * prtl_org, Particle * prtl_dest,
-			 Force ** forces, QuinticSpline * weight_function,
+struct Interaction* interaction_ini(struct Particle * prtl_org, struct Particle * prtl_dest,
+			 struct Force ** forces, struct QuinticSpline * weight_function,
 			 double dstc)
 {
-    Org = prtl_org;
-    Dest = prtl_dest;
-    noi = Org->mtl->number;
-    noj = Dest->mtl->number;
-    frc_ij = forces;
-    mi = Org->m;
-    mj = Dest->m;
-    rmi = 1.0 / mi;
-    rmj = 1.0 / mj;
-    etai = Org->eta;
-    etaj = Dest->eta;
-    zetai = Org->zeta;
-    zetaj = Dest->zeta;
-    rij = dstc;
-    rrij = 1.0 / (rij + 1.0e-30);
-    eij[X] = (Org->R[X] - Dest->R[X]) * rrij;
-    eij[Y] = (Org->R[Y] - Dest->R[Y]) * rrij;
-    Wij = w(weight_function, rij);
-    Fij = F(weight_function, rij) * rrij;
-    shear_rij =
+  struct Interaction *q;
+  struct Particle *Org, *Dest;
+  double etai, etaj, rij, zetai, zetaj;
+  int noi, noj;
+  struct Force **frc_ij;
+  
+  q = (struct Interaction*)malloc(sizeof(*q));
+  if (q == NULL)
+    ABORT(("can't allocate"));
+
+    q->Org = Org = prtl_org;
+    q->Dest = Dest = prtl_dest;
+    q->noi = noi = Org->mtl->number;
+    q->noj = noj =Dest->mtl->number;
+    q->frc_ij = frc_ij = forces;
+    q->mi = Org->m;
+    q->mj = Dest->m;
+    q->rmi = 1.0 / q->mi;
+    q->rmj = 1.0 / q->mj;
+    q->etai = etai = Org->eta;
+    q->etaj = etaj = Dest->eta;
+    q->zetai = zetai = Org->zeta;
+    q->zetaj = zetaj = Dest->zeta;
+    q->rij = rij = dstc;
+    q->rrij = 1.0 / (rij + 1.0e-30);
+    q->eij[X] = (Org->R[X] - Dest->R[X]) * q->rrij;
+    q->eij[Y] = (Org->R[Y] - Dest->R[Y]) * q->rrij;
+    q->Wij = w(weight_function, rij);
+    q->Fij = F(weight_function, rij) * q->rrij;
+    q->shear_rij =
 	2.0 * etai * etaj * rij / (etai *
 				   (rij +
 				    2.0 * frc_ij[noj][noi].shear_slip)
@@ -45,7 +57,7 @@ Interaction::Interaction(Particle * prtl_org, Particle * prtl_dest,
 					     2.0 *
 					     frc_ij[noi][noj].shear_slip) +
 				   1.0e-30);
-    bulk_rij =
+    q->bulk_rij =
 	2.0 * zetai * zetaj * rij / (zetai *
 				     (rij +
 				      2.0 * frc_ij[noj][noi].bulk_slip)
@@ -53,10 +65,11 @@ Interaction::Interaction(Particle * prtl_org, Particle * prtl_dest,
 						2.0 *
 						frc_ij[noi][noj].
 						bulk_slip) + 1.0e-30);
+    return q;
 }
 
 void
-RenewInteraction(Interaction *q, QuinticSpline * weight_function)
+RenewInteraction(struct Interaction *q, struct QuinticSpline * weight_function)
 {
   struct Particle *Org, *Dest;
   double *eij;
@@ -129,7 +142,7 @@ SummationPhaseGradient(struct Interaction *q)
     double dphi[2];
     double Fij;
     double rij;
-    Force **frc_ij;
+    struct Force **frc_ij;
     int noi;
     int noj;
     double *eij;
@@ -172,7 +185,7 @@ UpdateForces(struct Interaction *q)
     double dphi[2];
     double Fij;
     double rij;
-    Force **frc_ij;
+    struct Force **frc_ij;
     int noi;
     int noj;
     double *eij;
@@ -330,17 +343,9 @@ RandomForces(struct Interaction *q, double sqrtdt)
     }
 }
 
-struct Interaction *
-interaction_ini(struct Particle *a, struct Particle *b, struct Force **f,
-		struct QuinticSpline *w, double dstc)
-{
-    return new Interaction(a, b, f, w, dstc);
-}
-
 int
 interaction_fin(struct Interaction *q)
 {
-    delete q;
-
-    return 0;
+  free(q);
+  return 0;
 }
