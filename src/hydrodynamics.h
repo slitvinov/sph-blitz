@@ -10,8 +10,11 @@ struct Hydrodynamics {
     int number_of_materials;
     double gravity[2];
     double smoothinglength;
-    double delta, delta2, delta3;
-    double dt_g_vis, dt_surf;
+    double delta;
+    double delta2;
+    double delta3;
+    double dt_g_vis;
+    double dt_surf;
     List *interaction_list;
     double viscosity_max;
     double surface_max;
