@@ -104,8 +104,9 @@ RenewInteraction(struct Interaction *q,
 				       2.0 * frc_ij[noj][noi].shear_slip)
 				      + etaj * (rij +
 						2.0 *
-						frc_ij[noi][noj].
-						shear_slip) + 1.0e-30);
+						frc_ij[noi]
+						[noj].shear_slip) +
+				      1.0e-30);
     q->bulk_rij =
 	2.0 * zetai * zetaj * rij / (zetai *
 				     (rij +
