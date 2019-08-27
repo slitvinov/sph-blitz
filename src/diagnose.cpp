@@ -32,11 +32,8 @@ Diagnose::Diagnose(struct Initiation *ini, struct List *particle_list,
     number_of_materials = ini->number_of_materials;
     gridx = x_cells * ini->cell_ratio + 1;
     gridy = y_cells * ini->cell_ratio + 1;
-    U = new double **[5];
-
     for (k = 0; k < 5; k++) {
 	U[k] = new double *[gridx];
-
 	for (l = 0; l < gridx; l++)
 	    U[k][l] = new double[gridy];
     }
@@ -290,4 +287,22 @@ Diagnose::KineticInformation(double Time, struct List *particle_list,
     }
     fprintf(f, "\n");
     fclose(f);
+}
+
+int
+diag_fin(struct Diagnose *q)
+{
+  int k, l;
+  int gridx, gridy;
+  double ***U;
+
+  gridx = q->gridx;
+  gridy = q->gridy;
+  U = q->U;
+  for (k = 0; k < 5; k++) {
+	for (l = 0; l < gridx; l++)
+          free(U[k][l]);
+        free(U[k]);
+  }
+  free(q);
 }

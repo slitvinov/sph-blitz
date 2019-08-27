@@ -4,7 +4,7 @@ struct MLS;
 struct QuinticSpline;
 struct Boundary;
 struct List;
-class Diagnose {
+struct Diagnose {
     double delta;
     int x_cells, y_cells;
     int number_of_materials;
@@ -16,7 +16,7 @@ class Diagnose {
     List *rho_list;
     int gridx;
     int gridy;
-    double ***U;
+    double **U[5];
     int n_average;
     void BuildDistribution(List *, double dstrb[2][101]);
     double ttl_m;
@@ -24,7 +24,6 @@ class Diagnose {
     double glb_ave_Ek;
     double *wght_cntr;
     double *wght_v;
-  public:
      Diagnose(struct Initiation *, struct List *, struct Material *);
     void SaveStates(struct List *);
     void OutputProfile(double Time);
