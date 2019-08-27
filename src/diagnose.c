@@ -14,54 +14,61 @@
 #include "macro.h"
 #include "err.h"
 
-Diagnose::Diagnose(struct Initiation *ini, struct List *particle_list,
-		   struct Material *materials)
+struct Diagnose*
+diag_ini(struct Initiation *ini, struct List *particle_list, struct Material *materials)
 {
     char file_name[FILENAME_MAX], *name;
     int k, l, m;
     struct ListNode *p;
     struct Particle *prtl;
     FILE *f;
+    int number_of_materials;
+    struct Diagnose *q;
 
-    vx_list = list_ini();
-    vy_list = list_ini();
-    rho_list = list_ini();
-    x_cells = ini->x_cells;
-    y_cells = ini->y_cells;
-    delta = ini->delta;
-    number_of_materials = ini->number_of_materials;
-    gridx = x_cells * ini->cell_ratio + 1;
-    gridy = y_cells * ini->cell_ratio + 1;
+    q = (struct Diagnose*)malloc(sizeof(struct Diagnose));
+    if (q == NULL)
+      ABORT(("can't alloc"));
+
+    
+    number_of_materials = q->number_of_materials = ini->number_of_materials;
+    q->vx_list = list_ini();
+    q->vy_list = list_ini();
+    q->rho_list = list_ini();
+    q->x_cells = ini->x_cells;
+    q->y_cells = ini->y_cells;
+    q->delta = ini->delta;
+    q->gridx = q->x_cells * ini->cell_ratio + 1;
+    q->gridy = q->y_cells * ini->cell_ratio + 1;
     for (k = 0; k < 5; k++) {
-      U[k] = (double**)malloc(gridx*sizeof(double*));
-      if (U[k] == NULL)
+      q->U[k] = (double**)malloc(q->gridx*sizeof(double*));
+      if (q->U[k] == NULL)
         ABORT(("can't alloc"));
-      for (l = 0; l < gridx; l++) {
-        U[k][l] = (double*)malloc(gridy*sizeof(double));
-        if (U[k] == NULL)
+      for (l = 0; l < q->gridx; l++) {
+        q->U[k][l] = (double*)malloc(q->gridy*sizeof(double));
+        if (q->U[k] == NULL)
           ABORT(("can't alloc"));
       }
     }
     for (k = 0; k < 5; k++)
-	for (m = 0; m < gridx; m++)
-	    for (l = 0; l < gridy; l++)
-		U[k][m][l] = 0.0;
-    n_average = 0;
+	for (m = 0; m < q->gridx; m++)
+	    for (l = 0; l < q->gridy; l++)
+		q->U[k][m][l] = 0.0;
+    q->n_average = 0;
     if (ini->diagnose == 2) {
-      mtl_m = (double*)malloc(number_of_materials*sizeof(*mtl_m));
-      wght_cntr = (double*)malloc(2*number_of_materials*sizeof(*wght_cntr));
-      wght_v = (double*)malloc(2*number_of_materials*sizeof(*wght_v));
+      q->mtl_m = (double*)malloc(number_of_materials*sizeof(*q->mtl_m));
+      q->wght_cntr = (double*)malloc(2*number_of_materials*sizeof(*q->wght_cntr));
+      q->wght_v = (double*)malloc(2*number_of_materials*sizeof(*q->wght_v));
 
-	ttl_m = 1.0e-40;
+	q->ttl_m = 1.0e-40;
 	for (k = 0; k < number_of_materials; k++)
-	    mtl_m[k] = 1.0e-40;
+	    q->mtl_m[k] = 1.0e-40;
 	LOOP_P(prtl, particle_list) {
 	    for (k = 0; k < number_of_materials; k++)
 		if (strcmp
 		    (prtl->mtl->material_name,
 		     materials[k].material_name) == 0)
-		    mtl_m[k] += prtl->m;
-	    ttl_m += prtl->m;
+		    q->mtl_m[k] += prtl->m;
+	    q->ttl_m += prtl->m;
 	}
 	strcpy(file_name, "./outdata/kinetic_info.dat");
 	f = fopen(file_name, "w");
@@ -77,6 +84,7 @@ Diagnose::Diagnose(struct Initiation *ini, struct List *particle_list,
 	fprintf(f, "\n");
 	fclose(f);
     }
+    return q;
 }
 
 int
@@ -105,7 +113,7 @@ SaveStates(struct Diagnose *q, struct List *particle_list)
 }
 
 int
-OutputProfile(Diagnose *q, double Time)
+OutputProfile(struct Diagnose *q, double Time)
 {
     int k, m;
     double Itime;
@@ -138,9 +146,9 @@ OutputProfile(Diagnose *q, double Time)
     k = list_length(q->vx_list);
     for (m = 0; m < 101; m++) {
 	fprintf(f, "%.6g %.6g %.6g %.6g %.6g %.6g\n",
-		q->vx_dstrb[0][m], q->vx_dstrb[1][m] / double (k),
-		q->vy_dstrb[0][m], q->vy_dstrb[1][m] / double (k),
-		q->rho_dstrb[0][m], q->rho_dstrb[1][m] / double (k));
+		q->vx_dstrb[0][m], q->vx_dstrb[1][m] / (double) k,
+		q->vy_dstrb[0][m], q->vy_dstrb[1][m] / (double) k,
+		q->rho_dstrb[0][m], q->rho_dstrb[1][m] / (double) k);
     }
     return 0;
 }
@@ -162,7 +170,7 @@ BuildDistribution(struct List *list, double dstrb[2][101])
 	dstrb[0][m] = dstrb[0][0] + delta * (double) m;
 
     DLOOP_P(x, list) {
-	m = int ((*x - dstrb[0][0]) / delta);
+	m = (int) ((*x - dstrb[0][0]) / delta);
 
 	dstrb[1][m] += 1.0;
     }
@@ -170,7 +178,7 @@ BuildDistribution(struct List *list, double dstrb[2][101])
 }
 
 int
-Average(Diagnose *q, Manager * particles, MLS * mls, QuinticSpline * weight_function)
+Average(struct Diagnose *q, struct Manager * particles, struct MLS * mls, struct QuinticSpline * weight_function)
 {
     int i, j, n;
     double pstn[2];
@@ -205,8 +213,8 @@ Average(Diagnose *q, Manager * particles, MLS * mls, QuinticSpline * weight_func
 		n++;
 	    }
 	    list_clear(particles->NNP_list);
-	    m_n_average = double (q->n_average) - 1.0;
-	    r_n_average = 1.0 / double (q->n_average);
+	    m_n_average = (double) (q->n_average) - 1.0;
+	    r_n_average = 1.0 / (double) (q->n_average);
 
 	    U[0][i][j] = (U[0][i][j] * m_n_average + rho) * r_n_average;
 	    U[1][i][j] =
@@ -223,7 +231,7 @@ Average(Diagnose *q, Manager * particles, MLS * mls, QuinticSpline * weight_func
 }
 
 int
-OutputAverage(Diagnose *q, double Time)
+OutputAverage(struct Diagnose *q, double Time)
 {
     int i, j;
     double pstn[2];
@@ -259,7 +267,7 @@ OutputAverage(Diagnose *q, double Time)
 }
 
 int
-KineticInformation(Diagnose *q, double Time, struct List *particle_list,
+KineticInformation(struct Diagnose *q, double Time, struct List *particle_list,
 			     struct Material *materials)
 {
     enum { X, Y };
@@ -337,6 +345,6 @@ diag_fin(struct Diagnose *q)
   list_clear(q->vx_list);
   list_clear(q->vy_list);
   list_clear(q->rho_list);
-  delete q;
+  free(q);
   return 0;
 }

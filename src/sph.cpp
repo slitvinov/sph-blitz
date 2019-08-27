@@ -25,8 +25,9 @@ main(int argc, char *argv[])
     double Time;
     struct Initiation ini;
     int ite;
-    struct MLS *mls;
+    struct Diagnose *diagnose;
     struct Manager *particles;
+    struct MLS *mls;
     struct Output *output;
     struct QuinticSpline weight_function;
 
@@ -50,27 +51,27 @@ main(int argc, char *argv[])
     output = output_ini(&ini);
     VolumeMass(hydro.particle_list, particles, &weight_function);
     boundary_condition(boundary, particles->cell_lists);
-    Diagnose diagnose(&ini, hydro.particle_list, hydro.materials);
+    diagnose = diag_ini(&ini, hydro.particle_list, hydro.materials);
 
     Time = ini.Start_time;
     output_particles(output, hydro.particle_list, hydro.materials,
 		     boundary, Time);
     output_states(output, particles, mls, &weight_function, Time);
     if (ini.diagnose == 2)
-      KineticInformation(&diagnose, Time, hydro.particle_list, hydro.materials);
+      KineticInformation(diagnose, Time, hydro.particle_list, hydro.materials);
 
     ite = 0;
     while (Time < ini.End_time) {
 	if (Time + ini.D_time >= ini.End_time)
 	    ini.D_time = ini.End_time - Time;
 	step(&ite, &hydro, particles, boundary, &Time, ini.D_time,
-	     &diagnose, &ini, &weight_function, mls);
+	     diagnose, &ini, &weight_function, mls);
 	output_particles(output, hydro.particle_list, hydro.materials,
 			 boundary, Time);
 	output_restart(output, hydro.particle_list, Time);
 	if (ini.diagnose == 1) {
-          OutputProfile(&diagnose, Time);
-	  OutputAverage(&diagnose, Time);
+          OutputProfile(diagnose, Time);
+	  OutputAverage(diagnose, Time);
 	}
     }
 
@@ -78,5 +79,6 @@ main(int argc, char *argv[])
     manager_fin(particles);
     mls_fin(mls);
     output_fin(output);
+    diag_fin(diagnose);
     return 0;
 }

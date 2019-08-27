@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 struct Initiation;
 struct Manager;
 struct MLS;
@@ -23,7 +26,6 @@ struct Diagnose {
     struct List *rho_list;
     struct List *vx_list;
     struct List *vy_list;
-    Diagnose(struct Initiation *, struct List *, struct Material *);
 };
 
 int  Average(struct Diagnose*, struct Manager *, struct MLS *, struct QuinticSpline *);
@@ -33,3 +35,8 @@ int OutputAverage(struct Diagnose*, double Time);
 int OutputProfile(struct Diagnose*, double Time);
 int SaveStates(struct Diagnose*, struct List *);
 
+struct Diagnose* diag_ini(struct Initiation *, struct List *, struct Material *);
+int diag_fin(struct Diagnose*);
+#ifdef __cplusplus
+}
+#endif
