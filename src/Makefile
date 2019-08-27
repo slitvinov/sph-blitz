@@ -30,7 +30,7 @@ sph: $O; $(LINK) $O $(LDFLAGS) -o $@
 .c.o:; $(CC) $(CFLAGS) $< -c -o $@
 dep:; ../scripts/dep
 test: sph; cd ..; atest test/*
-lint:; make CXXFLAGS='-g -Wall -Wextra' CFLAGS='-g -Wall -Wextra'
+lint:; make CXXFLAGS='-g -Wall -Wextra -pedantic' CFLAGS='-g -Wall -Wextra -pedantic'
 
 .PHONY: clean dep test lint
 clean:; rm -f -- $M $O

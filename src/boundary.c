@@ -20,6 +20,15 @@ enum { X, Y };
     } while (0)
 #define LIST struct ListNode
 
+static int boundary_w(struct Boundary *, struct Particle *);
+static int boundary_e(struct Boundary *, struct Particle *);
+static int boundary_s(struct Boundary *, struct Particle *);
+static int boundary_n(struct Boundary *, struct Particle *);
+static int boundary_sw(struct Boundary *, struct Particle *);
+static int boundary_se(struct Boundary *, struct Particle *);
+static int boundary_nw(struct Boundary *, struct Particle *);
+static int boundary_ne(struct Boundary *, struct Particle *);
+
 struct Boundary *
 boundary_ini(struct Initiation *ini)
 {
@@ -503,7 +512,7 @@ boundary_condition(struct Boundary *q, struct List ***c)
     return 0;
 }
 
-int
+static int
 boundary_w(struct Boundary *q, struct Particle *prtl)
 {
     switch (q->xBl) {
@@ -528,7 +537,7 @@ boundary_w(struct Boundary *q, struct Particle *prtl)
     return 0;
 }
 
-int
+static int
 boundary_e(struct Boundary *q, struct Particle *prtl)
 {
     switch (q->xBr) {
@@ -553,7 +562,7 @@ boundary_e(struct Boundary *q, struct Particle *prtl)
     return 0;
 }
 
-int
+static int
 boundary_s(struct Boundary *q, struct Particle *prtl)
 {
     switch (q->yBd) {
@@ -578,7 +587,7 @@ boundary_s(struct Boundary *q, struct Particle *prtl)
     return 0;
 }
 
-int
+static int
 boundary_n(struct Boundary *q, struct Particle *prtl)
 {
     switch (q->yBu) {
@@ -603,7 +612,7 @@ boundary_n(struct Boundary *q, struct Particle *prtl)
     return 0;
 }
 
-int
+static int
 boundary_sw(struct Boundary *q, struct Particle *prtl)
 {
     switch (q->xBl) {
@@ -635,7 +644,7 @@ boundary_sw(struct Boundary *q, struct Particle *prtl)
     return 0;
 }
 
-int
+static int
 boundary_nw(struct Boundary *q, struct Particle *prtl)
 {
     switch (q->xBl) {
@@ -667,7 +676,7 @@ boundary_nw(struct Boundary *q, struct Particle *prtl)
     return 0;
 }
 
-int
+static int
 boundary_ne(struct Boundary *q, struct Particle *prtl)
 {
     switch (q->xBr) {
@@ -699,7 +708,7 @@ boundary_ne(struct Boundary *q, struct Particle *prtl)
     return 0;
 }
 
-int
+static int
 boundary_se(struct Boundary *q, struct Particle *prtl)
 {
     switch (q->xBr) {

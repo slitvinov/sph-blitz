@@ -298,13 +298,12 @@ int
 diag_fin(struct Diagnose *q)
 {
   int k, l;
-  int gridx, gridy;
+  int gridx;
   double ***U;
   struct ListNode *p;
   double *d;
 
   gridx = q->gridx;
-  gridy = q->gridy;
   U = q->U;
   for (k = 0; k < 5; k++) {
 	for (l = 0; l < gridx; l++)
@@ -327,4 +326,6 @@ diag_fin(struct Diagnose *q)
   list_clear(q->vx_list);
   list_clear(q->vy_list);
   list_clear(q->rho_list);
+  delete q;
+  return 0;
 }
