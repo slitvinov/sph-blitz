@@ -295,6 +295,20 @@ manager_build_particles(struct Manager *q, struct Material *materials,
 int
 manager_fin(struct Manager *q)
 {
+    struct List ***c;
+    int x_clls, y_clls;
+    int i, j;
+
+    x_clls = q->x_clls;
+    y_clls = q->y_clls;
+    c = q->cell_lists;
+    for (i = 0; i < x_clls; i++) {
+	for (j = 0; j < y_clls; j++) {
+	    list_fin(c[i][j]);
+	}
+	free(c[i]);
+    }
+    free(c);
     list_fin(q->NNP_list);
     free(q);
     return 0;
