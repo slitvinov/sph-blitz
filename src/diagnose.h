@@ -20,8 +20,8 @@ struct Diagnose {
     int n_average;
     void BuildDistribution(List *, double dstrb[2][101]);
     double ttl_m;
-    double *mtl_m;
     double glb_ave_Ek;
+    double *mtl_m;
     double *wght_cntr;
     double *wght_v;
      Diagnose(struct Initiation *, struct List *, struct Material *);

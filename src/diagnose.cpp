@@ -86,14 +86,14 @@ Diagnose::SaveStates(struct List *particle_list)
     struct ListNode *p;
     double *p1, *p2, *p3;
     Particle *prtl;
-    p1 = new double;
-    p2 = new double;
-    p3 = new double;
+    p1 = (double*)malloc(sizeof(*p1));
+    p2 = (double*)malloc(sizeof(*p2));
+    p3 = (double*)malloc(sizeof(*p3));
 
     p = list_first(particle_list);
     for (k = 0; k < 1; k++)
 	p = list_next(particle_list, p);
-    prtl = (struct Particle *) list_retrieve(particle_list, p);
+    prtl = (struct Particle*) list_retrieve(particle_list, p);
     *p1 = prtl->U[0];
 
     *p2 = prtl->U[1];
@@ -144,10 +144,10 @@ Diagnose::OutputProfile(double Time)
 }
 
 void
-Diagnose::BuildDistribution(List * list, double dstrb[2][101])
+Diagnose::BuildDistribution(struct List *list, double dstrb[2][101])
 {
     int m;
-    ListNode *p;
+    struct ListNode *p;
     double delta;
     double *x;
 
@@ -300,6 +300,8 @@ diag_fin(struct Diagnose *q)
   int k, l;
   int gridx, gridy;
   double ***U;
+  struct ListNode *p;
+  double *d;
 
   gridx = q->gridx;
   gridy = q->gridy;
@@ -313,4 +315,14 @@ diag_fin(struct Diagnose *q)
   free(q->wght_cntr);
   free(q->wght_v);
   free(q);
+
+  DLOOP_P(d, q->vx_list)
+    free(d);
+  DLOOP_P(d, q->vy_list)
+    free(d);
+  DLOOP_P(d, q->rho_list)
+    free(d);
+  list_clear(q->vx_list);
+  list_clear(q->vy_list);
+  list_clear(q->rho_list);
 }
