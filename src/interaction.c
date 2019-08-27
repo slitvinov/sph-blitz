@@ -138,7 +138,6 @@ void
 SummationPhaseGradient(struct Interaction *q)
 {
     struct Particle *Org, *Dest;
-    double Wij;
     double mi, mj;
     double c;
     double Vi, rVi, Vj, rVj;
@@ -152,7 +151,6 @@ SummationPhaseGradient(struct Interaction *q)
 
     Org = q->Org;
     Dest = q->Dest;
-    Wij = q->Wij;
     mi = q->mi;
     mj = q->mj;
     Fij = q->Fij;
@@ -185,12 +183,8 @@ UpdateForces(struct Interaction *q)
     double mi, mj;
     double c;
     double Vi, rVi, Vj, rVj;
-    double dphi[2];
     double Fij;
     double rij;
-    struct Force **frc_ij;
-    int noi;
-    int noj;
     double *eij;
     double pi, rhoi, pj, rhoj, Uijdoteij, dx, dy;
     double Ui[2], Uj[2], Uij[2];
@@ -205,9 +199,6 @@ UpdateForces(struct Interaction *q)
     mj = q->mj;
     Fij = q->Fij;
     rij = q->rij;
-    frc_ij = q->frc_ij;
-    noi = q->noi;
-    noj = q->noj;
     eij = q->eij;
     shear_rij = q->shear_rij;
     bulk_rij = q->bulk_rij;
