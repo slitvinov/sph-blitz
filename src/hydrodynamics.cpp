@@ -17,8 +17,9 @@
 #include "hydrodynamics.h"
 
 using namespace std;
-enum {X, Y};
-Hydrodynamics::Hydrodynamics(Initiation *ini)
+enum { X, Y };
+
+Hydrodynamics::Hydrodynamics(Initiation * ini)
 {
     int k, m;
     int l, n;
@@ -31,101 +32,126 @@ Hydrodynamics::Hydrodynamics(Initiation *ini)
     gravity[Y] = ini->gravity[Y];
     smoothinglength = ini->smoothinglength;
     delta = ini->delta;
-    delta2 = ini->delta*ini->delta;
-    delta3 = ini->delta*ini->delta*ini->delta;
+    delta2 = ini->delta * ini->delta;
+    delta3 = ini->delta * ini->delta * ini->delta;
     materials = new Material[number_of_materials];
-    forces = new Force*[number_of_materials];
-    for(k = 0; k < number_of_materials; k++)
+    forces = new Force *[number_of_materials];
+    for (k = 0; k < number_of_materials; k++)
 	forces[k] = new Force[number_of_materials];
     ifstream fin(ini->inputfile, ios::in);
+
     if (!fin)
 	ABORT(("can't open '%s'", ini->inputfile));
     else
-	printf("Material: read the propeties of materials and interaction forces\n");
-    while(!fin.eof()) {
-	fin>>Key_word;
-	if(!strcmp(Key_word, "MATERIALS"))
-	    for(k = 0; k < number_of_materials; k++) {
+	printf
+	    ("Material: read the propeties of materials and interaction forces\n");
+    while (!fin.eof()) {
+	fin >> Key_word;
+	if (!strcmp(Key_word, "MATERIALS"))
+	    for (k = 0; k < number_of_materials; k++) {
 		materials[k].number = k;
-		fin>>materials[k].material_name>>materials[k].material_type;
-		fin>>materials[k].eta>>materials[k].zeta
-		   >>materials[k].gamma>>materials[k].rho0>>materials[k].a0;
+		fin >> materials[k].material_name >> materials[k].
+		    material_type;
+		fin >> materials[k].eta >> materials[k].
+		    zeta >> materials[k].gamma >> materials[k].
+		    rho0 >> materials[k].a0;
 		Set_nu(&materials[k]);
 	    }
-	if(!strcmp(Key_word, "FORCES"))
-	    for(l = 0; l < number_of_materials; l++)
-		for(n = 0; n < number_of_materials; n++) {
-		    fin>>k>>m;
-		    fin>>forces[k][m].epsilon>>forces[k][m].sigma
-		       >>forces[k][m].shear_slip>>forces[k][m].bulk_slip;
+	if (!strcmp(Key_word, "FORCES"))
+	    for (l = 0; l < number_of_materials; l++)
+		for (n = 0; n < number_of_materials; n++) {
+		    fin >> k >> m;
+		    fin >> forces[k][m].epsilon >> forces[k][m].sigma
+			>> forces[k][m].shear_slip >> forces[k][m].
+			bulk_slip;
 		}
     }
     fin.close();
-    viscosity_max = 0.0; surface_max = 0.0;
-    for(k = 0; k < number_of_materials; k++) {
+    viscosity_max = 0.0;
+    surface_max = 0.0;
+    for (k = 0; k < number_of_materials; k++) {
 	viscosity_max = AMAX1(viscosity_max, materials[k].nu);
-	for(l = 0; l < number_of_materials; l++) {
+	for (l = 0; l < number_of_materials; l++) {
 	    surface_max = AMAX1(surface_max, forces[k][l].sigma);
 	}
     }
-    dt_g_vis = AMIN1(sqrt(delta/vv_abs(gravity)), 0.5*delta2/viscosity_max);
-    dt_surf = 0.4*sqrt(delta3/surface_max);
+    dt_g_vis =
+	AMIN1(sqrt(delta / vv_abs(gravity)), 0.5 * delta2 / viscosity_max);
+    dt_surf = 0.4 * sqrt(delta3 / surface_max);
     sound = AMAX1(vv_abs(ini->gravity), viscosity_max);
     sound = AMAX1(surface_max, sound);
-    for(k = 0; k < number_of_materials; k++)
+    for (k = 0; k < number_of_materials; k++)
 	Set_b0(&materials[k], sound);
     particle_list = list_ini();
 }
-void Hydrodynamics::UpdatePair(QuinticSpline *weight_function)
+
+void
+Hydrodynamics::UpdatePair(QuinticSpline * weight_function)
 {
     struct ListNode *p;
     Interaction *pair;
+
     ILOOP_P(pair, interaction_list) {
 	pair->RenewInteraction(weight_function);
     }
 }
-void Hydrodynamics::UpdatePhaseGradient(Boundary *boundary)
+
+void
+Hydrodynamics::UpdatePhaseGradient(Boundary * boundary)
 {
     struct ListNode *p;
     Interaction *pair;
+
     Zero_PhaseGradient(boundary);
     ILOOP_P(pair, interaction_list) {
 	pair->SummationPhaseGradient();
     }
 }
-void Hydrodynamics::UpdateDensity()
+
+void
+Hydrodynamics::UpdateDensity()
 {
     struct ListNode *p;
     Interaction *pair;
+
     Zero_density();
     ILOOP_P(pair, interaction_list) {
 	pair->SummationDensity();
     }
     UpdateState();
 }
-void Hydrodynamics::UpdateChangeRate()
+
+void
+Hydrodynamics::UpdateChangeRate()
 {
     struct ListNode *p;
     Interaction *pair;
+
     ZeroChangeRate();
     ILOOP_P(pair, interaction_list) {
 	pair->UpdateForces();
     }
     AddGravity();
 }
-void Hydrodynamics::UpdateRandom(double sqrtdt)
+
+void
+Hydrodynamics::UpdateRandom(double sqrtdt)
 {
     struct ListNode *p;
     Interaction *pair;
+
     Zero_Random();
     ILOOP_P(pair, interaction_list) {
 	pair->RandomForces(sqrtdt);
     }
 }
-void Hydrodynamics::ZeroChangeRate()
+
+void
+Hydrodynamics::ZeroChangeRate()
 {
     struct ListNode *p;
     Particle *prtl;
+
     LOOP_P(prtl, particle_list) {
 	prtl->dedt = 0.0;
 	prtl->drhodt = 0.0;
@@ -133,18 +159,24 @@ void Hydrodynamics::ZeroChangeRate()
 	prtl->_dU[X] = prtl->_dU[Y] = 0.0;
     }
 }
-void Hydrodynamics::Zero_density()
+
+void
+Hydrodynamics::Zero_density()
 {
     struct ListNode *p;
     Particle *prtl;
+
     LOOP_P(prtl, particle_list) {
 	prtl->rho = 0.0;
     }
 }
-void Hydrodynamics::Zero_PhaseGradient(Boundary *boundary)
+
+void
+Hydrodynamics::Zero_PhaseGradient(Boundary * boundary)
 {
     struct ListNode *p;
     Particle *prtl;
+
     LOOP_P(prtl, particle_list) {
 	prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
     }
@@ -152,89 +184,112 @@ void Hydrodynamics::Zero_PhaseGradient(Boundary *boundary)
 	prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
     }
 }
-void Hydrodynamics::Zero_Random()
+
+void
+Hydrodynamics::Zero_Random()
 {
     struct ListNode *p;
     Particle *prtl;
+
     LOOP_P(prtl, particle_list) {
 	prtl->_dU[X] = prtl->_dU[Y] = 0.0;
     }
 }
-void Hydrodynamics::AddGravity()
+
+void
+Hydrodynamics::AddGravity()
 {
     struct ListNode *p;
     Particle *prtl;
+
     LOOP_P(prtl, particle_list) {
 	prtl->dUdt[X] += gravity[X];
 	prtl->dUdt[Y] += gravity[Y];
     }
 }
-void Hydrodynamics::UpdateState()
+
+void
+Hydrodynamics::UpdateState()
 {
     struct ListNode *p;
     Particle *prtl;
+
     LOOP_P(prtl, particle_list) {
 	prtl->p = get_p(prtl->mtl, prtl->rho);
     }
 }
-void Hydrodynamics::UpdatePahseMatrix(Boundary *boundary)
+
+void
+Hydrodynamics::UpdatePahseMatrix(Boundary * boundary)
 {
     struct ListNode *p;
     Particle *prtl;
     int i, j;
+
     LOOP_P(prtl, particle_list) {
-	for(i = 0; i < number_of_materials; i++)
-	    for(j = 0; j < number_of_materials; j++) {
-		if( i != j) prtl->phi[i][j] = prtl->phi[i][j];
+	for (i = 0; i < number_of_materials; i++)
+	    for (j = 0; j < number_of_materials; j++) {
+		if (i != j)
+		    prtl->phi[i][j] = prtl->phi[i][j];
 	    }
     }
     LOOP_P(prtl, boundary->b) {
-	for(i = 0; i < number_of_materials; i++)
-	    for(j = 0; j < number_of_materials; j++) {
-		if( i != j) prtl->phi[i][j] = prtl->phi[i][j];
+	for (i = 0; i < number_of_materials; i++)
+	    for (j = 0; j < number_of_materials; j++) {
+		if (i != j)
+		    prtl->phi[i][j] = prtl->phi[i][j];
 	    }
     }
 }
-void Hydrodynamics::UpdateSurfaceStress(Boundary *boundary)
+
+void
+Hydrodynamics::UpdateSurfaceStress(Boundary * boundary)
 {
-    double epsilon =1.0e-30;
+    double epsilon = 1.0e-30;
     double interm0, interm1, interm2;
     Particle *prtl;
     struct ListNode *p;
+
     LOOP_P(prtl, particle_list) {
-	interm0 = 1.0/(vv_abs(prtl->del_phi) + epsilon);
-	interm1 = 0.5*vv_sqdiff(prtl->del_phi);
+	interm0 = 1.0 / (vv_abs(prtl->del_phi) + epsilon);
+	interm1 = 0.5 * vv_sqdiff(prtl->del_phi);
 	interm2 = prtl->del_phi[X] * prtl->del_phi[Y];
-	prtl->del_phi[0] = interm1*interm0;
-	prtl->del_phi[1] = interm2*interm0;
+	prtl->del_phi[0] = interm1 * interm0;
+	prtl->del_phi[1] = interm2 * interm0;
     }
     LOOP_P(prtl, boundary->b) {
 	interm0 = vv_abs(prtl->del_phi) + epsilon;
-	interm1 = 0.5*vv_sqdiff(prtl->del_phi);
+	interm1 = 0.5 * vv_sqdiff(prtl->del_phi);
 	interm2 = prtl->del_phi[X] * prtl->del_phi[Y];
-	prtl->del_phi[0] = interm1/interm0;
-	prtl->del_phi[1] = interm2/interm0;
+	prtl->del_phi[0] = interm1 / interm0;
+	prtl->del_phi[1] = interm2 / interm0;
     }
 }
-double Hydrodynamics::GetTimestep()
+
+double
+Hydrodynamics::GetTimestep()
 {
     Particle *prtl;
     struct ListNode *p;
     double Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = 1.0;
     double dt;
+
     LOOP_P(prtl, particle_list) {
 	Cs_max = AMAX1(Cs_max, prtl->Cs);
 	V_max = AMAX1(V_max, vv_abs(prtl->U));
 	rho_min = AMIN1(rho_min, prtl->rho);
 	rho_max = AMAX1(rho_max, prtl->rho);
     }
-    dt = AMIN1(sqrt(0.5*(rho_min + rho_max))*dt_surf, dt_g_vis);
-    return  0.25*AMIN1(dt, delta/(Cs_max + V_max));
+    dt = AMIN1(sqrt(0.5 * (rho_min + rho_max)) * dt_surf, dt_g_vis);
+    return 0.25 * AMIN1(dt, delta / (Cs_max + V_max));
 }
-void Hydrodynamics::Predictor_summation(double dt)
+
+void
+Hydrodynamics::Predictor_summation(double dt)
 {
     struct ListNode *p;
     Particle *prtl;
+
     LOOP_P(prtl, particle_list) {
 	prtl->R_I[X] = prtl->R[X];
 	prtl->R_I[Y] = prtl->R[Y];
@@ -242,36 +297,42 @@ void Hydrodynamics::Predictor_summation(double dt)
 	prtl->U[Y] += prtl->_dU[Y];
 	prtl->U_I[X] = prtl->U[X];
 	prtl->U_I[Y] = prtl->U[Y];
-	prtl->R[X] = prtl->R[X] + prtl->U[X]*dt;
-	prtl->R[Y] = prtl->R[Y] + prtl->U[Y]*dt;
-	prtl->U[X] = prtl->U[X] + prtl->dUdt[X]*dt;
-	prtl->U[Y] = prtl->U[Y] + prtl->dUdt[Y]*dt;
-	prtl->R[X] = (prtl->R[X] + prtl->R_I[X])*0.5;
-	prtl->R[Y] = (prtl->R[Y] + prtl->R_I[Y])*0.5;
-	prtl->U[X] = (prtl->U[X] + prtl->U_I[X])*0.5;
-	prtl->U[Y] = (prtl->U[Y] + prtl->U_I[Y])*0.5;
+	prtl->R[X] = prtl->R[X] + prtl->U[X] * dt;
+	prtl->R[Y] = prtl->R[Y] + prtl->U[Y] * dt;
+	prtl->U[X] = prtl->U[X] + prtl->dUdt[X] * dt;
+	prtl->U[Y] = prtl->U[Y] + prtl->dUdt[Y] * dt;
+	prtl->R[X] = (prtl->R[X] + prtl->R_I[X]) * 0.5;
+	prtl->R[Y] = (prtl->R[Y] + prtl->R_I[Y]) * 0.5;
+	prtl->U[X] = (prtl->U[X] + prtl->U_I[X]) * 0.5;
+	prtl->U[Y] = (prtl->U[Y] + prtl->U_I[Y]) * 0.5;
     }
 }
-void Hydrodynamics::Corrector_summation(double dt)
-{
-    struct ListNode *p;
-    Particle *prtl;    
-    LOOP_P(prtl, particle_list) {
-	prtl->U[X] += prtl->_dU[X];
-	prtl->U[Y] += prtl->_dU[Y];
-	prtl->R[X] = prtl->R_I[X] + prtl->U[X]*dt;
-	prtl->R[Y] = prtl->R_I[Y] + prtl->U[Y]*dt;    
-	prtl->U[X] = prtl->U_I[X] + prtl->dUdt[X]*dt;
-	prtl->U[Y] = prtl->U_I[Y] + prtl->dUdt[Y]*dt;
-    }
-}
-void Hydrodynamics::RandomEffects()
+
+void
+Hydrodynamics::Corrector_summation(double dt)
 {
     struct ListNode *p;
     Particle *prtl;
+
+    LOOP_P(prtl, particle_list) {
+	prtl->U[X] += prtl->_dU[X];
+	prtl->U[Y] += prtl->_dU[Y];
+	prtl->R[X] = prtl->R_I[X] + prtl->U[X] * dt;
+	prtl->R[Y] = prtl->R_I[Y] + prtl->U[Y] * dt;
+	prtl->U[X] = prtl->U_I[X] + prtl->dUdt[X] * dt;
+	prtl->U[Y] = prtl->U_I[Y] + prtl->dUdt[Y] * dt;
+    }
+}
+
+void
+Hydrodynamics::RandomEffects()
+{
+    struct ListNode *p;
+    Particle *prtl;
+
     LOOP_P(prtl, particle_list) {
 	prtl->U[X] = prtl->U[X] + prtl->_dU[X];
-	prtl->U[Y] = prtl->U[Y] + prtl->_dU[Y];    
+	prtl->U[Y] = prtl->U[Y] + prtl->_dU[Y];
     }
 }
 

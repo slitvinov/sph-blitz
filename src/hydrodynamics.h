@@ -6,8 +6,7 @@ struct Initiation;
 struct Boundary;
 struct Material;
 struct QuinticSpline;
-struct Hydrodynamics
-{
+struct Hydrodynamics {
     int number_of_materials;
     double gravity[2];
     double smoothinglength;
@@ -15,23 +14,23 @@ struct Hydrodynamics
     double dt_g_vis, dt_surf;
     List *interaction_list;
     double viscosity_max;
-    double  surface_max;
+    double surface_max;
     Material *materials;
     Force **forces;
     List *particle_list;
-    Hydrodynamics(Initiation*);
+     Hydrodynamics(Initiation *);
     ~Hydrodynamics();
     double GetTimestep();
-    void UpdatePair(QuinticSpline*);
+    void UpdatePair(QuinticSpline *);
     void ZeroChangeRate();
     void AddGravity();
     void UpdateChangeRate();
     void Zero_density();
     void UpdateDensity();
-    void UpdatePhaseGradient(Boundary*);
-    void Zero_PhaseGradient(Boundary*);
-    void UpdateSurfaceStress(Boundary*);
-    void UpdatePahseMatrix(Boundary*);
+    void UpdatePhaseGradient(Boundary *);
+    void Zero_PhaseGradient(Boundary *);
+    void UpdateSurfaceStress(Boundary *);
+    void UpdatePahseMatrix(Boundary *);
     void UpdateState();
     void Predictor_summation(double dt);
     void Corrector_summation(double dt);

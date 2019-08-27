@@ -14,11 +14,11 @@ extern "C" {
 	double a0;
     };
 
-    void Set_nu(struct Material*);
-    void Set_b0(struct Material*, double sound);
-    double get_p(struct Material*, double rho);
-    double get_rho(struct Material*, double p);
-    double get_Cs(struct Material*, double p, double rho);
+    void Set_nu(struct Material *);
+    void Set_b0(struct Material *, double sound);
+    double get_p(struct Material *, double rho);
+    double get_rho(struct Material *, double p);
+    double get_Cs(struct Material *, double p, double rho);
 #ifdef __cplusplus
 }
 #endif
