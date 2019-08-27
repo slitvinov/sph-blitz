@@ -24,10 +24,10 @@ struct Diagnose {
     struct List *vx_list;
     struct List *vy_list;
     Diagnose(struct Initiation *, struct List *, struct Material *);
-    void SaveStates(struct List *);
-    void OutputProfile(double Time);
     void Average(struct Manager *, struct MLS *, struct QuinticSpline *);
-    void OutputAverage(double Time);
-    void KineticInformation(double Time, struct List *, struct Material *);
     void BuildDistribution(struct List *, double dstrb[2][101]);
+    void KineticInformation(double Time, struct List *, struct Material *);
+    void OutputAverage(double Time);
+    void OutputProfile(double Time);
+    void SaveStates(struct List *);
 };
