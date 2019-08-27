@@ -16,24 +16,25 @@ enum { X, Y };
 static double k_bltz = 1.380662e-023 / 0.02 / 0.02 / 0.02;
 double interaction_art_vis;
 double interaction_delta;
-struct Interaction* interaction_ini(struct Particle * prtl_org, struct Particle * prtl_dest,
-			 struct Force ** forces, struct QuinticSpline * weight_function,
-			 double dstc)
+struct Interaction *
+interaction_ini(struct Particle *prtl_org, struct Particle *prtl_dest,
+		struct Force **forces,
+		struct QuinticSpline *weight_function, double dstc)
 {
-  struct Interaction *q;
-  struct Particle *Org, *Dest;
-  double etai, etaj, rij, zetai, zetaj;
-  int noi, noj;
-  struct Force **frc_ij;
-  
-  q = (struct Interaction*)malloc(sizeof(*q));
-  if (q == NULL)
-    ABORT(("can't allocate"));
+    struct Interaction *q;
+    struct Particle *Org, *Dest;
+    double etai, etaj, rij, zetai, zetaj;
+    int noi, noj;
+    struct Force **frc_ij;
+
+    q = (struct Interaction *) malloc(sizeof(*q));
+    if (q == NULL)
+	ABORT(("can't allocate"));
 
     q->Org = Org = prtl_org;
     q->Dest = Dest = prtl_dest;
     q->noi = noi = Org->mtl->number;
-    q->noj = noj =Dest->mtl->number;
+    q->noj = noj = Dest->mtl->number;
     q->frc_ij = frc_ij = forces;
     q->mi = Org->m;
     q->mj = Dest->m;
@@ -63,55 +64,56 @@ struct Interaction* interaction_ini(struct Particle * prtl_org, struct Particle 
 				      2.0 * frc_ij[noj][noi].bulk_slip)
 				     + zetaj * (rij +
 						2.0 *
-						frc_ij[noi][noj].
-						bulk_slip) + 1.0e-30);
+						frc_ij[noi][noj].bulk_slip)
+				     + 1.0e-30);
     return q;
 }
 
 void
-RenewInteraction(struct Interaction *q, struct QuinticSpline * weight_function)
+RenewInteraction(struct Interaction *q,
+		 struct QuinticSpline *weight_function)
 {
-  struct Particle *Org, *Dest;
-  double *eij;
-  double rij, rrij;
-  double etai, etaj, zetai, zetaj;
-  struct Force **frc_ij;
-  int noi, noj;
+    struct Particle *Org, *Dest;
+    double *eij;
+    double rij, rrij;
+    double etai, etaj, zetai, zetaj;
+    struct Force **frc_ij;
+    int noi, noj;
 
-  Org = q->Org;
-  Dest = q->Dest;
-  eij = q->eij;
-  etai = q->etai;
-  etaj = q->etaj;
-  zetai = q->zetai;
-  zetaj = q->zetaj;  
-  frc_ij = q->frc_ij;
-  noi = q->noi;
-  noj = q->noj;
-  
-  rij = q->rij = vv_distance(q->Org->R, q->Dest->R);
-  rrij = q->rrij = 1.0 / (q->rij + 1.0e-30);
-    
+    Org = q->Org;
+    Dest = q->Dest;
+    eij = q->eij;
+    etai = q->etai;
+    etaj = q->etaj;
+    zetai = q->zetai;
+    zetaj = q->zetaj;
+    frc_ij = q->frc_ij;
+    noi = q->noi;
+    noj = q->noj;
+
+    rij = q->rij = vv_distance(q->Org->R, q->Dest->R);
+    rrij = q->rrij = 1.0 / (q->rij + 1.0e-30);
+
     eij[X] = (Org->R[X] - Dest->R[X]) * rrij;
     eij[Y] = (Org->R[Y] - Dest->R[Y]) * rrij;
     q->Wij = w(weight_function, rij);
     q->Fij = F(weight_function, rij) * rrij;
     q->shear_rij =
 	2.0 * etai * etaj * q->rij / (etai *
-				   (rij +
-				    2.0 * frc_ij[noj][noi].shear_slip)
-				   + etaj * (rij +
-					     2.0 *
-					     frc_ij[noi][noj].shear_slip) +
-				   1.0e-30);
+				      (rij +
+				       2.0 * frc_ij[noj][noi].shear_slip)
+				      + etaj * (rij +
+						2.0 *
+						frc_ij[noi][noj].
+						shear_slip) + 1.0e-30);
     q->bulk_rij =
 	2.0 * zetai * zetaj * rij / (zetai *
 				     (rij +
 				      2.0 * frc_ij[noj][noi].bulk_slip)
 				     + zetaj * (rij +
 						2.0 *
-						frc_ij[noi][noj].
-						bulk_slip) + 1.0e-30);
+						frc_ij[noi][noj].bulk_slip)
+				     + 1.0e-30);
 }
 
 void
@@ -120,6 +122,7 @@ SummationDensity(struct Interaction *q)
     struct Particle *Org, *Dest;
     double Wij;
     double mi, mj;
+
     Org = q->Org;
     Dest = q->Dest;
     Wij = q->Wij;
@@ -146,7 +149,7 @@ SummationPhaseGradient(struct Interaction *q)
     int noi;
     int noj;
     double *eij;
-    
+
     Org = q->Org;
     Dest = q->Dest;
     Wij = q->Wij;
@@ -194,7 +197,7 @@ UpdateForces(struct Interaction *q)
     double shear_rij;
     double bulk_rij;
     double rmi, rmj;
-    
+
     Org = q->Org;
     Dest = q->Dest;
     Wij = q->Wij;
@@ -346,6 +349,6 @@ RandomForces(struct Interaction *q, double sqrtdt)
 int
 interaction_fin(struct Interaction *q)
 {
-  free(q);
-  return 0;
+    free(q);
+    return 0;
 }
