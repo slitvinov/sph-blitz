@@ -92,7 +92,7 @@ Hydrodynamics::UpdatePair(struct QuinticSpline * weight_function)
     struct Interaction *pair;
 
     ILOOP_P(pair, interaction_list) {
-	pair->RenewInteraction(weight_function);
+      RenewInteraction(pair, weight_function);
     }
 }
 
@@ -104,7 +104,7 @@ Hydrodynamics::UpdatePhaseGradient(struct Boundary * boundary)
 
     Zero_PhaseGradient(boundary);
     ILOOP_P(pair, interaction_list) {
-	pair->SummationPhaseGradient();
+	SummationPhaseGradient(pair);
     }
 }
 
@@ -116,7 +116,7 @@ Hydrodynamics::UpdateDensity(void)
 
     Zero_density();
     ILOOP_P(pair, interaction_list) {
-	pair->SummationDensity();
+	SummationDensity(pair);
     }
     UpdateState();
 }
@@ -129,7 +129,7 @@ Hydrodynamics::UpdateChangeRate()
 
     ZeroChangeRate();
     ILOOP_P(pair, interaction_list) {
-	pair->UpdateForces();
+	UpdateForces(pair);
     }
     AddGravity();
 }
@@ -142,7 +142,7 @@ Hydrodynamics::UpdateRandom(double sqrtdt)
 
     Zero_Random();
     ILOOP_P(pair, interaction_list) {
-	pair->RandomForces(sqrtdt);
+      RandomForces(pair, sqrtdt);
     }
 }
 

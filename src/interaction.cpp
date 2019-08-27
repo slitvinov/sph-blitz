@@ -56,23 +56,42 @@ Interaction::Interaction(Particle * prtl_org, Particle * prtl_dest,
 }
 
 void
-Interaction::RenewInteraction(QuinticSpline * weight_function)
+RenewInteraction(Interaction *q, QuinticSpline * weight_function)
 {
-    rij = vv_distance(Org->R, Dest->R);
-    rrij = 1.0 / (rij + 1.0e-30);
+  struct Particle *Org, *Dest;
+  double *eij;
+  double rij, rrij;
+  double etai, etaj, zetai, zetaj;
+  struct Force **frc_ij;
+  int noi, noj;
+
+  Org = q->Org;
+  Dest = q->Dest;
+  eij = q->eij;
+  etai = q->etai;
+  etaj = q->etaj;
+  zetai = q->zetai;
+  zetaj = q->zetaj;  
+  frc_ij = q->frc_ij;
+  noi = q->noi;
+  noj = q->noj;
+  
+  rij = q->rij = vv_distance(q->Org->R, q->Dest->R);
+  rrij = q->rrij = 1.0 / (q->rij + 1.0e-30);
+    
     eij[X] = (Org->R[X] - Dest->R[X]) * rrij;
     eij[Y] = (Org->R[Y] - Dest->R[Y]) * rrij;
-    Wij = w(weight_function, rij);
-    Fij = F(weight_function, rij) * rrij;
-    shear_rij =
-	2.0 * etai * etaj * rij / (etai *
+    q->Wij = w(weight_function, rij);
+    q->Fij = F(weight_function, rij) * rrij;
+    q->shear_rij =
+	2.0 * etai * etaj * q->rij / (etai *
 				   (rij +
 				    2.0 * frc_ij[noj][noi].shear_slip)
 				   + etaj * (rij +
 					     2.0 *
 					     frc_ij[noi][noj].shear_slip) +
 				   1.0e-30);
-    bulk_rij =
+    q->bulk_rij =
 	2.0 * zetai * zetaj * rij / (zetai *
 				     (rij +
 				      2.0 * frc_ij[noj][noi].bulk_slip)
@@ -83,19 +102,49 @@ Interaction::RenewInteraction(QuinticSpline * weight_function)
 }
 
 void
-Interaction::SummationDensity()
+SummationDensity(struct Interaction *q)
 {
+    struct Particle *Org, *Dest;
+    double Wij;
+    double mi, mj;
+    Org = q->Org;
+    Dest = q->Dest;
+    Wij = q->Wij;
+    mi = q->mi;
+    mj = q->mj;
+
     Org->rho += mi * Wij;
     if (Org->ID != Dest->ID)
 	Dest->rho += mj * Wij;
 }
 
 void
-Interaction::SummationPhaseGradient()
+SummationPhaseGradient(struct Interaction *q)
 {
+    struct Particle *Org, *Dest;
+    double Wij;
+    double mi, mj;
     double c;
     double Vi, rVi, Vj, rVj;
     double dphi[2];
+    double Fij;
+    double rij;
+    Force **frc_ij;
+    int noi;
+    int noj;
+    double *eij;
+    
+    Org = q->Org;
+    Dest = q->Dest;
+    Wij = q->Wij;
+    mi = q->mi;
+    mj = q->mj;
+    Fij = q->Fij;
+    rij = q->rij;
+    frc_ij = q->frc_ij;
+    noi = q->noi;
+    noj = q->noj;
+    eij = q->eij;
 
     Vi = mi / Org->rho;
     Vj = mj / Dest->rho;
@@ -113,10 +162,41 @@ Interaction::SummationPhaseGradient()
 }
 
 void
-Interaction::UpdateForces()
+UpdateForces(struct Interaction *q)
 {
-    double pi, rhoi, Vi, rVi, pj, rhoj, Vj, rVj, Uijdoteij, c, dx, dy;
+    struct Particle *Org, *Dest;
+    double Wij;
+    double mi, mj;
+    double c;
+    double Vi, rVi, Vj, rVj;
+    double dphi[2];
+    double Fij;
+    double rij;
+    Force **frc_ij;
+    int noi;
+    int noj;
+    double *eij;
+    double pi, rhoi, pj, rhoj, Uijdoteij, dx, dy;
     double Ui[2], Uj[2], Uij[2];
+    double shear_rij;
+    double bulk_rij;
+    double rmi, rmj;
+    
+    Org = q->Org;
+    Dest = q->Dest;
+    Wij = q->Wij;
+    mi = q->mi;
+    mj = q->mj;
+    Fij = q->Fij;
+    rij = q->rij;
+    frc_ij = q->frc_ij;
+    noi = q->noi;
+    noj = q->noj;
+    eij = q->eij;
+    shear_rij = q->shear_rij;
+    bulk_rij = q->bulk_rij;
+    rmi = q->rmi;
+    rmj = q->rmj;
 
     rhoi = Org->rho;
     rhoj = Dest->rho;
@@ -188,13 +268,30 @@ Interaction::UpdateForces()
 }
 
 void
-Interaction::RandomForces(double sqrtdt)
+RandomForces(struct Interaction *q, double sqrtdt)
 {
     double Vi, Vj;
     double Ti, Tj;
     double v_eij[2];
     double Random_p, Random_v;
+    struct Particle *Org, *Dest;
+    double mi, mj;
+    double shear_rij;
+    double Fij;
+    double *eij;
+    double bulk_rij;
+    double rmi, rmj;
 
+    rmi = q->rmi;
+    rmj = q->rmj;
+    bulk_rij = q->bulk_rij;
+    eij = q->eij;
+    shear_rij = q->shear_rij;
+    Fij = q->Fij;
+    mi = q->mi;
+    mj = q->mj;
+    Org = q->Org;
+    Dest = q->Dest;
     Ti = Org->T;
     Tj = Dest->T;
     if (Ti == 0 && Tj == 0)
