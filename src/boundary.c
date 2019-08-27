@@ -827,6 +827,7 @@ boundary_fin(struct Boundary *q)
 {
     struct ListNode *p;
     struct Particle *prtl;
+
     LOOP_P(prtl, q->b) {
 	particle_fin(prtl);
     }
