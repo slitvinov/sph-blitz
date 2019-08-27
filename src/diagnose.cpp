@@ -33,9 +33,14 @@ Diagnose::Diagnose(struct Initiation *ini, struct List *particle_list,
     gridx = x_cells * ini->cell_ratio + 1;
     gridy = y_cells * ini->cell_ratio + 1;
     for (k = 0; k < 5; k++) {
-	U[k] = new double *[gridx];
-	for (l = 0; l < gridx; l++)
-	    U[k][l] = new double[gridy];
+      U[k] = (double**)malloc(gridx*sizeof(double*));
+      if (U[k] == NULL)
+        ABORT(("can't alloc"));
+      for (l = 0; l < gridx; l++) {
+        U[k][l] = (double*)malloc(gridy*sizeof(double));
+        if (U[k] == NULL)
+          ABORT(("can't alloc"));
+      }
     }
     for (k = 0; k < 5; k++)
 	for (m = 0; m < gridx; m++)
@@ -43,9 +48,9 @@ Diagnose::Diagnose(struct Initiation *ini, struct List *particle_list,
 		U[k][m][l] = 0.0;
     n_average = 0;
     if (ini->diagnose == 2) {
-	mtl_m = new double[number_of_materials];
-	wght_cntr = new double[2 * number_of_materials];
-	wght_v = new double[2 * number_of_materials];
+      mtl_m = (double*)malloc(number_of_materials*sizeof(*mtl_m));
+      wght_cntr = (double*)malloc(2*number_of_materials*sizeof(*wght_cntr));
+      wght_v = (double*)malloc(2*number_of_materials*sizeof(*wght_v));
 
 	ttl_m = 1.0e-40;
 	for (k = 0; k < number_of_materials; k++)
@@ -304,5 +309,8 @@ diag_fin(struct Diagnose *q)
           free(U[k][l]);
         free(U[k]);
   }
+  free(q->mtl_m);
+  free(q->wght_cntr);
+  free(q->wght_v);
   free(q);
 }
