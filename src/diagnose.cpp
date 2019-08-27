@@ -85,7 +85,7 @@ Diagnose::SaveStates(struct List *particle_list)
     int k;
     struct ListNode *p;
     double *p1, *p2, *p3;
-    Particle *prtl;
+    struct Particle *prtl;
     p1 = (double*)malloc(sizeof(*p1));
     p2 = (double*)malloc(sizeof(*p2));
     p3 = (double*)malloc(sizeof(*p3));
@@ -175,7 +175,7 @@ Diagnose::Average(Manager * particles, MLS * mls,
     double rho, pressure, Temperature, x_velocity, y_velocity;
     double m_n_average, r_n_average;
     struct ListNode *p;
-    Particle *prtl;
+    struct Particle *prtl;
 
     n_average++;
     for (j = 0; j < gridy; j++) {
@@ -311,10 +311,12 @@ diag_fin(struct Diagnose *q)
           free(U[k][l]);
         free(U[k]);
   }
+
+  /*
   free(q->mtl_m);
   free(q->wght_cntr);
   free(q->wght_v);
-  free(q);
+  free(q); */
 
   DLOOP_P(d, q->vx_list)
     free(d);

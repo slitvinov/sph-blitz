@@ -816,6 +816,12 @@ boundary_check(struct Boundary *q, struct List *list)
 int
 boundary_fin(struct Boundary *q)
 {
+    struct ListNode *p;
+    struct Particle *prtl;
+    LOOP_P(prtl, q->b) {
+	particle_fin(prtl);
+    }
+    list_clear(q->b);
     list_fin(q->b);
     free(q);
     return 0;
