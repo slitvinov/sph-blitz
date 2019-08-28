@@ -10,9 +10,10 @@
 #include "mls.h"
 #include "manager.h"
 #include "material.h"
-#include "diagnose.h"
+#include "vv.h"
 #include "macro.h"
 #include "err.h"
+#include "diagnose.h"
 
 struct Diagnose *
 diag_ini(struct Initiation *ini, struct List *particle_list,
@@ -26,7 +27,7 @@ diag_ini(struct Initiation *ini, struct List *particle_list,
     int number_of_materials;
     struct Diagnose *q;
 
-    q = (struct Diagnose *) malloc(sizeof(struct Diagnose));
+    q = malloc(sizeof(struct Diagnose));
     if (q == NULL)
 	ABORT(("can't alloc"));
 
@@ -42,11 +43,11 @@ diag_ini(struct Initiation *ini, struct List *particle_list,
     q->gridx = q->x_cells * ini->cell_ratio + 1;
     q->gridy = q->y_cells * ini->cell_ratio + 1;
     for (k = 0; k < 5; k++) {
-	q->U[k] = (double **) malloc(q->gridx * sizeof(double *));
+	q->U[k] = malloc(q->gridx * sizeof(double *));
 	if (q->U[k] == NULL)
 	    ABORT(("can't alloc"));
 	for (l = 0; l < q->gridx; l++) {
-	    q->U[k][l] = (double *) malloc(q->gridy * sizeof(double));
+	    q->U[k][l] = malloc(q->gridy * sizeof(double));
 	    if (q->U[k] == NULL)
 		ABORT(("can't alloc"));
 	}
@@ -58,12 +59,12 @@ diag_ini(struct Initiation *ini, struct List *particle_list,
     q->n_average = 0;
     if (ini->diagnose == 2) {
 	q->mtl_m =
-	    (double *) malloc(number_of_materials * sizeof(*q->mtl_m));
+	    malloc(number_of_materials * sizeof(*q->mtl_m));
 	q->wght_cntr =
 	    (double *) malloc(2 * number_of_materials *
 			      sizeof(*q->wght_cntr));
 	q->wght_v =
-	    (double *) malloc(2 * number_of_materials *
+	    malloc(2 * number_of_materials *
 			      sizeof(*q->wght_v));
 
 	q->ttl_m = 1.0e-40;
@@ -102,9 +103,9 @@ SaveStates(struct Diagnose *q, struct List *particle_list)
     double *p1, *p2, *p3;
     struct Particle *prtl;
 
-    p1 = (double *) malloc(sizeof(*p1));
-    p2 = (double *) malloc(sizeof(*p2));
-    p3 = (double *) malloc(sizeof(*p3));
+    p1 = malloc(sizeof(*p1));
+    p2 = malloc(sizeof(*p2));
+    p3 = malloc(sizeof(*p3));
 
     p = list_first(particle_list);
     for (k = 0; k < 1; k++)

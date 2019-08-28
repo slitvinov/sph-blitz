@@ -51,7 +51,7 @@ list_insert(struct List *q, struct ListNode *n, void *p)
     struct ListNode *node;
 
     q->len++;
-    node = (struct ListNode *) malloc(sizeof(struct ListNode));
+    node = malloc(sizeof(struct ListNode));
     node->data = p;
     node->next = n->next;
     n->next = node;
@@ -87,8 +87,8 @@ list_ini(void)
     struct List *q;
     struct ListNode *node;
 
-    q = (struct List *) malloc(sizeof(struct List));
-    node = (struct ListNode *) malloc(sizeof(struct ListNode));
+    q = malloc(sizeof(struct List));
+    node = malloc(sizeof(struct ListNode));
     node->data = NULL;
     node->next = node;
     q->node = node;

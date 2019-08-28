@@ -31,7 +31,7 @@ hydrodynamics_ini(struct Initiation *ini)
     struct Force *force;
     struct Hydrodynamics *q;
 
-    q = (struct Hydrodynamics *) malloc(sizeof(*q));
+    q = malloc(sizeof(*q));
     if (q == NULL)
 	return q;
     q->interaction_list = list_ini();
@@ -44,13 +44,13 @@ hydrodynamics_ini(struct Initiation *ini)
     q->delta2 = delta * delta;
     q->delta3 = delta * delta * delta;
     q->materials =
-	(struct Material *) malloc(number_of_materials *
+	malloc(number_of_materials *
 				   sizeof(*q->materials));
     q->forces =
-	(struct Force **) malloc(number_of_materials * sizeof(*force));
+	malloc(number_of_materials * sizeof(*force));
     for (k = 0; k < number_of_materials; k++)
 	q->forces[k] =
-	    (struct Force *) malloc(number_of_materials *
+	    malloc(number_of_materials *
 				    sizeof(*q->forces[k]));
 
     f = fopen(ini->inputfile, "r");

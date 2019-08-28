@@ -1,6 +1,5 @@
 .POSIX:
-LINK = $(CXX)
-CXXFLAGS = -g -O2
+LINK = $(CC)
 CFLAGS = -g -O2
 
 M = sph
@@ -25,12 +24,11 @@ volume.o\
 vv.o\
 wiener.o\
 
-sph: $O; $(LINK) $O $(LDFLAGS) -o $@
-.cpp.o:; $(CXX) $(CXXFLAGS) $< -c -o $@
+$M: $O; $(LINK) $O $(LDFLAGS) -o $@
 .c.o:; $(CC) $(CFLAGS) $< -c -o $@
 dep:; ../scripts/dep
 test: sph; cd ..; atest test/*
-lint:; make CXXFLAGS='-g -Wall -Wextra -pedantic' CFLAGS='-g -Wall -Wextra -pedantic'
+lint:; make CFLAGS='-g -Wall -Wextra -pedantic'
 
 .PHONY: clean dep test lint
 clean:; rm -f -- $M $O

@@ -28,7 +28,7 @@ manager_ini(struct Initiation *ini)
     struct Manager *q;
     int i, j;
 
-    q = (struct Manager *) malloc(sizeof(struct Manager));
+    q = malloc(sizeof(struct Manager));
     if (q == NULL)
 	return NULL;
 
@@ -39,10 +39,10 @@ manager_ini(struct Initiation *ini)
     q->cell_ratio = ini->cell_ratio;
 
     q->cell_lists =
-	(struct List ***) malloc(q->x_clls * sizeof(struct List **));
+	malloc(q->x_clls * sizeof(struct List **));
     for (i = 0; i < q->x_clls; i++) {
 	q->cell_lists[i] =
-	    (struct List **) malloc(q->y_clls * sizeof(struct List *));
+	    malloc(q->y_clls * sizeof(struct List *));
 	for (j = 0; j < q->y_clls; j++)
 	    q->cell_lists[i][j] = list_ini();
     }

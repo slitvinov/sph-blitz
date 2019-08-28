@@ -18,7 +18,7 @@ output_ini(struct Initiation *ini)
 {
     struct Output *q;
 
-    q = (struct Output *) malloc(sizeof(struct Output));
+    q = malloc(sizeof(struct Output));
     if (q == NULL)
 	return NULL;
     strcpy(q->Project_name, ini->Project_name);

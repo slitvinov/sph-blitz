@@ -15,7 +15,7 @@ int particle_number_of_materials;
 
 #define XX					\
     struct Particle *q;				\
-    q = (struct Particle*)malloc(sizeof(*q));	\
+    q = malloc(sizeof(*q));			\
     if (q == NULL)				\
 	abort();
 
@@ -28,9 +28,9 @@ phi_ini(void)
     double **q;
 
     n = particle_number_of_materials;
-    q = (double **) malloc(n * sizeof(*q));
+    q = malloc(n * sizeof(*q));
     for (i = 0; i < n; i++)
-	q[i] = (double *) malloc(n * sizeof(*q));
+	q[i] = malloc(n * sizeof(*q));
     for (i = 0; i < n; i++)
 	for (j = 0; j < n; j++)
 	    q[i][j] = 0.0;

@@ -26,7 +26,7 @@ interaction_ini(struct Particle *prtl_org, struct Particle *prtl_dest,
     int noi, noj;
     struct Force **frc_ij;
 
-    q = (struct Interaction *) malloc(sizeof(*q));
+    q = malloc(sizeof(*q));
     if (q == NULL)
 	ABORT(("can't allocate"));
 

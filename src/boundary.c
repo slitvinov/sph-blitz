@@ -37,7 +37,7 @@ boundary_ini(struct Initiation *ini)
     FILE *f;
     struct Boundary *q;
 
-    q = (struct Boundary *) malloc(sizeof(*q));
+    q = malloc(sizeof(*q));
     if (q == NULL)
 	return q;
 

@@ -14,17 +14,17 @@ mls_ini(int MLS_MAX)
     struct MLS *q;
     int k;
 
-    q = (struct MLS *) malloc(sizeof(*q));
+    q = malloc(sizeof(*q));
     if (q == NULL)
 	return NULL;
 
     q->MLS_MAX = MLS_MAX;
-    q->Wi = (double *) malloc(MLS_MAX * sizeof(*q->Wi));
-    q->phi = (double *) malloc(MLS_MAX * sizeof(*q->phi));
+    q->Wi = malloc(MLS_MAX * sizeof(*q->Wi));
+    q->phi = malloc(MLS_MAX * sizeof(*q->phi));
     for (k = 0; k < 3; k++)
-	q->B[k] = (double *) malloc(MLS_MAX * sizeof(double));
+	q->B[k] = malloc(MLS_MAX * sizeof(double));
     for (k = 0; k < 3; k++)
-	q->pi[k] = (double *) malloc(MLS_MAX * sizeof(double));
+	q->pi[k] = malloc(MLS_MAX * sizeof(double));
     return q;
 }
 
