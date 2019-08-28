@@ -23,7 +23,7 @@ enum { X, Y };
 #define ILIST struct ListNode
 
 struct Manager *
-manager_ini(struct Initiation *ini)
+manager_ini(struct Ini *ini)
 {
     struct Manager *q;
     int i, j;
@@ -180,7 +180,7 @@ manager_build_interaction(struct Manager *q,
 
 void
 manager_build_particles(struct Manager *q, struct Material *materials,
-			struct List *particle_list, struct Initiation *ini)
+			struct List *particle_list, struct Ini *ini)
 {
 
     int i, j, k, m;

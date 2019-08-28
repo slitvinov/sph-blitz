@@ -19,7 +19,7 @@
 enum { X, Y };
 
 struct Hydrodynamics *
-hydrodynamics_ini(struct Initiation *ini)
+hydrodynamics_ini(struct Ini *ini)
 {
     int k, m;
     int l, n;

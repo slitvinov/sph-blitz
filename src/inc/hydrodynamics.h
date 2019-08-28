@@ -2,7 +2,7 @@ struct Material;
 struct Interaction;
 struct Force;
 struct Particle;
-struct Initiation;
+struct Ini;
 struct Boundary;
 struct Material;
 struct QuinticSpline;
@@ -23,7 +23,7 @@ struct Hydrodynamics {
     struct List *particle_list;
 };
 
-struct Hydrodynamics *hydrodynamics_ini(struct Initiation *);
+struct Hydrodynamics *hydrodynamics_ini(struct Ini *);
 void hydrodynamics_fin(struct Hydrodynamics *);
 
 

@@ -1,6 +1,6 @@
 struct Particle;
 struct Force;
-struct Initiation;
+struct Ini;
 struct QuinticSpline;
 struct Interaction {
     struct Particle *Org;

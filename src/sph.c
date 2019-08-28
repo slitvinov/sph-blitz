@@ -23,7 +23,7 @@ main(int argc, char *argv[])
 {
     struct Boundary *boundary;
     double Time;
-    struct Initiation ini;
+    struct Ini ini;
     int ite;
     struct Diagnose *diagnose;
     struct Manager *particles;

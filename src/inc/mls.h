@@ -1,4 +1,4 @@
-struct Initiation;
+struct Ini;
 struct Particle;
 struct QuinticSpline;
 struct List;

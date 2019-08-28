@@ -16,7 +16,7 @@
 #include "diagnose.h"
 
 struct Diagnose *
-diag_ini(struct Initiation *ini, struct List *particle_list,
+diag_ini(struct Ini *ini, struct List *particle_list,
 	 struct Material *materials)
 {
     char file_name[FILENAME_MAX], *name;

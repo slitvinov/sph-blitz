@@ -14,7 +14,7 @@
 #include "output.h"
 
 struct Output *
-output_ini(struct Initiation *ini)
+output_ini(struct Ini *ini)
 {
     struct Output *q;
 

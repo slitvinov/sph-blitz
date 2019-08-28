@@ -30,7 +30,7 @@ static int boundary_nw(struct Boundary *, struct Particle *);
 static int boundary_ne(struct Boundary *, struct Particle *);
 
 struct Boundary *
-boundary_ini(struct Initiation *ini)
+boundary_ini(struct Ini *ini)
 {
     int n;
     char Key_word[FILENAME_MAX];

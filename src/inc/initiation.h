@@ -1,4 +1,4 @@
-struct Initiation {
+struct Ini {
     char Project_name[FILENAME_MAX];
     int number_of_materials;
     char inputfile[FILENAME_MAX];
@@ -22,4 +22,4 @@ struct Initiation {
     double T0;
     int MLS_MAX;
 };
-int initiation_ini(const char *, struct Initiation *);
+int initiation_ini(const char *, struct Ini *);

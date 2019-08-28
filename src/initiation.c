@@ -5,7 +5,7 @@
 #include "err.h"
 #include "initiation.h"
 int
-initiation_ini(const char *project_name, struct Initiation *q)
+initiation_ini(const char *project_name, struct Ini *q)
 {
     char Key_word[FILENAME_MAX];
     char *mkdir = "mkdir -p outdata";

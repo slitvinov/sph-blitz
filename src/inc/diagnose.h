@@ -1,4 +1,4 @@
-struct Initiation;
+struct Ini;
 struct Manager;
 struct MLS;
 struct QuinticSpline;
@@ -34,6 +34,6 @@ int OutputAverage(struct Diagnose *, double Time);
 int OutputProfile(struct Diagnose *, double Time);
 int SaveStates(struct Diagnose *, struct List *);
 
-struct Diagnose *diag_ini(struct Initiation *, struct List *,
+struct Diagnose *diag_ini(struct Ini *, struct List *,
 			  struct Material *);
 int diag_fin(struct Diagnose *);

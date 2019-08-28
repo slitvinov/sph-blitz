@@ -1,4 +1,4 @@
-struct Initiation;
+struct Ini;
 struct Hydrodynamics;
 struct Manager;
 struct Boundary;
@@ -7,4 +7,4 @@ struct Diagnose;
 struct MLS;
 void step(int *ite, struct Hydrodynamics *, struct Manager *,
 	  struct Boundary *, double *, double D_time, struct Diagnose *,
-	  struct Initiation *, struct QuinticSpline *, struct MLS *);
+	  struct Ini *, struct QuinticSpline *, struct MLS *);
