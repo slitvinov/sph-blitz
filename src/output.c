@@ -35,14 +35,16 @@ output_particles(struct Output *q, struct List *particle_list,
 		 struct Material *materials, struct Boundary *boundary,
 		 double Time)
 {
+    char file_name[FILENAME_MAX], file_list[FILENAME_MAX];
+    double Itime;
     FILE *f;
     int i, j;
-    double Itime;
-    char file_name[FILENAME_MAX], file_list[FILENAME_MAX];
-    struct Particle *prtl;
-    struct ListNode *p;
     int number_of_materials;
+    struct List *blist;
+    struct ListNode *p;
+    struct Particle *prtl;
 
+    blist = boundary_list(boundary);
     number_of_materials = q->number_of_materials;
 
     Itime = Time * 1.0e6;
@@ -70,7 +72,7 @@ output_particles(struct Output *q, struct List *particle_list,
 			prtl->U[0], prtl->U[1]);
 	    }
 	}
-	LOOP_P(prtl, boundary->b) {
+	LOOP_P(prtl, blist) {
 	    if (strcmp
 		(materials[i].material_name,
 		 prtl->mtl->material_name) == 0) {

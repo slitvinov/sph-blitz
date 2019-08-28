@@ -201,11 +201,13 @@ Zero_PhaseGradient(struct Hydro *q, struct Boundary *boundary)
 {
     struct ListNode *p;
     struct Particle *prtl;
+    struct List *blist;
+    blist = boundary_list(boundary);
 
     LOOP_P(prtl, q->particle_list) {
 	prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
     }
-    LOOP_P(prtl, boundary->b) {
+    LOOP_P(prtl, blist) {
 	prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
     }
 }
@@ -251,7 +253,8 @@ UpdatePahseMatrix(struct Hydro *q, struct Boundary *boundary)
     struct Particle *prtl;
     int
      i, j, number_of_materials;
-
+    struct List *blist;
+    blist = boundary_list(boundary);
     number_of_materials = q->number_of_materials;
     LOOP_P(prtl, q->particle_list) {
 	for (i = 0; i < number_of_materials; i++)
@@ -260,7 +263,7 @@ UpdatePahseMatrix(struct Hydro *q, struct Boundary *boundary)
 		    prtl->phi[i][j] = prtl->phi[i][j];
 	    }
     }
-    LOOP_P(prtl, boundary->b) {
+    LOOP_P(prtl, blist) {
 	for (i = 0; i < number_of_materials; i++)
 	    for (j = 0; j < number_of_materials; j++) {
 		if (i != j)
@@ -278,6 +281,8 @@ UpdateSurfaceStress(struct Hydro *q, struct Boundary *boundary)
      interm0, interm1, interm2;
     struct Particle *prtl;
     struct ListNode *p;
+    struct List *blist;
+    blist = boundary_list(boundary);
 
     LOOP_P(prtl, q->particle_list) {
 	interm0 = 1.0 / (vv_abs(prtl->del_phi) + epsilon);
@@ -286,7 +291,7 @@ UpdateSurfaceStress(struct Hydro *q, struct Boundary *boundary)
 	prtl->del_phi[0] = interm1 * interm0;
 	prtl->del_phi[1] = interm2 * interm0;
     }
-    LOOP_P(prtl, boundary->b) {
+    LOOP_P(prtl, blist) {
 	interm0 = vv_abs(prtl->del_phi) + epsilon;
 	interm1 = 0.5 * vv_sqdiff(prtl->del_phi);
 	interm2 = prtl->del_phi[X] * prtl->del_phi[Y];

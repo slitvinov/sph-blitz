@@ -10,7 +10,6 @@
 #include "boundary.h"
 #include "macro.h"
 enum { X, Y };
-
 #define A prtl = particle_mirror(prtl_old, mtl)
 #define B prtl = particle_image(prtl_old)
 #define C(t) do {                               \
@@ -19,6 +18,20 @@ enum { X, Y };
 	particle_copy(prtl, prtl->rl_prtl, t);	\
     } while (0)
 #define LIST struct ListNode
+struct Boundary {
+    double box_size[2];
+    double UxBl[2];
+    double UxBr[2];
+    double UyBd[2];
+    double UyBu[2];
+    int xBl;
+    int xBr;
+    int x_clls;
+    int yBd;
+    int yBu;
+    int y_clls;
+    struct List *b;
+};
 
 static int boundary_w(struct Boundary *, struct Particle *);
 static int boundary_e(struct Boundary *, struct Particle *);
@@ -835,4 +848,9 @@ boundary_fin(struct Boundary *q)
     list_fin(q->b);
     free(q);
     return 0;
+}
+
+struct List*
+boundary_list(struct Boundary *q) {
+    return q->b;
 }
