@@ -1,3 +1,4 @@
 #!/bin/sh
 
+VERSION_CONTROL=none
 exec indent -kr --blank-lines-after-declarations  --procnames-start-lines --use-tabs "$@"
