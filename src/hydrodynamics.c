@@ -6,7 +6,7 @@
 #include "err.h"
 #include "force.h"
 #include "glbfunc.h"
-#include "initiation.h"
+#include "ini.h"
 #include "interaction.h"
 #include "list.h"
 #include "macro.h"

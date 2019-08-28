@@ -1,7 +1,7 @@
 # generate by ../scripts/dep
 boundary.o: inc/boundary.h
 boundary.o: inc/err.h
-boundary.o: inc/initiation.h
+boundary.o: inc/ini.h
 boundary.o: inc/list.h
 boundary.o: inc/macro.h
 boundary.o: inc/material.h
@@ -9,7 +9,7 @@ boundary.o: inc/particle.h
 diagnose.o: inc/diagnose.h
 diagnose.o: inc/err.h
 diagnose.o: inc/glbfunc.h
-diagnose.o: inc/initiation.h
+diagnose.o: inc/ini.h
 diagnose.o: inc/list.h
 diagnose.o: inc/macro.h
 diagnose.o: inc/manager.h
@@ -25,7 +25,7 @@ hydrodynamics.o: inc/err.h
 hydrodynamics.o: inc/force.h
 hydrodynamics.o: inc/glbfunc.h
 hydrodynamics.o: inc/hydrodynamics.h
-hydrodynamics.o: inc/initiation.h
+hydrodynamics.o: inc/ini.h
 hydrodynamics.o: inc/interaction.h
 hydrodynamics.o: inc/list.h
 hydrodynamics.o: inc/macro.h
@@ -33,12 +33,12 @@ hydrodynamics.o: inc/material.h
 hydrodynamics.o: inc/particle.h
 hydrodynamics.o: inc/quinticspline.h
 hydrodynamics.o: inc/vv.h
-initiation.o: inc/err.h
-initiation.o: inc/initiation.h
+ini.o: inc/err.h
+ini.o: inc/ini.h
 interaction.o: inc/err.h
 interaction.o: inc/force.h
 interaction.o: inc/glbfunc.h
-interaction.o: inc/initiation.h
+interaction.o: inc/ini.h
 interaction.o: inc/interaction.h
 interaction.o: inc/material.h
 interaction.o: inc/particle.h
@@ -50,7 +50,7 @@ list.o: inc/macro.h
 manager.o: inc/boundary.h
 manager.o: inc/err.h
 manager.o: inc/glbfunc.h
-manager.o: inc/initiation.h
+manager.o: inc/ini.h
 manager.o: inc/interaction.h
 manager.o: inc/list.h
 manager.o: inc/macro.h
@@ -71,7 +71,7 @@ mls.o: inc/vv.h
 output.o: inc/boundary.h
 output.o: inc/err.h
 output.o: inc/glbfunc.h
-output.o: inc/initiation.h
+output.o: inc/ini.h
 output.o: inc/list.h
 output.o: inc/macro.h
 output.o: inc/manager.h
@@ -87,7 +87,7 @@ sph.o: inc/boundary.h
 sph.o: inc/diagnose.h
 sph.o: inc/err.h
 sph.o: inc/hydrodynamics.h
-sph.o: inc/initiation.h
+sph.o: inc/ini.h
 sph.o: inc/interaction.h
 sph.o: inc/manager.h
 sph.o: inc/material.h
@@ -101,7 +101,7 @@ sph.o: inc/wiener.h
 step.o: inc/boundary.h
 step.o: inc/diagnose.h
 step.o: inc/hydrodynamics.h
-step.o: inc/initiation.h
+step.o: inc/ini.h
 step.o: inc/manager.h
 step.o: inc/particle.h
 step.o: inc/step.h

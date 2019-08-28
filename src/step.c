@@ -2,7 +2,7 @@
 #include <math.h>
 #include "particle.h"
 #include "diagnose.h"
-#include "initiation.h"
+#include "ini.h"
 #include "hydrodynamics.h"
 #include "boundary.h"
 #include "manager.h"

@@ -5,7 +5,7 @@
 #include "err.h"
 #include "particle.h"
 #include "list.h"
-#include "initiation.h"
+#include "ini.h"
 #include "material.h"
 #include "boundary.h"
 #include "macro.h"

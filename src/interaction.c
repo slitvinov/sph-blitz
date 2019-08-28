@@ -5,7 +5,7 @@
 #include "glbfunc.h"
 #include "quinticspline.h"
 #include "wiener.h"
-#include "initiation.h"
+#include "ini.h"
 #include "particle.h"
 #include "material.h"
 #include "force.h"

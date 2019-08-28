@@ -6,7 +6,7 @@
 #include "diagnose.h"
 #include "output.h"
 #include "quinticspline.h"
-#include "initiation.h"
+#include "ini.h"
 #include "interaction.h"
 #include "manager.h"
 #include "hydrodynamics.h"

@@ -6,7 +6,7 @@
 #include "particle.h"
 #include "list.h"
 #include "vv.h"
-#include "initiation.h"
+#include "ini.h"
 #include "mls.h"
 #include "manager.h"
 #include "material.h"

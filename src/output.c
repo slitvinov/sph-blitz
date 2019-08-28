@@ -5,7 +5,7 @@
 #include "glbfunc.h"
 #include "list.h"
 #include "mls.h"
-#include "initiation.h"
+#include "ini.h"
 #include "material.h"
 #include "boundary.h"
 #include "manager.h"

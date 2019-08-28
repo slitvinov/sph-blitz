@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <tgmath.h>
 #include "err.h"
-#include "initiation.h"
+#include "ini.h"
 int
 initiation_ini(const char *project_name, struct Ini *q)
 {

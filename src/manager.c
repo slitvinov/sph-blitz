@@ -4,7 +4,7 @@
 #include <tgmath.h>
 #include "glbfunc.h"
 #include "vv.h"
-#include "initiation.h"
+#include "ini.h"
 #include "particle.h"
 #include "list.h"
 #include "material.h"
