@@ -7,7 +7,7 @@ Martin Bernreuther, Andreas Mattes)
 
        git clone https://github.com/slitvinov/sph-blitz
        cd sph-blitz
-	   (cd src ; make)
+       make
 
 # Test
 
