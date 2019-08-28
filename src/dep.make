@@ -35,6 +35,7 @@ hydro.o: sph/particle.h
 hydro.o: sph/vv.h
 ini.o: sph/err.h
 ini.o: sph/ini.h
+kernel.o: sph/err.h
 kernel.o: sph/kernel.h
 list.o: sph/list.h
 list.o: sph/macro.h

@@ -2,15 +2,7 @@ struct Ini;
 struct Boundary;
 struct Manager;
 struct MLS;
-struct Output {
-    char Project_name[FILENAME_MAX];
-    double delta;
-    int x_cells;
-    int y_cells;
-    int cell_ratio;
-    int number_of_materials;
-};
-
+struct Output;
 int output_particles(struct Output *, struct List *, struct Material *,
 		     struct Boundary *, double Time);
 int output_states(struct Output *, struct Manager *, struct MLS *,

@@ -13,6 +13,15 @@
 #include "err.h"
 #include "output.h"
 
+struct Output {
+    char Project_name[FILENAME_MAX];
+    double delta;
+    int x_cells;
+    int y_cells;
+    int cell_ratio;
+    int number_of_materials;
+};
+
 struct Output *
 output_ini(struct Ini *ini)
 {
