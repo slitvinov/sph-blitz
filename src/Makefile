@@ -25,7 +25,7 @@ vv.o\
 wiener.o\
 
 $M: $O; $(LINK) $O $(LDFLAGS) -lm -o $@
-.c.o:; $(CC) $(CFLAGS) $< -c -o $@
+.c.o:; $(CC) $(CFLAGS) -Iinc $< -c -o $@
 dep:; ../scripts/dep
 test: $M; cd ..; atest test/*
 lint:; make CFLAGS='-g -Wall -Wextra -pedantic'
