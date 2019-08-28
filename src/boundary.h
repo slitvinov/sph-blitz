@@ -2,7 +2,7 @@
 extern "C" {
 #endif
     struct Initiation;
-    struct Manager;
+    struct Material;
     struct Boundary {
 	double box_size[2];
 	double UxBl[2];

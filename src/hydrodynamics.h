@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 struct Material;
 struct Interaction;
 struct Force;
@@ -21,9 +24,11 @@ struct Hydrodynamics {
     struct Material *materials;
     struct Force **forces;
     struct List *particle_list;
-     Hydrodynamics(Initiation *);
-    ~Hydrodynamics();
 };
+
+struct Hydrodynamics* hydrodynamics_ini(struct Initiation*);
+void   hydrodynamics_fin(struct Hydrodynamics*);
+
 
 void Zero_PhaseGradient(struct Hydrodynamics*, struct Boundary*);
 void Zero_Random(struct Hydrodynamics*);
@@ -42,3 +47,6 @@ void UpdateState(struct Hydrodynamics*);
 void UpdateSurfaceStress(struct Hydrodynamics*, struct Boundary *);
 void ZeroChangeRate(struct Hydrodynamics*);
 void Zero_density(struct Hydrodynamics*);
+#ifdef __cplusplus
+}
+#endif

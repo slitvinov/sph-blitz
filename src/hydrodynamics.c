@@ -18,33 +18,38 @@
 
 enum { X, Y };
 
-Hydrodynamics::Hydrodynamics(struct Initiation *ini)
+struct Hydrodynamics*
+hydrodynamics_ini(struct Initiation *ini)
 {
     int k, m;
     int l, n;
     char Key_word[FILENAME_MAX];
-    double sound;
+    double sound, smoothinglength, delta;
+    int number_of_materials;
     FILE *f;
     struct Material *mtl;
     struct Force *force;
-
-    interaction_list = list_ini();
-    number_of_materials = ini->number_of_materials;
-    gravity[X] = ini->gravity[X];
-    gravity[Y] = ini->gravity[Y];
-    smoothinglength = ini->smoothinglength;
-    delta = ini->delta;
-    delta2 = ini->delta * ini->delta;
-    delta3 = ini->delta * ini->delta * ini->delta;
-    materials =
+    struct Hydrodynamics *q;
+    q = (struct Hydrodynamics *) malloc(sizeof(*q));
+    if (q == NULL)
+	return q;
+    q->interaction_list = list_ini();
+    q->number_of_materials = number_of_materials = ini->number_of_materials;
+    q->gravity[X] = ini->gravity[X];
+    q->gravity[Y] = ini->gravity[Y];
+    q->smoothinglength = smoothinglength = ini->smoothinglength;
+    q->delta = delta = ini->delta;
+    q->delta2 = delta * delta;
+    q->delta3 = delta * delta * delta;
+    q->materials =
 	(struct Material *) malloc(number_of_materials *
-				   sizeof(*materials));
-    forces =
+				   sizeof(*q->materials));
+    q->forces =
 	(struct Force **) malloc(number_of_materials * sizeof(*force));
     for (k = 0; k < number_of_materials; k++)
-	forces[k] =
+	q->forces[k] =
 	    (struct Force *) malloc(number_of_materials *
-				    sizeof(*forces[k]));
+				    sizeof(*q->forces[k]));
 
     f = fopen(ini->inputfile, "r");
     if (!f)
@@ -54,7 +59,7 @@ Hydrodynamics::Hydrodynamics(struct Initiation *ini)
     while (fscanf(f, "%s", Key_word) == 1) {
 	if (!strcmp(Key_word, "MATERIALS"))
 	    for (k = 0; k < number_of_materials; k++) {
-		mtl = &materials[k];
+		mtl = &q->materials[k];
 		mtl->number = k;
 		if (fscanf
 		    (f, "%s %d", mtl->material_name, &mtl->material_type)
@@ -74,7 +79,7 @@ Hydrodynamics::Hydrodynamics(struct Initiation *ini)
 		    if (fscanf(f, "%d %d", &k, &m) != 2)
 			ABORT(("can't read materal from '%s'",
 			       ini->inputfile));
-		    force = &forces[k][m];
+		    force = &q->forces[k][m];
 		    if (fscanf(f, "%lf %lf %lf %lf",
 			       &force->epsilon, &force->sigma,
 			       &force->shear_slip, &force->bulk_slip) != 4)
@@ -83,22 +88,23 @@ Hydrodynamics::Hydrodynamics(struct Initiation *ini)
 		}
     }
     fclose(f);
-    viscosity_max = 0.0;
-    surface_max = 0.0;
+    q->viscosity_max = 0.0;
+    q->surface_max = 0.0;
     for (k = 0; k < number_of_materials; k++) {
-	viscosity_max = AMAX1(viscosity_max, materials[k].nu);
+	q->viscosity_max = AMAX1(q->viscosity_max, q->materials[k].nu);
 	for (l = 0; l < number_of_materials; l++) {
-	    surface_max = AMAX1(surface_max, forces[k][l].sigma);
+	    q->surface_max = AMAX1(q->surface_max, q->forces[k][l].sigma);
 	}
     }
-    dt_g_vis =
-	AMIN1(sqrt(delta / vv_abs(gravity)), 0.5 * delta2 / viscosity_max);
-    dt_surf = 0.4 * sqrt(delta3 / surface_max);
-    sound = AMAX1(vv_abs(ini->gravity), viscosity_max);
-    sound = AMAX1(surface_max, sound);
+    q->dt_g_vis =
+	AMIN1(sqrt(delta / vv_abs(q->gravity)), 0.5 * q->delta2 / q->viscosity_max);
+    q->dt_surf = 0.4 * sqrt(q->delta3 / q->surface_max);
+    sound = AMAX1(vv_abs(ini->gravity), q->viscosity_max);
+    sound = AMAX1(q->surface_max, sound);
     for (k = 0; k < number_of_materials; k++)
-	Set_b0(&materials[k], sound);
-    particle_list = list_ini();
+	Set_b0(&q->materials[k], sound);
+    q->particle_list = list_ini();
+    return q;
 }
 
 void
@@ -193,7 +199,7 @@ Zero_density(struct Hydrodynamics *q)
 {
     struct ListNode *
 	p;
-    Particle *
+    struct Particle *
 	prtl;
 
     LOOP_P(prtl, q->particle_list) {
@@ -201,7 +207,7 @@ Zero_density(struct Hydrodynamics *q)
     }
 }
 
-void Zero_PhaseGradient(struct Hydrodynamics *q, Boundary * boundary)
+void Zero_PhaseGradient(struct Hydrodynamics *q, struct Boundary * boundary)
 {
     struct ListNode *
 	p;
@@ -217,7 +223,7 @@ void Zero_PhaseGradient(struct Hydrodynamics *q, Boundary * boundary)
 }
 
 void
-Zero_Random(Hydrodynamics *q)
+Zero_Random(struct Hydrodynamics *q)
 {
     struct ListNode *
 	p;
@@ -257,7 +263,7 @@ UpdateState(struct Hydrodynamics *q)
 }
 
 void
-UpdatePahseMatrix(struct Hydrodynamics *q, Boundary * boundary)
+UpdatePahseMatrix(struct Hydrodynamics *q, struct Boundary * boundary)
 {
     struct ListNode *
 	p;
@@ -285,7 +291,7 @@ UpdatePahseMatrix(struct Hydrodynamics *q, Boundary * boundary)
 }
 
 void
-UpdateSurfaceStress(struct Hydrodynamics *q, Boundary * boundary)
+UpdateSurfaceStress(struct Hydrodynamics *q, struct Boundary * boundary)
 {
     double
      epsilon = 1.0e-30;
@@ -394,14 +400,15 @@ RandomEffects(struct Hydrodynamics *q)
     }
 }
 
-Hydrodynamics::~Hydrodynamics()
+void hydrodynamics_fin(struct Hydrodynamics *q)
 {
     int i;
 
-    for (i = 0; i < number_of_materials; i++)
-	free(forces[i]);
-    free(forces);
-    free(materials);
-    list_fin(interaction_list);
-    list_fin(particle_list);
+    for (i = 0; i < q->number_of_materials; i++)
+	free(q->forces[i]);
+    free(q->forces);
+    free(q->materials);
+    list_fin(q->interaction_list);
+    list_fin(q->particle_list);
+    free(q);
 }
