@@ -102,85 +102,85 @@ Hydrodynamics::Hydrodynamics(struct Initiation *ini)
 }
 
 void
- Hydrodynamics::UpdatePair(struct QuinticSpline *weight_function)
+UpdatePair(struct Hydrodynamics *q, struct QuinticSpline *weight_function)
 {
     struct ListNode *
 	p;
     struct Interaction *
 	pair;
 
-    ILOOP_P(pair, interaction_list) {
+    ILOOP_P(pair, q->interaction_list) {
 	RenewInteraction(pair, weight_function);
     }
 }
 
 void
- Hydrodynamics::UpdatePhaseGradient(struct Boundary *boundary)
+UpdatePhaseGradient(struct Hydrodynamics *q, struct Boundary *boundary)
 {
     struct ListNode *
 	p;
     struct Interaction *
 	pair;
 
-    Zero_PhaseGradient(this, boundary);
-    ILOOP_P(pair, interaction_list) {
+    Zero_PhaseGradient(q, boundary);
+    ILOOP_P(pair, q->interaction_list) {
 	SummationPhaseGradient(pair);
     }
 }
 
 void
- Hydrodynamics::UpdateDensity(void)
+UpdateDensity(struct Hydrodynamics *q)
 {
     struct ListNode *
 	p;
     struct Interaction *
 	pair;
 
-    Zero_density();
-    ILOOP_P(pair, interaction_list) {
+    Zero_density(q);
+    ILOOP_P(pair, q->interaction_list) {
 	SummationDensity(pair);
     }
-    UpdateState();
+    UpdateState(q);
 }
 
 void
- Hydrodynamics::UpdateChangeRate()
+ UpdateChangeRate(struct Hydrodynamics *q)
 {
     struct ListNode *
 	p;
     struct Interaction *
 	pair;
 
-    ZeroChangeRate();
-    ILOOP_P(pair, interaction_list) {
+    ZeroChangeRate(q);
+    ILOOP_P(pair, q->interaction_list) {
 	UpdateForces(pair);
     }
-    AddGravity();
+    AddGravity(q);
 }
 
 void
- Hydrodynamics::UpdateRandom(double sqrtdt)
+UpdateRandom(struct Hydrodynamics *q, double sqrtdt)
 {
     struct ListNode *
 	p;
     struct Interaction *
 	pair;
 
-    Zero_Random(this);
-    ILOOP_P(pair, interaction_list) {
+    Zero_Random(q);
+    ILOOP_P(pair, q->interaction_list) {
 	RandomForces(pair, sqrtdt);
     }
 }
 
 void
- Hydrodynamics::ZeroChangeRate(void)
+ZeroChangeRate(struct Hydrodynamics *q)
 {
     struct ListNode *
 	p;
     struct Particle *
 	prtl;
 
-    LOOP_P(prtl, particle_list) {
+    LOOP_P(prtl, q->particle_list) {
 	prtl->dedt = 0.0;
 	prtl->drhodt = 0.0;
 	prtl->dUdt[X] = prtl->dUdt[Y] = 0.0;
@@ -189,14 +189,14 @@ void
 }
 
 void
- Hydrodynamics::Zero_density()
+Zero_density(struct Hydrodynamics *q)
 {
     struct ListNode *
 	p;
     Particle *
 	prtl;
 
-    LOOP_P(prtl, particle_list) {
+    LOOP_P(prtl, q->particle_list) {
 	prtl->rho = 0.0;
     }
 }
@@ -230,34 +230,34 @@ Zero_Random(Hydrodynamics *q)
 }
 
 void
- Hydrodynamics::AddGravity()
+AddGravity(struct Hydrodynamics *q)
 {
     struct ListNode *
 	p;
     struct Particle *
 	prtl;
 
-    LOOP_P(prtl, particle_list) {
-	prtl->dUdt[X] += gravity[X];
-	prtl->dUdt[Y] += gravity[Y];
+    LOOP_P(prtl, q->particle_list) {
+	prtl->dUdt[X] += q->gravity[X];
+	prtl->dUdt[Y] += q->gravity[Y];
     }
 }
 
 void
- Hydrodynamics::UpdateState()
+UpdateState(struct Hydrodynamics *q)
 {
     struct ListNode *
 	p;
     struct Particle *
 	prtl;
 
-    LOOP_P(prtl, particle_list) {
+    LOOP_P(prtl, q->particle_list) {
 	prtl->p = get_p(prtl->mtl, prtl->rho);
     }
 }
 
 void
- Hydrodynamics::UpdatePahseMatrix(Boundary * boundary)
+UpdatePahseMatrix(struct Hydrodynamics *q, Boundary * boundary)
 {
     struct ListNode *
 	p;
@@ -265,9 +265,10 @@ void
 	prtl;
     int
      i,
-	j;
+	j, number_of_materials;
 
-    LOOP_P(prtl, particle_list) {
+    number_of_materials = q->number_of_materials;
+    LOOP_P(prtl, q->particle_list) {
 	for (i = 0; i < number_of_materials; i++)
 	    for (j = 0; j < number_of_materials; j++) {
 		if (i != j)
@@ -284,7 +285,7 @@ void
 }
 
 void
- Hydrodynamics::UpdateSurfaceStress(Boundary * boundary)
+UpdateSurfaceStress(struct Hydrodynamics *q, Boundary * boundary)
 {
     double
      epsilon = 1.0e-30;
@@ -297,7 +298,7 @@ void
     struct ListNode *
 	p;
 
-    LOOP_P(prtl, particle_list) {
+    LOOP_P(prtl, q->particle_list) {
 	interm0 = 1.0 / (vv_abs(prtl->del_phi) + epsilon);
 	interm1 = 0.5 * vv_sqdiff(prtl->del_phi);
 	interm2 = prtl->del_phi[X] * prtl->del_phi[Y];
@@ -314,7 +315,7 @@ void
 }
 
 double
- Hydrodynamics::GetTimestep()
+GetTimestep(struct Hydrodynamics *q)
 {
     struct Particle *
 	prtl;
@@ -325,25 +326,25 @@ double
     double
      dt;
 
-    LOOP_P(prtl, particle_list) {
+    LOOP_P(prtl, q->particle_list) {
 	Cs_max = AMAX1(Cs_max, prtl->Cs);
 	V_max = AMAX1(V_max, vv_abs(prtl->U));
 	rho_min = AMIN1(rho_min, prtl->rho);
 	rho_max = AMAX1(rho_max, prtl->rho);
     }
-    dt = AMIN1(sqrt(0.5 * (rho_min + rho_max)) * dt_surf, dt_g_vis);
-    return 0.25 * AMIN1(dt, delta / (Cs_max + V_max));
+    dt = AMIN1(sqrt(0.5 * (rho_min + rho_max)) * q->dt_surf, q->dt_g_vis);
+    return 0.25 * AMIN1(dt, q->delta / (Cs_max + V_max));
 }
 
 void
- Hydrodynamics::Predictor_summation(double dt)
+Predictor_summation(struct Hydrodynamics *q, double dt)
 {
     struct ListNode *
 	p;
     struct Particle *
 	prtl;
 
-    LOOP_P(prtl, particle_list) {
+    LOOP_P(prtl, q->particle_list) {
 	prtl->R_I[X] = prtl->R[X];
 	prtl->R_I[Y] = prtl->R[Y];
 	prtl->U[X] += prtl->_dU[X];
@@ -362,14 +363,14 @@ void
 }
 
 void
- Hydrodynamics::Corrector_summation(double dt)
+Corrector_summation(struct Hydrodynamics *q, double dt)
 {
     struct ListNode *
 	p;
     struct Particle *
 	prtl;
 
-    LOOP_P(prtl, particle_list) {
+    LOOP_P(prtl, q->particle_list) {
 	prtl->U[X] += prtl->_dU[X];
 	prtl->U[Y] += prtl->_dU[Y];
 	prtl->R[X] = prtl->R_I[X] + prtl->U[X] * dt;
@@ -380,14 +381,14 @@ void
 }
 
 void
- Hydrodynamics::RandomEffects()
+RandomEffects(struct Hydrodynamics *q)
 {
     struct ListNode *
 	p;
     struct Particle *
 	prtl;
 
-    LOOP_P(prtl, particle_list) {
+    LOOP_P(prtl, q->particle_list) {
 	prtl->U[X] = prtl->U[X] + prtl->_dU[X];
 	prtl->U[Y] = prtl->U[Y] + prtl->_dU[Y];
     }

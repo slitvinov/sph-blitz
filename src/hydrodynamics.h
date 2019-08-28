@@ -23,23 +23,22 @@ struct Hydrodynamics {
     struct List *particle_list;
      Hydrodynamics(Initiation *);
     ~Hydrodynamics();
-    double GetTimestep();
-    void AddGravity();
-    void Corrector_summation(double dt);
-    void Predictor_summation(double dt);
-    void RandomEffects();
-    void UpdateChangeRate();
-    void UpdateDensity();
-    void UpdatePahseMatrix(struct Boundary *);
-    void UpdatePair(struct QuinticSpline *);
-    void UpdatePhaseGradient(struct Boundary *);
-    void UpdateRandom(double sqrtdt);
-    void UpdateState();
-    void UpdateSurfaceStress(struct Boundary *);
-    void ZeroChangeRate();
-    void Zero_density();
 };
 
 void Zero_PhaseGradient(struct Hydrodynamics*, struct Boundary*);
 void Zero_Random(struct Hydrodynamics*);
-
+double GetTimestep(struct Hydrodynamics*);
+void AddGravity(struct Hydrodynamics*);
+void Corrector_summation(struct Hydrodynamics*, double dt);
+void Predictor_summation(struct Hydrodynamics*, double dt);
+void RandomEffects(struct Hydrodynamics*);
+void UpdateChangeRate(struct Hydrodynamics*);
+void UpdateDensity(struct Hydrodynamics*);
+void UpdatePahseMatrix(struct Hydrodynamics*, struct Boundary *);
+void UpdatePair(struct Hydrodynamics*, struct QuinticSpline *);
+void UpdatePhaseGradient(struct Hydrodynamics*, struct Boundary *);
+void UpdateRandom(struct Hydrodynamics*, double sqrtdt);
+void UpdateState(struct Hydrodynamics*);
+void UpdateSurfaceStress(struct Hydrodynamics*, struct Boundary *);
+void ZeroChangeRate(struct Hydrodynamics*);
+void Zero_density(struct Hydrodynamics*);
