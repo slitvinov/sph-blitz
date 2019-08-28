@@ -1,6 +1,7 @@
 struct Initiation;
 struct Particle;
 struct QuinticSpline;
+struct List;
 struct MLS {
     int N;
     int MLS_MAX;
