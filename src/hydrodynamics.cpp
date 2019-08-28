@@ -122,7 +122,7 @@ void
     struct Interaction *
 	pair;
 
-    Zero_PhaseGradient(boundary);
+    Zero_PhaseGradient(this, boundary);
     ILOOP_P(pair, interaction_list) {
 	SummationPhaseGradient(pair);
     }
@@ -201,15 +201,14 @@ void
     }
 }
 
-void
- Hydrodynamics::Zero_PhaseGradient(Boundary * boundary)
+void Zero_PhaseGradient(struct Hydrodynamics *q, Boundary * boundary)
 {
     struct ListNode *
 	p;
     struct Particle *
 	prtl;
 
-    LOOP_P(prtl, particle_list) {
+    LOOP_P(prtl, q->particle_list) {
 	prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
     }
     LOOP_P(prtl, boundary->b) {

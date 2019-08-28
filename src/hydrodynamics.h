@@ -38,7 +38,8 @@ struct Hydrodynamics {
     void UpdateSurfaceStress(struct Boundary *);
     void ZeroChangeRate();
     void Zero_density();
-    void Zero_PhaseGradient(struct Boundary *);
 };
 
+void Zero_PhaseGradient(struct Hydrodynamics*, struct Boundary*);
 void Zero_Random(struct Hydrodynamics*);
+
