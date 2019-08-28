@@ -14,12 +14,12 @@
 #include "particle.h"
 #include "quinticspline.h"
 #include "vv.h"
-#include "hydrodynamics.h"
+#include "hydro.h"
 
 enum { X, Y };
 
-struct Hydrodynamics *
-hydrodynamics_ini(struct Ini *ini)
+struct Hydro *
+hydro_ini(struct Ini *ini)
 {
     int k, m;
     int l, n;
@@ -29,7 +29,7 @@ hydrodynamics_ini(struct Ini *ini)
     FILE *f;
     struct Material *mtl;
     struct Force *force;
-    struct Hydrodynamics *q;
+    struct Hydro *q;
 
     q = malloc(sizeof(*q));
     if (q == NULL)
@@ -111,7 +111,7 @@ hydrodynamics_ini(struct Ini *ini)
 }
 
 void
-UpdatePair(struct Hydrodynamics *q, struct QuinticSpline *weight_function)
+UpdatePair(struct Hydro *q, struct QuinticSpline *weight_function)
 {
     struct ListNode *p;
     struct Pair *pair;
@@ -122,7 +122,7 @@ UpdatePair(struct Hydrodynamics *q, struct QuinticSpline *weight_function)
 }
 
 void
-UpdatePhaseGradient(struct Hydrodynamics *q, struct Boundary *boundary)
+UpdatePhaseGradient(struct Hydro *q, struct Boundary *boundary)
 {
     struct ListNode *p;
     struct Pair *pair;
@@ -134,7 +134,7 @@ UpdatePhaseGradient(struct Hydrodynamics *q, struct Boundary *boundary)
 }
 
 void
-UpdateDensity(struct Hydrodynamics *q)
+UpdateDensity(struct Hydro *q)
 {
     struct ListNode *p;
     struct Pair *pair;
@@ -147,7 +147,7 @@ UpdateDensity(struct Hydrodynamics *q)
 }
 
 void
-UpdateChangeRate(struct Hydrodynamics *q)
+UpdateChangeRate(struct Hydro *q)
 {
     struct ListNode *p;
     struct Pair *pair;
@@ -160,7 +160,7 @@ UpdateChangeRate(struct Hydrodynamics *q)
 }
 
 void
-UpdateRandom(struct Hydrodynamics *q, double sqrtdt)
+UpdateRandom(struct Hydro *q, double sqrtdt)
 {
     struct ListNode *p;
     struct Pair *pair;
@@ -172,7 +172,7 @@ UpdateRandom(struct Hydrodynamics *q, double sqrtdt)
 }
 
 void
-ZeroChangeRate(struct Hydrodynamics *q)
+ZeroChangeRate(struct Hydro *q)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -186,7 +186,7 @@ ZeroChangeRate(struct Hydrodynamics *q)
 }
 
 void
-Zero_density(struct Hydrodynamics *q)
+Zero_density(struct Hydro *q)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -197,7 +197,7 @@ Zero_density(struct Hydrodynamics *q)
 }
 
 void
-Zero_PhaseGradient(struct Hydrodynamics *q, struct Boundary *boundary)
+Zero_PhaseGradient(struct Hydro *q, struct Boundary *boundary)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -211,7 +211,7 @@ Zero_PhaseGradient(struct Hydrodynamics *q, struct Boundary *boundary)
 }
 
 void
-Zero_Random(struct Hydrodynamics *q)
+Zero_Random(struct Hydro *q)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -222,7 +222,7 @@ Zero_Random(struct Hydrodynamics *q)
 }
 
 void
-AddGravity(struct Hydrodynamics *q)
+AddGravity(struct Hydro *q)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -234,7 +234,7 @@ AddGravity(struct Hydrodynamics *q)
 }
 
 void
-UpdateState(struct Hydrodynamics *q)
+UpdateState(struct Hydro *q)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -245,7 +245,7 @@ UpdateState(struct Hydrodynamics *q)
 }
 
 void
-UpdatePahseMatrix(struct Hydrodynamics *q, struct Boundary *boundary)
+UpdatePahseMatrix(struct Hydro *q, struct Boundary *boundary)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -270,7 +270,7 @@ UpdatePahseMatrix(struct Hydrodynamics *q, struct Boundary *boundary)
 }
 
 void
-UpdateSurfaceStress(struct Hydrodynamics *q, struct Boundary *boundary)
+UpdateSurfaceStress(struct Hydro *q, struct Boundary *boundary)
 {
     double
      epsilon = 1.0e-30;
@@ -296,7 +296,7 @@ UpdateSurfaceStress(struct Hydrodynamics *q, struct Boundary *boundary)
 }
 
 double
-GetTimestep(struct Hydrodynamics *q)
+GetTimestep(struct Hydro *q)
 {
     struct Particle *prtl;
     struct ListNode *p;
@@ -316,7 +316,7 @@ GetTimestep(struct Hydrodynamics *q)
 }
 
 void
-Predictor_summation(struct Hydrodynamics *q, double dt)
+Predictor_summation(struct Hydro *q, double dt)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -340,7 +340,7 @@ Predictor_summation(struct Hydrodynamics *q, double dt)
 }
 
 void
-Corrector_summation(struct Hydrodynamics *q, double dt)
+Corrector_summation(struct Hydro *q, double dt)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -356,7 +356,7 @@ Corrector_summation(struct Hydrodynamics *q, double dt)
 }
 
 void
-RandomEffects(struct Hydrodynamics *q)
+RandomEffects(struct Hydro *q)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -368,7 +368,7 @@ RandomEffects(struct Hydrodynamics *q)
 }
 
 void
-hydrodynamics_fin(struct Hydrodynamics *q)
+hydro_fin(struct Hydro *q)
 {
     int i;
 

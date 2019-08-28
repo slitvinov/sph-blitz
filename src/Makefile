@@ -8,7 +8,7 @@ boundary.o\
 diagnose.o\
 err.o\
 glbfunc.o\
-hydrodynamics.o\
+hydro.o\
 ini.o\
 pair.o\
 list.o\

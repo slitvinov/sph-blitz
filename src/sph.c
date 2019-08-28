@@ -9,7 +9,7 @@
 #include "ini.h"
 #include "pair.h"
 #include "manager.h"
-#include "hydrodynamics.h"
+#include "hydro.h"
 #include "boundary.h"
 #include "volume.h"
 #include "wiener.h"
@@ -30,7 +30,7 @@ main(int argc, char *argv[])
     struct MLS *mls;
     struct Output *output;
     struct QuinticSpline weight_function;
-    struct Hydrodynamics *hydro;
+    struct Hydro *hydro;
 
     if (argc < 2)
 	ERR(2, ("no project name specified"));
@@ -43,7 +43,7 @@ main(int argc, char *argv[])
     quinticspline_ini(ini.smoothinglength, &weight_function);
     mls = mls_ini(ini.MLS_MAX);
     particles = manager_ini(&ini);
-    hydro = hydrodynamics_ini(&ini);
+    hydro = hydro_ini(&ini);
 
     manager_build_particles(particles, hydro->materials,
 			    hydro->particle_list, &ini);
@@ -82,6 +82,6 @@ main(int argc, char *argv[])
     mls_fin(mls);
     output_fin(output);
     diag_fin(diagnose);
-    hydrodynamics_fin(hydro);
+    hydro_fin(hydro);
     return 0;
 }

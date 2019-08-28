@@ -3,13 +3,13 @@
 #include "particle.h"
 #include "diagnose.h"
 #include "ini.h"
-#include "hydrodynamics.h"
+#include "hydro.h"
 #include "boundary.h"
 #include "manager.h"
 #include "step.h"
 
 void
-step(int *pite, struct Hydrodynamics *hydro, struct Manager *particles,
+step(int *pite, struct Hydro *hydro, struct Manager *particles,
      struct Boundary *boundary, double *Time, double D_time,
      struct Diagnose *diagnose, struct Ini *ini,
      struct QuinticSpline *weight_function, struct MLS *mls)
