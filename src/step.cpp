@@ -21,7 +21,7 @@ step(int *pite, Hydrodynamics * hydro, Manager * particles,
 
     integeral_time = 0;
     while (integeral_time < D_time) {
-	dt = hydro->GetTimestep();
+	dt = GetTimestep(hydro);
 	ite++;
 	integeral_time += dt;
 	*Time += dt;
@@ -37,24 +37,24 @@ step(int *pite, Hydrodynamics * hydro, Manager * particles,
 	manager_build_interaction(particles, hydro->interaction_list,
 				  hydro->particle_list, hydro->forces,
 				  weight_function);
-	hydro->UpdateDensity();
+	UpdateDensity(hydro);
 	boundary_condition(boundary, particles->cell_lists);
-	hydro->UpdatePhaseGradient(boundary);
+	UpdatePhaseGradient(hydro, boundary);
 	boundary_condition(boundary, particles->cell_lists);
-	hydro->UpdateSurfaceStress(boundary);
-	hydro->UpdateChangeRate();
-	hydro->Predictor_summation(dt);
+	UpdateSurfaceStress(hydro, boundary);
+	UpdateChangeRate(hydro);
+	Predictor_summation(hydro, dt);
 	boundary_condition(boundary, particles->cell_lists);
-	hydro->UpdatePair(weight_function);
-	hydro->UpdateDensity();
+	UpdatePair(hydro, weight_function);
+	UpdateDensity(hydro);
 	boundary_condition(boundary, particles->cell_lists);
-	hydro->UpdatePhaseGradient(boundary);
+	UpdatePhaseGradient(hydro, boundary);
 	boundary_condition(boundary, particles->cell_lists);
-	hydro->UpdateSurfaceStress(boundary);
-	hydro->UpdateChangeRate();
-	hydro->UpdateRandom(sqrt(dt));
-	hydro->Corrector_summation(dt);
-	hydro->RandomEffects();
+	UpdateSurfaceStress(hydro, boundary);
+	UpdateChangeRate(hydro);
+	UpdateRandom(hydro, sqrt(dt));
+	Corrector_summation(hydro, dt);
+	RandomEffects(hydro);
 	boundary_check(boundary, hydro->particle_list);
 	manager_update_list(particles);
 	boundary_build(boundary, particles->cell_lists, hydro->materials);
