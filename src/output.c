@@ -88,7 +88,7 @@ output_particles(struct Output *q, struct List *particle_list,
 }
 
 int
-output_states(struct Output *q, struct Manager *particles, struct MLS *mls,
+output_states(struct Output *q, struct Manager *manager, struct MLS *mls,
 	      struct Kernel *kernel, double Time)
 {
     FILE *f;
@@ -128,9 +128,9 @@ output_states(struct Output *q, struct Manager *particles, struct MLS *mls,
 	for (i = 0; i <= gridx; i++) {
 	    pstn[0] = i * delta;
 	    pstn[1] = j * delta;
-	    manager_build_nnp(particles, pstn);
-	    if (!list_empty(particles->NNP_list))
-		mls_map(mls, pstn, particles->NNP_list, kernel,
+	    manager_build_nnp(manager, pstn);
+	    if (!list_empty(manager->NNP_list))
+		mls_map(mls, pstn, manager->NNP_list, kernel,
 			1);
 	    n = 0;
 	    rho = 0.0;
@@ -139,7 +139,7 @@ output_states(struct Output *q, struct Manager *particles, struct MLS *mls,
 	    Temperature = 0.0;
 	    x_velocity = 0.0;
 	    y_velocity = 0.0;
-	    LOOP_P(prtl, particles->NNP_list) {
+	    LOOP_P(prtl, manager->NNP_list) {
 		rho += prtl->rho * mls->phi[n];
 		phi += prtl->phi[2][2] * mls->phi[n];
 		pressure += prtl->p * mls->phi[n];
@@ -148,7 +148,7 @@ output_states(struct Output *q, struct Manager *particles, struct MLS *mls,
 		y_velocity += prtl->U[1] * mls->phi[n];
 		n++;
 	    }
-	    list_clear(particles->NNP_list);
+	    list_clear(manager->NNP_list);
 	    fprintf(f, "%.6g %.6g, %.6g %.6g, %.6g %.6g, %.6g %.6g\n",
 		    pstn[0], pstn[1], pressure, rho, phi, x_velocity,
 		    y_velocity, Temperature);

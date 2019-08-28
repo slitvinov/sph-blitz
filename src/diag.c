@@ -187,7 +187,7 @@ BuildDistribution(struct List *list, double dstrb[2][101])
 }
 
 int
-Average(struct Diag *q, struct Manager *particles, struct MLS *mls,
+Average(struct Diag *q, struct Manager *manager, struct MLS *mls,
 	struct Kernel *kernel)
 {
     int i, j, n;
@@ -204,9 +204,9 @@ Average(struct Diag *q, struct Manager *particles, struct MLS *mls,
 	for (i = 0; i < q->gridx; i++) {
 	    pstn[0] = i * q->delta;
 	    pstn[1] = j * q->delta;
-	    manager_build_nnp(particles, pstn);
-	    if (list_empty(particles->NNP_list))
-		mls_map(mls, pstn, particles->NNP_list, kernel,
+	    manager_build_nnp(manager, pstn);
+	    if (list_empty(manager->NNP_list))
+		mls_map(mls, pstn, manager->NNP_list, kernel,
 			1);
 	    n = 0;
 	    rho = 0.0;
@@ -214,7 +214,7 @@ Average(struct Diag *q, struct Manager *particles, struct MLS *mls,
 	    Temperature = 0.0;
 	    x_velocity = 0.0;
 	    y_velocity = 0.0;
-	    LOOP_P(prtl, particles->NNP_list) {
+	    LOOP_P(prtl, manager->NNP_list) {
 		rho += prtl->rho * mls->phi[n];
 		pressure += prtl->p * mls->phi[n];
 		Temperature += prtl->T * mls->phi[n];
@@ -222,7 +222,7 @@ Average(struct Diag *q, struct Manager *particles, struct MLS *mls,
 		y_velocity += prtl->U[1] * mls->phi[n];
 		n++;
 	    }
-	    list_clear(particles->NNP_list);
+	    list_clear(manager->NNP_list);
 	    m_n_average = (double) (q->n_average) - 1.0;
 	    r_n_average = 1.0 / (double) (q->n_average);
 

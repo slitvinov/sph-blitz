@@ -11,7 +11,7 @@
 
 
 void
-VolumeMass(struct List *particle_list, struct Manager *particles,
+VolumeMass(struct List *particle_list, struct Manager *manager,
 	   struct Kernel *kernel)
 {
     enum { X, Y };
@@ -21,15 +21,15 @@ VolumeMass(struct List *particle_list, struct Manager *particles,
     struct Particle *prtl_org, *prtl_dest;
 
     LOOP_P(prtl_org, particle_list) {
-	manager_build_nnp(particles, prtl_org->R);
+	manager_build_nnp(manager, prtl_org->R);
 	reciprocV = 0.0;
-	LOOP1_P(prtl_dest, particles->NNP_list) {
+	LOOP1_P(prtl_dest, manager->NNP_list) {
 	    dstc = vv_distance(prtl_org->R, prtl_dest->R);
 	    reciprocV += w(kernel, dstc);
 	}
 	reciprocV = 1.0 / reciprocV;
 	prtl_org->V = reciprocV;
 	prtl_org->m = prtl_org->rho * reciprocV;
-	list_clear(particles->NNP_list);
+	list_clear(manager->NNP_list);
     }
 }
