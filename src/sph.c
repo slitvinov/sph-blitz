@@ -28,7 +28,7 @@ main(int argc, char *argv[])
     struct Hydro *hydro;
     struct Ini ini;
     struct Kernel kernel;
-    struct Manager *particles;
+    struct Manager *manager;
     struct MLS *mls;
     struct Output *output;
 
@@ -42,22 +42,22 @@ main(int argc, char *argv[])
     particle_ID_max = 0;
     kernel_ini(ini.smoothinglength, &kernel);
     mls = mls_ini(ini.MLS_MAX);
-    particles = manager_ini(&ini);
+    manager = manager_ini(&ini);
     hydro = hydro_ini(&ini);
 
-    manager_build_particles(particles, hydro->materials,
+    manager_build_particles(manager, hydro->materials,
 			    hydro->particle_list, &ini);
     boundary = boundary_ini(&ini);
-    boundary_build(boundary, particles->cell_lists, hydro->materials);
+    boundary_build(boundary, manager->cell_lists, hydro->materials);
     output = output_ini(&ini);
-    VolumeMass(hydro->particle_list, particles, &kernel);
-    boundary_condition(boundary, particles->cell_lists);
+    VolumeMass(hydro->particle_list, manager, &kernel);
+    boundary_condition(boundary, manager->cell_lists);
     diag = diag_ini(&ini, hydro->particle_list, hydro->materials);
 
     Time = ini.Start_time;
     output_particles(output, hydro->particle_list, hydro->materials,
 		     boundary, Time);
-    output_states(output, particles, mls, &kernel, Time);
+    output_states(output, manager, mls, &kernel, Time);
     if (ini.diag == 2)
 	KineticInformation(diag, Time, hydro->particle_list,
 			   hydro->materials);
@@ -66,7 +66,7 @@ main(int argc, char *argv[])
     while (Time < ini.End_time) {
 	if (Time + ini.D_time >= ini.End_time)
 	    ini.D_time = ini.End_time - Time;
-	step(&ite, hydro, particles, boundary, &Time, ini.D_time,
+	step(&ite, hydro, manager, boundary, &Time, ini.D_time,
 	     diag, &ini, &kernel, mls);
 	output_particles(output, hydro->particle_list, hydro->materials,
 			 boundary, Time);
@@ -78,7 +78,7 @@ main(int argc, char *argv[])
     }
 
     boundary_fin(boundary);
-    manager_fin(particles);
+    manager_fin(manager);
     mls_fin(mls);
     output_fin(output);
     diag_fin(diag);

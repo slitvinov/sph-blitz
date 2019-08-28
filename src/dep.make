@@ -98,6 +98,7 @@ sph.o: inc/particle.h
 sph.o: inc/step.h
 sph.o: inc/volume.h
 sph.o: inc/wiener.h
+step.o: inc/boundary.h
 step.o: inc/diag.h
 step.o: inc/hydro.h
 step.o: inc/ini.h

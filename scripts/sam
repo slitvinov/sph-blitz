@@ -1,0 +1,5 @@
+#!/u/9/plan9port/bin/ssam -f
+, x/[A-Za-z_][A-Za-z_0-9]*/ g/particles/ v/........../ c/manager
+,p
+,d
+
