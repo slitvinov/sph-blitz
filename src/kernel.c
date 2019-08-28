@@ -38,22 +38,23 @@ w(struct Kernel *q, double distance)
 }
 
 double
-F(struct Kernel *q, double distance)
+F(struct Kernel *q, double r)
 {
-    double normedDist = 3.0 * distance * q->reciprocH;
-    double ss3 = (3.0 - normedDist);
-    double ss2 = (2.0 - normedDist);
-    double ss1 = (1.0 - normedDist);
+    double a, b, c, d;
+    d = 3.0 * r * q->reciprocH;
+    a = (3.0 - d);
+    b = (2.0 - d);
+    c = (1.0 - d);
 
-    if (normedDist < 1.0) {
-	return q->factorGradW * (ss3 * ss3 * ss3 * ss3 -
-				 6.0 * ss2 * ss2 * ss2 * ss2 +
-				 15.0 * ss1 * ss1 * ss1 * ss1);
-    } else if (normedDist < 2.0) {
-	return q->factorGradW * (ss3 * ss3 * ss3 * ss3 -
-				 6.0 * ss2 * ss2 * ss2 * ss2);
-    } else if (normedDist < 3.0) {
-	return q->factorGradW * ss3 * ss3 * ss3 * ss3;
+    if (d < 1.0) {
+	return q->factorGradW * (a * a * a * a -
+				 6.0 * b * b * b * b +
+				 15.0 * c * c * c * c);
+    } else if (d < 2.0) {
+	return q->factorGradW * (a * a * a * a -
+				 6.0 * b * b * b * b);
+    } else if (d < 3.0) {
+	return q->factorGradW * a * a * a * a;
     } else {
 	return 0.0;
     }
