@@ -3,7 +3,7 @@ struct Boundary;
 struct Manager;
 struct MLS;
 struct Output {
-    char Project_name[25];
+    char Project_name[FILENAME_MAX];
     double delta;
     int x_cells;
     int y_cells;
