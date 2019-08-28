@@ -22,4 +22,4 @@ struct Ini {
     double T0;
     int MLS_MAX;
 };
-int initiation_ini(const char *, struct Ini *);
+int initiation_ini(char *, struct Ini *);

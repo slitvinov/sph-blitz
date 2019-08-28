@@ -1,7 +1,7 @@
 #include <tgmath.h>
 #include "kernel.h"
 
-static const double pi = 3.141592653589793;
+static double pi = 3.141592653589793;
 int
 kernel_ini(double smoothingLength, struct Kernel *q)
 {
