@@ -34,6 +34,7 @@ int
 kernel_fin(struct Kernel *q)
 {
     free(q);
+    return 0;
 }
 
 double
