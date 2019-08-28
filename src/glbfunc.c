@@ -76,9 +76,3 @@ SymmetricInverse3x3(double *M)
     M[XY] = M[YX] = z6;
     return 1;
 }
-
-double
-sq(double a)
-{
-    return a * a;
-}
