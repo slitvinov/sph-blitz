@@ -2,5 +2,5 @@
 c=/tmp/ellipse.$$.cfg r=/tmp/ellipse.$$.rst
 cp cases/ellipse.cfg $c
 cp cases/ellipse.rst $r
-src/sph /tmp/ellipse.$$
+src/main /tmp/ellipse.$$
 cp outdata/p.0001020312.dat p.out.dat

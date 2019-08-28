@@ -2,7 +2,7 @@
 LINK = $(CC)
 CFLAGS = -g -O2
 
-M = sph
+M = main
 O = \
 boundary.o\
 diag.o\
@@ -18,7 +18,7 @@ mls.o\
 output.o\
 particle.o\
 kernel.o\
-sph.o\
+main.o\
 step.o\
 volume.o\
 vv.o\

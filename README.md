@@ -88,11 +88,11 @@ type code
 
 Couette flow simulation
 
-	./sph ../cases/couette
+	./main ../cases/couette
 
 Water drop in air starting from [initial condition file](cases/ellipse.cfg)
 
-	./sph ../cases/ellipse
+	./main ../cases/ellipse
 
 # Output
 
