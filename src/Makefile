@@ -1,6 +1,8 @@
 .POSIX:
 LINK = $(CC)
 CFLAGS = -g -O2
+AR = ar
+RANLIB = ranlib
 
 M = main
 O = \
@@ -18,13 +20,12 @@ mls.o\
 output.o\
 particle.o\
 kernel.o\
-main.o\
 step.o\
 volume.o\
 vv.o\
 wiener.o\
 
-$M: $O; $(LINK) $O $(LDFLAGS) -lm -o $@
+$M: $M.o $O; $(LINK) $^ $(LDFLAGS) -lm -o $@
 .c.o:; $(CC) $(CFLAGS) -Iinc $< -c -o $@
 dep:; ../scripts/dep
 test: $M; cd ..; atest test/*
