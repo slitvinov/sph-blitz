@@ -27,7 +27,7 @@ kernel_ini(double smoothingLength)
     q->reciprocH = 1.0 / smoothingLength;
     q->factorW = norm * pow(q->reciprocH, 2);
     q->factorGradW = 15.0 * norm * pow(q->reciprocH, 3);
-    return 0;
+    return q;
 }
 
 int
