@@ -37,23 +37,23 @@ kernel_fin(struct Kernel *q)
 }
 
 double
-w(struct Kernel *q, double distance)
+w(struct Kernel *q, double r)
 {
-    double normedDist = 3.0 * distance * q->reciprocH;
-    double ss3, ss2, ss1;
+    double d = 3.0 * r * q->reciprocH;
+    double a, b, c;
 
-    ss3 = (3.0 - normedDist);
-    ss2 = (2.0 - normedDist);
-    ss1 = (1.0 - normedDist);
-    if (normedDist < 1.0) {
-	return q->factorW * (ss3 * ss3 * ss3 * ss3 * ss3 -
-			     6.0 * ss2 * ss2 * ss2 * ss2 * ss2 +
-			     15.0 * ss1 * ss1 * ss1 * ss1 * ss1);
-    } else if (normedDist < 2.0) {
-	return q->factorW * (ss3 * ss3 * ss3 * ss3 * ss3 -
-			     6.0 * ss2 * ss2 * ss2 * ss2 * ss2);
-    } else if (normedDist < 3.0) {
-	return q->factorW * ss3 * ss3 * ss3 * ss3 * ss3;
+    a = (3.0 - d);
+    b = (2.0 - d);
+    c = (1.0 - d);
+    if (d < 1.0) {
+	return q->factorW * (a * a * a * a * a -
+			     6.0 * b * b * b * b * b +
+			     15.0 * c * c * c * c * c);
+    } else if (d < 2.0) {
+	return q->factorW * (a * a * a * a * a -
+			     6.0 * b * b * b * b * b);
+    } else if (d < 3.0) {
+	return q->factorW * a * a * a * a * a;
     } else {
 	return 0.0;
     }
