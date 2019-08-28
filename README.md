@@ -15,7 +15,7 @@ Martin Bernreuther, Andreas Mattes)
 
 # Configuration file
 
-To use initial condition file
+To use the initial condition file
 
 	INITIAL_CONDITION <1/0>
 
@@ -90,7 +90,7 @@ Couette flow simulation
 
 	./main ../cases/couette
 
-Water drop in air starting from [initial condition file](cases/ellipse.cfg)
+Water drop in air starting from [an initial condition file](cases/ellipse.cfg)
 
 	./main ../cases/ellipse
 
