@@ -24,10 +24,10 @@ volume.o\
 vv.o\
 wiener.o\
 
-$M: $O; $(LINK) $O $(LDFLAGS) -o $@
+$M: $O; $(LINK) $O $(LDFLAGS) -lm -o $@
 .c.o:; $(CC) $(CFLAGS) $< -c -o $@
 dep:; ../scripts/dep
-test: sph; cd ..; atest test/*
+test: $M; cd ..; atest test/*
 lint:; make CFLAGS='-g -Wall -Wextra -pedantic'
 
 .PHONY: clean dep test lint

@@ -353,9 +353,9 @@ diag_fin(struct Diagnose *q)
 	free(d);
     DLOOP_P(d, q->rho_list)
 	free(d);
-    list_clear(q->vx_list);
-    list_clear(q->vy_list);
-    list_clear(q->rho_list);
+    list_fin(q->vx_list);
+    list_fin(q->vy_list);
+    list_fin(q->rho_list);
     free(q);
     return 0;
 }
