@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <sph/glbfunc.h>
 enum { n = 3 };
+
 int
 main()
 {

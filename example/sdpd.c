@@ -1,23 +1,32 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "sph/err.h"
+#include "sph/boundary.h"
+#include "sph/diag.h"
+#include "sph/hydro.h"
+#include "sph/ini.h"
+#include "sph/kernel.h"
+#include "sph/manager.h"
+#include "sph/material.h"
+#include "sph/mls.h"
+#include "sph/output.h"
+#include "sph/pair.h"
 #include "sph/particle.h"
 #include "sph/step.h"
-#include "sph/mls.h"
-#include "sph/diag.h"
-#include "sph/output.h"
-#include "sph/kernel.h"
-#include "sph/ini.h"
-#include "sph/pair.h"
-#include "sph/manager.h"
-#include "sph/hydro.h"
-#include "sph/boundary.h"
 #include "sph/volume.h"
 #include "sph/wiener.h"
-#include "sph/material.h"
 extern double pair_art_vis;
 extern double pair_delta;
 extern long particle_ID_max;
 extern int particle_number_of_materials;
+
+double
+F(struct Kernel *q, double r)
+{
+    abort();
+    return 0;
+}
+
 int
 main(int argc, char *argv[])
 {
