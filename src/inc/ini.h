@@ -3,7 +3,7 @@ struct Ini {
     int number_of_materials;
     char inputfile[FILENAME_MAX];
     int initial_condition;
-    int diagnose;
+    int diag;
     double art_vis;
     double smoothinglength;
     double box_size[2];

@@ -13,9 +13,9 @@
 #include "vv.h"
 #include "macro.h"
 #include "err.h"
-#include "diagnose.h"
+#include "diag.h"
 
-struct Diagnose *
+struct Diag *
 diag_ini(struct Ini *ini, struct List *particle_list,
 	 struct Material *materials)
 {
@@ -25,9 +25,9 @@ diag_ini(struct Ini *ini, struct List *particle_list,
     struct Particle *prtl;
     FILE *f;
     int number_of_materials;
-    struct Diagnose *q;
+    struct Diag *q;
 
-    q = malloc(sizeof(struct Diagnose));
+    q = malloc(sizeof(struct Diag));
     if (q == NULL)
 	ABORT(("can't alloc"));
 
@@ -57,7 +57,7 @@ diag_ini(struct Ini *ini, struct List *particle_list,
 	    for (l = 0; l < q->gridy; l++)
 		q->U[k][m][l] = 0.0;
     q->n_average = 0;
-    if (ini->diagnose == 2) {
+    if (ini->diag == 2) {
 	q->mtl_m =
 	    malloc(number_of_materials * sizeof(*q->mtl_m));
 	q->wght_cntr =
@@ -96,7 +96,7 @@ diag_ini(struct Ini *ini, struct List *particle_list,
 }
 
 int
-SaveStates(struct Diagnose *q, struct List *particle_list)
+SaveStates(struct Diag *q, struct List *particle_list)
 {
     int k;
     struct ListNode *p;
@@ -122,7 +122,7 @@ SaveStates(struct Diagnose *q, struct List *particle_list)
 }
 
 int
-OutputProfile(struct Diagnose *q, double Time)
+OutputProfile(struct Diag *q, double Time)
 {
     int k, m;
     double Itime;
@@ -187,7 +187,7 @@ BuildDistribution(struct List *list, double dstrb[2][101])
 }
 
 int
-Average(struct Diagnose *q, struct Manager *particles, struct MLS *mls,
+Average(struct Diag *q, struct Manager *particles, struct MLS *mls,
 	struct Kernel *kernel)
 {
     int i, j, n;
@@ -241,7 +241,7 @@ Average(struct Diagnose *q, struct Manager *particles, struct MLS *mls,
 }
 
 int
-OutputAverage(struct Diagnose *q, double Time)
+OutputAverage(struct Diag *q, double Time)
 {
     int i, j;
     double pstn[2];
@@ -278,7 +278,7 @@ OutputAverage(struct Diagnose *q, double Time)
 }
 
 int
-KineticInformation(struct Diagnose *q, double Time,
+KineticInformation(struct Diag *q, double Time,
 		   struct List *particle_list, struct Material *materials)
 {
     enum { X, Y };
@@ -325,7 +325,7 @@ KineticInformation(struct Diagnose *q, double Time,
 }
 
 int
-diag_fin(struct Diagnose *q)
+diag_fin(struct Diag *q)
 {
     int k, l;
     int gridx;

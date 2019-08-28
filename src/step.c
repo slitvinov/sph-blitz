@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-#include "particle.h"
-#include "diagnose.h"
+#include "diag.h"
 #include "ini.h"
 #include "hydro.h"
 #include "boundary.h"
@@ -11,7 +10,7 @@
 void
 step(int *pite, struct Hydro *hydro, struct Manager *particles,
      struct Boundary *boundary, double *Time, double D_time,
-     struct Diagnose *diagnose, struct Ini *ini,
+     struct Diag *diag, struct Ini *ini,
      struct Kernel *kernel, struct MLS *mls)
 {
     double integeral_time;
@@ -28,12 +27,12 @@ step(int *pite, struct Hydro *hydro, struct Manager *particles,
 	*Time += dt;
 	if (ite % 10 == 0)
 	    printf("N=%d Time: %g	dt: %g\n", ite, *Time, dt);
-	if (ini->diagnose == 1) {
-	    SaveStates(diagnose, hydro->particle_list);
-	    Average(diagnose, particles, mls, kernel);
+	if (ini->diag == 1) {
+	    SaveStates(diag, hydro->particle_list);
+	    Average(diag, particles, mls, kernel);
 	}
-	if (ini->diagnose == 2 && ite % 10 == 0)
-	    KineticInformation(diagnose, *Time, hydro->particle_list,
+	if (ini->diag == 2 && ite % 10 == 0)
+	    KineticInformation(diag, *Time, hydro->particle_list,
 			       hydro->materials);
 	manager_build_pair(particles, hydro->pair_list,
 				  hydro->particle_list, hydro->forces,

@@ -4,7 +4,8 @@ struct MLS;
 struct Kernel;
 struct Boundary;
 struct List;
-struct Diagnose {
+struct Material;
+struct Diag {
     double delta;
     double glb_ave_Ek;
     double *mtl_m;
@@ -25,15 +26,15 @@ struct Diagnose {
     struct List *vy_list;
 };
 
-int Average(struct Diagnose *, struct Manager *, struct MLS *,
+int Average(struct Diag *, struct Manager *, struct MLS *,
 	    struct Kernel *);
 int BuildDistribution(struct List *, double dstrb[2][101]);
-int KineticInformation(struct Diagnose *, double Time, struct List *,
+int KineticInformation(struct Diag *, double Time, struct List *,
 		       struct Material *);
-int OutputAverage(struct Diagnose *, double Time);
-int OutputProfile(struct Diagnose *, double Time);
-int SaveStates(struct Diagnose *, struct List *);
+int OutputAverage(struct Diag *, double Time);
+int OutputProfile(struct Diag *, double Time);
+int SaveStates(struct Diag *, struct List *);
 
-struct Diagnose *diag_ini(struct Ini *, struct List *,
+struct Diag *diag_ini(struct Ini *, struct List *,
 			  struct Material *);
-int diag_fin(struct Diagnose *);
+int diag_fin(struct Diag *);

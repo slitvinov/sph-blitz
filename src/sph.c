@@ -3,7 +3,7 @@
 #include "particle.h"
 #include "step.h"
 #include "mls.h"
-#include "diagnose.h"
+#include "diag.h"
 #include "output.h"
 #include "kernel.h"
 #include "ini.h"
@@ -21,16 +21,16 @@ extern int particle_number_of_materials;
 int
 main(int argc, char *argv[])
 {
-    struct Boundary *boundary;
     double Time;
-    struct Ini ini;
     int ite;
-    struct Diagnose *diagnose;
+    struct Boundary *boundary;
+    struct Diag *diag;
+    struct Hydro *hydro;
+    struct Ini ini;
+    struct Kernel kernel;
     struct Manager *particles;
     struct MLS *mls;
     struct Output *output;
-    struct Kernel kernel;
-    struct Hydro *hydro;
 
     if (argc < 2)
 	ERR(2, ("no project name specified"));
@@ -52,14 +52,14 @@ main(int argc, char *argv[])
     output = output_ini(&ini);
     VolumeMass(hydro->particle_list, particles, &kernel);
     boundary_condition(boundary, particles->cell_lists);
-    diagnose = diag_ini(&ini, hydro->particle_list, hydro->materials);
+    diag = diag_ini(&ini, hydro->particle_list, hydro->materials);
 
     Time = ini.Start_time;
     output_particles(output, hydro->particle_list, hydro->materials,
 		     boundary, Time);
     output_states(output, particles, mls, &kernel, Time);
-    if (ini.diagnose == 2)
-	KineticInformation(diagnose, Time, hydro->particle_list,
+    if (ini.diag == 2)
+	KineticInformation(diag, Time, hydro->particle_list,
 			   hydro->materials);
 
     ite = 0;
@@ -67,13 +67,13 @@ main(int argc, char *argv[])
 	if (Time + ini.D_time >= ini.End_time)
 	    ini.D_time = ini.End_time - Time;
 	step(&ite, hydro, particles, boundary, &Time, ini.D_time,
-	     diagnose, &ini, &kernel, mls);
+	     diag, &ini, &kernel, mls);
 	output_particles(output, hydro->particle_list, hydro->materials,
 			 boundary, Time);
 	output_restart(output, hydro->particle_list, Time);
-	if (ini.diagnose == 1) {
-	    OutputProfile(diagnose, Time);
-	    OutputAverage(diagnose, Time);
+	if (ini.diag == 1) {
+	    OutputProfile(diag, Time);
+	    OutputAverage(diag, Time);
 	}
     }
 
@@ -81,7 +81,7 @@ main(int argc, char *argv[])
     manager_fin(particles);
     mls_fin(mls);
     output_fin(output);
-    diag_fin(diagnose);
+    diag_fin(diag);
     hydro_fin(hydro);
     return 0;
 }

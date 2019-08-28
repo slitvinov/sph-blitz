@@ -5,7 +5,7 @@ CFLAGS = -g -O2
 M = sph
 O = \
 boundary.o\
-diagnose.o\
+diag.o\
 err.o\
 glbfunc.o\
 hydro.o\

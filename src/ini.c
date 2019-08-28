@@ -21,7 +21,7 @@ initiation_ini(const char *project_name, struct Ini *q)
 	if (!strcmp(Key_word, "INITIAL_CONDITION"))
 	    fscanf(f, "%d", &q->initial_condition);
 	if (!strcmp(Key_word, "DIAGNOSE"))
-	    fscanf(f, "%d", &q->diagnose);
+	    fscanf(f, "%d", &q->diag);
 	if (!strcmp(Key_word, "CELLS"))
 	    fscanf(f, "%d %d", &q->x_cells, &q->y_cells);
 	if (!strcmp(Key_word, "CELL_SIZE"))
