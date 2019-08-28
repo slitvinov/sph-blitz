@@ -31,8 +31,8 @@ wiener.o\
 
 all: libsph.a $M
 $L: $O; $(AR) rc $@ $^ && $(RANLIB) $@
-$M: $M.o $L; $(LINK) $M.o $(LDFLAGS) $(SPH_LDFLAGS) -o $@
-.c.o:; $(CC) $(CFLAGS) $(SPH_CFLAGS) $< -c -o $@
+$M: $M.o $L; $(LINK) $M.o -o $@ $(LDFLAGS) $(SPH_LDFLAGS)
+.c.o:; $(CC) -c -o $@ $(CFLAGS) $(SPH_CFLAGS) $<
 dep:; ../scripts/dep
 test: $M; cd ..; atest test/*
 lint:; make CFLAGS='-g -Wall -Wextra -pedantic'
