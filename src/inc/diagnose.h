@@ -1,7 +1,7 @@
 struct Ini;
 struct Manager;
 struct MLS;
-struct QuinticSpline;
+struct Kernel;
 struct Boundary;
 struct List;
 struct Diagnose {
@@ -26,7 +26,7 @@ struct Diagnose {
 };
 
 int Average(struct Diagnose *, struct Manager *, struct MLS *,
-	    struct QuinticSpline *);
+	    struct Kernel *);
 int BuildDistribution(struct List *, double dstrb[2][101]);
 int KineticInformation(struct Diagnose *, double Time, struct List *,
 		       struct Material *);

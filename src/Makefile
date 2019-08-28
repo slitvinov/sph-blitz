@@ -17,7 +17,7 @@ material.o\
 mls.o\
 output.o\
 particle.o\
-quinticspline.o\
+kernel.o\
 sph.o\
 step.o\
 volume.o\

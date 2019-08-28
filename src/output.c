@@ -89,7 +89,7 @@ output_particles(struct Output *q, struct List *particle_list,
 
 int
 output_states(struct Output *q, struct Manager *particles, struct MLS *mls,
-	      struct QuinticSpline *weight_function, double Time)
+	      struct Kernel *kernel, double Time)
 {
     FILE *f;
     int i, j, n;
@@ -130,7 +130,7 @@ output_states(struct Output *q, struct Manager *particles, struct MLS *mls,
 	    pstn[1] = j * delta;
 	    manager_build_nnp(particles, pstn);
 	    if (!list_empty(particles->NNP_list))
-		mls_map(mls, pstn, particles->NNP_list, weight_function,
+		mls_map(mls, pstn, particles->NNP_list, kernel,
 			1);
 	    n = 0;
 	    rho = 0.0;

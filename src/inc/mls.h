@@ -1,6 +1,6 @@
 struct Ini;
 struct Particle;
-struct QuinticSpline;
+struct Kernel;
 struct List;
 struct MLS {
     int N;
@@ -14,6 +14,6 @@ struct MLS {
 int mls_solve(struct MLS *, int order);
 
 int mls_map(struct MLS *, double point[2], struct List *,
-	    struct QuinticSpline *, int order);
+	    struct Kernel *, int order);
 int mls_fin(struct MLS *);
 struct MLS *mls_ini(int MLS_MAX);

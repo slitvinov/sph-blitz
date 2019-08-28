@@ -133,7 +133,7 @@ manager_build_pair(struct Manager *q,
 			  struct List *pairs,
 			  struct List *particle_list,
 			  struct Force **forces,
-			  struct QuinticSpline *weight_function)
+			  struct Kernel *kernel)
 {
     LIST *p, *p1;
     int i, j, k, m;
@@ -167,7 +167,7 @@ manager_build_pair(struct Manager *q,
 			if (dstc <= sm2 && prtl_org->ID >= prtl_dest->ID) {
 			    pair =
 				pair_ini(prtl_org, prtl_dest,
-						forces, weight_function,
+						forces, kernel,
 						sqrt(dstc));
 			    IINSERT_P(pair, pairs);
 			}

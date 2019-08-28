@@ -5,7 +5,7 @@
 #include "mls.h"
 #include "diagnose.h"
 #include "output.h"
-#include "quinticspline.h"
+#include "kernel.h"
 #include "ini.h"
 #include "pair.h"
 #include "manager.h"
@@ -29,7 +29,7 @@ main(int argc, char *argv[])
     struct Manager *particles;
     struct MLS *mls;
     struct Output *output;
-    struct QuinticSpline weight_function;
+    struct Kernel kernel;
     struct Hydro *hydro;
 
     if (argc < 2)
@@ -40,7 +40,7 @@ main(int argc, char *argv[])
     pair_delta = ini.delta;
     particle_number_of_materials = ini.number_of_materials;
     particle_ID_max = 0;
-    quinticspline_ini(ini.smoothinglength, &weight_function);
+    kernel_ini(ini.smoothinglength, &kernel);
     mls = mls_ini(ini.MLS_MAX);
     particles = manager_ini(&ini);
     hydro = hydro_ini(&ini);
@@ -50,14 +50,14 @@ main(int argc, char *argv[])
     boundary = boundary_ini(&ini);
     boundary_build(boundary, particles->cell_lists, hydro->materials);
     output = output_ini(&ini);
-    VolumeMass(hydro->particle_list, particles, &weight_function);
+    VolumeMass(hydro->particle_list, particles, &kernel);
     boundary_condition(boundary, particles->cell_lists);
     diagnose = diag_ini(&ini, hydro->particle_list, hydro->materials);
 
     Time = ini.Start_time;
     output_particles(output, hydro->particle_list, hydro->materials,
 		     boundary, Time);
-    output_states(output, particles, mls, &weight_function, Time);
+    output_states(output, particles, mls, &kernel, Time);
     if (ini.diagnose == 2)
 	KineticInformation(diagnose, Time, hydro->particle_list,
 			   hydro->materials);
@@ -67,7 +67,7 @@ main(int argc, char *argv[])
 	if (Time + ini.D_time >= ini.End_time)
 	    ini.D_time = ini.End_time - Time;
 	step(&ite, hydro, particles, boundary, &Time, ini.D_time,
-	     diagnose, &ini, &weight_function, mls);
+	     diagnose, &ini, &kernel, mls);
 	output_particles(output, hydro->particle_list, hydro->materials,
 			 boundary, Time);
 	output_restart(output, hydro->particle_list, Time);

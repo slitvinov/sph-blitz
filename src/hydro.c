@@ -12,7 +12,7 @@
 #include "macro.h"
 #include "material.h"
 #include "particle.h"
-#include "quinticspline.h"
+#include "kernel.h"
 #include "vv.h"
 #include "hydro.h"
 
@@ -111,13 +111,13 @@ hydro_ini(struct Ini *ini)
 }
 
 void
-UpdatePair(struct Hydro *q, struct QuinticSpline *weight_function)
+UpdatePair(struct Hydro *q, struct Kernel *kernel)
 {
     struct ListNode *p;
     struct Pair *pair;
 
     ILOOP_P(pair, q->pair_list) {
-	RenewPair(pair, weight_function);
+	RenewPair(pair, kernel);
     }
 }
 

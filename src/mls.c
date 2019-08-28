@@ -3,7 +3,7 @@
 #include "list.h"
 #include "vv.h"
 #include "glbfunc.h"
-#include "quinticspline.h"
+#include "kernel.h"
 #include "mls.h"
 #include "macro.h"
 #include "err.h"
@@ -100,7 +100,7 @@ mls_solve(struct MLS *q, int order)
 
 int
 mls_map(struct MLS *q, double point[2], struct List *NNP_list,
-	struct QuinticSpline *weight_function, int order)
+	struct Kernel *kernel, int order)
 {
     struct Particle *prtl;
     struct ListNode *p1;
@@ -122,7 +122,7 @@ mls_map(struct MLS *q, double point[2], struct List *NNP_list,
     p[1] = point[0];
     p[2] = point[1];
     LOOP1_P(prtl, NNP_list) {
-	Wi[N] = w(weight_function, vv_distance(point, prtl->R));
+	Wi[N] = w(kernel, vv_distance(point, prtl->R));
 	pi[0][N] = 1.0;
 	pi[1][N] = prtl->R[0];
 	pi[2][N] = prtl->R[1];

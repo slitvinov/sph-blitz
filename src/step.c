@@ -12,7 +12,7 @@ void
 step(int *pite, struct Hydro *hydro, struct Manager *particles,
      struct Boundary *boundary, double *Time, double D_time,
      struct Diagnose *diagnose, struct Ini *ini,
-     struct QuinticSpline *weight_function, struct MLS *mls)
+     struct Kernel *kernel, struct MLS *mls)
 {
     double integeral_time;
     double dt;
@@ -30,14 +30,14 @@ step(int *pite, struct Hydro *hydro, struct Manager *particles,
 	    printf("N=%d Time: %g	dt: %g\n", ite, *Time, dt);
 	if (ini->diagnose == 1) {
 	    SaveStates(diagnose, hydro->particle_list);
-	    Average(diagnose, particles, mls, weight_function);
+	    Average(diagnose, particles, mls, kernel);
 	}
 	if (ini->diagnose == 2 && ite % 10 == 0)
 	    KineticInformation(diagnose, *Time, hydro->particle_list,
 			       hydro->materials);
 	manager_build_pair(particles, hydro->pair_list,
 				  hydro->particle_list, hydro->forces,
-				  weight_function);
+				  kernel);
 	UpdateDensity(hydro);
 	boundary_condition(boundary, particles->cell_lists);
 	UpdatePhaseGradient(hydro, boundary);
@@ -46,7 +46,7 @@ step(int *pite, struct Hydro *hydro, struct Manager *particles,
 	UpdateChangeRate(hydro);
 	Predictor_summation(hydro, dt);
 	boundary_condition(boundary, particles->cell_lists);
-	UpdatePair(hydro, weight_function);
+	UpdatePair(hydro, kernel);
 	UpdateDensity(hydro);
 	boundary_condition(boundary, particles->cell_lists);
 	UpdatePhaseGradient(hydro, boundary);

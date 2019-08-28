@@ -4,7 +4,7 @@
 #include "particle.h"
 #include "vv.h"
 #include "list.h"
-#include "quinticspline.h"
+#include "kernel.h"
 #include "manager.h"
 #include "volume.h"
 #include "macro.h"
@@ -12,7 +12,7 @@
 
 void
 VolumeMass(struct List *particle_list, struct Manager *particles,
-	   struct QuinticSpline *weight_function)
+	   struct Kernel *kernel)
 {
     enum { X, Y };
     double reciprocV;
@@ -25,7 +25,7 @@ VolumeMass(struct List *particle_list, struct Manager *particles,
 	reciprocV = 0.0;
 	LOOP1_P(prtl_dest, particles->NNP_list) {
 	    dstc = vv_distance(prtl_org->R, prtl_dest->R);
-	    reciprocV += w(weight_function, dstc);
+	    reciprocV += w(kernel, dstc);
 	}
 	reciprocV = 1.0 / reciprocV;
 	prtl_org->V = reciprocV;

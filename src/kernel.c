@@ -1,9 +1,9 @@
 #include <tgmath.h>
-#include "quinticspline.h"
+#include "kernel.h"
 
 static const double pi = 3.141592653589793;
 int
-quinticspline_ini(double smoothingLength, struct QuinticSpline *q)
+kernel_ini(double smoothingLength, struct Kernel *q)
 {
     double norm = 63.0 / 478.0 / pi;
 
@@ -15,7 +15,7 @@ quinticspline_ini(double smoothingLength, struct QuinticSpline *q)
 }
 
 double
-w(struct QuinticSpline *q, double distance)
+w(struct Kernel *q, double distance)
 {
     double normedDist = 3.0 * distance * q->reciprocH;
     double ss3, ss2, ss1;
@@ -41,7 +41,7 @@ w(struct QuinticSpline *q, double distance)
 //              Calculates the kernel derivation (a double not vector) to distance
 //----------------------------------------------------------------------------------------
 double
-F(struct QuinticSpline *q, double distance)
+F(struct Kernel *q, double distance)
 {
     double normedDist = 3.0 * distance * q->reciprocH;
     double ss3 = (3.0 - normedDist);

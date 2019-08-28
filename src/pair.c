@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "vv.h"
 #include "glbfunc.h"
-#include "quinticspline.h"
+#include "kernel.h"
 #include "wiener.h"
 #include "ini.h"
 #include "particle.h"
@@ -18,7 +18,7 @@ double pair_delta;
 struct Pair *
 pair_ini(struct Particle *prtl_org, struct Particle *prtl_dest,
 		struct Force **forces,
-		struct QuinticSpline *weight_function, double dstc)
+		struct Kernel *kernel, double dstc)
 {
     struct Pair *q;
     struct Particle *Org, *Dest;
@@ -47,8 +47,8 @@ pair_ini(struct Particle *prtl_org, struct Particle *prtl_dest,
     q->rrij = 1.0 / (rij + 1.0e-30);
     q->eij[X] = (Org->R[X] - Dest->R[X]) * q->rrij;
     q->eij[Y] = (Org->R[Y] - Dest->R[Y]) * q->rrij;
-    q->Wij = w(weight_function, rij);
-    q->Fij = F(weight_function, rij) * q->rrij;
+    q->Wij = w(kernel, rij);
+    q->Fij = F(kernel, rij) * q->rrij;
     q->shear_rij =
 	2.0 * etai * etaj * rij / (etai *
 				   (rij +
@@ -70,7 +70,7 @@ pair_ini(struct Particle *prtl_org, struct Particle *prtl_dest,
 
 void
 RenewPair(struct Pair *q,
-		 struct QuinticSpline *weight_function)
+		 struct Kernel *kernel)
 {
     struct Particle *Org, *Dest;
     double *eij;
@@ -95,8 +95,8 @@ RenewPair(struct Pair *q,
 
     eij[X] = (Org->R[X] - Dest->R[X]) * rrij;
     eij[Y] = (Org->R[Y] - Dest->R[Y]) * rrij;
-    q->Wij = w(weight_function, rij);
-    q->Fij = F(weight_function, rij) * rrij;
+    q->Wij = w(kernel, rij);
+    q->Fij = F(kernel, rij) * rrij;
     q->shear_rij =
 	2.0 * etai * etaj * q->rij / (etai *
 				      (rij +

@@ -188,7 +188,7 @@ BuildDistribution(struct List *list, double dstrb[2][101])
 
 int
 Average(struct Diagnose *q, struct Manager *particles, struct MLS *mls,
-	struct QuinticSpline *weight_function)
+	struct Kernel *kernel)
 {
     int i, j, n;
     double pstn[2];
@@ -206,7 +206,7 @@ Average(struct Diagnose *q, struct Manager *particles, struct MLS *mls,
 	    pstn[1] = j * q->delta;
 	    manager_build_nnp(particles, pstn);
 	    if (list_empty(particles->NNP_list))
-		mls_map(mls, pstn, particles->NNP_list, weight_function,
+		mls_map(mls, pstn, particles->NNP_list, kernel,
 			1);
 	    n = 0;
 	    rho = 0.0;

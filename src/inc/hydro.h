@@ -5,7 +5,7 @@ struct Particle;
 struct Ini;
 struct Boundary;
 struct Material;
-struct QuinticSpline;
+struct Kernel;
 struct Hydro {
     int number_of_materials;
     double gravity[2];
@@ -37,7 +37,7 @@ void RandomEffects(struct Hydro *);
 void UpdateChangeRate(struct Hydro *);
 void UpdateDensity(struct Hydro *);
 void UpdatePahseMatrix(struct Hydro *, struct Boundary *);
-void UpdatePair(struct Hydro *, struct QuinticSpline *);
+void UpdatePair(struct Hydro *, struct Kernel *);
 void UpdatePhaseGradient(struct Hydro *, struct Boundary *);
 void UpdateRandom(struct Hydro *, double sqrtdt);
 void UpdateState(struct Hydro *);

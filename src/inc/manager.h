@@ -2,7 +2,7 @@ struct Particle;
 struct Boundary;
 struct Ini;
 struct Force;
-struct QuinticSpline;
+struct Kernel;
 
 struct Manager {
     double smoothinglength;
@@ -20,6 +20,6 @@ void manager_build_particles(struct Manager *, struct Material *,
 int manager_build_nnp(struct Manager *, double[2]);
 int manager_build_pair(struct Manager *,
 			      struct List *, struct List *,
-			      struct Force **, struct QuinticSpline *);
+			      struct Force **, struct Kernel *);
 struct Manager *manager_ini(struct Ini *);
 int manager_fin(struct Manager *);
