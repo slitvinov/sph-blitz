@@ -3,7 +3,7 @@ CFLAGS = -g -O2
 AR = ar
 RANLIB = ranlib
 
-SPH_CFLAGS = -Iinc
+SPH_CFLAGS = -Isph
 
 M = libsph.a
 O = \

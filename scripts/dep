@@ -17,7 +17,7 @@ FNR == 1 {
 sub(/^[\t ]*#[\t ]*include[\t ]*/, "") &&
 sub(/^\"/, "") &&
 sub(/".*/, "") {
-    path = "inc/" $0       
+    path = "sph/" $0
     print f ": " path | "sort"
 }
 ' *.c > dep.make
