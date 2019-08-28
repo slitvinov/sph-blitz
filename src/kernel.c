@@ -41,20 +41,17 @@ double
 F(struct Kernel *q, double r)
 {
     double a, b, c, d;
-    d = 3.0 * r * q->reciprocH;
+    d = 3.0*r*q->reciprocH;
     a = (3.0 - d);
     b = (2.0 - d);
     c = (1.0 - d);
 
     if (d < 1.0) {
-	return q->factorGradW * (a * a * a * a -
-				 6.0 * b * b * b * b +
-				 15.0 * c * c * c * c);
+	return q->factorGradW*(a*a*a*a - 6.0*b*b*b*b + 15.0*c*c*c*c);
     } else if (d < 2.0) {
-	return q->factorGradW * (a * a * a * a -
-				 6.0 * b * b * b * b);
+	return q->factorGradW*(a*a*a*a - 6.0*b*b*b*b);
     } else if (d < 3.0) {
-	return q->factorGradW * a * a * a * a;
+	return q->factorGradW*a*a*a*a;
     } else {
 	return 0.0;
     }
