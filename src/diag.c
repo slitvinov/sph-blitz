@@ -15,6 +15,27 @@
 #include "err.h"
 #include "diag.h"
 
+struct Diag {
+    double delta;
+    double glb_ave_Ek;
+    double *mtl_m;
+    double rho_dstrb[2][101];
+    double ttl_m;
+    double **U[5];
+    double vx_dstrb[2][101];
+    double vy_dstrb[2][101];
+    double *wght_cntr;
+    double *wght_v;
+    int gridx;
+    int gridy;
+    int n_average;
+    int number_of_materials;
+    int x_cells, y_cells;
+    struct List *rho_list;
+    struct List *vx_list;
+    struct List *vy_list;
+};
+
 struct Diag *
 diag_ini(struct Ini *ini, struct List *particle_list,
 	 struct Material *materials)

@@ -5,26 +5,7 @@ struct Kernel;
 struct Boundary;
 struct List;
 struct Material;
-struct Diag {
-    double delta;
-    double glb_ave_Ek;
-    double *mtl_m;
-    double rho_dstrb[2][101];
-    double ttl_m;
-    double **U[5];
-    double vx_dstrb[2][101];
-    double vy_dstrb[2][101];
-    double *wght_cntr;
-    double *wght_v;
-    int gridx;
-    int gridy;
-    int n_average;
-    int number_of_materials;
-    int x_cells, y_cells;
-    struct List *rho_list;
-    struct List *vx_list;
-    struct List *vy_list;
-};
+struct Diag;
 
 int Average(struct Diag *, struct Manager *, struct MLS *,
 	    struct Kernel *);
