@@ -10,17 +10,17 @@
 #include "material.h"
 #include "force.h"
 #include "err.h"
-#include "interaction.h"
+#include "pair.h"
 enum { X, Y };
 static double k_bltz = 1.380662e-023 / 0.02 / 0.02 / 0.02;
-double interaction_art_vis;
-double interaction_delta;
-struct Interaction *
-interaction_ini(struct Particle *prtl_org, struct Particle *prtl_dest,
+double pair_art_vis;
+double pair_delta;
+struct Pair *
+pair_ini(struct Particle *prtl_org, struct Particle *prtl_dest,
 		struct Force **forces,
 		struct QuinticSpline *weight_function, double dstc)
 {
-    struct Interaction *q;
+    struct Pair *q;
     struct Particle *Org, *Dest;
     double etai, etaj, rij, zetai, zetaj;
     int noi, noj;
@@ -69,7 +69,7 @@ interaction_ini(struct Particle *prtl_org, struct Particle *prtl_dest,
 }
 
 void
-RenewInteraction(struct Interaction *q,
+RenewPair(struct Pair *q,
 		 struct QuinticSpline *weight_function)
 {
     struct Particle *Org, *Dest;
@@ -115,7 +115,7 @@ RenewInteraction(struct Interaction *q,
 }
 
 void
-SummationDensity(struct Interaction *q)
+SummationDensity(struct Pair *q)
 {
     struct Particle *Org, *Dest;
     double Wij;
@@ -133,7 +133,7 @@ SummationDensity(struct Interaction *q)
 }
 
 void
-SummationPhaseGradient(struct Interaction *q)
+SummationPhaseGradient(struct Pair *q)
 {
     struct Particle *Org, *Dest;
     double mi, mj;
@@ -174,7 +174,7 @@ SummationPhaseGradient(struct Interaction *q)
 }
 
 void
-UpdateForces(struct Interaction *q)
+UpdateForces(struct Pair *q)
 {
     struct Particle *Org, *Dest;
     double Wij;
@@ -222,8 +222,8 @@ UpdateForces(struct Interaction *q)
     double drhodti;
     double Vi2 = Vi * Vi, Vj2 = Vj * Vj;
     double theta, Csi, Csj, NR_vis;
-    double delta = interaction_delta;
-    double art_vis = interaction_art_vis;
+    double delta = pair_delta;
+    double art_vis = pair_art_vis;
 
     Csi = Org->Cs;
     Csj = Dest->Cs;
@@ -273,7 +273,7 @@ UpdateForces(struct Interaction *q)
 }
 
 void
-RandomForces(struct Interaction *q, double sqrtdt)
+RandomForces(struct Pair *q, double sqrtdt)
 {
     double Vi, Vj;
     double Ti, Tj;
@@ -336,7 +336,7 @@ RandomForces(struct Interaction *q, double sqrtdt)
 }
 
 int
-interaction_fin(struct Interaction *q)
+pair_fin(struct Pair *q)
 {
     free(q);
     return 0;

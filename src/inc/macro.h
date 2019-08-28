@@ -10,7 +10,7 @@
 #define CLEAR(l) list_clear(&(l))
 
 #define ILOOP_P(q, l) for (p = list_first((l));				\
-			  !list_endp((l), p) && (q = (struct Interaction*)list_retrieve((l), p), 1); \
+			  !list_endp((l), p) && (q = (struct Pair*)list_retrieve((l), p), 1); \
 			  p = list_next((l), p))
 
 

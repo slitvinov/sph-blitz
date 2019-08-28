@@ -18,7 +18,7 @@ int manager_update_list(struct Manager *);
 void manager_build_particles(struct Manager *, struct Material *,
 			     struct List *, struct Ini *);
 int manager_build_nnp(struct Manager *, double[2]);
-int manager_build_interaction(struct Manager *,
+int manager_build_pair(struct Manager *,
 			      struct List *, struct List *,
 			      struct Force **, struct QuinticSpline *);
 struct Manager *manager_ini(struct Ini *);

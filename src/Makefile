@@ -9,8 +9,8 @@ diagnose.o\
 err.o\
 glbfunc.o\
 hydrodynamics.o\
-initiation.o\
-interaction.o\
+ini.o\
+pair.o\
 list.o\
 manager.o\
 material.o\

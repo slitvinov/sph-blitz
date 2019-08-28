@@ -7,7 +7,7 @@
 #include "force.h"
 #include "glbfunc.h"
 #include "ini.h"
-#include "interaction.h"
+#include "pair.h"
 #include "list.h"
 #include "macro.h"
 #include "material.h"
@@ -34,7 +34,7 @@ hydrodynamics_ini(struct Ini *ini)
     q = malloc(sizeof(*q));
     if (q == NULL)
 	return q;
-    q->interaction_list = list_ini();
+    q->pair_list = list_ini();
     q->number_of_materials = number_of_materials =
 	ini->number_of_materials;
     q->gravity[X] = ini->gravity[X];
@@ -114,10 +114,10 @@ void
 UpdatePair(struct Hydrodynamics *q, struct QuinticSpline *weight_function)
 {
     struct ListNode *p;
-    struct Interaction *pair;
+    struct Pair *pair;
 
-    ILOOP_P(pair, q->interaction_list) {
-	RenewInteraction(pair, weight_function);
+    ILOOP_P(pair, q->pair_list) {
+	RenewPair(pair, weight_function);
     }
 }
 
@@ -125,10 +125,10 @@ void
 UpdatePhaseGradient(struct Hydrodynamics *q, struct Boundary *boundary)
 {
     struct ListNode *p;
-    struct Interaction *pair;
+    struct Pair *pair;
 
     Zero_PhaseGradient(q, boundary);
-    ILOOP_P(pair, q->interaction_list) {
+    ILOOP_P(pair, q->pair_list) {
 	SummationPhaseGradient(pair);
     }
 }
@@ -137,10 +137,10 @@ void
 UpdateDensity(struct Hydrodynamics *q)
 {
     struct ListNode *p;
-    struct Interaction *pair;
+    struct Pair *pair;
 
     Zero_density(q);
-    ILOOP_P(pair, q->interaction_list) {
+    ILOOP_P(pair, q->pair_list) {
 	SummationDensity(pair);
     }
     UpdateState(q);
@@ -150,10 +150,10 @@ void
 UpdateChangeRate(struct Hydrodynamics *q)
 {
     struct ListNode *p;
-    struct Interaction *pair;
+    struct Pair *pair;
 
     ZeroChangeRate(q);
-    ILOOP_P(pair, q->interaction_list) {
+    ILOOP_P(pair, q->pair_list) {
 	UpdateForces(pair);
     }
     AddGravity(q);
@@ -163,10 +163,10 @@ void
 UpdateRandom(struct Hydrodynamics *q, double sqrtdt)
 {
     struct ListNode *p;
-    struct Interaction *pair;
+    struct Pair *pair;
 
     Zero_Random(q);
-    ILOOP_P(pair, q->interaction_list) {
+    ILOOP_P(pair, q->pair_list) {
 	RandomForces(pair, sqrtdt);
     }
 }
@@ -376,7 +376,7 @@ hydrodynamics_fin(struct Hydrodynamics *q)
 	free(q->forces[i]);
     free(q->forces);
     free(q->materials);
-    list_fin(q->interaction_list);
+    list_fin(q->pair_list);
     list_fin(q->particle_list);
     free(q);
 }

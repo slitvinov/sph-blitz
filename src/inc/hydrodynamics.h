@@ -1,5 +1,5 @@
 struct Material;
-struct Interaction;
+struct Pair;
 struct Force;
 struct Particle;
 struct Ini;
@@ -15,7 +15,7 @@ struct Hydrodynamics {
     double delta3;
     double dt_g_vis;
     double dt_surf;
-    struct List *interaction_list;
+    struct List *pair_list;
     double viscosity_max;
     double surface_max;
     struct Material *materials;

@@ -11,7 +11,7 @@
 #include "boundary.h"
 #include "macro.h"
 #include "err.h"
-#include "interaction.h"
+#include "pair.h"
 #include "manager.h"
 
 
@@ -129,8 +129,8 @@ manager_build_nnp(struct Manager *q, double point[2])
 }
 
 int
-manager_build_interaction(struct Manager *q,
-			  struct List *interactions,
+manager_build_pair(struct Manager *q,
+			  struct List *pairs,
 			  struct List *particle_list,
 			  struct Force **forces,
 			  struct QuinticSpline *weight_function)
@@ -140,7 +140,7 @@ manager_build_interaction(struct Manager *q,
     double dstc;
     double sm2;
     struct Particle *prtl_org, *prtl_dest;
-    struct Interaction *pair;
+    struct Pair *pair;
 
     double smoothinglength;
     double cell_size;
@@ -152,10 +152,10 @@ manager_build_interaction(struct Manager *q,
 
     sm2 = smoothinglength * smoothinglength;
 
-    ILOOP_P(pair, interactions) {
-	interaction_fin(pair);
+    ILOOP_P(pair, pairs) {
+	pair_fin(pair);
     }
-    list_clear(interactions);
+    list_clear(pairs);
     LOOP_P(prtl_org, particle_list) {
 	if (prtl_org->bd == 0) {
 	    i = (int) ((prtl_org->R[0] + cell_size) / cell_size);
@@ -166,10 +166,10 @@ manager_build_interaction(struct Manager *q,
 			dstc = vv_sq_distance(prtl_org->R, prtl_dest->R);
 			if (dstc <= sm2 && prtl_org->ID >= prtl_dest->ID) {
 			    pair =
-				interaction_ini(prtl_org, prtl_dest,
+				pair_ini(prtl_org, prtl_dest,
 						forces, weight_function,
 						sqrt(dstc));
-			    IINSERT_P(pair, interactions);
+			    IINSERT_P(pair, pairs);
 			}
 		    }
 		}

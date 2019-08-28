@@ -7,15 +7,15 @@
 #include "output.h"
 #include "quinticspline.h"
 #include "ini.h"
-#include "interaction.h"
+#include "pair.h"
 #include "manager.h"
 #include "hydrodynamics.h"
 #include "boundary.h"
 #include "volume.h"
 #include "wiener.h"
 #include "material.h"
-extern double interaction_art_vis;
-extern double interaction_delta;
+extern double pair_art_vis;
+extern double pair_delta;
 extern long particle_ID_max;
 extern int particle_number_of_materials;
 int
@@ -36,8 +36,8 @@ main(int argc, char *argv[])
 	ERR(2, ("no project name specified"));
     wiener_seed(12345);
     initiation_ini(argv[1], &ini);
-    interaction_art_vis = ini.art_vis;
-    interaction_delta = ini.delta;
+    pair_art_vis = ini.art_vis;
+    pair_delta = ini.delta;
     particle_number_of_materials = ini.number_of_materials;
     particle_ID_max = 0;
     quinticspline_ini(ini.smoothinglength, &weight_function);

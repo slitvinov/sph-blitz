@@ -35,7 +35,7 @@ step(int *pite, struct Hydrodynamics *hydro, struct Manager *particles,
 	if (ini->diagnose == 2 && ite % 10 == 0)
 	    KineticInformation(diagnose, *Time, hydro->particle_list,
 			       hydro->materials);
-	manager_build_interaction(particles, hydro->interaction_list,
+	manager_build_pair(particles, hydro->pair_list,
 				  hydro->particle_list, hydro->forces,
 				  weight_function);
 	UpdateDensity(hydro);

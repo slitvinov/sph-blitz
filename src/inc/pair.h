@@ -2,7 +2,7 @@ struct Particle;
 struct Force;
 struct Ini;
 struct QuinticSpline;
-struct Interaction {
+struct Pair {
     struct Particle *Org;
     struct Particle *Dest;
     struct Force **frc_ij;
@@ -25,15 +25,15 @@ struct Interaction {
     double bulk_rij;
 };
 
-struct Interaction *interacion_ini(struct Particle *,
+struct Pair *interacion_ini(struct Particle *,
 				   struct Particle *, struct Force **,
 				   struct QuinticSpline *, double dstc);
-struct Interaction *interaction_ini(struct Particle *,
+struct Pair *pair_ini(struct Particle *,
 				    struct Particle *, struct Force **,
 				    struct QuinticSpline *q, double);
-int interaction_fin(struct Interaction *);
-void RenewInteraction(struct Interaction *, struct QuinticSpline *);
-void SummationDensity(struct Interaction *);
-void SummationPhaseGradient(struct Interaction *);
-void UpdateForces(struct Interaction *);
-void RandomForces(struct Interaction *, double sqrtdt);
+int pair_fin(struct Pair *);
+void RenewPair(struct Pair *, struct QuinticSpline *);
+void SummationDensity(struct Pair *);
+void SummationPhaseGradient(struct Pair *);
+void UpdateForces(struct Pair *);
+void RandomForces(struct Pair *, double sqrtdt);
