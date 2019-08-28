@@ -169,7 +169,7 @@ manager_build_pair(struct Manager *q,
 				pair_ini(prtl_org, prtl_dest,
 						forces, kernel,
 						sqrt(dstc));
-			    IINSERT_P(pair, pairs);
+			    INSERT_P(pair, pairs);
 			}
 		    }
 		}
