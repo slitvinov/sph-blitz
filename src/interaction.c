@@ -11,7 +11,7 @@
 #include "force.h"
 #include "interaction.h"
 #include "err.h"
-#include "interaction_c.h"
+#include "interaction.h"
 enum { X, Y };
 static double k_bltz = 1.380662e-023 / 0.02 / 0.02 / 0.02;
 double interaction_art_vis;

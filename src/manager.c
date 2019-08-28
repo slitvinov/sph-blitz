@@ -11,7 +11,7 @@
 #include "boundary.h"
 #include "macro.h"
 #include "err.h"
-#include "interaction_c.h"
+#include "interaction.h"
 #include "manager.h"
 
 

@@ -32,6 +32,10 @@ extern "C" {
 				       struct Particle *, struct Force **,
 				       struct QuinticSpline *,
 				       double dstc);
+    struct Interaction *interaction_ini(struct Particle *,
+					struct Particle *, struct Force **,
+					struct QuinticSpline *q, double);
+    int interaction_fin(struct Interaction *);
     void RenewInteraction(struct Interaction *, struct QuinticSpline *);
     void SummationDensity(struct Interaction *);
     void SummationPhaseGradient(struct Interaction *);

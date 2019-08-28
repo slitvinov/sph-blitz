@@ -19,5 +19,5 @@ sub(/^\"/, "") &&
 sub(/".*/, "") {
     print f ": " $0 | "sort"
 }
-' *.c *.cpp  > dep.make
+' *.c > dep.make
 echo >&2 update dep.make

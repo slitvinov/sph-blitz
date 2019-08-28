@@ -34,10 +34,11 @@ hydrodynamics.o: quinticspline.h
 hydrodynamics.o: vv.h
 initiation.o: err.h
 initiation.o: initiation.h
+interaction.o: err.h
 interaction.o: force.h
 interaction.o: glbfunc.h
 interaction.o: initiation.h
-interaction.o: interaction_c.h
+interaction.o: interaction.h
 interaction.o: interaction.h
 interaction.o: material.h
 interaction.o: particle.h
@@ -50,7 +51,7 @@ manager.o: boundary.h
 manager.o: err.h
 manager.o: glbfunc.h
 manager.o: initiation.h
-manager.o: interaction_c.h
+manager.o: interaction.h
 manager.o: list.h
 manager.o: macro.h
 manager.o: manager.h
