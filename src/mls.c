@@ -8,6 +8,15 @@
 #include "macro.h"
 #include "err.h"
 
+struct MLS {
+    int N;
+    int MLS_MAX;
+    double A[3 * 3], *B[3];
+    double p[3], *pi[3];
+    double *Wi;
+    double *phi;
+};
+
 struct MLS *
 mls_ini(int MLS_MAX)
 {
@@ -135,4 +144,11 @@ mls_map(struct MLS *q, double point[2], struct List *NNP_list,
 	ABORT(("the reference particle number larger than largest permited"));
     q->N = N;
     return mls_solve(q, order);
+}
+
+int
+mls_phi(struct MLS *q, double **pphi)
+{
+    *pphi = q->phi;
+    return 0;
 }

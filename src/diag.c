@@ -195,6 +195,7 @@ Average(struct Diag *q, struct Manager *manager, struct MLS *mls,
     double rho, pressure, Temperature, x_velocity, y_velocity;
     double m_n_average, r_n_average;
     double ***U;
+    double *phi;
     struct ListNode *p;
     struct Particle *prtl;
 
@@ -214,12 +215,13 @@ Average(struct Diag *q, struct Manager *manager, struct MLS *mls,
 	    Temperature = 0.0;
 	    x_velocity = 0.0;
 	    y_velocity = 0.0;
+	    mls_phi(mls, &phi);
 	    LOOP_P(prtl, manager->NNP_list) {
-		rho += prtl->rho * mls->phi[n];
-		pressure += prtl->p * mls->phi[n];
-		Temperature += prtl->T * mls->phi[n];
-		x_velocity += prtl->U[0] * mls->phi[n];
-		y_velocity += prtl->U[1] * mls->phi[n];
+		rho += prtl->rho * phi[n];
+		pressure += prtl->p * phi[n];
+		Temperature += prtl->T * phi[n];
+		x_velocity += prtl->U[0] * phi[n];
+		y_velocity += prtl->U[1] * phi[n];
 		n++;
 	    }
 	    list_clear(manager->NNP_list);

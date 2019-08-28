@@ -95,11 +95,12 @@ output_states(struct Output *q, struct Manager *manager, struct MLS *mls,
     int i, j, n;
     int gridx, gridy;
     double pstn[2];
-    double rho, phi, pressure, Temperature, x_velocity, y_velocity;
+    double rho, phi0, pressure, Temperature, x_velocity, y_velocity;
     double Itime;
     char file_name[FILENAME_MAX], file_list[10];
     struct Particle *prtl;
     struct ListNode *p;
+    double *phi;
 
     double delta;
     int x_cells;
@@ -134,23 +135,24 @@ output_states(struct Output *q, struct Manager *manager, struct MLS *mls,
 			1);
 	    n = 0;
 	    rho = 0.0;
-	    phi = 0.0;
+	    phi0 = 0.0;
 	    pressure = 0.0;
 	    Temperature = 0.0;
 	    x_velocity = 0.0;
 	    y_velocity = 0.0;
+	    mls_phi(mls, &phi);
 	    LOOP_P(prtl, manager->NNP_list) {
-		rho += prtl->rho * mls->phi[n];
-		phi += prtl->phi[2][2] * mls->phi[n];
-		pressure += prtl->p * mls->phi[n];
-		Temperature += prtl->T * mls->phi[n];
-		x_velocity += prtl->U[0] * mls->phi[n];
-		y_velocity += prtl->U[1] * mls->phi[n];
+		rho += prtl->rho * phi[n];
+		phi0 += prtl->phi[2][2] * phi[n];
+		pressure += prtl->p * phi[n];
+		Temperature += prtl->T * phi[n];
+		x_velocity += prtl->U[0] * phi[n];
+		y_velocity += prtl->U[1] * phi[n];
 		n++;
 	    }
 	    list_clear(manager->NNP_list);
 	    fprintf(f, "%.6g %.6g, %.6g %.6g, %.6g %.6g, %.6g %.6g\n",
-		    pstn[0], pstn[1], pressure, rho, phi, x_velocity,
+		    pstn[0], pstn[1], pressure, rho, phi0, x_velocity,
 		    y_velocity, Temperature);
 	}
     }
