@@ -26,11 +26,11 @@ struct Pair {
 };
 
 struct Pair *interacion_ini(struct Particle *,
-				   struct Particle *, struct Force **,
-				   struct Kernel *, double dstc);
+			    struct Particle *, struct Force **,
+			    struct Kernel *, double dstc);
 struct Pair *pair_ini(struct Particle *,
-				    struct Particle *, struct Force **,
-				    struct Kernel *q, double);
+		      struct Particle *, struct Force **,
+		      struct Kernel *q, double);
 int pair_fin(struct Pair *);
 void RenewPair(struct Pair *, struct Kernel *);
 void SummationDensity(struct Pair *);

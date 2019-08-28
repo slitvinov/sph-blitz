@@ -38,11 +38,9 @@ manager_ini(struct Ini *ini)
     q->y_clls = ini->y_cells + 2;
     q->cell_ratio = ini->cell_ratio;
 
-    q->cell_lists =
-	malloc(q->x_clls * sizeof(struct List **));
+    q->cell_lists = malloc(q->x_clls * sizeof(struct List **));
     for (i = 0; i < q->x_clls; i++) {
-	q->cell_lists[i] =
-	    malloc(q->y_clls * sizeof(struct List *));
+	q->cell_lists[i] = malloc(q->y_clls * sizeof(struct List *));
 	for (j = 0; j < q->y_clls; j++)
 	    q->cell_lists[i][j] = list_ini();
     }
@@ -130,10 +128,9 @@ manager_build_nnp(struct Manager *q, double point[2])
 
 int
 manager_build_pair(struct Manager *q,
-			  struct List *pairs,
-			  struct List *particle_list,
-			  struct Force **forces,
-			  struct Kernel *kernel)
+		   struct List *pairs,
+		   struct List *particle_list,
+		   struct Force **forces, struct Kernel *kernel)
 {
     LIST *p, *p1;
     int i, j, k, m;
@@ -167,8 +164,7 @@ manager_build_pair(struct Manager *q,
 			if (dstc <= sm2 && prtl_org->ID >= prtl_dest->ID) {
 			    pair =
 				pair_ini(prtl_org, prtl_dest,
-						forces, kernel,
-						sqrt(dstc));
+					 forces, kernel, sqrt(dstc));
 			    INSERT_P(pair, pairs);
 			}
 		    }

@@ -10,6 +10,7 @@
 #include "boundary.h"
 #include "macro.h"
 enum { X, Y };
+
 #define A prtl = particle_mirror(prtl_old, mtl)
 #define B prtl = particle_image(prtl_old)
 #define C(t) do {                               \
@@ -850,7 +851,8 @@ boundary_fin(struct Boundary *q)
     return 0;
 }
 
-struct List*
-boundary_list(struct Boundary *q) {
+struct List *
+boundary_list(struct Boundary *q)
+{
     return q->b;
 }

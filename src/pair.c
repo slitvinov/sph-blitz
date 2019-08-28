@@ -17,8 +17,7 @@ double pair_art_vis;
 double pair_delta;
 struct Pair *
 pair_ini(struct Particle *prtl_org, struct Particle *prtl_dest,
-		struct Force **forces,
-		struct Kernel *kernel, double dstc)
+	 struct Force **forces, struct Kernel *kernel, double dstc)
 {
     struct Pair *q;
     struct Particle *Org, *Dest;
@@ -69,8 +68,7 @@ pair_ini(struct Particle *prtl_org, struct Particle *prtl_dest,
 }
 
 void
-RenewPair(struct Pair *q,
-		 struct Kernel *kernel)
+RenewPair(struct Pair *q, struct Kernel *kernel)
 {
     struct Particle *Org, *Dest;
     double *eij;

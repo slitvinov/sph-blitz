@@ -16,6 +16,5 @@ int OutputAverage(struct Diag *, double Time);
 int OutputProfile(struct Diag *, double Time);
 int SaveStates(struct Diag *, struct List *);
 
-struct Diag *diag_ini(struct Ini *, struct List *,
-			  struct Material *);
+struct Diag *diag_ini(struct Ini *, struct List *, struct Material *);
 int diag_fin(struct Diag *);

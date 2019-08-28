@@ -142,8 +142,7 @@ output_states(struct Output *q, struct Manager *manager, struct MLS *mls,
 	    pstn[1] = j * delta;
 	    manager_build_nnp(manager, pstn);
 	    if (!list_empty(manager->NNP_list))
-		mls_map(mls, pstn, manager->NNP_list, kernel,
-			1);
+		mls_map(mls, pstn, manager->NNP_list, kernel, 1);
 	    n = 0;
 	    rho = 0.0;
 	    phi0 = 0.0;

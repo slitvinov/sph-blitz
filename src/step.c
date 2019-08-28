@@ -35,8 +35,7 @@ step(int *pite, struct Hydro *hydro, struct Manager *manager,
 	    KineticInformation(diag, *Time, hydro->particle_list,
 			       hydro->materials);
 	manager_build_pair(manager, hydro->pair_list,
-				  hydro->particle_list, hydro->forces,
-				  kernel);
+			   hydro->particle_list, hydro->forces, kernel);
 	UpdateDensity(hydro);
 	boundary_condition(boundary, manager->cell_lists);
 	UpdatePhaseGradient(hydro, boundary);

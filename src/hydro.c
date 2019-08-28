@@ -43,15 +43,10 @@ hydro_ini(struct Ini *ini)
     q->delta = delta = ini->delta;
     q->delta2 = delta * delta;
     q->delta3 = delta * delta * delta;
-    q->materials =
-	malloc(number_of_materials *
-				   sizeof(*q->materials));
-    q->forces =
-	malloc(number_of_materials * sizeof(*force));
+    q->materials = malloc(number_of_materials * sizeof(*q->materials));
+    q->forces = malloc(number_of_materials * sizeof(*force));
     for (k = 0; k < number_of_materials; k++)
-	q->forces[k] =
-	    malloc(number_of_materials *
-				    sizeof(*q->forces[k]));
+	q->forces[k] = malloc(number_of_materials * sizeof(*q->forces[k]));
 
     f = fopen(ini->inputfile, "r");
     if (!f)
@@ -202,6 +197,7 @@ Zero_PhaseGradient(struct Hydro *q, struct Boundary *boundary)
     struct ListNode *p;
     struct Particle *prtl;
     struct List *blist;
+
     blist = boundary_list(boundary);
 
     LOOP_P(prtl, q->particle_list) {
@@ -254,6 +250,7 @@ UpdatePahseMatrix(struct Hydro *q, struct Boundary *boundary)
     int
      i, j, number_of_materials;
     struct List *blist;
+
     blist = boundary_list(boundary);
     number_of_materials = q->number_of_materials;
     LOOP_P(prtl, q->particle_list) {
@@ -282,6 +279,7 @@ UpdateSurfaceStress(struct Hydro *q, struct Boundary *boundary)
     struct Particle *prtl;
     struct ListNode *p;
     struct List *blist;
+
     blist = boundary_list(boundary);
 
     LOOP_P(prtl, q->particle_list) {

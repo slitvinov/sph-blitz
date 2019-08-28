@@ -79,14 +79,11 @@ diag_ini(struct Ini *ini, struct List *particle_list,
 		q->U[k][m][l] = 0.0;
     q->n_average = 0;
     if (ini->diag == 2) {
-	q->mtl_m =
-	    malloc(number_of_materials * sizeof(*q->mtl_m));
+	q->mtl_m = malloc(number_of_materials * sizeof(*q->mtl_m));
 	q->wght_cntr =
 	    (double *) malloc(2 * number_of_materials *
 			      sizeof(*q->wght_cntr));
-	q->wght_v =
-	    malloc(2 * number_of_materials *
-			      sizeof(*q->wght_v));
+	q->wght_v = malloc(2 * number_of_materials * sizeof(*q->wght_v));
 
 	q->ttl_m = 1.0e-40;
 	for (k = 0; k < number_of_materials; k++)
@@ -228,8 +225,7 @@ Average(struct Diag *q, struct Manager *manager, struct MLS *mls,
 	    pstn[1] = j * q->delta;
 	    manager_build_nnp(manager, pstn);
 	    if (list_empty(manager->NNP_list))
-		mls_map(mls, pstn, manager->NNP_list, kernel,
-			1);
+		mls_map(mls, pstn, manager->NNP_list, kernel, 1);
 	    n = 0;
 	    rho = 0.0;
 	    pressure = 0.0;

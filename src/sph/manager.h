@@ -19,7 +19,7 @@ void manager_build_particles(struct Manager *, struct Material *,
 			     struct List *, struct Ini *);
 int manager_build_nnp(struct Manager *, double[2]);
 int manager_build_pair(struct Manager *,
-			      struct List *, struct List *,
-			      struct Force **, struct Kernel *);
+		       struct List *, struct List *,
+		       struct Force **, struct Kernel *);
 struct Manager *manager_ini(struct Ini *);
 int manager_fin(struct Manager *);
