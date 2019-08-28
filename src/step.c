@@ -9,9 +9,9 @@
 #include "step.h"
 
 void
-step(int *pite, Hydrodynamics * hydro, Manager * particles,
-     Boundary * boundary, double *Time, double D_time, Diagnose * diagnose,
-     Initiation * ini, QuinticSpline * weight_function, MLS * mls)
+step(int *pite, struct Hydrodynamics * hydro, struct Manager * particles,
+     struct Boundary * boundary, double *Time, double D_time, struct Diagnose * diagnose,
+     struct Initiation * ini, struct QuinticSpline * weight_function, struct MLS * mls)
 {
     double integeral_time;
     double dt;
