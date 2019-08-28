@@ -25,4 +25,5 @@ main()
 	printf("%.16g %.16g %.16g\n", x, w(kernel, x), F(kernel, x));
     }
     kernel_fin(kernel);
+    return 0;
 }

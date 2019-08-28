@@ -32,6 +32,6 @@ $M: $O; $(AR) rc $@ $^ && $(RANLIB) $@
 dep:; ../scripts/dep
 lint:; make CFLAGS='-g -Wall -Wextra -pedantic'
 
-.PHONY: clean dep test lint
+.PHONY: clean dep lint
 clean:; rm -f -- $M $O
 include dep.make
