@@ -115,15 +115,15 @@ in gnuplot shell
 
 Poiseuille flow
 
-![poiseuille](img/poiseuille.png)
+<p align="center"><img src="img/poiseuille.png"/></p>
 
 Ellipsoid water drop in air
 
-![ellipse](img/ellipse.png)
+<p align="center"><img src="img/ellipse.png"/></p>
 
 Fluctuating liquid
 
-![thermal](img/thermal.gif)
+<p align="center"><img src="img/thermal.gif"/></p>
 
 # References
 

@@ -19,14 +19,6 @@ extern double pair_art_vis;
 extern double pair_delta;
 extern long particle_ID_max;
 extern int particle_number_of_materials;
-
-double
-F(struct Kernel *q, double r)
-{
-    abort();
-    return 0;
-}
-
 int
 main(int argc, char *argv[])
 {
