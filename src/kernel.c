@@ -1,17 +1,39 @@
 #include <tgmath.h>
+#include <stdlib.h>
+#include "err.h"
 #include "kernel.h"
 
-static double pi = 3.141592653589793;
-int
-kernel_ini(double smoothingLength, struct Kernel *q)
-{
-    double norm = 63.0 / 478.0 / pi;
+struct Kernel {
+    double reciprocH;
+    double factorW;
+    double factorGradW;
+    double smoothingLength;
+};
 
+static double pi = 3.141592653589793;
+struct Kernel*
+kernel_ini(double smoothingLength)
+{
+    double norm;
+    struct Kernel *q;
+    q = malloc(sizeof(*q));
+    if (q == NULL) {
+	ABORT(("fail to alloc"));
+	return q;
+    }
+
+    norm = 63.0 / 478.0 / pi;
     q->smoothingLength = smoothingLength;
     q->reciprocH = 1.0 / smoothingLength;
     q->factorW = norm * pow(q->reciprocH, 2);
     q->factorGradW = 15.0 * norm * pow(q->reciprocH, 3);
     return 0;
+}
+
+int
+kernel_fin(struct Kernel *q)
+{
+    free(q);
 }
 
 double

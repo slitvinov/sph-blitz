@@ -6,7 +6,7 @@ main()
 {
     int i;
     int n;
-    struct Kernel kernel;
+    struct Kernel *kernel;
     double lo;
     double hi;
     double smoothingLength;
@@ -14,15 +14,15 @@ main()
     double dx;
 
     smoothingLength = 2.0;
-    kernel_ini(smoothingLength, &kernel);
+    kernel = kernel_ini(smoothingLength);
 
     lo = 0;
     hi = 3;
     n = 100;
     dx = (hi - lo) / (n - 1);
-
     for (i = 0; i < n; i++) {
 	x = lo + i * dx;
-	printf("%.16g %.16g %.16g\n", x, w(&kernel, x), F(&kernel, x));
+	printf("%.16g %.16g %.16g\n", x, w(kernel, x), F(kernel, x));
     }
+    kernel_fin(kernel);
 }
