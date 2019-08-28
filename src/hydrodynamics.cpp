@@ -166,7 +166,7 @@ void
     struct Interaction *
 	pair;
 
-    Zero_Random();
+    Zero_Random(this);
     ILOOP_P(pair, interaction_list) {
 	RandomForces(pair, sqrtdt);
     }
@@ -218,14 +218,14 @@ void
 }
 
 void
- Hydrodynamics::Zero_Random()
+Zero_Random(Hydrodynamics *q)
 {
     struct ListNode *
 	p;
     struct Particle *
 	prtl;
 
-    LOOP_P(prtl, particle_list) {
+    LOOP_P(prtl, q->particle_list) {
 	prtl->_dU[X] = prtl->_dU[Y] = 0.0;
     }
 }

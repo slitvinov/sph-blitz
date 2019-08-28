@@ -39,5 +39,6 @@ struct Hydrodynamics {
     void ZeroChangeRate();
     void Zero_density();
     void Zero_PhaseGradient(struct Boundary *);
-    void Zero_Random();
 };
+
+void Zero_Random(struct Hydrodynamics*);
