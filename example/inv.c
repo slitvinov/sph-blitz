@@ -15,7 +15,8 @@ main()
     SymmetricInverse3x3(a);
     for (k = i = 0; i < n; i++) {
 	for (j = 0; j < n; j++) {
-	    if (j > 0) putchar(' ');
+	    if (j > 0)
+		putchar(' ');
 	    printf("%g", a[k++]);
 	}
 	putchar('\n');

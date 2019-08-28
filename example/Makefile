@@ -6,8 +6,9 @@ SPH_LDFLAGS = -L../src -lsph -lm
 SPH_CFLAGS = -I../src
 
 M = \
-sdpd\
 inv\
+kernel\
+sdpd\
 
 O = $(M:=.o)
 
