@@ -1,4 +1,5 @@
 #!/bin/sh
 
 VERSION_CONTROL=none
+export VERSION_CONTROL
 exec indent -kr --blank-lines-after-declarations  --procnames-start-lines --use-tabs "$@"

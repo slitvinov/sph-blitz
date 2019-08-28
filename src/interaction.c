@@ -9,7 +9,6 @@
 #include "particle.h"
 #include "material.h"
 #include "force.h"
-#include "interaction.h"
 #include "err.h"
 #include "interaction.h"
 enum { X, Y };

@@ -1,6 +1,3 @@
-#ifdef __cplusplus
-extern "C" {
-#endif
 #define WARN(x) do {                                    \
 	wprint("%s:%d: ", __FILE__, __LINE__);		\
 	wprint x;					\
@@ -17,7 +14,4 @@ extern "C" {
 	exit(2);				\
     } while (0)
 
-    int wprint(const char *, ...);
-#ifdef __cplusplus
-}
-#endif
+int wprint(const char *, ...);
