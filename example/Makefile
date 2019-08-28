@@ -3,7 +3,7 @@ LINK = $(CC)
 CFLAGS = -g -O2
 
 SPH_LDFLAGS = -L../src -lsph -lm
-SPH_CFLAGS = -I../src/inc
+SPH_CFLAGS = -I../src
 
 M = \
 sdpd\
