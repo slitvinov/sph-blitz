@@ -37,9 +37,6 @@ w(struct Kernel *q, double distance)
     }
 }
 
-//----------------------------------------------------------------------------------------
-//              Calculates the kernel derivation (a double not vector) to distance
-//----------------------------------------------------------------------------------------
 double
 F(struct Kernel *q, double distance)
 {
