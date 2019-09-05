@@ -19,8 +19,6 @@
 enum { X, Y };
 
 #define NEW(pos, vel, den, pre, tem, mtl) particle_real(pos, vel, den, pre, tem, mtl)
-#define LIST struct ListNode
-#define ILIST struct ListNode
 
 struct Manager *
 manager_ini(struct Ini *ini)
@@ -54,7 +52,7 @@ manager_update_list(struct Manager *q)
 
     int i, j;
     int k, m;
-    LIST *p;
+    struct ListNode *p;
     struct Particle *prtl;
 
     int x_clls;
@@ -95,7 +93,7 @@ manager_build_nnp(struct Manager *q, double point[2])
     int i, j;
     int k, m;
     double dstc;
-    LIST *p;
+    struct ListNode *p;
     struct Particle *prtl;
 
     struct List *NNP_list;
@@ -132,7 +130,7 @@ manager_build_pair(struct Manager *q,
 		   struct List *particle_list,
 		   struct Force **forces, struct Kernel *kernel)
 {
-    LIST *p, *p1;
+    struct ListNode *p, *p1;
     int i, j, k, m;
     double dstc;
     double sm2;

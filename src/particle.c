@@ -17,7 +17,7 @@ int particle_number_of_materials;
     struct Particle *q;				\
     q = malloc(sizeof(*q));			\
     if (q == NULL)				\
-	abort();
+	abort()
 
 #define YY return q;
 
