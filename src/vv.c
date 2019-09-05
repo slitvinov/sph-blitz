@@ -1,5 +1,5 @@
 #include "vv.h"
-#include <tgmath.h>
+#include <math.h>
 
 enum { X, Y };
 

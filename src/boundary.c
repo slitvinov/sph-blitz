@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <tgmath.h>
+#include <math.h>
 #include "err.h"
 #include "particle.h"
 #include "list.h"

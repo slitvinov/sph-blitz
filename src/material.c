@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <tgmath.h>
+#include <math.h>
 #include "glbfunc.h"
 #include "material.h"
 

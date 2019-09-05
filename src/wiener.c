@@ -1,4 +1,4 @@
-#include <tgmath.h>
+#include <math.h>
 #include <stdlib.h>
 #include "wiener.h"
 

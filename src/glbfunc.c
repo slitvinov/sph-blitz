@@ -1,4 +1,4 @@
-#include <tgmath.h>
+#include <math.h>
 #include "glbfunc.h"
 double
 AMAX1(double a, double b)
