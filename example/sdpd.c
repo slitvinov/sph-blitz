@@ -84,5 +84,6 @@ main(int argc, char *argv[])
     output_fin(output);
     diag_fin(diag);
     hydro_fin(hydro);
+    kernel_fin(kernel);
     return 0;
 }

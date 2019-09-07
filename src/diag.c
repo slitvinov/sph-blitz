@@ -16,6 +16,7 @@
 #include "diag.h"
 
 struct Diag {
+    int diag;
     double delta;
     double glb_ave_Ek;
     double *mtl_m;
@@ -63,6 +64,7 @@ diag_ini(struct Ini *ini, struct List *particle_list,
     q->delta = ini->delta;
     q->gridx = q->x_cells * ini->cell_ratio + 1;
     q->gridy = q->y_cells * ini->cell_ratio + 1;
+    q->diag = ini->diag;
     for (k = 0; k < 5; k++) {
 	q->U[k] = malloc(q->gridx * sizeof(double *));
 	if (q->U[k] == NULL)
@@ -80,8 +82,7 @@ diag_ini(struct Ini *ini, struct List *particle_list,
     q->n_average = 0;
     if (ini->diag == 2) {
 	q->mtl_m = malloc(number_of_materials * sizeof(*q->mtl_m));
-	q->wght_cntr =
-	    (double *) malloc(2 * number_of_materials *
+	q->wght_cntr = malloc(2 * number_of_materials *
 			      sizeof(*q->wght_cntr));
 	q->wght_v = malloc(2 * number_of_materials * sizeof(*q->wght_v));
 
@@ -360,11 +361,11 @@ diag_fin(struct Diag *q)
 	free(U[k]);
     }
 
-    /*
-       free(q->mtl_m);
-       free(q->wght_cntr);
-       free(q->wght_v);
-       free(q); */
+    if (q->diag == 2) {
+	free(q->mtl_m);
+	free(q->wght_cntr);
+	free(q->wght_v);
+    }
 
     DLOOP_P(d, q->vx_list)
 	free(d);

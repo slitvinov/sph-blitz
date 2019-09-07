@@ -374,12 +374,23 @@ void
 hydro_fin(struct Hydro *q)
 {
     int i;
+    struct ListNode *p;
+    struct Pair *pair;
+    struct Particle *prtl;
 
     for (i = 0; i < q->number_of_materials; i++)
 	free(q->forces[i]);
     free(q->forces);
     free(q->materials);
+
+    ILOOP_P(pair, q->pair_list) {
+	pair_fin(pair);
+    }
     list_fin(q->pair_list);
+
+    LOOP_P(prtl, q->particle_list) {
+	particle_fin(prtl);
+    }
     list_fin(q->particle_list);
     free(q);
 }
