@@ -2,4 +2,11 @@
 
 VERSION_CONTROL=none
 export VERSION_CONTROL
-exec indent -kr --blank-lines-after-declarations  --procnames-start-lines --use-tabs "$@"
+exec indent \
+     -kr\
+     --blank-lines-after-declarations\
+     --procnames-start-lines\
+     --use-tabs\
+     --tab-size 4\
+     --pointer-align-right\
+     "$@"
