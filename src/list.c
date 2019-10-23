@@ -71,7 +71,7 @@ void
 list_clear(struct List *q)
 {
     while (!list_empty(q))
-	list_remove(q, list_first(q));
+        list_remove(q, list_first(q));
     q->len = 0;
 }
 
@@ -100,7 +100,7 @@ void
 list_fin(struct List *q)
 {
     while (!list_empty(q))
-	list_remove(q, list_first(q));
+        list_remove(q, list_first(q));
     free(q->node);
     free(q);
 }

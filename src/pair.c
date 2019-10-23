@@ -17,7 +17,7 @@ double pair_art_vis;
 double pair_delta;
 struct Pair *
 pair_ini(struct Particle *prtl_org, struct Particle *prtl_dest,
-	 struct Force **forces, struct Kernel *kernel, double dstc)
+         struct Force **forces, struct Kernel *kernel, double dstc)
 {
     struct Pair *q;
     struct Particle *Org, *Dest;
@@ -27,7 +27,7 @@ pair_ini(struct Particle *prtl_org, struct Particle *prtl_dest,
 
     q = malloc(sizeof(*q));
     if (q == NULL)
-	ABORT(("can't allocate"));
+        ABORT(("can't allocate"));
 
     q->Org = Org = prtl_org;
     q->Dest = Dest = prtl_dest;
@@ -49,21 +49,21 @@ pair_ini(struct Particle *prtl_org, struct Particle *prtl_dest,
     q->Wij = w(kernel, rij);
     q->Fij = F(kernel, rij) * q->rrij;
     q->shear_rij =
-	2.0 * etai * etaj * rij / (etai *
-				   (rij +
-				    2.0 * frc_ij[noj][noi].shear_slip)
-				   + etaj * (rij +
-					     2.0 *
-					     frc_ij[noi][noj].shear_slip) +
-				   1.0e-30);
+        2.0 * etai * etaj * rij / (etai *
+                                   (rij +
+                                    2.0 * frc_ij[noj][noi].shear_slip)
+                                   + etaj * (rij +
+                                             2.0 *
+                                             frc_ij[noi][noj].shear_slip) +
+                                   1.0e-30);
     q->bulk_rij =
-	2.0 * zetai * zetaj * rij / (zetai *
-				     (rij +
-				      2.0 * frc_ij[noj][noi].bulk_slip)
-				     + zetaj * (rij +
-						2.0 *
-						frc_ij[noi][noj].bulk_slip)
-				     + 1.0e-30);
+        2.0 * zetai * zetaj * rij / (zetai *
+                                     (rij +
+                                      2.0 * frc_ij[noj][noi].bulk_slip)
+                                     + zetaj * (rij +
+                                                2.0 *
+                                                frc_ij[noi][noj].bulk_slip)
+                                     + 1.0e-30);
     return q;
 }
 
@@ -96,20 +96,20 @@ RenewPair(struct Pair *q, struct Kernel *kernel)
     q->Wij = w(kernel, rij);
     q->Fij = F(kernel, rij) * rrij;
     q->shear_rij =
-	2.0 * etai * etaj * q->rij / (etai *
-				      (rij +
-				       2.0 * frc_ij[noj][noi].shear_slip)
-				      + etaj * (rij + 2.0 * frc_ij[noi]
-						[noj].shear_slip) +
-				      1.0e-30);
+        2.0 * etai * etaj * q->rij / (etai *
+                                      (rij +
+                                       2.0 * frc_ij[noj][noi].shear_slip)
+                                      + etaj * (rij + 2.0 * frc_ij[noi]
+                                                [noj].shear_slip) +
+                                      1.0e-30);
     q->bulk_rij =
-	2.0 * zetai * zetaj * rij / (zetai *
-				     (rij +
-				      2.0 * frc_ij[noj][noi].bulk_slip)
-				     + zetaj * (rij +
-						2.0 *
-						frc_ij[noi][noj].bulk_slip)
-				     + 1.0e-30);
+        2.0 * zetai * zetaj * rij / (zetai *
+                                     (rij +
+                                      2.0 * frc_ij[noj][noi].bulk_slip)
+                                     + zetaj * (rij +
+                                                2.0 *
+                                                frc_ij[noi][noj].bulk_slip)
+                                     + 1.0e-30);
 }
 
 void
@@ -127,7 +127,7 @@ SummationDensity(struct Pair *q)
 
     Org->rho += mi * Wij;
     if (Org->ID != Dest->ID)
-	Dest->rho += mj * Wij;
+        Dest->rho += mj * Wij;
 }
 
 void
@@ -227,9 +227,9 @@ UpdateForces(struct Pair *q)
     Csj = Dest->Cs;
     theta = Uijdoteij * rij * delta / (rij * rij + 0.01 * delta * delta);
     NR_vis =
-	Uijdoteij >
-	0.0 ? 0.0 : art_vis * theta * (rhoi * Csi * mj +
-				       rhoj * Csj * mi) / (mi + mj);
+        Uijdoteij >
+        0.0 ? 0.0 : art_vis * theta * (rhoi * Csi * mj +
+                                       rhoj * Csj * mi) / (mi + mj);
     c = theta * Wij * art_vis / (rhoi + rhoj);
     dUi[X] = -eij[X] * c;
     dUi[Y] = -eij[Y] * c;
@@ -237,13 +237,13 @@ UpdateForces(struct Pair *q)
     dy = Ui[Y] * Vi2 - Uj[Y] * Vj2;
     drhodti = -Fij * rij * (dx * eij[X] + dy * eij[Y]);
     dPdti[X] = eij[X] * Fij * rij * (pi * Vi2 + pj * Vj2)
-	- ((Uij[X] - eij[X] * Uijdoteij) * shear_rij +
-	   eij[X] * (Uijdoteij * 2.0 * bulk_rij + NR_vis))
-	* Fij * (Vi2 + Vj2);
+        - ((Uij[X] - eij[X] * Uijdoteij) * shear_rij +
+           eij[X] * (Uijdoteij * 2.0 * bulk_rij + NR_vis))
+        * Fij * (Vi2 + Vj2);
     dPdti[Y] = eij[Y] * Fij * rij * (pi * Vi2 + pj * Vj2)
-	- ((Uij[Y] - eij[Y] * Uijdoteij) * shear_rij +
-	   eij[Y] * (Uijdoteij * 2.0 * bulk_rij + NR_vis))
-	* Fij * (Vi2 + Vj2);
+        - ((Uij[Y] - eij[Y] * Uijdoteij) * shear_rij +
+           eij[Y] * (Uijdoteij * 2.0 * bulk_rij + NR_vis))
+        * Fij * (Vi2 + Vj2);
     double Surfi[2], Surfj[2], SurfaceForcei[2], SurfaceForcej[2];
 
     Surfi[X] = Org->del_phi[X];
@@ -255,9 +255,9 @@ UpdateForces(struct Pair *q)
     SurfaceForcej[X] = Surfj[X] * eij[X] + Surfj[Y] * eij[Y];
     SurfaceForcej[Y] = Surfj[Y] * eij[X] - Surfj[X] * eij[Y];
     dPdti[X] +=
-	(SurfaceForcei[X] * Vi2 + SurfaceForcej[X] * Vj2) * rij * Fij;
+        (SurfaceForcei[X] * Vi2 + SurfaceForcej[X] * Vj2) * rij * Fij;
     dPdti[Y] +=
-	(SurfaceForcei[Y] * Vi2 + SurfaceForcej[Y] * Vj2) * rij * Fij;
+        (SurfaceForcei[Y] * Vi2 + SurfaceForcej[Y] * Vj2) * rij * Fij;
     Org->_dU[X] += dUi[X] * mi;
     Org->_dU[Y] += dUi[Y] * mi;
     Dest->_dU[X] -= dUi[X] * mj;
@@ -298,7 +298,7 @@ RandomForces(struct Pair *q, double sqrtdt)
     Ti = Org->T;
     Tj = Dest->T;
     if (Ti == 0 && Tj == 0)
-	return;
+        return;
     Vi = mi / Org->rho;
     Vj = mj / Dest->rho;
     wiener_gaussian(&Random_p, &Random_v);
@@ -309,27 +309,27 @@ RandomForces(struct Pair *q, double sqrtdt)
 
     v_eij[X] = v_eij[Y] = 0;
     _dUi[X] =
-	v_eij[X] * Random_p * sqrt(16.0 * k_bltz * shear_rij * Ti * Tj /
-				   (Ti + Tj) * (Vi2 + Vj2) * Fij) +
-	eij[X] * Random_v * sqrt(16.0 * k_bltz * bulk_rij * Ti * Tj /
-				 (Ti + Tj) * (Vi2 + Vj2) * Fij);
+        v_eij[X] * Random_p * sqrt(16.0 * k_bltz * shear_rij * Ti * Tj /
+                                   (Ti + Tj) * (Vi2 + Vj2) * Fij) +
+        eij[X] * Random_v * sqrt(16.0 * k_bltz * bulk_rij * Ti * Tj /
+                                 (Ti + Tj) * (Vi2 + Vj2) * Fij);
     _dUi[Y] =
-	v_eij[Y] * Random_p * sqrt(16.0 * k_bltz * shear_rij * Ti * Tj /
-				   (Ti + Tj) * (Vi2 + Vj2) * Fij) +
-	eij[Y] * Random_v * sqrt(16.0 * k_bltz * bulk_rij * Ti * Tj /
-				 (Ti + Tj) * (Vi2 + Vj2) * Fij);
+        v_eij[Y] * Random_p * sqrt(16.0 * k_bltz * shear_rij * Ti * Tj /
+                                   (Ti + Tj) * (Vi2 + Vj2) * Fij) +
+        eij[Y] * Random_v * sqrt(16.0 * k_bltz * bulk_rij * Ti * Tj /
+                                 (Ti + Tj) * (Vi2 + Vj2) * Fij);
     if (Dest->bd_type == 1) {
-	Org->_dU[X] = Org->_dU[X] + _dUi[X] * rmi * 0.5;
-	Org->_dU[Y] = Org->_dU[Y] + _dUi[Y] * rmi * 0.5;
-	Dest->rl_prtl->_dU[X] =
-	    Dest->rl_prtl->_dU[X] - _dUi[X] * rmj * 0.5;
-	Dest->rl_prtl->_dU[Y] =
-	    Dest->rl_prtl->_dU[Y] - _dUi[Y] * rmj * 0.5;
+        Org->_dU[X] = Org->_dU[X] + _dUi[X] * rmi * 0.5;
+        Org->_dU[Y] = Org->_dU[Y] + _dUi[Y] * rmi * 0.5;
+        Dest->rl_prtl->_dU[X] =
+            Dest->rl_prtl->_dU[X] - _dUi[X] * rmj * 0.5;
+        Dest->rl_prtl->_dU[Y] =
+            Dest->rl_prtl->_dU[Y] - _dUi[Y] * rmj * 0.5;
     } else {
-	Org->_dU[X] = Org->_dU[X] + _dUi[X] * rmi;
-	Org->_dU[Y] = Org->_dU[Y] + _dUi[Y] * rmi;
-	Dest->_dU[X] = Dest->_dU[X] - _dUi[X] * rmj;
-	Dest->_dU[Y] = Dest->_dU[Y] - _dUi[Y] * rmj;
+        Org->_dU[X] = Org->_dU[X] + _dUi[X] * rmi;
+        Org->_dU[Y] = Org->_dU[Y] + _dUi[Y] * rmi;
+        Dest->_dU[X] = Dest->_dU[X] - _dUi[X] * rmj;
+        Dest->_dU[Y] = Dest->_dU[Y] - _dUi[Y] * rmj;
     }
 }
 

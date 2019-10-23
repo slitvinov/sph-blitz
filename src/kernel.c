@@ -19,8 +19,8 @@ kernel_ini(double smoothingLength)
 
     q = malloc(sizeof(*q));
     if (q == NULL) {
-	ABORT(("fail to alloc"));
-	return q;
+        ABORT(("fail to alloc"));
+        return q;
     }
 
     norm = 63.0 / 478.0 / pi;
@@ -48,15 +48,15 @@ w(struct Kernel *q, double r)
     b = (2.0 - d);
     c = (1.0 - d);
     if (d < 1.0) {
-	return q->factorW * (a * a * a * a * a -
-			     6.0 * b * b * b * b * b +
-			     15.0 * c * c * c * c * c);
+        return q->factorW * (a * a * a * a * a -
+                             6.0 * b * b * b * b * b +
+                             15.0 * c * c * c * c * c);
     } else if (d < 2.0) {
-	return q->factorW * (a * a * a * a * a - 6.0 * b * b * b * b * b);
+        return q->factorW * (a * a * a * a * a - 6.0 * b * b * b * b * b);
     } else if (d < 3.0) {
-	return q->factorW * a * a * a * a * a;
+        return q->factorW * a * a * a * a * a;
     } else {
-	return 0.0;
+        return 0.0;
     }
 }
 
@@ -71,13 +71,13 @@ F(struct Kernel *q, double r)
     c = (1.0 - d);
 
     if (d < 1.0) {
-	return q->factorGradW * (a * a * a * a - 6.0 * b * b * b * b +
-				 15.0 * c * c * c * c);
+        return q->factorGradW * (a * a * a * a - 6.0 * b * b * b * b +
+                                 15.0 * c * c * c * c);
     } else if (d < 2.0) {
-	return q->factorGradW * (a * a * a * a - 6.0 * b * b * b * b);
+        return q->factorGradW * (a * a * a * a - 6.0 * b * b * b * b);
     } else if (d < 3.0) {
-	return q->factorGradW * a * a * a * a;
+        return q->factorGradW * a * a * a * a;
     } else {
-	return 0.0;
+        return 0.0;
     }
 }

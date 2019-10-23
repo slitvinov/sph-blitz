@@ -29,7 +29,7 @@ output_ini(struct Ini *ini)
 
     q = malloc(sizeof(struct Output));
     if (q == NULL)
-	return NULL;
+        return NULL;
     strcpy(q->Project_name, ini->Project_name);
     q->x_cells = ini->x_cells;
     q->y_cells = ini->y_cells;
@@ -41,8 +41,8 @@ output_ini(struct Ini *ini)
 
 int
 output_particles(struct Output *q, struct List *particle_list,
-		 struct Material *materials, struct Boundary *boundary,
-		 double Time)
+                 struct Material *materials, struct Boundary *boundary,
+                 double Time)
 {
     char file_name[FILENAME_MAX], file_list[FILENAME_MAX];
     double Itime;
@@ -64,35 +64,35 @@ output_particles(struct Output *q, struct List *particle_list,
 
     f = fopen(file_name, "w");
     if (!f)
-	ABORT(("can't write '%s'", file_name));
+        ABORT(("can't write '%s'", file_name));
     fprintf(f, "%s", "title='particle position' \n");
     fprintf(f, "%s", "variables=x, y, Ux, Uy \n");
     for (i = 0; i < number_of_materials; i++) {
-	j = 0;
-	LOOP_P(prtl, particle_list) {
-	    if (strcmp
-		(materials[i].material_name,
-		 prtl->mtl->material_name) == 0) {
-		j++;
-		if (j == 1)
-		    fprintf(f, "zone t='%s' \n",
-			    materials[i].material_name);
-		fprintf(f, "%.6g %.6g %.6g %.6g\n", prtl->R[0], prtl->R[1],
-			prtl->U[0], prtl->U[1]);
-	    }
-	}
-	LOOP_P(prtl, blist) {
-	    if (strcmp
-		(materials[i].material_name,
-		 prtl->mtl->material_name) == 0) {
-		j++;
-		if (j == 1)
-		    fprintf(f, "zone t='%s' \n",
-			    materials[i].material_name);
-		fprintf(f, "%.6g %.6g %.6g %.6g\n", prtl->R[0], prtl->R[1],
-			prtl->U[0], prtl->U[1]);
-	    }
-	}
+        j = 0;
+        LOOP_P(prtl, particle_list) {
+            if (strcmp
+                (materials[i].material_name,
+                 prtl->mtl->material_name) == 0) {
+                j++;
+                if (j == 1)
+                    fprintf(f, "zone t='%s' \n",
+                            materials[i].material_name);
+                fprintf(f, "%.6g %.6g %.6g %.6g\n", prtl->R[0], prtl->R[1],
+                        prtl->U[0], prtl->U[1]);
+            }
+        }
+        LOOP_P(prtl, blist) {
+            if (strcmp
+                (materials[i].material_name,
+                 prtl->mtl->material_name) == 0) {
+                j++;
+                if (j == 1)
+                    fprintf(f, "zone t='%s' \n",
+                            materials[i].material_name);
+                fprintf(f, "%.6g %.6g %.6g %.6g\n", prtl->R[0], prtl->R[1],
+                        prtl->U[0], prtl->U[1]);
+            }
+        }
     }
     fclose(f);
     return 0;
@@ -100,7 +100,7 @@ output_particles(struct Output *q, struct List *particle_list,
 
 int
 output_states(struct Output *q, struct Manager *manager, struct MLS *mls,
-	      struct Kernel *kernel, double Time)
+              struct Kernel *kernel, double Time)
 {
     FILE *f;
     int i, j, n;
@@ -132,39 +132,39 @@ output_states(struct Output *q, struct Manager *manager, struct MLS *mls,
     strcat(file_name, ".dat");
     f = fopen(file_name, "w");
     if (!f)
-	ABORT(("can't write '%s'", file_name));
+        ABORT(("can't write '%s'", file_name));
     fprintf(f, "%s", "title='mapped states' \n");
     fprintf(f, "%s", "variables=x, y, p, rho, phi, Ux, Uy, T \n");
     fprintf(f, "zone t='filed', i=%d, j=%d\n", gridx + 1, gridy + 1);
     for (j = 0; j <= gridy; j++) {
-	for (i = 0; i <= gridx; i++) {
-	    pstn[0] = i * delta;
-	    pstn[1] = j * delta;
-	    manager_build_nnp(manager, pstn);
-	    if (!list_empty(manager->NNP_list))
-		mls_map(mls, pstn, manager->NNP_list, kernel, 1);
-	    n = 0;
-	    rho = 0.0;
-	    phi0 = 0.0;
-	    pressure = 0.0;
-	    Temperature = 0.0;
-	    x_velocity = 0.0;
-	    y_velocity = 0.0;
-	    mls_phi(mls, &phi);
-	    LOOP_P(prtl, manager->NNP_list) {
-		rho += prtl->rho * phi[n];
-		phi0 += prtl->phi[2][2] * phi[n];
-		pressure += prtl->p * phi[n];
-		Temperature += prtl->T * phi[n];
-		x_velocity += prtl->U[0] * phi[n];
-		y_velocity += prtl->U[1] * phi[n];
-		n++;
-	    }
-	    list_clear(manager->NNP_list);
-	    fprintf(f, "%.6g %.6g, %.6g %.6g, %.6g %.6g, %.6g %.6g\n",
-		    pstn[0], pstn[1], pressure, rho, phi0, x_velocity,
-		    y_velocity, Temperature);
-	}
+        for (i = 0; i <= gridx; i++) {
+            pstn[0] = i * delta;
+            pstn[1] = j * delta;
+            manager_build_nnp(manager, pstn);
+            if (!list_empty(manager->NNP_list))
+                mls_map(mls, pstn, manager->NNP_list, kernel, 1);
+            n = 0;
+            rho = 0.0;
+            phi0 = 0.0;
+            pressure = 0.0;
+            Temperature = 0.0;
+            x_velocity = 0.0;
+            y_velocity = 0.0;
+            mls_phi(mls, &phi);
+            LOOP_P(prtl, manager->NNP_list) {
+                rho += prtl->rho * phi[n];
+                phi0 += prtl->phi[2][2] * phi[n];
+                pressure += prtl->p * phi[n];
+                Temperature += prtl->T * phi[n];
+                x_velocity += prtl->U[0] * phi[n];
+                y_velocity += prtl->U[1] * phi[n];
+                n++;
+            }
+            list_clear(manager->NNP_list);
+            fprintf(f, "%.6g %.6g, %.6g %.6g, %.6g %.6g, %.6g %.6g\n",
+                    pstn[0], pstn[1], pressure, rho, phi0, x_velocity,
+                    y_velocity, Temperature);
+        }
     }
     fclose(f);
     return 0;
@@ -183,19 +183,19 @@ output_restart(struct Output *q, struct List *particle_list, double Time)
     strcat(file_name, ".rst");
     f = fopen(file_name, "w");
     if (!f)
-	ABORT(("can't write '%s'", file_name));
+        ABORT(("can't write '%s'", file_name));
     n = 0;
     LOOP_P(prtl, particle_list) {
-	if (prtl->bd == 0)
-	    n++;
+        if (prtl->bd == 0)
+            n++;
     }
     fprintf(f, "%.6g\n", Time);
     fprintf(f, "%d\n", n);
     LOOP_P(prtl, particle_list) {
-	if (prtl->bd == 0)
-	    fprintf(f, "%s %.6g %.6g %.6g %.6g %.6g %.6g %.6g\n",
-		    prtl->mtl->material_name, prtl->R[0], prtl->R[1],
-		    prtl->U[0], prtl->U[1], prtl->rho, prtl->p, prtl->T);
+        if (prtl->bd == 0)
+            fprintf(f, "%s %.6g %.6g %.6g %.6g %.6g %.6g %.6g\n",
+                    prtl->mtl->material_name, prtl->R[0], prtl->R[1],
+                    prtl->U[0], prtl->U[1], prtl->rho, prtl->p, prtl->T);
     }
     fclose(f);
     return 0;

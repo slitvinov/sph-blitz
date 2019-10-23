@@ -4,7 +4,7 @@ double
 AMAX1(double a, double b)
 {
     if (a > b)
-	return a;
+        return a;
     return b;
 }
 
@@ -12,7 +12,7 @@ double
 AMIN1(double a, double b)
 {
     if (a < b)
-	return a;
+        return a;
     return b;
 }
 
@@ -58,7 +58,7 @@ SymmetricInverse3x3(double *M)
     z7 = z12 + z7;
     z8 = z13 + z14 + z15 + z16 + z8;
     if (fabs(z8) < 1.0e-2)
-	return 0;
+        return 0;
     z1 = z1 + z4;
     z4 = 1. / z8;
     z2 = z2 * z4;

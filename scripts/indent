@@ -2,11 +2,13 @@
 
 VERSION_CONTROL=none
 export VERSION_CONTROL
+
+#      --pointer-align-right
 exec indent \
      -kr\
      --blank-lines-after-declarations\
      --procnames-start-lines\
-     --use-tabs\
-     --tab-size 4\
+     --no-tabs\
      --pointer-align-right\
+     --tab-size 4\
      "$@"

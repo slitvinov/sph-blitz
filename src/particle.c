@@ -30,10 +30,10 @@ phi_ini(void)
     n = particle_number_of_materials;
     q = malloc(n * sizeof(*q));
     for (i = 0; i < n; i++)
-	q[i] = malloc(n * sizeof(*q));
+        q[i] = malloc(n * sizeof(*q));
     for (i = 0; i < n; i++)
-	for (j = 0; j < n; j++)
-	    q[i][j] = 0.0;
+        for (j = 0; j < n; j++)
+            q[i][j] = 0.0;
     return q;
 }
 
@@ -43,7 +43,7 @@ particle_fin(struct Particle *q)
     int i;
 
     for (i = 0; i < particle_number_of_materials; i++) {
-	free(q->phi[i]);
+        free(q->phi[i]);
     }
     free(q->phi);
     free(q);
@@ -52,8 +52,8 @@ particle_fin(struct Particle *q)
 
 struct Particle *
 particle_real(double position[2], double velocity[2], double density,
-	      double pressure, double temperature,
-	      struct Material *material)
+              double pressure, double temperature,
+              struct Material *material)
 {
     XX;
 
@@ -207,18 +207,18 @@ particle_copy(struct Particle *q, struct Particle *s, int type)
     A(ShearRate_y[X]);
     A(ShearRate_y[Y]);
     if (type == 1) {
-	A(del_phi[X]);
-	A(del_phi[Y]);
-	for (i = 0; i < particle_number_of_materials; i++) {
-	    for (j = 0; j < particle_number_of_materials; j++) {
-		A(phi[i][j]);
-	    }
-	}
+        A(del_phi[X]);
+        A(del_phi[Y]);
+        for (i = 0; i < particle_number_of_materials; i++) {
+            for (j = 0; j < particle_number_of_materials; j++) {
+                A(phi[i][j]);
+            }
+        }
     }
     if (type == 0) {
-	q->phi[0][0] = 0;
-	for (i = 1; i < particle_number_of_materials; i++)
-	    q->phi[0][0] += s->phi[i][i];
+        q->phi[0][0] = 0;
+        for (i = 1; i < particle_number_of_materials; i++)
+            q->phi[0][0] += s->phi[i][i];
     }
     return 0;
 }

@@ -25,15 +25,15 @@ mls_ini(int MLS_MAX)
 
     q = malloc(sizeof(*q));
     if (q == NULL)
-	return NULL;
+        return NULL;
 
     q->MLS_MAX = MLS_MAX;
     q->Wi = malloc(MLS_MAX * sizeof(*q->Wi));
     q->phi = malloc(MLS_MAX * sizeof(*q->phi));
     for (k = 0; k < 3; k++)
-	q->B[k] = malloc(MLS_MAX * sizeof(double));
+        q->B[k] = malloc(MLS_MAX * sizeof(double));
     for (k = 0; k < 3; k++)
-	q->pi[k] = malloc(MLS_MAX * sizeof(double));
+        q->pi[k] = malloc(MLS_MAX * sizeof(double));
     return q;
 }
 
@@ -45,9 +45,9 @@ mls_fin(struct MLS *q)
     free(q->Wi);
     free(q->phi);
     for (k = 0; k < 3; k++)
-	free(q->B[k]);
+        free(q->B[k]);
     for (k = 0; k < 3; k++)
-	free(q->pi[k]);
+        free(q->pi[k]);
     free(q);
     return 0;
 }
@@ -75,41 +75,41 @@ mls_solve(struct MLS *q, int order)
     N = q->N;
 
     for (k = 0; k < 3; k++)
-	for (m = 0; m < 3; m++) {
-	    A[3 * k + m] = 0.0;
-	    for (i = 0; i < N; i++)
-		A[3 * k + m] += pi[k][i] * pi[m][i] * Wi[i];
-	}
+        for (m = 0; m < 3; m++) {
+            A[3 * k + m] = 0.0;
+            for (i = 0; i < N; i++)
+                A[3 * k + m] += pi[k][i] * pi[m][i] * Wi[i];
+        }
     for (k = 0; k < 3; k++)
-	for (i = 0; i < N; i++)
-	    B[k][i] = pi[k][i] * Wi[i];
+        for (i = 0; i < N; i++)
+            B[k][i] = pi[k][i] * Wi[i];
     ord = SymmetricInverse3x3(A);
     if (order < ord)
-	ord = order;
+        ord = order;
     if (ord == 0) {
-	inter1 = 0.0;
-	for (i = 0; i < N; i++)
-	    inter1 += Wi[i];
-	for (i = 0; i < N; i++)
-	    phi[i] = Wi[i] / inter1;
+        inter1 = 0.0;
+        for (i = 0; i < N; i++)
+            inter1 += Wi[i];
+        for (i = 0; i < N; i++)
+            phi[i] = Wi[i] / inter1;
     } else {
-	for (k = 0; k < 3; k++) {
-	    inter[k] = 0.0;
-	    for (m = 0; m < 3; m++)
-		inter[k] += p[m] * A[3 * m + k];
-	}
-	for (i = 0; i < N; i++) {
-	    phi[i] = 0.0;
-	    for (k = 0; k < 3; k++)
-		phi[i] += inter[k] * B[k][i];
-	}
+        for (k = 0; k < 3; k++) {
+            inter[k] = 0.0;
+            for (m = 0; m < 3; m++)
+                inter[k] += p[m] * A[3 * m + k];
+        }
+        for (i = 0; i < N; i++) {
+            phi[i] = 0.0;
+            for (k = 0; k < 3; k++)
+                phi[i] += inter[k] * B[k][i];
+        }
     }
     return 0;
 }
 
 int
 mls_map(struct MLS *q, double point[2], struct List *NNP_list,
-	struct Kernel *kernel, int order)
+        struct Kernel *kernel, int order)
 {
     struct Particle *prtl;
     struct ListNode *p1;
@@ -131,17 +131,17 @@ mls_map(struct MLS *q, double point[2], struct List *NNP_list,
     p[1] = point[0];
     p[2] = point[1];
     LOOP1_P(prtl, NNP_list) {
-	Wi[N] = w(kernel, vv_distance(point, prtl->R));
-	pi[0][N] = 1.0;
-	pi[1][N] = prtl->R[0];
-	pi[2][N] = prtl->R[1];
-	B[0][N] = pi[0][N] * Wi[N];
-	B[1][N] = pi[1][N] * Wi[N];
-	B[2][N] = pi[2][N] * Wi[N];
-	N++;
+        Wi[N] = w(kernel, vv_distance(point, prtl->R));
+        pi[0][N] = 1.0;
+        pi[1][N] = prtl->R[0];
+        pi[2][N] = prtl->R[1];
+        B[0][N] = pi[0][N] * Wi[N];
+        B[1][N] = pi[1][N] * Wi[N];
+        B[2][N] = pi[2][N] * Wi[N];
+        N++;
     }
     if (N >= MLS_MAX)
-	ABORT(("the reference particle number larger than largest permited"));
+        ABORT(("the reference particle number larger than largest permited"));
     q->N = N;
     return mls_solve(q, order);
 }
