@@ -34,7 +34,7 @@ main(int argc, char *argv[])
     struct Output *output;
 
     if (argc < 2)
-	ERR(2, ("no project name specified"));
+        ERR(2, ("no project name specified"));
     wiener_seed(12345);
     initiation_ini(argv[1], &ini);
     pair_art_vis = ini.art_vis;
@@ -47,7 +47,7 @@ main(int argc, char *argv[])
     hydro = hydro_ini(&ini);
 
     manager_build_particles(manager, hydro->materials,
-			    hydro->particle_list, &ini);
+                            hydro->particle_list, &ini);
     boundary = boundary_ini(&ini);
     boundary_build(boundary, manager->cell_lists, hydro->materials);
     output = output_ini(&ini);
@@ -57,25 +57,25 @@ main(int argc, char *argv[])
 
     Time = ini.Start_time;
     output_particles(output, hydro->particle_list, hydro->materials,
-		     boundary, Time);
+                     boundary, Time);
     output_states(output, manager, mls, kernel, Time);
     if (ini.diag == 2)
-	KineticInformation(diag, Time, hydro->particle_list,
-			   hydro->materials);
+        KineticInformation(diag, Time, hydro->particle_list,
+                           hydro->materials);
 
     ite = 0;
     while (Time < ini.End_time) {
-	if (Time + ini.D_time >= ini.End_time)
-	    ini.D_time = ini.End_time - Time;
-	step(&ite, hydro, manager, boundary, &Time, ini.D_time,
-	     diag, &ini, kernel, mls);
-	output_particles(output, hydro->particle_list, hydro->materials,
-			 boundary, Time);
-	output_restart(output, hydro->particle_list, Time);
-	if (ini.diag == 1) {
-	    OutputProfile(diag, Time);
-	    OutputAverage(diag, Time);
-	}
+        if (Time + ini.D_time >= ini.End_time)
+            ini.D_time = ini.End_time - Time;
+        step(&ite, hydro, manager, boundary, &Time, ini.D_time,
+             diag, &ini, kernel, mls);
+        output_particles(output, hydro->particle_list, hydro->materials,
+                         boundary, Time);
+        output_restart(output, hydro->particle_list, Time);
+        if (ini.diag == 1) {
+            OutputProfile(diag, Time);
+            OutputAverage(diag, Time);
+        }
     }
 
     boundary_fin(boundary);

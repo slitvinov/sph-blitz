@@ -8,10 +8,10 @@ struct Material;
 struct Diag;
 
 int Average(struct Diag *, struct Manager *, struct MLS *,
-	    struct Kernel *);
+            struct Kernel *);
 int BuildDistribution(struct List *, double dstrb[2][101]);
 int KineticInformation(struct Diag *, double Time, struct List *,
-		       struct Material *);
+                       struct Material *);
 int OutputAverage(struct Diag *, double Time);
 int OutputProfile(struct Diag *, double Time);
 int SaveStates(struct Diag *, struct List *);

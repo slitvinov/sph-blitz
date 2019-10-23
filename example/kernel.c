@@ -21,8 +21,8 @@ main()
     n = 100;
     dx = (hi - lo) / (n - 1);
     for (i = 0; i < n; i++) {
-	x = lo + i * dx;
-	printf("%.16g %.16g %.16g\n", x, w(kernel, x), F(kernel, x));
+        x = lo + i * dx;
+        printf("%.16g %.16g %.16g\n", x, w(kernel, x), F(kernel, x));
     }
     kernel_fin(kernel);
     return 0;

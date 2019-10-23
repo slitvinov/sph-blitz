@@ -53,7 +53,7 @@ struct Particle {
 };
 
 struct Particle *particle_real(double[2], double[2], double, double,
-			       double, struct Material *);
+                               double, struct Material *);
 struct Particle *particle_image(struct Particle *);
 struct Particle *particle_wall(double, double, struct Material *);
 struct Particle *particle_mirror(struct Particle *, struct Material *);
