@@ -8,12 +8,14 @@ SPH_CFLAGS = -I../src
 M = \
 inv\
 kernel\
+list\
 sdpd\
 
 O = $(M:=.o)
 
 all: $M
 sph: sph.o
+list: list.o
 .o:; $(LINK) -o $@ $< $(LDFLAGS) $(SPH_LDFLAGS)
 .c.o:; $(CC) -c -o $@ $(CFLAGS) $(SPH_CFLAGS) $<
 lint:; make CFLAGS='-g -Og -Wall -Wextra -pedantic'
