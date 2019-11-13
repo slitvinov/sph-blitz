@@ -13,6 +13,12 @@ Martin Bernreuther, Andreas Mattes)
 
 `make test` runs [tests](test/) (requres atest).
 
+# Cases
+
+Run fluctuating liquid, Coette flow, and elliptic drop:
+`example/sdpd cases/thermal`, `example/sdpd cases/coette`,
+`example/sdpd cases/ellipse`
+
 # Configuration file
 
 To use the initial condition file
