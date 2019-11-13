@@ -30,7 +30,7 @@ all: libsph.a
 $M: $O; $(AR) rc $@ $^ && $(RANLIB) $@
 .c.o:; $(CC) -c $(CFLAGS) $(SPH_CFLAGS) $<
 dep:; ../scripts/dep
-lint:; make CFLAGS='-g -Wall -Wextra -pedantic'
+lint:; make CFLAGS='-g -Og -Wall -Wextra -pedantic'
 
 .PHONY: clean dep lint
 clean:; rm -f -- $M $O

@@ -19,7 +19,7 @@ Change C compiler and flags
 
 # Cases
 
-Run fluctuating liquid, Coette flow, and elliptic drop:
+Run fluctuating liquid, Couette flow, and elliptic drop:
 `example/sdpd cases/thermal`, `example/sdpd cases/coette`,
 `example/sdpd cases/ellipse`
 

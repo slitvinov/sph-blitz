@@ -16,7 +16,7 @@ all: $M
 sph: sph.o
 .o:; $(LINK) -o $@ $< $(LDFLAGS) $(SPH_LDFLAGS)
 .c.o:; $(CC) -c -o $@ $(CFLAGS) $(SPH_CFLAGS) $<
-lint:; make CFLAGS='-g -Wall -Wextra -pedantic'
+lint:; make CFLAGS='-g -Og -Wall -Wextra -pedantic'
 
 .SUFFIXES: .o .c
 
