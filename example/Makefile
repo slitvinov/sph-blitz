@@ -15,7 +15,7 @@ O = $(M:=.o)
 
 all: $M
 .o:; $(LINK) -o $@ $< $(LDFLAGS) $(SPH_LDFLAGS)
-.c.o:; $(CC) -c -o $@ $(CFLAGS) $(SPH_CFLAGS) $<
+.c.o:; $(CC) -c $(CFLAGS) $(SPH_CFLAGS) $<
 lint:; make CFLAGS='-g -Og -Wall -Wextra -pedantic'
 
 .SUFFIXES: .o .c
