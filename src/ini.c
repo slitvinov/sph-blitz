@@ -20,8 +20,6 @@ initiation_ini(char *project_name, struct Ini *q)
     while (fscanf(f, "%s", Key_word) == 1) {
         if (!strcmp(Key_word, "INITIAL_CONDITION"))
             fscanf(f, "%d", &q->initial_condition);
-        if (!strcmp(Key_word, "DIAGNOSE"))
-            fscanf(f, "%d", &q->diag);
         if (!strcmp(Key_word, "CELLS"))
             fscanf(f, "%d %d", &q->x_cells, &q->y_cells);
         if (!strcmp(Key_word, "CELL_SIZE"))
@@ -39,8 +37,6 @@ initiation_ini(char *project_name, struct Ini *q)
         if (!strcmp(Key_word, "TIMING"))
             fscanf(f, "%lf %lf %lf", &q->Start_time, &q->End_time,
                    &q->D_time);
-        if (!strcmp(Key_word, "MLS_MAX"))
-            fscanf(f, "%d", &q->MLS_MAX);
         if (q->initial_condition == 0) {
             if (!strcmp(Key_word, "INITIAL_STATES"))
                 fscanf(f, "%lf %lf %lf %lf %lf", &q->U0[0], &q->U0[1],

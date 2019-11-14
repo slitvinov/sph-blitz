@@ -17,7 +17,6 @@ struct Ini {
     int cell_ratio;
     int diag;
     int initial_condition;
-    int MLS_MAX;
     int number_of_materials;
     int x_cells;
     int y_cells;

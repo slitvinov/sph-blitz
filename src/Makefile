@@ -8,7 +8,6 @@ SPH_CFLAGS = -Isph
 M = libsph.a
 O = \
 boundary.o\
-diag.o\
 err.o\
 glbfunc.o\
 hydro.o\
@@ -17,7 +16,6 @@ pair.o\
 list.o\
 manager.o\
 material.o\
-mls.o\
 output.o\
 particle.o\
 kernel.o\
