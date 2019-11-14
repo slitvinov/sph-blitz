@@ -6,7 +6,6 @@
 #include "ini.h"
 #include "material.h"
 #include "boundary.h"
-#include "manager.h"
 #include "macro.h"
 #include "err.h"
 #include "output.h"
