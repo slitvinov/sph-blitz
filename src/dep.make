@@ -4,7 +4,6 @@ boundary.o: sph/err.h
 boundary.o: sph/ini.h
 boundary.o: sph/list.h
 boundary.o: sph/macro.h
-boundary.o: sph/material.h
 boundary.o: sph/particle.h
 err.o: sph/err.h
 hydro.o: sph/boundary.h
@@ -52,10 +51,11 @@ pair.o: sph/kernel.h
 pair.o: sph/material.h
 pair.o: sph/pair.h
 pair.o: sph/particle.h
+pair.o: sph/random.h
 pair.o: sph/vv.h
-pair.o: sph/wiener.h
 particle.o: sph/material.h
 particle.o: sph/particle.h
+random.o: sph/random.h
 step.o: sph/boundary.h
 step.o: sph/hydro.h
 step.o: sph/ini.h
@@ -69,4 +69,3 @@ volume.o: sph/particle.h
 volume.o: sph/volume.h
 volume.o: sph/vv.h
 vv.o: sph/vv.h
-wiener.o: sph/wiener.h

@@ -1,15 +1,15 @@
 #include <math.h>
 #include <stdlib.h>
-#include "wiener.h"
+#include "random.h"
 
 void
-wiener_seed(unsigned seed)
+random_seed(unsigned seed)
 {
     srand(seed);
 }
 
 void
-wiener_gaussian(double *y1, double *y2)
+random_gaussian(double *y1, double *y2)
 {
     double x1, x2, w;
 

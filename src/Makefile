@@ -11,17 +11,17 @@ boundary.o\
 err.o\
 hydro.o\
 ini.o\
-pair.o\
+kernel.o\
 list.o\
 manager.o\
 material.o\
 output.o\
+pair.o\
 particle.o\
-kernel.o\
+random.o\
 step.o\
 volume.o\
 vv.o\
-wiener.o\
 
 all: libsph.a
 $M: $O; $(AR) rc $@ $^ && $(RANLIB) $@

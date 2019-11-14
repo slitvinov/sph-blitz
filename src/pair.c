@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "vv.h"
 #include "kernel.h"
-#include "wiener.h"
+#include "random.h"
 #include "ini.h"
 #include "particle.h"
 #include "material.h"
@@ -300,7 +300,7 @@ RandomForces(struct Pair *q, double sqrtdt)
         return;
     Vi = mi / Org->rho;
     Vj = mj / Dest->rho;
-    wiener_gaussian(&Random_p, &Random_v);
+    random_gaussian(&Random_p, &Random_v);
     Random_p *= sqrtdt;
     Random_v *= sqrtdt;
     double _dUi[2];
