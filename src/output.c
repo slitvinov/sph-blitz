@@ -13,10 +13,6 @@
 
 struct Output {
     char Project_name[FILENAME_MAX];
-    double delta;
-    int x_cells;
-    int y_cells;
-    int cell_ratio;
     int number_of_materials;
 };
 
@@ -29,10 +25,6 @@ output_ini(struct Ini *ini)
     if (q == NULL)
         return NULL;
     strcpy(q->Project_name, ini->Project_name);
-    q->x_cells = ini->x_cells;
-    q->y_cells = ini->y_cells;
-    q->cell_ratio = ini->cell_ratio;
-    q->delta = ini->delta;
     q->number_of_materials = ini->number_of_materials;
     return q;
 }
