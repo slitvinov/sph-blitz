@@ -19,6 +19,7 @@ usg(void)
 }
 
 static int eq(const char *, const char *);
+
 #define ARG(x)							\
     do {							\
 	c = strtok(NULL, sep);					\
@@ -45,32 +46,32 @@ main(int argc, const char **argv)
 
     argv++;
     if (argv[0] != NULL && argv[0][0] == '-' && argv[0][1] == 'h')
-	usg();
+        usg();
     l = list_ini();
     while (get(s, stdin)) {
-	strncpy(p, s, N);
-	if (c = strtok(s, sep)) {
-	    if (eq(c, "insert")) {
-		x = malloc(sizeof(*x));
-		ARG(*x);
-		n = list_first(l);
-		list_insert(l, n, x);
-	    } else if (eq(c, "traverse")) {
-		LOOP()
-		    printf("%d\n", *x);
-	    } else if (eq(c, "length")) {
-		printf("%d\n", list_length(l));
-	    } else if (eq(c, "remove")) {
-		n = list_first(l);
-		x = list_retrieve(l, n);
-		free(x);
-		list_remove(l, n);
-	    } else
-		ABORT(("unknown command: %s", p));
-	}
+        strncpy(p, s, N);
+        if (c = strtok(s, sep)) {
+            if (eq(c, "insert")) {
+                x = malloc(sizeof(*x));
+                ARG(*x);
+                n = list_first(l);
+                list_insert(l, n, x);
+            } else if (eq(c, "traverse")) {
+                LOOP()
+                    printf("%d\n", *x);
+            } else if (eq(c, "length")) {
+                printf("%d\n", list_length(l));
+            } else if (eq(c, "remove")) {
+                n = list_first(l);
+                x = list_retrieve(l, n);
+                free(x);
+                list_remove(l, n);
+            } else
+                ABORT(("unknown command: %s", p));
+        }
     }
     LOOP()
-	free(x);
+        free(x);
     list_fin(l);
 }
 
@@ -80,10 +81,10 @@ get(char *s, FILE * f)
     int n;
 
     if (fgets(s, N, f) == NULL)
-	return NULL;
+        return NULL;
     n = strlen(s);
     if (s[n - 1] == '\n')
-	s[n - 1] = '\0';
+        s[n - 1] = '\0';
     return s;
 }
 

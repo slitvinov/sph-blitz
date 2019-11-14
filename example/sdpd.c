@@ -56,8 +56,7 @@ main(int argc, char *argv[])
     while (Time < ini.End_time) {
         if (Time + ini.D_time >= ini.End_time)
             ini.D_time = ini.End_time - Time;
-        step(&ite, hydro, manager, boundary, &Time, ini.D_time,
-             kernel);
+        step(&ite, hydro, manager, boundary, &Time, ini.D_time, kernel);
         output_particles(output, hydro->particle_list, hydro->materials,
                          boundary, Time);
         output_restart(output, hydro->particle_list, Time);

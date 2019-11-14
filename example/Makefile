@@ -8,6 +8,7 @@ SPH_CFLAGS = -I../src
 M = \
 kernel\
 list\
+random\
 sdpd\
 
 O = $(M:=.o)
