@@ -1,5 +1,4 @@
 struct Material;
-struct Pair;
 struct Force;
 struct Particle;
 struct Ini;
