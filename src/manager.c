@@ -34,7 +34,6 @@ manager_ini(struct Ini *ini)
     q->cell_size = ini->cell_size;
     q->x_clls = ini->x_cells + 2;
     q->y_clls = ini->y_cells + 2;
-    q->cell_ratio = ini->cell_ratio;
 
     q->cell_lists = malloc(q->x_clls * sizeof(struct List **));
     for (i = 0; i < q->x_clls; i++) {
@@ -199,7 +198,7 @@ manager_build_particles(struct Manager *q, struct Material *materials,
     y_clls = q->y_clls;
     cell_size = q->cell_size;
     cell_lists = q->cell_lists;
-    cell_ratio = q->cell_ratio;
+    cell_ratio = ini->cell_ratio;
 
     delta = cell_size / cell_ratio;
     if (ini->initial_condition == 0) {

@@ -7,7 +7,6 @@ struct Kernel;
 struct Manager {
     double smoothinglength;
     double cell_size;
-    int cell_ratio;
     int x_clls;
     int y_clls;
     struct List ***cell_lists;
