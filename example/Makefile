@@ -6,7 +6,6 @@ SPH_LDFLAGS = -L../src -lsph -lm
 SPH_CFLAGS = -I../src
 
 M = \
-inv\
 kernel\
 list\
 sdpd\
