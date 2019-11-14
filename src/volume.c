@@ -6,7 +6,6 @@
 #include "volume.h"
 #include "macro.h"
 
-
 void
 VolumeMass(struct List *particle_list, struct Manager *manager,
            struct Kernel *kernel)

@@ -6,7 +6,6 @@
 #include "particle.h"
 #include "list.h"
 #include "ini.h"
-#include "material.h"
 #include "boundary.h"
 #include "macro.h"
 enum { X, Y };
