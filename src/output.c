@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "particle.h"
-#include "glbfunc.h"
 #include "list.h"
 #include "ini.h"
 #include "material.h"

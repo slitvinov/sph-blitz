@@ -5,7 +5,6 @@
 #include "boundary.h"
 #include "err.h"
 #include "force.h"
-#include "glbfunc.h"
 #include "ini.h"
 #include "pair.h"
 #include "list.h"
@@ -17,6 +16,8 @@
 #include "hydro.h"
 
 enum { X, Y };
+static double AMAX1(double a, double b) { return a > b ? a : b; }
+static double AMIN1(double a, double b) { return a < b ? a : b; }
 
 struct Hydro *
 hydro_ini(struct Ini *ini)

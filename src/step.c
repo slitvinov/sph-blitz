@@ -9,7 +9,6 @@
 void
 step(int *pite, struct Hydro *hydro, struct Manager *manager,
      struct Boundary *boundary, double *Time, double D_time,
-     struct Ini *ini,
      struct Kernel *kernel)
 {
     double integeral_time;

@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <math.h>
-#include "glbfunc.h"
 #include "material.h"
 
+static double AMAX1(double a, double b) { return a > b ? a : b; }
 void
 Set_nu(struct Material *q)
 {

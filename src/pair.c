@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "vv.h"
-#include "glbfunc.h"
 #include "kernel.h"
 #include "wiener.h"
 #include "ini.h"

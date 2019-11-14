@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
-#include "glbfunc.h"
 #include "vv.h"
 #include "ini.h"
 #include "particle.h"

@@ -9,7 +9,6 @@ M = libsph.a
 O = \
 boundary.o\
 err.o\
-glbfunc.o\
 hydro.o\
 ini.o\
 pair.o\
