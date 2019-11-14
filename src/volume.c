@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
 #include "particle.h"
 #include "vv.h"
 #include "list.h"
@@ -14,7 +11,6 @@ void
 VolumeMass(struct List *particle_list, struct Manager *manager,
            struct Kernel *kernel)
 {
-    enum { X, Y };
     double reciprocV;
     double dstc;
     struct ListNode *p, *p1;
