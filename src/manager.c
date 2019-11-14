@@ -14,7 +14,7 @@
 #include "manager.h"
 
 
-#define MAX_SIZE 4096
+enum {MAX_SIZE = 4096 };
 enum { X, Y };
 
 #define NEW(pos, vel, den, pre, tem, mtl) particle_real(pos, vel, den, pre, tem, mtl)
