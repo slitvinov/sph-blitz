@@ -37,10 +37,3 @@ vv_sqdiff(double v[2])
 {
     return v[X] * v[X] - v[Y] * v[Y];
 }
-
-/// Return the square sum of the vector values
-double
-vv_sq(double v[2])
-{
-    return v[X] * v[X] + v[Y] * v[Y];
-}
