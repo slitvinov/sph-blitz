@@ -25,6 +25,7 @@ main(int argc, const char **argv)
     double x;
     double dx;
 
+    if(argc);else{};
     argv++;
     if (argv[0] != NULL && argv[0][0] == '-' && argv[0][1] == 'h')
         usg();

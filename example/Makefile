@@ -1,9 +1,9 @@
 .POSIX:
-LINK = $(CC)
-CFLAGS = -g -Og
+.SUFFIXES:
+.SUFFIXES: .c
 
-SPH_LDFLAGS = -L../src -lsph -lm
-SPH_CFLAGS = -I../src
+CFLAGS = -g -Og
+SPH_FLAGS = -I../src -L../src -lsph -lm
 
 M = \
 kernel\
@@ -12,13 +12,8 @@ random\
 sdpd\
 
 all: $M
-.o:; $(LINK) -o $@ $< $(LDFLAGS) $(SPH_LDFLAGS)
-.c.o:; $(CC) -c $(CFLAGS) $(SPH_CFLAGS) $<
-lint:; make CFLAGS='-g -Og -Wall -Wextra -pedantic'
-
-.SUFFIXES: .o .c
-%: %.c
-
+.c:; $(CC) $(CFLAGS) $< -o $@ $(LDFLAGS) $(SPH_FLAGS) 
+lint:; $(MAKE) CFLAGS='-g -Og -Wall -Wextra -pedantic'
 dep:; ls *.c | awk '{i = o = $$1; sub(/\.c$$/, ".o", o); print o ": " i}' > dep.make
 
 .PHONY: clean lint dep

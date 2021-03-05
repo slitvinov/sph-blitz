@@ -94,22 +94,19 @@ type code
 
 # Simulations
 
-    cd src
-
 Couette flow simulation
 
-    ./main ../cases/couette
+    $ example/sdpd  cases/couette
 
 Water drop in air starting from [an initial condition file](cases/ellipse.cfg)
 
-    ./main ../cases/ellipse
+    $ example/sdpd cases/ellipse
 
 # Output
 
 Output is in ASCII tecplot files, to convert to punto format run
 
-    cd outdata
-    ../../scripts/2punto > punto.dat
+    $ scripts/2punto outdata
 
 # Visualization
 
@@ -149,4 +146,4 @@ Fluctuating liquid
 
 - atest https://github.com/slitvinov/atest
 
-- SPH (Smoothed-particle hydrodynamics), SDPD (smoothed dissipative particle dynamics)
+- SPH (smoothed-particle hydrodynamics), SDPD (smoothed dissipative particle dynamics)
