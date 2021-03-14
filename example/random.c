@@ -15,42 +15,43 @@ usg(void)
 int
 main(int argc, const char **argv)
 {
-    int n, s, i;
+    int n, s;
     double x, y;
     const char *arg;
 
+    if(argc);else{};
     n = 10;
     s = 1234;
     while (*++argv != NULL && argv[0][0] == '-')
-        switch (argv[0][1]) {
-        case 'h':
-            usg();
-            break;
-        case 's':
-            argv++;
-            if ((arg = *argv) == NULL)
-                ABORT(("-s needs an agreement"));
-            s = atoi(*argv);
-            break;
-        case 'n':
-            argv++;
-            if ((arg = *argv) == NULL)
-                ABORT(("-s needs an agreement"));
-            n = atoi(*argv);
-            break;
-        default:
-            ABORT(("unknown option '%s'", argv[0]));
-            exit(1);
-        }
+	switch (argv[0][1]) {
+	case 'h':
+	    usg();
+	    break;
+	case 's':
+	    argv++;
+	    if ((arg = *argv) == NULL)
+		ABORT(("-s needs an agreement"));
+	    s = atoi(*argv);
+	    break;
+	case 'n':
+	    argv++;
+	    if ((arg = *argv) == NULL)
+		ABORT(("-s needs an agreement"));
+	    n = atoi(*argv);
+	    break;
+	default:
+	    ABORT(("unknown option '%s'", argv[0]));
+	    exit(1);
+	}
 
     random_seed(s);
     for (;;) {
-        random_gaussian(&x, &y);
-        printf(FMT "\n", x);
-        if (!--n)
-            break;
-        printf(FMT "\n", y);
-        if (!--n)
-            break;
+	random_gaussian(&x, &y);
+	printf(FMT "\n", x);
+	if (!--n)
+	    break;
+	printf(FMT "\n", y);
+	if (!--n)
+	    break;
     }
 }

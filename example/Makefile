@@ -1,8 +1,8 @@
 .POSIX:
+.SUFFIXES:
 .SUFFIXES: .c
-LINK = $(CC)
-CFLAGS = -g -Og
 
+CFLAGS = -g -Og
 SPH_FLAGS = -I../src -L../src -lsph -lm
 
 M = \

@@ -5,13 +5,13 @@ Martin Bernreuther, Andreas Mattes)
 
 # Build
 
-       git clone https://github.com/slitvinov/sph-blitz
-       cd sph-blitz
-       make
+       $ git clone https://github.com/slitvinov/sph-blitz
+       $ cd sph-blitz
+       $ make
 
 Change C compiler and flags
 
-       make CC=clang CFLAGS='-Ofast -g'
+       $ make CC=clang CFLAGS='-Ofast -g'
 
 # Test
 
@@ -94,32 +94,29 @@ type code
 
 # Simulations
 
-    cd src
-
 Couette flow simulation
 
-    ./main ../cases/couette
+    $ example/sdpd  cases/couette
 
 Water drop in air starting from [an initial condition file](cases/ellipse.cfg)
 
-    ./main ../cases/ellipse
+    $ example/sdpd cases/ellipse
 
 # Output
 
 Output is in ASCII tecplot files, to convert to punto format run
 
-    cd outdata
-    ../../scripts/2punto > punto.dat
+    $ scripts/2punto outdata
 
 # Visualization
 
-    punto -D 2 -V -s 50 punto.dat
-    punto -D 2 -c 4 -B 0:0:0.04:0.04 -G -0.2:0.2 punto.dat
+    $ punto -D 2 -V -s 50 punto.dat
+    $ punto -D 2 -c 4 -B 0:0:0.04:0.04 -G -0.2:0.2 punto.dat
 
 in gnuplot shell
 
-    plot n=1, 'punto.dat' u 2:3 every :::n::n
-    plot n=10, A=250.0, 'punto.dat' u 2:3 every :::n::n+5, A*x*(L-x)
+    $ plot n=1, 'punto.dat' u 2:3 every :::n::n
+    $ plot n=10, A=250.0, 'punto.dat' u 2:3 every :::n::n+5, A*x*(L-x)
 
 # Images
 
@@ -149,4 +146,4 @@ Fluctuating liquid
 
 - atest https://github.com/slitvinov/atest
 
-- SPH (Smoothed-particle hydrodynamics), SDPD (smoothed dissipative particle dynamics)
+- SPH (smoothed-particle hydrodynamics), SDPD (smoothed dissipative particle dynamics)
