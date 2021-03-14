@@ -1,19 +1,14 @@
-# Introduction
+<H1>Introduction</H1>
 
 2D multiphase SPH/SDPD code (authors: Xiangyu Hu, Sergey Litvinov, Oliver Oberinger
 Martin Bernreuther, Andreas Mattes)
 
-# Build
+<H1>Build</H1>
 
        $ git clone https://github.com/slitvinov/sph-blitz
        $ cd sph-blitz
-       $ make
-
-Change C compiler and flags
-
-       $ make CC=clang CFLAGS='-Ofast -g'
-
-# Test
+       $ (cd src && make)
+       $ (cd example && make)
 
 `make test` runs [tests](test/) (requres atest).
 
