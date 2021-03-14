@@ -1,9 +1,9 @@
-<H1>Introduction</H1>
+<H2>Introduction</H2>
 
 2D multiphase SPH/SDPD code (authors: Xiangyu Hu, Sergey Litvinov, Oliver Oberinger
 Martin Bernreuther, Andreas Mattes)
 
-<H1>Build</H1>
+<H2>Build</H2>
 
        $ git clone https://github.com/slitvinov/sph-blitz
        $ cd sph-blitz
@@ -12,13 +12,13 @@ Martin Bernreuther, Andreas Mattes)
 
 `make test` runs [tests](test/) (requres atest).
 
-# Cases
+<H2>Cases</H2>
 
 Run fluctuating liquid, Couette flow, and elliptic drop:
 `example/sdpd cases/thermal`, `example/sdpd cases/coette`,
 `example/sdpd cases/ellipse`
 
-# Configuration file
+<H2>Configuration file</H2>
 
 To use the initial condition file
 
@@ -77,7 +77,7 @@ type code
 
 `sigma` is a surface tension coefficient
 
-# Initial condition file
+<H2>Initial condition file</H2>
 
     <start time>
     <number of particles>
@@ -87,7 +87,7 @@ type code
 
 [example](cases/couette.rst)
 
-# Simulations
+<H2>Simulations</H2>
 
 Couette flow simulation
 
@@ -97,13 +97,13 @@ Water drop in air starting from [an initial condition file](cases/ellipse.cfg)
 
     $ example/sdpd cases/ellipse
 
-# Output
+<H2>Output</H2>
 
 Output is in ASCII tecplot files, to convert to punto format run
 
     $ scripts/2punto outdata
 
-# Visualization
+<H2>Visualization</H2>
 
     $ punto -D 2 -V -s 50 punto.dat
     $ punto -D 2 -c 4 -B 0:0:0.04:0.04 -G -0.2:0.2 punto.dat
@@ -113,7 +113,7 @@ in gnuplot shell
     $ plot n=1, 'punto.dat' u 2:3 every :::n::n
     $ plot n=10, A=250.0, 'punto.dat' u 2:3 every :::n::n+5, A*x*(L-x)
 
-# Images
+<H2>Images</H2>
 
 Poiseuille flow
 
@@ -127,7 +127,7 @@ Fluctuating liquid
 
 <p align="center"><img src="img/thermal.gif"/></p>
 
-# References
+<H2>References</H2>
 
 - Hu, Xianguy, and Nikolaus A. Adams. "A multi-phase SPH method for
   macroscopic and mesoscopic flows." Journal of Computational Physics
