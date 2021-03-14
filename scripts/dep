@@ -11,13 +11,12 @@ BEGIN {
             if (sub(/^[\t ]*#[\t ]*include[\t ]*/, "") &&
                 sub(/^"/, "") &&
                 sub(/".*/, "")) {
-                path = "sph/" $0
-                if (!filep(path)) {
+                if (!filep($0)) {
                     printf "%s:%d: error: no such file '%s'\n", ARGV[i], line, $0 | "cat >&2"
                     exit(1)
                 }
                     
-                print f ": " path | "sort"
+                print f ": " $0 | "sort"
             }
         }
         close(ARGV[i])
