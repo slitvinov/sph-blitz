@@ -1,24 +1,31 @@
-#!/bin/sh
+#!/usr/bin/awk -f
 
-awk -v me="$0" '
 BEGIN {
-    printf "# generate by %s\n", me
-}
-FNR == 1 {
-    f = FILENAME
-    sub(/\.c$/, ".o", f)
-    sub(/\.cpp$/, ".o", f)
+    printf "# generate by %s\n", "scripts/dep"
+    for (i = 1; i in ARGV; i++) {
+        f = ARGV[i]
+        sub(/\.c$/, ".o", f)
+        line = 0
+        while (getline < ARGV[i] > 0) {
+            line++
+            if (sub(/^[\t ]*#[\t ]*include[\t ]*/, "") &&
+                sub(/^"/, "") &&
+                sub(/".*/, "")) {
+                path = "sph/" $0
+                if (!filep(path)) {
+                    printf "%s:%d: error: no such file '%s'\n", ARGV[i], line, $0 | "cat >&2"
+                    exit(1)
+                }
+                    
+                print f ": " path | "sort"
+            }
+        }
+        close(ARGV[i])
+    }
 }
 
-{
-    sub(/\/\/.*/, "") # comment
+function filep(path, aux, rc) {
+  rc = getline aux < path
+  close(path)
+  return rc >= 0
 }
-
-sub(/^[\t ]*#[\t ]*include[\t ]*/, "") &&
-sub(/^\"/, "") &&
-sub(/".*/, "") {
-    path = "sph/" $0
-    print f ": " path | "sort"
-}
-' *.c > dep.make
-echo >&2 update dep.make

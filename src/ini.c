@@ -2,8 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
-#include "err.h"
-#include "ini.h"
+#include "sph/err.h"
+#include "sph/ini.h"
 int
 initiation_ini(char *project_name, struct Ini *q)
 {

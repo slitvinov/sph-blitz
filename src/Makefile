@@ -1,9 +1,9 @@
 .POSIX:
+.SUFFIXES: .o
+.SUFFIXES: .c
 CFLAGS = -g -O2
 AR = ar
 RANLIB = ranlib
-
-SPH_CFLAGS = -Isph
 
 M = libsph.a
 O = \
@@ -24,11 +24,9 @@ volume.o\
 vv.o\
 
 all: libsph.a
-$M: $O; $(AR) rc $@ $^ && $(RANLIB) $@
-.c.o:; $(CC) -c $(CFLAGS) $(SPH_CFLAGS) $<
-dep:; ../scripts/dep
-lint:; make CFLAGS='-g -Og -Wall -Wextra -pedantic'
+$M: $O; $(AR) rc $@ $O && $(RANLIB) $@
+.c.o:; $(CC) -c $(CFLAGS) $<
+dep:; ../scripts/dep *.c > dep.mk
 
-.PHONY: clean dep lint
 clean:; rm -f -- $M $O
-include dep.make
+include dep.mk

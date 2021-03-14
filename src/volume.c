@@ -1,10 +1,10 @@
-#include "particle.h"
-#include "vv.h"
-#include "list.h"
-#include "kernel.h"
-#include "manager.h"
-#include "volume.h"
-#include "macro.h"
+#include "sph/particle.h"
+#include "sph/vv.h"
+#include "sph/list.h"
+#include "sph/kernel.h"
+#include "sph/manager.h"
+#include "sph/volume.h"
+#include "sph/macro.h"
 
 void
 VolumeMass(struct List *particle_list, struct Manager *manager,

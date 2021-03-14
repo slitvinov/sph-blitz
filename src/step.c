@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <math.h>
-#include "ini.h"
-#include "hydro.h"
-#include "boundary.h"
-#include "manager.h"
-#include "step.h"
+#include "sph/ini.h"
+#include "sph/hydro.h"
+#include "sph/boundary.h"
+#include "sph/manager.h"
+#include "sph/step.h"
 
 void
 step(int *pite, struct Hydro *hydro, struct Manager *manager,

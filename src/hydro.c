@@ -2,18 +2,18 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
-#include "boundary.h"
-#include "err.h"
-#include "force.h"
-#include "ini.h"
-#include "pair.h"
-#include "list.h"
-#include "macro.h"
-#include "material.h"
-#include "particle.h"
-#include "kernel.h"
-#include "vv.h"
-#include "hydro.h"
+#include "sph/boundary.h"
+#include "sph/err.h"
+#include "sph/force.h"
+#include "sph/ini.h"
+#include "sph/pair.h"
+#include "sph/list.h"
+#include "sph/macro.h"
+#include "sph/material.h"
+#include "sph/particle.h"
+#include "sph/kernel.h"
+#include "sph/vv.h"
+#include "sph/hydro.h"
 
 enum { X, Y };
 static double AMAX1(double a, double b) { return a > b ? a : b; }

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-#include "material.h"
+#include "sph/material.h"
 
 static double AMAX1(double a, double b) { return a > b ? a : b; }
 void

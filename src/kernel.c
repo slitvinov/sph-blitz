@@ -1,7 +1,7 @@
 #include <math.h>
 #include <stdlib.h>
-#include "err.h"
-#include "kernel.h"
+#include "sph/err.h"
+#include "sph/kernel.h"
 
 struct Kernel {
     double reciprocH;

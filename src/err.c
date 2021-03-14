@@ -1,6 +1,6 @@
 #include <stdarg.h>
 #include <stdio.h>
-#include "err.h"
+#include "sph/err.h"
 
 int
 wprint(const char *fmt, ...)

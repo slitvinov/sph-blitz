@@ -1,4 +1,4 @@
-# generate by ../scripts/dep
+# generate by scripts/dep
 boundary.o: sph/boundary.h
 boundary.o: sph/err.h
 boundary.o: sph/ini.h
@@ -40,7 +40,6 @@ output.o: sph/err.h
 output.o: sph/ini.h
 output.o: sph/list.h
 output.o: sph/macro.h
-output.o: sph/manager.h
 output.o: sph/material.h
 output.o: sph/output.h
 output.o: sph/particle.h

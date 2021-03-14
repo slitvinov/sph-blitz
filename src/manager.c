@@ -2,16 +2,16 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
-#include "vv.h"
-#include "ini.h"
-#include "particle.h"
-#include "list.h"
-#include "material.h"
-#include "boundary.h"
-#include "macro.h"
-#include "err.h"
-#include "pair.h"
-#include "manager.h"
+#include "sph/vv.h"
+#include "sph/ini.h"
+#include "sph/particle.h"
+#include "sph/list.h"
+#include "sph/material.h"
+#include "sph/boundary.h"
+#include "sph/macro.h"
+#include "sph/err.h"
+#include "sph/pair.h"
+#include "sph/manager.h"
 
 
 enum {MAX_SIZE = 4096 };

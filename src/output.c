@@ -1,14 +1,14 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "particle.h"
-#include "list.h"
-#include "ini.h"
-#include "material.h"
-#include "boundary.h"
-#include "macro.h"
-#include "err.h"
-#include "output.h"
+#include "sph/particle.h"
+#include "sph/list.h"
+#include "sph/ini.h"
+#include "sph/material.h"
+#include "sph/boundary.h"
+#include "sph/macro.h"
+#include "sph/err.h"
+#include "sph/output.h"
 
 struct Output {
     char Project_name[FILENAME_MAX];

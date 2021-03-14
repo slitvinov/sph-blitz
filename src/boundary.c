@@ -2,12 +2,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-#include "err.h"
-#include "particle.h"
-#include "list.h"
-#include "ini.h"
-#include "boundary.h"
-#include "macro.h"
+#include "sph/err.h"
+#include "sph/particle.h"
+#include "sph/list.h"
+#include "sph/ini.h"
+#include "sph/boundary.h"
+#include "sph/macro.h"
 enum { X, Y };
 
 #define A prtl = particle_mirror(prtl_old, mtl)

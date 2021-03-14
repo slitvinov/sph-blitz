@@ -1,6 +1,6 @@
 #include <math.h>
 #include <stdlib.h>
-#include "random.h"
+#include "sph/random.h"
 
 void
 random_seed(unsigned seed)

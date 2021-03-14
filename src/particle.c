@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "material.h"
-#include "particle.h"
+#include "sph/material.h"
+#include "sph/particle.h"
 
 enum { X, Y };
 
