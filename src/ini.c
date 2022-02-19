@@ -5,18 +5,43 @@
 #include "sph/err.h"
 #include "sph/ini.h"
 #include "sph/list.h"
+#include "sph/material.h"
+#include "sph/force.h"
+#include "sph/vv.h"
 
 enum { X, Y };
+static double
+AMAX1(double a, double b)
+{
+    return a > b ? a : b;
+}
+
+static double
+AMIN1(double a, double b)
+{
+    return a < b ? a : b;
+}
+
 int
 initiation_ini(char *project_name, struct Ini *q)
 {
     char Key_word[FILENAME_MAX];
     char *mkdir = "mkdir -p outdata";
+    double delta;
+    double smoothinglength;
+    double sound;
     FILE *f;
-    int rc;
     int i;
     int j;
+    int k;
+    int l;
+    int m;
     int n;
+    int number_of_materials;
+    int rc;
+    struct Force *force;
+    struct Material *mtl;
+    
 
     strcpy(q->Project_name, project_name);
     strcpy(q->inputfile, q->Project_name);
@@ -90,6 +115,72 @@ initiation_ini(char *project_name, struct Ini *q)
     puts("1: perodic boundary condition");
     puts("2: free slip wall boundary condition");
     puts("3: symmetry boundary condition");
+
+    q->pair_list = list_ini();
+    number_of_materials = q->number_of_materials;
+    smoothinglength = q->smoothinglength;
+    delta = q->delta;
+    q->delta2 = delta * delta;
+    q->delta3 = delta * delta * delta;
+    q->materials = malloc(number_of_materials * sizeof(*q->materials));
+    q->forces = malloc(number_of_materials * sizeof(*force));
+    for (k = 0; k < number_of_materials; k++)
+        q->forces[k] = malloc(number_of_materials * sizeof(*q->forces[k]));
+
+    f = fopen(q->inputfile, "r");
+    if (!f)
+        ABORT(("can't open '%s'", q->inputfile));
+    else
+        printf("read the propeties of materials and forces\n");
+    while (fscanf(f, "%s", Key_word) == 1) {
+        if (!strcmp(Key_word, "MATERIALS"))
+            for (k = 0; k < number_of_materials; k++) {
+                mtl = &q->materials[k];
+                mtl->number = k;
+                if (fscanf
+                    (f, "%s %d", mtl->material_name, &mtl->material_type)
+                    != 2)
+                    ABORT(("can't read material from '%s'",
+                           q->inputfile));
+                if (fscanf
+                    (f, "%lf %lf %lf %lf %lf", &mtl->eta, &mtl->zeta,
+                     &mtl->gamma, &mtl->rho0, &mtl->a0) != 5)
+                    ABORT(("can't read materal parameters from '%s'",
+                           q->inputfile));
+                Set_nu(mtl);
+            }
+        if (!strcmp(Key_word, "FORCES"))
+            for (l = 0; l < number_of_materials; l++)
+                for (n = 0; n < number_of_materials; n++) {
+                    if (fscanf(f, "%d %d", &k, &m) != 2)
+                        ABORT(("can't read materal from '%s'",
+                               q->inputfile));
+                    force = &q->forces[k][m];
+                    if (fscanf(f, "%lf %lf %lf %lf",
+                               &force->epsilon, &force->sigma,
+                               &force->shear_slip, &force->bulk_slip) != 4)
+                        ABORT(("can't read force from '%s'",
+                               q->inputfile));
+                }
+    }
+    fclose(f);
+    q->viscosity_max = 0.0;
+    q->surface_max = 0.0;
+    for (k = 0; k < number_of_materials; k++) {
+        q->viscosity_max = AMAX1(q->viscosity_max, q->materials[k].nu);
+        for (l = 0; l < number_of_materials; l++) {
+            q->surface_max = AMAX1(q->surface_max, q->forces[k][l].sigma);
+        }
+    }
+    q->dt_g_vis =
+        AMIN1(sqrt(delta / vv_abs(q->gravity)),
+              0.5 * q->delta2 / q->viscosity_max);
+    q->dt_surf = 0.4 * sqrt(q->delta3 / q->surface_max);
+    sound = AMAX1(vv_abs(q->gravity), q->viscosity_max);
+    sound = AMAX1(q->surface_max, sound);
+    for (k = 0; k < number_of_materials; k++)
+        Set_b0(&q->materials[k], sound);
+    q->particle_list = list_ini();
 
     return 0;
 }

@@ -7,7 +7,6 @@ boundary.o: sph/particle.h
 err.o: sph/err.h
 hydro.o: sph/err.h
 hydro.o: sph/force.h
-hydro.o: sph/hydro.h
 hydro.o: sph/ini.h
 hydro.o: sph/kernel.h
 hydro.o: sph/list.h
@@ -17,8 +16,11 @@ hydro.o: sph/pair.h
 hydro.o: sph/particle.h
 hydro.o: sph/vv.h
 ini.o: sph/err.h
+ini.o: sph/force.h
 ini.o: sph/ini.h
 ini.o: sph/list.h
+ini.o: sph/material.h
+ini.o: sph/vv.h
 kernel.o: sph/err.h
 kernel.o: sph/kernel.h
 list.o: sph/list.h
@@ -50,7 +52,6 @@ pair.o: sph/vv.h
 particle.o: sph/material.h
 particle.o: sph/particle.h
 random.o: sph/random.h
-step.o: sph/hydro.h
 step.o: sph/ini.h
 step.o: sph/step.h
 volume.o: sph/ini.h

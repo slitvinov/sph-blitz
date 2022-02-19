@@ -12,7 +12,6 @@
 #include "sph/particle.h"
 #include "sph/kernel.h"
 #include "sph/vv.h"
-#include "sph/hydro.h"
 
 enum { X, Y };
 static double
@@ -27,95 +26,8 @@ AMIN1(double a, double b)
     return a < b ? a : b;
 }
 
-struct Hydro *
-hydro_ini(struct Ini *ini)
-{
-    int k, m;
-    int l, n;
-    char Key_word[FILENAME_MAX];
-    double sound, smoothinglength, delta;
-    int number_of_materials;
-    FILE *f;
-    struct Material *mtl;
-    struct Force *force;
-    struct Hydro *q;
-
-    q = malloc(sizeof(*q));
-    if (q == NULL)
-        return q;
-    q->pair_list = list_ini();
-    q->number_of_materials = number_of_materials =
-        ini->number_of_materials;
-    q->gravity[X] = ini->gravity[X];
-    q->gravity[Y] = ini->gravity[Y];
-    q->smoothinglength = smoothinglength = ini->smoothinglength;
-    q->delta = delta = ini->delta;
-    q->delta2 = delta * delta;
-    q->delta3 = delta * delta * delta;
-    q->materials = malloc(number_of_materials * sizeof(*q->materials));
-    q->forces = malloc(number_of_materials * sizeof(*force));
-    for (k = 0; k < number_of_materials; k++)
-        q->forces[k] = malloc(number_of_materials * sizeof(*q->forces[k]));
-
-    f = fopen(ini->inputfile, "r");
-    if (!f)
-        ABORT(("can't open '%s'", ini->inputfile));
-    else
-        printf("read the propeties of materials and forces\n");
-    while (fscanf(f, "%s", Key_word) == 1) {
-        if (!strcmp(Key_word, "MATERIALS"))
-            for (k = 0; k < number_of_materials; k++) {
-                mtl = &q->materials[k];
-                mtl->number = k;
-                if (fscanf
-                    (f, "%s %d", mtl->material_name, &mtl->material_type)
-                    != 2)
-                    ABORT(("can't read material from '%s'",
-                           ini->inputfile));
-                if (fscanf
-                    (f, "%lf %lf %lf %lf %lf", &mtl->eta, &mtl->zeta,
-                     &mtl->gamma, &mtl->rho0, &mtl->a0) != 5)
-                    ABORT(("can't read materal parameters from '%s'",
-                           ini->inputfile));
-                Set_nu(mtl);
-            }
-        if (!strcmp(Key_word, "FORCES"))
-            for (l = 0; l < number_of_materials; l++)
-                for (n = 0; n < number_of_materials; n++) {
-                    if (fscanf(f, "%d %d", &k, &m) != 2)
-                        ABORT(("can't read materal from '%s'",
-                               ini->inputfile));
-                    force = &q->forces[k][m];
-                    if (fscanf(f, "%lf %lf %lf %lf",
-                               &force->epsilon, &force->sigma,
-                               &force->shear_slip, &force->bulk_slip) != 4)
-                        ABORT(("can't read force from '%s'",
-                               ini->inputfile));
-                }
-    }
-    fclose(f);
-    q->viscosity_max = 0.0;
-    q->surface_max = 0.0;
-    for (k = 0; k < number_of_materials; k++) {
-        q->viscosity_max = AMAX1(q->viscosity_max, q->materials[k].nu);
-        for (l = 0; l < number_of_materials; l++) {
-            q->surface_max = AMAX1(q->surface_max, q->forces[k][l].sigma);
-        }
-    }
-    q->dt_g_vis =
-        AMIN1(sqrt(delta / vv_abs(q->gravity)),
-              0.5 * q->delta2 / q->viscosity_max);
-    q->dt_surf = 0.4 * sqrt(q->delta3 / q->surface_max);
-    sound = AMAX1(vv_abs(ini->gravity), q->viscosity_max);
-    sound = AMAX1(q->surface_max, sound);
-    for (k = 0; k < number_of_materials; k++)
-        Set_b0(&q->materials[k], sound);
-    q->particle_list = list_ini();
-    return q;
-}
-
 void
-UpdatePair(struct Hydro *q, struct Kernel *kernel)
+UpdatePair(struct Ini *q, struct Kernel *kernel)
 {
     struct ListNode *p;
     struct Pair *pair;
@@ -126,7 +38,7 @@ UpdatePair(struct Hydro *q, struct Kernel *kernel)
 }
 
 void
-UpdatePhaseGradient(struct Hydro *q, struct Ini *boundary)
+UpdatePhaseGradient(struct Ini *q, struct Ini *boundary)
 {
     struct ListNode *p;
     struct Pair *pair;
@@ -138,7 +50,7 @@ UpdatePhaseGradient(struct Hydro *q, struct Ini *boundary)
 }
 
 void
-UpdateDensity(struct Hydro *q)
+UpdateDensity(struct Ini *q)
 {
     struct ListNode *p;
     struct Pair *pair;
@@ -151,7 +63,7 @@ UpdateDensity(struct Hydro *q)
 }
 
 void
-UpdateChangeRate(struct Hydro *q)
+UpdateChangeRate(struct Ini *q)
 {
     struct ListNode *p;
     struct Pair *pair;
@@ -164,7 +76,7 @@ UpdateChangeRate(struct Hydro *q)
 }
 
 void
-UpdateRandom(struct Hydro *q, double sqrtdt)
+UpdateRandom(struct Ini *q, double sqrtdt)
 {
     struct ListNode *p;
     struct Pair *pair;
@@ -176,7 +88,7 @@ UpdateRandom(struct Hydro *q, double sqrtdt)
 }
 
 void
-ZeroChangeRate(struct Hydro *q)
+ZeroChangeRate(struct Ini *q)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -190,7 +102,7 @@ ZeroChangeRate(struct Hydro *q)
 }
 
 void
-Zero_density(struct Hydro *q)
+Zero_density(struct Ini *q)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -201,7 +113,7 @@ Zero_density(struct Hydro *q)
 }
 
 void
-Zero_PhaseGradient(struct Hydro *q, struct Ini *boundary)
+Zero_PhaseGradient(struct Ini *q, struct Ini *boundary)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -218,7 +130,7 @@ Zero_PhaseGradient(struct Hydro *q, struct Ini *boundary)
 }
 
 void
-Zero_Random(struct Hydro *q)
+Zero_Random(struct Ini *q)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -229,7 +141,7 @@ Zero_Random(struct Hydro *q)
 }
 
 void
-AddGravity(struct Hydro *q)
+AddGravity(struct Ini *q)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -241,7 +153,7 @@ AddGravity(struct Hydro *q)
 }
 
 void
-UpdateState(struct Hydro *q)
+UpdateState(struct Ini *q)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -252,7 +164,7 @@ UpdateState(struct Hydro *q)
 }
 
 void
-UpdatePahseMatrix(struct Hydro *q, struct Ini *boundary)
+UpdatePahseMatrix(struct Ini *q, struct Ini *boundary)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -279,7 +191,7 @@ UpdatePahseMatrix(struct Hydro *q, struct Ini *boundary)
 }
 
 void
-UpdateSurfaceStress(struct Hydro *q, struct Ini *boundary)
+UpdateSurfaceStress(struct Ini *q, struct Ini *boundary)
 {
     double
      epsilon = 1.0e-30;
@@ -308,7 +220,7 @@ UpdateSurfaceStress(struct Hydro *q, struct Ini *boundary)
 }
 
 double
-GetTimestep(struct Hydro *q)
+GetTimestep(struct Ini *q)
 {
     struct Particle *prtl;
     struct ListNode *p;
@@ -328,7 +240,7 @@ GetTimestep(struct Hydro *q)
 }
 
 void
-Predictor_summation(struct Hydro *q, double dt)
+Predictor_summation(struct Ini *q, double dt)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -352,7 +264,7 @@ Predictor_summation(struct Hydro *q, double dt)
 }
 
 void
-Corrector_summation(struct Hydro *q, double dt)
+Corrector_summation(struct Ini *q, double dt)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -368,7 +280,7 @@ Corrector_summation(struct Hydro *q, double dt)
 }
 
 void
-RandomEffects(struct Hydro *q)
+RandomEffects(struct Ini *q)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -380,7 +292,7 @@ RandomEffects(struct Hydro *q)
 }
 
 void
-hydro_fin(struct Hydro *q)
+hydro_fin(struct Ini *q)
 {
     int i;
     struct ListNode *p;
@@ -401,5 +313,4 @@ hydro_fin(struct Hydro *q)
         particle_fin(prtl);
     }
     list_fin(q->particle_list);
-    free(q);
 }

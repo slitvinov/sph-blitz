@@ -1,4 +1,4 @@
-struct Hydro;
+struct Ini;
 struct Kernel;
-void step(int *ite, struct Hydro *, struct Ini *,
+void step(int *ite, struct Ini *,
           double *, double D_time, struct Kernel *);
