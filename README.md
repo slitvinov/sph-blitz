@@ -5,10 +5,10 @@ Martin Bernreuther, Andreas Mattes)
 
 <H2>Build</H2>
 
-       $ git clone https://github.com/slitvinov/sph-blitz
-       $ cd sph-blitz
-       $ (cd src && make)
-       $ (cd example && make)
+<pre>
+$ (cd src && make)
+$ (cd example && make)
+</pre>
 
 `make test` runs [tests](test/) (requres atest).
 
