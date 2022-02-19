@@ -41,7 +41,7 @@ initiation_ini(char *project_name, struct Ini *q)
     int rc;
     struct Force *force;
     struct Material *mtl;
-    
+
 
     strcpy(q->Project_name, project_name);
     strcpy(q->inputfile, q->Project_name);
@@ -140,8 +140,7 @@ initiation_ini(char *project_name, struct Ini *q)
                 if (fscanf
                     (f, "%s %d", mtl->material_name, &mtl->material_type)
                     != 2)
-                    ABORT(("can't read material from '%s'",
-                           q->inputfile));
+                    ABORT(("can't read material from '%s'", q->inputfile));
                 if (fscanf
                     (f, "%lf %lf %lf %lf %lf", &mtl->eta, &mtl->zeta,
                      &mtl->gamma, &mtl->rho0, &mtl->a0) != 5)

@@ -31,8 +31,7 @@ main(int argc, char *argv[])
     particle_ID_max = 0;
     kernel = kernel_ini(ini.smoothinglength);
 
-    manager_build_particles(&ini, ini.materials,
-                            ini.particle_list, &ini);
+    manager_build_particles(&ini, ini.materials, ini.particle_list, &ini);
     boundary_build(&ini, ini.cell_lists, ini.materials);
     VolumeMass(ini.particle_list, &ini, kernel);
     boundary_condition(&ini, ini.cell_lists);
@@ -44,8 +43,7 @@ main(int argc, char *argv[])
         if (Time + ini.D_time >= ini.End_time)
             ini.D_time = ini.End_time - Time;
         step(&ite, &ini, &Time, ini.D_time, kernel);
-        output_particles(&ini, ini.particle_list, ini.materials,
-                         Time);
+        output_particles(&ini, ini.particle_list, ini.materials, Time);
         output_restart(&ini, ini.particle_list, Time);
     }
 
