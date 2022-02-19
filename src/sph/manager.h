@@ -11,5 +11,4 @@ int manager_build_nnp(struct Ini *, double[2]);
 int manager_build_pair(struct Ini *,
                        struct List *, struct List *,
                        struct Force **, struct Kernel *);
-struct Ini *manager_ini(struct Ini *);
 int manager_fin(struct Ini *);

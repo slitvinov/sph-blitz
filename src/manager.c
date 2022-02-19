@@ -276,6 +276,5 @@ manager_fin(struct Ini *q)
     }
     free(c);
     list_fin(q->NNP_list);
-    free(q);
     return 0;
 }

@@ -61,7 +61,7 @@ main(int argc, char *argv[])
     }
 
     boundary_fin(boundary);
-    manager_fin(ini);
+    manager_fin(&ini);
     output_fin(output);
     hydro_fin(hydro);
     kernel_fin(kernel);
