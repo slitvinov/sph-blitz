@@ -21,7 +21,6 @@ main(int argc, char *argv[])
 {
     double Time;
     int ite;
-    struct Boundary *boundary;
     struct Hydro *hydro;
     struct Ini ini;
     struct Kernel *kernel;
@@ -40,25 +39,23 @@ main(int argc, char *argv[])
 
     manager_build_particles(&ini, hydro->materials,
                             hydro->particle_list, &ini);
-    boundary = boundary_ini(&ini);
-    boundary_build(boundary, ini.cell_lists, hydro->materials);
+    boundary_build(&ini, ini.cell_lists, hydro->materials);
     VolumeMass(hydro->particle_list, &ini, kernel);
-    boundary_condition(boundary, ini.cell_lists);
+    boundary_condition(&ini, ini.cell_lists);
 
     Time = ini.Start_time;
     output_particles(&ini, hydro->particle_list, hydro->materials,
-                     boundary, Time);
+                     Time);
     ite = 0;
     while (Time < ini.End_time) {
         if (Time + ini.D_time >= ini.End_time)
             ini.D_time = ini.End_time - Time;
-        step(&ite, hydro, &ini, boundary, &Time, ini.D_time, kernel);
+        step(&ite, hydro, &ini, &Time, ini.D_time, kernel);
         output_particles(&ini, hydro->particle_list, hydro->materials,
-                         boundary, Time);
+                         Time);
         output_restart(&ini, hydro->particle_list, Time);
     }
 
-    boundary_fin(boundary);
     manager_fin(&ini);
     hydro_fin(hydro);
     kernel_fin(kernel);

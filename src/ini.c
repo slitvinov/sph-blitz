@@ -5,6 +5,8 @@
 #include "sph/err.h"
 #include "sph/ini.h"
 #include "sph/list.h"
+
+enum {X, Y};
 int
 initiation_ini(char *project_name, struct Ini *q)
 {
@@ -14,6 +16,7 @@ initiation_ini(char *project_name, struct Ini *q)
     int rc;
     int i;
     int j;
+    int n;    
 
     strcpy(q->Project_name, project_name);
     strcpy(q->inputfile, q->Project_name);
@@ -65,6 +68,28 @@ initiation_ini(char *project_name, struct Ini *q)
             q->cell_lists[i][j] = list_ini();
     }
     q->NNP_list = list_ini();
+
+    q->b = list_ini();
+    f = fopen(q->inputfile, "r");
+    if (!f)
+        ABORT(("can't open '%s'\n", q->inputfile));
+    while (fscanf(f, "%s", Key_word) == 1)
+        if (!strcmp(Key_word, "BOUNDARY")) {
+            n = fscanf(f, "%d %lf %lf %d %lf %lf %d %lf %lf %d %lf %lf",
+                       &q->xBl, &q->UxBl[X], &q->UxBl[Y],
+                       &q->xBr, &q->UxBr[X], &q->UxBr[Y],
+                       &q->yBd, &q->UyBd[X], &q->UyBd[Y],
+                       &q->yBu, &q->UyBu[X], &q->UyBu[Y]);
+            if (n != 3 * 4)
+                ABORT(("can't read BOUNDARY keyword (n = %d)", n));
+        }
+    fclose(f);
+    printf("The left, right, lower and upper boundary %d %d %d %d\n",
+           q->xBl, q->xBr, q->yBd, q->yBu);
+    puts("0: wall boundary condition");
+    puts("1: perodic boundary condition");
+    puts("2: free slip wall boundary condition");
+    puts("3: symmetry boundary condition");
 
     return 0;
 }

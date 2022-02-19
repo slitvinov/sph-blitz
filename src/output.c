@@ -13,7 +13,7 @@
 
 int
 output_particles(struct Ini *q, struct List *particle_list,
-                 struct Material *materials, struct Boundary *boundary,
+                 struct Material *materials,
                  double Time)
 {
     char file_name[FILENAME_MAX], file_list[FILENAME_MAX];
@@ -25,7 +25,7 @@ output_particles(struct Ini *q, struct List *particle_list,
     struct ListNode *p;
     struct Particle *prtl;
 
-    blist = boundary_list(boundary);
+    blist = boundary_list(q);
     number_of_materials = q->number_of_materials;
 
     Itime = Time * 1.0e6;

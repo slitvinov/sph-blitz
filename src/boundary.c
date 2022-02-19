@@ -18,72 +18,18 @@ enum { X, Y };
 	particle_copy(prtl, prtl->rl_prtl, t);	\
     } while (0)
 #define LIST struct ListNode
-struct Boundary {
-    double box_size[2];
-    double UxBl[2];
-    double UxBr[2];
-    double UyBd[2];
-    double UyBu[2];
-    int xBl;
-    int xBr;
-    int x_clls;
-    int yBd;
-    int yBu;
-    int y_clls;
-    struct List *b;
-};
 
-static int boundary_w(struct Boundary *, struct Particle *);
-static int boundary_e(struct Boundary *, struct Particle *);
-static int boundary_s(struct Boundary *, struct Particle *);
-static int boundary_n(struct Boundary *, struct Particle *);
-static int boundary_sw(struct Boundary *, struct Particle *);
-static int boundary_se(struct Boundary *, struct Particle *);
-static int boundary_nw(struct Boundary *, struct Particle *);
-static int boundary_ne(struct Boundary *, struct Particle *);
-
-struct Boundary *
-boundary_ini(struct Ini *ini)
-{
-    int n;
-    char Key_word[FILENAME_MAX];
-    FILE *f;
-    struct Boundary *q;
-
-    q = malloc(sizeof(*q));
-    if (q == NULL)
-        return q;
-
-    q->b = list_ini();
-    q->box_size[X] = ini->box_size[X];
-    q->box_size[Y] = ini->box_size[Y];
-    q->x_clls = ini->x_cells + 2;
-    q->y_clls = ini->y_cells + 2;
-    f = fopen(ini->inputfile, "r");
-    if (!f)
-        ABORT(("can't open '%s'\n", ini->inputfile));
-    while (fscanf(f, "%s", Key_word) == 1)
-        if (!strcmp(Key_word, "BOUNDARY")) {
-            n = fscanf(f, "%d %lf %lf %d %lf %lf %d %lf %lf %d %lf %lf",
-                       &q->xBl, &q->UxBl[X], &q->UxBl[Y],
-                       &q->xBr, &q->UxBr[X], &q->UxBr[Y],
-                       &q->yBd, &q->UyBd[X], &q->UyBd[Y],
-                       &q->yBu, &q->UyBu[X], &q->UyBu[Y]);
-            if (n != 3 * 4)
-                ABORT(("can't read BOUNDARY keyword (n = %d)", n));
-        }
-    fclose(f);
-    printf("The left, right, lower and upper boundary %d %d %d %d\n",
-           q->xBl, q->xBr, q->yBd, q->yBu);
-    puts("0: wall boundary condition");
-    puts("1: perodic boundary condition");
-    puts("2: free slip wall boundary condition");
-    puts("3: symmetry boundary condition");
-    return q;
-}
+static int boundary_w(struct Ini *, struct Particle *);
+static int boundary_e(struct Ini *, struct Particle *);
+static int boundary_s(struct Ini *, struct Particle *);
+static int boundary_n(struct Ini *, struct Particle *);
+static int boundary_sw(struct Ini *, struct Particle *);
+static int boundary_se(struct Ini *, struct Particle *);
+static int boundary_nw(struct Ini *, struct Particle *);
+static int boundary_ne(struct Ini *, struct Particle *);
 
 int
-boundary_build(struct Boundary *q, struct List ***c, struct Material *mtl)
+boundary_build(struct Ini *q, struct List ***c, struct Material *mtl)
 {
     int i, j;
     struct Particle *prtl, *prtl_old;
@@ -388,7 +334,7 @@ boundary_build(struct Boundary *q, struct List ***c, struct Material *mtl)
 }
 
 int
-boundary_condition(struct Boundary *q, struct List ***c)
+boundary_condition(struct Ini *q, struct List ***c)
 {
     int i, j;
     int kb, ku, mb, mu;
@@ -526,7 +472,7 @@ boundary_condition(struct Boundary *q, struct List ***c)
 }
 
 static int
-boundary_w(struct Boundary *q, struct Particle *prtl)
+boundary_w(struct Ini *q, struct Particle *prtl)
 {
     switch (q->xBl) {
     case 0:
@@ -551,7 +497,7 @@ boundary_w(struct Boundary *q, struct Particle *prtl)
 }
 
 static int
-boundary_e(struct Boundary *q, struct Particle *prtl)
+boundary_e(struct Ini *q, struct Particle *prtl)
 {
     switch (q->xBr) {
     case 0:
@@ -576,7 +522,7 @@ boundary_e(struct Boundary *q, struct Particle *prtl)
 }
 
 static int
-boundary_s(struct Boundary *q, struct Particle *prtl)
+boundary_s(struct Ini *q, struct Particle *prtl)
 {
     switch (q->yBd) {
     case 0:
@@ -601,7 +547,7 @@ boundary_s(struct Boundary *q, struct Particle *prtl)
 }
 
 static int
-boundary_n(struct Boundary *q, struct Particle *prtl)
+boundary_n(struct Ini *q, struct Particle *prtl)
 {
     switch (q->yBu) {
     case 0:
@@ -626,7 +572,7 @@ boundary_n(struct Boundary *q, struct Particle *prtl)
 }
 
 static int
-boundary_sw(struct Boundary *q, struct Particle *prtl)
+boundary_sw(struct Ini *q, struct Particle *prtl)
 {
     switch (q->xBl) {
     case 0:
@@ -658,7 +604,7 @@ boundary_sw(struct Boundary *q, struct Particle *prtl)
 }
 
 static int
-boundary_nw(struct Boundary *q, struct Particle *prtl)
+boundary_nw(struct Ini *q, struct Particle *prtl)
 {
     switch (q->xBl) {
     case 0:
@@ -690,7 +636,7 @@ boundary_nw(struct Boundary *q, struct Particle *prtl)
 }
 
 static int
-boundary_ne(struct Boundary *q, struct Particle *prtl)
+boundary_ne(struct Ini *q, struct Particle *prtl)
 {
     switch (q->xBr) {
     case 0:
@@ -722,7 +668,7 @@ boundary_ne(struct Boundary *q, struct Particle *prtl)
 }
 
 static int
-boundary_se(struct Boundary *q, struct Particle *prtl)
+boundary_se(struct Ini *q, struct Particle *prtl)
 {
     switch (q->xBr) {
     case 0:
@@ -754,7 +700,7 @@ boundary_se(struct Boundary *q, struct Particle *prtl)
 }
 
 int
-boundary_check(struct Boundary *q, struct List *list)
+boundary_check(struct Ini *q, struct List *list)
 {
     LIST *p;
     struct Particle *prtl;
@@ -836,7 +782,7 @@ boundary_check(struct Boundary *q, struct List *list)
 }
 
 int
-boundary_fin(struct Boundary *q)
+boundary_fin(struct Ini *q)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -851,7 +797,7 @@ boundary_fin(struct Boundary *q)
 }
 
 struct List *
-boundary_list(struct Boundary *q)
+boundary_list(struct Ini *q)
 {
     return q->b;
 }

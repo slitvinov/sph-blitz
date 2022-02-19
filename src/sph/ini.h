@@ -25,5 +25,15 @@ struct Ini {
     int y_clls;
     struct List ***cell_lists;
     struct List *NNP_list;
+
+    double UxBl[2];
+    double UxBr[2];
+    double UyBd[2];
+    double UyBu[2];
+    int xBl;
+    int xBr;
+    int yBd;
+    int yBu;
+    struct List *b;
 };
 int initiation_ini(char *, struct Ini *);

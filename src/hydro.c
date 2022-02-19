@@ -127,7 +127,7 @@ UpdatePair(struct Hydro *q, struct Kernel *kernel)
 }
 
 void
-UpdatePhaseGradient(struct Hydro *q, struct Boundary *boundary)
+UpdatePhaseGradient(struct Hydro *q, struct Ini *boundary)
 {
     struct ListNode *p;
     struct Pair *pair;
@@ -202,7 +202,7 @@ Zero_density(struct Hydro *q)
 }
 
 void
-Zero_PhaseGradient(struct Hydro *q, struct Boundary *boundary)
+Zero_PhaseGradient(struct Hydro *q, struct Ini *boundary)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -253,7 +253,7 @@ UpdateState(struct Hydro *q)
 }
 
 void
-UpdatePahseMatrix(struct Hydro *q, struct Boundary *boundary)
+UpdatePahseMatrix(struct Hydro *q, struct Ini *boundary)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -280,7 +280,7 @@ UpdatePahseMatrix(struct Hydro *q, struct Boundary *boundary)
 }
 
 void
-UpdateSurfaceStress(struct Hydro *q, struct Boundary *boundary)
+UpdateSurfaceStress(struct Hydro *q, struct Ini *boundary)
 {
     double
      epsilon = 1.0e-30;

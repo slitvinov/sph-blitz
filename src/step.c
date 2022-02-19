@@ -8,12 +8,13 @@
 
 void
 step(int *pite, struct Hydro *hydro, struct Ini *manager,
-     struct Boundary *boundary, double *Time, double D_time,
+     double *Time, double D_time,
      struct Kernel *kernel)
 {
     double integeral_time;
     double dt;
     int ite;
+    struct Ini *boundary = manager;
 
     ite = *pite;
 
