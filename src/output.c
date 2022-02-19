@@ -100,4 +100,3 @@ output_restart(struct Ini *q, struct List *particle_list, double Time)
     fclose(f);
     return 0;
 }
-
