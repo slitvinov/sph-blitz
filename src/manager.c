@@ -14,7 +14,7 @@
 #include "sph/manager.h"
 
 
-enum {MAX_SIZE = 4096 };
+enum { MAX_SIZE = 4096 };
 enum { X, Y };
 
 #define NEW(pos, vel, den, pre, tem, mtl) particle_real(pos, vel, den, pre, tem, mtl)
@@ -256,9 +256,9 @@ manager_build_particles(struct Manager *q, struct Material *materials,
                          &velocity[0], &velocity[1], &density, &pressure,
                          &Temperature);
             if (cnt != 8) {
-                   WARN(("line: '%s'", line));
-                   WARN(("material_name: %s", material_name));
-                   ABORT(("can't read a particle from '%s' (cnt = %d, n = %d)", inputfile, cnt, n));
+                WARN(("line: '%s'", line));
+                WARN(("material_name: %s", material_name));
+                ABORT(("can't read a particle from '%s' (cnt = %d, n = %d)", inputfile, cnt, n));
             }
             material_no = -1;
             for (k = 0; k < ini->number_of_materials; k++)

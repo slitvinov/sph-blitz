@@ -16,8 +16,17 @@
 #include "sph/hydro.h"
 
 enum { X, Y };
-static double AMAX1(double a, double b) { return a > b ? a : b; }
-static double AMIN1(double a, double b) { return a < b ? a : b; }
+static double
+AMAX1(double a, double b)
+{
+    return a > b ? a : b;
+}
+
+static double
+AMIN1(double a, double b)
+{
+    return a < b ? a : b;
+}
 
 struct Hydro *
 hydro_ini(struct Ini *ini)
