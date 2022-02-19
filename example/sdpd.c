@@ -37,16 +37,15 @@ main(int argc, char *argv[])
     particle_number_of_materials = ini.number_of_materials;
     particle_ID_max = 0;
     kernel = kernel_ini(ini.smoothinglength);
-    manager = manager_ini(&ini);
     hydro = hydro_ini(&ini);
 
-    manager_build_particles(manager, hydro->materials,
+    manager_build_particles(&ini, hydro->materials,
                             hydro->particle_list, &ini);
     boundary = boundary_ini(&ini);
-    boundary_build(boundary, manager->cell_lists, hydro->materials);
+    boundary_build(boundary, ini.cell_lists, hydro->materials);
     output = output_ini(&ini);
-    VolumeMass(hydro->particle_list, manager, kernel);
-    boundary_condition(boundary, manager->cell_lists);
+    VolumeMass(hydro->particle_list, &ini, kernel);
+    boundary_condition(boundary, ini.cell_lists);
 
     Time = ini.Start_time;
     output_particles(output, hydro->particle_list, hydro->materials,
@@ -55,14 +54,14 @@ main(int argc, char *argv[])
     while (Time < ini.End_time) {
         if (Time + ini.D_time >= ini.End_time)
             ini.D_time = ini.End_time - Time;
-        step(&ite, hydro, manager, boundary, &Time, ini.D_time, kernel);
+        step(&ite, hydro, &ini, boundary, &Time, ini.D_time, kernel);
         output_particles(output, hydro->particle_list, hydro->materials,
                          boundary, Time);
         output_restart(output, hydro->particle_list, Time);
     }
 
     boundary_fin(boundary);
-    manager_fin(manager);
+    manager_fin(ini);
     output_fin(output);
     hydro_fin(hydro);
     kernel_fin(kernel);

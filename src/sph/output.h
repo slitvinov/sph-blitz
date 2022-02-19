@@ -1,6 +1,5 @@
 struct Ini;
 struct Boundary;
-struct Manager;
 struct Output;
 int output_particles(struct Output *, struct List *, struct Material *,
                      struct Boundary *, double Time);

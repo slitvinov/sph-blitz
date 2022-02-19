@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "sph/particle.h"
 #include "sph/vv.h"
 #include "sph/list.h"
@@ -5,9 +6,10 @@
 #include "sph/manager.h"
 #include "sph/volume.h"
 #include "sph/macro.h"
+#include "sph/ini.h"
 
 void
-VolumeMass(struct List *particle_list, struct Manager *manager,
+VolumeMass(struct List *particle_list, struct Ini *manager,
            struct Kernel *kernel)
 {
     double reciprocV;

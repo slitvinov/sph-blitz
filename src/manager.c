@@ -19,33 +19,8 @@ enum { X, Y };
 
 #define NEW(pos, vel, den, pre, tem, mtl) particle_real(pos, vel, den, pre, tem, mtl)
 
-struct Manager *
-manager_ini(struct Ini *ini)
-{
-    struct Manager *q;
-    int i, j;
-
-    q = malloc(sizeof(struct Manager));
-    if (q == NULL)
-        return NULL;
-
-    q->smoothinglength = ini->smoothinglength;
-    q->cell_size = ini->cell_size;
-    q->x_clls = ini->x_cells + 2;
-    q->y_clls = ini->y_cells + 2;
-
-    q->cell_lists = malloc(q->x_clls * sizeof(struct List **));
-    for (i = 0; i < q->x_clls; i++) {
-        q->cell_lists[i] = malloc(q->y_clls * sizeof(struct List *));
-        for (j = 0; j < q->y_clls; j++)
-            q->cell_lists[i][j] = list_ini();
-    }
-    q->NNP_list = list_ini();
-    return q;
-}
-
 int
-manager_update_list(struct Manager *q)
+manager_update_list(struct Ini *q)
 {
 
     int i, j;
@@ -86,7 +61,7 @@ manager_update_list(struct Manager *q)
 }
 
 int
-manager_build_nnp(struct Manager *q, double point[2])
+manager_build_nnp(struct Ini *q, double point[2])
 {
     int i, j;
     int k, m;
@@ -123,7 +98,7 @@ manager_build_nnp(struct Manager *q, double point[2])
 }
 
 int
-manager_build_pair(struct Manager *q,
+manager_build_pair(struct Ini *q,
                    struct List *pairs,
                    struct List *particle_list,
                    struct Force **forces, struct Kernel *kernel)
@@ -171,7 +146,7 @@ manager_build_pair(struct Manager *q,
 }
 
 void
-manager_build_particles(struct Manager *q, struct Material *materials,
+manager_build_particles(struct Ini *q, struct Material *materials,
                         struct List *particle_list, struct Ini *ini)
 {
 
@@ -284,7 +259,7 @@ manager_build_particles(struct Manager *q, struct Material *materials,
 }
 
 int
-manager_fin(struct Manager *q)
+manager_fin(struct Ini *q)
 {
     struct List ***c;
     int x_clls, y_clls;

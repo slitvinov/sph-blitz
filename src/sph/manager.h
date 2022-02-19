@@ -4,21 +4,12 @@ struct Ini;
 struct Force;
 struct Kernel;
 
-struct Manager {
-    double smoothinglength;
-    double cell_size;
-    int x_clls;
-    int y_clls;
-    struct List ***cell_lists;
-    struct List *NNP_list;
-};
-
-int manager_update_list(struct Manager *);
-void manager_build_particles(struct Manager *, struct Material *,
+int manager_update_list(struct Ini *);
+void manager_build_particles(struct Ini *, struct Material *,
                              struct List *, struct Ini *);
-int manager_build_nnp(struct Manager *, double[2]);
-int manager_build_pair(struct Manager *,
+int manager_build_nnp(struct Ini *, double[2]);
+int manager_build_pair(struct Ini *,
                        struct List *, struct List *,
                        struct Force **, struct Kernel *);
-struct Manager *manager_ini(struct Ini *);
-int manager_fin(struct Manager *);
+struct Ini *manager_ini(struct Ini *);
+int manager_fin(struct Ini *);

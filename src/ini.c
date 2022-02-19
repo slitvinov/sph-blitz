@@ -4,6 +4,7 @@
 #include <math.h>
 #include "sph/err.h"
 #include "sph/ini.h"
+#include "sph/list.h"
 int
 initiation_ini(char *project_name, struct Ini *q)
 {
@@ -11,6 +12,8 @@ initiation_ini(char *project_name, struct Ini *q)
     char *mkdir = "mkdir -p outdata";
     FILE *f;
     int rc;
+    int i;
+    int j;
 
     strcpy(q->Project_name, project_name);
     strcpy(q->inputfile, q->Project_name);
@@ -51,5 +54,17 @@ initiation_ini(char *project_name, struct Ini *q)
     q->box_size[0] = q->x_cells * q->cell_size;
     q->box_size[1] = q->y_cells * q->cell_size;
     q->delta = q->cell_size / q->cell_ratio;
+
+
+    q->x_clls = q->x_cells + 2;
+    q->y_clls = q->y_cells + 2;
+    q->cell_lists = malloc(q->x_clls * sizeof(struct List **));
+    for (i = 0; i < q->x_clls; i++) {
+        q->cell_lists[i] = malloc(q->y_clls * sizeof(struct List *));
+        for (j = 0; j < q->y_clls; j++)
+            q->cell_lists[i][j] = list_ini();
+    }
+    q->NNP_list = list_ini();
+
     return 0;
 }

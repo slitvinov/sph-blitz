@@ -7,7 +7,7 @@
 #include "sph/step.h"
 
 void
-step(int *pite, struct Hydro *hydro, struct Manager *manager,
+step(int *pite, struct Hydro *hydro, struct Ini *manager,
      struct Boundary *boundary, double *Time, double D_time,
      struct Kernel *kernel)
 {

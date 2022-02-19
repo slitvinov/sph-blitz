@@ -20,5 +20,10 @@ struct Ini {
     int number_of_materials;
     int x_cells;
     int y_cells;
+
+    int x_clls;
+    int y_clls;
+    struct List ***cell_lists;
+    struct List *NNP_list;
 };
 int initiation_ini(char *, struct Ini *);
