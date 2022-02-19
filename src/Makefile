@@ -26,7 +26,7 @@ vv.o\
 all: libsph.a
 $M: $O; $(AR) rc $@ $O && $(RANLIB) $@
 .c.o:; $(CC) -c $(CFLAGS) $<
-dep:; ../scripts/dep *.c > dep.mk
+dep: ../scripts/dep; $< *.c > dep.mk
 
 clean:; rm -f -- $M $O
 include dep.mk
