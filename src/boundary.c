@@ -6,7 +6,6 @@
 #include "sph/particle.h"
 #include "sph/list.h"
 #include "sph/ini.h"
-#include "sph/boundary.h"
 #include "sph/macro.h"
 enum { X, Y };
 

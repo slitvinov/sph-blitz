@@ -7,11 +7,9 @@
 #include "sph/particle.h"
 #include "sph/list.h"
 #include "sph/material.h"
-#include "sph/boundary.h"
 #include "sph/macro.h"
 #include "sph/err.h"
 #include "sph/pair.h"
-#include "sph/manager.h"
 
 
 enum { MAX_SIZE = 4096 };

@@ -1,3 +1,6 @@
+struct Force;
+struct Kernel;
+struct Material;
 struct Ini {
     char inputfile[FILENAME_MAX];
     char Project_name[FILENAME_MAX];
@@ -36,4 +39,22 @@ struct Ini {
     int yBu;
     struct List *b;
 };
+
 int initiation_ini(char *, struct Ini *);
+int manager_update_list(struct Ini *);
+void manager_build_particles(struct Ini *, struct Material *,
+                             struct List *, struct Ini *);
+int manager_build_nnp(struct Ini *, double[2]);
+int manager_build_pair(struct Ini *,
+                       struct List *, struct List *,
+                       struct Force **, struct Kernel *);
+int manager_fin(struct Ini *);
+int output_particles(struct Ini *, struct List *, struct Material *,
+                     double Time);
+int output_restart(struct Ini *, struct List *, double Time);
+
+int boundary_fin(struct Ini *);
+int boundary_condition(struct Ini *, struct List ***);
+int boundary_build(struct Ini *, struct List ***, struct Material *);
+int boundary_check(struct Ini *, struct List *);
+struct List *boundary_list(struct Ini *);

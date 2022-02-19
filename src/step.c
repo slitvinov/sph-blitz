@@ -2,8 +2,6 @@
 #include <math.h>
 #include "sph/ini.h"
 #include "sph/hydro.h"
-#include "sph/boundary.h"
-#include "sph/manager.h"
 #include "sph/step.h"
 
 void

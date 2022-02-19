@@ -1,13 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "sph/err.h"
-#include "sph/boundary.h"
 #include "sph/hydro.h"
 #include "sph/ini.h"
 #include "sph/kernel.h"
-#include "sph/manager.h"
 #include "sph/material.h"
-#include "sph/output.h"
 #include "sph/pair.h"
 #include "sph/particle.h"
 #include "sph/step.h"

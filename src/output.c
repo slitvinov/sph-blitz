@@ -5,10 +5,8 @@
 #include "sph/list.h"
 #include "sph/ini.h"
 #include "sph/material.h"
-#include "sph/boundary.h"
 #include "sph/macro.h"
 #include "sph/err.h"
-#include "sph/output.h"
 
 
 int

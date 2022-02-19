@@ -3,7 +3,6 @@
 #include "sph/vv.h"
 #include "sph/list.h"
 #include "sph/kernel.h"
-#include "sph/manager.h"
 #include "sph/volume.h"
 #include "sph/macro.h"
 #include "sph/ini.h"

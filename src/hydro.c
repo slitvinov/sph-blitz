@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
-#include "sph/boundary.h"
 #include "sph/err.h"
 #include "sph/force.h"
 #include "sph/ini.h"
