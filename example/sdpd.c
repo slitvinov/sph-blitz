@@ -12,7 +12,6 @@
 #include "sph/particle.h"
 #include "sph/step.h"
 #include "sph/volume.h"
-#include "sph/random.h"
 extern double pair_art_vis;
 extern double pair_delta;
 extern long particle_ID_max;
@@ -31,7 +30,7 @@ main(int argc, char *argv[])
 
     if (argc < 2)
         ERR(2, ("no project name specified"));
-    random_seed(12345);
+    srand(12345);
     initiation_ini(argv[1], &ini);
     pair_art_vis = ini.art_vis;
     pair_delta = ini.delta;

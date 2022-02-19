@@ -46,7 +46,7 @@ main(int argc, const char **argv)
             exit(1);
         }
 
-    random_seed(s);
+    srand(s);
     for (;;) {
         random_gaussian(&x, &y);
         printf(FMT "\n", x);

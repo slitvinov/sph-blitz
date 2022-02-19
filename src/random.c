@@ -3,12 +3,6 @@
 #include "sph/random.h"
 
 void
-random_seed(unsigned seed)
-{
-    srand(seed);
-}
-
-void
 random_gaussian(double *y1, double *y2)
 {
     double x1, x2, w;
