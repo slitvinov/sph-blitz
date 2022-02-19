@@ -10,26 +10,9 @@
 #include "sph/err.h"
 #include "sph/output.h"
 
-struct Output {
-    char Project_name[FILENAME_MAX];
-    int number_of_materials;
-};
-
-struct Output *
-output_ini(struct Ini *ini)
-{
-    struct Output *q;
-
-    q = malloc(sizeof(struct Output));
-    if (q == NULL)
-        return NULL;
-    strcpy(q->Project_name, ini->Project_name);
-    q->number_of_materials = ini->number_of_materials;
-    return q;
-}
 
 int
-output_particles(struct Output *q, struct List *particle_list,
+output_particles(struct Ini *q, struct List *particle_list,
                  struct Material *materials, struct Boundary *boundary,
                  double Time)
 {
@@ -88,7 +71,7 @@ output_particles(struct Output *q, struct List *particle_list,
 }
 
 int
-output_restart(struct Output *q, struct List *particle_list, double Time)
+output_restart(struct Ini *q, struct List *particle_list, double Time)
 {
     int n;
     char file_name[FILENAME_MAX];
@@ -118,9 +101,3 @@ output_restart(struct Output *q, struct List *particle_list, double Time)
     return 0;
 }
 
-int
-output_fin(struct Output *q)
-{
-    free(q);
-    return 0;
-}

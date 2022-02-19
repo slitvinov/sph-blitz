@@ -26,7 +26,6 @@ main(int argc, char *argv[])
     struct Ini ini;
     struct Kernel *kernel;
     struct Manager *manager;
-    struct Output *output;
 
     if (argc < 2)
         ERR(2, ("no project name specified"));
@@ -43,26 +42,24 @@ main(int argc, char *argv[])
                             hydro->particle_list, &ini);
     boundary = boundary_ini(&ini);
     boundary_build(boundary, ini.cell_lists, hydro->materials);
-    output = output_ini(&ini);
     VolumeMass(hydro->particle_list, &ini, kernel);
     boundary_condition(boundary, ini.cell_lists);
 
     Time = ini.Start_time;
-    output_particles(output, hydro->particle_list, hydro->materials,
+    output_particles(&ini, hydro->particle_list, hydro->materials,
                      boundary, Time);
     ite = 0;
     while (Time < ini.End_time) {
         if (Time + ini.D_time >= ini.End_time)
             ini.D_time = ini.End_time - Time;
         step(&ite, hydro, &ini, boundary, &Time, ini.D_time, kernel);
-        output_particles(output, hydro->particle_list, hydro->materials,
+        output_particles(&ini, hydro->particle_list, hydro->materials,
                          boundary, Time);
-        output_restart(output, hydro->particle_list, Time);
+        output_restart(&ini, hydro->particle_list, Time);
     }
 
     boundary_fin(boundary);
     manager_fin(&ini);
-    output_fin(output);
     hydro_fin(hydro);
     kernel_fin(kernel);
     return 0;
