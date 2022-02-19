@@ -1,5 +1,4 @@
 struct Particle;
-struct Boundary;
 struct Ini;
 struct Force;
 struct Kernel;

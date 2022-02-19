@@ -2,7 +2,6 @@ struct Material;
 struct Force;
 struct Particle;
 struct Ini;
-struct Boundary;
 struct Material;
 struct Kernel;
 struct Hydro {
