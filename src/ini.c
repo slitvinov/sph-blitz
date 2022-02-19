@@ -6,7 +6,7 @@
 #include "sph/ini.h"
 #include "sph/list.h"
 
-enum {X, Y};
+enum { X, Y };
 int
 initiation_ini(char *project_name, struct Ini *q)
 {
@@ -16,7 +16,7 @@ initiation_ini(char *project_name, struct Ini *q)
     int rc;
     int i;
     int j;
-    int n;    
+    int n;
 
     strcpy(q->Project_name, project_name);
     strcpy(q->inputfile, q->Project_name);

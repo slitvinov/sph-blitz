@@ -11,8 +11,7 @@
 
 int
 output_particles(struct Ini *q, struct List *particle_list,
-                 struct Material *materials,
-                 double Time)
+                 struct Material *materials, double Time)
 {
     char file_name[FILENAME_MAX], file_list[FILENAME_MAX];
     double Itime;

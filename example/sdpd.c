@@ -41,8 +41,7 @@ main(int argc, char *argv[])
     boundary_condition(&ini, ini.cell_lists);
 
     Time = ini.Start_time;
-    output_particles(&ini, hydro->particle_list, hydro->materials,
-                     Time);
+    output_particles(&ini, hydro->particle_list, hydro->materials, Time);
     ite = 0;
     while (Time < ini.End_time) {
         if (Time + ini.D_time >= ini.End_time)

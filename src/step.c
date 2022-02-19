@@ -6,8 +6,7 @@
 
 void
 step(int *pite, struct Hydro *hydro, struct Ini *manager,
-     double *Time, double D_time,
-     struct Kernel *kernel)
+     double *Time, double D_time, struct Kernel *kernel)
 {
     double integeral_time;
     double dt;
