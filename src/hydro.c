@@ -38,12 +38,12 @@ UpdatePair(struct Ini *q, struct Kernel *kernel)
 }
 
 void
-UpdatePhaseGradient(struct Ini *q, struct Ini *boundary)
+UpdatePhaseGradient(struct Ini *q)
 {
     struct ListNode *p;
     struct Pair *pair;
 
-    Zero_PhaseGradient(q, boundary);
+    Zero_PhaseGradient(q);
     ILOOP_P(pair, q->pair_list) {
         SummationPhaseGradient(pair);
     }
@@ -113,13 +113,13 @@ Zero_density(struct Ini *q)
 }
 
 void
-Zero_PhaseGradient(struct Ini *q, struct Ini *boundary)
+Zero_PhaseGradient(struct Ini *q)
 {
     struct ListNode *p;
     struct Particle *prtl;
     struct List *blist;
 
-    blist = boundary_list(boundary);
+    blist = boundary_list(q);
 
     LOOP_P(prtl, q->particle_list) {
         prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
@@ -164,7 +164,7 @@ UpdateState(struct Ini *q)
 }
 
 void
-UpdatePahseMatrix(struct Ini *q, struct Ini *boundary)
+UpdatePahseMatrix(struct Ini *q)
 {
     struct ListNode *p;
     struct Particle *prtl;
@@ -172,7 +172,7 @@ UpdatePahseMatrix(struct Ini *q, struct Ini *boundary)
      i, j, number_of_materials;
     struct List *blist;
 
-    blist = boundary_list(boundary);
+    blist = boundary_list(q);
     number_of_materials = q->number_of_materials;
     LOOP_P(prtl, q->particle_list) {
         for (i = 0; i < number_of_materials; i++)
@@ -191,7 +191,7 @@ UpdatePahseMatrix(struct Ini *q, struct Ini *boundary)
 }
 
 void
-UpdateSurfaceStress(struct Ini *q, struct Ini *boundary)
+UpdateSurfaceStress(struct Ini *q)
 {
     double
      epsilon = 1.0e-30;
@@ -201,7 +201,7 @@ UpdateSurfaceStress(struct Ini *q, struct Ini *boundary)
     struct ListNode *p;
     struct List *blist;
 
-    blist = boundary_list(boundary);
+    blist = boundary_list(q);
 
     LOOP_P(prtl, q->particle_list) {
         interm0 = 1.0 / (vv_abs(prtl->del_phi) + epsilon);

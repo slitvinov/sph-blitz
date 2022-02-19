@@ -70,7 +70,7 @@ int boundary_build(struct Ini *, struct List ***, struct Material *);
 int boundary_check(struct Ini *, struct List *);
 struct List *boundary_list(struct Ini *);
 
-void Zero_PhaseGradient(struct Ini *, struct Ini *);
+void Zero_PhaseGradient(struct Ini *);
 void Zero_Random(struct Ini *);
 double GetTimestep(struct Ini *);
 void AddGravity(struct Ini *);
@@ -79,12 +79,12 @@ void Predictor_summation(struct Ini *, double dt);
 void RandomEffects(struct Ini *);
 void UpdateChangeRate(struct Ini *);
 void UpdateDensity(struct Ini *);
-void UpdatePahseMatrix(struct Ini *, struct Ini *);
+void UpdatePahseMatrix(struct Ini *);
 void UpdatePair(struct Ini *, struct Kernel *);
-void UpdatePhaseGradient(struct Ini *, struct Ini *);
+void UpdatePhaseGradient(struct Ini *);
 void UpdateRandom(struct Ini *, double sqrtdt);
 void UpdateState(struct Ini *);
-void UpdateSurfaceStress(struct Ini *, struct Ini *);
+void UpdateSurfaceStress(struct Ini *);
 void ZeroChangeRate(struct Ini *);
 void Zero_density(struct Ini *);
 
