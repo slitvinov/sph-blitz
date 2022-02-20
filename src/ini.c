@@ -362,8 +362,9 @@ manager_build_particles(struct Ini *q, struct Material *materials,
                         density = materials[material_no].rho0;
                         pressure = get_p(&materials[material_no], density);
                         prtl =
-                            particle_real(position, velocity, density, pressure,
-                                Temperature, &materials[material_no]);
+                            particle_real(position, velocity, density,
+                                          pressure, Temperature,
+                                          &materials[material_no]);
                         prtl->cell_i = i;
                         prtl->cell_j = j;
                         INSERT_P(prtl, particle_list);
@@ -413,8 +414,8 @@ manager_build_particles(struct Ini *q, struct Material *materials,
             if (material_no != -1) {
                 pressure = get_p(&materials[material_no], density);
                 prtl =
-                    particle_real(position, velocity, density, pressure, Temperature,
-                        &materials[material_no]);
+                    particle_real(position, velocity, density, pressure,
+                                  Temperature, &materials[material_no]);
                 INSERT_P(prtl, particle_list);
                 i = (int) (prtl->R[0] / cell_size) + 1;
                 j = (int) (prtl->R[1] / cell_size) + 1;
