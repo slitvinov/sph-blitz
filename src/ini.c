@@ -452,42 +452,6 @@ manager_fin(struct Ini *q)
     return 0;
 }
 
-void
-UpdatePhaseGradient(struct Ini *q)
-{
-    struct ListNode *p;
-    struct Pair *pair;
-
-    Zero_PhaseGradient(q);
-    ILOOP_P(pair, q->pair_list) {
-        SummationPhaseGradient(pair);
-    }
-}
-
-void
-UpdateChangeRate(struct Ini *q)
-{
-    struct ListNode *p;
-    struct Pair *pair;
-
-    ZeroChangeRate(q);
-    ILOOP_P(pair, q->pair_list) {
-        UpdateForces(pair);
-    }
-    AddGravity(q);
-}
-
-void
-UpdateRandom(struct Ini *q, double sqrtdt)
-{
-    struct ListNode *p;
-    struct Pair *pair;
-
-    Zero_Random(q);
-    ILOOP_P(pair, q->pair_list) {
-        RandomForces(pair, sqrtdt);
-    }
-}
 
 void
 ZeroChangeRate(struct Ini *q)
@@ -521,39 +485,6 @@ Zero_PhaseGradient(struct Ini *q)
     }
 }
 
-void
-Zero_Random(struct Ini *q)
-{
-    struct ListNode *p;
-    struct Particle *prtl;
-
-    LOOP_P(prtl, q->particle_list) {
-        prtl->_dU[X] = prtl->_dU[Y] = 0.0;
-    }
-}
-
-void
-AddGravity(struct Ini *q)
-{
-    struct ListNode *p;
-    struct Particle *prtl;
-
-    LOOP_P(prtl, q->particle_list) {
-        prtl->dUdt[X] += q->gravity[X];
-        prtl->dUdt[Y] += q->gravity[Y];
-    }
-}
-
-void
-UpdateState(struct Ini *q)
-{
-    struct ListNode *p;
-    struct Particle *prtl;
-
-    LOOP_P(prtl, q->particle_list) {
-        prtl->p = get_p(prtl->mtl, prtl->rho);
-    }
-}
 
 void
 UpdatePahseMatrix(struct Ini *q)
@@ -825,12 +756,14 @@ step(int *pite, struct Ini *q,
 {
     double dt;
     double integeral_time;
+    double sqrtdt;
     int ite;
     struct ListNode *p;
     struct Pair *pair;
     struct Particle *prtl;
 
     ite = *pite;
+    sqrtdt = sqrt(dt);
 
     integeral_time = 0;
     while (integeral_time < D_time) {
@@ -848,13 +781,27 @@ step(int *pite, struct Ini *q,
         ILOOP_P(pair, q->pair_list) {
             SummationDensity(pair);
         }
-        UpdateState(q);
+        LOOP_P(prtl, q->particle_list) {
+            prtl->p = get_p(prtl->mtl, prtl->rho);
+        }
 
         boundary_condition(q, q->cell_lists);
-        UpdatePhaseGradient(q);
+        Zero_PhaseGradient(q);
+        ILOOP_P(pair, q->pair_list) {
+            SummationPhaseGradient(pair);
+        }
+
         boundary_condition(q, q->cell_lists);
         UpdateSurfaceStress(q);
-        UpdateChangeRate(q);
+        ZeroChangeRate(q);
+        ILOOP_P(pair, q->pair_list) {
+            UpdateForces(pair);
+        }
+        LOOP_P(prtl, q->particle_list) {
+            prtl->dUdt[X] += q->gravity[X];
+            prtl->dUdt[Y] += q->gravity[Y];
+        }
+
         Predictor_summation(q, dt);
         boundary_condition(q, q->cell_lists);
 
@@ -868,14 +815,34 @@ step(int *pite, struct Ini *q,
         ILOOP_P(pair, q->pair_list) {
             SummationDensity(pair);
         }
-        UpdateState(q);
+        LOOP_P(prtl, q->particle_list) {
+            prtl->p = get_p(prtl->mtl, prtl->rho);
+        }
 
         boundary_condition(q, q->cell_lists);
-        UpdatePhaseGradient(q);
+        Zero_PhaseGradient(q);
+        ILOOP_P(pair, q->pair_list) {
+            SummationPhaseGradient(pair);
+        }
+
         boundary_condition(q, q->cell_lists);
         UpdateSurfaceStress(q);
-        UpdateChangeRate(q);
-        UpdateRandom(q, sqrt(dt));
+        ZeroChangeRate(q);
+        ILOOP_P(pair, q->pair_list) {
+            UpdateForces(pair);
+        }
+        LOOP_P(prtl, q->particle_list) {
+            prtl->dUdt[X] += q->gravity[X];
+            prtl->dUdt[Y] += q->gravity[Y];
+        }
+
+        LOOP_P(prtl, q->particle_list) {
+            prtl->_dU[X] = prtl->_dU[Y] = 0.0;
+        }
+        ILOOP_P(pair, q->pair_list) {
+            RandomForces(pair, sqrtdt);
+        }
+
         Corrector_summation(q, dt);
         RandomEffects(q);
         boundary_check(q, q->particle_list);
