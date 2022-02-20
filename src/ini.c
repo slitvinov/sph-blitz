@@ -453,17 +453,6 @@ manager_fin(struct Ini *q)
 }
 
 void
-UpdatePair(struct Ini *q, struct Kernel *kernel)
-{
-    struct ListNode *p;
-    struct Pair *pair;
-
-    ILOOP_P(pair, q->pair_list) {
-        RenewPair(pair, kernel);
-    }
-}
-
-void
 UpdatePhaseGradient(struct Ini *q)
 {
     struct ListNode *p;
@@ -473,19 +462,6 @@ UpdatePhaseGradient(struct Ini *q)
     ILOOP_P(pair, q->pair_list) {
         SummationPhaseGradient(pair);
     }
-}
-
-void
-UpdateDensity(struct Ini *q)
-{
-    struct ListNode *p;
-    struct Pair *pair;
-
-    Zero_density(q);
-    ILOOP_P(pair, q->pair_list) {
-        SummationDensity(pair);
-    }
-    UpdateState(q);
 }
 
 void
@@ -857,9 +833,11 @@ void
 step(int *pite, struct Ini *q,
      double *Time, double D_time, struct Kernel *kernel)
 {
-    double integeral_time;
     double dt;
+    double integeral_time;
     int ite;
+    struct ListNode *p;
+    struct Pair *pair;
 
     ite = *pite;
 
@@ -873,7 +851,12 @@ step(int *pite, struct Ini *q,
             printf("N=%d Time: %g	dt: %g\n", ite, *Time, dt);
         manager_build_pair(q, q->pair_list,
                            q->particle_list, q->forces, kernel);
-        UpdateDensity(q);
+        Zero_density(q);
+        ILOOP_P(pair, q->pair_list) {
+            SummationDensity(pair);
+        }
+        UpdateState(q);
+
         boundary_condition(q, q->cell_lists);
         UpdatePhaseGradient(q);
         boundary_condition(q, q->cell_lists);
@@ -881,8 +864,17 @@ step(int *pite, struct Ini *q,
         UpdateChangeRate(q);
         Predictor_summation(q, dt);
         boundary_condition(q, q->cell_lists);
-        UpdatePair(q, kernel);
-        UpdateDensity(q);
+
+        ILOOP_P(pair, q->pair_list) {
+            RenewPair(pair, kernel);
+        }
+
+        Zero_density(q);
+        ILOOP_P(pair, q->pair_list) {
+            SummationDensity(pair);
+        }
+        UpdateState(q);
+
         boundary_condition(q, q->cell_lists);
         UpdatePhaseGradient(q);
         boundary_condition(q, q->cell_lists);

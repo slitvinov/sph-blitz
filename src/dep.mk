@@ -32,6 +32,4 @@ pair.o: sph/vv.h
 particle.o: sph/material.h
 particle.o: sph/particle.h
 random.o: sph/random.h
-step.o: sph/ini.h
-step.o: sph/step.h
 vv.o: sph/vv.h
