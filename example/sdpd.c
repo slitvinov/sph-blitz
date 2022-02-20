@@ -7,7 +7,6 @@
 #include "sph/pair.h"
 #include "sph/particle.h"
 #include "sph/step.h"
-#include "sph/volume.h"
 extern double pair_art_vis;
 extern double pair_delta;
 extern long particle_ID_max;

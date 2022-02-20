@@ -89,3 +89,4 @@ void ZeroChangeRate(struct Ini *);
 void Zero_density(struct Ini *);
 
 void hydro_fin(struct Ini *);
+void VolumeMass(struct List *, struct Ini *, struct Kernel *);

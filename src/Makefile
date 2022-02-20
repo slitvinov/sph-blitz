@@ -17,7 +17,6 @@ pair.o\
 particle.o\
 random.o\
 step.o\
-volume.o\
 vv.o\
 
 all: libsph.a

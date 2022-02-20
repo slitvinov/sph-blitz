@@ -8,6 +8,7 @@ err.o: sph/err.h
 ini.o: sph/err.h
 ini.o: sph/force.h
 ini.o: sph/ini.h
+ini.o: sph/kernel.h
 ini.o: sph/list.h
 ini.o: sph/macro.h
 ini.o: sph/material.h
@@ -33,11 +34,4 @@ particle.o: sph/particle.h
 random.o: sph/random.h
 step.o: sph/ini.h
 step.o: sph/step.h
-volume.o: sph/ini.h
-volume.o: sph/kernel.h
-volume.o: sph/list.h
-volume.o: sph/macro.h
-volume.o: sph/particle.h
-volume.o: sph/volume.h
-volume.o: sph/vv.h
 vv.o: sph/vv.h

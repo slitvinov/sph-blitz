@@ -6,6 +6,7 @@
 #include "sph/err.h"
 #include "sph/force.h"
 #include "sph/ini.h"
+#include "sph/kernel.h"
 #include "sph/list.h"
 #include "sph/macro.h"
 #include "sph/material.h"
@@ -827,4 +828,27 @@ output_restart(struct Ini *q, struct List *particle_list, double Time)
     }
     fclose(f);
     return 0;
+}
+
+void
+VolumeMass(struct List *particle_list, struct Ini *ini,
+           struct Kernel *kernel)
+{
+    double reciprocV;
+    double dstc;
+    struct ListNode *p, *p1;
+    struct Particle *prtl_org, *prtl_dest;
+
+    LOOP_P(prtl_org, particle_list) {
+        manager_build_nnp(ini, prtl_org->R);
+        reciprocV = 0.0;
+        LOOP1_P(prtl_dest, ini->NNP_list) {
+            dstc = vv_distance(prtl_org->R, prtl_dest->R);
+            reciprocV += w(kernel, dstc);
+        }
+        reciprocV = 1.0 / reciprocV;
+        prtl_org->V = reciprocV;
+        prtl_org->m = prtl_org->rho * reciprocV;
+        list_clear(ini->NNP_list);
+    }
 }
