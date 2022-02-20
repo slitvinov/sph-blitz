@@ -503,16 +503,6 @@ ZeroChangeRate(struct Ini *q)
     }
 }
 
-void
-Zero_density(struct Ini *q)
-{
-    struct ListNode *p;
-    struct Particle *prtl;
-
-    LOOP_P(prtl, q->particle_list) {
-        prtl->rho = 0.0;
-    }
-}
 
 void
 Zero_PhaseGradient(struct Ini *q)
@@ -838,6 +828,7 @@ step(int *pite, struct Ini *q,
     int ite;
     struct ListNode *p;
     struct Pair *pair;
+    struct Particle *prtl;
 
     ite = *pite;
 
@@ -851,7 +842,9 @@ step(int *pite, struct Ini *q,
             printf("N=%d Time: %g	dt: %g\n", ite, *Time, dt);
         manager_build_pair(q, q->pair_list,
                            q->particle_list, q->forces, kernel);
-        Zero_density(q);
+        LOOP_P(prtl, q->particle_list) {
+            prtl->rho = 0.0;
+        }
         ILOOP_P(pair, q->pair_list) {
             SummationDensity(pair);
         }
@@ -869,7 +862,9 @@ step(int *pite, struct Ini *q,
             RenewPair(pair, kernel);
         }
 
-        Zero_density(q);
+        LOOP_P(prtl, q->particle_list) {
+            prtl->rho = 0.0;
+        }
         ILOOP_P(pair, q->pair_list) {
             SummationDensity(pair);
         }
