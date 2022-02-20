@@ -14,9 +14,6 @@
 
 enum { MAX_SIZE = 4096 };
 enum { X, Y };
-
-#define NEW(pos, vel, den, pre, tem, mtl) particle_real(pos, vel, den, pre, tem, mtl)
-
 int
 manager_update_list(struct Ini *q)
 {
@@ -189,7 +186,7 @@ manager_build_particles(struct Ini *q, struct Material *materials,
                         density = materials[material_no].rho0;
                         pressure = get_p(&materials[material_no], density);
                         prtl =
-                            NEW(position, velocity, density, pressure,
+                            particle_real(position, velocity, density, pressure,
                                 Temperature, &materials[material_no]);
                         prtl->cell_i = i;
                         prtl->cell_j = j;
@@ -240,7 +237,7 @@ manager_build_particles(struct Ini *q, struct Material *materials,
             if (material_no != -1) {
                 pressure = get_p(&materials[material_no], density);
                 prtl =
-                    NEW(position, velocity, density, pressure, Temperature,
+                    particle_real(position, velocity, density, pressure, Temperature,
                         &materials[material_no]);
                 INSERT_P(prtl, particle_list);
                 i = (int) (prtl->R[0] / cell_size) + 1;
