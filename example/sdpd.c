@@ -3,9 +3,6 @@
 #include "sph/err.h"
 #include "sph/ini.h"
 #include "sph/kernel.h"
-#include "sph/material.h"
-#include "sph/pair.h"
-#include "sph/particle.h"
 extern double pair_art_vis;
 extern double pair_delta;
 extern long particle_ID_max;

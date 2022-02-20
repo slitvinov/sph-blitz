@@ -27,12 +27,6 @@ get_p(struct Material *q, double rho)
 }
 
 double
-get_rho(struct Material *q, double p)
-{
-    return q->rho0 * pow(p / q->b0, 1.0 / q->gamma);
-}
-
-double
 get_Cs(struct Material *q, double p, double rho)
 {
     return sqrt(q->gamma * p / rho);

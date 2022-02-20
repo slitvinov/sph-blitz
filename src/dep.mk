@@ -23,7 +23,6 @@ pair.o: sph/err.h
 pair.o: sph/force.h
 pair.o: sph/ini.h
 pair.o: sph/kernel.h
-pair.o: sph/material.h
 pair.o: sph/pair.h
 pair.o: sph/particle.h
 particle.o: sph/material.h
