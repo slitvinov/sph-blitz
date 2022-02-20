@@ -1975,5 +1975,3 @@ boundary_list(struct Ini *q)
 {
     return q->b;
 }
-
-
