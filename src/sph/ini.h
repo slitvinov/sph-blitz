@@ -52,6 +52,7 @@ struct Ini {
 };
 
 int initiation_ini(char *, struct Ini *);
+int initiation_fin(struct Ini *);
 void manager_build_particles(struct Ini *, struct Material *,
                              struct List *, struct Ini *);
 int manager_build_nnp(struct Ini *, double[2]);
