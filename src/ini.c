@@ -854,7 +854,7 @@ VolumeMass(struct List *particle_list, struct Ini *ini,
 }
 
 void
-step(int *pite, struct Ini *ini,
+step(int *pite, struct Ini *q,
      double *Time, double D_time, struct Kernel *kernel)
 {
     double integeral_time;
@@ -865,35 +865,35 @@ step(int *pite, struct Ini *ini,
 
     integeral_time = 0;
     while (integeral_time < D_time) {
-        dt = GetTimestep(ini);
+        dt = GetTimestep(q);
         ite++;
         integeral_time += dt;
         *Time += dt;
         if (ite % 10 == 0)
             printf("N=%d Time: %g	dt: %g\n", ite, *Time, dt);
-        manager_build_pair(ini, ini->pair_list,
-                           ini->particle_list, ini->forces, kernel);
-        UpdateDensity(ini);
-        boundary_condition(ini, ini->cell_lists);
-        UpdatePhaseGradient(ini);
-        boundary_condition(ini, ini->cell_lists);
-        UpdateSurfaceStress(ini);
-        UpdateChangeRate(ini);
-        Predictor_summation(ini, dt);
-        boundary_condition(ini, ini->cell_lists);
-        UpdatePair(ini, kernel);
-        UpdateDensity(ini);
-        boundary_condition(ini, ini->cell_lists);
-        UpdatePhaseGradient(ini);
-        boundary_condition(ini, ini->cell_lists);
-        UpdateSurfaceStress(ini);
-        UpdateChangeRate(ini);
-        UpdateRandom(ini, sqrt(dt));
-        Corrector_summation(ini, dt);
-        RandomEffects(ini);
-        boundary_check(ini, ini->particle_list);
-        manager_update_list(ini);
-        boundary_build(ini, ini->cell_lists, ini->materials);
+        manager_build_pair(q, q->pair_list,
+                           q->particle_list, q->forces, kernel);
+        UpdateDensity(q);
+        boundary_condition(q, q->cell_lists);
+        UpdatePhaseGradient(q);
+        boundary_condition(q, q->cell_lists);
+        UpdateSurfaceStress(q);
+        UpdateChangeRate(q);
+        Predictor_summation(q, dt);
+        boundary_condition(q, q->cell_lists);
+        UpdatePair(q, kernel);
+        UpdateDensity(q);
+        boundary_condition(q, q->cell_lists);
+        UpdatePhaseGradient(q);
+        boundary_condition(q, q->cell_lists);
+        UpdateSurfaceStress(q);
+        UpdateChangeRate(q);
+        UpdateRandom(q, sqrt(dt));
+        Corrector_summation(q, dt);
+        RandomEffects(q);
+        boundary_check(q, q->particle_list);
+        manager_update_list(q);
+        boundary_build(q, q->cell_lists, q->materials);
     }
     *pite = ite;
 }
