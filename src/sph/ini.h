@@ -59,11 +59,9 @@ int output_particles(struct Ini *, struct List *, struct Material *,
                      double);
 int output_restart(struct Ini *, struct List *, double);
 
-int boundary_fin(struct Ini *);
 int boundary_condition(struct Ini *, struct List ***);
 int boundary_build(struct Ini *, struct List ***, struct Material *);
 int boundary_check(struct Ini *, struct List *);
-struct List *boundary_list(struct Ini *);
 
 void VolumeMass(struct List *, struct Ini *, struct Kernel *);
 void step(int *, struct Ini *, double *, double, struct Kernel *);

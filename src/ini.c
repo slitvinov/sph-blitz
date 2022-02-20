@@ -883,9 +883,6 @@ UpdateSurfaceStress(struct Ini *q)
      interm0, interm1, interm2;
     struct Particle *prtl;
     struct ListNode *p;
-    struct List *blist;
-
-    blist = boundary_list(q);
 
     LOOP_P(prtl, q->particle_list) {
         interm0 = 1.0 / (vv_abs(prtl->del_phi) + epsilon);
@@ -894,7 +891,7 @@ UpdateSurfaceStress(struct Ini *q)
         prtl->del_phi[0] = interm1 * interm0;
         prtl->del_phi[1] = interm2 * interm0;
     }
-    LOOP_P(prtl, blist) {
+    LOOP_P(prtl, q->b) {
         interm0 = vv_abs(prtl->del_phi) + epsilon;
         interm1 = 0.5 * vv_sqdiff(prtl->del_phi);
         interm2 = prtl->del_phi[X] * prtl->del_phi[Y];
@@ -932,11 +929,9 @@ output_particles(struct Ini *q, struct List *particle_list,
     FILE *f;
     int i, j;
     int number_of_materials;
-    struct List *blist;
     struct ListNode *p;
     struct Particle *prtl;
 
-    blist = boundary_list(q);
     number_of_materials = q->number_of_materials;
 
     Itime = Time * 1.0e6;
@@ -964,7 +959,7 @@ output_particles(struct Ini *q, struct List *particle_list,
                         prtl->U[0], prtl->U[1]);
             }
         }
-        LOOP_P(prtl, blist) {
+        LOOP_P(prtl, q->b) {
             if (strcmp
                 (materials[i].material_name,
                  prtl->mtl->material_name) == 0) {
@@ -1046,7 +1041,6 @@ step(int *pite, struct Ini *q,
     struct ListNode *p;
     struct Pair *pair;
     struct Particle *prtl;
-    struct List *blist;
 
     ite = *pite;
 
@@ -1072,11 +1066,10 @@ step(int *pite, struct Ini *q,
         }
 
         boundary_condition(q, q->cell_lists);
-        blist = boundary_list(q);
         LOOP_P(prtl, q->particle_list) {
             prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
         }
-        LOOP_P(prtl, blist) {
+        LOOP_P(prtl, q->b) {
             prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
         }
 
@@ -1133,11 +1126,10 @@ step(int *pite, struct Ini *q,
         }
 
         boundary_condition(q, q->cell_lists);
-        blist = boundary_list(q);
         LOOP_P(prtl, q->particle_list) {
             prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
         }
-        LOOP_P(prtl, blist) {
+        LOOP_P(prtl, q->b) {
             prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
         }
 
@@ -1957,25 +1949,4 @@ boundary_check(struct Ini *q, struct List *list)
         }
     }
     return 0;
-}
-
-int
-boundary_fin(struct Ini *q)
-{
-    struct ListNode *p;
-    struct Particle *prtl;
-
-    LOOP_P(prtl, q->b) {
-        particle_fin(prtl);
-    }
-    list_clear(q->b);
-    list_fin(q->b);
-    free(q);
-    return 0;
-}
-
-struct List *
-boundary_list(struct Ini *q)
-{
-    return q->b;
 }
