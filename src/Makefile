@@ -12,7 +12,6 @@ ini.o\
 kernel.o\
 list.o\
 material.o\
-pair.o\
 particle.o\
 
 all: libsph.a

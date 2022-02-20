@@ -1,9 +1,4 @@
 # generate by scripts/dep
-boundary.o: sph/err.h
-boundary.o: sph/ini.h
-boundary.o: sph/list.h
-boundary.o: sph/macro.h
-boundary.o: sph/particle.h
 err.o: sph/err.h
 ini.o: sph/err.h
 ini.o: sph/force.h
@@ -12,18 +7,11 @@ ini.o: sph/kernel.h
 ini.o: sph/list.h
 ini.o: sph/macro.h
 ini.o: sph/material.h
-ini.o: sph/pair.h
 ini.o: sph/particle.h
 kernel.o: sph/err.h
 kernel.o: sph/kernel.h
 list.o: sph/list.h
 list.o: sph/macro.h
 material.o: sph/material.h
-pair.o: sph/err.h
-pair.o: sph/force.h
-pair.o: sph/ini.h
-pair.o: sph/kernel.h
-pair.o: sph/pair.h
-pair.o: sph/particle.h
 particle.o: sph/material.h
 particle.o: sph/particle.h
