@@ -1,13 +1,13 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "sph/kernel.h"
-#include "sph/ini.h"
-#include "sph/particle.h"
-#include "sph/material.h"
-#include "sph/force.h"
 #include "sph/err.h"
+#include "sph/force.h"
+#include "sph/ini.h"
+#include "sph/kernel.h"
+#include "sph/material.h"
 #include "sph/pair.h"
+#include "sph/particle.h"
 enum { X, Y };
 static double k_bltz = 1.380662e-023 / 0.02 / 0.02 / 0.02;
 double pair_art_vis;

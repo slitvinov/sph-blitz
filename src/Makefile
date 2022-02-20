@@ -7,7 +7,6 @@ RANLIB = ranlib
 
 M = libsph.a
 O = \
-boundary.o\
 err.o\
 ini.o\
 kernel.o\
