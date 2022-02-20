@@ -430,11 +430,16 @@ manager_build_particles(struct Ini *q, struct Material *materials,
 }
 
 int
-manager_fin(struct Ini *q)
+initiation_fin(struct Ini *q)
 {
+    int i;
+    int j;
+    int x_clls;
+    int y_clls;
     struct List ***c;
-    int x_clls, y_clls;
-    int i, j;
+    struct ListNode *p;
+    struct Pair *pair;
+    struct Particle *prtl;
 
     x_clls = q->x_clls;
     y_clls = q->y_clls;
@@ -447,6 +452,22 @@ manager_fin(struct Ini *q)
     }
     free(c);
     list_fin(q->NNP_list);
+
+    for (i = 0; i < q->number_of_materials; i++)
+        free(q->forces[i]);
+    free(q->forces);
+    free(q->materials);
+
+    ILOOP_P(pair, q->pair_list) {
+        pair_fin(pair);
+    }
+    list_fin(q->pair_list);
+
+    LOOP_P(prtl, q->particle_list) {
+        particle_fin(prtl);
+    }
+    list_fin(q->particle_list);
+
     return 0;
 }
 
@@ -498,30 +519,6 @@ GetTimestep(struct Ini *q)
     }
     dt = AMIN1(sqrt(0.5 * (rho_min + rho_max)) * q->dt_surf, q->dt_g_vis);
     return 0.25 * AMIN1(dt, q->delta / (Cs_max + V_max));
-}
-
-void
-hydro_fin(struct Ini *q)
-{
-    int i;
-    struct ListNode *p;
-    struct Pair *pair;
-    struct Particle *prtl;
-
-    for (i = 0; i < q->number_of_materials; i++)
-        free(q->forces[i]);
-    free(q->forces);
-    free(q->materials);
-
-    ILOOP_P(pair, q->pair_list) {
-        pair_fin(pair);
-    }
-    list_fin(q->pair_list);
-
-    LOOP_P(prtl, q->particle_list) {
-        particle_fin(prtl);
-    }
-    list_fin(q->particle_list);
 }
 
 int

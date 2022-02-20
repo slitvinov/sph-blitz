@@ -45,8 +45,7 @@ main(int argc, char *argv[])
         output_restart(&ini, ini.particle_list, Time);
     }
 
-    manager_fin(&ini);
-    hydro_fin(&ini);
+    initiation_fin(&ini);
     kernel_fin(kernel);
     return 0;
 }

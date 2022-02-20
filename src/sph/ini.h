@@ -58,7 +58,6 @@ int manager_build_nnp(struct Ini *, double[2]);
 int manager_build_pair(struct Ini *,
                        struct List *, struct List *,
                        struct Force **, struct Kernel *);
-int manager_fin(struct Ini *);
 int output_particles(struct Ini *, struct List *, struct Material *,
                      double);
 int output_restart(struct Ini *, struct List *, double);
@@ -69,6 +68,5 @@ int boundary_build(struct Ini *, struct List ***, struct Material *);
 int boundary_check(struct Ini *, struct List *);
 struct List *boundary_list(struct Ini *);
 
-void hydro_fin(struct Ini *);
 void VolumeMass(struct List *, struct Ini *, struct Kernel *);
 void step(int *, struct Ini *, double *, double, struct Kernel *);
