@@ -9,12 +9,10 @@ M = libsph.a
 O = \
 boundary.o\
 err.o\
-hydro.o\
 ini.o\
 kernel.o\
 list.o\
 material.o\
-output.o\
 pair.o\
 particle.o\
 random.o\
