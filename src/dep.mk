@@ -1,7 +1,6 @@
 # generate by scripts/dep
 err.o: sph/err.h
 ini.o: sph/err.h
-ini.o: sph/force.h
 ini.o: sph/ini.h
 ini.o: sph/kernel.h
 ini.o: sph/list.h

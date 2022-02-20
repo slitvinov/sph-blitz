@@ -4,7 +4,6 @@
 #include <math.h>
 
 #include "sph/err.h"
-#include "sph/force.h"
 #include "sph/ini.h"
 #include "sph/kernel.h"
 #include "sph/list.h"
@@ -38,6 +37,11 @@ struct Pair {
     double eij[2];
     double shear_rij;
     double bulk_rij;
+};
+struct Force {
+    double epsilon;
+    double sigma;
+    double shear_slip, bulk_slip;
 };
 
 static double
