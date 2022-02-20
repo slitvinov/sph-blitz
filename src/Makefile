@@ -13,7 +13,6 @@ hydro.o\
 ini.o\
 kernel.o\
 list.o\
-manager.o\
 material.o\
 output.o\
 pair.o\
