@@ -164,7 +164,7 @@ pair_fin(struct Pair *q)
     return 0;
 }
 
-void
+static void
 RenewPair(struct Pair *q, struct Kernel *kernel)
 {
     struct Particle *Org, *Dest;
@@ -210,7 +210,7 @@ RenewPair(struct Pair *q, struct Kernel *kernel)
 }
 
 
-void
+static void
 SummationDensity(struct Pair *q)
 {
     struct Particle *Org, *Dest;
@@ -228,7 +228,7 @@ SummationDensity(struct Pair *q)
         Dest->rho += mj * Wij;
 }
 
-void
+static void
 SummationPhaseGradient(struct Pair *q)
 {
     struct Particle *Org, *Dest;
@@ -269,7 +269,7 @@ SummationPhaseGradient(struct Pair *q)
     Dest->del_phi[Y] -= dphi[Y] * rVj * Vi2;
 }
 
-void
+static void
 UpdateForces(struct Pair *q)
 {
     struct Particle *Org, *Dest;
@@ -368,7 +368,7 @@ UpdateForces(struct Pair *q)
     Dest->dUdt[Y] -= dPdti[Y] * rmj;
 }
 
-void
+static void
 RandomForces(struct Pair *q, double sqrtdt)
 {
     double Vi, Vj;
@@ -874,7 +874,7 @@ initiation_fin(struct Ini *q)
 }
 
 
-void
+static void
 UpdateSurfaceStress(struct Ini *q)
 {
     double
@@ -900,7 +900,7 @@ UpdateSurfaceStress(struct Ini *q)
     }
 }
 
-double
+static double
 GetTimestep(struct Ini *q)
 {
     struct Particle *prtl;
