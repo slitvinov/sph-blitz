@@ -55,10 +55,6 @@ int initiation_ini(char *, struct Ini *);
 int initiation_fin(struct Ini *);
 void manager_build_particles(struct Ini *, struct Material *,
                              struct List *, struct Ini *);
-int manager_build_nnp(struct Ini *, double[2]);
-int manager_build_pair(struct Ini *,
-                       struct List *, struct List *,
-                       struct Force **, struct Kernel *);
 int output_particles(struct Ini *, struct List *, struct Material *,
                      double);
 int output_restart(struct Ini *, struct List *, double);
