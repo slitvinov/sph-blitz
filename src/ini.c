@@ -561,58 +561,6 @@ GetTimestep(struct Ini *q)
 }
 
 void
-Predictor_summation(struct Ini *q, double dt)
-{
-    struct ListNode *p;
-    struct Particle *prtl;
-
-    LOOP_P(prtl, q->particle_list) {
-        prtl->R_I[X] = prtl->R[X];
-        prtl->R_I[Y] = prtl->R[Y];
-        prtl->U[X] += prtl->_dU[X];
-        prtl->U[Y] += prtl->_dU[Y];
-        prtl->U_I[X] = prtl->U[X];
-        prtl->U_I[Y] = prtl->U[Y];
-        prtl->R[X] = prtl->R[X] + prtl->U[X] * dt;
-        prtl->R[Y] = prtl->R[Y] + prtl->U[Y] * dt;
-        prtl->U[X] = prtl->U[X] + prtl->dUdt[X] * dt;
-        prtl->U[Y] = prtl->U[Y] + prtl->dUdt[Y] * dt;
-        prtl->R[X] = (prtl->R[X] + prtl->R_I[X]) * 0.5;
-        prtl->R[Y] = (prtl->R[Y] + prtl->R_I[Y]) * 0.5;
-        prtl->U[X] = (prtl->U[X] + prtl->U_I[X]) * 0.5;
-        prtl->U[Y] = (prtl->U[Y] + prtl->U_I[Y]) * 0.5;
-    }
-}
-
-void
-Corrector_summation(struct Ini *q, double dt)
-{
-    struct ListNode *p;
-    struct Particle *prtl;
-
-    LOOP_P(prtl, q->particle_list) {
-        prtl->U[X] += prtl->_dU[X];
-        prtl->U[Y] += prtl->_dU[Y];
-        prtl->R[X] = prtl->R_I[X] + prtl->U[X] * dt;
-        prtl->R[Y] = prtl->R_I[Y] + prtl->U[Y] * dt;
-        prtl->U[X] = prtl->U_I[X] + prtl->dUdt[X] * dt;
-        prtl->U[Y] = prtl->U_I[Y] + prtl->dUdt[Y] * dt;
-    }
-}
-
-void
-RandomEffects(struct Ini *q)
-{
-    struct ListNode *p;
-    struct Particle *prtl;
-
-    LOOP_P(prtl, q->particle_list) {
-        prtl->U[X] = prtl->U[X] + prtl->_dU[X];
-        prtl->U[Y] = prtl->U[Y] + prtl->_dU[Y];
-    }
-}
-
-void
 hydro_fin(struct Ini *q)
 {
     int i;
@@ -800,7 +748,22 @@ step(int *pite, struct Ini *q,
             prtl->dUdt[Y] += q->gravity[Y];
         }
 
-        Predictor_summation(q, dt);
+	LOOP_P(prtl, q->particle_list) {
+	  prtl->R_I[X] = prtl->R[X];
+	  prtl->R_I[Y] = prtl->R[Y];
+	  prtl->U[X] += prtl->_dU[X];
+	  prtl->U[Y] += prtl->_dU[Y];
+	  prtl->U_I[X] = prtl->U[X];
+	  prtl->U_I[Y] = prtl->U[Y];
+	  prtl->R[X] = prtl->R[X] + prtl->U[X] * dt;
+	  prtl->R[Y] = prtl->R[Y] + prtl->U[Y] * dt;
+	  prtl->U[X] = prtl->U[X] + prtl->dUdt[X] * dt;
+	  prtl->U[Y] = prtl->U[Y] + prtl->dUdt[Y] * dt;
+	  prtl->R[X] = (prtl->R[X] + prtl->R_I[X]) * 0.5;
+	  prtl->R[Y] = (prtl->R[Y] + prtl->R_I[Y]) * 0.5;
+	  prtl->U[X] = (prtl->U[X] + prtl->U_I[X]) * 0.5;
+	  prtl->U[Y] = (prtl->U[Y] + prtl->U_I[Y]) * 0.5;
+	}
         boundary_condition(q, q->cell_lists);
 
         ILOOP_P(pair, q->pair_list) {
@@ -841,8 +804,20 @@ step(int *pite, struct Ini *q,
             RandomForces(pair, sqrtdt);
         }
 
-        Corrector_summation(q, dt);
-        RandomEffects(q);
+	LOOP_P(prtl, q->particle_list) {
+	  prtl->U[X] += prtl->_dU[X];
+	  prtl->U[Y] += prtl->_dU[Y];
+	  prtl->R[X] = prtl->R_I[X] + prtl->U[X] * dt;
+	  prtl->R[Y] = prtl->R_I[Y] + prtl->U[Y] * dt;
+	  prtl->U[X] = prtl->U_I[X] + prtl->dUdt[X] * dt;
+	  prtl->U[Y] = prtl->U_I[Y] + prtl->dUdt[Y] * dt;
+	}
+
+	LOOP_P(prtl, q->particle_list) {
+	  prtl->U[X] = prtl->U[X] + prtl->_dU[X];
+	  prtl->U[Y] = prtl->U[Y] + prtl->_dU[Y];
+	}
+
         boundary_check(q, q->particle_list);
         manager_update_list(q);
         boundary_build(q, q->cell_lists, q->materials);
