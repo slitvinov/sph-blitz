@@ -26,7 +26,5 @@ pair.o: sph/kernel.h
 pair.o: sph/material.h
 pair.o: sph/pair.h
 pair.o: sph/particle.h
-pair.o: sph/random.h
 particle.o: sph/material.h
 particle.o: sph/particle.h
-random.o: sph/random.h
