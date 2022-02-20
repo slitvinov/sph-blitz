@@ -452,66 +452,6 @@ manager_fin(struct Ini *q)
 
 
 void
-ZeroChangeRate(struct Ini *q)
-{
-    struct ListNode *p;
-    struct Particle *prtl;
-
-    LOOP_P(prtl, q->particle_list) {
-        prtl->dedt = 0.0;
-        prtl->drhodt = 0.0;
-        prtl->dUdt[X] = prtl->dUdt[Y] = 0.0;
-        prtl->_dU[X] = prtl->_dU[Y] = 0.0;
-    }
-}
-
-
-void
-Zero_PhaseGradient(struct Ini *q)
-{
-    struct ListNode *p;
-    struct Particle *prtl;
-    struct List *blist;
-
-    blist = boundary_list(q);
-
-    LOOP_P(prtl, q->particle_list) {
-        prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
-    }
-    LOOP_P(prtl, blist) {
-        prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
-    }
-}
-
-
-void
-UpdatePahseMatrix(struct Ini *q)
-{
-    struct ListNode *p;
-    struct Particle *prtl;
-    int
-     i, j, number_of_materials;
-    struct List *blist;
-
-    blist = boundary_list(q);
-    number_of_materials = q->number_of_materials;
-    LOOP_P(prtl, q->particle_list) {
-        for (i = 0; i < number_of_materials; i++)
-            for (j = 0; j < number_of_materials; j++) {
-                if (i != j)
-                    prtl->phi[i][j] = prtl->phi[i][j];
-            }
-    }
-    LOOP_P(prtl, blist) {
-        for (i = 0; i < number_of_materials; i++)
-            for (j = 0; j < number_of_materials; j++) {
-                if (i != j)
-                    prtl->phi[i][j] = prtl->phi[i][j];
-            }
-    }
-}
-
-void
 UpdateSurfaceStress(struct Ini *q)
 {
     double
@@ -707,13 +647,14 @@ step(int *pite, struct Ini *q,
     struct ListNode *p;
     struct Pair *pair;
     struct Particle *prtl;
+    struct List *blist;
 
     ite = *pite;
 
     integeral_time = 0;
     while (integeral_time < D_time) {
         dt = GetTimestep(q);
-	sqrtdt = sqrt(dt);
+        sqrtdt = sqrt(dt);
         ite++;
         integeral_time += dt;
         *Time += dt;
@@ -732,14 +673,26 @@ step(int *pite, struct Ini *q,
         }
 
         boundary_condition(q, q->cell_lists);
-        Zero_PhaseGradient(q);
+        blist = boundary_list(q);
+        LOOP_P(prtl, q->particle_list) {
+            prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
+        }
+        LOOP_P(prtl, blist) {
+            prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
+        }
+
         ILOOP_P(pair, q->pair_list) {
             SummationPhaseGradient(pair);
         }
 
         boundary_condition(q, q->cell_lists);
         UpdateSurfaceStress(q);
-        ZeroChangeRate(q);
+        LOOP_P(prtl, q->particle_list) {
+            prtl->dedt = 0.0;
+            prtl->drhodt = 0.0;
+            prtl->dUdt[X] = prtl->dUdt[Y] = 0.0;
+            prtl->_dU[X] = prtl->_dU[Y] = 0.0;
+        }
         ILOOP_P(pair, q->pair_list) {
             UpdateForces(pair);
         }
@@ -748,22 +701,22 @@ step(int *pite, struct Ini *q,
             prtl->dUdt[Y] += q->gravity[Y];
         }
 
-	LOOP_P(prtl, q->particle_list) {
-	  prtl->R_I[X] = prtl->R[X];
-	  prtl->R_I[Y] = prtl->R[Y];
-	  prtl->U[X] += prtl->_dU[X];
-	  prtl->U[Y] += prtl->_dU[Y];
-	  prtl->U_I[X] = prtl->U[X];
-	  prtl->U_I[Y] = prtl->U[Y];
-	  prtl->R[X] = prtl->R[X] + prtl->U[X] * dt;
-	  prtl->R[Y] = prtl->R[Y] + prtl->U[Y] * dt;
-	  prtl->U[X] = prtl->U[X] + prtl->dUdt[X] * dt;
-	  prtl->U[Y] = prtl->U[Y] + prtl->dUdt[Y] * dt;
-	  prtl->R[X] = (prtl->R[X] + prtl->R_I[X]) * 0.5;
-	  prtl->R[Y] = (prtl->R[Y] + prtl->R_I[Y]) * 0.5;
-	  prtl->U[X] = (prtl->U[X] + prtl->U_I[X]) * 0.5;
-	  prtl->U[Y] = (prtl->U[Y] + prtl->U_I[Y]) * 0.5;
-	}
+        LOOP_P(prtl, q->particle_list) {
+            prtl->R_I[X] = prtl->R[X];
+            prtl->R_I[Y] = prtl->R[Y];
+            prtl->U[X] += prtl->_dU[X];
+            prtl->U[Y] += prtl->_dU[Y];
+            prtl->U_I[X] = prtl->U[X];
+            prtl->U_I[Y] = prtl->U[Y];
+            prtl->R[X] = prtl->R[X] + prtl->U[X] * dt;
+            prtl->R[Y] = prtl->R[Y] + prtl->U[Y] * dt;
+            prtl->U[X] = prtl->U[X] + prtl->dUdt[X] * dt;
+            prtl->U[Y] = prtl->U[Y] + prtl->dUdt[Y] * dt;
+            prtl->R[X] = (prtl->R[X] + prtl->R_I[X]) * 0.5;
+            prtl->R[Y] = (prtl->R[Y] + prtl->R_I[Y]) * 0.5;
+            prtl->U[X] = (prtl->U[X] + prtl->U_I[X]) * 0.5;
+            prtl->U[Y] = (prtl->U[Y] + prtl->U_I[Y]) * 0.5;
+        }
         boundary_condition(q, q->cell_lists);
 
         ILOOP_P(pair, q->pair_list) {
@@ -781,14 +734,26 @@ step(int *pite, struct Ini *q,
         }
 
         boundary_condition(q, q->cell_lists);
-        Zero_PhaseGradient(q);
+        blist = boundary_list(q);
+        LOOP_P(prtl, q->particle_list) {
+            prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
+        }
+        LOOP_P(prtl, blist) {
+            prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
+        }
+
         ILOOP_P(pair, q->pair_list) {
             SummationPhaseGradient(pair);
         }
 
         boundary_condition(q, q->cell_lists);
         UpdateSurfaceStress(q);
-        ZeroChangeRate(q);
+        LOOP_P(prtl, q->particle_list) {
+            prtl->dedt = 0.0;
+            prtl->drhodt = 0.0;
+            prtl->dUdt[X] = prtl->dUdt[Y] = 0.0;
+            prtl->_dU[X] = prtl->_dU[Y] = 0.0;
+        }
         ILOOP_P(pair, q->pair_list) {
             UpdateForces(pair);
         }
@@ -804,19 +769,19 @@ step(int *pite, struct Ini *q,
             RandomForces(pair, sqrtdt);
         }
 
-	LOOP_P(prtl, q->particle_list) {
-	  prtl->U[X] += prtl->_dU[X];
-	  prtl->U[Y] += prtl->_dU[Y];
-	  prtl->R[X] = prtl->R_I[X] + prtl->U[X] * dt;
-	  prtl->R[Y] = prtl->R_I[Y] + prtl->U[Y] * dt;
-	  prtl->U[X] = prtl->U_I[X] + prtl->dUdt[X] * dt;
-	  prtl->U[Y] = prtl->U_I[Y] + prtl->dUdt[Y] * dt;
-	}
+        LOOP_P(prtl, q->particle_list) {
+            prtl->U[X] += prtl->_dU[X];
+            prtl->U[Y] += prtl->_dU[Y];
+            prtl->R[X] = prtl->R_I[X] + prtl->U[X] * dt;
+            prtl->R[Y] = prtl->R_I[Y] + prtl->U[Y] * dt;
+            prtl->U[X] = prtl->U_I[X] + prtl->dUdt[X] * dt;
+            prtl->U[Y] = prtl->U_I[Y] + prtl->dUdt[Y] * dt;
+        }
 
-	LOOP_P(prtl, q->particle_list) {
-	  prtl->U[X] = prtl->U[X] + prtl->_dU[X];
-	  prtl->U[Y] = prtl->U[Y] + prtl->_dU[Y];
-	}
+        LOOP_P(prtl, q->particle_list) {
+            prtl->U[X] = prtl->U[X] + prtl->_dU[X];
+            prtl->U[Y] = prtl->U[Y] + prtl->_dU[Y];
+        }
 
         boundary_check(q, q->particle_list);
         manager_update_list(q);
