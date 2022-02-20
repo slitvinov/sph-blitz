@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "sph/kernel.h"
-#include "sph/random.h"
 #include "sph/ini.h"
 #include "sph/particle.h"
 #include "sph/material.h"
@@ -21,6 +20,23 @@ vv_distance(double a[2], double b[2])
     x = a[X] - b[X];
     y = a[Y] - b[Y];
     return sqrt(x * x + y * y);
+}
+
+static void
+random_gaussian(double *y1, double *y2)
+{
+    double x1, x2, w;
+
+    do {
+        x1 = (double) rand() / RAND_MAX;
+        x2 = (double) rand() / RAND_MAX;
+        x1 = 2.0 * x1 - 1.0;
+        x2 = 2.0 * x2 - 1.0;
+        w = x1 * x1 + x2 * x2;
+    } while (w >= 1.0 || w == 0.0);
+    w = sqrt((-2.0 * log(w)) / w);
+    *y1 = x1 * w;
+    *y2 = x2 * w;
 }
 
 struct Pair *

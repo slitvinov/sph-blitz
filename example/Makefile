@@ -8,7 +8,6 @@ SPH_FLAGS = -I../src -L../src -lsph -lm
 M = \
 kernel\
 list\
-random\
 sdpd\
 
 all: $M
