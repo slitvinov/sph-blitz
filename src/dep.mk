@@ -14,7 +14,6 @@ ini.o: sph/macro.h
 ini.o: sph/material.h
 ini.o: sph/pair.h
 ini.o: sph/particle.h
-ini.o: sph/vv.h
 kernel.o: sph/err.h
 kernel.o: sph/kernel.h
 list.o: sph/list.h
@@ -28,8 +27,6 @@ pair.o: sph/material.h
 pair.o: sph/pair.h
 pair.o: sph/particle.h
 pair.o: sph/random.h
-pair.o: sph/vv.h
 particle.o: sph/material.h
 particle.o: sph/particle.h
 random.o: sph/random.h
-vv.o: sph/vv.h

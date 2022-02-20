@@ -16,7 +16,6 @@ material.o\
 pair.o\
 particle.o\
 random.o\
-vv.o\
 
 all: libsph.a
 $M: $O; $(AR) rc $@ $O && $(RANLIB) $@

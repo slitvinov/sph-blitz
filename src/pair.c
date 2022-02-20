@@ -1,7 +1,6 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "sph/vv.h"
 #include "sph/kernel.h"
 #include "sph/random.h"
 #include "sph/ini.h"
@@ -14,6 +13,16 @@ enum { X, Y };
 static double k_bltz = 1.380662e-023 / 0.02 / 0.02 / 0.02;
 double pair_art_vis;
 double pair_delta;
+static double
+vv_distance(double a[2], double b[2])
+{
+    double x, y;
+
+    x = a[X] - b[X];
+    y = a[Y] - b[Y];
+    return sqrt(x * x + y * y);
+}
+
 struct Pair *
 pair_ini(struct Particle *prtl_org, struct Particle *prtl_dest,
          struct Force **forces, struct Kernel *kernel, double dstc)
