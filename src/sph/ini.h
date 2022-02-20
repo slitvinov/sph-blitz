@@ -61,8 +61,8 @@ int manager_build_pair(struct Ini *,
                        struct Force **, struct Kernel *);
 int manager_fin(struct Ini *);
 int output_particles(struct Ini *, struct List *, struct Material *,
-                     double Time);
-int output_restart(struct Ini *, struct List *, double Time);
+                     double);
+int output_restart(struct Ini *, struct List *, double);
 
 int boundary_fin(struct Ini *);
 int boundary_condition(struct Ini *, struct List ***);
@@ -74,15 +74,15 @@ void Zero_PhaseGradient(struct Ini *);
 void Zero_Random(struct Ini *);
 double GetTimestep(struct Ini *);
 void AddGravity(struct Ini *);
-void Corrector_summation(struct Ini *, double dt);
-void Predictor_summation(struct Ini *, double dt);
+void Corrector_summation(struct Ini *, double);
+void Predictor_summation(struct Ini *, double);
 void RandomEffects(struct Ini *);
 void UpdateChangeRate(struct Ini *);
 void UpdateDensity(struct Ini *);
 void UpdatePahseMatrix(struct Ini *);
 void UpdatePair(struct Ini *, struct Kernel *);
 void UpdatePhaseGradient(struct Ini *);
-void UpdateRandom(struct Ini *, double sqrtdt);
+void UpdateRandom(struct Ini *, double);
 void UpdateState(struct Ini *);
 void UpdateSurfaceStress(struct Ini *);
 void ZeroChangeRate(struct Ini *);
@@ -90,3 +90,4 @@ void Zero_density(struct Ini *);
 
 void hydro_fin(struct Ini *);
 void VolumeMass(struct List *, struct Ini *, struct Kernel *);
+void step(int *, struct Ini *, double *, double, struct Kernel *);
