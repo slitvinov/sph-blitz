@@ -35,7 +35,6 @@ initiation_ini(char *project_name, struct Ini *q)
     char Key_word[FILENAME_MAX];
     char *mkdir = "mkdir -p outdata";
     double delta;
-    double smoothinglength;
     double sound;
     FILE *f;
     int i;
@@ -125,7 +124,6 @@ initiation_ini(char *project_name, struct Ini *q)
 
     q->pair_list = list_ini();
     number_of_materials = q->number_of_materials;
-    smoothinglength = q->smoothinglength;
     delta = q->delta;
     q->delta2 = delta * delta;
     q->delta3 = delta * delta * delta;
@@ -763,11 +761,11 @@ step(int *pite, struct Ini *q,
     struct Particle *prtl;
 
     ite = *pite;
-    sqrtdt = sqrt(dt);
 
     integeral_time = 0;
     while (integeral_time < D_time) {
         dt = GetTimestep(q);
+	sqrtdt = sqrt(dt);
         ite++;
         integeral_time += dt;
         *Time += dt;
