@@ -79,13 +79,15 @@ type code
 
 <H2>Initial condition file</H2>
 
+<pre>
     <start time>
     <number of particles>
     ...
     <material name> <X> <Y> <Vx> <Vy> <density> <pressure> <temperature>
     ...
+</pre>
 
-[example](cases/couette.rst)
+<a href="/slitvinov/sph-blitz/blob/master/cases/couette.rst">an example</a>
 
 <H2>Simulations</H2>
 
