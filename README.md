@@ -80,10 +80,10 @@ type code
 <H2>Initial condition file</H2>
 
 <pre>
-    <start time>
-    <number of particles>
+    &lt;start time&gt;
+    &lt;number of particles&gt;
     ...
-    <material name> <X> <Y> <Vx> <Vy> <density> <pressure> <temperature>
+    &lt;material name&gt; &lt;X&gt; &lt;Y&gt; &lt;Vx&gt; &lt;Vy&gt; &lt;density&gt; &lt;pressure&gt; &lt;temperature&gt;
     ...
 </pre>
 
