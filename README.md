@@ -87,7 +87,7 @@ type code
     ...
 </pre>
 
-<a href="/slitvinov/sph-blitz/blob/master/cases/couette.rst">an example</a>
+[an example](cases/couette.rst)
 
 <H2>Simulations</H2>
 
