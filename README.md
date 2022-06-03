@@ -5,7 +5,7 @@ Xiangyu Hu,
 Sergey Litvinov,
 Oliver Oberinger,
 Martin Bernreuther,
-Andreas Mattes)
+Andreas Mattes).
 
 <H2>Build</H2>
 
@@ -21,7 +21,7 @@ $ (cd example && make)
 Run fluctuating liquid, Couette flow, and elliptic drop:
 [cases/thermal.cfg](cases/thermal.cfg),
 [cases/couette.cfg](cases/couette.cfg),
-[cases/ellipse.cfg](cases/ellipse.cfg),
+[cases/ellipse.cfg](cases/ellipse.cfg).
 
 <H2>Configuration file</H2>
 
