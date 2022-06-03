@@ -1,7 +1,11 @@
 <H2>Introduction</H2>
 
-2D multiphase SPH/SDPD code (authors: Xiangyu Hu, Sergey Litvinov, Oliver Oberinger
-Martin Bernreuther, Andreas Mattes)
+2D multiphase SPH/SDPD code (authors:
+Xiangyu Hu,
+Sergey Litvinov,
+Oliver Oberinger,
+Martin Bernreuther,
+Andreas Mattes)
 
 <H2>Build</H2>
 
@@ -10,13 +14,14 @@ $ (cd src && make)
 $ (cd example && make)
 </pre>
 
-`make test` runs [tests](test/) (requres atest).
+<code>make test</code> runs [tests](test/) (requres atest).
 
 <H2>Cases</H2>
 
 Run fluctuating liquid, Couette flow, and elliptic drop:
-`example/sdpd cases/thermal`, `example/sdpd cases/coette`,
-`example/sdpd cases/ellipse`
+[cases/thermal](cases/thermal/),
+[cases/coette](cases/coette/),
+[cases/ellipse](cases/ellipse/),
 
 <H2>Configuration file</H2>
 
