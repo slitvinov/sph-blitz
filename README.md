@@ -20,7 +20,7 @@ $ (cd example && make)
 
 Run fluctuating liquid, Couette flow, and elliptic drop:
 [cases/thermal.cfg](cases/thermal.cfg),
-[cases/coette.cfg](cases/coette.cfg),
+[cases/couette.cfg](cases/couette.cfg),
 [cases/ellipse.cfg](cases/ellipse.cfg),
 
 <H2>Configuration file</H2>
