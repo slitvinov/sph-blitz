@@ -1,6 +1,6 @@
-#include "sph/material.h"
 #include <math.h>
 #include <stdio.h>
+#include "sph/material.h"
 
 double get_p(struct Material *q, double rho) {
   return q->b0 * pow(rho / q->rho0, q->gamma);
