@@ -98,27 +98,56 @@ type code
 
 Couette flow simulation
 
-    $ example/sdpd  cases/couette
+<pre>
+$ example/sdpd  cases/couette
+$ example/sdpd  cases/couette
+The left, right, lower and upper boundary 1 1 0 0
+0: wall boundary condition
+1: perodic boundary condition
+2: free slip wall boundary condition
+3: symmetry boundary condition
+read the propeties of materials and forces
+N=10 Time: 0.00868056	dt: 0.000868056
+...
+</pre>    
 
 Water drop in air starting from [an initial condition file](cases/ellipse.cfg)
 
-    $ example/sdpd cases/ellipse
+<pre>
+$ example/sdpd cases/ellipse
+The left, right, lower and upper boundary 1 1 0 0
+0: wall boundary condition
+1: perodic boundary condition
+2: free slip wall boundary condition
+3: symmetry boundary condition
+read the propeties of materials and forces
+ini.c:787: Read real particles from 'cases/ellipse.rst'
+ini.c:798: N = 576
+N=10 Time: 0.778993	dt: 0.000868056
+...
+</pre>    
 
 <H2>Output</H2>
 
 Output is in ASCII tecplot files, to convert to punto format run
 
-    $ scripts/2punto outdata
+<pre>
+$ scripts/2punto outdata > punto.dat
+</pre>
 
 <H2>Visualization</H2>
 
-    $ punto -D 2 -V -s 50 punto.dat
-    $ punto -D 2 -c 4 -B 0:0:0.04:0.04 -G -0.2:0.2 punto.dat
+<pre>
+$ punto -D 2 -V -s 50 punto.dat
+$ punto -D 2 -c 4 -B 0:0:0.04:0.04 -G -0.2:0.2 punto.dat
+</pre>
 
 in gnuplot shell
 
-    $ plot n=1, 'punto.dat' u 2:3 every :::n::n
-    $ plot n=10, A=250.0, 'punto.dat' u 2:3 every :::n::n+5, A*x*(L-x)
+<pre>
+$ plot n=1, 'punto.dat' u 2:3 every :::n::n
+$ plot n=10, A=250.0, 'punto.dat' u 2:3 every :::n::n+5, A*x*(L-x)
+</pre>
 
 <H2>Images</H2>
 
