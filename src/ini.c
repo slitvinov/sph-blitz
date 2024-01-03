@@ -20,8 +20,6 @@ struct Pair {
   struct Particle *Org;
   struct Particle *Dest;
   struct Force **frc_ij;
-  int noi;
-  int noj;
   double mi;
   double rmi;
   double etai;
@@ -98,8 +96,6 @@ static struct Pair *pair_ini(struct Particle *prtl_org,
 
   q->Org = Org = prtl_org;
   q->Dest = Dest = prtl_dest;
-  q->noi = noi = Org->mtl->number;
-  q->noj = noj = Dest->mtl->number;
   q->frc_ij = frc_ij = forces;
   q->mi = Org->m;
   q->mj = Dest->m;
@@ -145,8 +141,8 @@ static void RenewPair(struct Pair *q, struct Kernel *kernel) {
   zetai = q->zetai;
   zetaj = q->zetaj;
   frc_ij = q->frc_ij;
-  noi = q->noi;
-  noj = q->noj;
+  noi = Org->mtl->number;
+  noj = Dest->mtl->number;
 
   rij = q->rij = vv_distance(q->Org->R, q->Dest->R);
   rrij = q->rrij = 1.0 / (q->rij + 1.0e-30);
@@ -199,8 +195,8 @@ static void SummationPhaseGradient(struct Pair *q) {
   Fij = q->Fij;
   rij = q->rij;
   frc_ij = q->frc_ij;
-  noi = q->noi;
-  noj = q->noj;
+  noi = Org->mtl->number;
+  noj = Dest->mtl->number;
   eij = q->eij;
 
   Vi = mi / Org->rho;
