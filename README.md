@@ -109,7 +109,7 @@ The left, right, lower and upper boundary 1 1 0 0
 read the propeties of materials and forces
 N=10 Time: 0.00868056	dt: 0.000868056
 ...
-</pre>    
+</pre>
 
 Water drop in air starting from [an initial condition file](cases/ellipse.cfg)
 
@@ -125,7 +125,7 @@ ini.c:787: Read real particles from 'cases/ellipse.rst'
 ini.c:798: N = 576
 N=10 Time: 0.778993	dt: 0.000868056
 ...
-</pre>    
+</pre>
 
 <H2>Output</H2>
 
