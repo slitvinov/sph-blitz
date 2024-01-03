@@ -2,7 +2,6 @@ struct Force;
 struct Kernel;
 struct Material;
 struct Ini {
-    char inputfile[FILENAME_MAX];
     char Project_name[FILENAME_MAX];
     double art_vis;
     double box_size[2];

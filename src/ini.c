@@ -376,6 +376,7 @@ static void RandomForces(struct Pair *q, double sqrtdt) {
 
 int initiation_ini(char *project_name, struct Ini *q) {
   char Key_word[FILENAME_MAX];
+  char inputfile[FILENAME_MAX];
   char *mkdir = "mkdir -p outdata";
   double delta;
   double sound;
@@ -392,11 +393,11 @@ int initiation_ini(char *project_name, struct Ini *q) {
   struct Material *mtl;
 
   strcpy(q->Project_name, project_name);
-  strcpy(q->inputfile, q->Project_name);
-  strcat(q->inputfile, ".cfg");
-  f = fopen(q->inputfile, "r");
+  strcpy(inputfile, q->Project_name);
+  strcat(inputfile, ".cfg");
+  f = fopen(inputfile, "r");
   if (!f)
-    ABORT(("can't open '%s'", q->inputfile));
+    ABORT(("can't open '%s'", inputfile));
   while (fscanf(f, "%s", Key_word) == 1) {
     if (!strcmp(Key_word, "INITIAL_CONDITION"))
       rc = fscanf(f, "%d", &q->initial_condition);
@@ -441,9 +442,9 @@ int initiation_ini(char *project_name, struct Ini *q) {
   q->NNP_list = list_ini();
 
   q->b = list_ini();
-  f = fopen(q->inputfile, "r");
+  f = fopen(inputfile, "r");
   if (!f)
-    ABORT(("can't open '%s'\n", q->inputfile));
+    ABORT(("can't open '%s'\n", inputfile));
   while (fscanf(f, "%s", Key_word) == 1)
     if (!strcmp(Key_word, "BOUNDARY")) {
       n = fscanf(f, "%d %lf %lf %d %lf %lf %d %lf %lf %d %lf %lf", &q->xBl,
@@ -471,9 +472,9 @@ int initiation_ini(char *project_name, struct Ini *q) {
   for (k = 0; k < number_of_materials; k++)
     q->forces[k] = malloc(number_of_materials * sizeof(*q->forces[k]));
 
-  f = fopen(q->inputfile, "r");
+  f = fopen(inputfile, "r");
   if (!f)
-    ABORT(("can't open '%s'", q->inputfile));
+    ABORT(("can't open '%s'", inputfile));
   else
     printf("read the propeties of materials and forces\n");
   while (fscanf(f, "%s", Key_word) == 1) {
@@ -482,21 +483,21 @@ int initiation_ini(char *project_name, struct Ini *q) {
         mtl = &q->materials[k];
         mtl->number = k;
         if (fscanf(f, "%s %d", mtl->material_name, &mtl->material_type) != 2)
-          ABORT(("can't read material from '%s'", q->inputfile));
+          ABORT(("can't read material from '%s'", inputfile));
         if (fscanf(f, "%lf %lf %lf %lf %lf", &mtl->eta, &mtl->zeta, &mtl->gamma,
                    &mtl->rho0, &mtl->a0) != 5)
-          ABORT(("can't read materal parameters from '%s'", q->inputfile));
+          ABORT(("can't read materal parameters from '%s'", inputfile));
         mtl->nu = AMAX1(mtl->eta, mtl->zeta) / mtl->rho0;
       }
     if (!strcmp(Key_word, "FORCES"))
       for (l = 0; l < number_of_materials; l++)
         for (n = 0; n < number_of_materials; n++) {
           if (fscanf(f, "%d %d", &k, &m) != 2)
-            ABORT(("can't read materal from '%s'", q->inputfile));
+            ABORT(("can't read materal from '%s'", inputfile));
           force = &q->forces[k][m];
           if (fscanf(f, "%lf %lf %lf %lf", &force->epsilon, &force->sigma,
                      &force->shear_slip, &force->bulk_slip) != 4)
-            ABORT(("can't read force from '%s'", q->inputfile));
+            ABORT(("can't read force from '%s'", inputfile));
         }
   }
   fclose(f);
