@@ -15,7 +15,7 @@ list.o\
 material.o\
 particle.o\
 
-all: libsph.a
+all: $M
 $M: $O; $(AR) rc $@ $O && $(RANLIB) $@
 .c.o:; $(CC) -c $(CFLAGS) $<
 dep: ../scripts/dep; $< *.c > dep.mk
