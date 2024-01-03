@@ -1,4 +1,5 @@
 .POSIX:
+.SUFFIXES:
 .SUFFIXES: .o
 .SUFFIXES: .c
 CFLAGS = -g -O2
