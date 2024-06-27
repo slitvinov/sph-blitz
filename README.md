@@ -169,6 +169,16 @@ Fluctuating liquid
   macroscopic and mesoscopic flows." Journal of Computational Physics
   213.2 (2006): 844-861. https://doi.org/10.1016/j.jcp.2005.09.001
 
+- Litvinov, S., Ellero, M., Hu, X., & Adams, N. A. (2008). Smoothed
+  dissipative particle dynamics model for polymer molecules in
+  suspension. Physical Review E—Statistical, Nonlinear, and Soft
+  Matter Physics, 77(6), 066703.
+
+- Litvinov, S., Ellero, M., Hu, X., & Adams, N. A. (2008). Smoothed
+  dissipative particle dynamics model for polymer molecules in
+  suspension. Physical Review E—Statistical, Nonlinear, and Soft
+  Matter Physics, 77(6), 066703.
+
 - gnuplot http://www.gnuplot.info
 
 - punto http://punto.sourceforge.net
@@ -177,4 +187,5 @@ Fluctuating liquid
 
 - atest https://github.com/slitvinov/atest
 
-- SPH (smoothed-particle hydrodynamics), SDPD (smoothed dissipative particle dynamics)
+- SPH (smoothed-particle hydrodynamics), SDPD (smoothed dissipative
+  particle dynamics)
