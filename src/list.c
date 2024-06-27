@@ -60,7 +60,6 @@ struct List *list_ini(void) {
   node->data = NULL;
   node->next = node;
   q->node = node;
-  q->len = 0;
   return q;
 }
 
