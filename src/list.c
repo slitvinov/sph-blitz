@@ -46,7 +46,7 @@ void list_remove(struct List *q, struct ListNode *p) {
 
 void list_clear(struct List *q) {
   while (q->node != q->node->next)
-    list_remove(q, list_first(q));
+    list_remove(q, q->node);
 }
 
 struct List *list_ini(void) {
@@ -63,7 +63,7 @@ struct List *list_ini(void) {
 
 void list_fin(struct List *q) {
   while (q->node != q->node->next)
-    list_remove(q, list_first(q));
+    list_remove(q, q->node);
   free(q->node);
   free(q);
 }
