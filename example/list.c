@@ -62,8 +62,6 @@ main(int argc, const char **argv)
             } else if (eq(c, "traverse")) {
                 LOOP()
                     printf("%d\n", *x);
-            } else if (eq(c, "length")) {
-                printf("%d\n", list_length(l));
             } else if (eq(c, "remove")) {
                 n = list_first(l);
                 x = list_retrieve(l, n);
