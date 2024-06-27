@@ -686,7 +686,7 @@ void manager_build_particles(struct Ini *q, struct Material *materials,
 
   if (ini->initial_condition == 1) {
     strcpy(inputfile, ini->Project_name);
-    strcat(inputfile, ".rst");
+    strcat(inputfile, ".txt");
     f = fopen(inputfile, "r");
     if (!f)
       ABORT(("can't open file '%s'", inputfile));
@@ -867,7 +867,7 @@ int output_restart(struct Ini *q, struct List *particle_list, double Time) {
   FILE *f;
 
   strcpy(file_name, q->Project_name);
-  strcat(file_name, ".rst");
+  strcat(file_name, ".txt");
   f = fopen(file_name, "w");
   if (!f)
     ABORT(("can't write '%s'", file_name));

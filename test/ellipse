@@ -1,6 +1,6 @@
 # TEST: ellipse
-c=/tmp/ellipse.$$.cfg r=/tmp/ellipse.$$.rst
+c=/tmp/ellipse.$$.cfg r=/tmp/ellipse.$$.txt
 cp cases/ellipse.cfg $c
-cp cases/ellipse.rst $r
+cp cases/ellipse.txt $r
 example/sdpd /tmp/ellipse.$$
 cp outdata/p.0001171354.dat p.out.dat

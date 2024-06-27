@@ -92,7 +92,7 @@ type code
     ...
 </pre>
 
-[an example](cases/couette.rst)
+[an example](cases/couette.txt)
 
 <H2>Simulations</H2>
 
@@ -121,7 +121,7 @@ The left, right, lower and upper boundary 1 1 0 0
 2: free slip wall boundary condition
 3: symmetry boundary condition
 read the propeties of materials and forces
-ini.c:787: Read real particles from 'cases/ellipse.rst'
+ini.c:787: Read real particles from 'cases/ellipse.txt'
 ini.c:798: N = 576
 N=10 Time: 0.778993	dt: 0.000868056
 ...
