@@ -1,26 +1,16 @@
 #!/usr/bin/awk -f
 
 BEGIN {
-    printf "# generate by %s\n", "scripts/dep"
-    for (i = 1; i in ARGV; i++) {
-        f = ARGV[i]
-        sub(/\.c$/, ".o", f)
-        line = 0
-        while (getline < ARGV[i] > 0) {
-            line++
-            if (sub(/^[\t ]*#[\t ]*include[\t ]*/, "") &&
-                sub(/^"/, "") &&
-                sub(/".*/, "")) {
-                if (!filep($0)) {
-                    printf "%s:%d: error: no such file '%s'\n", ARGV[i], line, $0 | "cat >&2"
-                    exit(1)
-                }
-                    
-                print f ": " $0 | "sort"
-            }
-        }
-        close(ARGV[i])
+    printf "# generate by scripts/dep\n"
+}
+
+sub(/^[\t ]*#[\t ]*include[\t ]*/, "") && sub(/^"/, "") && sub(/"[\t ]*/, "") {
+    if (!filep($0)) {
+	printf "%s:%d: error: no such file '%s'\n", FILENAME, FNR, $0 | "cat >&2"
+	exit(1)
     }
+    sub(/\.c$/, ".o", FILENAME)
+    print FILENAME ": " $0 | "sort"
 }
 
 function filep(path, aux, rc) {
