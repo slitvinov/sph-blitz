@@ -4,11 +4,6 @@
 	wprint("\n");					\
     } while (0)
 
-#define ERR(code, x) do {			\
-	WARN(x);				\
-	return(code);				\
-    } while (0)
-
 #define ABORT(x) do {				\
 	WARN(x);				\
 	exit(2);				\

@@ -16,8 +16,10 @@ main(int argc, char *argv[])
     struct Kernel *kernel;
     struct Manager *manager;
 
-    if (argc < 2)
-        ERR(2, ("no project name specified"));
+    if (argc < 2) {
+      fprintf(stderr, "sdpd: error: no project name specified");
+      exit(2);
+    }
     srand(12345);
     initiation_ini(argv[1], &ini);
     pair_art_vis = ini.art_vis;
