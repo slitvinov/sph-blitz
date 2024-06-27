@@ -9,7 +9,6 @@ struct ListNode {
 };
 
 struct List {
-  int len;
   struct ListNode *node;
 };
 
@@ -34,7 +33,6 @@ void *list_retrieve(struct List *q, struct ListNode *n) {
 void list_insert(struct List *q, struct ListNode *n, void *p) {
   struct ListNode *node;
 
-  q->len++;
   node = malloc(sizeof(struct ListNode));
   node->data = p;
   node->next = n->next;
@@ -46,16 +44,12 @@ void list_remove(struct List *q, struct ListNode *p) {
 
   p->next = t->next;
   free(t);
-  q->len--;
 }
 
 void list_clear(struct List *q) {
   while (!list_empty(q))
     list_remove(q, list_first(q));
-  q->len = 0;
 }
-
-int list_length(struct List *q) { return q->len; }
 
 struct List *list_ini(void) {
   struct List *q;
