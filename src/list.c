@@ -12,8 +12,6 @@ struct List {
   struct ListNode *node;
 };
 
-int list_empty(struct List *q) { return q->node == q->node->next; }
-
 int list_endp(struct List *q, struct ListNode *n) { return n->next == q->node; }
 
 struct ListNode *list_first(struct List *q) {
@@ -47,7 +45,7 @@ void list_remove(struct List *q, struct ListNode *p) {
 }
 
 void list_clear(struct List *q) {
-  while (!list_empty(q))
+  while (q->node != q->node->next)
     list_remove(q, list_first(q));
 }
 
@@ -64,7 +62,7 @@ struct List *list_ini(void) {
 }
 
 void list_fin(struct List *q) {
-  while (!list_empty(q))
+  while (q->node != q->node->next)
     list_remove(q, list_first(q));
   free(q->node);
   free(q);
