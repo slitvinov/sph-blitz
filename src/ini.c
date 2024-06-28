@@ -120,11 +120,6 @@ static struct Pair *pair_ini(struct Particle *prtl_org,
   return q;
 }
 
-static int pair_fin(struct Pair *q) {
-  free(q);
-  return 0;
-}
-
 static void RenewPair(struct Pair *q, struct Kernel *kernel) {
   struct Particle *Org, *Dest;
   double *eij;
@@ -610,7 +605,9 @@ int manager_build_pair(struct Ini *q, struct List *pairs,
 
   sm2 = smoothinglength * smoothinglength;
 
-  ILOOP_P(pair, pairs) { pair_fin(pair); }
+  ILOOP_P(pair, pairs) {
+    free(pair);
+  }
   list_clear(pairs);
   LOOP_P(prtl_org, particle_list) {
     if (prtl_org->bd == 0) {
@@ -764,7 +761,9 @@ int initiation_fin(struct Ini *q) {
   free(q->forces);
   free(q->materials);
 
-  ILOOP_P(pair, q->pair_list) { pair_fin(pair); }
+  ILOOP_P(pair, q->pair_list) {
+    free(pair);
+  }
   list_fin(q->pair_list);
 
   LOOP_P(prtl, q->particle_list) { particle_fin(prtl); }
