@@ -25,8 +25,6 @@ struct Material {
 };
 
 struct Particle {
-	int cell_i;
-	int cell_j;
 	struct Material *mtl;
 	struct Particle *real;
 	double R[2];
@@ -34,20 +32,15 @@ struct Particle {
 	double rho;
 	double p;
 	double T;
-	double Cs;
 	double m;
-	double V;
 	double R_I[2];
 	double U_I[2];
-	double eta;
-	double zeta;
 	double **phi;
 	double dphi[2];
 	double dUdt[2];
 	double _dU[2];
 	int bd;	/* 0: real, 1: boundary */
 	int btype;	/* 0: wall, 1: periodic ghost */
-	long ID;
 };
 
 struct Particle *prtreal(double[2], double[2], double, double,

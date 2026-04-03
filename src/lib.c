@@ -68,7 +68,6 @@ static double getp(struct Material *m, double rho) {
 
 /* particle */
 
-long idmax;
 int nmat;
 
 static double **phinew(void) {
@@ -102,25 +101,19 @@ struct Particle *prtreal(double position[2], double velocity[2],
 
 	q = malloc(sizeof(*q));
 	if (q == NULL) abort();
-	idmax++;
 	q->bd = 0;
 	q->btype = 0;
-	q->ID = idmax;
 	q->mtl = material;
-	q->eta = material->eta;
-	q->zeta = material->zeta;
 	q->R[X] = position[X];
 	q->R[Y] = position[Y];
 	q->rho = density;
 	q->p = pressure;
 	q->T = temperature;
-	q->Cs = sqrt(material->gamma * pressure / density);
 	q->U[X] = velocity[X];
 	q->U[Y] = velocity[Y];
 	q->U_I[X] = velocity[X];
 	q->U_I[Y] = velocity[Y];
 	q->m = 0.0;
-	q->V = 0.0;
 	q->R_I[X] = position[X];
 	q->R_I[Y] = position[Y];
 	q->phi = phinew();
@@ -135,7 +128,6 @@ static struct Particle *prtghost(struct Particle *s, int btype, struct Material 
 	*q = *s;
 	q->bd = 1;
 	q->btype = btype;
-	q->ID = 0;
 	q->real = s;
 	q->mtl = mtl;
 	q->phi = phinew();
@@ -157,10 +149,8 @@ int prtcopy(struct Particle *q, struct Particle *s, int type) {
 	q->R[Y] = s->R[Y];
 	q->m = s->m;
 	q->rho = s->rho;
-	q->V = s->V;
 	q->p = s->p;
 	q->T = s->T;
-	q->Cs = s->Cs;
 	q->U[X] = s->U[X];
 	q->U[Y] = s->U[Y];
 	q->U_I[X] = s->U_I[X];
@@ -206,8 +196,8 @@ static double sqdiff(double v[2]) { return v[X] * v[X] - v[Y] * v[Y]; }
 	double rij, rrij, eij[2], Wij, Fij, sr, br
 
 #define PAIRCOMP(a, b, q, d2) do { \
-	double _ei = (a)->eta, _ej = (b)->eta; \
-	double _zi = (a)->zeta, _zj = (b)->zeta; \
+	double _ei = (a)->mtl->eta, _ej = (b)->mtl->eta; \
+	double _zi = (a)->mtl->zeta, _zj = (b)->mtl->zeta; \
 	int _ni = (a)->mtl->number, _nj = (b)->mtl->number; \
 	rij = sqrt(d2); \
 	rrij = 1.0 / (rij + 1.0e-30); \
@@ -241,7 +231,7 @@ static void updforces(struct Particle *Org, struct Particle *Dest,
 	Uijdoteij = Uij[X] * eij[X] + Uij[Y] * eij[Y];
 	theta = Uijdoteij * rij * delta / (rij * rij + 0.01 * delta * delta);
 	NR_vis = Uijdoteij > 0.0 ? 0.0
-		: art_vis * theta * (rhoi * Org->Cs * mj + rhoj * Dest->Cs * mi) / (mi + mj);
+		: art_vis * theta * (rhoi * sqrt(Org->mtl->gamma * Org->p / Org->rho) * mj + rhoj * sqrt(Dest->mtl->gamma * Dest->p / Dest->rho) * mi) / (mi + mj);
 	c = theta * Wij * art_vis / (rhoi + rhoj);
 	dUi[X] = -eij[X] * c;
 	dUi[Y] = -eij[Y] * c;
@@ -394,7 +384,6 @@ int iniread(char *project_name, struct Ini *q) {
 	q->partcap = 0;
 
 	nmat = q->nmat;
-	idmax = 0;
 
 	{
 		int mx = q->mx, my = q->my;
@@ -438,8 +427,6 @@ int updcells(struct Ini *q) {
 		struct Particle *prtl = q->parts[n];
 		k = (int)((prtl->R[0] + cs) / cs);
 		m = (int)((prtl->R[1] + cs) / cs);
-		prtl->cell_i = k;
-		prtl->cell_j = m;
 		cellpush(&q->cells[k][m], prtl);
 	}
 	return 0;
@@ -520,8 +507,6 @@ void mkparts(struct Ini *q, struct Material *materials,
 						pressure = getp(&materials[material_no], density);
 						prtl = prtreal(position, velocity, density, pressure,
 																 Temperature, &materials[material_no]);
-						prtl->cell_i = i;
-						prtl->cell_j = j;
 						if (q->nparts >= q->partcap)
 							q->parts = agrow(q->parts, &q->partcap, sizeof(*q->parts));
 						q->parts[q->nparts++] = prtl;
@@ -576,8 +561,6 @@ void mkparts(struct Ini *q, struct Material *materials,
 				q->parts[q->nparts++] = prtl;
 				i = (int)(prtl->R[0] / cs) + 1;
 				j = (int)(prtl->R[1] / cs) + 1;
-				prtl->cell_i = i;
-				prtl->cell_j = j;
 				cellpush(&q->cells[i][j], prtl);
 			} else {
 				ABORT(("The material in the restart file is not used by the program!"));
@@ -731,7 +714,7 @@ void volmass(struct Ini *q) {
 			reciprocV += W(q, dstc);
 		}
 		reciprocV = 1.0 / reciprocV;
-		prtl_org->V = reciprocV;
+		
 		prtl_org->m = prtl_org->rho * reciprocV;
 	}
 }
@@ -747,7 +730,7 @@ void volmass(struct Ini *q) {
 	b = (q)->cells[k][m].data[n1]; \
 	{ double dx_ = a->R[X]-b->R[X], dy_ = a->R[Y]-b->R[Y]; \
 	d2 = dx_*dx_ + dy_*dy_; } \
-	if (d2 <= (q)->h*(q)->h && a->ID >= b->ID) { \
+	if (d2 <= (q)->h*(q)->h && a >= b) { \
 	PAIRCOMP(a, b, q, d2);
 
 #define ENDPAIR }}}
@@ -761,7 +744,7 @@ static void halfstep(struct Ini *q) {
 	for (i = 0; i < q->nparts; i++) q->parts[i]->rho = 0.0;
 	PAIRLOOP(q)
 		a->rho += a->m * Wij;
-		if (a->ID != b->ID) b->rho += b->m * Wij;
+		if (a != b) b->rho += b->m * Wij;
 	ENDPAIR
 	for (i = 0; i < q->nparts; i++) { prtl = q->parts[i]; prtl->p = getp(prtl->mtl, prtl->rho); }
 
@@ -813,7 +796,7 @@ void step(int *pite, struct Ini *q, double *Time, double tout) {
 			double Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = 1.0;
 			for (i = 0; i < q->nparts; i++) {
 				prtl = q->parts[i];
-				Cs_max = dmax(Cs_max, prtl->Cs);
+				Cs_max = dmax(Cs_max, sqrt(prtl->mtl->gamma * prtl->p / prtl->rho));
 				V_max = dmax(V_max, vnorm(prtl->U));
 				rho_min = dmin(rho_min, prtl->rho);
 				rho_max = dmax(rho_max, prtl->rho);
@@ -981,8 +964,6 @@ int bndbuild(struct Ini *q, struct Material *mtl) {
 				prtl_old = q->cells[si][sj].data[n];
 				prtl = is_mirror ? prtmirror(prtl_old, mtl) : prtimage(prtl_old);
 				applybnd(ed->type, ed->coord, ed->refl, ed->shift, ed->U_bnd, prtl);
-				prtl->cell_i = gi;
-				prtl->cell_j = gj;
 				if (q->nbnd >= q->bndcap)
 					q->bnd = agrow(q->bnd, &q->bndcap, sizeof(*q->bnd));
 				q->bnd[q->nbnd++] = prtl;
@@ -1004,8 +985,6 @@ int bndbuild(struct Ini *q, struct Material *mtl) {
 			prtl = is_mirror ? prtmirror(prtl_old, mtl) : prtimage(prtl_old);
 			applycorner(type, cn->refl_x, cn->shift_x, cn->U_x,
 			                  cn->refl_y, cn->shift_y, cn->U_y, prtl);
-			prtl->cell_i = cn->ghost_i;
-			prtl->cell_j = cn->ghost_j;
 			if (q->nbnd >= q->bndcap)
 				q->bnd = agrow(q->bnd, &q->bndcap, sizeof(*q->bnd));
 			q->bnd[q->nbnd++] = prtl;
