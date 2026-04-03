@@ -12,31 +12,18 @@
 
 int wprint(const char *, ...);
 
-/* kernel */
-struct Kernel;
-struct Kernel *kernelnew(double h);
-int kernelfree(struct Kernel *);
-double w(struct Kernel *, double);
-double F(struct Kernel *, double);
-
-/* material */
+/* particle */
 struct Material {
 	char name[FILENAME_MAX];
 	int number;
-	int material_type;
 	double eta;
 	double zeta;
 	double gamma;
-	double nu;
 	double b0;
 	double rho0;
 	double a0;
 };
 
-double getp(struct Material *, double rho);
-double getcs(struct Material *, double p, double rho);
-
-/* particle */
 struct Particle {
 	int cell_i;
 	int cell_j;
@@ -93,8 +80,11 @@ struct Corner {
 };
 
 /* ini */
-struct Force;
-struct Pair;
+struct Force {
+	double sigma;
+	double shear_slip, bulk_slip;
+};
+
 struct Ini {
 	char project[FILENAME_MAX];
 	double art_vis;
@@ -113,6 +103,9 @@ struct Ini {
 	int cr;
 	int initial_condition;
 	int nmat;
+
+	/* kernel */
+	double rh, fw, fg;
 
 	int mx;
 	int my;
@@ -139,12 +132,8 @@ struct Ini {
 	double dt_g_vis;
 	double dt_surf;
 
-	struct Pair *pairs;
-	int npairs, pcap;
-
 	struct Material *materials;
 	struct Force **forces;
-	struct Kernel *kernel;
 
 	struct Particle **parts;
 	int nparts, partcap;
