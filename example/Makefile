@@ -7,7 +7,6 @@ SPH_FLAGS = -I../src -L../src -lsph -lm
 
 M = \
 kernel\
-list\
 sdpd\
 
 all: $M

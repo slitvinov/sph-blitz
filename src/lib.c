@@ -20,72 +20,17 @@ int wprint(const char *fmt, ...) {
 	return r;
 }
 
-/* list */
+/* array helpers */
 
-struct List;
-struct ListNode {
-	void *data;
-	struct ListNode *next;
-};
-
-struct List {
-	struct ListNode *node;
-};
-
-int listendp(struct List *q, struct ListNode *n) { return n->next == q->node; }
-
-struct ListNode *listfirst(struct List *q) {
-	return q->node;
+static void *agrow(void *p, int *cap, int sz) {
+	*cap = *cap ? *cap * 2 : 16;
+	return realloc(p, *cap * sz);
 }
 
-struct ListNode *listnext(struct List *q, struct ListNode *n) {
-	(void)q;
-	return n->next;
-}
-
-void *listget(struct List *q, struct ListNode *n) {
-	(void)q;
-	return n->next->data;
-}
-
-void listins(struct List *q, struct ListNode *n, void *p) {
-	struct ListNode *node;
-
-	node = malloc(sizeof(struct ListNode));
-	node->data = p;
-	node->next = n->next;
-	n->next = node;
-}
-
-void listrm(struct List *q, struct ListNode *p) {
-	struct ListNode *t = p->next;
-
-	p->next = t->next;
-	free(t);
-}
-
-void listclr(struct List *q) {
-	while (q->node != q->node->next)
-		listrm(q, q->node);
-}
-
-struct List *listnew(void) {
-	struct List *q;
-	struct ListNode *node;
-
-	q = malloc(sizeof(struct List));
-	node = malloc(sizeof(struct ListNode));
-	node->data = NULL;
-	node->next = node;
-	q->node = node;
-	return q;
-}
-
-void listfree(struct List *q) {
-	while (q->node != q->node->next)
-		listrm(q, q->node);
-	free(q->node);
-	free(q);
+static void cellpush(struct Cell *c, struct Particle *p) {
+	if (c->n >= c->cap)
+		c->data = agrow(c->data, &c->cap, sizeof(*c->data));
+	c->data[c->n++] = p;
 }
 
 /* kernel */
@@ -271,7 +216,7 @@ struct Particle *prtimage(struct Particle *s) {
 }
 
 struct Particle *prtmirror(struct Particle *s,
-																 struct Material *material) {
+															 struct Material *material) {
 	struct Particle *q;
 
 	q = malloc(sizeof(*q));
@@ -588,15 +533,20 @@ int iniread(char *project_name, struct Ini *q) {
 
 	q->mx = q->nx + 2;
 	q->my = q->ny + 2;
-	q->cells = malloc(q->mx * sizeof(struct List **));
-	for (i = 0; i < q->mx; i++) {
-		q->cells[i] = malloc(q->my * sizeof(struct List *));
-		for (j = 0; j < q->my; j++)
-			q->cells[i][j] = listnew();
-	}
-	q->nnpl = listnew();
+	q->cells = malloc(q->mx * sizeof(*q->cells));
+	for (i = 0; i < q->mx; i++)
+		q->cells[i] = calloc(q->my, sizeof(struct Cell));
 
-	q->b = listnew();
+	q->nnp = NULL;
+	q->nnnp = 0;
+	q->nnpcap = 0;
+
+	q->bnd = NULL;
+	q->nbnd = 0;
+	q->bndcap = 0;
+
+	strcpy(inputfile, q->project);
+	strcat(inputfile, ".cfg");
 	f = fopen(inputfile, "r");
 	if (!f)
 		ABORT(("can't open '%s'\n", inputfile));
@@ -617,7 +567,10 @@ int iniread(char *project_name, struct Ini *q) {
 	puts("2: free slip wall boundary condition");
 	puts("3: symmetry boundary condition");
 
-	q->pair_list = listnew();
+	q->pairs = NULL;
+	q->npairs = 0;
+	q->pcap = 0;
+
 	nmat = q->nmat;
 	delta = q->delta;
 	q->delta2 = delta * delta;
@@ -671,7 +624,11 @@ int iniread(char *project_name, struct Ini *q) {
 	sound = dmax(q->sigmax, sound);
 	for (k = 0; k < nmat; k++)
 		q->materials[k].b0 = q->materials[k].a0 * sound / q->materials[k].gamma;
-	q->parts = listnew();
+
+	q->parts = NULL;
+	q->nparts = 0;
+	q->partcap = 0;
+
 	nmat = q->nmat;
 	idmax = 0;
 
@@ -679,83 +636,61 @@ int iniread(char *project_name, struct Ini *q) {
 }
 
 int updcells(struct Ini *q) {
-
-	int i, j;
+	int i, j, n;
 	int k, m;
-	struct ListNode *p;
-	struct Particle *prtl;
+	double cs = q->cs;
 
-	int mx;
-	int my;
-	double cs;
-	struct List ***cells;
-
-	mx = q->mx;
-	my = q->my;
-	cs = q->cs;
-	cells = q->cells;
-
-	for (i = 0; i < mx; i++) {
-		for (j = 0; j < my; j++) {
-			p = listfirst(cells[i][j]);
-			while (!listendp(cells[i][j], p)) {
-				prtl = listget(cells[i][j], p);
-				if (prtl->bd == 0) {
-					k = (int)((prtl->R[0] + cs) / cs);
-					m = (int)((prtl->R[1] + cs) / cs);
-					if (k != i || m != j) {
-						listrm(cells[i][j], p);
-						listins(cells[k][m], listfirst(cells[k][m]), prtl);
-					} else
-						p = listnext(cells[i][j], p);
-				} else
-					p = listnext(cells[i][j], p);
-			}
-		}
+	for (i = 0; i < q->mx; i++)
+		for (j = 0; j < q->my; j++)
+			q->cells[i][j].n = 0;
+	for (n = 0; n < q->nparts; n++) {
+		struct Particle *prtl = q->parts[n];
+		k = (int)((prtl->R[0] + cs) / cs);
+		m = (int)((prtl->R[1] + cs) / cs);
+		prtl->cell_i = k;
+		prtl->cell_j = m;
+		cellpush(&q->cells[k][m], prtl);
 	}
 	return 0;
 }
 
 int mknnp(struct Ini *q, double point[2]) {
 	int i, j;
-	int k, m;
+	int k, m, n;
 	double dstc;
-	struct ListNode *p;
 	struct Particle *prtl;
 
-	struct List *nnpl;
 	int mx;
 	int my;
 	double cs;
 	double h;
-	struct List ***cells;
 
 	mx = q->mx;
 	my = q->my;
 	cs = q->cs;
-	cells = q->cells;
 	h = q->h;
-	nnpl = q->nnpl;
 
-	listclr(nnpl);
+	q->nnnp = 0;
 	k = (int)((point[0] + cs) / cs);
 	m = (int)((point[1] + cs) / cs);
 	for (i = k - 1; i <= k + 1; i++)
 		for (j = m - 1; j <= m + 1; j++)
 			if (i < mx && j < my && i >= 0 && j >= 0)
-				for (p = listfirst(cells[i][j]); !listendp(cells[i][j], p); p = listnext(cells[i][j], p)) { prtl = (struct Particle *)listget(cells[i][j], p);
+				for (n = 0; n < q->cells[i][j].n; n++) {
+					prtl = q->cells[i][j].data[n];
 					dstc = dist(point, prtl->R);
-					if (dstc < h)
-						listins(nnpl, listfirst(nnpl), prtl);
+					if (dstc < h) {
+						if (q->nnnp >= q->nnpcap)
+							q->nnp = agrow(q->nnp, &q->nnpcap, sizeof(*q->nnp));
+						q->nnp[q->nnnp++] = prtl;
+					}
 				}
 	return 0;
 }
 
-int mkpairs(struct Ini *q, struct List *pairs,
-											 struct List *parts, struct Force **forces,
+int mkpairs(struct Ini *q, struct Force **forces,
 											 struct Kernel *kernel) {
-	struct ListNode *p, *p1;
-	int i, j, k, m;
+	int i, j, k, m, n, n1;
 	double dstc;
 	double sm2;
 	struct Particle *prtl_org, *prtl_dest;
@@ -763,25 +698,22 @@ int mkpairs(struct Ini *q, struct List *pairs,
 
 	double h;
 	double cs;
-	struct List ***cells;
 
 	cs = q->cs;
-	cells = q->cells;
 	h = q->h;
 
 	sm2 = h * h;
 
-	for (p = listfirst(pairs); !listendp(pairs, p); p = listnext(pairs, p)) { pair = (struct Pair *)listget(pairs, p);
-		free(pair);
-	}
-	listclr(pairs);
-	for (p = listfirst(parts); !listendp(parts, p); p = listnext(parts, p)) { prtl_org = (struct Particle *)listget(parts, p);
+	q->npairs = 0;
+	for (n = 0; n < q->nparts; n++) {
+		prtl_org = q->parts[n];
 		if (prtl_org->bd == 0) {
 			i = (int)((prtl_org->R[0] + cs) / cs);
 			j = (int)((prtl_org->R[1] + cs) / cs);
 			for (k = i - 1; k <= i + 1; k++)
 				for (m = j - 1; m <= j + 1; m++) {
-					for (p1 = listfirst(cells[k][m]); !listendp(cells[k][m], p1); p1 = listnext(cells[k][m], p1)) { prtl_dest = (struct Particle *)listget(cells[k][m], p1);
+					for (n1 = 0; n1 < q->cells[k][m].n; n1++) {
+						prtl_dest = q->cells[k][m].data[n1];
 						double dx = prtl_org->R[X] - prtl_dest->R[X];
 						double dy = prtl_org->R[Y] - prtl_dest->R[Y];
 						dstc = dx * dx + dy * dy;
@@ -791,9 +723,9 @@ int mkpairs(struct Ini *q, struct List *pairs,
 							struct Force **frc_ij;
 							struct Particle *Org, *Dest;
 
-							pair = malloc(sizeof(*pair));
-							if (pair == NULL)
-								ABORT(("can't allocate"));
+							if (q->npairs >= q->pcap)
+								q->pairs = agrow(q->pairs, &q->pcap, sizeof(*q->pairs));
+							pair = &q->pairs[q->npairs++];
 							pair->Org = Org = prtl_org;
 							pair->Dest = Dest = prtl_dest;
 							pair->frc_ij = frc_ij = forces;
@@ -819,7 +751,6 @@ int mkpairs(struct Ini *q, struct List *pairs,
 							pair->br = 2.0 * zetai * zetaj * rij /
 								(zetai * (rij + 2.0 * frc_ij[noj][noi].bulk_slip) +
 								 zetaj * (rij + 2.0 * frc_ij[noi][noj].bulk_slip) + 1.0e-30);
-							listins(pairs, listfirst(pairs), pair);
 						}
 					}
 				}
@@ -829,7 +760,7 @@ int mkpairs(struct Ini *q, struct List *pairs,
 }
 
 void mkparts(struct Ini *q, struct Material *materials,
-														 struct List *parts, struct Ini *ini) {
+														 struct Ini *ini) {
 
 	int i, j, k, m;
 	double position[2];
@@ -847,12 +778,10 @@ void mkparts(struct Ini *q, struct Material *materials,
 	int my;
 	int cr;
 	double cs;
-	struct List ***cells;
 
 	mx = q->mx;
 	my = q->my;
 	cs = q->cs;
-	cells = q->cells;
 	cr = ini->cr;
 
 	delta = cs / cr;
@@ -873,8 +802,10 @@ void mkparts(struct Ini *q, struct Material *materials,
 																 Temperature, &materials[material_no]);
 						prtl->cell_i = i;
 						prtl->cell_j = j;
-						listins(parts, listfirst(parts), prtl);
-						listins(cells[i][j], listfirst(cells[i][j]), prtl);
+						if (q->nparts >= q->partcap)
+							q->parts = agrow(q->parts, &q->partcap, sizeof(*q->parts));
+						q->parts[q->nparts++] = prtl;
+						cellpush(&q->cells[i][j], prtl);
 					}
 				}
 			}
@@ -920,12 +851,14 @@ void mkparts(struct Ini *q, struct Material *materials,
 				pressure = getp(&materials[material_no], density);
 				prtl = prtreal(position, velocity, density, pressure, Temperature,
 														 &materials[material_no]);
-				listins(parts, listfirst(parts), prtl);
+				if (q->nparts >= q->partcap)
+					q->parts = agrow(q->parts, &q->partcap, sizeof(*q->parts));
+				q->parts[q->nparts++] = prtl;
 				i = (int)(prtl->R[0] / cs) + 1;
 				j = (int)(prtl->R[1] / cs) + 1;
 				prtl->cell_i = i;
 				prtl->cell_j = j;
-				listins(cells[i][j], listfirst(cells[i][j]), prtl);
+				cellpush(&q->cells[i][j], prtl);
 			} else {
 				ABORT(("The material in the restart file is not used by the program!"));
 			}
@@ -939,35 +872,31 @@ int inifin(struct Ini *q) {
 	int j;
 	int mx;
 	int my;
-	struct List ***c;
-	struct ListNode *p;
-	struct Pair *pair;
-	struct Particle *prtl;
 
 	mx = q->mx;
 	my = q->my;
-	c = q->cells;
 	for (i = 0; i < mx; i++) {
-		for (j = 0; j < my; j++) {
-			listfree(c[i][j]);
-		}
-		free(c[i]);
+		for (j = 0; j < my; j++)
+			free(q->cells[i][j].data);
+		free(q->cells[i]);
 	}
-	free(c);
-	listfree(q->nnpl);
+	free(q->cells);
+	free(q->nnp);
 
 	for (i = 0; i < q->nmat; i++)
 		free(q->forces[i]);
 	free(q->forces);
 	free(q->materials);
 
-	for (p = listfirst(q->pair_list); !listendp(q->pair_list, p); p = listnext(q->pair_list, p)) { pair = (struct Pair *)listget(q->pair_list, p);
-		free(pair);
-	}
-	listfree(q->pair_list);
+	free(q->pairs);
 
-	for (p = listfirst(q->parts); !listendp(q->parts, p); p = listnext(q->parts, p)) { prtl = (struct Particle *)listget(q->parts, p); prtfree(prtl); }
-	listfree(q->parts);
+	for (i = 0; i < q->nparts; i++)
+		prtfree(q->parts[i]);
+	free(q->parts);
+
+	for (i = 0; i < q->nbnd; i++)
+		prtfree(q->bnd[i]);
+	free(q->bnd);
 
 	return 0;
 }
@@ -976,16 +905,18 @@ static void UpdateSurfaceStress(struct Ini *q) {
 	double epsilon = 1.0e-30;
 	double interm0, interm1, interm2;
 	struct Particle *prtl;
-	struct ListNode *p;
+	int i;
 
-	for (p = listfirst(q->parts); !listendp(q->parts, p); p = listnext(q->parts, p)) { prtl = (struct Particle *)listget(q->parts, p);
+	for (i = 0; i < q->nparts; i++) {
+		prtl = q->parts[i];
 		interm0 = 1.0 / (vnorm(prtl->dphi) + epsilon);
 		interm1 = 0.5 * sqdiff(prtl->dphi);
 		interm2 = prtl->dphi[X] * prtl->dphi[Y];
 		prtl->dphi[0] = interm1 * interm0;
 		prtl->dphi[1] = interm2 * interm0;
 	}
-	for (p = listfirst(q->b); !listendp(q->b, p); p = listnext(q->b, p)) { prtl = (struct Particle *)listget(q->b, p);
+	for (i = 0; i < q->nbnd; i++) {
+		prtl = q->bnd[i];
 		interm0 = vnorm(prtl->dphi) + epsilon;
 		interm1 = 0.5 * sqdiff(prtl->dphi);
 		interm2 = prtl->dphi[X] * prtl->dphi[Y];
@@ -994,14 +925,12 @@ static void UpdateSurfaceStress(struct Ini *q) {
 	}
 }
 
-int prtout(struct Ini *q, struct List *parts,
-										 struct Material *materials, double Time) {
+int prtout(struct Ini *q, struct Material *materials, double Time) {
 	char file_name[FILENAME_MAX], file_list[FILENAME_MAX];
 	double Itime;
 	FILE *f;
-	int i, j;
+	int i, j, n;
 	int nmat;
-	struct ListNode *p;
 	struct Particle *prtl;
 
 	nmat = q->nmat;
@@ -1019,7 +948,8 @@ int prtout(struct Ini *q, struct List *parts,
 	fprintf(f, "%s", "variables=x, y, Ux, Uy \n");
 	for (i = 0; i < nmat; i++) {
 		j = 0;
-		for (p = listfirst(parts); !listendp(parts, p); p = listnext(parts, p)) { prtl = (struct Particle *)listget(parts, p);
+		for (n = 0; n < q->nparts; n++) {
+			prtl = q->parts[n];
 			if (strcmp(materials[i].name, prtl->mtl->name) == 0) {
 				j++;
 				if (j == 1)
@@ -1028,7 +958,8 @@ int prtout(struct Ini *q, struct List *parts,
 								prtl->U[1]);
 			}
 		}
-		for (p = listfirst(q->b); !listendp(q->b, p); p = listnext(q->b, p)) { prtl = (struct Particle *)listget(q->b, p);
+		for (n = 0; n < q->nbnd; n++) {
+			prtl = q->bnd[n];
 			if (strcmp(materials[i].name, prtl->mtl->name) == 0) {
 				j++;
 				if (j == 1)
@@ -1042,11 +973,10 @@ int prtout(struct Ini *q, struct List *parts,
 	return 0;
 }
 
-int rstout(struct Ini *q, struct List *parts, double Time) {
-	int n;
+int rstout(struct Ini *q, double Time) {
+	int n, cnt;
 	char file_name[FILENAME_MAX];
 	struct Particle *prtl;
-	struct ListNode *p;
 	FILE *f;
 
 	strcpy(file_name, q->project);
@@ -1054,14 +984,16 @@ int rstout(struct Ini *q, struct List *parts, double Time) {
 	f = fopen(file_name, "w");
 	if (!f)
 		ABORT(("can't write '%s'", file_name));
-	n = 0;
-	for (p = listfirst(parts); !listendp(parts, p); p = listnext(parts, p)) { prtl = (struct Particle *)listget(parts, p);
+	cnt = 0;
+	for (n = 0; n < q->nparts; n++) {
+		prtl = q->parts[n];
 		if (prtl->bd == 0)
-			n++;
+			cnt++;
 	}
 	fprintf(f, "%.6g\n", Time);
-	fprintf(f, "%d\n", n);
-	for (p = listfirst(parts); !listendp(parts, p); p = listnext(parts, p)) { prtl = (struct Particle *)listget(parts, p);
+	fprintf(f, "%d\n", cnt);
+	for (n = 0; n < q->nparts; n++) {
+		prtl = q->parts[n];
 		if (prtl->bd == 0)
 			fprintf(f, "%s %.6g %.6g %.6g %.6g %.6g %.6g %.6g\n",
 							prtl->mtl->name, prtl->R[0], prtl->R[1], prtl->U[0],
@@ -1071,24 +1003,24 @@ int rstout(struct Ini *q, struct List *parts, double Time) {
 	return 0;
 }
 
-void volmass(struct List *parts, struct Ini *ini,
-								struct Kernel *kernel) {
+void volmass(struct Ini *q, struct Kernel *kernel) {
 	double reciprocV;
 	double dstc;
-	struct ListNode *p, *p1;
+	int i, n;
 	struct Particle *prtl_org, *prtl_dest;
 
-	for (p = listfirst(parts); !listendp(parts, p); p = listnext(parts, p)) { prtl_org = (struct Particle *)listget(parts, p);
-		mknnp(ini, prtl_org->R);
+	for (n = 0; n < q->nparts; n++) {
+		prtl_org = q->parts[n];
+		mknnp(q, prtl_org->R);
 		reciprocV = 0.0;
-		for (p1 = listfirst(ini->nnpl); !listendp(ini->nnpl, p1); p1 = listnext(ini->nnpl, p1)) { prtl_dest = (struct Particle *)listget(ini->nnpl, p1);
+		for (i = 0; i < q->nnnp; i++) {
+			prtl_dest = q->nnp[i];
 			dstc = dist(prtl_org->R, prtl_dest->R);
 			reciprocV += w(kernel, dstc);
 		}
 		reciprocV = 1.0 / reciprocV;
 		prtl_org->V = reciprocV;
 		prtl_org->m = prtl_org->rho * reciprocV;
-		listclr(ini->nnpl);
 	}
 }
 
@@ -1097,8 +1029,8 @@ void step(int *pite, struct Ini *q, double *Time, double tout,
 	double dt;
 	double integeral_time;
 	double sqrtdt;
+	int i;
 	int ite;
-	struct ListNode *p;
 	struct Pair *pair;
 	struct Particle *prtl;
 
@@ -1108,7 +1040,8 @@ void step(int *pite, struct Ini *q, double *Time, double tout,
 	while (integeral_time < tout) {
 		{
 			double Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = 1.0;
-			for (p = listfirst(q->parts); !listendp(q->parts, p); p = listnext(q->parts, p)) { prtl = (struct Particle *)listget(q->parts, p);
+			for (i = 0; i < q->nparts; i++) {
+				prtl = q->parts[i];
 				Cs_max = dmax(Cs_max, prtl->Cs);
 				V_max = dmax(V_max, vnorm(prtl->U));
 				rho_min = dmin(rho_min, prtl->rho);
@@ -1123,33 +1056,37 @@ void step(int *pite, struct Ini *q, double *Time, double tout,
 		*Time += dt;
 		if (ite % 10 == 0)
 			printf("N=%d Time: %g\tdt: %g\n", ite, *Time, dt);
-		mkpairs(q, q->pair_list, q->parts, q->forces, kernel);
-		for (p = listfirst(q->parts); !listendp(q->parts, p); p = listnext(q->parts, p)) { prtl = (struct Particle *)listget(q->parts, p); prtl->rho = 0.0; }
-		for (p = listfirst(q->pair_list); !listendp(q->pair_list, p); p = listnext(q->pair_list, p)) { pair = (struct Pair *)listget(q->pair_list, p); SummationDensity(pair); }
-		for (p = listfirst(q->parts); !listendp(q->parts, p); p = listnext(q->parts, p)) { prtl = (struct Particle *)listget(q->parts, p); prtl->p = getp(prtl->mtl, prtl->rho); }
+		mkpairs(q, q->forces, kernel);
+		for (i = 0; i < q->nparts; i++) { prtl = q->parts[i]; prtl->rho = 0.0; }
+		for (i = 0; i < q->npairs; i++) { pair = &q->pairs[i]; SummationDensity(pair); }
+		for (i = 0; i < q->nparts; i++) { prtl = q->parts[i]; prtl->p = getp(prtl->mtl, prtl->rho); }
 
-		bndcond(q, q->cells);
-		for (p = listfirst(q->parts); !listendp(q->parts, p); p = listnext(q->parts, p)) { prtl = (struct Particle *)listget(q->parts, p);
+		bndcond(q);
+		for (i = 0; i < q->nparts; i++) {
+			prtl = q->parts[i];
 			prtl->dphi[X] = prtl->dphi[Y] = 0.0;
 		}
-		for (p = listfirst(q->b); !listendp(q->b, p); p = listnext(q->b, p)) { prtl = (struct Particle *)listget(q->b, p); prtl->dphi[X] = prtl->dphi[Y] = 0.0; }
+		for (i = 0; i < q->nbnd; i++) { prtl = q->bnd[i]; prtl->dphi[X] = prtl->dphi[Y] = 0.0; }
 
-		for (p = listfirst(q->pair_list); !listendp(q->pair_list, p); p = listnext(q->pair_list, p)) { pair = (struct Pair *)listget(q->pair_list, p); SummationPhaseGradient(pair); }
+		for (i = 0; i < q->npairs; i++) { pair = &q->pairs[i]; SummationPhaseGradient(pair); }
 
-		bndcond(q, q->cells);
+		bndcond(q);
 		UpdateSurfaceStress(q);
-		for (p = listfirst(q->parts); !listendp(q->parts, p); p = listnext(q->parts, p)) { prtl = (struct Particle *)listget(q->parts, p);
+		for (i = 0; i < q->nparts; i++) {
+			prtl = q->parts[i];
 			prtl->drhodt = 0.0;
 			prtl->dUdt[X] = prtl->dUdt[Y] = 0.0;
 			prtl->_dU[X] = prtl->_dU[Y] = 0.0;
 		}
-		for (p = listfirst(q->pair_list); !listendp(q->pair_list, p); p = listnext(q->pair_list, p)) { pair = (struct Pair *)listget(q->pair_list, p); UpdateForces(pair, q->art_vis, q->delta); }
-		for (p = listfirst(q->parts); !listendp(q->parts, p); p = listnext(q->parts, p)) { prtl = (struct Particle *)listget(q->parts, p);
+		for (i = 0; i < q->npairs; i++) { pair = &q->pairs[i]; UpdateForces(pair, q->art_vis, q->delta); }
+		for (i = 0; i < q->nparts; i++) {
+			prtl = q->parts[i];
 			prtl->dUdt[X] += q->gravity[X];
 			prtl->dUdt[Y] += q->gravity[Y];
 		}
 
-		for (p = listfirst(q->parts); !listendp(q->parts, p); p = listnext(q->parts, p)) { prtl = (struct Particle *)listget(q->parts, p);
+		for (i = 0; i < q->nparts; i++) {
+			prtl = q->parts[i];
 			prtl->R_I[X] = prtl->R[X];
 			prtl->R_I[Y] = prtl->R[Y];
 			prtl->U[X] += prtl->_dU[X];
@@ -1165,9 +1102,10 @@ void step(int *pite, struct Ini *q, double *Time, double tout,
 			prtl->U[X] = (prtl->U[X] + prtl->U_I[X]) * 0.5;
 			prtl->U[Y] = (prtl->U[Y] + prtl->U_I[Y]) * 0.5;
 		}
-		bndcond(q, q->cells);
+		bndcond(q);
 
-		for (p = listfirst(q->pair_list); !listendp(q->pair_list, p); p = listnext(q->pair_list, p)) { pair = (struct Pair *)listget(q->pair_list, p);
+		for (i = 0; i < q->npairs; i++) {
+			pair = &q->pairs[i];
 			struct Particle *Org = pair->Org, *Dest = pair->Dest;
 			double *eij = pair->eij;
 			double etai = pair->etai, etaj = pair->etaj;
@@ -1190,33 +1128,37 @@ void step(int *pite, struct Ini *q, double *Time, double tout,
 				 zetaj * (rij + 2.0 * frc_ij[noi][noj].bulk_slip) + 1.0e-30);
 		}
 
-		for (p = listfirst(q->parts); !listendp(q->parts, p); p = listnext(q->parts, p)) { prtl = (struct Particle *)listget(q->parts, p); prtl->rho = 0.0; }
-		for (p = listfirst(q->pair_list); !listendp(q->pair_list, p); p = listnext(q->pair_list, p)) { pair = (struct Pair *)listget(q->pair_list, p); SummationDensity(pair); }
-		for (p = listfirst(q->parts); !listendp(q->parts, p); p = listnext(q->parts, p)) { prtl = (struct Particle *)listget(q->parts, p); prtl->p = getp(prtl->mtl, prtl->rho); }
+		for (i = 0; i < q->nparts; i++) { prtl = q->parts[i]; prtl->rho = 0.0; }
+		for (i = 0; i < q->npairs; i++) { pair = &q->pairs[i]; SummationDensity(pair); }
+		for (i = 0; i < q->nparts; i++) { prtl = q->parts[i]; prtl->p = getp(prtl->mtl, prtl->rho); }
 
-		bndcond(q, q->cells);
-		for (p = listfirst(q->parts); !listendp(q->parts, p); p = listnext(q->parts, p)) { prtl = (struct Particle *)listget(q->parts, p);
+		bndcond(q);
+		for (i = 0; i < q->nparts; i++) {
+			prtl = q->parts[i];
 			prtl->dphi[X] = prtl->dphi[Y] = 0.0;
 		}
-		for (p = listfirst(q->b); !listendp(q->b, p); p = listnext(q->b, p)) { prtl = (struct Particle *)listget(q->b, p); prtl->dphi[X] = prtl->dphi[Y] = 0.0; }
+		for (i = 0; i < q->nbnd; i++) { prtl = q->bnd[i]; prtl->dphi[X] = prtl->dphi[Y] = 0.0; }
 
-		for (p = listfirst(q->pair_list); !listendp(q->pair_list, p); p = listnext(q->pair_list, p)) { pair = (struct Pair *)listget(q->pair_list, p); SummationPhaseGradient(pair); }
+		for (i = 0; i < q->npairs; i++) { pair = &q->pairs[i]; SummationPhaseGradient(pair); }
 
-		bndcond(q, q->cells);
+		bndcond(q);
 		UpdateSurfaceStress(q);
-		for (p = listfirst(q->parts); !listendp(q->parts, p); p = listnext(q->parts, p)) { prtl = (struct Particle *)listget(q->parts, p);
+		for (i = 0; i < q->nparts; i++) {
+			prtl = q->parts[i];
 			prtl->drhodt = 0.0;
 			prtl->dUdt[X] = prtl->dUdt[Y] = 0.0;
 			prtl->_dU[X] = prtl->_dU[Y] = 0.0;
 		}
-		for (p = listfirst(q->pair_list); !listendp(q->pair_list, p); p = listnext(q->pair_list, p)) { pair = (struct Pair *)listget(q->pair_list, p); UpdateForces(pair, q->art_vis, q->delta); }
-		for (p = listfirst(q->parts); !listendp(q->parts, p); p = listnext(q->parts, p)) { prtl = (struct Particle *)listget(q->parts, p);
+		for (i = 0; i < q->npairs; i++) { pair = &q->pairs[i]; UpdateForces(pair, q->art_vis, q->delta); }
+		for (i = 0; i < q->nparts; i++) {
+			prtl = q->parts[i];
 			prtl->dUdt[X] += q->gravity[X];
 			prtl->dUdt[Y] += q->gravity[Y];
 		}
 
-		for (p = listfirst(q->parts); !listendp(q->parts, p); p = listnext(q->parts, p)) { prtl = (struct Particle *)listget(q->parts, p); prtl->_dU[X] = prtl->_dU[Y] = 0.0; }
-		for (p = listfirst(q->pair_list); !listendp(q->pair_list, p); p = listnext(q->pair_list, p)) { pair = (struct Pair *)listget(q->pair_list, p);
+		for (i = 0; i < q->nparts; i++) { prtl = q->parts[i]; prtl->_dU[X] = prtl->_dU[Y] = 0.0; }
+		for (i = 0; i < q->npairs; i++) {
+			pair = &q->pairs[i];
 			double rmi = pair->rmi, rmj = pair->rmj;
 			double br = pair->br;
 			double *eij = pair->eij;
@@ -1274,7 +1216,8 @@ void step(int *pite, struct Ini *q, double *Time, double tout,
 			}
 		}
 
-		for (p = listfirst(q->parts); !listendp(q->parts, p); p = listnext(q->parts, p)) { prtl = (struct Particle *)listget(q->parts, p);
+		for (i = 0; i < q->nparts; i++) {
+			prtl = q->parts[i];
 			prtl->U[X] += prtl->_dU[X];
 			prtl->U[Y] += prtl->_dU[Y];
 			prtl->R[X] = prtl->R_I[X] + prtl->U[X] * dt;
@@ -1283,14 +1226,15 @@ void step(int *pite, struct Ini *q, double *Time, double tout,
 			prtl->U[Y] = prtl->U_I[Y] + prtl->dUdt[Y] * dt;
 		}
 
-		for (p = listfirst(q->parts); !listendp(q->parts, p); p = listnext(q->parts, p)) { prtl = (struct Particle *)listget(q->parts, p);
+		for (i = 0; i < q->nparts; i++) {
+			prtl = q->parts[i];
 			prtl->U[X] = prtl->U[X] + prtl->_dU[X];
 			prtl->U[Y] = prtl->U[Y] + prtl->_dU[Y];
 		}
 
-		bndcheck(q, q->parts);
+		bndcheck(q);
 		updcells(q);
-		bndbuild(q, q->cells, q->materials);
+		bndbuild(q, q->materials);
 	}
 	*pite = ite;
 }
@@ -1336,19 +1280,17 @@ static void applycorner(int type,
 	}
 }
 
-int bndbuild(struct Ini *q, struct List ***c, struct Material *mtl) {
-	int i, v, e;
+int bndbuild(struct Ini *q, struct Material *mtl) {
+	int i, v, e, n;
 	struct Particle *prtl, *prtl_old;
-	struct ListNode *p;
 	int mx, my;
-	struct List *b;
 
 	mx = q->mx;
 	my = q->my;
-	b = q->b;
 
-	for (p = listfirst(b); !listendp(b, p); p = listnext(b, p)) { prtl = (struct Particle *)listget(b, p); prtfree(prtl); }
-	listclr(b);
+	for (i = 0; i < q->nbnd; i++)
+		prtfree(q->bnd[i]);
+	q->nbnd = 0;
 
 	struct {
 		int type, coord, ghost, adj, opp, perp_lo, perp_hi;
@@ -1373,14 +1315,17 @@ int bndbuild(struct Ini *q, struct List ***c, struct Material *mtl) {
 			int gi, gj, si, sj;
 			if (coord == X) { gi = edges[e].ghost; gj = v; si = src; sj = v; }
 			else            { gi = v; gj = edges[e].ghost; si = v; sj = src; }
-			listclr(c[gi][gj]);
-			for (p = listfirst(c[si][sj]); !listendp(c[si][sj], p); p = listnext(c[si][sj], p)) { prtl_old = (struct Particle *)listget(c[si][sj], p);
+			q->cells[gi][gj].n = 0;
+			for (n = 0; n < q->cells[si][sj].n; n++) {
+				prtl_old = q->cells[si][sj].data[n];
 				prtl = is_mirror ? prtmirror(prtl_old, mtl) : prtimage(prtl_old);
 				applybnd(type, coord, edges[e].refl, edges[e].shift, edges[e].U_bnd, prtl);
 				prtl->cell_i = gi;
 				prtl->cell_j = gj;
-				listins(b, listfirst(b), prtl);
-				listins(c[gi][gj], listfirst(c[gi][gj]), prtl);
+				if (q->nbnd >= q->bndcap)
+					q->bnd = agrow(q->bnd, &q->bndcap, sizeof(*q->bnd));
+				q->bnd[q->nbnd++] = prtl;
+				cellpush(&q->cells[gi][gj], prtl);
 			}
 		}
 	}
@@ -1407,24 +1352,26 @@ int bndbuild(struct Ini *q, struct List ***c, struct Material *mtl) {
 		int si = (type == 1) ? corners[e].opp_i : corners[e].adj_i;
 		int sj = (type == 1) ? corners[e].opp_j : corners[e].adj_j;
 		int gi = corners[e].ghost_i, gj = corners[e].ghost_j;
-		listclr(c[gi][gj]);
-		for (p = listfirst(c[si][sj]); !listendp(c[si][sj], p); p = listnext(c[si][sj], p)) { prtl_old = (struct Particle *)listget(c[si][sj], p);
+		q->cells[gi][gj].n = 0;
+		for (n = 0; n < q->cells[si][sj].n; n++) {
+			prtl_old = q->cells[si][sj].data[n];
 			prtl = is_mirror ? prtmirror(prtl_old, mtl) : prtimage(prtl_old);
 			applycorner(type, corners[e].refl_x, corners[e].shift_x, corners[e].U_x,
 												 corners[e].refl_y, corners[e].shift_y, corners[e].U_y, prtl);
 			prtl->cell_i = gi;
 			prtl->cell_j = gj;
-			listins(b, listfirst(b), prtl);
-			listins(c[gi][gj], listfirst(c[gi][gj]), prtl);
+			if (q->nbnd >= q->bndcap)
+				q->bnd = agrow(q->bnd, &q->bndcap, sizeof(*q->bnd));
+			q->bnd[q->nbnd++] = prtl;
+			cellpush(&q->cells[gi][gj], prtl);
 		}
 	}
 	return 0;
 }
 
-int bndcond(struct Ini *q, struct List ***c) {
-	int e, v;
+int bndcond(struct Ini *q) {
+	int e, v, n;
 	struct Particle *prtl;
-	struct ListNode *p;
 	int mx = q->mx, my = q->my;
 
 	struct {
@@ -1449,7 +1396,8 @@ int bndcond(struct Ini *q, struct List ***c) {
 			int gi, gj;
 			if (coord == X) { gi = edges[e].ghost; gj = v; }
 			else             { gi = v; gj = edges[e].ghost; }
-			for (p = listfirst(c[gi][gj]); !listendp(c[gi][gj], p); p = listnext(c[gi][gj], p)) { prtl = (struct Particle *)listget(c[gi][gj], p);
+			for (n = 0; n < q->cells[gi][gj].n; n++) {
+				prtl = q->cells[gi][gj].data[n];
 				if (prtl->real == NULL) abort();
 				prtcopy(prtl, prtl->real, copy_type);
 				applybnd(type, coord, edges[e].refl, edges[e].shift, edges[e].U_bnd, prtl);
@@ -1475,7 +1423,8 @@ int bndcond(struct Ini *q, struct List ***c) {
 		if (corners[e].type_x != corners[e].type_y) continue;
 		int type = corners[e].type_x;
 		int copy_type = (type == 0 || type == 2) ? 0 : 1;
-		for (p = listfirst(c[corners[e].ghost_i][corners[e].ghost_j]); !listendp(c[corners[e].ghost_i][corners[e].ghost_j], p); p = listnext(c[corners[e].ghost_i][corners[e].ghost_j], p)) { prtl = (struct Particle *)listget(c[corners[e].ghost_i][corners[e].ghost_j], p);
+		for (n = 0; n < q->cells[corners[e].ghost_i][corners[e].ghost_j].n; n++) {
+			prtl = q->cells[corners[e].ghost_i][corners[e].ghost_j].data[n];
 			if (prtl->real == NULL) abort();
 			prtcopy(prtl, prtl->real, copy_type);
 			applycorner(type, corners[e].refl_x, corners[e].shift_x, corners[e].U_x,
@@ -1485,14 +1434,14 @@ int bndcond(struct Ini *q, struct List ***c) {
 	return 0;
 }
 
-int bndcheck(struct Ini *q, struct List *list) {
-	struct ListNode *p;
+int bndcheck(struct Ini *q) {
+	int i, c;
 	struct Particle *prtl;
 	double *box_size = q->box_size;
 	int types[2][2] = {{q->bxl, q->bxr}, {q->byd, q->byu}};
-	int c;
 
-	for (p = listfirst(list); !listendp(list, p); p = listnext(list, p)) { prtl = (struct Particle *)listget(list, p);
+	for (i = 0; i < q->nparts; i++) {
+		prtl = q->parts[i];
 		if (fabs(prtl->R[X]) >= 2.0 * box_size[X] ||
 				fabs(prtl->R[Y]) >= 2.0 * box_size[Y])
 			ABORT(("run away particle"));

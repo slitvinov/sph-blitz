@@ -12,19 +12,6 @@
 
 int wprint(const char *, ...);
 
-/* list */
-struct List;
-struct ListNode;
-int listendp(struct List *, struct ListNode *);
-struct ListNode *listfirst(struct List *);
-struct ListNode *listnext(struct List *, struct ListNode *);
-void *listget(struct List *, struct ListNode *);
-void listins(struct List *, struct ListNode *, void *);
-void listrm(struct List *, struct ListNode *);
-void listclr(struct List *);
-struct List *listnew(void);
-void listfree(struct List *);
-
 /* kernel */
 struct Kernel;
 struct Kernel *kernelnew(double h);
@@ -87,8 +74,15 @@ struct Particle *prtmirror(struct Particle *, struct Material *);
 int prtfree(struct Particle *);
 int prtcopy(struct Particle *, struct Particle *, int type);
 
+/* cell */
+struct Cell {
+    struct Particle **data;
+    int n, cap;
+};
+
 /* ini */
 struct Force;
+struct Pair;
 struct Ini {
     char project[FILENAME_MAX];
     double art_vis;
@@ -113,8 +107,10 @@ struct Ini {
 
     int mx;
     int my;
-    struct List ***cells;
-    struct List *nnpl;
+    struct Cell **cells;
+
+    struct Particle **nnp;
+    int nnnp, nnpcap;
 
     double uxl[2];
     double uxr[2];
@@ -124,27 +120,34 @@ struct Ini {
     int bxr;
     int byd;
     int byu;
-    struct List *b;
+
+    struct Particle **bnd;
+    int nbnd, bndcap;
 
     double delta2;
     double delta3;
     double dt_g_vis;
     double dt_surf;
-    struct List *pair_list;
+
+    struct Pair *pairs;
+    int npairs, pcap;
+
     double numax;
     double sigmax;
     struct Material *materials;
     struct Force **forces;
-    struct List *parts;
+
+    struct Particle **parts;
+    int nparts, partcap;
 };
 
 int iniread(char *, struct Ini *);
 int inifin(struct Ini *);
-void mkparts(struct Ini *, struct Material *, struct List *, struct Ini *);
-int prtout(struct Ini *, struct List *, struct Material *, double);
-int rstout(struct Ini *, struct List *, double);
-int bndcond(struct Ini *, struct List ***);
-int bndbuild(struct Ini *, struct List ***, struct Material *);
-int bndcheck(struct Ini *, struct List *);
-void volmass(struct List *, struct Ini *, struct Kernel *);
+void mkparts(struct Ini *, struct Material *, struct Ini *);
+int prtout(struct Ini *, struct Material *, double);
+int rstout(struct Ini *, double);
+int bndcond(struct Ini *);
+int bndbuild(struct Ini *, struct Material *);
+int bndcheck(struct Ini *);
+void volmass(struct Ini *, struct Kernel *);
 void step(int *, struct Ini *, double *, double, struct Kernel *);

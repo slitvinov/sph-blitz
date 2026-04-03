@@ -17,20 +17,20 @@ main(int argc, char *argv[])
     iniread(argv[1], &ini);
     kernel = kernelnew(ini.h);
 
-    mkparts(&ini, ini.materials, ini.parts, &ini);
-    bndbuild(&ini, ini.cells, ini.materials);
-    volmass(ini.parts, &ini, kernel);
-    bndcond(&ini, ini.cells);
+    mkparts(&ini, ini.materials, &ini);
+    bndbuild(&ini, ini.materials);
+    volmass(&ini, kernel);
+    bndcond(&ini);
 
     Time = ini.t0;
-    prtout(&ini, ini.parts, ini.materials, Time);
+    prtout(&ini, ini.materials, Time);
     ite = 0;
     while (Time < ini.t1) {
         if (Time + ini.tout >= ini.t1)
             ini.tout = ini.t1 - Time;
         step(&ite, &ini, &Time, ini.tout, kernel);
-        prtout(&ini, ini.parts, ini.materials, Time);
-        rstout(&ini, ini.parts, Time);
+        prtout(&ini, ini.materials, Time);
+        rstout(&ini, Time);
     }
 
     inifin(&ini);
