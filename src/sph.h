@@ -46,7 +46,6 @@ struct Material {
     double a0;
 };
 
-void Set_b0(struct Material *, double sound);
 double get_p(struct Material *, double rho);
 double get_Cs(struct Material *, double p, double rho);
 
@@ -57,7 +56,6 @@ struct Particle {
     struct Material *mtl;
     struct Particle *rl_prtl;
     double R[2];
-    double P[2];
     double U[2];
     double rho;
     double p;
@@ -67,11 +65,8 @@ struct Particle {
     double rho_n;
     double m;
     double V;
-    double e;
     double R_I[2];
-    double P_I[2];
     double U_I[2];
-    double P_n[2];
     double U_n[2];
     double ShearRate_x[2];
     double ShearRate_y[2];
@@ -80,7 +75,6 @@ struct Particle {
     double **phi;
     double del_phi[2];
     double drhodt;
-    double dedt;
     double dUdt[2];
     double _dU[2];
 
@@ -107,7 +101,6 @@ struct Particle {
 struct Particle *particle_real(double[2], double[2], double, double,
                                double, struct Material *);
 struct Particle *particle_image(struct Particle *);
-struct Particle *particle_wall(double, double, struct Material *);
 struct Particle *particle_mirror(struct Particle *, struct Material *);
 int particle_fin(struct Particle *);
 int particle_copy(struct Particle *, struct Particle *, int type);

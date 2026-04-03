@@ -239,13 +239,7 @@ struct Particle *particle_real(double position[2], double velocity[2],
   B(V, 0.0);
   C(R_I[X], R[X]);
   C(R_I[Y], R[Y]);
-  B(P[X], 0.0);
-  B(P[Y], 0.0);
-  B(P_I[X], 0.0);
-  B(P_I[Y], 0.0);
   C(rho_I, rho);
-  B(P_n[X], 0.0);
-  B(P_n[Y], 0.0);
   C(U_n[X], U[X]);
   C(U_n[Y], U[Y]);
   C(rho_n, rho);
@@ -280,16 +274,9 @@ struct Particle *particle_image(struct Particle *s) {
   A(ShearRate_y[Y]);
   A(m);
   A(V);
-  A(e);
   A(R_I[X]);
   A(R_I[Y]);
-  A(P[X]);
-  A(P[Y]);
-  A(P_I[X]);
-  A(P_I[Y]);
   C(rho_I, rho);
-  A(P_n[X]);
-  A(P_n[Y]);
   A(U_n[X]);
   A(U_n[Y]);
   A(rho_n);
@@ -325,16 +312,9 @@ struct Particle *particle_mirror(struct Particle *s,
   A(ShearRate_y[Y]);
   A(m);
   A(V);
-  A(e);
   A(R_I[X]);
   A(R_I[Y]);
-  A(P[X]);
-  A(P[Y]);
-  A(P_I[X]);
-  A(P_I[Y]);
   C(rho_I, rho);
-  A(P_n[X]);
-  A(P_n[Y]);
   A(U_n[X]);
   A(U_n[Y]);
   A(rho_n);
@@ -608,30 +588,28 @@ int initiation_ini(char *project_name, struct Ini *q) {
   f = fopen(inputfile, "r");
   if (!f)
     ABORT(("can't open '%s'", inputfile));
-  while (fscanf(f, "%s", Key_word) == 1) {
-    if (!strcmp(Key_word, "INITIAL_CONDITION"))
-      rc = fscanf(f, "%d", &q->initial_condition);
-    if (!strcmp(Key_word, "CELLS"))
-      rc = fscanf(f, "%d %d", &q->x_cells, &q->y_cells);
-    if (!strcmp(Key_word, "CELL_SIZE"))
-      rc = fscanf(f, "%lf", &q->cell_size);
-    if (!strcmp(Key_word, "SMOOTHING_LENGTH"))
-      rc = fscanf(f, "%lf", &q->smoothinglength);
-    if (!strcmp(Key_word, "CELL_RATIO"))
-      rc = fscanf(f, "%d", &q->cell_ratio);
-    if (!strcmp(Key_word, "GRAVITY"))
-      rc = fscanf(f, "%lf %lf", &q->gravity[0], &q->gravity[1]);
-    if (!strcmp(Key_word, "ARTIFICIAL_VISCOSITY"))
-      rc = fscanf(f, "%lf", &q->art_vis);
-    if (!strcmp(Key_word, "NUMBER_OF_MATERIALS"))
-      rc = fscanf(f, "%d", &q->number_of_materials);
-    if (!strcmp(Key_word, "TIMING"))
-      rc = fscanf(f, "%lf %lf %lf", &q->Start_time, &q->End_time, &q->D_time);
-    if (q->initial_condition == 0) {
-      if (!strcmp(Key_word, "INITIAL_STATES"))
-        rc = fscanf(f, "%lf %lf %lf %lf %lf", &q->U0[0], &q->U0[1], &q->rho0,
-                    &q->p0, &q->T0);
-    }
+  {
+    struct { const char *name; const char *fmt; void *dst[5]; } keys[] = {
+      {"INITIAL_CONDITION",  "%d",              {&q->initial_condition}},
+      {"CELLS",              "%d %d",           {&q->x_cells, &q->y_cells}},
+      {"CELL_SIZE",          "%lf",             {&q->cell_size}},
+      {"SMOOTHING_LENGTH",   "%lf",             {&q->smoothinglength}},
+      {"CELL_RATIO",         "%d",              {&q->cell_ratio}},
+      {"GRAVITY",            "%lf %lf",         {&q->gravity[0], &q->gravity[1]}},
+      {"ARTIFICIAL_VISCOSITY","%lf",            {&q->art_vis}},
+      {"NUMBER_OF_MATERIALS","%d",              {&q->number_of_materials}},
+      {"TIMING",             "%lf %lf %lf",    {&q->Start_time, &q->End_time, &q->D_time}},
+      {"INITIAL_STATES",     "%lf %lf %lf %lf %lf", {&q->U0[0], &q->U0[1], &q->rho0, &q->p0, &q->T0}},
+    };
+    int nkeys = sizeof(keys) / sizeof(keys[0]);
+    while (fscanf(f, "%s", Key_word) == 1)
+      for (k = 0; k < nkeys; k++) {
+        if (strcmp(Key_word, keys[k].name) != 0) continue;
+        if (k == nkeys - 1 && q->initial_condition != 0) continue;
+        rc = fscanf(f, keys[k].fmt,
+                    keys[k].dst[0], keys[k].dst[1], keys[k].dst[2],
+                    keys[k].dst[3], keys[k].dst[4]);
+      }
   }
   if (fclose(f) != 0)
     ABORT(("fclose failed"));
@@ -1192,7 +1170,6 @@ void step(int *pite, struct Ini *q, double *Time, double D_time,
     boundary_condition(q, q->cell_lists);
     UpdateSurfaceStress(q);
     LOOP_P(prtl, q->particle_list) {
-      prtl->dedt = 0.0;
       prtl->drhodt = 0.0;
       prtl->dUdt[X] = prtl->dUdt[Y] = 0.0;
       prtl->_dU[X] = prtl->_dU[Y] = 0.0;
@@ -1259,7 +1236,6 @@ void step(int *pite, struct Ini *q, double *Time, double D_time,
     boundary_condition(q, q->cell_lists);
     UpdateSurfaceStress(q);
     LOOP_P(prtl, q->particle_list) {
-      prtl->dedt = 0.0;
       prtl->drhodt = 0.0;
       prtl->dUdt[X] = prtl->dUdt[Y] = 0.0;
       prtl->_dU[X] = prtl->_dU[Y] = 0.0;
@@ -1350,669 +1326,206 @@ void step(int *pite, struct Ini *q, double *Time, double D_time,
   *pite = ite;
 }
 
-#define A prtl = particle_mirror(prtl_old, mtl)
-#define B prtl = particle_image(prtl_old)
-#define C(t)                                                                   \
-  do {                                                                         \
-    if (prtl->rl_prtl == NULL)                                                 \
-      abort();                                                                 \
-    particle_copy(prtl, prtl->rl_prtl, t);                                     \
-  } while (0)
+/*                         flip_n  flip_t  flip_dphi  periodic */
+static const int bnd[4][4] = {
+  /* 0 wall     */        {  1,     1,      0,         0 },
+  /* 1 periodic */        {  0,     0,      0,         1 },
+  /* 2 free-slip */       {  1,     0,      0,         0 },
+  /* 3 symmetry */        {  1,     0,      1,         0 },
+};
 
-static int boundary_w(struct Ini *, struct Particle *);
-static int boundary_e(struct Ini *, struct Particle *);
-static int boundary_s(struct Ini *, struct Particle *);
-static int boundary_n(struct Ini *, struct Particle *);
-static int boundary_sw(struct Ini *, struct Particle *);
-static int boundary_se(struct Ini *, struct Particle *);
-static int boundary_nw(struct Ini *, struct Particle *);
-static int boundary_ne(struct Ini *, struct Particle *);
+static void apply_bnd(int type, int c, double refl, double shift,
+                      double *U_bnd, struct Particle *prtl) {
+  int t = c ^ 1;
+  if (bnd[type][3])
+    prtl->R[c] += shift;
+  else
+    prtl->R[c] = 2.0 * refl - prtl->R[c];
+  if (bnd[type][0]) prtl->U[c] = 2.0 * U_bnd[c] - prtl->U[c];
+  if (bnd[type][1]) prtl->U[t] = 2.0 * U_bnd[t] - prtl->U[t];
+  if (bnd[type][2]) prtl->del_phi[c] = -prtl->del_phi[c];
+}
+
+static void apply_corner(int type,
+                          double refl_x, double shift_x, double *U_x,
+                          double refl_y, double shift_y, double *U_y,
+                          struct Particle *prtl) {
+  if (bnd[type][3]) {
+    prtl->R[X] += shift_x;
+    prtl->R[Y] += shift_y;
+  } else {
+    prtl->R[X] = 2.0 * refl_x - prtl->R[X];
+    prtl->R[Y] = 2.0 * refl_y - prtl->R[Y];
+  }
+  if (bnd[type][0]) {
+    prtl->U[X] = 2.0 * U_y[X] - prtl->U[X];
+    prtl->U[Y] = 2.0 * U_x[Y] - prtl->U[Y];
+  }
+  if (bnd[type][2]) {
+    prtl->del_phi[X] = -prtl->del_phi[X];
+    prtl->del_phi[Y] = -prtl->del_phi[Y];
+  }
+}
 
 int boundary_build(struct Ini *q, struct List ***c, struct Material *mtl) {
-  int i, j;
+  int i, v, e;
   struct Particle *prtl, *prtl_old;
-  int kb, ku, mb, mu;
   struct ListNode *p;
-  int x_clls;
-  int y_clls;
-  int xBl;
-  int xBr;
-  int yBd;
-  int yBu;
+  int x_clls, y_clls;
   struct List *b;
 
   x_clls = q->x_clls;
   y_clls = q->y_clls;
-  xBl = q->xBl;
-  xBr = q->xBr;
-  yBd = q->yBd;
-  yBu = q->yBu;
   b = q->b;
 
   LOOP_P(prtl, b) { particle_fin(prtl); }
   list_clear(b);
 
-  kb = 0;
-  mb = x_clls;
-  ku = 0;
-  mu = x_clls;
-  if (xBl == yBd)
-    kb = 1;
-  if (xBr == yBd)
-    mb = x_clls - 1;
-  if (xBl == yBu)
-    ku = 1;
-  if (xBr == yBu)
-    mu = x_clls - 1;
-  for (j = 1; j < y_clls - 1; j++) {
-    list_clear(c[X][j]);
-    if (xBl == 0 || xBl == 2) {
-      LOOP_P(prtl_old, c[Y][j]) {
-        A;
-        boundary_w(q, prtl);
-        prtl->cell_i = 0;
-        prtl->cell_j = j;
+  struct {
+    int type, coord, ghost, adj, opp, perp_lo, perp_hi;
+    double refl, shift, *U_bnd;
+  } edges[4] = {
+    {q->xBl, X, 0,         1,         x_clls-2, 1, y_clls-1, 0,              -q->box_size[X], q->UxBl},
+    {q->xBr, X, x_clls-1,  x_clls-2,  1,        1, y_clls-1, q->box_size[X],  q->box_size[X], q->UxBr},
+    {q->yBd, Y, 0,         1,         y_clls-2, 0, x_clls,   0,              -q->box_size[Y], q->UyBd},
+    {q->yBu, Y, y_clls-1,  y_clls-2,  1,        0, x_clls,   q->box_size[Y],  q->box_size[Y], q->UyBu},
+  };
+  /* adjust south/north perp ranges to avoid corner overlap */
+  if (q->xBl == q->yBd) edges[2].perp_lo = 1;
+  if (q->xBr == q->yBd) edges[2].perp_hi = x_clls - 1;
+  if (q->xBl == q->yBu) edges[3].perp_lo = 1;
+  if (q->xBr == q->yBu) edges[3].perp_hi = x_clls - 1;
+  /* X-edges (west+east) interleaved per j */
+  for (v = edges[0].perp_lo; v < edges[0].perp_hi; v++) {
+    for (e = 0; e < 2; e++) {
+      int type = edges[e].type;
+      int is_mirror = (type == 0 || type == 2);
+      int src = (type == 1) ? edges[e].opp : edges[e].adj;
+      list_clear(c[edges[e].ghost][v]);
+      LOOP_P(prtl_old, c[src][v]) {
+        prtl = is_mirror ? particle_mirror(prtl_old, mtl) : particle_image(prtl_old);
+        apply_bnd(type, X, edges[e].refl, edges[e].shift, edges[e].U_bnd, prtl);
+        prtl->cell_i = edges[e].ghost;
+        prtl->cell_j = v;
         INSERT_P(prtl, b);
-        INSERT_P(prtl, c[X][j]);
-      }
-    }
-    if (xBl == 3) {
-      LOOP_P(prtl_old, c[Y][j]) {
-        B;
-        boundary_w(q, prtl);
-        prtl->cell_i = 0;
-        prtl->cell_j = j;
-        INSERT_P(prtl, b);
-        INSERT_P(prtl, c[X][j]);
-      }
-    }
-    if (xBl == 1) {
-      LOOP_P(prtl_old, c[x_clls - 2][j]) {
-        B;
-        boundary_w(q, prtl);
-        prtl->cell_i = 0;
-        prtl->cell_j = j;
-        INSERT_P(prtl, b);
-        INSERT_P(prtl, c[X][j]);
-      }
-    }
-    list_clear(c[x_clls - 1][j]);
-    if (xBr == 0 || xBr == 2) {
-      LOOP_P(prtl_old, c[x_clls - 2][j]) {
-        A;
-        boundary_e(q, prtl);
-        prtl->cell_i = x_clls - 1;
-        prtl->cell_j = j;
-        INSERT_P(prtl, b);
-        INSERT_P(prtl, c[x_clls - 1][j]);
-      }
-    }
-    if (xBr == 3) {
-      LOOP_P(prtl_old, c[x_clls - 2][j]) {
-        B;
-        boundary_e(q, prtl);
-        prtl->cell_i = x_clls - 1;
-        prtl->cell_j = j;
-        INSERT_P(prtl, b);
-        INSERT_P(prtl, c[x_clls - 1][j]);
-      }
-    }
-    if (xBr == 1) {
-      LOOP_P(prtl_old, c[Y][j]) {
-        B;
-        boundary_e(q, prtl);
-        prtl->cell_i = x_clls - 1;
-        prtl->cell_j = j;
-        INSERT_P(prtl, b);
-        INSERT_P(prtl, c[x_clls - 1][j]);
+        INSERT_P(prtl, c[edges[e].ghost][v]);
       }
     }
   }
-  for (i = kb; i < mb; i++) {
-    list_clear(c[i][0]);
-    if (yBd == 0 || yBd == 2) {
-      LOOP_P(prtl_old, c[i][1]) {
-        A;
-        boundary_s(q, prtl);
-        prtl->cell_i = i;
-        prtl->cell_j = 0;
+  /* Y-edges (south, north) */
+  for (e = 2; e < 4; e++) {
+    int type = edges[e].type;
+    int is_mirror = (type == 0 || type == 2);
+    int src = (type == 1) ? edges[e].opp : edges[e].adj;
+    for (v = edges[e].perp_lo; v < edges[e].perp_hi; v++) {
+      list_clear(c[v][edges[e].ghost]);
+      LOOP_P(prtl_old, c[v][src]) {
+        prtl = is_mirror ? particle_mirror(prtl_old, mtl) : particle_image(prtl_old);
+        apply_bnd(type, Y, edges[e].refl, edges[e].shift, edges[e].U_bnd, prtl);
+        prtl->cell_i = v;
+        prtl->cell_j = edges[e].ghost;
         INSERT_P(prtl, b);
-        INSERT_P(prtl, c[i][0]);
-      }
-    }
-    if (yBd == 3) {
-      LOOP_P(prtl_old, c[i][1]) {
-        B;
-        boundary_s(q, prtl);
-        prtl->cell_i = i;
-        prtl->cell_j = 0;
-        INSERT_P(prtl, b);
-        INSERT_P(prtl, c[i][0]);
-      }
-    }
-    if (yBd == 1) {
-      LOOP_P(prtl_old, c[i][y_clls - 2]) {
-        B;
-        boundary_s(q, prtl);
-        prtl->cell_i = i;
-        prtl->cell_j = 0;
-        INSERT_P(prtl, b);
-        INSERT_P(prtl, c[i][0]);
+        INSERT_P(prtl, c[v][edges[e].ghost]);
       }
     }
   }
-  for (i = ku; i < mu; i++) {
-    list_clear(c[i][y_clls - 1]);
-    if (yBu == 0 || yBu == 2) {
-      LOOP_P(prtl_old, c[i][y_clls - 2]) {
-        A;
-        boundary_n(q, prtl);
-        prtl->cell_i = i;
-        prtl->cell_j = y_clls - 1;
-        INSERT_P(prtl, b);
-        INSERT_P(prtl, c[i][y_clls - 1]);
-      }
-    }
-    if (yBu == 3) {
-      LOOP_P(prtl_old, c[i][y_clls - 2]) {
-        B;
-        boundary_n(q, prtl);
-        prtl->cell_i = i;
-        prtl->cell_j = y_clls - 1;
-        INSERT_P(prtl, b);
-        INSERT_P(prtl, c[i][y_clls - 1]);
-      }
-    }
-    if (yBu == 1) {
-      LOOP_P(prtl_old, c[i][1]) {
-        B;
-        boundary_n(q, prtl);
-        prtl->cell_i = i;
-        prtl->cell_j = y_clls - 1;
-        INSERT_P(prtl, b);
-        INSERT_P(prtl, c[i][y_clls - 1]);
-      }
-    }
-  }
-  if ((xBl == 0 && yBd == 0) || (xBl == 2 && yBd == 2)) {
-    list_clear(c[X][0]);
-    LOOP_P(prtl_old, c[Y][1]) {
-      A;
-      boundary_sw(q, prtl);
-      prtl->cell_i = 0;
-      prtl->cell_j = 0;
+
+  struct {
+    int type_x, type_y;
+    int ghost_i, ghost_j, adj_i, adj_j, opp_i, opp_j;
+    double refl_x, shift_x, refl_y, shift_y;
+    double *U_x, *U_y;
+  } corners[4] = {
+    {q->xBl, q->yBd, 0,        0,        1,        1,        x_clls-2, y_clls-2,
+     0,              -q->box_size[X], 0,              -q->box_size[Y], q->UxBl, q->UyBd},
+    {q->xBl, q->yBu, 0,        y_clls-1, 1,        y_clls-2, x_clls-2, 1,
+     0,              -q->box_size[X], q->box_size[Y],  q->box_size[Y], q->UxBl, q->UyBu},
+    {q->xBr, q->yBu, x_clls-1, y_clls-1, x_clls-2, y_clls-2, 1,       1,
+     q->box_size[X],  q->box_size[X], q->box_size[Y],  q->box_size[Y], q->UxBr, q->UyBu},
+    {q->xBr, q->yBd, x_clls-1, 0,        x_clls-2, 1,        1,       y_clls-2,
+     q->box_size[X],  q->box_size[X], 0,              -q->box_size[Y], q->UxBr, q->UyBd},
+  };
+  for (e = 0; e < 4; e++) {
+    if (corners[e].type_x != corners[e].type_y) continue;
+    int type = corners[e].type_x;
+    int is_mirror = (type == 0 || type == 2);
+    int si = (type == 1) ? corners[e].opp_i : corners[e].adj_i;
+    int sj = (type == 1) ? corners[e].opp_j : corners[e].adj_j;
+    int gi = corners[e].ghost_i, gj = corners[e].ghost_j;
+    list_clear(c[gi][gj]);
+    LOOP_P(prtl_old, c[si][sj]) {
+      prtl = is_mirror ? particle_mirror(prtl_old, mtl) : particle_image(prtl_old);
+      apply_corner(type, corners[e].refl_x, corners[e].shift_x, corners[e].U_x,
+                         corners[e].refl_y, corners[e].shift_y, corners[e].U_y, prtl);
+      prtl->cell_i = gi;
+      prtl->cell_j = gj;
       INSERT_P(prtl, b);
-      INSERT_P(prtl, c[X][0]);
-    }
-  }
-  if (xBl == 3 && yBd == 3) {
-    list_clear(c[X][0]);
-    LOOP_P(prtl_old, c[Y][1]) {
-      B;
-      boundary_sw(q, prtl);
-      prtl->cell_i = 0;
-      prtl->cell_j = 0;
-      INSERT_P(prtl, b);
-      INSERT_P(prtl, c[X][0]);
-    }
-  }
-  if (xBl == 1 && yBd == 1) {
-    list_clear(c[X][0]);
-    LOOP_P(prtl_old, c[x_clls - 2][y_clls - 2]) {
-      B;
-      boundary_sw(q, prtl);
-      prtl->cell_i = 0;
-      prtl->cell_j = 0;
-      INSERT_P(prtl, b);
-      INSERT_P(prtl, c[X][0]);
-    }
-  }
-  if ((xBl == 0 && yBu == 0) || (xBl == 2 && yBu == 2)) {
-    list_clear(c[X][y_clls - 1]);
-    LOOP_P(prtl_old, c[Y][y_clls - 2]) {
-      A;
-      boundary_nw(q, prtl);
-      prtl->cell_i = 0;
-      prtl->cell_j = y_clls - 1;
-      INSERT_P(prtl, b);
-      INSERT_P(prtl, c[X][y_clls - 1]);
-    }
-  }
-  if (xBl == 3 && yBu == 3) {
-    list_clear(c[X][y_clls - 1]);
-    LOOP_P(prtl_old, c[Y][y_clls - 2]) {
-      B;
-      boundary_nw(q, prtl);
-      prtl->cell_i = 0;
-      prtl->cell_j = y_clls - 1;
-      INSERT_P(prtl, b);
-      INSERT_P(prtl, c[X][y_clls - 1]);
-    }
-  }
-  if (xBl == 1 && yBu == 1) {
-    list_clear(c[X][y_clls - 1]);
-    LOOP_P(prtl_old, c[x_clls - 2][1]) {
-      B;
-      boundary_nw(q, prtl);
-      prtl->cell_i = 0;
-      prtl->cell_j = y_clls - 1;
-      INSERT_P(prtl, b);
-      INSERT_P(prtl, c[X][y_clls - 1]);
-    }
-  }
-  if ((xBr == 0 && yBu == 0) || (xBr == 2 && yBu == 2)) {
-    list_clear(c[x_clls - 1][y_clls - 1]);
-    LOOP_P(prtl_old, c[x_clls - 2][y_clls - 2]) {
-      A;
-      boundary_ne(q, prtl);
-      prtl->cell_i = x_clls - 1;
-      prtl->cell_j = y_clls - 1;
-      INSERT_P(prtl, b);
-      INSERT_P(prtl, c[x_clls - 1][y_clls - 1]);
-    }
-  }
-  if (xBr == 3 && yBu == 3) {
-    list_clear(c[x_clls - 1][y_clls - 1]);
-    LOOP_P(prtl_old, c[x_clls - 2][y_clls - 2]) {
-      B;
-      boundary_ne(q, prtl);
-      prtl->cell_i = x_clls - 1;
-      prtl->cell_j = y_clls - 1;
-      INSERT_P(prtl, b);
-      INSERT_P(prtl, c[x_clls - 1][y_clls - 1]);
-    }
-  }
-  if (xBr == 1 && yBu == 1) {
-    list_clear(c[x_clls - 1][y_clls - 1]);
-    LOOP_P(prtl_old, c[Y][1]) {
-      B;
-      boundary_ne(q, prtl);
-      prtl->cell_i = x_clls - 1;
-      prtl->cell_j = y_clls - 1;
-      INSERT_P(prtl, b);
-      INSERT_P(prtl, c[x_clls - 1][y_clls - 1]);
-    }
-  }
-  if ((xBr == 0 && yBd == 0) || (xBr == 2 && yBd == 2)) {
-    list_clear(c[x_clls - 1][0]);
-    LOOP_P(prtl_old, c[x_clls - 2][1]) {
-      A;
-      boundary_se(q, prtl);
-      prtl->cell_i = x_clls - 1;
-      prtl->cell_j = 0;
-      INSERT_P(prtl, b);
-      INSERT_P(prtl, c[x_clls - 1][0]);
-    }
-  }
-  if (xBr == 3 && yBd == 3) {
-    list_clear(c[x_clls - 1][0]);
-    LOOP_P(prtl_old, c[x_clls - 2][1]) {
-      B;
-      boundary_se(q, prtl);
-      prtl->cell_i = x_clls - 1;
-      prtl->cell_j = 0;
-      INSERT_P(prtl, b);
-      INSERT_P(prtl, c[x_clls - 1][0]);
-    }
-  }
-  if (xBr == 1 && yBd == 1) {
-    list_clear(c[x_clls - 1][0]);
-    LOOP_P(prtl_old, c[Y][y_clls - 2]) {
-      B;
-      boundary_se(q, prtl);
-      prtl->cell_i = x_clls - 1;
-      prtl->cell_j = 0;
-      INSERT_P(prtl, b);
-      INSERT_P(prtl, c[x_clls - 1][0]);
+      INSERT_P(prtl, c[gi][gj]);
     }
   }
   return 0;
 }
 
 int boundary_condition(struct Ini *q, struct List ***c) {
-  int i, j;
-  int kb, ku, mb, mu;
+  int e, v;
   struct Particle *prtl;
   struct ListNode *p;
-  int x_clls;
-  int y_clls;
-  int xBl;
-  int xBr;
-  int yBd;
-  int yBu;
+  int x_clls = q->x_clls, y_clls = q->y_clls;
 
-  x_clls = q->x_clls;
-  y_clls = q->y_clls;
-  xBl = q->xBl;
-  xBr = q->xBr;
-  yBd = q->yBd;
-  yBu = q->yBu;
+  struct {
+    int type, coord, ghost, perp_lo, perp_hi;
+    double refl, shift, *U_bnd;
+  } edges[4] = {
+    {q->xBl, X, 0,        1, y_clls-1, 0,              -q->box_size[X], q->UxBl},
+    {q->xBr, X, x_clls-1, 1, y_clls-1, q->box_size[X],  q->box_size[X], q->UxBr},
+    {q->yBd, Y, 0,        0, x_clls,   0,              -q->box_size[Y], q->UyBd},
+    {q->yBu, Y, y_clls-1, 0, x_clls,   q->box_size[Y],  q->box_size[Y], q->UyBu},
+  };
+  if (q->xBl == q->yBd) edges[2].perp_lo = 1;
+  if (q->xBr == q->yBd) edges[2].perp_hi = x_clls - 1;
+  if (q->xBl == q->yBu) edges[3].perp_lo = 1;
+  if (q->xBr == q->yBu) edges[3].perp_hi = x_clls - 1;
 
-  kb = 0;
-  mb = x_clls;
-  ku = 0;
-  mu = x_clls;
-  if (xBl == yBd)
-    kb = 1;
-  if (xBr == yBd)
-    mb = x_clls - 1;
-  if (xBl == yBu)
-    ku = 1;
-  if (xBr == yBu)
-    mu = x_clls - 1;
-  for (j = 1; j < y_clls - 1; j++) {
-    if (xBl == 0 || xBl == 2) {
-      LOOP_P(prtl, c[X][j]) {
-        C(0);
-        boundary_w(q, prtl);
-      }
-    }
-    if (xBl == 1 || xBl == 3) {
-      LOOP_P(prtl, c[X][j]) {
-        C(1);
-        boundary_w(q, prtl);
-      }
-    }
-    if (xBr == 0 || xBr == 2) {
-      LOOP_P(prtl, c[x_clls - 1][j]) {
-        C(0);
-        boundary_e(q, prtl);
-      }
-    }
-    if (xBr == 1 || xBr == 3) {
-      LOOP_P(prtl, c[x_clls - 1][j]) {
-        C(1);
-        boundary_e(q, prtl);
+  for (e = 0; e < 4; e++) {
+    int type = edges[e].type;
+    int coord = edges[e].coord;
+    int copy_type = (type == 0 || type == 2) ? 0 : 1;
+    for (v = edges[e].perp_lo; v < edges[e].perp_hi; v++) {
+      int gi, gj;
+      if (coord == X) { gi = edges[e].ghost; gj = v; }
+      else             { gi = v; gj = edges[e].ghost; }
+      LOOP_P(prtl, c[gi][gj]) {
+        if (prtl->rl_prtl == NULL) abort();
+        particle_copy(prtl, prtl->rl_prtl, copy_type);
+        apply_bnd(type, coord, edges[e].refl, edges[e].shift, edges[e].U_bnd, prtl);
       }
     }
   }
-  for (i = kb; i < mb; i++) {
-    if (yBd == 0 || yBd == 2) {
-      LOOP_P(prtl, c[i][0]) {
-        C(0);
-        boundary_s(q, prtl);
-      }
-    }
-    if (yBd == 1 || yBd == 3) {
-      LOOP_P(prtl, c[i][0]) {
-        C(1);
-        boundary_s(q, prtl);
-      }
-    }
-  }
-  for (i = ku; i < mu; i++) {
-    if (yBu == 0 || yBu == 2) {
-      LOOP_P(prtl, c[i][y_clls - 1]) {
-        C(0);
-        boundary_n(q, prtl);
-      }
-    }
-    if (yBu == 1 || yBu == 3) {
-      LOOP_P(prtl, c[i][y_clls - 1]) {
-        C(1);
-        boundary_n(q, prtl);
-      }
-    }
-  }
-  if ((xBl == 0 && yBd == 0) || (xBl == 2 && yBd == 2)) {
-    LOOP_P(prtl, c[X][0]) {
-      C(0);
-      boundary_sw(q, prtl);
-    }
-  }
-  if ((xBl == 1 && yBd == 1) || (xBl == 3 && yBd == 3)) {
-    LOOP_P(prtl, c[X][0]) {
-      C(1);
-      boundary_sw(q, prtl);
-    }
-  }
-  if ((xBl == 0 && yBu == 0) || (xBl == 2 && yBu == 2)) {
-    LOOP_P(prtl, c[X][y_clls - 1]) {
-      C(0);
-      boundary_nw(q, prtl);
-    }
-  }
-  if ((xBl == 1 && yBu == 1) || (xBl == 3 && yBu == 3)) {
-    LOOP_P(prtl, c[X][y_clls - 1]) {
-      C(1);
-      boundary_nw(q, prtl);
-    }
-  }
-  if ((xBr == 0 && yBu == 0) || (xBr == 2 && yBu == 2)) {
-    LOOP_P(prtl, c[x_clls - 1][y_clls - 1]) {
-      C(0);
-      boundary_ne(q, prtl);
-    }
-  }
-  if ((xBr == 1 && yBu == 1) || (xBr == 3 && yBu == 3)) {
-    LOOP_P(prtl, c[x_clls - 1][y_clls - 1]) {
-      C(1);
-      boundary_ne(q, prtl);
-    }
-  }
-  if ((xBr == 0 && yBd == 0) || (xBr == 2 && yBd == 2)) {
-    LOOP_P(prtl, c[x_clls - 1][0]) {
-      C(0);
-      boundary_se(q, prtl);
-    }
-  }
-  if ((xBr == 1 && yBd == 1) || (xBr == 3 && yBd == 3)) {
-    LOOP_P(prtl, c[x_clls - 1][0]) {
-      C(1);
-      boundary_se(q, prtl);
-    }
-  }
-  return 0;
-}
 
-static int boundary_w(struct Ini *q, struct Particle *prtl) {
-  switch (q->xBl) {
-  case 0:
-    prtl->R[X] = -prtl->R[X];
-    prtl->U[X] = q->UxBl[X] * 2.0 - prtl->U[X];
-    prtl->U[Y] = q->UxBl[Y] * 2.0 - prtl->U[Y];
-    break;
-  case 1:
-    prtl->R[X] = prtl->R[X] - q->box_size[X];
-    break;
-  case 2:
-    prtl->R[X] = -prtl->R[X];
-    prtl->U[X] = q->UxBl[X] * 2.0 - prtl->U[X];
-    break;
-  case 3:
-    prtl->R[X] = -prtl->R[X];
-    prtl->U[X] = q->UxBl[X] * 2.0 - prtl->U[X];
-    prtl->del_phi[X] = -prtl->del_phi[X];
-    break;
-  }
-  return 0;
-}
-
-static int boundary_e(struct Ini *q, struct Particle *prtl) {
-  switch (q->xBr) {
-  case 0:
-    prtl->R[X] = q->box_size[X] * 2.0 - prtl->R[X];
-    prtl->U[X] = q->UxBr[X] * 2.0 - prtl->U[X];
-    prtl->U[Y] = q->UxBr[Y] * 2.0 - prtl->U[Y];
-    break;
-  case 1:
-    prtl->R[X] = prtl->R[X] + q->box_size[X];
-    break;
-  case 2:
-    prtl->R[X] = q->box_size[X] * 2.0 - prtl->R[X];
-    prtl->U[X] = q->UxBr[X] * 2.0 - prtl->U[X];
-    break;
-  case 3:
-    prtl->R[X] = q->box_size[X] * 2.0 - prtl->R[X];
-    prtl->U[X] = q->UxBr[X] * 2.0 - prtl->U[X];
-    prtl->del_phi[X] = -prtl->del_phi[X];
-    break;
-  }
-  return 0;
-}
-
-static int boundary_s(struct Ini *q, struct Particle *prtl) {
-  switch (q->yBd) {
-  case 0:
-    prtl->R[Y] = -prtl->R[Y];
-    prtl->U[X] = q->UyBd[X] * 2.0 - prtl->U[X];
-    prtl->U[Y] = q->UyBd[Y] * 2.0 - prtl->U[Y];
-    break;
-  case 1:
-    prtl->R[Y] = prtl->R[Y] - q->box_size[Y];
-    break;
-  case 2:
-    prtl->R[Y] = -prtl->R[Y];
-    prtl->U[Y] = q->UyBd[Y] * 2.0 - prtl->U[Y];
-    break;
-  case 3:
-    prtl->R[Y] = -prtl->R[Y];
-    prtl->U[Y] = q->UyBd[Y] * 2.0 - prtl->U[Y];
-    prtl->del_phi[Y] = -prtl->del_phi[Y];
-    break;
-  }
-  return 0;
-}
-
-static int boundary_n(struct Ini *q, struct Particle *prtl) {
-  switch (q->yBu) {
-  case 0:
-    prtl->R[Y] = q->box_size[Y] * 2.0 - prtl->R[Y];
-    prtl->U[X] = q->UyBu[X] * 2.0 - prtl->U[X];
-    prtl->U[Y] = q->UyBu[Y] * 2.0 - prtl->U[Y];
-    break;
-  case 1:
-    prtl->R[Y] = prtl->R[Y] + q->box_size[Y];
-    break;
-  case 2:
-    prtl->R[Y] = q->box_size[Y] * 2.0 - prtl->R[Y];
-    prtl->U[Y] = q->UyBu[Y] * 2.0 - prtl->U[Y];
-    break;
-  case 3:
-    prtl->R[Y] = q->box_size[Y] * 2.0 - prtl->R[Y];
-    prtl->U[Y] = q->UyBu[Y] * 2.0 - prtl->U[Y];
-    prtl->del_phi[Y] = -prtl->del_phi[Y];
-    break;
-  }
-  return 0;
-}
-
-static int boundary_sw(struct Ini *q, struct Particle *prtl) {
-  switch (q->xBl) {
-  case 0:
-    prtl->R[X] = -prtl->R[X];
-    prtl->R[Y] = -prtl->R[Y];
-    prtl->U[X] = q->UyBd[X] * 2.0 - prtl->U[X];
-    prtl->U[Y] = q->UxBl[Y] * 2.0 - prtl->U[Y];
-    break;
-  case 1:
-    prtl->R[X] = prtl->R[X] - q->box_size[X];
-    prtl->R[Y] = prtl->R[Y] - q->box_size[Y];
-    break;
-  case 2:
-    prtl->R[X] = -prtl->R[X];
-    prtl->R[Y] = -prtl->R[Y];
-    prtl->U[X] = q->UyBd[X] * 2.0 - prtl->U[X];
-    prtl->U[Y] = q->UxBl[Y] * 2.0 - prtl->U[Y];
-    break;
-  case 3:
-    prtl->R[X] = -prtl->R[X];
-    prtl->R[Y] = -prtl->R[Y];
-    prtl->U[X] = q->UyBd[X] * 2.0 - prtl->U[X];
-    prtl->U[Y] = q->UxBl[Y] * 2.0 - prtl->U[Y];
-    prtl->del_phi[X] = -prtl->del_phi[X];
-    prtl->del_phi[Y] = -prtl->del_phi[Y];
-    break;
-  }
-  return 0;
-}
-
-static int boundary_nw(struct Ini *q, struct Particle *prtl) {
-  switch (q->xBl) {
-  case 0:
-    prtl->R[X] = -prtl->R[X];
-    prtl->R[Y] = q->box_size[Y] * 2.0 - prtl->R[Y];
-    prtl->U[X] = q->UyBu[X] * 2.0 - prtl->U[X];
-    prtl->U[Y] = q->UxBl[Y] * 2.0 - prtl->U[Y];
-    break;
-  case 1:
-    prtl->R[X] = prtl->R[X] - q->box_size[X];
-    prtl->R[Y] = prtl->R[Y] + q->box_size[Y];
-    break;
-  case 2:
-    prtl->R[X] = -prtl->R[X];
-    prtl->R[Y] = q->box_size[Y] * 2.0 - prtl->R[Y];
-    prtl->U[X] = q->UyBu[X] * 2.0 - prtl->U[X];
-    prtl->U[Y] = q->UxBl[Y] * 2.0 - prtl->U[Y];
-    break;
-  case 3:
-    prtl->R[X] = -prtl->R[X];
-    prtl->R[Y] = q->box_size[Y] * 2.0 - prtl->R[Y];
-    prtl->U[X] = q->UyBu[X] * 2.0 - prtl->U[X];
-    prtl->U[Y] = q->UxBl[Y] * 2.0 - prtl->U[Y];
-    prtl->del_phi[X] = -prtl->del_phi[X];
-    prtl->del_phi[Y] = -prtl->del_phi[Y];
-    break;
-  }
-  return 0;
-}
-
-static int boundary_ne(struct Ini *q, struct Particle *prtl) {
-  switch (q->xBr) {
-  case 0:
-    prtl->R[X] = q->box_size[X] * 2.0 - prtl->R[X];
-    prtl->R[Y] = q->box_size[Y] * 2.0 - prtl->R[Y];
-    prtl->U[X] = q->UyBu[X] * 2.0 - prtl->U[X];
-    prtl->U[Y] = q->UxBr[Y] * 2.0 - prtl->U[Y];
-    break;
-  case 1:
-    prtl->R[X] = prtl->R[X] + q->box_size[X];
-    prtl->R[Y] = prtl->R[Y] + q->box_size[Y];
-    break;
-  case 2:
-    prtl->R[X] = q->box_size[X] * 2.0 - prtl->R[X];
-    prtl->R[Y] = q->box_size[Y] * 2.0 - prtl->R[Y];
-    prtl->U[X] = q->UyBu[X] * 2.0 - prtl->U[X];
-    prtl->U[Y] = q->UxBr[Y] * 2.0 - prtl->U[Y];
-    break;
-  case 3:
-    prtl->R[X] = q->box_size[X] * 2.0 - prtl->R[X];
-    prtl->R[Y] = q->box_size[Y] * 2.0 - prtl->R[Y];
-    prtl->U[X] = q->UyBu[X] * 2.0 - prtl->U[X];
-    prtl->U[Y] = q->UxBr[Y] * 2.0 - prtl->U[Y];
-    prtl->del_phi[X] = -prtl->del_phi[X];
-    prtl->del_phi[Y] = -prtl->del_phi[Y];
-    break;
-  }
-  return 0;
-}
-
-static int boundary_se(struct Ini *q, struct Particle *prtl) {
-  switch (q->xBr) {
-  case 0:
-    prtl->R[X] = q->box_size[X] * 2.0 - prtl->R[X];
-    prtl->R[Y] = -prtl->R[Y];
-    prtl->U[X] = q->UyBd[X] * 2.0 - prtl->U[X];
-    prtl->U[Y] = q->UxBr[Y] * 2.0 - prtl->U[Y];
-    break;
-  case 1:
-    prtl->R[X] = prtl->R[X] + q->box_size[X];
-    prtl->R[Y] = prtl->R[Y] - q->box_size[Y];
-    break;
-  case 2:
-    prtl->R[X] = q->box_size[X] * 2.0 - prtl->R[X];
-    prtl->R[Y] = -prtl->R[Y];
-    prtl->U[X] = q->UyBd[X] * 2.0 - prtl->U[X];
-    prtl->U[Y] = q->UxBr[Y] * 2.0 - prtl->U[Y];
-    break;
-  case 3:
-    prtl->R[X] = q->box_size[X] * 2.0 - prtl->R[X];
-    prtl->R[Y] = -prtl->R[Y];
-    prtl->U[X] = q->UyBd[X] * 2.0 - prtl->U[X];
-    prtl->U[Y] = q->UxBr[Y] * 2.0 - prtl->U[Y];
-    prtl->del_phi[X] = -prtl->del_phi[X];
-    prtl->del_phi[Y] = -prtl->del_phi[Y];
-    break;
+  struct {
+    int type_x, type_y, ghost_i, ghost_j;
+    double refl_x, shift_x, refl_y, shift_y;
+    double *U_x, *U_y;
+  } corners[4] = {
+    {q->xBl, q->yBd, 0,        0,
+     0,              -q->box_size[X], 0,              -q->box_size[Y], q->UxBl, q->UyBd},
+    {q->xBl, q->yBu, 0,        y_clls-1,
+     0,              -q->box_size[X], q->box_size[Y],  q->box_size[Y], q->UxBl, q->UyBu},
+    {q->xBr, q->yBu, x_clls-1, y_clls-1,
+     q->box_size[X],  q->box_size[X], q->box_size[Y],  q->box_size[Y], q->UxBr, q->UyBu},
+    {q->xBr, q->yBd, x_clls-1, 0,
+     q->box_size[X],  q->box_size[X], 0,              -q->box_size[Y], q->UxBr, q->UyBd},
+  };
+  for (e = 0; e < 4; e++) {
+    if (corners[e].type_x != corners[e].type_y) continue;
+    int type = corners[e].type_x;
+    int copy_type = (type == 0 || type == 2) ? 0 : 1;
+    LOOP_P(prtl, c[corners[e].ghost_i][corners[e].ghost_j]) {
+      if (prtl->rl_prtl == NULL) abort();
+      particle_copy(prtl, prtl->rl_prtl, copy_type);
+      apply_corner(type, corners[e].refl_x, corners[e].shift_x, corners[e].U_x,
+                         corners[e].refl_y, corners[e].shift_y, corners[e].U_y, prtl);
+    }
   }
   return 0;
 }
@@ -2020,76 +1533,27 @@ static int boundary_se(struct Ini *q, struct Particle *prtl) {
 int boundary_check(struct Ini *q, struct List *list) {
   struct ListNode *p;
   struct Particle *prtl;
-  double *box_size;
+  double *box_size = q->box_size;
+  int types[2][2] = {{q->xBl, q->xBr}, {q->yBd, q->yBu}};
+  int c;
 
-  box_size = q->box_size;
   LOOP_P(prtl, list) {
     if (fabs(prtl->R[X]) >= 2.0 * box_size[X] ||
         fabs(prtl->R[Y]) >= 2.0 * box_size[Y])
       ABORT(("run away particle"));
     if (prtl->bd == 0) {
-      if (prtl->R[X] < 0.0) {
-        switch (q->xBl) {
-        case 0:
-          prtl->R[X] = -prtl->R[X];
-          break;
-        case 1:
-          prtl->R[X] = box_size[X] + prtl->R[X];
-          break;
-        case 2:
-          prtl->R[X] = -prtl->R[X];
-          break;
-        case 3:
-          prtl->R[X] = -prtl->R[X];
-          break;
+      for (c = 0; c < 2; c++) {
+        if (prtl->R[c] < 0.0) {
+          if (types[c][0] == 1)
+            prtl->R[c] += box_size[c];
+          else
+            prtl->R[c] = -prtl->R[c];
         }
-      }
-      if (prtl->R[X] > box_size[X]) {
-        switch (q->xBr) {
-        case 0:
-          prtl->R[X] = 2.0 * box_size[X] - prtl->R[X];
-          break;
-        case 1:
-          prtl->R[X] = prtl->R[X] - box_size[X];
-          break;
-        case 2:
-          prtl->R[X] = 2.0 * box_size[X] - prtl->R[X];
-          break;
-        case 3:
-          prtl->R[X] = 2.0 * box_size[X] - prtl->R[X];
-          break;
-        }
-      }
-      if (prtl->R[Y] < 0.0) {
-        switch (q->yBd) {
-        case 0:
-          prtl->R[Y] = -prtl->R[Y];
-          break;
-        case 1:
-          prtl->R[Y] = box_size[Y] + prtl->R[Y];
-          break;
-        case 2:
-          prtl->R[Y] = -prtl->R[Y];
-          break;
-        case 3:
-          prtl->R[Y] = -prtl->R[Y];
-          break;
-        }
-      }
-      if (prtl->R[Y] > box_size[Y]) {
-        switch (q->yBu) {
-        case 0:
-          prtl->R[Y] = 2.0 * box_size[Y] - prtl->R[Y];
-          break;
-        case 1:
-          prtl->R[Y] = prtl->R[Y] - box_size[Y];
-          break;
-        case 2:
-          prtl->R[Y] = 2.0 * box_size[Y] - prtl->R[Y];
-          break;
-        case 3:
-          prtl->R[Y] = 2.0 * box_size[Y] - prtl->R[Y];
-          break;
+        if (prtl->R[c] > box_size[c]) {
+          if (types[c][1] == 1)
+            prtl->R[c] -= box_size[c];
+          else
+            prtl->R[c] = 2.0 * box_size[c] - prtl->R[c];
         }
       }
     }
