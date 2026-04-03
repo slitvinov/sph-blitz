@@ -71,26 +71,7 @@ static double getp(struct Material *m, double rho) {
 int nmat;
 static int nextid;
 
-static double **phinew(void) {
-	int n, i, j;
-	double **q;
-
-	n = nmat;
-	q = malloc(n * sizeof(*q));
-	for (i = 0; i < n; i++)
-		q[i] = malloc(n * sizeof(**q));
-	for (i = 0; i < n; i++)
-		for (j = 0; j < n; j++)
-			q[i][j] = 0.0;
-	return q;
-}
-
 int prtfree(struct Particle *r) {
-	int i;
-
-	for (i = 0; i < nmat; i++)
-		free(r->phi[i]);
-	free(r->phi);
 	free(r);
 	return 0;
 }
@@ -117,7 +98,7 @@ struct Particle *prtreal(double R[2], double U[2],
 	r->m = 0.0;
 	r->R_I[X] = R[X];
 	r->R_I[Y] = R[Y];
-	r->phi = phinew();
+	memset(r->phi, 0, sizeof(r->phi));
 	return r;
 }
 
@@ -132,7 +113,7 @@ static struct Particle *prtghost(struct Particle *s, int btype, struct Material 
 	r->id = 0;
 	r->real = s;
 	r->mtl = mtl;
-	r->phi = phinew();
+	memset(r->phi, 0, sizeof(r->phi));
 	return r;
 }
 
@@ -162,12 +143,12 @@ int prtcopy(struct Particle *p, struct Particle *s, int type) {
 		p->dphi[Y] = s->dphi[Y];
 		for (i = 0; i < nmat; i++)
 			for (j = 0; j < nmat; j++)
-				p->phi[i][j] = s->phi[i][j];
+				p->phi[i * nmat + j] = s->phi[i * nmat + j];
 	}
 	if (type == 0) {
-		p->phi[0][0] = 0;
+		p->phi[0] = 0;
 		for (i = 1; i < nmat; i++)
-			p->phi[0][0] += s->phi[i][i];
+			p->phi[0] += s->phi[i * nmat + i];
 	}
 	return 0;
 }
@@ -194,26 +175,48 @@ static double vnorm(double v[2]) { return sqrt(v[X] * v[X] + v[Y] * v[Y]); }
 
 static double sqdiff(double v[2]) { return v[X] * v[X] - v[Y] * v[Y]; }
 
-#define PAIRVARS \
-	double rij, rrij, eij[2], Wij, Fij, sr, br
+static void mktrips(struct Ini *q) {
+	int n, n1, k, m, ci, cj;
+	double hh = q->hh;
+	double cs = q->cs;
 
-#define PAIRCOMP(a, b, q, d2) do { \
-	double _ei = (a)->mtl->eta, _ej = (b)->mtl->eta; \
-	double _zi = (a)->mtl->zeta, _zj = (b)->mtl->zeta; \
-	int _ni = (a)->mtl->number, _nj = (b)->mtl->number; \
-	rij = sqrt(d2); \
-	rrij = 1.0 / (rij + 1.0e-30); \
-	eij[X] = ((a)->R[X] - (b)->R[X]) * rrij; \
-	eij[Y] = ((a)->R[Y] - (b)->R[Y]) * rrij; \
-	Wij = W((q), rij); \
-	Fij = dW((q), rij) * rrij; \
-	sr = 2.0 * _ei * _ej * rij / \
-		(_ei * (rij + 2.0 * (q)->forces[_nj][_ni].shear_slip) + \
-		 _ej * (rij + 2.0 * (q)->forces[_ni][_nj].shear_slip) + 1.0e-30); \
-	br = 2.0 * _zi * _zj * rij / \
-		(_zi * (rij + 2.0 * (q)->forces[_nj][_ni].bulk_slip) + \
-		 _zj * (rij + 2.0 * (q)->forces[_ni][_nj].bulk_slip) + 1.0e-30); \
-} while(0)
+	q->ntrips = 0;
+	for (n = 0; n < q->nparts; n++) {
+		struct Particle *a = q->parts[n];
+		ci = (int)((a->R[0] + cs) / cs);
+		cj = (int)((a->R[1] + cs) / cs);
+		for (k = ci - 1; k <= ci + 1; k++)
+			for (m = cj - 1; m <= cj + 1; m++)
+				for (n1 = 0; n1 < q->cells[k][m].n; n1++) {
+					struct Particle *b = q->cells[k][m].data[n1];
+					double dx = a->R[X] - b->R[X], dy = a->R[Y] - b->R[Y];
+					double d2 = dx * dx + dy * dy;
+					if (d2 <= hh && a->id >= b->id) {
+						if (q->ntrips >= q->tcap)
+							q->trips = agrow(q->trips, &q->tcap, sizeof(*q->trips));
+						struct Trip *t = &q->trips[q->ntrips++];
+						double ei, ej, zi, zj;
+						int ni, nj;
+						t->a = a; t->b = b;
+						t->rij = sqrt(d2);
+						t->rrij = 1.0 / (t->rij + 1e-30);
+						t->eij[X] = dx * t->rrij;
+						t->eij[Y] = dy * t->rrij;
+						t->Wij = W(q, t->rij);
+						t->Fij = dW(q, t->rij) * t->rrij;
+						ei = a->mtl->eta; ej = b->mtl->eta;
+						zi = a->mtl->zeta; zj = b->mtl->zeta;
+						ni = a->mtl->number; nj = b->mtl->number;
+						t->sr = 2.0 * ei * ej * t->rij /
+							(ei * (t->rij + 2.0 * q->forces[nj][ni].shear_slip) +
+							 ej * (t->rij + 2.0 * q->forces[ni][nj].shear_slip) + 1e-30);
+						t->br = 2.0 * zi * zj * t->rij /
+							(zi * (t->rij + 2.0 * q->forces[nj][ni].bulk_slip) +
+							 zj * (t->rij + 2.0 * q->forces[ni][nj].bulk_slip) + 1e-30);
+					}
+				}
+	}
+}
 
 static void updforces(struct Particle *a, struct Particle *b,
 	double rij, double rrij, double eij[2], double Wij, double Fij,
@@ -353,6 +356,7 @@ int iniread(char *project_name, struct Ini *q) {
 	{
 		double norm = 63.0 / 478.0 / 3.141592653589793;
 		q->rh = 1.0 / q->h;
+		q->hh = q->h * q->h;
 		q->fw = norm * pow(q->rh, 2);
 		q->fg = 15.0 * norm * pow(q->rh, 3);
 	}
@@ -384,6 +388,10 @@ int iniread(char *project_name, struct Ini *q) {
 	q->parts = NULL;
 	q->nparts = 0;
 	q->partcap = 0;
+
+	q->trips = NULL;
+	q->ntrips = 0;
+	q->tcap = 0;
 
 	nmat = q->nmat;
 
@@ -601,6 +609,8 @@ int inifin(struct Ini *q) {
 		prtfree(q->bnd[i]);
 	free(q->bnd);
 
+	free(q->trips);
+
 	return 0;
 }
 
@@ -721,47 +731,34 @@ void volmass(struct Ini *q) {
 	}
 }
 
-#define PAIRLOOP(q) \
-	for (n = 0; n < (q)->nparts; n++) { \
-	a = (q)->parts[n]; \
-	ci = (int)((a->R[0] + (q)->cs) / (q)->cs); \
-	cj = (int)((a->R[1] + (q)->cs) / (q)->cs); \
-	for (k = ci - 1; k <= ci + 1; k++) \
-	for (m = cj - 1; m <= cj + 1; m++) \
-	for (n1 = 0; n1 < (q)->cells[k][m].n; n1++) { \
-	b = (q)->cells[k][m].data[n1]; \
-	{ double dx_ = a->R[X]-b->R[X], dy_ = a->R[Y]-b->R[Y]; \
-	d2 = dx_*dx_ + dy_*dy_; } \
-	if (d2 <= (q)->h*(q)->h && a->id >= b->id) { \
-	PAIRCOMP(a, b, q, d2);
-
-#define ENDPAIR }}}
-
 static void halfstep(struct Ini *q) {
-	int i, n, n1, k, m, ci, cj;
-	struct Particle *prtl, *a, *b;
-	PAIRVARS;
-	double d2;
+	int i;
+	struct Particle *prtl;
+	struct Trip *t;
+
+	mktrips(q);
 
 	for (i = 0; i < q->nparts; i++) q->parts[i]->rho = 0.0;
-	PAIRLOOP(q)
-		a->rho += a->m * Wij;
-		if (a->id != b->id) b->rho += b->m * Wij;
-	ENDPAIR
+	for (i = 0; i < q->ntrips; i++) {
+		t = &q->trips[i];
+		t->a->rho += t->a->m * t->Wij;
+		if (t->a->id != t->b->id) t->b->rho += t->b->m * t->Wij;
+	}
 	for (i = 0; i < q->nparts; i++) { prtl = q->parts[i]; prtl->p = getp(prtl->mtl, prtl->rho); }
 
 	bndcond(q);
 	for (i = 0; i < q->nparts; i++) { prtl = q->parts[i]; prtl->dphi[X] = prtl->dphi[Y] = 0.0; }
 	for (i = 0; i < q->nbnd; i++) { prtl = q->bnd[i]; prtl->dphi[X] = prtl->dphi[Y] = 0.0; }
-	PAIRLOOP(q) {
-		double mi = a->m, mj = b->m;
-		double Vi = mi / a->rho, Vj = mj / b->rho;
-		double Vi2 = Vi*Vi, Vj2 = Vj*Vj;
-		double c = Fij * rij * q->forces[a->mtl->number][b->mtl->number].sigma;
-		double px = eij[X]*c, py = eij[Y]*c;
-		a->dphi[X] += px*Vj2/Vi; a->dphi[Y] += py*Vj2/Vi;
-		b->dphi[X] -= px*Vi2/Vj; b->dphi[Y] -= py*Vi2/Vj;
-	} ENDPAIR
+	for (i = 0; i < q->ntrips; i++) {
+		t = &q->trips[i];
+		double mi = t->a->m, mj = t->b->m;
+		double Vi = mi / t->a->rho, Vj = mj / t->b->rho;
+		double Vi2 = Vi * Vi, Vj2 = Vj * Vj;
+		double c = t->Fij * t->rij * q->forces[t->a->mtl->number][t->b->mtl->number].sigma;
+		double px = t->eij[X] * c, py = t->eij[Y] * c;
+		t->a->dphi[X] += px * Vj2 / Vi; t->a->dphi[Y] += py * Vj2 / Vi;
+		t->b->dphi[X] -= px * Vi2 / Vj; t->b->dphi[Y] -= py * Vi2 / Vj;
+	}
 
 	bndcond(q);
 	updsurface(q);
@@ -770,9 +767,10 @@ static void halfstep(struct Ini *q) {
 		prtl->dUdt[X] = prtl->dUdt[Y] = 0.0;
 		prtl->_dU[X] = prtl->_dU[Y] = 0.0;
 	}
-	PAIRLOOP(q)
-		updforces(a, b, rij, rrij, eij, Wij, Fij, sr, br, q->art_vis, q->delta);
-	ENDPAIR
+	for (i = 0; i < q->ntrips; i++) {
+		t = &q->trips[i];
+		updforces(t->a, t->b, t->rij, t->rrij, t->eij, t->Wij, t->Fij, t->sr, t->br, q->art_vis, q->delta);
+	}
 	for (i = 0; i < q->nparts; i++) {
 		prtl = q->parts[i];
 		prtl->dUdt[X] += q->gravity[X];
@@ -784,11 +782,10 @@ void step(int *pite, struct Ini *q, double *Time, double tout) {
 	double dt;
 	double integeral_time;
 	double sqrtdt;
-	int i, n, n1, k, m, ci, cj;
+	int i;
 	int ite;
-	struct Particle *prtl, *a, *b;
-	PAIRVARS;
-	double d2;
+	struct Particle *prtl;
+	struct Trip *t;
 
 	ite = *pite;
 
@@ -839,7 +836,9 @@ void step(int *pite, struct Ini *q, double *Time, double tout) {
 		halfstep(q);
 
 		for (i = 0; i < q->nparts; i++) { prtl = q->parts[i]; prtl->_dU[X] = prtl->_dU[Y] = 0.0; }
-		PAIRLOOP(q) {
+		for (i = 0; i < q->ntrips; i++) {
+			t = &q->trips[i];
+			struct Particle *a = t->a, *b = t->b;
 			double rmi = 1.0 / a->m, rmj = 1.0 / b->m;
 			double Ti = a->T, Tj = b->T;
 			if (Ti == 0 && Tj == 0)
@@ -863,10 +862,10 @@ void step(int *pite, struct Ini *q, double *Time, double tout) {
 			double _dUi[2];
 			double Vi2 = Vi * Vi, Vj2 = Vj * Vj;
 			double ve[2];
-			double kf = 16.0 * K_BLTZ * Ti * Tj / (Ti + Tj) * (Vi2 + Vj2) * Fij;
-			ve[X] = -eij[Y]; ve[Y] = eij[X];
-			_dUi[X] = ve[X]*Rp*sqrt(kf*sr) + eij[X]*Rv*sqrt(kf*br);
-			_dUi[Y] = ve[Y]*Rp*sqrt(kf*sr) + eij[Y]*Rv*sqrt(kf*br);
+			double kf = 16.0 * K_BLTZ * Ti * Tj / (Ti + Tj) * (Vi2 + Vj2) * t->Fij;
+			ve[X] = -t->eij[Y]; ve[Y] = t->eij[X];
+			_dUi[X] = ve[X]*Rp*sqrt(kf*t->sr) + t->eij[X]*Rv*sqrt(kf*t->br);
+			_dUi[Y] = ve[Y]*Rp*sqrt(kf*t->sr) + t->eij[Y]*Rv*sqrt(kf*t->br);
 			if (b->btype == 1) {
 				a->_dU[X] += _dUi[X] * rmi * 0.5;
 				a->_dU[Y] += _dUi[Y] * rmi * 0.5;
@@ -877,7 +876,8 @@ void step(int *pite, struct Ini *q, double *Time, double tout) {
 				a->_dU[Y] += _dUi[Y] * rmi;
 				b->_dU[X] -= _dUi[X] * rmj;
 				b->_dU[Y] -= _dUi[Y] * rmj;
-		} } ENDPAIR
+			}
+		}
 
 		for (i = 0; i < q->nparts; i++) {
 			prtl = q->parts[i];

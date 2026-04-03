@@ -12,6 +12,8 @@
 
 int wprint(const char *, ...);
 
+#define MAXMAT 3
+
 /* particle */
 struct Material {
 	char name[FILENAME_MAX];
@@ -35,7 +37,7 @@ struct Particle {
 	double m;
 	double R_I[2];
 	double U_I[2];
-	double **phi;
+	double phi[MAXMAT * MAXMAT];
 	double dphi[2];
 	double dUdt[2];
 	double _dU[2];
@@ -69,6 +71,12 @@ struct Corner {
 	double *U_x, *U_y;
 };
 
+/* trip */
+struct Trip {
+	struct Particle *a, *b;
+	double rij, rrij, eij[2], Wij, Fij, sr, br;
+};
+
 /* ini */
 struct Force {
 	double sigma;
@@ -87,6 +95,7 @@ struct Ini {
 	double p0;
 	double rho0;
 	double h;
+	double hh;
 	double t0;
 	double T0;
 	double U0[2];
@@ -127,6 +136,9 @@ struct Ini {
 
 	struct Particle **parts;
 	int nparts, partcap;
+
+	struct Trip *trips;
+	int ntrips, tcap;
 };
 
 int iniread(char *, struct Ini *);
