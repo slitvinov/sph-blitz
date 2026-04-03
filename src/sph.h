@@ -111,11 +111,8 @@ struct Ini {
 	double T0;
 	double U0[2];
 	int cr;
-	int diag;
 	int initial_condition;
 	int nmat;
-	int nx;
-	int ny;
 
 	int mx;
 	int my;
@@ -139,18 +136,15 @@ struct Ini {
 	struct Edge edges[4];
 	struct Corner corners[4];
 
-	double delta2;
-	double delta3;
 	double dt_g_vis;
 	double dt_surf;
 
 	struct Pair *pairs;
 	int npairs, pcap;
 
-	double numax;
-	double sigmax;
 	struct Material *materials;
 	struct Force **forces;
+	struct Kernel *kernel;
 
 	struct Particle **parts;
 	int nparts, partcap;
@@ -164,5 +158,5 @@ int rstout(struct Ini *, double);
 int bndcond(struct Ini *);
 int bndbuild(struct Ini *, struct Material *);
 int bndcheck(struct Ini *);
-void volmass(struct Ini *, struct Kernel *);
-void step(int *, struct Ini *, double *, double, struct Kernel *);
+void volmass(struct Ini *);
+void step(int *, struct Ini *, double *, double);

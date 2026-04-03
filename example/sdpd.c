@@ -7,7 +7,6 @@ main(int argc, char *argv[])
     double Time;
     int ite;
     struct Ini ini;
-    struct Kernel *kernel;
 
     if (argc < 2) {
       fprintf(stderr, "sdpd: error: no project name specified");
@@ -15,11 +14,10 @@ main(int argc, char *argv[])
     }
     srand(12345);
     iniread(argv[1], &ini);
-    kernel = kernelnew(ini.h);
 
     mkparts(&ini, ini.materials, &ini);
     bndbuild(&ini, ini.materials);
-    volmass(&ini, kernel);
+    volmass(&ini);
     bndcond(&ini);
 
     Time = ini.t0;
@@ -28,12 +26,11 @@ main(int argc, char *argv[])
     while (Time < ini.t1) {
         if (Time + ini.tout >= ini.t1)
             ini.tout = ini.t1 - Time;
-        step(&ite, &ini, &Time, ini.tout, kernel);
+        step(&ite, &ini, &Time, ini.tout);
         prtout(&ini, ini.materials, Time);
         rstout(&ini, Time);
     }
 
     inifin(&ini);
-    kernelfree(kernel);
     return 0;
 }
