@@ -97,6 +97,8 @@ static struct Pair *pair_ini(struct Particle *prtl_org,
   q->Org = Org = prtl_org;
   q->Dest = Dest = prtl_dest;
   q->frc_ij = frc_ij = forces;
+  noi = Org->mtl->number;
+  noj = Dest->mtl->number;
   q->mi = Org->m;
   q->mj = Dest->m;
   q->rmi = 1.0 / q->mi;
@@ -339,7 +341,8 @@ static void RandomForces(struct Pair *q, double sqrtdt) {
   double _dUi[2];
   double Vi2 = Vi * Vi, Vj2 = Vj * Vj;
 
-  v_eij[X] = v_eij[Y] = 0;
+  v_eij[X] = -eij[Y];
+  v_eij[Y] = eij[X];
   _dUi[X] = v_eij[X] * Random_p *
                 sqrt(16.0 * k_bltz * shear_rij * Ti * Tj / (Ti + Tj) *
                      (Vi2 + Vj2) * Fij) +
@@ -459,7 +462,7 @@ int initiation_ini(char *project_name, struct Ini *q) {
   q->delta2 = delta * delta;
   q->delta3 = delta * delta * delta;
   q->materials = malloc(number_of_materials * sizeof(*q->materials));
-  q->forces = malloc(number_of_materials * sizeof(*force));
+  q->forces = malloc(number_of_materials * sizeof(*q->forces));
   for (k = 0; k < number_of_materials; k++)
     q->forces[k] = malloc(number_of_materials * sizeof(*q->forces[k]));
 
@@ -697,7 +700,7 @@ void manager_build_particles(struct Ini *q, struct Material *materials,
       ABORT(("can't read a line from '%s'", inputfile));
     cnt = sscanf(line, "%d", &N);
     if (cnt != 1)
-      ABORT(("can't read number of particles from '%s'", N));
+      ABORT(("can't read number of particles from '%s'", inputfile));
     else
       WARN(("N = %d", N));
     for (n = 0; n < N; n++) {

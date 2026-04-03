@@ -27,7 +27,7 @@ static double **phi_ini(void) {
   n = particle_number_of_materials;
   q = malloc(n * sizeof(*q));
   for (i = 0; i < n; i++)
-    q[i] = malloc(n * sizeof(*q));
+    q[i] = malloc(n * sizeof(**q));
   for (i = 0; i < n; i++)
     for (j = 0; j < n; j++)
       q[i][j] = 0.0;
@@ -72,11 +72,13 @@ struct Particle *particle_real(double position[2], double velocity[2],
   B(V, 0.0);
   C(R_I[X], R[X]);
   C(R_I[Y], R[Y]);
-  C(P_I[X], P[X]);
-  C(P_I[Y], P[Y]);
+  B(P[X], 0.0);
+  B(P[Y], 0.0);
+  B(P_I[X], 0.0);
+  B(P_I[Y], 0.0);
   C(rho_I, rho);
-  C(P_n[X], P[X]);
-  C(P_n[Y], P[Y]);
+  B(P_n[X], 0.0);
+  B(P_n[Y], 0.0);
   C(U_n[X], U[X]);
   C(U_n[Y], U[Y]);
   C(rho_n, rho);
