@@ -350,7 +350,6 @@ int iniread(char *project_name, struct Ini *q) {
 	int l;
 	int m;
 	int n;
-	int nmat;
 	int rc;
 	struct Force *force;
 	struct Material *mtl;
