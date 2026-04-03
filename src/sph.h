@@ -41,6 +41,7 @@ struct Particle {
 	double _dU[2];
 	int bd;	/* 0: real, 1: boundary */
 	int btype;	/* 0: wall, 1: periodic ghost */
+	int id;
 };
 
 struct Particle *prtreal(double[2], double[2], double, double,
