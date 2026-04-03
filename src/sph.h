@@ -80,6 +80,18 @@ struct Cell {
 	int n, cap;
 };
 
+/* boundary tables */
+struct Edge {
+	int type, coord, ghost, adj, opp, perp_lo, perp_hi;
+	double refl, shift, *U_bnd;
+};
+struct Corner {
+	int type_x, type_y;
+	int ghost_i, ghost_j, adj_i, adj_j, opp_i, opp_j;
+	double refl_x, shift_x, refl_y, shift_y;
+	double *U_x, *U_y;
+};
+
 /* ini */
 struct Force;
 struct Pair;
@@ -123,6 +135,9 @@ struct Ini {
 
 	struct Particle **bnd;
 	int nbnd, bndcap;
+
+	struct Edge edges[4];
+	struct Corner corners[4];
 
 	double delta2;
 	double delta3;

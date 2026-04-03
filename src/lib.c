@@ -181,73 +181,28 @@ struct Particle *prtreal(double position[2], double velocity[2],
 	return q;
 }
 
-struct Particle *prtimage(struct Particle *s) {
+static struct Particle *prtghost(struct Particle *s, int btype, struct Material *mtl) {
 	struct Particle *q;
 
 	q = malloc(sizeof(*q));
 	if (q == NULL) abort();
+	*q = *s;
 	q->bd = 1;
-	q->btype = 1;
+	q->btype = btype;
 	q->ID = 0;
 	q->real = s;
-	q->mtl = s->mtl;
-	q->eta = s->mtl->eta;
-	q->zeta = s->mtl->zeta;
-	q->R[X] = s->R[X];
-	q->R[Y] = s->R[Y];
-	q->rho = s->rho;
-	q->p = s->p;
-	q->T = s->T;
-	q->Cs = s->Cs;
-	q->U[X] = s->U[X];
-	q->U[Y] = s->U[Y];
-	q->U_I[X] = s->U_I[X];
-	q->U_I[Y] = s->U_I[Y];
-	q->m = s->m;
-	q->V = s->V;
-	q->R_I[X] = s->R_I[X];
-	q->R_I[Y] = s->R_I[Y];
+	q->mtl = mtl;
 	q->rho_I = s->rho;
-	q->U_n[X] = s->U_n[X];
-	q->U_n[Y] = s->U_n[Y];
-	q->rho_n = s->rho_n;
 	q->phi = phinew();
 	return q;
 }
 
-struct Particle *prtmirror(struct Particle *s,
-															 struct Material *material) {
-	struct Particle *q;
+struct Particle *prtimage(struct Particle *s) {
+	return prtghost(s, 1, s->mtl);
+}
 
-	q = malloc(sizeof(*q));
-	if (q == NULL) abort();
-	q->bd = 1;
-	q->btype = 0;
-	q->ID = 0;
-	q->real = s;
-	q->mtl = material;
-	q->eta = s->eta;
-	q->zeta = s->zeta;
-	q->R[X] = s->R[X];
-	q->R[Y] = s->R[Y];
-	q->rho = s->rho;
-	q->p = s->p;
-	q->T = s->T;
-	q->Cs = s->Cs;
-	q->U[X] = s->U[X];
-	q->U[Y] = s->U[Y];
-	q->U_I[X] = s->U_I[X];
-	q->U_I[Y] = s->U_I[Y];
-	q->m = s->m;
-	q->V = s->V;
-	q->R_I[X] = s->R_I[X];
-	q->R_I[Y] = s->R_I[Y];
-	q->rho_I = s->rho;
-	q->U_n[X] = s->U_n[X];
-	q->U_n[Y] = s->U_n[Y];
-	q->rho_n = s->rho_n;
-	q->phi = phinew();
-	return q;
+struct Particle *prtmirror(struct Particle *s, struct Material *material) {
+	return prtghost(s, 0, material);
 }
 
 int prtcopy(struct Particle *q, struct Particle *s, int type) {
@@ -523,34 +478,8 @@ int iniread(char *project_name, struct Ini *q) {
 										keys[k].dst[3], keys[k].dst[4]);
 			}
 	}
-	if (fclose(f) != 0)
-		ABORT(("fclose failed"));
-	if (system(mkdir) != 0)
-		ABORT(("command '%s' faild", mkdir));
-	q->box_size[0] = q->nx * q->cs;
-	q->box_size[1] = q->ny * q->cs;
-	q->delta = q->cs / q->cr;
-
-	q->mx = q->nx + 2;
-	q->my = q->ny + 2;
-	q->cells = malloc(q->mx * sizeof(*q->cells));
-	for (i = 0; i < q->mx; i++)
-		q->cells[i] = calloc(q->my, sizeof(struct Cell));
-
-	q->nnp = NULL;
-	q->nnnp = 0;
-	q->nnpcap = 0;
-
-	q->bnd = NULL;
-	q->nbnd = 0;
-	q->bndcap = 0;
-
-	strcpy(inputfile, q->project);
-	strcat(inputfile, ".cfg");
-	f = fopen(inputfile, "r");
-	if (!f)
-		ABORT(("can't open '%s'\n", inputfile));
-	while (fscanf(f, "%s", Key_word) == 1)
+	rewind(f);
+	while (fscanf(f, "%s", Key_word) == 1) {
 		if (!strcmp(Key_word, "BOUNDARY")) {
 			n = fscanf(f, "%d %lf %lf %d %lf %lf %d %lf %lf %d %lf %lf", &q->bxl,
 								 &q->uxl[X], &q->uxl[Y], &q->bxr, &q->uxr[X], &q->uxr[Y],
@@ -559,34 +488,9 @@ int iniread(char *project_name, struct Ini *q) {
 			if (n != 3 * 4)
 				ABORT(("can't read BOUNDARY keyword (n = %d)", n));
 		}
-	fclose(f);
-	printf("The left, right, lower and upper boundary %d %d %d %d\n", q->bxl,
-				 q->bxr, q->byd, q->byu);
-	puts("0: wall boundary condition");
-	puts("1: perodic boundary condition");
-	puts("2: free slip wall boundary condition");
-	puts("3: symmetry boundary condition");
-
-	q->pairs = NULL;
-	q->npairs = 0;
-	q->pcap = 0;
-
-	nmat = q->nmat;
-	delta = q->delta;
-	q->delta2 = delta * delta;
-	q->delta3 = delta * delta * delta;
-	q->materials = malloc(nmat * sizeof(*q->materials));
-	q->forces = malloc(nmat * sizeof(*q->forces));
-	for (k = 0; k < nmat; k++)
-		q->forces[k] = malloc(nmat * sizeof(*q->forces[k]));
-
-	f = fopen(inputfile, "r");
-	if (!f)
-		ABORT(("can't open '%s'", inputfile));
-	else
-		printf("read the propeties of materials and forces\n");
-	while (fscanf(f, "%s", Key_word) == 1) {
-		if (!strcmp(Key_word, "MATERIALS"))
+		if (!strcmp(Key_word, "MATERIALS")) {
+			nmat = q->nmat;
+			q->materials = malloc(nmat * sizeof(*q->materials));
 			for (k = 0; k < nmat; k++) {
 				mtl = &q->materials[k];
 				mtl->number = k;
@@ -597,7 +501,12 @@ int iniread(char *project_name, struct Ini *q) {
 					ABORT(("can't read materal parameters from '%s'", inputfile));
 				mtl->nu = dmax(mtl->eta, mtl->zeta) / mtl->rho0;
 			}
-		if (!strcmp(Key_word, "FORCES"))
+		}
+		if (!strcmp(Key_word, "FORCES")) {
+			nmat = q->nmat;
+			q->forces = malloc(nmat * sizeof(*q->forces));
+			for (k = 0; k < nmat; k++)
+				q->forces[k] = malloc(nmat * sizeof(*q->forces[k]));
 			for (l = 0; l < nmat; l++)
 				for (n = 0; n < nmat; n++) {
 					if (fscanf(f, "%d %d", &k, &m) != 2)
@@ -607,8 +516,28 @@ int iniread(char *project_name, struct Ini *q) {
 										 &force->shear_slip, &force->bulk_slip) != 4)
 						ABORT(("can't read force from '%s'", inputfile));
 				}
+		}
 	}
 	fclose(f);
+	if (system(mkdir) != 0)
+		ABORT(("command '%s' faild", mkdir));
+	q->box_size[0] = q->nx * q->cs;
+	q->box_size[1] = q->ny * q->cs;
+	q->delta = q->cs / q->cr;
+	delta = q->delta;
+
+	q->mx = q->nx + 2;
+	q->my = q->ny + 2;
+	q->cells = malloc(q->mx * sizeof(*q->cells));
+	for (i = 0; i < q->mx; i++)
+		q->cells[i] = calloc(q->my, sizeof(struct Cell));
+
+	q->nnp = NULL; q->nnnp = 0; q->nnpcap = 0;
+	q->bnd = NULL; q->nbnd = 0; q->bndcap = 0;
+	q->pairs = NULL; q->npairs = 0; q->pcap = 0;
+
+	q->delta2 = delta * delta;
+	q->delta3 = delta * delta * delta;
 	q->numax = 0.0;
 	q->sigmax = 0.0;
 	for (k = 0; k < nmat; k++) {
@@ -631,6 +560,33 @@ int iniread(char *project_name, struct Ini *q) {
 
 	nmat = q->nmat;
 	idmax = 0;
+
+	{
+		int mx = q->mx, my = q->my;
+		struct Edge e[4] = {
+			{q->bxl, X, 0,    1,    mx-2, 1, my-1, 0,             -q->box_size[X], q->uxl},
+			{q->bxr, X, mx-1, mx-2, 1,    1, my-1, q->box_size[X], q->box_size[X], q->uxr},
+			{q->byd, Y, 0,    1,    my-2, 0, mx,   0,             -q->box_size[Y], q->uyd},
+			{q->byu, Y, my-1, my-2, 1,    0, mx,   q->box_size[Y], q->box_size[Y], q->uyu},
+		};
+		if (q->bxl == q->byd) e[2].perp_lo = 1;
+		if (q->bxr == q->byd) e[2].perp_hi = mx - 1;
+		if (q->bxl == q->byu) e[3].perp_lo = 1;
+		if (q->bxr == q->byu) e[3].perp_hi = mx - 1;
+		memcpy(q->edges, e, sizeof(e));
+
+		struct Corner c[4] = {
+			{q->bxl, q->byd, 0,    0,    1,    1,    mx-2, my-2,
+			 0,             -q->box_size[X], 0,             -q->box_size[Y], q->uxl, q->uyd},
+			{q->bxl, q->byu, 0,    my-1, 1,    my-2, mx-2, 1,
+			 0,             -q->box_size[X], q->box_size[Y], q->box_size[Y], q->uxl, q->uyu},
+			{q->bxr, q->byu, mx-1, my-1, mx-2, my-2, 1,    1,
+			 q->box_size[X], q->box_size[X], q->box_size[Y], q->box_size[Y], q->uxr, q->uyu},
+			{q->bxr, q->byd, mx-1, 0,    mx-2, 1,    1,    my-2,
+			 q->box_size[X], q->box_size[X], 0,             -q->box_size[Y], q->uxr, q->uyd},
+		};
+		memcpy(q->corners, c, sizeof(c));
+	}
 
 	return 0;
 }
@@ -974,7 +930,7 @@ int prtout(struct Ini *q, struct Material *materials, double Time) {
 }
 
 int rstout(struct Ini *q, double Time) {
-	int n, cnt;
+	int n;
 	char file_name[FILENAME_MAX];
 	struct Particle *prtl;
 	FILE *f;
@@ -984,20 +940,13 @@ int rstout(struct Ini *q, double Time) {
 	f = fopen(file_name, "w");
 	if (!f)
 		ABORT(("can't write '%s'", file_name));
-	cnt = 0;
-	for (n = 0; n < q->nparts; n++) {
-		prtl = q->parts[n];
-		if (prtl->bd == 0)
-			cnt++;
-	}
 	fprintf(f, "%.6g\n", Time);
-	fprintf(f, "%d\n", cnt);
+	fprintf(f, "%d\n", q->nparts);
 	for (n = 0; n < q->nparts; n++) {
 		prtl = q->parts[n];
-		if (prtl->bd == 0)
-			fprintf(f, "%s %.6g %.6g %.6g %.6g %.6g %.6g %.6g\n",
-							prtl->mtl->name, prtl->R[0], prtl->R[1], prtl->U[0],
-							prtl->U[1], prtl->rho, prtl->p, prtl->T);
+		fprintf(f, "%s %.6g %.6g %.6g %.6g %.6g %.6g %.6g\n",
+						prtl->mtl->name, prtl->R[0], prtl->R[1], prtl->U[0],
+						prtl->U[1], prtl->rho, prtl->p, prtl->T);
 	}
 	fclose(f);
 	return 0;
@@ -1021,6 +970,40 @@ void volmass(struct Ini *q, struct Kernel *kernel) {
 		reciprocV = 1.0 / reciprocV;
 		prtl_org->V = reciprocV;
 		prtl_org->m = prtl_org->rho * reciprocV;
+	}
+}
+
+static void halfstep(struct Ini *q) {
+	int i;
+	struct Pair *pair;
+	struct Particle *prtl;
+
+	for (i = 0; i < q->nparts; i++) { prtl = q->parts[i]; prtl->rho = 0.0; }
+	for (i = 0; i < q->npairs; i++) SummationDensity(&q->pairs[i]);
+	for (i = 0; i < q->nparts; i++) { prtl = q->parts[i]; prtl->p = getp(prtl->mtl, prtl->rho); }
+
+	bndcond(q);
+	for (i = 0; i < q->nparts; i++) {
+		prtl = q->parts[i];
+		prtl->dphi[X] = prtl->dphi[Y] = 0.0;
+	}
+	for (i = 0; i < q->nbnd; i++) { prtl = q->bnd[i]; prtl->dphi[X] = prtl->dphi[Y] = 0.0; }
+
+	for (i = 0; i < q->npairs; i++) SummationPhaseGradient(&q->pairs[i]);
+
+	bndcond(q);
+	UpdateSurfaceStress(q);
+	for (i = 0; i < q->nparts; i++) {
+		prtl = q->parts[i];
+		prtl->drhodt = 0.0;
+		prtl->dUdt[X] = prtl->dUdt[Y] = 0.0;
+		prtl->_dU[X] = prtl->_dU[Y] = 0.0;
+	}
+	for (i = 0; i < q->npairs; i++) UpdateForces(&q->pairs[i], q->art_vis, q->delta);
+	for (i = 0; i < q->nparts; i++) {
+		prtl = q->parts[i];
+		prtl->dUdt[X] += q->gravity[X];
+		prtl->dUdt[Y] += q->gravity[Y];
 	}
 }
 
@@ -1057,33 +1040,7 @@ void step(int *pite, struct Ini *q, double *Time, double tout,
 		if (ite % 10 == 0)
 			printf("N=%d Time: %g\tdt: %g\n", ite, *Time, dt);
 		mkpairs(q, q->forces, kernel);
-		for (i = 0; i < q->nparts; i++) { prtl = q->parts[i]; prtl->rho = 0.0; }
-		for (i = 0; i < q->npairs; i++) { pair = &q->pairs[i]; SummationDensity(pair); }
-		for (i = 0; i < q->nparts; i++) { prtl = q->parts[i]; prtl->p = getp(prtl->mtl, prtl->rho); }
-
-		bndcond(q);
-		for (i = 0; i < q->nparts; i++) {
-			prtl = q->parts[i];
-			prtl->dphi[X] = prtl->dphi[Y] = 0.0;
-		}
-		for (i = 0; i < q->nbnd; i++) { prtl = q->bnd[i]; prtl->dphi[X] = prtl->dphi[Y] = 0.0; }
-
-		for (i = 0; i < q->npairs; i++) { pair = &q->pairs[i]; SummationPhaseGradient(pair); }
-
-		bndcond(q);
-		UpdateSurfaceStress(q);
-		for (i = 0; i < q->nparts; i++) {
-			prtl = q->parts[i];
-			prtl->drhodt = 0.0;
-			prtl->dUdt[X] = prtl->dUdt[Y] = 0.0;
-			prtl->_dU[X] = prtl->_dU[Y] = 0.0;
-		}
-		for (i = 0; i < q->npairs; i++) { pair = &q->pairs[i]; UpdateForces(pair, q->art_vis, q->delta); }
-		for (i = 0; i < q->nparts; i++) {
-			prtl = q->parts[i];
-			prtl->dUdt[X] += q->gravity[X];
-			prtl->dUdt[Y] += q->gravity[Y];
-		}
+		halfstep(q);
 
 		for (i = 0; i < q->nparts; i++) {
 			prtl = q->parts[i];
@@ -1128,33 +1085,7 @@ void step(int *pite, struct Ini *q, double *Time, double tout,
 				 zetaj * (rij + 2.0 * frc_ij[noi][noj].bulk_slip) + 1.0e-30);
 		}
 
-		for (i = 0; i < q->nparts; i++) { prtl = q->parts[i]; prtl->rho = 0.0; }
-		for (i = 0; i < q->npairs; i++) { pair = &q->pairs[i]; SummationDensity(pair); }
-		for (i = 0; i < q->nparts; i++) { prtl = q->parts[i]; prtl->p = getp(prtl->mtl, prtl->rho); }
-
-		bndcond(q);
-		for (i = 0; i < q->nparts; i++) {
-			prtl = q->parts[i];
-			prtl->dphi[X] = prtl->dphi[Y] = 0.0;
-		}
-		for (i = 0; i < q->nbnd; i++) { prtl = q->bnd[i]; prtl->dphi[X] = prtl->dphi[Y] = 0.0; }
-
-		for (i = 0; i < q->npairs; i++) { pair = &q->pairs[i]; SummationPhaseGradient(pair); }
-
-		bndcond(q);
-		UpdateSurfaceStress(q);
-		for (i = 0; i < q->nparts; i++) {
-			prtl = q->parts[i];
-			prtl->drhodt = 0.0;
-			prtl->dUdt[X] = prtl->dUdt[Y] = 0.0;
-			prtl->_dU[X] = prtl->_dU[Y] = 0.0;
-		}
-		for (i = 0; i < q->npairs; i++) { pair = &q->pairs[i]; UpdateForces(pair, q->art_vis, q->delta); }
-		for (i = 0; i < q->nparts; i++) {
-			prtl = q->parts[i];
-			prtl->dUdt[X] += q->gravity[X];
-			prtl->dUdt[Y] += q->gravity[Y];
-		}
+		halfstep(q);
 
 		for (i = 0; i < q->nparts; i++) { prtl = q->parts[i]; prtl->_dU[X] = prtl->_dU[Y] = 0.0; }
 		for (i = 0; i < q->npairs; i++) {
@@ -1283,43 +1214,26 @@ static void applycorner(int type,
 int bndbuild(struct Ini *q, struct Material *mtl) {
 	int i, v, e, n;
 	struct Particle *prtl, *prtl_old;
-	int mx, my;
-
-	mx = q->mx;
-	my = q->my;
+	struct Edge *ed;
+	struct Corner *cn;
 
 	for (i = 0; i < q->nbnd; i++)
 		prtfree(q->bnd[i]);
 	q->nbnd = 0;
 
-	struct {
-		int type, coord, ghost, adj, opp, perp_lo, perp_hi;
-		double refl, shift, *U_bnd;
-	} edges[4] = {
-		{q->bxl, X, 0,         1,         mx-2, 1, my-1, 0,              -q->box_size[X], q->uxl},
-		{q->bxr, X, mx-1,  mx-2,  1,        1, my-1, q->box_size[X],  q->box_size[X], q->uxr},
-		{q->byd, Y, 0,         1,         my-2, 0, mx,   0,              -q->box_size[Y], q->uyd},
-		{q->byu, Y, my-1,  my-2,  1,        0, mx,   q->box_size[Y],  q->box_size[Y], q->uyu},
-	};
-	/* adjust south/north perp ranges to avoid corner overlap */
-	if (q->bxl == q->byd) edges[2].perp_lo = 1;
-	if (q->bxr == q->byd) edges[2].perp_hi = mx - 1;
-	if (q->bxl == q->byu) edges[3].perp_lo = 1;
-	if (q->bxr == q->byu) edges[3].perp_hi = mx - 1;
 	for (e = 0; e < 4; e++) {
-		int type = edges[e].type;
-		int coord = edges[e].coord;
-		int is_mirror = (type == 0 || type == 2);
-		int src = (type == 1) ? edges[e].opp : edges[e].adj;
-		for (v = edges[e].perp_lo; v < edges[e].perp_hi; v++) {
+		ed = &q->edges[e];
+		int is_mirror = (ed->type == 0 || ed->type == 2);
+		int src = (ed->type == 1) ? ed->opp : ed->adj;
+		for (v = ed->perp_lo; v < ed->perp_hi; v++) {
 			int gi, gj, si, sj;
-			if (coord == X) { gi = edges[e].ghost; gj = v; si = src; sj = v; }
-			else            { gi = v; gj = edges[e].ghost; si = v; sj = src; }
+			if (ed->coord == X) { gi = ed->ghost; gj = v; si = src; sj = v; }
+			else                { gi = v; gj = ed->ghost; si = v; sj = src; }
 			q->cells[gi][gj].n = 0;
 			for (n = 0; n < q->cells[si][sj].n; n++) {
 				prtl_old = q->cells[si][sj].data[n];
 				prtl = is_mirror ? prtmirror(prtl_old, mtl) : prtimage(prtl_old);
-				applybnd(type, coord, edges[e].refl, edges[e].shift, edges[e].U_bnd, prtl);
+				applybnd(ed->type, ed->coord, ed->refl, ed->shift, ed->U_bnd, prtl);
 				prtl->cell_i = gi;
 				prtl->cell_j = gj;
 				if (q->nbnd >= q->bndcap)
@@ -1330,40 +1244,25 @@ int bndbuild(struct Ini *q, struct Material *mtl) {
 		}
 	}
 
-	struct {
-		int type_x, type_y;
-		int ghost_i, ghost_j, adj_i, adj_j, opp_i, opp_j;
-		double refl_x, shift_x, refl_y, shift_y;
-		double *U_x, *U_y;
-	} corners[4] = {
-		{q->bxl, q->byd, 0,        0,        1,        1,        mx-2, my-2,
-		 0,              -q->box_size[X], 0,              -q->box_size[Y], q->uxl, q->uyd},
-		{q->bxl, q->byu, 0,        my-1, 1,        my-2, mx-2, 1,
-		 0,              -q->box_size[X], q->box_size[Y],  q->box_size[Y], q->uxl, q->uyu},
-		{q->bxr, q->byu, mx-1, my-1, mx-2, my-2, 1,       1,
-		 q->box_size[X],  q->box_size[X], q->box_size[Y],  q->box_size[Y], q->uxr, q->uyu},
-		{q->bxr, q->byd, mx-1, 0,        mx-2, 1,        1,       my-2,
-		 q->box_size[X],  q->box_size[X], 0,              -q->box_size[Y], q->uxr, q->uyd},
-	};
 	for (e = 0; e < 4; e++) {
-		if (corners[e].type_x != corners[e].type_y) continue;
-		int type = corners[e].type_x;
+		cn = &q->corners[e];
+		if (cn->type_x != cn->type_y) continue;
+		int type = cn->type_x;
 		int is_mirror = (type == 0 || type == 2);
-		int si = (type == 1) ? corners[e].opp_i : corners[e].adj_i;
-		int sj = (type == 1) ? corners[e].opp_j : corners[e].adj_j;
-		int gi = corners[e].ghost_i, gj = corners[e].ghost_j;
-		q->cells[gi][gj].n = 0;
+		int si = (type == 1) ? cn->opp_i : cn->adj_i;
+		int sj = (type == 1) ? cn->opp_j : cn->adj_j;
+		q->cells[cn->ghost_i][cn->ghost_j].n = 0;
 		for (n = 0; n < q->cells[si][sj].n; n++) {
 			prtl_old = q->cells[si][sj].data[n];
 			prtl = is_mirror ? prtmirror(prtl_old, mtl) : prtimage(prtl_old);
-			applycorner(type, corners[e].refl_x, corners[e].shift_x, corners[e].U_x,
-												 corners[e].refl_y, corners[e].shift_y, corners[e].U_y, prtl);
-			prtl->cell_i = gi;
-			prtl->cell_j = gj;
+			applycorner(type, cn->refl_x, cn->shift_x, cn->U_x,
+			                  cn->refl_y, cn->shift_y, cn->U_y, prtl);
+			prtl->cell_i = cn->ghost_i;
+			prtl->cell_j = cn->ghost_j;
 			if (q->nbnd >= q->bndcap)
 				q->bnd = agrow(q->bnd, &q->bndcap, sizeof(*q->bnd));
 			q->bnd[q->nbnd++] = prtl;
-			cellpush(&q->cells[gi][gj], prtl);
+			cellpush(&q->cells[cn->ghost_i][cn->ghost_j], prtl);
 		}
 	}
 	return 0;
@@ -1372,63 +1271,35 @@ int bndbuild(struct Ini *q, struct Material *mtl) {
 int bndcond(struct Ini *q) {
 	int e, v, n;
 	struct Particle *prtl;
-	int mx = q->mx, my = q->my;
-
-	struct {
-		int type, coord, ghost, perp_lo, perp_hi;
-		double refl, shift, *U_bnd;
-	} edges[4] = {
-		{q->bxl, X, 0,        1, my-1, 0,              -q->box_size[X], q->uxl},
-		{q->bxr, X, mx-1, 1, my-1, q->box_size[X],  q->box_size[X], q->uxr},
-		{q->byd, Y, 0,        0, mx,   0,              -q->box_size[Y], q->uyd},
-		{q->byu, Y, my-1, 0, mx,   q->box_size[Y],  q->box_size[Y], q->uyu},
-	};
-	if (q->bxl == q->byd) edges[2].perp_lo = 1;
-	if (q->bxr == q->byd) edges[2].perp_hi = mx - 1;
-	if (q->bxl == q->byu) edges[3].perp_lo = 1;
-	if (q->bxr == q->byu) edges[3].perp_hi = mx - 1;
+	struct Edge *ed;
+	struct Corner *cn;
 
 	for (e = 0; e < 4; e++) {
-		int type = edges[e].type;
-		int coord = edges[e].coord;
-		int copy_type = (type == 0 || type == 2) ? 0 : 1;
-		for (v = edges[e].perp_lo; v < edges[e].perp_hi; v++) {
+		ed = &q->edges[e];
+		int copy_type = (ed->type == 0 || ed->type == 2) ? 0 : 1;
+		for (v = ed->perp_lo; v < ed->perp_hi; v++) {
 			int gi, gj;
-			if (coord == X) { gi = edges[e].ghost; gj = v; }
-			else             { gi = v; gj = edges[e].ghost; }
+			if (ed->coord == X) { gi = ed->ghost; gj = v; }
+			else                { gi = v; gj = ed->ghost; }
 			for (n = 0; n < q->cells[gi][gj].n; n++) {
 				prtl = q->cells[gi][gj].data[n];
 				if (prtl->real == NULL) abort();
 				prtcopy(prtl, prtl->real, copy_type);
-				applybnd(type, coord, edges[e].refl, edges[e].shift, edges[e].U_bnd, prtl);
+				applybnd(ed->type, ed->coord, ed->refl, ed->shift, ed->U_bnd, prtl);
 			}
 		}
 	}
 
-	struct {
-		int type_x, type_y, ghost_i, ghost_j;
-		double refl_x, shift_x, refl_y, shift_y;
-		double *U_x, *U_y;
-	} corners[4] = {
-		{q->bxl, q->byd, 0,        0,
-		 0,              -q->box_size[X], 0,              -q->box_size[Y], q->uxl, q->uyd},
-		{q->bxl, q->byu, 0,        my-1,
-		 0,              -q->box_size[X], q->box_size[Y],  q->box_size[Y], q->uxl, q->uyu},
-		{q->bxr, q->byu, mx-1, my-1,
-		 q->box_size[X],  q->box_size[X], q->box_size[Y],  q->box_size[Y], q->uxr, q->uyu},
-		{q->bxr, q->byd, mx-1, 0,
-		 q->box_size[X],  q->box_size[X], 0,              -q->box_size[Y], q->uxr, q->uyd},
-	};
 	for (e = 0; e < 4; e++) {
-		if (corners[e].type_x != corners[e].type_y) continue;
-		int type = corners[e].type_x;
-		int copy_type = (type == 0 || type == 2) ? 0 : 1;
-		for (n = 0; n < q->cells[corners[e].ghost_i][corners[e].ghost_j].n; n++) {
-			prtl = q->cells[corners[e].ghost_i][corners[e].ghost_j].data[n];
+		cn = &q->corners[e];
+		if (cn->type_x != cn->type_y) continue;
+		int copy_type = (cn->type_x == 0 || cn->type_x == 2) ? 0 : 1;
+		for (n = 0; n < q->cells[cn->ghost_i][cn->ghost_j].n; n++) {
+			prtl = q->cells[cn->ghost_i][cn->ghost_j].data[n];
 			if (prtl->real == NULL) abort();
 			prtcopy(prtl, prtl->real, copy_type);
-			applycorner(type, corners[e].refl_x, corners[e].shift_x, corners[e].U_x,
-												 corners[e].refl_y, corners[e].shift_y, corners[e].U_y, prtl);
+			applycorner(cn->type_x, cn->refl_x, cn->shift_x, cn->U_x,
+			                        cn->refl_y, cn->shift_y, cn->U_y, prtl);
 		}
 	}
 	return 0;
