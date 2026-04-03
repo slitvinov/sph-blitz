@@ -432,105 +432,7 @@ static double vv_distance(double a[2], double b[2]) {
 
 static double vv_abs(double v[2]) { return sqrt(v[X] * v[X] + v[Y] * v[Y]); }
 
-static double vv_sq_distance(double a[2], double b[2]) {
-  double x, y;
-
-  x = a[X] - b[X];
-  y = a[Y] - b[Y];
-  return x * x + y * y;
-}
-
 static double vv_sqdiff(double v[2]) { return v[X] * v[X] - v[Y] * v[Y]; }
-
-static void random_gaussian(double *y1, double *y2) {
-  double x1, x2, w;
-
-  do {
-    x1 = (double)rand() / RAND_MAX;
-    x2 = (double)rand() / RAND_MAX;
-    x1 = 2.0 * x1 - 1.0;
-    x2 = 2.0 * x2 - 1.0;
-    w = x1 * x1 + x2 * x2;
-  } while (w >= 1.0 || w == 0.0);
-  w = sqrt((-2.0 * log(w)) / w);
-  *y1 = x1 * w;
-  *y2 = x2 * w;
-}
-
-static struct Pair *pair_ini(struct Particle *prtl_org,
-                             struct Particle *prtl_dest, struct Force **forces,
-                             struct Kernel *kernel, double dstc) {
-  struct Pair *q;
-  struct Particle *Org, *Dest;
-  double etai, etaj, rij, zetai, zetaj;
-  int noi, noj;
-  struct Force **frc_ij;
-
-  q = malloc(sizeof(*q));
-  if (q == NULL)
-    ABORT(("can't allocate"));
-
-  q->Org = Org = prtl_org;
-  q->Dest = Dest = prtl_dest;
-  q->frc_ij = frc_ij = forces;
-  noi = Org->mtl->number;
-  noj = Dest->mtl->number;
-  q->mi = Org->m;
-  q->mj = Dest->m;
-  q->rmi = 1.0 / q->mi;
-  q->rmj = 1.0 / q->mj;
-  q->etai = etai = Org->eta;
-  q->etaj = etaj = Dest->eta;
-  q->zetai = zetai = Org->zeta;
-  q->zetaj = zetaj = Dest->zeta;
-  q->rij = rij = dstc;
-  q->rrij = 1.0 / (rij + 1.0e-30);
-  q->eij[X] = (Org->R[X] - Dest->R[X]) * q->rrij;
-  q->eij[Y] = (Org->R[Y] - Dest->R[Y]) * q->rrij;
-  q->Wij = w(kernel, rij);
-  q->Fij = F(kernel, rij) * q->rrij;
-  q->shear_rij = 2.0 * etai * etaj * rij /
-                 (etai * (rij + 2.0 * frc_ij[noj][noi].shear_slip) +
-                  etaj * (rij + 2.0 * frc_ij[noi][noj].shear_slip) + 1.0e-30);
-  q->bulk_rij = 2.0 * zetai * zetaj * rij /
-                (zetai * (rij + 2.0 * frc_ij[noj][noi].bulk_slip) +
-                 zetaj * (rij + 2.0 * frc_ij[noi][noj].bulk_slip) + 1.0e-30);
-  return q;
-}
-
-static void RenewPair(struct Pair *q, struct Kernel *kernel) {
-  struct Particle *Org, *Dest;
-  double *eij;
-  double rij, rrij;
-  double etai, etaj, zetai, zetaj;
-  struct Force **frc_ij;
-  int noi, noj;
-
-  Org = q->Org;
-  Dest = q->Dest;
-  eij = q->eij;
-  etai = q->etai;
-  etaj = q->etaj;
-  zetai = q->zetai;
-  zetaj = q->zetaj;
-  frc_ij = q->frc_ij;
-  noi = Org->mtl->number;
-  noj = Dest->mtl->number;
-
-  rij = q->rij = vv_distance(q->Org->R, q->Dest->R);
-  rrij = q->rrij = 1.0 / (q->rij + 1.0e-30);
-
-  eij[X] = (Org->R[X] - Dest->R[X]) * rrij;
-  eij[Y] = (Org->R[Y] - Dest->R[Y]) * rrij;
-  q->Wij = w(kernel, rij);
-  q->Fij = F(kernel, rij) * rrij;
-  q->shear_rij = 2.0 * etai * etaj * q->rij /
-                 (etai * (rij + 2.0 * frc_ij[noj][noi].shear_slip) +
-                  etaj * (rij + 2.0 * frc_ij[noi][noj].shear_slip) + 1.0e-30);
-  q->bulk_rij = 2.0 * zetai * zetaj * rij /
-                (zetai * (rij + 2.0 * frc_ij[noj][noi].bulk_slip) +
-                 zetaj * (rij + 2.0 * frc_ij[noi][noj].bulk_slip) + 1.0e-30);
-}
 
 static void SummationDensity(struct Pair *q) {
   struct Particle *Org, *Dest;
@@ -680,68 +582,6 @@ static void UpdateForces(struct Pair *q) {
   Org->dUdt[Y] += dPdti[Y] * rmi;
   Dest->dUdt[X] -= dPdti[X] * rmj;
   Dest->dUdt[Y] -= dPdti[Y] * rmj;
-}
-
-static void RandomForces(struct Pair *q, double sqrtdt) {
-  double Vi, Vj;
-  double Ti, Tj;
-  double v_eij[2];
-  double Random_p, Random_v;
-  struct Particle *Org, *Dest;
-  double mi, mj;
-  double shear_rij;
-  double Fij;
-  double *eij;
-  double bulk_rij;
-  double rmi, rmj;
-
-  rmi = q->rmi;
-  rmj = q->rmj;
-  bulk_rij = q->bulk_rij;
-  eij = q->eij;
-  shear_rij = q->shear_rij;
-  Fij = q->Fij;
-  mi = q->mi;
-  mj = q->mj;
-  Org = q->Org;
-  Dest = q->Dest;
-  Ti = Org->T;
-  Tj = Dest->T;
-  if (Ti == 0 && Tj == 0)
-    return;
-  Vi = mi / Org->rho;
-  Vj = mj / Dest->rho;
-  random_gaussian(&Random_p, &Random_v);
-  Random_p *= sqrtdt;
-  Random_v *= sqrtdt;
-  double _dUi[2];
-  double Vi2 = Vi * Vi, Vj2 = Vj * Vj;
-
-  v_eij[X] = -eij[Y];
-  v_eij[Y] = eij[X];
-  _dUi[X] = v_eij[X] * Random_p *
-                sqrt(16.0 * k_bltz * shear_rij * Ti * Tj / (Ti + Tj) *
-                     (Vi2 + Vj2) * Fij) +
-            eij[X] * Random_v *
-                sqrt(16.0 * k_bltz * bulk_rij * Ti * Tj / (Ti + Tj) *
-                     (Vi2 + Vj2) * Fij);
-  _dUi[Y] = v_eij[Y] * Random_p *
-                sqrt(16.0 * k_bltz * shear_rij * Ti * Tj / (Ti + Tj) *
-                     (Vi2 + Vj2) * Fij) +
-            eij[Y] * Random_v *
-                sqrt(16.0 * k_bltz * bulk_rij * Ti * Tj / (Ti + Tj) *
-                     (Vi2 + Vj2) * Fij);
-  if (Dest->bd_type == 1) {
-    Org->_dU[X] = Org->_dU[X] + _dUi[X] * rmi * 0.5;
-    Org->_dU[Y] = Org->_dU[Y] + _dUi[Y] * rmi * 0.5;
-    Dest->rl_prtl->_dU[X] = Dest->rl_prtl->_dU[X] - _dUi[X] * rmj * 0.5;
-    Dest->rl_prtl->_dU[Y] = Dest->rl_prtl->_dU[Y] - _dUi[Y] * rmj * 0.5;
-  } else {
-    Org->_dU[X] = Org->_dU[X] + _dUi[X] * rmi;
-    Org->_dU[Y] = Org->_dU[Y] + _dUi[Y] * rmi;
-    Dest->_dU[X] = Dest->_dU[X] - _dUi[X] * rmj;
-    Dest->_dU[Y] = Dest->_dU[Y] - _dUi[Y] * rmj;
-  }
 }
 
 int initiation_ini(char *project_name, struct Ini *q) {
@@ -995,9 +835,43 @@ int manager_build_pair(struct Ini *q, struct List *pairs,
       for (k = i - 1; k <= i + 1; k++)
         for (m = j - 1; m <= j + 1; m++) {
           LOOP1_P(prtl_dest, cell_lists[k][m]) {
-            dstc = vv_sq_distance(prtl_org->R, prtl_dest->R);
+            double dx = prtl_org->R[X] - prtl_dest->R[X];
+            double dy = prtl_org->R[Y] - prtl_dest->R[Y];
+            dstc = dx * dx + dy * dy;
             if (dstc <= sm2 && prtl_org->ID >= prtl_dest->ID) {
-              pair = pair_ini(prtl_org, prtl_dest, forces, kernel, sqrt(dstc));
+              double rij, etai, etaj, zetai, zetaj;
+              int noi, noj;
+              struct Force **frc_ij;
+              struct Particle *Org, *Dest;
+
+              pair = malloc(sizeof(*pair));
+              if (pair == NULL)
+                ABORT(("can't allocate"));
+              pair->Org = Org = prtl_org;
+              pair->Dest = Dest = prtl_dest;
+              pair->frc_ij = frc_ij = forces;
+              noi = Org->mtl->number;
+              noj = Dest->mtl->number;
+              pair->mi = Org->m;
+              pair->mj = Dest->m;
+              pair->rmi = 1.0 / pair->mi;
+              pair->rmj = 1.0 / pair->mj;
+              pair->etai = etai = Org->eta;
+              pair->etaj = etaj = Dest->eta;
+              pair->zetai = zetai = Org->zeta;
+              pair->zetaj = zetaj = Dest->zeta;
+              pair->rij = rij = sqrt(dstc);
+              pair->rrij = 1.0 / (rij + 1.0e-30);
+              pair->eij[X] = (Org->R[X] - Dest->R[X]) * pair->rrij;
+              pair->eij[Y] = (Org->R[Y] - Dest->R[Y]) * pair->rrij;
+              pair->Wij = w(kernel, rij);
+              pair->Fij = F(kernel, rij) * pair->rrij;
+              pair->shear_rij = 2.0 * etai * etaj * rij /
+                (etai * (rij + 2.0 * frc_ij[noj][noi].shear_slip) +
+                 etaj * (rij + 2.0 * frc_ij[noi][noj].shear_slip) + 1.0e-30);
+              pair->bulk_rij = 2.0 * zetai * zetaj * rij /
+                (zetai * (rij + 2.0 * frc_ij[noj][noi].bulk_slip) +
+                 zetaj * (rij + 2.0 * frc_ij[noi][noj].bulk_slip) + 1.0e-30);
               INSERT_P(pair, pairs);
             }
           }
@@ -1173,22 +1047,6 @@ static void UpdateSurfaceStress(struct Ini *q) {
   }
 }
 
-static double GetTimestep(struct Ini *q) {
-  struct Particle *prtl;
-  struct ListNode *p;
-  double Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = 1.0;
-  double dt;
-
-  LOOP_P(prtl, q->particle_list) {
-    Cs_max = AMAX1(Cs_max, prtl->Cs);
-    V_max = AMAX1(V_max, vv_abs(prtl->U));
-    rho_min = AMIN1(rho_min, prtl->rho);
-    rho_max = AMAX1(rho_max, prtl->rho);
-  }
-  dt = AMIN1(sqrt(0.5 * (rho_min + rho_max)) * q->dt_surf, q->dt_g_vis);
-  return 0.25 * AMIN1(dt, q->delta / (Cs_max + V_max));
-}
-
 int output_particles(struct Ini *q, struct List *particle_list,
                      struct Material *materials, double Time) {
   char file_name[FILENAME_MAX], file_list[FILENAME_MAX];
@@ -1301,7 +1159,17 @@ void step(int *pite, struct Ini *q, double *Time, double D_time,
 
   integeral_time = 0;
   while (integeral_time < D_time) {
-    dt = GetTimestep(q);
+    {
+      double Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = 1.0;
+      LOOP_P(prtl, q->particle_list) {
+        Cs_max = AMAX1(Cs_max, prtl->Cs);
+        V_max = AMAX1(V_max, vv_abs(prtl->U));
+        rho_min = AMIN1(rho_min, prtl->rho);
+        rho_max = AMAX1(rho_max, prtl->rho);
+      }
+      dt = AMIN1(sqrt(0.5 * (rho_min + rho_max)) * q->dt_surf, q->dt_g_vis);
+      dt = 0.25 * AMIN1(dt, q->delta / (Cs_max + V_max));
+    }
     sqrtdt = sqrt(dt);
     ite++;
     integeral_time += dt;
@@ -1353,7 +1221,28 @@ void step(int *pite, struct Ini *q, double *Time, double D_time,
     }
     boundary_condition(q, q->cell_lists);
 
-    ILOOP_P(pair, q->pair_list) { RenewPair(pair, kernel); }
+    ILOOP_P(pair, q->pair_list) {
+      struct Particle *Org = pair->Org, *Dest = pair->Dest;
+      double *eij = pair->eij;
+      double etai = pair->etai, etaj = pair->etaj;
+      double zetai = pair->zetai, zetaj = pair->zetaj;
+      struct Force **frc_ij = pair->frc_ij;
+      int noi = Org->mtl->number, noj = Dest->mtl->number;
+      double rij, rrij;
+
+      rij = pair->rij = vv_distance(pair->Org->R, pair->Dest->R);
+      rrij = pair->rrij = 1.0 / (pair->rij + 1.0e-30);
+      eij[X] = (Org->R[X] - Dest->R[X]) * rrij;
+      eij[Y] = (Org->R[Y] - Dest->R[Y]) * rrij;
+      pair->Wij = w(kernel, rij);
+      pair->Fij = F(kernel, rij) * rrij;
+      pair->shear_rij = 2.0 * etai * etaj * pair->rij /
+        (etai * (rij + 2.0 * frc_ij[noj][noi].shear_slip) +
+         etaj * (rij + 2.0 * frc_ij[noi][noj].shear_slip) + 1.0e-30);
+      pair->bulk_rij = 2.0 * zetai * zetaj * rij /
+        (zetai * (rij + 2.0 * frc_ij[noj][noi].bulk_slip) +
+         zetaj * (rij + 2.0 * frc_ij[noi][noj].bulk_slip) + 1.0e-30);
+    }
 
     LOOP_P(prtl, q->particle_list) { prtl->rho = 0.0; }
     ILOOP_P(pair, q->pair_list) { SummationDensity(pair); }
@@ -1382,7 +1271,63 @@ void step(int *pite, struct Ini *q, double *Time, double D_time,
     }
 
     LOOP_P(prtl, q->particle_list) { prtl->_dU[X] = prtl->_dU[Y] = 0.0; }
-    ILOOP_P(pair, q->pair_list) { RandomForces(pair, sqrtdt); }
+    ILOOP_P(pair, q->pair_list) {
+      double rmi = pair->rmi, rmj = pair->rmj;
+      double bulk_rij = pair->bulk_rij;
+      double *eij = pair->eij;
+      double shear_rij = pair->shear_rij;
+      double Fij = pair->Fij;
+      double mi = pair->mi, mj = pair->mj;
+      struct Particle *Org = pair->Org, *Dest = pair->Dest;
+      double Ti = Org->T, Tj = Dest->T;
+      if (Ti == 0 && Tj == 0)
+        continue;
+      double Vi = mi / Org->rho, Vj = mj / Dest->rho;
+      double Random_p, Random_v;
+      {
+        double x1, x2, wg;
+        do {
+          x1 = (double)rand() / RAND_MAX;
+          x2 = (double)rand() / RAND_MAX;
+          x1 = 2.0 * x1 - 1.0;
+          x2 = 2.0 * x2 - 1.0;
+          wg = x1 * x1 + x2 * x2;
+        } while (wg >= 1.0 || wg == 0.0);
+        wg = sqrt((-2.0 * log(wg)) / wg);
+        Random_p = x1 * wg;
+        Random_v = x2 * wg;
+      }
+      Random_p *= sqrtdt;
+      Random_v *= sqrtdt;
+      double _dUi[2];
+      double Vi2 = Vi * Vi, Vj2 = Vj * Vj;
+      double v_eij[2];
+      v_eij[X] = -eij[Y];
+      v_eij[Y] = eij[X];
+      _dUi[X] = v_eij[X] * Random_p *
+                    sqrt(16.0 * k_bltz * shear_rij * Ti * Tj / (Ti + Tj) *
+                         (Vi2 + Vj2) * Fij) +
+                eij[X] * Random_v *
+                    sqrt(16.0 * k_bltz * bulk_rij * Ti * Tj / (Ti + Tj) *
+                         (Vi2 + Vj2) * Fij);
+      _dUi[Y] = v_eij[Y] * Random_p *
+                    sqrt(16.0 * k_bltz * shear_rij * Ti * Tj / (Ti + Tj) *
+                         (Vi2 + Vj2) * Fij) +
+                eij[Y] * Random_v *
+                    sqrt(16.0 * k_bltz * bulk_rij * Ti * Tj / (Ti + Tj) *
+                         (Vi2 + Vj2) * Fij);
+      if (Dest->bd_type == 1) {
+        Org->_dU[X] = Org->_dU[X] + _dUi[X] * rmi * 0.5;
+        Org->_dU[Y] = Org->_dU[Y] + _dUi[Y] * rmi * 0.5;
+        Dest->rl_prtl->_dU[X] = Dest->rl_prtl->_dU[X] - _dUi[X] * rmj * 0.5;
+        Dest->rl_prtl->_dU[Y] = Dest->rl_prtl->_dU[Y] - _dUi[Y] * rmj * 0.5;
+      } else {
+        Org->_dU[X] = Org->_dU[X] + _dUi[X] * rmi;
+        Org->_dU[Y] = Org->_dU[Y] + _dUi[Y] * rmi;
+        Dest->_dU[X] = Dest->_dU[X] - _dUi[X] * rmj;
+        Dest->_dU[Y] = Dest->_dU[Y] - _dUi[Y] * rmj;
+      }
+    }
 
     LOOP_P(prtl, q->particle_list) {
       prtl->U[X] += prtl->_dU[X];

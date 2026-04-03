@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 /* err */
 #define WARN(x) do {                                    \
 	wprint("%s:%d: ", __FILE__, __LINE__);		\
