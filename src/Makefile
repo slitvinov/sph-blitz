@@ -6,12 +6,7 @@ CFLAGS = -g -O2
 
 M = libsph.a
 O = \
-err.o\
-ini.o\
-kernel.o\
-list.o\
-material.o\
-particle.o\
+lib.o\
 
 all: $M
 $M: $O; ar rc $@ $O && ranlib $@

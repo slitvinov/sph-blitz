@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,6 +13,387 @@
 #include "sph/particle.h"
 
 enum { X, Y };
+
+/* err */
+
+int wprint(const char *fmt, ...) {
+  int r;
+  va_list ap;
+
+  va_start(ap, fmt);
+  r = vfprintf(stderr, fmt, ap);
+  va_end(ap);
+  return r;
+}
+
+/* list */
+
+struct List;
+struct ListNode {
+  void *data;
+  struct ListNode *next;
+};
+
+struct List {
+  struct ListNode *node;
+};
+
+int list_endp(struct List *q, struct ListNode *n) { return n->next == q->node; }
+
+struct ListNode *list_first(struct List *q) {
+  return q->node;
+}
+
+struct ListNode *list_next(struct List *q, struct ListNode *n) {
+  USED(q);
+  return n->next;
+}
+
+void *list_retrieve(struct List *q, struct ListNode *n) {
+  USED(q);
+  return n->next->data;
+}
+
+void list_insert(struct List *q, struct ListNode *n, void *p) {
+  struct ListNode *node;
+
+  node = malloc(sizeof(struct ListNode));
+  node->data = p;
+  node->next = n->next;
+  n->next = node;
+}
+
+void list_remove(struct List *q, struct ListNode *p) {
+  struct ListNode *t = p->next;
+
+  p->next = t->next;
+  free(t);
+}
+
+void list_clear(struct List *q) {
+  while (q->node != q->node->next)
+    list_remove(q, q->node);
+}
+
+struct List *list_ini(void) {
+  struct List *q;
+  struct ListNode *node;
+
+  q = malloc(sizeof(struct List));
+  node = malloc(sizeof(struct ListNode));
+  node->data = NULL;
+  node->next = node;
+  q->node = node;
+  return q;
+}
+
+void list_fin(struct List *q) {
+  while (q->node != q->node->next)
+    list_remove(q, q->node);
+  free(q->node);
+  free(q);
+}
+
+/* kernel */
+
+struct Kernel {
+  double reciprocH;
+  double factorW;
+  double factorGradW;
+  double smoothingLength;
+};
+
+static double pi = 3.141592653589793;
+struct Kernel *kernel_ini(double smoothingLength) {
+  double norm;
+  struct Kernel *q;
+
+  q = malloc(sizeof(*q));
+  if (q == NULL) {
+    ABORT(("fail to alloc"));
+    return q;
+  }
+
+  norm = 63.0 / 478.0 / pi;
+  q->smoothingLength = smoothingLength;
+  q->reciprocH = 1.0 / smoothingLength;
+  q->factorW = norm * pow(q->reciprocH, 2);
+  q->factorGradW = 15.0 * norm * pow(q->reciprocH, 3);
+  return q;
+}
+
+int kernel_fin(struct Kernel *q) {
+  free(q);
+  return 0;
+}
+
+double w(struct Kernel *q, double r) {
+  double d = 3.0 * r * q->reciprocH;
+  double a, b, c;
+
+  a = (3.0 - d);
+  b = (2.0 - d);
+  c = (1.0 - d);
+  if (d < 1.0) {
+    return q->factorW * (a * a * a * a * a - 6.0 * b * b * b * b * b +
+                         15.0 * c * c * c * c * c);
+  } else if (d < 2.0) {
+    return q->factorW * (a * a * a * a * a - 6.0 * b * b * b * b * b);
+  } else if (d < 3.0) {
+    return q->factorW * a * a * a * a * a;
+  } else {
+    return 0.0;
+  }
+}
+
+double F(struct Kernel *q, double r) {
+  double a, b, c, d;
+
+  d = 3.0 * r * q->reciprocH;
+  a = (3.0 - d);
+  b = (2.0 - d);
+  c = (1.0 - d);
+
+  if (d < 1.0) {
+    return q->factorGradW *
+           (a * a * a * a - 6.0 * b * b * b * b + 15.0 * c * c * c * c);
+  } else if (d < 2.0) {
+    return q->factorGradW * (a * a * a * a - 6.0 * b * b * b * b);
+  } else if (d < 3.0) {
+    return q->factorGradW * a * a * a * a;
+  } else {
+    return 0.0;
+  }
+}
+
+/* material */
+
+double get_p(struct Material *q, double rho) {
+  return q->b0 * pow(rho / q->rho0, q->gamma);
+}
+
+double get_Cs(struct Material *q, double p, double rho) {
+  return sqrt(q->gamma * p / rho);
+}
+
+/* particle */
+
+long particle_ID_max;
+int particle_number_of_materials;
+
+#define A(v) q->v = s->v
+#define B(a, b) q->a = b
+#define C(a, b) q->a = q->b
+
+#define XX                                                                     \
+  struct Particle *q;                                                          \
+  q = malloc(sizeof(*q));                                                      \
+  if (q == NULL)                                                               \
+  abort()
+
+#define YY return q;
+
+static double **phi_ini(void) {
+  int n, i, j;
+  double **q;
+
+  n = particle_number_of_materials;
+  q = malloc(n * sizeof(*q));
+  for (i = 0; i < n; i++)
+    q[i] = malloc(n * sizeof(**q));
+  for (i = 0; i < n; i++)
+    for (j = 0; j < n; j++)
+      q[i][j] = 0.0;
+  return q;
+}
+
+int particle_fin(struct Particle *q) {
+  int i;
+
+  for (i = 0; i < particle_number_of_materials; i++) {
+    free(q->phi[i]);
+  }
+  free(q->phi);
+  free(q);
+  return 0;
+}
+
+struct Particle *particle_real(double position[2], double velocity[2],
+                               double density, double pressure,
+                               double temperature, struct Material *material) {
+  XX;
+
+  particle_ID_max++;
+
+  B(bd, 0);
+  B(bd_type, 0);
+  B(ID, particle_ID_max);
+  B(mtl, material);
+  C(eta, mtl->eta);
+  C(zeta, mtl->zeta);
+  B(R[X], position[X]);
+  B(R[Y], position[Y]);
+  B(rho, density);
+  B(p, pressure);
+  B(T, temperature);
+  B(Cs, get_Cs(q->mtl, q->p, q->rho));
+  B(U[X], velocity[X]);
+  B(U[Y], velocity[Y]);
+  C(U_I[X], U[X]);
+  C(U_I[Y], U[Y]);
+  B(m, 0.0);
+  B(V, 0.0);
+  C(R_I[X], R[X]);
+  C(R_I[Y], R[Y]);
+  B(P[X], 0.0);
+  B(P[Y], 0.0);
+  B(P_I[X], 0.0);
+  B(P_I[Y], 0.0);
+  C(rho_I, rho);
+  B(P_n[X], 0.0);
+  B(P_n[Y], 0.0);
+  C(U_n[X], U[X]);
+  C(U_n[Y], U[Y]);
+  C(rho_n, rho);
+  B(phi, phi_ini());
+
+  YY;
+}
+
+struct Particle *particle_image(struct Particle *s) {
+  XX;
+
+  B(bd, 1);
+  B(bd_type, 1);
+  B(ID, 0);
+  B(rl_prtl, s);
+  A(mtl);
+  C(eta, mtl->eta);
+  C(zeta, mtl->zeta);
+  A(R[X]);
+  A(R[Y]);
+  A(rho);
+  A(p);
+  A(T);
+  A(Cs);
+  A(U[X]);
+  A(U[Y]);
+  A(U_I[X]);
+  A(U_I[Y]);
+  A(ShearRate_x[X]);
+  A(ShearRate_x[Y]);
+  A(ShearRate_y[X]);
+  A(ShearRate_y[Y]);
+  A(m);
+  A(V);
+  A(e);
+  A(R_I[X]);
+  A(R_I[Y]);
+  A(P[X]);
+  A(P[Y]);
+  A(P_I[X]);
+  A(P_I[Y]);
+  C(rho_I, rho);
+  A(P_n[X]);
+  A(P_n[Y]);
+  A(U_n[X]);
+  A(U_n[Y]);
+  A(rho_n);
+  B(phi, phi_ini());
+
+  YY;
+}
+
+struct Particle *particle_mirror(struct Particle *s,
+                                 struct Material *material) {
+  XX;
+
+  B(bd, 1);
+  B(bd_type, 0);
+  B(ID, 0);
+  B(rl_prtl, s);
+  B(mtl, material);
+  A(eta);
+  A(zeta);
+  A(R[X]);
+  A(R[Y]);
+  A(rho);
+  A(p);
+  A(T);
+  A(Cs);
+  A(U[X]);
+  A(U[Y]);
+  A(U_I[X]);
+  A(U_I[Y]);
+  A(ShearRate_x[X]);
+  A(ShearRate_x[Y]);
+  A(ShearRate_y[X]);
+  A(ShearRate_y[Y]);
+  A(m);
+  A(V);
+  A(e);
+  A(R_I[X]);
+  A(R_I[Y]);
+  A(P[X]);
+  A(P[Y]);
+  A(P_I[X]);
+  A(P_I[Y]);
+  C(rho_I, rho);
+  A(P_n[X]);
+  A(P_n[Y]);
+  A(U_n[X]);
+  A(U_n[Y]);
+  A(rho_n);
+  B(phi, phi_ini());
+
+  YY;
+}
+
+int particle_copy(struct Particle *q, struct Particle *s, int type) {
+  int i, j;
+
+  A(R[X]);
+  A(R[Y]);
+  A(m);
+  A(rho);
+  A(V);
+  A(p);
+  A(T);
+  A(rho_I);
+  A(Cs);
+  A(U[X]);
+  A(U[Y]);
+  A(U_I[X]);
+  A(U_I[Y]);
+  A(ShearRate_x[X]);
+  A(ShearRate_x[Y]);
+  A(ShearRate_y[X]);
+  A(ShearRate_y[Y]);
+  if (type == 1) {
+    A(del_phi[X]);
+    A(del_phi[Y]);
+    for (i = 0; i < particle_number_of_materials; i++) {
+      for (j = 0; j < particle_number_of_materials; j++) {
+        A(phi[i][j]);
+      }
+    }
+  }
+  if (type == 0) {
+    q->phi[0][0] = 0;
+    for (i = 1; i < particle_number_of_materials; i++)
+      q->phi[0][0] += s->phi[i][i];
+  }
+  return 0;
+}
+
+#undef A
+#undef B
+#undef C
+#undef XX
+#undef YY
+
+/* ini */
+
 enum { MAX_SIZE = 4096 };
 static double k_bltz = 1.380662e-023 / 0.02 / 0.02 / 0.02;
 double pair_art_vis;
@@ -931,7 +1313,7 @@ void step(int *pite, struct Ini *q, double *Time, double D_time,
     integeral_time += dt;
     *Time += dt;
     if (ite % 10 == 0)
-      printf("N=%d Time: %g	dt: %g\n", ite, *Time, dt);
+      printf("N=%d Time: %g\tdt: %g\n", ite, *Time, dt);
     manager_build_pair(q, q->pair_list, q->particle_list, q->forces, kernel);
     LOOP_P(prtl, q->particle_list) { prtl->rho = 0.0; }
     ILOOP_P(pair, q->pair_list) { SummationDensity(pair); }
