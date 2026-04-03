@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <sph/kernel.h>
+#include "sph.h"
 
 static const char *me = "kernel";
 

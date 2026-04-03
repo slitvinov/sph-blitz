@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sph/list.h>
-#include <sph/err.h>
+#include "sph.h"
 
 enum { N = 999 };
 static const char *me = "list";

@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "sph/err.h"
-#include "sph/ini.h"
-#include "sph/kernel.h"
+#include "sph.h"
 extern double pair_art_vis;
 extern double pair_delta;
 extern long particle_ID_max;

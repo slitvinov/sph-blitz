@@ -4,13 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "sph/err.h"
-#include "sph/ini.h"
-#include "sph/kernel.h"
-#include "sph/list.h"
-#include "sph/macro.h"
-#include "sph/material.h"
-#include "sph/particle.h"
+#include "sph.h"
 
 enum { X, Y };
 
