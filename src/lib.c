@@ -123,10 +123,6 @@ struct Particle *prtreal(double position[2], double velocity[2],
 	q->V = 0.0;
 	q->R_I[X] = position[X];
 	q->R_I[Y] = position[Y];
-	q->rho_I = density;
-	q->U_n[X] = velocity[X];
-	q->U_n[Y] = velocity[Y];
-	q->rho_n = density;
 	q->phi = phinew();
 	return q;
 }
@@ -142,7 +138,6 @@ static struct Particle *prtghost(struct Particle *s, int btype, struct Material 
 	q->ID = 0;
 	q->real = s;
 	q->mtl = mtl;
-	q->rho_I = s->rho;
 	q->phi = phinew();
 	return q;
 }
@@ -165,7 +160,6 @@ int prtcopy(struct Particle *q, struct Particle *s, int type) {
 	q->V = s->V;
 	q->p = s->p;
 	q->T = s->T;
-	q->rho_I = s->rho_I;
 	q->Cs = s->Cs;
 	q->U[X] = s->U[X];
 	q->U[Y] = s->U[Y];
@@ -239,7 +233,7 @@ static void updforces(struct Particle *Org, struct Particle *Dest,
 	double Vi2 = Vi * Vi, Vj2 = Vj * Vj;
 	double pi = Org->p, pj = Dest->p;
 	double Uij[2], Uijdoteij, c;
-	double dPdti[2], dUi[2], drhodti, dx, dy;
+	double dPdti[2], dUi[2], dx, dy;
 	double theta, NR_vis;
 
 	Uij[X] = Org->U[X] - Dest->U[X];
@@ -253,7 +247,6 @@ static void updforces(struct Particle *Org, struct Particle *Dest,
 	dUi[Y] = -eij[Y] * c;
 	dx = Org->U[X] * Vi2 - Dest->U[X] * Vj2;
 	dy = Org->U[Y] * Vi2 - Dest->U[Y] * Vj2;
-	drhodti = -Fij * rij * (dx * eij[X] + dy * eij[Y]);
 	dPdti[X] = eij[X] * Fij * rij * (pi * Vi2 + pj * Vj2) -
 		((Uij[X] - eij[X] * Uijdoteij) * sr +
 		 eij[X] * (Uijdoteij * 2.0 * br + NR_vis)) * Fij * (Vi2 + Vj2);
@@ -269,8 +262,6 @@ static void updforces(struct Particle *Org, struct Particle *Dest,
 	dPdti[Y] += (fi[Y]*Vi2 + fj[Y]*Vj2) * rij * Fij;
 	Org->_dU[X] += dUi[X]*mi;  Org->_dU[Y] += dUi[Y]*mi;
 	Dest->_dU[X] -= dUi[X]*mj; Dest->_dU[Y] -= dUi[Y]*mj;
-	Org->drhodt += drhodti * rhoi / Vi;
-	Dest->drhodt += drhodti * rhoj / Vj;
 	Org->dUdt[X] += dPdti[X]*rmi;  Org->dUdt[Y] += dPdti[Y]*rmi;
 	Dest->dUdt[X] -= dPdti[X]*rmj; Dest->dUdt[Y] -= dPdti[Y]*rmj;
 }
@@ -791,7 +782,6 @@ static void halfstep(struct Ini *q) {
 	updsurface(q);
 	for (i = 0; i < q->nparts; i++) {
 		prtl = q->parts[i];
-		prtl->drhodt = 0.0;
 		prtl->dUdt[X] = prtl->dUdt[Y] = 0.0;
 		prtl->_dU[X] = prtl->_dU[Y] = 0.0;
 	}

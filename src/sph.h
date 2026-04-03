@@ -35,18 +35,14 @@ struct Particle {
 	double p;
 	double T;
 	double Cs;
-	double rho_I;
-	double rho_n;
 	double m;
 	double V;
 	double R_I[2];
 	double U_I[2];
-	double U_n[2];
 	double eta;
 	double zeta;
 	double **phi;
 	double dphi[2];
-	double drhodt;
 	double dUdt[2];
 	double _dU[2];
 	int bd;	/* 0: real, 1: boundary */
