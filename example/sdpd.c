@@ -1,10 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "sph.h"
-extern double pair_art_vis;
-extern double pair_delta;
-extern long particle_ID_max;
-extern int particle_number_of_materials;
 int
 main(int argc, char *argv[])
 {
@@ -12,7 +8,6 @@ main(int argc, char *argv[])
     int ite;
     struct Ini ini;
     struct Kernel *kernel;
-    struct Manager *manager;
 
     if (argc < 2) {
       fprintf(stderr, "sdpd: error: no project name specified");
@@ -20,10 +15,6 @@ main(int argc, char *argv[])
     }
     srand(12345);
     initiation_ini(argv[1], &ini);
-    pair_art_vis = ini.art_vis;
-    pair_delta = ini.delta;
-    particle_number_of_materials = ini.number_of_materials;
-    particle_ID_max = 0;
     kernel = kernel_ini(ini.smoothinglength);
 
     manager_build_particles(&ini, ini.materials, ini.particle_list, &ini);

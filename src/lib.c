@@ -39,12 +39,12 @@ struct ListNode *list_first(struct List *q) {
 }
 
 struct ListNode *list_next(struct List *q, struct ListNode *n) {
-  USED(q);
+  (void)q;
   return n->next;
 }
 
 void *list_retrieve(struct List *q, struct ListNode *n) {
-  USED(q);
+  (void)q;
   return n->next->data;
 }
 
@@ -170,22 +170,11 @@ double get_Cs(struct Material *q, double p, double rho) {
   return sqrt(q->gamma * p / rho);
 }
 
+
 /* particle */
 
 long particle_ID_max;
 int particle_number_of_materials;
-
-#define A(v) q->v = s->v
-#define B(a, b) q->a = b
-#define C(a, b) q->a = q->b
-
-#define XX                                                                     \
-  struct Particle *q;                                                          \
-  q = malloc(sizeof(*q));                                                      \
-  if (q == NULL)                                                               \
-  abort()
-
-#define YY return q;
 
 static double **phi_ini(void) {
   int n, i, j;
@@ -204,9 +193,8 @@ static double **phi_ini(void) {
 int particle_fin(struct Particle *q) {
   int i;
 
-  for (i = 0; i < particle_number_of_materials; i++) {
+  for (i = 0; i < particle_number_of_materials; i++)
     free(q->phi[i]);
-  }
   free(q->phi);
   free(q);
   return 0;
@@ -215,142 +203,130 @@ int particle_fin(struct Particle *q) {
 struct Particle *particle_real(double position[2], double velocity[2],
                                double density, double pressure,
                                double temperature, struct Material *material) {
-  XX;
+  struct Particle *q;
 
+  q = malloc(sizeof(*q));
+  if (q == NULL) abort();
   particle_ID_max++;
-
-  B(bd, 0);
-  B(bd_type, 0);
-  B(ID, particle_ID_max);
-  B(mtl, material);
-  C(eta, mtl->eta);
-  C(zeta, mtl->zeta);
-  B(R[X], position[X]);
-  B(R[Y], position[Y]);
-  B(rho, density);
-  B(p, pressure);
-  B(T, temperature);
-  B(Cs, get_Cs(q->mtl, q->p, q->rho));
-  B(U[X], velocity[X]);
-  B(U[Y], velocity[Y]);
-  C(U_I[X], U[X]);
-  C(U_I[Y], U[Y]);
-  B(m, 0.0);
-  B(V, 0.0);
-  C(R_I[X], R[X]);
-  C(R_I[Y], R[Y]);
-  C(rho_I, rho);
-  C(U_n[X], U[X]);
-  C(U_n[Y], U[Y]);
-  C(rho_n, rho);
-  B(phi, phi_ini());
-
-  YY;
+  q->bd = 0;
+  q->bd_type = 0;
+  q->ID = particle_ID_max;
+  q->mtl = material;
+  q->eta = material->eta;
+  q->zeta = material->zeta;
+  q->R[X] = position[X];
+  q->R[Y] = position[Y];
+  q->rho = density;
+  q->p = pressure;
+  q->T = temperature;
+  q->Cs = get_Cs(material, pressure, density);
+  q->U[X] = velocity[X];
+  q->U[Y] = velocity[Y];
+  q->U_I[X] = velocity[X];
+  q->U_I[Y] = velocity[Y];
+  q->m = 0.0;
+  q->V = 0.0;
+  q->R_I[X] = position[X];
+  q->R_I[Y] = position[Y];
+  q->rho_I = density;
+  q->U_n[X] = velocity[X];
+  q->U_n[Y] = velocity[Y];
+  q->rho_n = density;
+  q->phi = phi_ini();
+  return q;
 }
 
 struct Particle *particle_image(struct Particle *s) {
-  XX;
+  struct Particle *q;
 
-  B(bd, 1);
-  B(bd_type, 1);
-  B(ID, 0);
-  B(rl_prtl, s);
-  A(mtl);
-  C(eta, mtl->eta);
-  C(zeta, mtl->zeta);
-  A(R[X]);
-  A(R[Y]);
-  A(rho);
-  A(p);
-  A(T);
-  A(Cs);
-  A(U[X]);
-  A(U[Y]);
-  A(U_I[X]);
-  A(U_I[Y]);
-  A(ShearRate_x[X]);
-  A(ShearRate_x[Y]);
-  A(ShearRate_y[X]);
-  A(ShearRate_y[Y]);
-  A(m);
-  A(V);
-  A(R_I[X]);
-  A(R_I[Y]);
-  C(rho_I, rho);
-  A(U_n[X]);
-  A(U_n[Y]);
-  A(rho_n);
-  B(phi, phi_ini());
-
-  YY;
+  q = malloc(sizeof(*q));
+  if (q == NULL) abort();
+  q->bd = 1;
+  q->bd_type = 1;
+  q->ID = 0;
+  q->rl_prtl = s;
+  q->mtl = s->mtl;
+  q->eta = s->mtl->eta;
+  q->zeta = s->mtl->zeta;
+  q->R[X] = s->R[X];
+  q->R[Y] = s->R[Y];
+  q->rho = s->rho;
+  q->p = s->p;
+  q->T = s->T;
+  q->Cs = s->Cs;
+  q->U[X] = s->U[X];
+  q->U[Y] = s->U[Y];
+  q->U_I[X] = s->U_I[X];
+  q->U_I[Y] = s->U_I[Y];
+  q->m = s->m;
+  q->V = s->V;
+  q->R_I[X] = s->R_I[X];
+  q->R_I[Y] = s->R_I[Y];
+  q->rho_I = s->rho;
+  q->U_n[X] = s->U_n[X];
+  q->U_n[Y] = s->U_n[Y];
+  q->rho_n = s->rho_n;
+  q->phi = phi_ini();
+  return q;
 }
 
 struct Particle *particle_mirror(struct Particle *s,
                                  struct Material *material) {
-  XX;
+  struct Particle *q;
 
-  B(bd, 1);
-  B(bd_type, 0);
-  B(ID, 0);
-  B(rl_prtl, s);
-  B(mtl, material);
-  A(eta);
-  A(zeta);
-  A(R[X]);
-  A(R[Y]);
-  A(rho);
-  A(p);
-  A(T);
-  A(Cs);
-  A(U[X]);
-  A(U[Y]);
-  A(U_I[X]);
-  A(U_I[Y]);
-  A(ShearRate_x[X]);
-  A(ShearRate_x[Y]);
-  A(ShearRate_y[X]);
-  A(ShearRate_y[Y]);
-  A(m);
-  A(V);
-  A(R_I[X]);
-  A(R_I[Y]);
-  C(rho_I, rho);
-  A(U_n[X]);
-  A(U_n[Y]);
-  A(rho_n);
-  B(phi, phi_ini());
-
-  YY;
+  q = malloc(sizeof(*q));
+  if (q == NULL) abort();
+  q->bd = 1;
+  q->bd_type = 0;
+  q->ID = 0;
+  q->rl_prtl = s;
+  q->mtl = material;
+  q->eta = s->eta;
+  q->zeta = s->zeta;
+  q->R[X] = s->R[X];
+  q->R[Y] = s->R[Y];
+  q->rho = s->rho;
+  q->p = s->p;
+  q->T = s->T;
+  q->Cs = s->Cs;
+  q->U[X] = s->U[X];
+  q->U[Y] = s->U[Y];
+  q->U_I[X] = s->U_I[X];
+  q->U_I[Y] = s->U_I[Y];
+  q->m = s->m;
+  q->V = s->V;
+  q->R_I[X] = s->R_I[X];
+  q->R_I[Y] = s->R_I[Y];
+  q->rho_I = s->rho;
+  q->U_n[X] = s->U_n[X];
+  q->U_n[Y] = s->U_n[Y];
+  q->rho_n = s->rho_n;
+  q->phi = phi_ini();
+  return q;
 }
 
 int particle_copy(struct Particle *q, struct Particle *s, int type) {
   int i, j;
 
-  A(R[X]);
-  A(R[Y]);
-  A(m);
-  A(rho);
-  A(V);
-  A(p);
-  A(T);
-  A(rho_I);
-  A(Cs);
-  A(U[X]);
-  A(U[Y]);
-  A(U_I[X]);
-  A(U_I[Y]);
-  A(ShearRate_x[X]);
-  A(ShearRate_x[Y]);
-  A(ShearRate_y[X]);
-  A(ShearRate_y[Y]);
+  q->R[X] = s->R[X];
+  q->R[Y] = s->R[Y];
+  q->m = s->m;
+  q->rho = s->rho;
+  q->V = s->V;
+  q->p = s->p;
+  q->T = s->T;
+  q->rho_I = s->rho_I;
+  q->Cs = s->Cs;
+  q->U[X] = s->U[X];
+  q->U[Y] = s->U[Y];
+  q->U_I[X] = s->U_I[X];
+  q->U_I[Y] = s->U_I[Y];
   if (type == 1) {
-    A(del_phi[X]);
-    A(del_phi[Y]);
-    for (i = 0; i < particle_number_of_materials; i++) {
-      for (j = 0; j < particle_number_of_materials; j++) {
-        A(phi[i][j]);
-      }
-    }
+    q->del_phi[X] = s->del_phi[X];
+    q->del_phi[Y] = s->del_phi[Y];
+    for (i = 0; i < particle_number_of_materials; i++)
+      for (j = 0; j < particle_number_of_materials; j++)
+        q->phi[i][j] = s->phi[i][j];
   }
   if (type == 0) {
     q->phi[0][0] = 0;
@@ -360,18 +336,11 @@ int particle_copy(struct Particle *q, struct Particle *s, int type) {
   return 0;
 }
 
-#undef A
-#undef B
-#undef C
-#undef XX
-#undef YY
 
 /* ini */
 
 enum { MAX_SIZE = 4096 };
 static double k_bltz = 1.380662e-023 / 0.02 / 0.02 / 0.02;
-double pair_art_vis;
-double pair_delta;
 struct Pair {
   struct Particle *Org;
   struct Particle *Dest;
@@ -469,7 +438,7 @@ static void SummationPhaseGradient(struct Pair *q) {
   Dest->del_phi[Y] -= dphi[Y] * rVj * Vi2;
 }
 
-static void UpdateForces(struct Pair *q) {
+static void UpdateForces(struct Pair *q, double art_vis, double delta) {
   struct Particle *Org, *Dest;
   double Wij;
   double mi, mj;
@@ -516,8 +485,6 @@ static void UpdateForces(struct Pair *q) {
   double drhodti;
   double Vi2 = Vi * Vi, Vj2 = Vj * Vj;
   double theta, Csi, Csj, NR_vis;
-  double delta = pair_delta;
-  double art_vis = pair_art_vis;
 
   Csi = Org->Cs;
   Csj = Dest->Cs;
@@ -705,6 +672,8 @@ int initiation_ini(char *project_name, struct Ini *q) {
   for (k = 0; k < number_of_materials; k++)
     q->materials[k].b0 = q->materials[k].a0 * sound / q->materials[k].gamma;
   q->particle_list = list_ini();
+  particle_number_of_materials = q->number_of_materials;
+  particle_ID_max = 0;
 
   return 0;
 }
@@ -736,7 +705,7 @@ int manager_update_list(struct Ini *q) {
           m = (int)((prtl->R[1] + cell_size) / cell_size);
           if (k != i || m != j) {
             list_remove(cell_lists[i][j], p);
-            INSERT_P(prtl, cell_lists[k][m]);
+            list_insert(cell_lists[k][m], list_first(cell_lists[k][m]), prtl);
           } else
             p = list_next(cell_lists[i][j], p);
         } else
@@ -774,10 +743,10 @@ int manager_build_nnp(struct Ini *q, double point[2]) {
   for (i = k - 1; i <= k + 1; i++)
     for (j = m - 1; j <= m + 1; j++)
       if (i < x_clls && j < y_clls && i >= 0 && j >= 0)
-        LOOP_P(prtl, cell_lists[i][j]) {
+        for (p = list_first(cell_lists[i][j]); !list_endp(cell_lists[i][j], p); p = list_next(cell_lists[i][j], p)) { prtl = (struct Particle *)list_retrieve(cell_lists[i][j], p);
           dstc = vv_distance(point, prtl->R);
           if (dstc < smoothinglength)
-            INSERT_P(prtl, NNP_list);
+            list_insert(NNP_list, list_first(NNP_list), prtl);
         }
   return 0;
 }
@@ -802,17 +771,17 @@ int manager_build_pair(struct Ini *q, struct List *pairs,
 
   sm2 = smoothinglength * smoothinglength;
 
-  ILOOP_P(pair, pairs) {
+  for (p = list_first(pairs); !list_endp(pairs, p); p = list_next(pairs, p)) { pair = (struct Pair *)list_retrieve(pairs, p);
     free(pair);
   }
   list_clear(pairs);
-  LOOP_P(prtl_org, particle_list) {
+  for (p = list_first(particle_list); !list_endp(particle_list, p); p = list_next(particle_list, p)) { prtl_org = (struct Particle *)list_retrieve(particle_list, p);
     if (prtl_org->bd == 0) {
       i = (int)((prtl_org->R[0] + cell_size) / cell_size);
       j = (int)((prtl_org->R[1] + cell_size) / cell_size);
       for (k = i - 1; k <= i + 1; k++)
         for (m = j - 1; m <= j + 1; m++) {
-          LOOP1_P(prtl_dest, cell_lists[k][m]) {
+          for (p1 = list_first(cell_lists[k][m]); !list_endp(cell_lists[k][m], p1); p1 = list_next(cell_lists[k][m], p1)) { prtl_dest = (struct Particle *)list_retrieve(cell_lists[k][m], p1);
             double dx = prtl_org->R[X] - prtl_dest->R[X];
             double dy = prtl_org->R[Y] - prtl_dest->R[Y];
             dstc = dx * dx + dy * dy;
@@ -850,7 +819,7 @@ int manager_build_pair(struct Ini *q, struct List *pairs,
               pair->bulk_rij = 2.0 * zetai * zetaj * rij /
                 (zetai * (rij + 2.0 * frc_ij[noj][noi].bulk_slip) +
                  zetaj * (rij + 2.0 * frc_ij[noi][noj].bulk_slip) + 1.0e-30);
-              INSERT_P(pair, pairs);
+              list_insert(pairs, list_first(pairs), pair);
             }
           }
         }
@@ -904,8 +873,8 @@ void manager_build_particles(struct Ini *q, struct Material *materials,
                                  Temperature, &materials[material_no]);
             prtl->cell_i = i;
             prtl->cell_j = j;
-            INSERT_P(prtl, particle_list);
-            INSERT_P(prtl, cell_lists[i][j]);
+            list_insert(particle_list, list_first(particle_list), prtl);
+            list_insert(cell_lists[i][j], list_first(cell_lists[i][j]), prtl);
           }
         }
       }
@@ -951,12 +920,12 @@ void manager_build_particles(struct Ini *q, struct Material *materials,
         pressure = get_p(&materials[material_no], density);
         prtl = particle_real(position, velocity, density, pressure, Temperature,
                              &materials[material_no]);
-        INSERT_P(prtl, particle_list);
+        list_insert(particle_list, list_first(particle_list), prtl);
         i = (int)(prtl->R[0] / cell_size) + 1;
         j = (int)(prtl->R[1] / cell_size) + 1;
         prtl->cell_i = i;
         prtl->cell_j = j;
-        INSERT_P(prtl, cell_lists[i][j]);
+        list_insert(cell_lists[i][j], list_first(cell_lists[i][j]), prtl);
       } else {
         ABORT(("The material in the restart file is not used by the program!"));
       }
@@ -992,12 +961,12 @@ int initiation_fin(struct Ini *q) {
   free(q->forces);
   free(q->materials);
 
-  ILOOP_P(pair, q->pair_list) {
+  for (p = list_first(q->pair_list); !list_endp(q->pair_list, p); p = list_next(q->pair_list, p)) { pair = (struct Pair *)list_retrieve(q->pair_list, p);
     free(pair);
   }
   list_fin(q->pair_list);
 
-  LOOP_P(prtl, q->particle_list) { particle_fin(prtl); }
+  for (p = list_first(q->particle_list); !list_endp(q->particle_list, p); p = list_next(q->particle_list, p)) { prtl = (struct Particle *)list_retrieve(q->particle_list, p); particle_fin(prtl); }
   list_fin(q->particle_list);
 
   return 0;
@@ -1009,14 +978,14 @@ static void UpdateSurfaceStress(struct Ini *q) {
   struct Particle *prtl;
   struct ListNode *p;
 
-  LOOP_P(prtl, q->particle_list) {
+  for (p = list_first(q->particle_list); !list_endp(q->particle_list, p); p = list_next(q->particle_list, p)) { prtl = (struct Particle *)list_retrieve(q->particle_list, p);
     interm0 = 1.0 / (vv_abs(prtl->del_phi) + epsilon);
     interm1 = 0.5 * vv_sqdiff(prtl->del_phi);
     interm2 = prtl->del_phi[X] * prtl->del_phi[Y];
     prtl->del_phi[0] = interm1 * interm0;
     prtl->del_phi[1] = interm2 * interm0;
   }
-  LOOP_P(prtl, q->b) {
+  for (p = list_first(q->b); !list_endp(q->b, p); p = list_next(q->b, p)) { prtl = (struct Particle *)list_retrieve(q->b, p);
     interm0 = vv_abs(prtl->del_phi) + epsilon;
     interm1 = 0.5 * vv_sqdiff(prtl->del_phi);
     interm2 = prtl->del_phi[X] * prtl->del_phi[Y];
@@ -1050,7 +1019,7 @@ int output_particles(struct Ini *q, struct List *particle_list,
   fprintf(f, "%s", "variables=x, y, Ux, Uy \n");
   for (i = 0; i < number_of_materials; i++) {
     j = 0;
-    LOOP_P(prtl, particle_list) {
+    for (p = list_first(particle_list); !list_endp(particle_list, p); p = list_next(particle_list, p)) { prtl = (struct Particle *)list_retrieve(particle_list, p);
       if (strcmp(materials[i].material_name, prtl->mtl->material_name) == 0) {
         j++;
         if (j == 1)
@@ -1059,7 +1028,7 @@ int output_particles(struct Ini *q, struct List *particle_list,
                 prtl->U[1]);
       }
     }
-    LOOP_P(prtl, q->b) {
+    for (p = list_first(q->b); !list_endp(q->b, p); p = list_next(q->b, p)) { prtl = (struct Particle *)list_retrieve(q->b, p);
       if (strcmp(materials[i].material_name, prtl->mtl->material_name) == 0) {
         j++;
         if (j == 1)
@@ -1086,13 +1055,13 @@ int output_restart(struct Ini *q, struct List *particle_list, double Time) {
   if (!f)
     ABORT(("can't write '%s'", file_name));
   n = 0;
-  LOOP_P(prtl, particle_list) {
+  for (p = list_first(particle_list); !list_endp(particle_list, p); p = list_next(particle_list, p)) { prtl = (struct Particle *)list_retrieve(particle_list, p);
     if (prtl->bd == 0)
       n++;
   }
   fprintf(f, "%.6g\n", Time);
   fprintf(f, "%d\n", n);
-  LOOP_P(prtl, particle_list) {
+  for (p = list_first(particle_list); !list_endp(particle_list, p); p = list_next(particle_list, p)) { prtl = (struct Particle *)list_retrieve(particle_list, p);
     if (prtl->bd == 0)
       fprintf(f, "%s %.6g %.6g %.6g %.6g %.6g %.6g %.6g\n",
               prtl->mtl->material_name, prtl->R[0], prtl->R[1], prtl->U[0],
@@ -1109,10 +1078,10 @@ void VolumeMass(struct List *particle_list, struct Ini *ini,
   struct ListNode *p, *p1;
   struct Particle *prtl_org, *prtl_dest;
 
-  LOOP_P(prtl_org, particle_list) {
+  for (p = list_first(particle_list); !list_endp(particle_list, p); p = list_next(particle_list, p)) { prtl_org = (struct Particle *)list_retrieve(particle_list, p);
     manager_build_nnp(ini, prtl_org->R);
     reciprocV = 0.0;
-    LOOP1_P(prtl_dest, ini->NNP_list) {
+    for (p1 = list_first(ini->NNP_list); !list_endp(ini->NNP_list, p1); p1 = list_next(ini->NNP_list, p1)) { prtl_dest = (struct Particle *)list_retrieve(ini->NNP_list, p1);
       dstc = vv_distance(prtl_org->R, prtl_dest->R);
       reciprocV += w(kernel, dstc);
     }
@@ -1139,7 +1108,7 @@ void step(int *pite, struct Ini *q, double *Time, double D_time,
   while (integeral_time < D_time) {
     {
       double Cs_max = 0.0, V_max = 0.0, rho_min = 1.0e30, rho_max = 1.0;
-      LOOP_P(prtl, q->particle_list) {
+      for (p = list_first(q->particle_list); !list_endp(q->particle_list, p); p = list_next(q->particle_list, p)) { prtl = (struct Particle *)list_retrieve(q->particle_list, p);
         Cs_max = AMAX1(Cs_max, prtl->Cs);
         V_max = AMAX1(V_max, vv_abs(prtl->U));
         rho_min = AMIN1(rho_min, prtl->rho);
@@ -1155,32 +1124,32 @@ void step(int *pite, struct Ini *q, double *Time, double D_time,
     if (ite % 10 == 0)
       printf("N=%d Time: %g\tdt: %g\n", ite, *Time, dt);
     manager_build_pair(q, q->pair_list, q->particle_list, q->forces, kernel);
-    LOOP_P(prtl, q->particle_list) { prtl->rho = 0.0; }
-    ILOOP_P(pair, q->pair_list) { SummationDensity(pair); }
-    LOOP_P(prtl, q->particle_list) { prtl->p = get_p(prtl->mtl, prtl->rho); }
+    for (p = list_first(q->particle_list); !list_endp(q->particle_list, p); p = list_next(q->particle_list, p)) { prtl = (struct Particle *)list_retrieve(q->particle_list, p); prtl->rho = 0.0; }
+    for (p = list_first(q->pair_list); !list_endp(q->pair_list, p); p = list_next(q->pair_list, p)) { pair = (struct Pair *)list_retrieve(q->pair_list, p); SummationDensity(pair); }
+    for (p = list_first(q->particle_list); !list_endp(q->particle_list, p); p = list_next(q->particle_list, p)) { prtl = (struct Particle *)list_retrieve(q->particle_list, p); prtl->p = get_p(prtl->mtl, prtl->rho); }
 
     boundary_condition(q, q->cell_lists);
-    LOOP_P(prtl, q->particle_list) {
+    for (p = list_first(q->particle_list); !list_endp(q->particle_list, p); p = list_next(q->particle_list, p)) { prtl = (struct Particle *)list_retrieve(q->particle_list, p);
       prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
     }
-    LOOP_P(prtl, q->b) { prtl->del_phi[X] = prtl->del_phi[Y] = 0.0; }
+    for (p = list_first(q->b); !list_endp(q->b, p); p = list_next(q->b, p)) { prtl = (struct Particle *)list_retrieve(q->b, p); prtl->del_phi[X] = prtl->del_phi[Y] = 0.0; }
 
-    ILOOP_P(pair, q->pair_list) { SummationPhaseGradient(pair); }
+    for (p = list_first(q->pair_list); !list_endp(q->pair_list, p); p = list_next(q->pair_list, p)) { pair = (struct Pair *)list_retrieve(q->pair_list, p); SummationPhaseGradient(pair); }
 
     boundary_condition(q, q->cell_lists);
     UpdateSurfaceStress(q);
-    LOOP_P(prtl, q->particle_list) {
+    for (p = list_first(q->particle_list); !list_endp(q->particle_list, p); p = list_next(q->particle_list, p)) { prtl = (struct Particle *)list_retrieve(q->particle_list, p);
       prtl->drhodt = 0.0;
       prtl->dUdt[X] = prtl->dUdt[Y] = 0.0;
       prtl->_dU[X] = prtl->_dU[Y] = 0.0;
     }
-    ILOOP_P(pair, q->pair_list) { UpdateForces(pair); }
-    LOOP_P(prtl, q->particle_list) {
+    for (p = list_first(q->pair_list); !list_endp(q->pair_list, p); p = list_next(q->pair_list, p)) { pair = (struct Pair *)list_retrieve(q->pair_list, p); UpdateForces(pair, q->art_vis, q->delta); }
+    for (p = list_first(q->particle_list); !list_endp(q->particle_list, p); p = list_next(q->particle_list, p)) { prtl = (struct Particle *)list_retrieve(q->particle_list, p);
       prtl->dUdt[X] += q->gravity[X];
       prtl->dUdt[Y] += q->gravity[Y];
     }
 
-    LOOP_P(prtl, q->particle_list) {
+    for (p = list_first(q->particle_list); !list_endp(q->particle_list, p); p = list_next(q->particle_list, p)) { prtl = (struct Particle *)list_retrieve(q->particle_list, p);
       prtl->R_I[X] = prtl->R[X];
       prtl->R_I[Y] = prtl->R[Y];
       prtl->U[X] += prtl->_dU[X];
@@ -1198,7 +1167,7 @@ void step(int *pite, struct Ini *q, double *Time, double D_time,
     }
     boundary_condition(q, q->cell_lists);
 
-    ILOOP_P(pair, q->pair_list) {
+    for (p = list_first(q->pair_list); !list_endp(q->pair_list, p); p = list_next(q->pair_list, p)) { pair = (struct Pair *)list_retrieve(q->pair_list, p);
       struct Particle *Org = pair->Org, *Dest = pair->Dest;
       double *eij = pair->eij;
       double etai = pair->etai, etaj = pair->etaj;
@@ -1221,33 +1190,33 @@ void step(int *pite, struct Ini *q, double *Time, double D_time,
          zetaj * (rij + 2.0 * frc_ij[noi][noj].bulk_slip) + 1.0e-30);
     }
 
-    LOOP_P(prtl, q->particle_list) { prtl->rho = 0.0; }
-    ILOOP_P(pair, q->pair_list) { SummationDensity(pair); }
-    LOOP_P(prtl, q->particle_list) { prtl->p = get_p(prtl->mtl, prtl->rho); }
+    for (p = list_first(q->particle_list); !list_endp(q->particle_list, p); p = list_next(q->particle_list, p)) { prtl = (struct Particle *)list_retrieve(q->particle_list, p); prtl->rho = 0.0; }
+    for (p = list_first(q->pair_list); !list_endp(q->pair_list, p); p = list_next(q->pair_list, p)) { pair = (struct Pair *)list_retrieve(q->pair_list, p); SummationDensity(pair); }
+    for (p = list_first(q->particle_list); !list_endp(q->particle_list, p); p = list_next(q->particle_list, p)) { prtl = (struct Particle *)list_retrieve(q->particle_list, p); prtl->p = get_p(prtl->mtl, prtl->rho); }
 
     boundary_condition(q, q->cell_lists);
-    LOOP_P(prtl, q->particle_list) {
+    for (p = list_first(q->particle_list); !list_endp(q->particle_list, p); p = list_next(q->particle_list, p)) { prtl = (struct Particle *)list_retrieve(q->particle_list, p);
       prtl->del_phi[X] = prtl->del_phi[Y] = 0.0;
     }
-    LOOP_P(prtl, q->b) { prtl->del_phi[X] = prtl->del_phi[Y] = 0.0; }
+    for (p = list_first(q->b); !list_endp(q->b, p); p = list_next(q->b, p)) { prtl = (struct Particle *)list_retrieve(q->b, p); prtl->del_phi[X] = prtl->del_phi[Y] = 0.0; }
 
-    ILOOP_P(pair, q->pair_list) { SummationPhaseGradient(pair); }
+    for (p = list_first(q->pair_list); !list_endp(q->pair_list, p); p = list_next(q->pair_list, p)) { pair = (struct Pair *)list_retrieve(q->pair_list, p); SummationPhaseGradient(pair); }
 
     boundary_condition(q, q->cell_lists);
     UpdateSurfaceStress(q);
-    LOOP_P(prtl, q->particle_list) {
+    for (p = list_first(q->particle_list); !list_endp(q->particle_list, p); p = list_next(q->particle_list, p)) { prtl = (struct Particle *)list_retrieve(q->particle_list, p);
       prtl->drhodt = 0.0;
       prtl->dUdt[X] = prtl->dUdt[Y] = 0.0;
       prtl->_dU[X] = prtl->_dU[Y] = 0.0;
     }
-    ILOOP_P(pair, q->pair_list) { UpdateForces(pair); }
-    LOOP_P(prtl, q->particle_list) {
+    for (p = list_first(q->pair_list); !list_endp(q->pair_list, p); p = list_next(q->pair_list, p)) { pair = (struct Pair *)list_retrieve(q->pair_list, p); UpdateForces(pair, q->art_vis, q->delta); }
+    for (p = list_first(q->particle_list); !list_endp(q->particle_list, p); p = list_next(q->particle_list, p)) { prtl = (struct Particle *)list_retrieve(q->particle_list, p);
       prtl->dUdt[X] += q->gravity[X];
       prtl->dUdt[Y] += q->gravity[Y];
     }
 
-    LOOP_P(prtl, q->particle_list) { prtl->_dU[X] = prtl->_dU[Y] = 0.0; }
-    ILOOP_P(pair, q->pair_list) {
+    for (p = list_first(q->particle_list); !list_endp(q->particle_list, p); p = list_next(q->particle_list, p)) { prtl = (struct Particle *)list_retrieve(q->particle_list, p); prtl->_dU[X] = prtl->_dU[Y] = 0.0; }
+    for (p = list_first(q->pair_list); !list_endp(q->pair_list, p); p = list_next(q->pair_list, p)) { pair = (struct Pair *)list_retrieve(q->pair_list, p);
       double rmi = pair->rmi, rmj = pair->rmj;
       double bulk_rij = pair->bulk_rij;
       double *eij = pair->eij;
@@ -1305,7 +1274,7 @@ void step(int *pite, struct Ini *q, double *Time, double D_time,
       }
     }
 
-    LOOP_P(prtl, q->particle_list) {
+    for (p = list_first(q->particle_list); !list_endp(q->particle_list, p); p = list_next(q->particle_list, p)) { prtl = (struct Particle *)list_retrieve(q->particle_list, p);
       prtl->U[X] += prtl->_dU[X];
       prtl->U[Y] += prtl->_dU[Y];
       prtl->R[X] = prtl->R_I[X] + prtl->U[X] * dt;
@@ -1314,7 +1283,7 @@ void step(int *pite, struct Ini *q, double *Time, double D_time,
       prtl->U[Y] = prtl->U_I[Y] + prtl->dUdt[Y] * dt;
     }
 
-    LOOP_P(prtl, q->particle_list) {
+    for (p = list_first(q->particle_list); !list_endp(q->particle_list, p); p = list_next(q->particle_list, p)) { prtl = (struct Particle *)list_retrieve(q->particle_list, p);
       prtl->U[X] = prtl->U[X] + prtl->_dU[X];
       prtl->U[Y] = prtl->U[Y] + prtl->_dU[Y];
     }
@@ -1378,7 +1347,7 @@ int boundary_build(struct Ini *q, struct List ***c, struct Material *mtl) {
   y_clls = q->y_clls;
   b = q->b;
 
-  LOOP_P(prtl, b) { particle_fin(prtl); }
+  for (p = list_first(b); !list_endp(b, p); p = list_next(b, p)) { prtl = (struct Particle *)list_retrieve(b, p); particle_fin(prtl); }
   list_clear(b);
 
   struct {
@@ -1402,13 +1371,13 @@ int boundary_build(struct Ini *q, struct List ***c, struct Material *mtl) {
       int is_mirror = (type == 0 || type == 2);
       int src = (type == 1) ? edges[e].opp : edges[e].adj;
       list_clear(c[edges[e].ghost][v]);
-      LOOP_P(prtl_old, c[src][v]) {
+      for (p = list_first(c[src][v]); !list_endp(c[src][v], p); p = list_next(c[src][v], p)) { prtl_old = (struct Particle *)list_retrieve(c[src][v], p);
         prtl = is_mirror ? particle_mirror(prtl_old, mtl) : particle_image(prtl_old);
         apply_bnd(type, X, edges[e].refl, edges[e].shift, edges[e].U_bnd, prtl);
         prtl->cell_i = edges[e].ghost;
         prtl->cell_j = v;
-        INSERT_P(prtl, b);
-        INSERT_P(prtl, c[edges[e].ghost][v]);
+        list_insert(b, list_first(b), prtl);
+        list_insert(c[edges[e].ghost][v], list_first(c[edges[e].ghost][v]), prtl);
       }
     }
   }
@@ -1419,13 +1388,13 @@ int boundary_build(struct Ini *q, struct List ***c, struct Material *mtl) {
     int src = (type == 1) ? edges[e].opp : edges[e].adj;
     for (v = edges[e].perp_lo; v < edges[e].perp_hi; v++) {
       list_clear(c[v][edges[e].ghost]);
-      LOOP_P(prtl_old, c[v][src]) {
+      for (p = list_first(c[v][src]); !list_endp(c[v][src], p); p = list_next(c[v][src], p)) { prtl_old = (struct Particle *)list_retrieve(c[v][src], p);
         prtl = is_mirror ? particle_mirror(prtl_old, mtl) : particle_image(prtl_old);
         apply_bnd(type, Y, edges[e].refl, edges[e].shift, edges[e].U_bnd, prtl);
         prtl->cell_i = v;
         prtl->cell_j = edges[e].ghost;
-        INSERT_P(prtl, b);
-        INSERT_P(prtl, c[v][edges[e].ghost]);
+        list_insert(b, list_first(b), prtl);
+        list_insert(c[v][edges[e].ghost], list_first(c[v][edges[e].ghost]), prtl);
       }
     }
   }
@@ -1453,14 +1422,14 @@ int boundary_build(struct Ini *q, struct List ***c, struct Material *mtl) {
     int sj = (type == 1) ? corners[e].opp_j : corners[e].adj_j;
     int gi = corners[e].ghost_i, gj = corners[e].ghost_j;
     list_clear(c[gi][gj]);
-    LOOP_P(prtl_old, c[si][sj]) {
+    for (p = list_first(c[si][sj]); !list_endp(c[si][sj], p); p = list_next(c[si][sj], p)) { prtl_old = (struct Particle *)list_retrieve(c[si][sj], p);
       prtl = is_mirror ? particle_mirror(prtl_old, mtl) : particle_image(prtl_old);
       apply_corner(type, corners[e].refl_x, corners[e].shift_x, corners[e].U_x,
                          corners[e].refl_y, corners[e].shift_y, corners[e].U_y, prtl);
       prtl->cell_i = gi;
       prtl->cell_j = gj;
-      INSERT_P(prtl, b);
-      INSERT_P(prtl, c[gi][gj]);
+      list_insert(b, list_first(b), prtl);
+      list_insert(c[gi][gj], list_first(c[gi][gj]), prtl);
     }
   }
   return 0;
@@ -1494,7 +1463,7 @@ int boundary_condition(struct Ini *q, struct List ***c) {
       int gi, gj;
       if (coord == X) { gi = edges[e].ghost; gj = v; }
       else             { gi = v; gj = edges[e].ghost; }
-      LOOP_P(prtl, c[gi][gj]) {
+      for (p = list_first(c[gi][gj]); !list_endp(c[gi][gj], p); p = list_next(c[gi][gj], p)) { prtl = (struct Particle *)list_retrieve(c[gi][gj], p);
         if (prtl->rl_prtl == NULL) abort();
         particle_copy(prtl, prtl->rl_prtl, copy_type);
         apply_bnd(type, coord, edges[e].refl, edges[e].shift, edges[e].U_bnd, prtl);
@@ -1520,7 +1489,7 @@ int boundary_condition(struct Ini *q, struct List ***c) {
     if (corners[e].type_x != corners[e].type_y) continue;
     int type = corners[e].type_x;
     int copy_type = (type == 0 || type == 2) ? 0 : 1;
-    LOOP_P(prtl, c[corners[e].ghost_i][corners[e].ghost_j]) {
+    for (p = list_first(c[corners[e].ghost_i][corners[e].ghost_j]); !list_endp(c[corners[e].ghost_i][corners[e].ghost_j], p); p = list_next(c[corners[e].ghost_i][corners[e].ghost_j], p)) { prtl = (struct Particle *)list_retrieve(c[corners[e].ghost_i][corners[e].ghost_j], p);
       if (prtl->rl_prtl == NULL) abort();
       particle_copy(prtl, prtl->rl_prtl, copy_type);
       apply_corner(type, corners[e].refl_x, corners[e].shift_x, corners[e].U_x,
@@ -1537,7 +1506,7 @@ int boundary_check(struct Ini *q, struct List *list) {
   int types[2][2] = {{q->xBl, q->xBr}, {q->yBd, q->yBu}};
   int c;
 
-  LOOP_P(prtl, list) {
+  for (p = list_first(list); !list_endp(list, p); p = list_next(list, p)) { prtl = (struct Particle *)list_retrieve(list, p);
     if (fabs(prtl->R[X]) >= 2.0 * box_size[X] ||
         fabs(prtl->R[Y]) >= 2.0 * box_size[Y])
       ABORT(("run away particle"));
