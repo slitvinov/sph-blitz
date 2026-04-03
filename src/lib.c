@@ -1364,37 +1364,23 @@ int boundary_build(struct Ini *q, struct List ***c, struct Material *mtl) {
   if (q->xBr == q->yBd) edges[2].perp_hi = x_clls - 1;
   if (q->xBl == q->yBu) edges[3].perp_lo = 1;
   if (q->xBr == q->yBu) edges[3].perp_hi = x_clls - 1;
-  /* X-edges (west+east) interleaved per j */
-  for (v = edges[0].perp_lo; v < edges[0].perp_hi; v++) {
-    for (e = 0; e < 2; e++) {
-      int type = edges[e].type;
-      int is_mirror = (type == 0 || type == 2);
-      int src = (type == 1) ? edges[e].opp : edges[e].adj;
-      list_clear(c[edges[e].ghost][v]);
-      for (p = list_first(c[src][v]); !list_endp(c[src][v], p); p = list_next(c[src][v], p)) { prtl_old = (struct Particle *)list_retrieve(c[src][v], p);
-        prtl = is_mirror ? particle_mirror(prtl_old, mtl) : particle_image(prtl_old);
-        apply_bnd(type, X, edges[e].refl, edges[e].shift, edges[e].U_bnd, prtl);
-        prtl->cell_i = edges[e].ghost;
-        prtl->cell_j = v;
-        list_insert(b, list_first(b), prtl);
-        list_insert(c[edges[e].ghost][v], list_first(c[edges[e].ghost][v]), prtl);
-      }
-    }
-  }
-  /* Y-edges (south, north) */
-  for (e = 2; e < 4; e++) {
+  for (e = 0; e < 4; e++) {
     int type = edges[e].type;
+    int coord = edges[e].coord;
     int is_mirror = (type == 0 || type == 2);
     int src = (type == 1) ? edges[e].opp : edges[e].adj;
     for (v = edges[e].perp_lo; v < edges[e].perp_hi; v++) {
-      list_clear(c[v][edges[e].ghost]);
-      for (p = list_first(c[v][src]); !list_endp(c[v][src], p); p = list_next(c[v][src], p)) { prtl_old = (struct Particle *)list_retrieve(c[v][src], p);
+      int gi, gj, si, sj;
+      if (coord == X) { gi = edges[e].ghost; gj = v; si = src; sj = v; }
+      else            { gi = v; gj = edges[e].ghost; si = v; sj = src; }
+      list_clear(c[gi][gj]);
+      for (p = list_first(c[si][sj]); !list_endp(c[si][sj], p); p = list_next(c[si][sj], p)) { prtl_old = (struct Particle *)list_retrieve(c[si][sj], p);
         prtl = is_mirror ? particle_mirror(prtl_old, mtl) : particle_image(prtl_old);
-        apply_bnd(type, Y, edges[e].refl, edges[e].shift, edges[e].U_bnd, prtl);
-        prtl->cell_i = v;
-        prtl->cell_j = edges[e].ghost;
+        apply_bnd(type, coord, edges[e].refl, edges[e].shift, edges[e].U_bnd, prtl);
+        prtl->cell_i = gi;
+        prtl->cell_j = gj;
         list_insert(b, list_first(b), prtl);
-        list_insert(c[v][edges[e].ghost], list_first(c[v][edges[e].ghost]), prtl);
+        list_insert(c[gi][gj], list_first(c[gi][gj]), prtl);
       }
     }
   }
