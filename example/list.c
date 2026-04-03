@@ -28,9 +28,9 @@ static int eq(const char *, const char *);
     } while (0)
 
 #define LOOP()							     \
-    for (n = list_first((l));					     \
-	 !list_endp((l), n) && (x = (int*)list_retrieve((l), n), 1); \
-	 n = list_next((l), n))
+    for (n = listfirst((l));					     \
+	 !listendp((l), n) && (x = (int*)listget((l), n), 1); \
+	 n = listnext((l), n))
 
 static char *get(char *, FILE *);
 
@@ -49,30 +49,30 @@ main(int argc, const char **argv)
     argv++;
     if (argv[0] != NULL && argv[0][0] == '-' && argv[0][1] == 'h')
         usg();
-    l = list_ini();
+    l = listnew();
     while (get(s, stdin)) {
         strncpy(p, s, N);
         if ((c = strtok(s, sep))) {
             if (eq(c, "insert")) {
                 x = malloc(sizeof(*x));
                 ARG(*x);
-                n = list_first(l);
-                list_insert(l, n, x);
+                n = listfirst(l);
+                listins(l, n, x);
             } else if (eq(c, "traverse")) {
                 LOOP()
                     printf("%d\n", *x);
             } else if (eq(c, "remove")) {
-                n = list_first(l);
-                x = list_retrieve(l, n);
+                n = listfirst(l);
+                x = listget(l, n);
                 free(x);
-                list_remove(l, n);
+                listrm(l, n);
             } else
                 ABORT(("unknown command: %s", p));
         }
     }
     LOOP()
         free(x);
-    list_fin(l);
+    listfree(l);
 }
 
 static char *

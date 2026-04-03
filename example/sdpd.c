@@ -14,26 +14,26 @@ main(int argc, char *argv[])
       exit(2);
     }
     srand(12345);
-    initiation_ini(argv[1], &ini);
-    kernel = kernel_ini(ini.smoothinglength);
+    iniread(argv[1], &ini);
+    kernel = kernelnew(ini.h);
 
-    manager_build_particles(&ini, ini.materials, ini.particle_list, &ini);
-    boundary_build(&ini, ini.cell_lists, ini.materials);
-    VolumeMass(ini.particle_list, &ini, kernel);
-    boundary_condition(&ini, ini.cell_lists);
+    mkparts(&ini, ini.materials, ini.parts, &ini);
+    bndbuild(&ini, ini.cells, ini.materials);
+    volmass(ini.parts, &ini, kernel);
+    bndcond(&ini, ini.cells);
 
-    Time = ini.Start_time;
-    output_particles(&ini, ini.particle_list, ini.materials, Time);
+    Time = ini.t0;
+    prtout(&ini, ini.parts, ini.materials, Time);
     ite = 0;
-    while (Time < ini.End_time) {
-        if (Time + ini.D_time >= ini.End_time)
-            ini.D_time = ini.End_time - Time;
-        step(&ite, &ini, &Time, ini.D_time, kernel);
-        output_particles(&ini, ini.particle_list, ini.materials, Time);
-        output_restart(&ini, ini.particle_list, Time);
+    while (Time < ini.t1) {
+        if (Time + ini.tout >= ini.t1)
+            ini.tout = ini.t1 - Time;
+        step(&ite, &ini, &Time, ini.tout, kernel);
+        prtout(&ini, ini.parts, ini.materials, Time);
+        rstout(&ini, ini.parts, Time);
     }
 
-    initiation_fin(&ini);
-    kernel_fin(kernel);
+    inifin(&ini);
+    kernelfree(kernel);
     return 0;
 }

@@ -21,7 +21,7 @@ main(int argc, const char **argv)
     struct Kernel *kernel;
     double lo;
     double hi;
-    double smoothingLength;
+    double h;
     double x;
     double dx;
 
@@ -32,8 +32,8 @@ main(int argc, const char **argv)
     if (argv[0] != NULL && argv[0][0] == '-' && argv[0][1] == 'h')
         usg();
 
-    smoothingLength = 2.0;
-    kernel = kernel_ini(smoothingLength);
+    h = 2.0;
+    kernel = kernelnew(h);
 
     lo = 0;
     hi = 3;
@@ -43,6 +43,6 @@ main(int argc, const char **argv)
         x = lo + i * dx;
         printf("%.16g %.16g %.16g\n", x, w(kernel, x), F(kernel, x));
     }
-    kernel_fin(kernel);
+    kernelfree(kernel);
     return 0;
 }
