@@ -17,7 +17,6 @@ int wprint(const char *, ...);
 /* particle */
 struct Material {
 	char name[FILENAME_MAX];
-	int number;
 	double eta;
 	double zeta;
 	double gamma;
@@ -51,7 +50,7 @@ struct Particle *prtreal(double[2], double[2], double, double,
 struct Particle *prtimage(struct Particle *);
 struct Particle *prtmirror(struct Particle *, struct Material *);
 int prtfree(struct Particle *);
-int prtcopy(struct Particle *, struct Particle *, int type);
+int prtcopy(struct Particle *, struct Particle *, int, int);
 
 /* cell */
 struct Cell {

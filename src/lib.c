@@ -68,7 +68,6 @@ static double getp(struct Material *m, double rho) {
 
 /* particle */
 
-int nmat;
 static int nextid;
 
 int prtfree(struct Particle *r) {
@@ -125,7 +124,7 @@ struct Particle *prtmirror(struct Particle *s, struct Material *mtl) {
 	return prtghost(s, 0, mtl);
 }
 
-int prtcopy(struct Particle *p, struct Particle *s, int type) {
+int prtcopy(struct Particle *p, struct Particle *s, int type, int nmat) {
 	int i, j;
 
 	p->R[X] = s->R[X];
@@ -206,7 +205,7 @@ static void mktrips(struct Ini *q) {
 						t->Fij = dW(q, t->rij) * t->rrij;
 						ei = a->mtl->eta; ej = b->mtl->eta;
 						zi = a->mtl->zeta; zj = b->mtl->zeta;
-						ni = a->mtl->number; nj = b->mtl->number;
+						ni = (int)(a->mtl - q->materials); nj = (int)(b->mtl - q->materials);
 						t->sr = 2.0 * ei * ej * t->rij /
 							(ei * (t->rij + 2.0 * q->forces[nj][ni].shear_slip) +
 							 ej * (t->rij + 2.0 * q->forces[ni][nj].shear_slip) + 1e-30);
@@ -316,26 +315,25 @@ int iniread(char *project_name, struct Ini *q) {
 				ABORT(("can't read BOUNDARY keyword (n = %d)", n));
 		}
 		if (!strcmp(Key_word, "MATERIALS")) {
-			nmat = q->nmat;
-			q->materials = malloc(nmat * sizeof(*q->materials));
-			for (k = 0; k < nmat; k++) {
+			q->materials = malloc(q->nmat * sizeof(*q->materials));
+			for (k = 0; k < q->nmat; k++) {
 				int mtype;
+				double a0;
 				mtl = &q->materials[k];
-				mtl->number = k;
 				if (fscanf(f, "%s %d", mtl->name, &mtype) != 2)
 					ABORT(("can't read material from '%s'", inputfile));
 				if (fscanf(f, "%lf %lf %lf %lf %lf", &mtl->eta, &mtl->zeta, &mtl->gamma,
-									 &mtl->rho0, &mtl->a0) != 5)
+									 &mtl->rho0, &a0) != 5)
 					ABORT(("can't read materal parameters from '%s'", inputfile));
+				mtl->a0 = a0;
 			}
 		}
 		if (!strcmp(Key_word, "FORCES")) {
-			nmat = q->nmat;
-			q->forces = malloc(nmat * sizeof(*q->forces));
-			for (k = 0; k < nmat; k++)
-				q->forces[k] = malloc(nmat * sizeof(*q->forces[k]));
-			for (l = 0; l < nmat; l++)
-				for (n = 0; n < nmat; n++) {
+			q->forces = malloc(q->nmat * sizeof(*q->forces));
+			for (k = 0; k < q->nmat; k++)
+				q->forces[k] = malloc(q->nmat * sizeof(*q->forces[k]));
+			for (l = 0; l < q->nmat; l++)
+				for (n = 0; n < q->nmat; n++) {
 					if (fscanf(f, "%d %d", &k, &m) != 2)
 						ABORT(("can't read materal from '%s'", inputfile));
 					double eps;
@@ -372,9 +370,9 @@ int iniread(char *project_name, struct Ini *q) {
 
 	numax = 0.0;
 	sigmax = 0.0;
-	for (k = 0; k < nmat; k++) {
+	for (k = 0; k < q->nmat; k++) {
 		numax = dmax(numax, dmax(q->materials[k].eta, q->materials[k].zeta) / q->materials[k].rho0);
-		for (l = 0; l < nmat; l++)
+		for (l = 0; l < q->nmat; l++)
 			sigmax = dmax(sigmax, q->forces[k][l].sigma);
 	}
 	q->dt_g_vis = dmin(sqrt(delta / vnorm(q->gravity)),
@@ -382,7 +380,7 @@ int iniread(char *project_name, struct Ini *q) {
 	q->dt_surf = 0.4 * sqrt(delta * delta * delta / sigmax);
 	sound = dmax(vnorm(q->gravity), numax);
 	sound = dmax(sigmax, sound);
-	for (k = 0; k < nmat; k++)
+	for (k = 0; k < q->nmat; k++)
 		q->materials[k].b0 = q->materials[k].a0 * sound / q->materials[k].gamma;
 
 	q->parts = NULL;
@@ -392,8 +390,6 @@ int iniread(char *project_name, struct Ini *q) {
 	q->trips = NULL;
 	q->ntrips = 0;
 	q->tcap = 0;
-
-	nmat = q->nmat;
 
 	{
 		int mx = q->mx, my = q->my;
@@ -643,10 +639,8 @@ int prtout(struct Ini *q, struct Material *materials, double Time) {
 	double Itime;
 	FILE *f;
 	int i, j, n;
-	int nmat;
+	int nmat = q->nmat;
 	struct Particle *prtl;
-
-	nmat = q->nmat;
 
 	Itime = Time * 1.0e6;
 	strcpy(file_name, "./outdata/p.");
@@ -659,7 +653,7 @@ int prtout(struct Ini *q, struct Material *materials, double Time) {
 		ABORT(("can't write '%s'", file_name));
 	fprintf(f, "%s", "title='particle position' \n");
 	fprintf(f, "%s", "variables=x, y, Ux, Uy \n");
-	for (i = 0; i < nmat; i++) {
+	for (i = 0; i < q->nmat; i++) {
 		j = 0;
 		for (n = 0; n < q->nparts; n++) {
 			prtl = q->parts[n];
@@ -754,7 +748,7 @@ static void halfstep(struct Ini *q) {
 		double mi = t->a->m, mj = t->b->m;
 		double Vi = mi / t->a->rho, Vj = mj / t->b->rho;
 		double Vi2 = Vi * Vi, Vj2 = Vj * Vj;
-		double c = t->Fij * t->rij * q->forces[t->a->mtl->number][t->b->mtl->number].sigma;
+		double c = t->Fij * t->rij * q->forces[(int)(t->a->mtl - q->materials)][(int)(t->b->mtl - q->materials)].sigma;
 		double px = t->eij[X] * c, py = t->eij[Y] * c;
 		t->a->dphi[X] += px * Vj2 / Vi; t->a->dphi[Y] += py * Vj2 / Vi;
 		t->b->dphi[X] -= px * Vi2 / Vj; t->b->dphi[Y] -= py * Vi2 / Vj;
@@ -1012,7 +1006,7 @@ int bndcond(struct Ini *q) {
 			for (n = 0; n < q->cells[gi][gj].n; n++) {
 				prtl = q->cells[gi][gj].data[n];
 				if (prtl->real == NULL) abort();
-				prtcopy(prtl, prtl->real, copy_type);
+				prtcopy(prtl, prtl->real, copy_type, q->nmat);
 				applybnd(ed->type, ed->coord, ed->refl, ed->shift, ed->U_bnd, prtl);
 			}
 		}
@@ -1025,7 +1019,7 @@ int bndcond(struct Ini *q) {
 		for (n = 0; n < q->cells[cn->ghost_i][cn->ghost_j].n; n++) {
 			prtl = q->cells[cn->ghost_i][cn->ghost_j].data[n];
 			if (prtl->real == NULL) abort();
-			prtcopy(prtl, prtl->real, copy_type);
+			prtcopy(prtl, prtl->real, copy_type, q->nmat);
 			applycorner(cn->type_x, cn->refl_x, cn->shift_x, cn->U_x,
 			                        cn->refl_y, cn->shift_y, cn->U_y, prtl);
 		}
