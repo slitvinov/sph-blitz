@@ -228,10 +228,17 @@ static void updforces(struct Particle *a, struct Particle *b,
 	double rhoi = a->rho, rhoj = b->rho;
 	double Vi = mi / rhoi, Vj = mj / rhoj;
 	double Vi2 = Vi * Vi, Vj2 = Vj * Vj;
+	double ViVj = Vi * Vj;
 	double pi = a->p, pj = b->p;
 	double Uij[2], Uijdoteij, c;
-	double dPdti[2], dUi[2], dx, dy;
+	double dPdti[2], dUi[2];
 	double theta, NR_vis;
+	/* Español & Revenga (PRE 67 026705, Eq. 30): the physical viscous force
+	   splits into a transverse part (v_ij - e·v_ij·e) with coefficient
+	   (5η/3 - ζ), and a longitudinal part along e_ij with coefficient
+	   (10η/3 + 4ζ). η, ζ are slip-corrected pair harmonic means in `sr`,`br`. */
+	double cT = (5.0 / 3.0) * sr - br;
+	double cL = (10.0 / 3.0) * sr + 4.0 * br;
 
 	Uij[X] = a->U[X] - b->U[X];
 	Uij[Y] = a->U[Y] - b->U[Y];
@@ -245,14 +252,19 @@ static void updforces(struct Particle *a, struct Particle *b,
 	c = theta * Wij * art_vis / (rhoi + rhoj);
 	dUi[X] = -eij[X] * c;
 	dUi[Y] = -eij[Y] * c;
-	dx = a->U[X] * Vi2 - b->U[X] * Vj2;
-	dy = a->U[Y] * Vi2 - b->U[Y] * Vj2;
-	dPdti[X] = eij[X] * Fij * rij * (pi * Vi2 + pj * Vj2) -
-		((Uij[X] - eij[X] * Uijdoteij) * sr +
-		 eij[X] * (Uijdoteij * 2.0 * br + NR_vis)) * Fij * (Vi2 + Vj2);
-	dPdti[Y] = eij[Y] * Fij * rij * (pi * Vi2 + pj * Vj2) -
-		((Uij[Y] - eij[Y] * Uijdoteij) * sr +
-		 eij[Y] * (Uijdoteij * 2.0 * br + NR_vis)) * Fij * (Vi2 + Vj2);
+	/* Pressure gradient: keeps (V_i² + V_j²) form from Eq. 30 first term
+	   (equivalent to P_i/d_i² + P_j/d_j²). */
+	dPdti[X] = eij[X] * Fij * rij * (pi * Vi2 + pj * Vj2);
+	dPdti[Y] = eij[Y] * Fij * rij * (pi * Vi2 + pj * Vj2);
+	/* Physical viscous force: V_i V_j = 1/(d_i d_j) weighting (Eq. 30
+	   second/third terms). NR_vis is a separate shock-capturing Neumann-
+	   Richtmyer AV and is kept on (V_i² + V_j²). */
+	double vT_x = Uij[X] - eij[X] * Uijdoteij;
+	double vT_y = Uij[Y] - eij[Y] * Uijdoteij;
+	dPdti[X] -= (cT * vT_x + cL * eij[X] * Uijdoteij) * Fij * ViVj
+	          + eij[X] * NR_vis * Fij * (Vi2 + Vj2);
+	dPdti[Y] -= (cT * vT_y + cL * eij[Y] * Uijdoteij) * Fij * ViVj
+	          + eij[Y] * NR_vis * Fij * (Vi2 + Vj2);
 	double si[2], sj[2], fi[2], fj[2];
 	si[X] = a->dphi[X]; si[Y] = a->dphi[Y];
 	sj[X] = b->dphi[X]; sj[Y] = b->dphi[Y];
@@ -853,12 +865,22 @@ void step(int *pite, struct Ini *q, double *Time, double tout) {
 				Rv = x2 * wg * sqrtdt;
 			}
 			double dUi[2];
-			double Vi2 = Vi * Vi, Vj2 = Vj * Vj;
+			double ViVj = Vi * Vj;
 			double ve[2];
-			double kf = 16.0 * K_BLTZ * Ti * Tj / (Ti + Tj) * (Vi2 + Vj2) * t->Fij;
+			/* FDT-consistent noise for the Español-Revenga dissipation in
+			   updforces: per-pair impulse with variance
+			   2 k_B T_eff × λ × F_ij × V_i V_j, where λ is the transverse
+			   (5η/3 − ζ) or longitudinal (10η/3 + 4ζ) eigenvalue of the pair
+			   dissipation matrix. Stability requires 5η > 3ζ; fmax clamps
+			   for safety if a user picks ζ ≥ 5η/3. */
+			double T_eff = Ti * Tj / (Ti + Tj);
+			double cT = (5.0/3.0) * t->sr - t->br;
+			double cL = (10.0/3.0) * t->sr + 4.0 * t->br;
+			double amp_T = sqrt(2.0 * K_BLTZ * T_eff * fmax(cT, 0.0) * t->Fij * ViVj);
+			double amp_L = sqrt(2.0 * K_BLTZ * T_eff * cL * t->Fij * ViVj);
 			ve[X] = -t->eij[Y]; ve[Y] = t->eij[X];
-			dUi[X] = ve[X]*Rp*sqrt(kf*t->sr) + t->eij[X]*Rv*sqrt(kf*t->br);
-			dUi[Y] = ve[Y]*Rp*sqrt(kf*t->sr) + t->eij[Y]*Rv*sqrt(kf*t->br);
+			dUi[X] = ve[X] * Rp * amp_T + t->eij[X] * Rv * amp_L;
+			dUi[Y] = ve[Y] * Rp * amp_T + t->eij[Y] * Rv * amp_L;
 			if (b->btype == 1) {
 				a->dU[X] += dUi[X] * rmi * 0.5;
 				a->dU[Y] += dUi[Y] * rmi * 0.5;
