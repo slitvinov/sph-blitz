@@ -15,19 +15,19 @@ main(int argc, char *argv[])
     srand(12345);
     iniread(argv[1], &ini);
 
-    mkparts(&ini, ini.materials, &ini);
+    mkparts(&ini);
     bndbuild(&ini, ini.materials);
     volmass(&ini);
     bndcond(&ini);
 
     Time = ini.t0;
-    prtout(&ini, ini.materials, Time);
+    prtout(&ini, Time);
     ite = 0;
     while (Time < ini.t1) {
         if (Time + ini.tout >= ini.t1)
             ini.tout = ini.t1 - Time;
         step(&ite, &ini, &Time, ini.tout);
-        prtout(&ini, ini.materials, Time);
+        prtout(&ini, Time);
         rstout(&ini, Time);
     }
 

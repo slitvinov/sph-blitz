@@ -39,18 +39,20 @@ struct Particle {
 	double phi[MAXMAT * MAXMAT];
 	double dphi[2];
 	double dUdt[2];
-	double _dU[2];
+	double dU_av[2];   /* XSPH-style AV velocity correction (from updforces) */
+	double dU[2];      /* SDPD thermal-noise velocity kick */
 	int bd;	/* 0: real, 1: boundary */
 	int btype;	/* 0: wall, 1: periodic ghost */
 	int id;
 };
 
-struct Particle *prtreal(double[2], double[2], double, double,
+struct Ini;
+struct Particle *prtreal(struct Ini *, double[2], double[2], double, double,
 							   double, struct Material *);
 struct Particle *prtimage(struct Particle *);
 struct Particle *prtmirror(struct Particle *, struct Material *);
-int prtfree(struct Particle *);
-int prtcopy(struct Particle *, struct Particle *, int, int);
+void prtfree(struct Particle *);
+void prtcopy(struct Particle *, struct Particle *, int, int);
 
 /* cell */
 struct Cell {
@@ -74,6 +76,7 @@ struct Corner {
 struct Trip {
 	struct Particle *a, *b;
 	double rij, rrij, eij[2], Wij, Fij, sr, br;
+	int ni, nj;
 };
 
 /* ini */
@@ -138,15 +141,17 @@ struct Ini {
 
 	struct Trip *trips;
 	int ntrips, tcap;
+
+	int nextid;
 };
 
-int iniread(char *, struct Ini *);
-int inifin(struct Ini *);
-void mkparts(struct Ini *, struct Material *, struct Ini *);
-int prtout(struct Ini *, struct Material *, double);
-int rstout(struct Ini *, double);
-int bndcond(struct Ini *);
-int bndbuild(struct Ini *, struct Material *);
-int bndcheck(struct Ini *);
+void iniread(char *, struct Ini *);
+void inifin(struct Ini *);
+void mkparts(struct Ini *);
+void prtout(struct Ini *, double);
+void rstout(struct Ini *, double);
+void bndcond(struct Ini *);
+void bndbuild(struct Ini *, struct Material *);
+void bndcheck(struct Ini *);
 void volmass(struct Ini *);
 void step(int *, struct Ini *, double *, double);
